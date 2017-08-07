@@ -1,0 +1,114 @@
+@charset "utf-8";
+
+@mixin clearfix() {
+  & {
+    *zoom: 1;
+  }
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin inline-block() {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  zoom: 1;
+  *display: inline;
+}
+
+@mixin placeholder-color($color){
+  &.placeholder{
+    color: $color
+  }
+
+  &:-moz-placeholder{
+    color: $color
+  }
+
+  &::-webkit-input-placeholder{
+    color: $color
+  }
+
+  &:-ms-input-placeholder{
+    color: $color
+  }
+}
+
+input{
+  @include placeholder-color(#999999);
+}
+
+@mixin fontSzie($font,$color){
+  font-size: $font;
+  color:$color;
+}
+
+@mixin height($height){
+  height:($height);
+  line-height:($height);
+}
+
+@mixin background-size($arguments) {
+  background-size:$arguments;
+  -moz-background-size:$arguments;
+}
+
+@mixin text-overflow(){
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@mixin opacity($arg) {
+  filter:alpha(opacity=$arg*100); -moz-opacity:$arg; -khtml-opacity:$arg; opacity:$arg;
+}
+
+@mixin iconsP($width,$height,$url) {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  display: inline-block;
+  margin-top: - $height/2;
+  width: $width;
+  height: $width;
+  background: url($url) no-repeat;
+}
+
+@mixin imgAuto(){
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+@mixin setTopLine($c:#dcdcdc) {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid $c;
+  color: $c;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+}
+
+@mixin setBottomLine($c:#dcdcdc) {
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px solid $c;
+  color: $c;
+  transform-origin: 0 100%;
+  transform: scaleY(0.5);
+}

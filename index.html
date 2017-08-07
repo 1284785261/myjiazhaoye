@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title>佳兆业</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_9ij4d3bi1h7rdx6r.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+
+<script type="text/javascript">
+  window.onload=function(){
+    var right = document.getElementById("right-content"),
+      left = document.getElementById("left-content"),
+      rightHeight = parseInt(right.offsetHeight),
+      leftHeight = parseInt(left.offsetHeight);
+    if( rightHeight <= leftHeight){
+      right.style.height = leftHeight+"px";
+    }
+    else {
+      left.style.height = rightHeight+"px";
+    }
+  }
+</script>
+  </body>
+</html>

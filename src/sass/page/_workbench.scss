@@ -1,0 +1,224 @@
+@charset "utf-8";
+
+
+
+.main-home{
+  background-color: #fff;
+  height: 100px;
+  padding: 10px;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  h3{
+    @include fontSzie(24px,#333);
+    font-weight: normal;
+    @include inline-block;
+    margin-left: 30px;
+    span{
+      @include fontSzie(12px,#fff);
+      background-color: #ffa200;
+      width: 36px;
+      text-align: center;
+      @include height(20px);
+      margin-left: 10px;
+      border-radius: 4px;
+      @include inline-block;
+    }
+  }
+  .ivu-select{
+    margin-left: 30px;
+    margin-top: 10px;
+    .ivu-select-selection{
+      border-radius: 0;
+    }
+  }
+  .home-item{
+    width: 300px;
+  }
+  .list-data{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    li{
+      float: left;
+      text-align: left;
+      margin-left: 10px;
+      width: 200px;
+      height: 80px;
+      padding-left: 20px;
+      border-radius: 6px;
+      &.backOrange{
+        background-color: #fa8564;
+      }
+      &.backGreen{
+        background-color: #1fbba6;
+      }
+      &.backBlue{
+        background-color: #329cf6;
+      }
+      .title{
+        margin-top: 10px;
+        display: block;
+        @include fontSzie(12px,#fff);
+      }
+      .num{
+        @include fontSzie(28px,#fff);
+        em{
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+.modular-box{
+  background-color: #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  border-radius: 6px;
+  h3{
+    line-height: 51px;
+    border-bottom: 1px solid #dcdcdc;
+    font-size: 16px;
+    i{
+      margin: 0 10px 0 15px;
+      position: relative;
+      top: -2px;
+    }
+  }
+  .info-list{
+    padding:0 15px 25px;
+    li{
+      border-bottom: 1px solid #dcdcdc;
+      line-height: 50px;
+      position: relative;
+      padding-right: 65px;
+      .infoState{
+        width: 115px;
+        float: left;
+        i{
+          @include inline-block;
+          width: 24px;
+          text-align: center;
+          height: 24px;
+          line-height: 24px;
+          margin-right: 10px;
+          border-radius: 3px;
+          font-size: 18px;
+          color:#fff;
+          &.icon-baoxiu{
+            background-color: #329cf6;
+          }
+          &.icon-xiaoxi1{
+            background-color: #1fbba6;
+          }
+        }
+      }
+      a{
+        display: block;
+        color:#333;
+        margin-left: 115px;
+        @include text-overflow;
+        &:hover{
+          color:#038be2;
+        }
+      }
+      .date{
+        position: absolute;
+        top: 0;
+        right: 0;
+        color:#999;
+      }
+    }
+  }
+  .apartment-list{
+    padding:16px 15px 20px;
+    @include clearfix;
+    li{
+      width: 33.333%;
+      padding: 10px 15px;
+      float: left;
+      text-align: center;
+      a{
+        display: block;
+        height: 41px;
+        line-height: 39px;
+        @include text-overflow;
+        color:#333;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        position: relative;
+        &:after{
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 16px;
+          height: 16px;
+          background-image:url("/static/images/icon/gongyu.png");
+        }
+        &:hover{
+          border-color:#329cf6;
+          color:#329cf6;
+          &:after{
+            background-image:url("/static/images/icon/gongyuS.png");
+          }
+        }
+      }
+    }
+  }
+  .remain-list{
+    padding: 0 15px;
+    li{
+      line-height: 43px;
+      border-top: 1px dashed #dcdcdc;
+      position: relative;
+      padding-right: 25px;
+      &:first-child{
+        border-top: none;
+      }
+      &:hover{
+        background-color: #f7fbff;
+        a{
+          color:#329cf6;
+          &:after{
+            background-color: #329cf6;
+          }
+        }
+      }
+      a{
+        display: block;
+        color:#333;
+        padding-left: 20px;
+        &:after{
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 50%;
+          margin-top: -2.5px;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: #999;
+        }
+        &>span{
+          position: absolute;
+          right:30px;
+          top: 0;
+          color:#038be2;
+          span{
+            margin-left: 15px;
+            color:#038be2;
+          }
+        }
+      }
+      .icon-you{
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 18px;
+        color:#bebebe;
+      }
+    }
+  }
+}

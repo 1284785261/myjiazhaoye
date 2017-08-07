@@ -1,0 +1,213 @@
+@charset "utf-8";
+.ivu-tabs-bar{
+  margin-bottom: 0;
+}
+.ivu-tabs-content{
+background-color: #fff;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
+  height: 54px;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+  width: 160px;
+  height: 53px;
+  text-align: center;
+  line-height: 52px;
+  padding: 0;
+  border-radius: 10px 10px 0 0;
+  margin-right: 10px;
+  @include fontSzie(18px,#666);
+  &.ivu-tabs-tab-active{
+    background-color: #038be2;
+    color:#fff;
+  }
+}
+.form-item{
+  display: inline-block;
+  margin-right: 20px;
+  .form-search{
+    position: relative;
+    margin-left: 108px;
+    .ivu-input-wrapper{
+     width: auto;
+    }
+    input[type="text"]{
+      width: 208px;
+      height: 36px;
+      border-radius: 0;
+      padding-left: 30px;
+    }
+    i{
+      position: absolute;
+      left: 5px;
+      top: 7px;
+      z-index: 99;
+      font-size: 18px;
+      color: #999;
+    }
+    input[type=button]{
+      width: 70px;
+      text-align: center;
+      height: 36px;
+      line-height: 36px;
+      background-color: #038be2;
+      color:#fff;
+      border:none;
+      position: relative;
+      left: -5px;
+      top: 2px;
+    }
+  }
+}
+.form-search-criteria{
+  position: relative;
+  padding: 21px 0 21px 20px;
+}
+.inline-block{
+  display: inline-block;
+  &.spanBar{
+    color:#dcdcdc;
+  }
+}
+.ivu-select-single .ivu-select-selection{
+  height: 36px;
+  border-radius: 0;
+}
+.ivu-select-single .ivu-select-selection .ivu-select-placeholder, .ivu-select-single .ivu-select-selection .ivu-select-selected-value{
+  height: 36px;
+  line-height: 36px;
+}
+.ivu-input-icon-normal+.ivu-input{
+  height: 36px;
+  border-radius: 0;
+}
+
+.ivu-date-picker-editor{
+  input{
+    width: 140px;
+  }
+}
+.ivu-icon-ios-calendar-outline{
+ color:#038be2;
+  font-family: "iconfont" !important;
+  font-size: 18px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  &:before{
+    content: "\e60c";
+  }
+}
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.ivu-table{
+  tr{
+    th{
+      height: 50px;
+      padding: 15px;
+      @include fontSzie(14px,#333);
+      font-weight: bold;
+      padding: 0 10px;
+      border-left: 1px solid #dcdcdc;
+      border-bottom: 1px solid #dcdcdc;
+      border-top: 1px solid #dcdcdc;
+      &:first-child{
+        text-align: center;
+        border-left: none;
+      }
+      &:last-child{
+        text-align: center;
+      }
+    }
+    td{
+      padding: 15px;
+      font-size: 14px;
+      border-left: 1px solid #dcdcdc;
+      border-bottom: 1px solid #dcdcdc;
+      dl{
+        dt{
+          @include fontSzie(16px,#038be2);
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        dd{
+          line-height: 1.8;
+          color:#666;
+          span{
+            color:#333;
+          }
+        }
+      }
+      a,button{
+        display: inline-block;
+        font-size: 14px;
+        margin: 0 8px;
+        line-height: 1.8;
+        border: none;
+        padding: 0;
+        vertical-align: initial;
+        background-color: #fff;
+        color:#038be2;
+      }
+      &:first-child{
+        text-align: center;
+        border-left: none;
+      }
+      &:last-child{
+        text-align: center;
+      }
+    }
+  }
+}
+
+.ivu-page{
+  margin: 40px 0;
+  text-align: center;
+}
+
+.ivu-modal-body{
+  text-align: center;
+  padding: 40px 0 30px;
+  p{
+    margin-bottom: 10px;
+  }
+}
+
+.ivu-modal{
+  p{
+    font-size: 14px;
+  }
+}
+
+.ivu-modal-footer{
+  text-align: center;
+  .ivu-btn{
+    background-color: #f8f8f8;
+    @include fontSzie(14px,#666);
+    border: 1px solid #dcdcdc;
+    width: 90px;
+    height: 30px;
+    padding: 0;
+    text-align: center;
+  }
+  .ivu-btn-primary{
+    background-color: #038be2;
+    color:#fff;
+    border: none;
+  }
+}
+
+.ivu-tabs-tabpane{
+  background-color: #fff;
+}
+.ivu-btn-export{
+  width: 68px;
+  height: 36px;
+  @include fontSzie(14px,#666);
+}
+.table{
+  .text-default{
+    color: #666;}
+}

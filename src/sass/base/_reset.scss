@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+body{
+  font-family:"Microsoft YaHei";
+  font-size: 14px;
+  background-color: #f0f0f0;
+  min-width: 1200px;
+}
+em{
+  font-style: normal;
+}
+img{
+  vertical-align: middle;
+}
+
+.wordbench-box {
+  padding: 20px;
+}
+.icon{
+ display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-info{
+  background: url("/static/images/icon/info.png") no-repeat;
+  width: 5px;
+  height: 18px;
+}

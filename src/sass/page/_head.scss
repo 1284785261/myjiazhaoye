@@ -1,0 +1,136 @@
+@charset "utf-8";
+
+.header{
+    height: 60px;
+    line-height: 59px;
+    text-align: right;
+    border-bottom:1px solid #dcdcdc;
+    background-color: #fff;
+    .ivu-badge{
+      margin-right: 30px;
+      .ivu-icon-ios-bell-outline{
+        font-size: 20px;
+        line-height: 59px;
+      }
+      .ivu-badge-count{
+        height: 18px;
+        line-height: 15px;
+        padding: 0 3px;
+        border-radius: 8px;
+        top: 10px;
+      }
+  }
+  .ivu-dropdown{
+    width: 208px;
+    text-align: left;
+    .ivu-dropdown-rel{
+      padding-left: 25px;
+      height: 60px;
+      border-left: 1px solid #dcdcdc;
+      img{
+        width: 45px;
+        height: 43px;
+        @include inline-block;
+        border-radius: 50%;
+        border: 1px solid #dcdcdc;
+        padding: 1px;
+        margin-right: 10px;
+      }
+      a{
+        @include fontSzie(14px,#999);
+      }
+    }
+    .ivu-select-dropdown{
+      margin: 0;
+      padding: 0;
+      border: 1px solid #dcdcdc;
+      box-shadow: none;
+      border-radius: 0;
+      border-right:none;
+      margin-top: -1px;
+      ul{
+        padding: 0 10px;
+        li{
+          @include height(45px);
+          padding: 0 0 0 25px;
+          border-top: 1px dashed #dcdcdc;
+          &:first-child{
+            border-top: 0;
+          }
+          &:hover{
+            background-color: #fff;
+          }
+          a{
+            @include fontSzie(14px,#333);
+            &:hover{
+              color:#329cf6;
+              i{
+                color:#329cf6;
+              }
+            }
+            i{
+              font-size: 24px;
+              color:#999;
+              @include inline-block;
+              position: relative;
+              top: -2px;
+              margin-right: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .reset-dropdown{
+    width: 160px;
+    padding-left: 0;
+    .ivu-dropdown-rel{
+      padding-left:23px;
+      a{
+        i{
+          font-size: 28px;
+          color:#329cf6;
+          @include inline-block;
+          position: relative;
+          top: -2px;
+        }
+      }
+      &:hover{
+        background-color: #f7fbff;
+      }
+    }
+    .ivu-select-dropdown{
+      border-radius: 0;
+      text-align: center;
+      border-right: 1px solid #dcdcdc;
+      border-top-color: #038be2;
+      &:after{
+        content: "";
+        position: absolute;
+        left: 50%;
+        margin-left: -5px;
+        top: -2px;
+        background: url(/static/images/icon/codeAf.png) no-repeat;
+        width: 10px;
+        height: 9px;
+      }
+      ul{
+        padding: 0;
+      }
+      .imgBox{
+        .img{
+          margin-top: 15px;
+          width: 160px;
+          height: 120px;
+        }
+      }
+      img{
+        max-width: 100%;
+      }
+    }
+  }
+}
+.ivu-badge,.ivu-dropdown{
+  float: left;
+  display: inherit;
+}
