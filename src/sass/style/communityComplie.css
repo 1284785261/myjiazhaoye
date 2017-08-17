@@ -1,0 +1,12 @@
+.message-tis table tr{
+	height: 40px;
+}
+.message-tis table tr td:nth-child(1){
+	font-size: 12px;
+	font-weight: bold;
+	text-align: right;
+}
+.message-tis table tr td .complie_name{
+	width: 290px;
+	height: 34px;
+}

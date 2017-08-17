@@ -43,7 +43,6 @@
 input{
   @include placeholder-color(#999999);
 }
-
 @mixin fontSzie($font,$color){
   font-size: $font;
   color:$color;

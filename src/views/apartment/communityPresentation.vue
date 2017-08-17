@@ -7,7 +7,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/">社区管理</router-link>
+          <router-link  class="active" to="/apartment/communityManagement">社区管理</router-link>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>社区介绍</h3>
@@ -48,8 +48,8 @@
                       <Icon type="camera"></Icon>
                     </div>
                   </Upload>
-                  <Modal title="查看图片" v-model="visible">
-                    <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+                  <Modal v-model="visible">
+                    <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible">
                   </Modal>
               </div>
               <div class="item-img">
@@ -84,7 +84,7 @@
                     <Icon type="camera"></Icon>
                   </div>
                 </Upload>
-                <Modal title="查看图片" v-model="visible">
+                <Modal v-model="visible">
                   <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
                 </Modal>
               </div>
@@ -120,32 +120,47 @@
                     <Icon type="camera"></Icon>
                   </div>
                 </Upload>
-                <Modal title="查看图片" v-model="visible">
+                <Modal v-model="visible">
                   <div style="text-align:center">
                     <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
                   </div>
                 </Modal>
               </div>
             </div>
-        </div>
+       
+        <h4 class="bts">详情描述：</h4> 
+        <div class="components-container">
+        	
+			    <div class="info"></div>
+			    <!--<button @click="getUEContent()">获取内容</button>-->
+			    <div class="editor-container">
+			      <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
+			    </div>
+			  </div>
+        <button class="confirm">确定</button>
+        <button class="call">取消</button>
+      </div>  
       </div>
       <footer-box></footer-box>
     </div>
   </div>
 </template>
-
 <script>
-
+	
+</script>    
+<script>
+		
 
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-
+	import UE from '../../components/uedit.vue';
 export default {
   components:{
     rightHeader,
     menuBox,
-    footerBox
+    footerBox,
+    UE
   },
   data () {
     return {
@@ -165,10 +180,25 @@ export default {
       ],
       imgName: '',
       visible: false,
-      uploadList: []
-    }
+      uploadList: [],
+      defaultMsg: '',
+      config: {
+          initialFrameWidth: null,
+          initialFrameHeight: 350
+      }
+      }
+    
   },
   methods: {
+  	getUEContent() {
+        let content = this.$refs.ue.getUEContent();
+        this.$notify({
+          title: '获取成功，可在控制台查看！',
+          message: content,
+          type: 'success'
+        });
+        console.log(content)
+   	},
     handleView (name) {
       this.imgName = name;
       this.visible = true;
@@ -217,4 +247,84 @@ export default {
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityPresentation.scss';
+  
+  .info{
+    border-radius: 10px;
+    line-height: 20px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #ffffff;
+  }
+  .components-container{
+  	margin-left: 10%;
+  	width: 1000px;
+  	margin-bottom: 50px;
+  	
+  }
+  #edui1_iframeholder{
+  	height: 240px!important;
+  }
+  .bts{
+  	display: inline-block;
+  	position: absolute;
+  	left: 0;
+  	top: 600px;
+  	padding-left: 91px;
+  	font-size: 14px;
+  	color: black;
+  	font-weight: bold;
+  }
+  .confirm{
+  	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border-radius: 5px;
+  	background: #038be2;
+  	color: white;
+  	line-height: 40px;
+  	text-align: center;
+  	margin-left: 500px;
+  	margin-right: 30px;
+  }
+  .call{
+  	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border: 1px solid #666;
+  	border-radius: 5px;
+  	background: #f8f8f8;
+  	color: #666666;
+  	line-height: 40px;
+  	text-align: center;
+  }
+  #right-content{
+  	padding-bottom: 80px!important;
+  }
+  .ivu-modal-footer{
+  	display: none;
+  }
+  .ivu-modal{
+  	width: 800px!important;
+  	height: 600px;
+  }
+  .ivu-modal-close{
+  	display: inline-block;
+  	background: #333333;
+  	width: 30px;
+  	border-radius: 50%;
+  	text-align: center;
+  	position: absolute;
+  	top: -5%;
+  	right: -5%;
+  }
+  
+  .ivu-modal-body{
+  	width: 800px;
+  	height: 600px;
+  	overflow: hidden;
+  }
+  .ivu-modal-body div img {
+  	width: 100%;
+  	height: 550px;
+  }
 </style>

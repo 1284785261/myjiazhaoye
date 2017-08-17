@@ -7,17 +7,14 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/">社区管理</router-link>
+          <router-link  class="active" to="/apartment/communityManagement">社区管理</router-link>
         </div>
         <Tabs type="card">
 
           <Tab-pane label="社区管理">
             <div class="form-search-criteria">
                 <div class="form-item">
-                  <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
-                  </Select>
+                  <a class="add"><span>+</span>添加社区</a>
                 </div>
                <div class="form-item">
                  <span>开业日期：</span>
@@ -78,10 +75,10 @@
                     </dl>
                   </td>
                   <td>
-                    <a href="javascript:;">基本信息</a>
-                    <a href="javascript:;">社区介绍</a>
+                    <router-link to="/apartment/communityMessage">基本信息</router-link>
+                    <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                     <a href="javascript:;">资源管理</a>
-                    <a href="javascript:;">社区设置</a>
+                    <router-link to="/apartment/communitySettings">社区设置</router-link>
                     <a href="javascript:;">设备管理</a>
                     <Button @click="closeCommunity = true" >关闭社区</Button>
                     <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -127,9 +124,9 @@
                 </td>
                 <td>
                   <a href="javascript:;">基本信息</a>
-                  <a href="javascript:;">社区介绍</a>
+                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <a href="javascript:;">资源管理</a>
-                  <a href="javascript:;">社区设置</a>
+                  <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >关闭社区</Button>
                   <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -175,9 +172,9 @@
                 </td>
                 <td>
                   <a href="javascript:;">基本信息</a>
-                  <a href="javascript:;">社区介绍</a>
+                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <a href="javascript:;">资源管理</a>
-                  <a href="javascript:;">社区设置</a>
+                  <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >关闭社区</Button>
                   <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -258,9 +255,9 @@
                 </td>
                 <td>
                   <a href="javascript:;">基本信息</a>
-                  <a href="javascript:;">社区介绍</a>
+                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <a href="javascript:;">资源管理</a>
-                  <a href="javascript:;">社区设置</a>
+                  <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
                   <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -306,9 +303,9 @@
                 </td>
                 <td>
                   <a href="javascript:;">基本信息</a>
-                  <a href="javascript:;">社区介绍</a>
+                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <a href="javascript:;">资源管理</a>
-                  <a href="javascript:;">社区设置</a>
+                  <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
                   <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -354,9 +351,9 @@
                 </td>
                 <td>
                   <a href="javascript:;">基本信息</a>
-                  <a href="javascript:;">社区介绍</a>
+                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <a href="javascript:;">资源管理</a>
-                  <a href="javascript:;">社区设置</a>
+                  <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
                   <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
@@ -426,7 +423,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-
+  import {hostAuthor} from '../api.js';
+    
 export default {
   components:{
     rightHeader,
@@ -499,11 +497,25 @@ export default {
         evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
         operation:"查看详情"
       }]
+      
       }
    },
   methods: {
-
-  }
+		
+  },
+  created(){
+  	let vm = this
+  	console.log('hostAuthor')
+  	console.log(hostAuthor)
+  	console.log('hostAuthor')
+		this.$http.post(hostAuthor)//请求用户数据
+		.then(function(response){
+			console.log(response);
+		})
+		.catch(function(error){
+			console.log(error);
+		})
+ }
 }
 </script>
 
@@ -522,4 +534,19 @@ export default {
       top: 0;
     }
   }
+  
+  .add{
+  	display: inline-block;
+  	width: 140px;
+  	height: 34px;
+  	border-radius: 5px;
+  	border: 1px solid #038be2;
+  	text-align: center;line-height: 34px;
+  	font-size: 12px;
+  	font-weight: bold;
+  	span{
+  		font-size:16px;
+  	}
+  }
+  
 </style>

@@ -1,0 +1,21 @@
+.message-tis{
+	width: 100%;
+	height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+}
+.message-tis table{
+	margin-left: 120px;
+	margin-top: 50px;
+}
+.message-tis table tr td {
+	font-size: 14px;
+	padding-right: 20px;
+}
+.operation-box{
+	position: absolute;
+}
+.mess{
+	margin-right: 10px;
+}

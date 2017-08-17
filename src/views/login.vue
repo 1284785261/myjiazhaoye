@@ -27,8 +27,11 @@
             <Icon class="iconfont icon-mima" slot="prepend"></Icon>
             </Input>
           </Form-item>
+          <span class="tit">1111111111</span>
           <Form-item>
-            <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+          	
+            <Button type="primary" @click="handleSubmit">登录</Button>
+          	
           </Form-item>
           <Form-item class="ivu-form-bottom">
               <router-link to="/">忘记密码？</router-link>
@@ -41,10 +44,15 @@
 </template>
 
 <script>
+
+import {hostlogin} from './api.js';
+
 $(document).ready(function () {
   $("#loginBack").height($(window).height());
+  
+  $(".ivu-input-group-prepend").css("background-color","#038be2");
+  
 });
-
   export default {
     data () {
       return {
@@ -60,18 +68,44 @@ $(document).ready(function () {
             { required: true, message: '请填写密码', trigger: 'blur' }
           ]
         }
+       
       }
     },
     methods: {
-      handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$Message.success('登录成功!');
-          } else {
-            this.$Message.error('表单验证失败!');
-          }
-        })
+      handleSubmit:function() {
+//    	console.log(this.formInline.user);
+//    	console.log(this.formInline.password);
+				//console.log(this.newData);
+      	var that = this;
+      	$.post(hostlogin,{userPhone:this.formInline.user,password:this.formInline.password},
+      	function(data){
+      		console.log(data);
+      		if(data.code==10000){
+      			
+      				that.$router.push({path:"/apartment/communityManagement"});
+      				
+      				sessionStorage.setItem("token",data.result.token);
+      				//把token上传到sessionStorage
+      			
+      		}
+      		else if(data.code==10002){
+      			$(".tit").css('display','block');
+      			$(".tit").html(data.content);
+      			setInterval(function(){
+      				$(".tit").css('display','none');
+      			},2000);
+      		}
+      	},"json");
+//      this.$refs[name].validate((valid) => {
+//        if (valid) {
+//          this.$Message.success('登录成功!');
+//        } else {
+//          this.$Message.error('表单验证失败!');
+//        }s
+//      })
       }
+
+			
     }
   }
 </script>
@@ -79,4 +113,11 @@ $(document).ready(function () {
 <style lang="scss" rel="stylesheet/scss" >
   @import '../sass/base/_mixin.scss';
   @import '../sass/page/_login.scss';
+  .tit{
+  	position: absolute;
+    top: 51.5%;
+    font-size: 12px;
+    color: red;
+    display: none;
+  }
 </style>

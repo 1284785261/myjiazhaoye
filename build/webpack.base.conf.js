@@ -70,5 +70,6 @@ module.exports = {
       jQuery: "jquery"
     })
   ],
+
 }
 

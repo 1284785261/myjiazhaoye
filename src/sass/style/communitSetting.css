@@ -1,0 +1,79 @@
+.el-tabs__header{
+	border-bottom: 1px solid #038be2;
+}
+.el-tabs{
+	background: #fff;
+}
+.el-tabs__nav{
+	padding-top: 30px;
+	margin-left: 20px;
+}
+.el-tabs__item{
+	font-size: 18px;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+    border: 1px solid #038BE2;
+    border-bottom-color:#fff ;
+}
+.inputs{
+	width: 120px;
+	height: 35px;
+	margin-bottom: 10px;
+	border-radius:initial;
+	display: inline-block;
+	margin-top: 15px;
+	margin-left: 225px;
+	
+}
+.el-input .el-input__inner{
+	width: 120px;
+	height: 35px;
+}
+.floor-main1{
+	width: 600px;
+	height: 120px;
+	background: #f8f8f8;
+}
+.el-radio-group{
+	margin-left: 90px;
+	margin-top: 15px;
+	position: absolute;
+}
+.f5{
+	position: absolute;
+	top: 20px;
+	padding-left: 10px;
+	width: 80px;
+	height: 20px;
+	display: inline-block;
+}
+.el-radio{
+	margin: 10px 38px 25px 0px;
+	
+}
+.inputs2{
+	
+	margin-left: 225px;
+}
+.el-select{
+	width: 160px;
+}
+.el-input .el-input__inner{
+	width: 160px;
+}
+.tbs .el-input .el-input__inner{
+	width: 140px;
+}
+.baifen{
+	margin-left: 10px;
+}
+.baifen2{
+	margin-left: 10px;
+	display: inline-block;
+}
+.ivu-table tr td{
+	border: none!important;
+}
+.btn_bar{
+	background-color:#ccc;
+}

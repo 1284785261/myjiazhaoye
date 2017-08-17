@@ -9,8 +9,8 @@
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-zhibo"></i>直播管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-dingdanguanli"></i>订单管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>账单管理</router-link></li>
+        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>合同管理</router-link></li>
         <li><router-link :to="{ name: 'communityManagement' , params: { id: 123 }}"><i class="iconfont icon-shequ"></i>社区管理</router-link></li>
-        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-fuwu"></i>工作台</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-fuwu"></i>企业服务</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-guanli1"></i>会员管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-yunying"></i>运营报表</router-link></li>
