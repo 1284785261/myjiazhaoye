@@ -7,6 +7,8 @@ import CommunityPresentation from '../views/apartment/communityPresentation.vue'
 import CommunitySettings from '../views/apartment/communitySettings.vue'  //社区设置
 import CommunityMessage from '../views/apartment/communityMessage.vue'    //社区信息
 import CommunityComplie from '../views/apartment/communityCompile.vue'    //编辑社区信息
+
+import OrderManagement from '../views/apartment/orderManagement.vue'    //订单管理
 Vue.use(Router)
 
 export default new Router({
@@ -39,7 +41,11 @@ export default new Router({
       path: '/apartment/communityComplie',     //编辑社区信息
       name: 'communityComplie',
       component: CommunityComplie
+    },{
+      path: '/apartment/orderManagement',     //编辑社区信息
+      name: 'orderManagement',
+      component: OrderManagement
     },
-    
+
   ]
 })
