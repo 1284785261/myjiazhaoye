@@ -1,0 +1,103 @@
+#order-management-wrap{
+  height: 985px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 3px 1px #ccc;
+  .el-tabs__header{
+    border-bottom: 1px solid #038be2;
+    .is-active{
+      border: 1px solid #038BE2;
+      border-bottom-color: #fff;
+      border-radius: 4px 4px 0 0;
+    }
+  }
+
+  .form-search-criteria{
+    position: relative;
+    padding: 21px 0 21px 20px;
+    .form-item{
+      display: inline-block;
+      margin-right: 20px;
+      .form-search{
+        position: relative;
+        margin-left: 108px;
+        .ivu-input-wrapper{
+          width: auto;
+        }
+        input[type="text"]{
+          width: 208px;
+          height: 36px;
+          border-radius: 0;
+          padding-left: 30px;
+        }
+        i{
+          position: absolute;
+          left: 5px;
+          top: 7px;
+          z-index: 99;
+          font-size: 18px;
+          color: #999;
+        }
+        input[type=button]{
+          width: 70px;
+          text-align: center;
+          height: 36px;
+          line-height: 36px;
+          background-color: #038be2;
+          color:#fff;
+          border:none;
+          position: relative;
+          left: -5px;
+          top: 2px;
+        }
+      }
+    }
+  }
+  .ivu-page{
+    margin: 50px 0 160px 0;
+    text-align: center;
+  }
+  .ivu-icon-ios-calendar-outline{
+    color:#038be2;
+    font-family: "iconfont" !important;
+    font-size: 18px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    &:before{
+      content: "\e60c";
+    }
+  }
+}
+
+.orderManagement-table,.meeting-order-table{
+  border-collapse:collapse;
+  text-align: center;
+  th{
+    background-color: #f8f8f9;
+  }
+  th,td{
+    border: 1px solid #ccc;
+    padding: 10px 10px;
+  }
+  tr>td:nth-child(7){
+    color: red;
+  }
+  tr>td:nth-child(9){
+    color: #FF6612;
+  }
+
+  tr>td:first-child,tr>th:first-child{
+    border-left-width: 0;
+  }
+  tr>td:last-child,tr>th:last-child{
+    border-right-width: 0;
+  }
+}
+
+.meeting-order-table{
+  tr>td:nth-child(8){
+    color: #FF6612;
+  }
+
+}

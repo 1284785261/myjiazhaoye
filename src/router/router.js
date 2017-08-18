@@ -71,7 +71,12 @@ export default new Router({
       path: '/apartment/communityPersonal',     //个人信息
       name: 'communityPersonal',
       component: resolve =>
-      require(['../views/personal/communityPersonal.vue'],resolve)      
+      require(['../views/personal/communityPersonal.vue'],resolve)
+    },{
+      path: '/apartment/orderManagement',     //个人信息
+      name: 'orderManagement',
+      component: resolve =>
+        require(['../views/apartment/orderManagement.vue'],resolve)
     }
 
   ]
