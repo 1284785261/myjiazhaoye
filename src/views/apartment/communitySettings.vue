@@ -7,7 +7,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/">社区管理</router-link>
+          <router-link  class="active" to="/apartment/communityManagement">社区管理</router-link>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>社区设置</h3>

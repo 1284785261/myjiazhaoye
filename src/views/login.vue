@@ -27,7 +27,7 @@
             <Icon class="iconfont icon-mima" slot="prepend"></Icon>
             </Input>
           </Form-item>
-          <span class="tit">1111111111</span>
+          <span class="tit" v-show="isShow">{{this.title}}</span>
           <Form-item>
           	
             <Button type="primary" @click="handleSubmit">登录</Button>
@@ -47,12 +47,7 @@
 
 import {hostlogin} from './api.js';
 
-$(document).ready(function () {
-  $("#loginBack").height($(window).height());
-  
-  $(".ivu-input-group-prepend").css("background-color","#038be2");
-  
-});
+
   export default {
     data () {
       return {
@@ -67,15 +62,14 @@ $(document).ready(function () {
           password: [
             { required: true, message: '请填写密码', trigger: 'blur' }
           ]
-        }
+        },
+        title:null,//接受登录错误的信息
+        isShow:false //控制是否弹出错误信息
        
       }
     },
     methods: {
       handleSubmit:function() {
-//    	console.log(this.formInline.user);
-//    	console.log(this.formInline.password);
-				//console.log(this.newData);
       	var that = this;
       	$.post(hostlogin,{userPhone:this.formInline.user,password:this.formInline.password},
       	function(data){
@@ -88,21 +82,17 @@ $(document).ready(function () {
       				//把token上传到sessionStorage
       			
       		}
-      		else if(data.code==10002){
-      			$(".tit").css('display','block');
-      			$(".tit").html(data.content);
-      			setInterval(function(){
-      				$(".tit").css('display','none');
-      			},2000);
+      		else if(data.code==10002){ 			
+      			that.title = data.content;//把错误信息赋给当前的title
+      			that.isShow = true;
+      			
+      			
+      			setInterval(function(){//设置定时器控制title消失
+      			
+      				that.isShow = false;
+      			},3000);
       		}
       	},"json");
-//      this.$refs[name].validate((valid) => {
-//        if (valid) {
-//          this.$Message.success('登录成功!');
-//        } else {
-//          this.$Message.error('表单验证失败!');
-//        }s
-//      })
       }
 
 			
@@ -113,11 +103,21 @@ $(document).ready(function () {
 <style lang="scss" rel="stylesheet/scss" >
   @import '../sass/base/_mixin.scss';
   @import '../sass/page/_login.scss';
+  body,html{
+  	width: 100%;
+  	height: 100%;
+  }
   .tit{
   	position: absolute;
     top: 51.5%;
     font-size: 12px;
     color: red;
-    display: none;
+   
+  }
+  #loginBack{
+  	height: 1000px;
+  }
+  .ivu-input-group-prepend{
+  	background-color: #038be2!important;
   }
 </style>

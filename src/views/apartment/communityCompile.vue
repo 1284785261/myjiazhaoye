@@ -48,7 +48,7 @@
 		        			</td>
 		        		</tr>
 		        		<tr>
-		        			<td><el-input v-model="input" placeholder="请填写详细地址"></el-input></td>
+		        			<td class="xiangxi"><el-input v-model="input" placeholder="请填写详细地址"></el-input></td>
 		        		</tr>
 		        		<tr>
 		        			<td>社区类型：</td>
@@ -68,20 +68,20 @@
 		        		</tr>
 		        		<tr>
 		        			<td>社区服务电话：</td>
-		        			<td><input type="text" placeholder="请输入社区名称"></td>
+		        			<td><input type="text" placeholder="请输入社区服务电话" class="complie_name2"></td>
 		        		</tr>
 		        		<tr>
 		        			<td>物业合同编号：</td>
-		        			<td><input type="text" placeholder="请输入社区名称"></td>
+		        			<td><input type="text" placeholder="请输入物业合同编号" class="complie_name3"></td>
 		        		</tr>
 		        		<tr>
 		        			<td>
 		        				租期：
 		        			</td>
 		        			<td>
-		        				<Date-picker type="date" placeholder="选择日期"></Date-picker>
+		        				<Date-picker type="date" placeholder="请选择日期"></Date-picker>
 				                <span class="inline-block spanBar">-</span>
-				                <Date-picker type="date" placeholder="选择日期"></Date-picker>
+				                <Date-picker type="date" placeholder="请选择日期"></Date-picker>
 		        			</td>
 		        		</tr>
 		        		<tr>
@@ -89,9 +89,9 @@
 		        				免租期：
 		        			</td>
 		        			<td>
-		        				<Date-picker type="date" placeholder="选择日期"></Date-picker>
+		        				<Date-picker type="date" placeholder="请选择日期"></Date-picker>
 				                <span class="inline-block spanBar">-</span>
-				                <Date-picker type="date" placeholder="选择日期"></Date-picker>
+				                <Date-picker type="date" placeholder="请选择日期"></Date-picker>
 		        			</td>
 		        		</tr>
 		        		<tr>
@@ -102,10 +102,12 @@
 							        <Upload
 							            :before-upload="handleUpload"
 							            action="//jsonplaceholder.typicode.com/posts/">
-							            <Button type="ghost" icon="ios-cloud-upload-outline">选择要上传文件的文件</Button>
+							            <Button type="ghost" class="cas">请选择文件</Button>
+							            
 							        </Upload>
+							        <Button type="text" @click="upload" :loading="loadingStatus" class="cass">{{ loadingStatus ? '上传中' : '点击上传' }}</Button>
 		        			</td>
-		        			<tr><div v-if="file !== null">待上传文件：{{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? '上传中' : '点击上传' }}</Button></div></tr>
+		        			<tr><div class="unloading" v-if="file !== null">已上传：{{ file.name }} </div></tr>
 		        		</tr>
 		        	</table>
 		        	<div class="operation-box">
@@ -166,7 +168,7 @@
     	},
     	methods:{
     		Complie:function(){
-    			
+    			this.$router.push({path:"/apartment/communityRoom"});
     		},
     		handleUpload (file) {
                 this.file = file;
@@ -187,5 +189,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  @import '../../sass/page/_communityManagement.scss';
+  
 </style>

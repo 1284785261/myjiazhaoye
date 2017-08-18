@@ -18,7 +18,7 @@
         <Dropdown trigger="click">
           <a href="javascript:void(0)"><img src="/static/images/temp/userHead.png">{{userID}} <Icon type="arrow-down-b"></Icon></a>
           <Dropdown-menu slot="list">
-            <Dropdown-item  v-for="userBar in userBars"><router-link to="/"><i :class="userBar.icon"></i>{{userBar.userContent}}</router-link></Dropdown-item>
+            <Dropdown-item  v-for="userBar in userBars"><router-link :to=userBar.path><i :class="userBar.icon"></i>{{userBar.userContent}}</router-link></Dropdown-item>
           </Dropdown-menu>
         </Dropdown>
       </div>
@@ -32,13 +32,16 @@ export default {
         userID:"会飞的鱼~",
        userBars:[{
           icon:"iconfont icon-gerenxinxi1",
-          userContent:"个人信息"
+          userContent:"个人信息",
+          path:"/apartment/communityPersonal"
         },{
           icon:"iconfont icon-yeji",
-          userContent:"我的业绩"
+          userContent:"我的业绩",
+          path:"/apartment/communityPersonal"
         },{
           icon:"iconfont icon-zhuxiao",
-          userContent:"注销"
+          userContent:"注销",
+          path:"/apartment/communityPersonal"
         }]
     }
   }

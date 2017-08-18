@@ -14,7 +14,9 @@
           <Tab-pane label="社区管理">
             <div class="form-search-criteria">
                 <div class="form-item">
-                  <a class="add"><span>+</span>添加社区</a>
+
+                  	<router-link to="/apartment/communityComplie" class="add"><span>+</span>添加社区</router-link>
+
                 </div>
                <div class="form-item">
                  <span>开业日期：</span>
@@ -535,7 +537,7 @@ export default {
     }
   }
   
-  .add{
+  .form-item .add{
   	display: inline-block;
   	width: 140px;
   	height: 34px;

@@ -1,5 +1,8 @@
+.message-tis table{
+	position: relative;
+}
 .message-tis table tr{
-	height: 40px;
+	height: 54px;
 }
 .message-tis table tr td:nth-child(1){
 	font-size: 12px;
@@ -8,5 +11,64 @@
 }
 .message-tis table tr td .complie_name{
 	width: 290px;
-	height: 34px;
+	height: 35px;
+	border: none;
+	border: 1px solid #dcdcdc;
+	color: #c1b0be;
+}
+.message-tis table tr td .el-select{
+	width: 142px;
+	
+	border: 1px solid #dcdcdc;
+}
+.message-tis table tr td .el-select .el-input .el-input__inner{
+	border: none;
+	color: #b8b8b8;
+	width: 140px;
+}
+.message-tis table tr .xiangxi{
+	position: absolute;
+	left: 104px;
+}
+.message-tis table tr .xiangxi .el-input{
+	border: 1px solid #dcdcdc;
+	width: 434px;
+}
+.message-tis table tr .xiangxi .el-input .el-input__inner{
+	border: none;
+	color: #b8b8b8;
+	width: 432px;
+}
+.ivu-date-picker-editor input {
+    width: 180px;
+}
+.message-tis table tr td .complie_name2,.message-tis table tr td .complie_name3{
+	width: 180px;
+	height: 35px;
+	border: none;
+	border: 1px solid #dcdcdc;
+}
+.message-tis table tr .unloading{
+	position: absolute;
+	left: 120px;
+}
+.message-tis tr td .cas{
+	width: 260px;
+	height: 35px;
+	text-align: left;
+}
+.message-tis tr td .cass{
+	width: 118px;
+	height: 35px;
+	text-align: center;
+	border: 1px solid #dcdcdc;
+	position: absolute;
+	left: 379px;
+    bottom: 68px;
+}
+.ivu-date-picker-editor .ivu-input {
+    width: 180px!important;
+}
+.message-tis tr td .form-item{
+	width: 180px;
 }

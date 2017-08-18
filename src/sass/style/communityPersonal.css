@@ -1,0 +1,102 @@
+.message-tis{
+	width: 100%;
+	height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+.message-tis .uploading{
+	position: absolute;
+	left: 80px;
+	top: 50px;
+}
+.message-tis .uploading .upload .upfile{
+  cursor: pointer;
+  direction: rtl;
+  height: 100px;
+  opacity: 0;
+  width: 100px;
+  filter: alpha(opacity=0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+}
+.message-tis .uploading .upload{
+  position: relative;
+  display: block;
+  height: 100px;
+  margin-top: 7px;
+  overflow: hidden;
+  width: 100px;
+  background: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  line-height: 80px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+.message-tis .uploading .upload .icon-jiahao1{
+	width: 2px;
+	height: 20px;
+	display: block;
+	font-size: 12px;
+	color: #B94A48;
+	background: #b8b8b8;
+	position: absolute;
+	left: 47%;
+	top: 32%;
+}
+.message-tis .uploading .upload .icon-jiahao2{
+	width: 20px;
+	height: 2px;
+	display: block;
+	font-size: 12px;
+	color: #B94A48;
+	background: #b8b8b8;
+	position: absolute;
+	left: 38%;
+  top: 41%;
+}
+.message-tis .uploading .upload .jiahao3{
+	position: absolute;
+	left: 24px;
+  top: 30px;
+	color: #b8b8b8;
+	font-size: 12px;
+	width: 51px;
+  height: 6px;
+}
+.message-tis .fromss{
+	margin-left: 220px;
+	margin-top: 52px;
+}
+.message-tis .fromss li{
+	line-height: 32px;
+}
+.message-tis .inste{
+	width: 120px;
+	height: 36px;
+	display: inline-block;
+	text-align: center;
+	line-height: 36px;
+	background-color: #f8f8f8;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	color: #797979;
+	margin-top: 30px;
+}
+.message-tis .inste1{
+	margin-left: 220px;
+	margin-right: 30px;
+}
+.message-tis .inste:hover{
+	background-color: #fff;
+	border: 1px solid #038be2;
+	color: #038be2;
+}

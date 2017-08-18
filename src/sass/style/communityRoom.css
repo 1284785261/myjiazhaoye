@@ -1,0 +1,58 @@
+.message-tis table tr .hx,.message-tis table tr .hx .el-select{
+	width: 322px;
+	height: 36px;
+}
+.message-tis table tr .hx .el-select .el-input .el-input__inner{
+	width: 320px;
+	height: 34px;
+}
+.message-tis table tr .jiayong{
+	width: 500px;
+	
+}
+.message-tis table .waters{
+	height: 180px;
+}
+.message-tis table tr .water{
+	width: 600px;
+	height: 150px;
+	background: #f8f8f8;
+	position: absolute;
+	left: 82px;
+}
+.ts{
+	position: absolute;
+	margin-left: 5px;
+}
+.message-tis table tr .water1{
+	margin-top: 10px;
+	display: block;
+	padding-bottom: 10px;
+	line-height: 30px;
+}
+.water1,.water2{
+	font-size: 14px;
+	margin-left: 20px;
+	margin-right: 14px;
+	color: black;
+	
+}
+.message-tis table tr .water p i{
+	font-style: normal;
+	margin-left: 12px;
+}
+.message-tis table tr .water .water3{
+	position: absolute;
+	left: 100px;
+	top: 40px;
+} 
+.message-tis table tr .water .water4{
+	position: absolute;
+    left: 191px;
+    top: 35px;
+} 
+.message-tis table tr .water .water4 input{
+	width: 118px;
+	height: 34px;
+	margin: 10px 10px;
+}
