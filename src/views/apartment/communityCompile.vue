@@ -168,7 +168,7 @@
     	},
     	methods:{
     		Complie:function(){
-    			this.$router.push({path:"/apartment/communityRoom"});
+    			
     		},
     		handleUpload (file) {
                 this.file = file;

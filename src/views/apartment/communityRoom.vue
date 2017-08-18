@@ -12,8 +12,8 @@
 		          <h3><i class="icon icon-iden"></i>编辑房间</h3>
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
-		        <div class="message-tis">
-		        	<table>
+		        <div class="message-tis2">
+		        	<table class="romm">
 		        		<tr>
 		        			<td>房间：</td>
 		        			<td>1层   103房间 </td>
@@ -34,11 +34,11 @@
 		        		
 		        		<tr>
 		        			<td>面积：</td>
-		        			<td><input type="text" placeholder="请输入面积" class="complie_name2">  m²</td>
+		        			<td><input type="text" placeholder="请输入面积" class="compli_2">  m²</td>
 		        		</tr>
 		        		<tr>
 		        			<td>租金：</td>
-		        			<td><input type="text" placeholder="请输入租金" class="complie_name3">  元/月</td>
+		        			<td><input type="text" placeholder="请输入租金" class="compli_3">  元/月</td>
 		        		</tr>
 		        		
 		        		<tr>
@@ -99,7 +99,7 @@
 		            </div>  
 		        </div>
 		        
-		        
+		        <Icon type="chevron-up"></Icon>
 		    
 			</div>
 			<footer-box></footer-box>
@@ -108,11 +108,12 @@
 </template>
 
 <script>
+	import '../../sass/style/communityRoom.css';
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
     import api from '../api.js';
-    import '../../sass/style/communityRoom.css';
+    
     
     export default {
     	components:{

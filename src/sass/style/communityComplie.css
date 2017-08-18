@@ -1,5 +1,14 @@
+.message-tis{
+	width: 100%;
+	height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+}
 .message-tis table{
 	position: relative;
+	margin-left: 84px;
+	margin-top: 30px;
 }
 .message-tis table tr{
 	height: 54px;
@@ -8,6 +17,8 @@
 	font-size: 12px;
 	font-weight: bold;
 	text-align: right;
+	padding-right: 10px;
+	
 }
 .message-tis table tr td .complie_name{
 	width: 290px;
@@ -28,7 +39,7 @@
 }
 .message-tis table tr .xiangxi{
 	position: absolute;
-	left: 104px;
+	left: 96px;
 }
 .message-tis table tr .xiangxi .el-input{
 	border: 1px solid #dcdcdc;

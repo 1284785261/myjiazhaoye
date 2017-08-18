@@ -50,12 +50,12 @@ export default new Router({
       path: '/apartment/communitySettings',     //社区设置
       name: 'communitySettings',
       component: resolve =>
-      require(['../views/apartment/communityManagement.vue'],resolve)
+      require(['../views/apartment/communitySettings.vue'],resolve)
     },{
       path: '/apartment/communityMessage',     //社区信息
       name: 'communityMessage',
       component: resolve =>
-      require(['../views/apartment/communitySettings.vue'],resolve)
+      require(['../views/apartment/communityMessage.vue'],resolve)
     },{
       path: '/apartment/communityComplie',     //编辑社区信息
       name: 'communityComplie',
@@ -77,7 +77,17 @@ export default new Router({
       name: 'orderManagement',
       component: resolve =>
         require(['../views/apartment/orderManagement.vue'],resolve)
-    }
+    },{
+      path:'/communityHouse',        //社区公寓信息
+      name:'communityHouse',
+      component: resolve =>
+        require(['../views/apartment/communityHouse.vue'],resolve)
+    },{
+      path:'/loginPassword',
+      name:'loginPassword',
+      component: resolve =>
+        require(['../views/personal/loginPassword'],resolve)
+    },
 
   ]
 })

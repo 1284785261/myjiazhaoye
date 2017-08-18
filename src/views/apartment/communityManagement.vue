@@ -79,7 +79,7 @@
                   <td>
                     <router-link to="/apartment/communityMessage">基本信息</router-link>
                     <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                    <a href="javascript:;">资源管理</a>
+                    <router-link to="/communityHouse">资源管理</router-link>
                     <router-link to="/apartment/communitySettings">社区设置</router-link>
                     <a href="javascript:;">设备管理</a>
                     <Button @click="closeCommunity = true" >关闭社区</Button>
@@ -127,7 +127,7 @@
                 <td>
                   <a href="javascript:;">基本信息</a>
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <a href="javascript:;">资源管理</a>
+                  <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >关闭社区</Button>
@@ -175,7 +175,7 @@
                 <td>
                   <a href="javascript:;">基本信息</a>
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <a href="javascript:;">资源管理</a>
+                  <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >关闭社区</Button>
@@ -258,7 +258,7 @@
                 <td>
                   <a href="javascript:;">基本信息</a>
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <a href="javascript:;">资源管理</a>
+                  <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
@@ -306,7 +306,7 @@
                 <td>
                   <a href="javascript:;">基本信息</a>
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <a href="javascript:;">资源管理</a>
+                  <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
@@ -354,7 +354,7 @@
                 <td>
                   <a href="javascript:;">基本信息</a>
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <a href="javascript:;">资源管理</a>
+                  <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
                   <Button @click="closeCommunity = true" >开发社区</Button>
@@ -425,7 +425,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {hostAuthor} from '../api.js';
+  import {hostCommint} from '../api.js';
     
 export default {
   components:{
@@ -506,11 +506,18 @@ export default {
 		
   },
   created(){
-  	let vm = this
   	console.log('hostAuthor')
-  	console.log(hostAuthor)
+  	console.log(hostCommint)
   	console.log('hostAuthor')
-		this.$http.post(hostAuthor)//请求用户数据
+//		this.$http.post(hostAuthor)//请求用户个人信息数据
+//		.then(function(response){
+//			console.log(response);
+//		})
+//		.catch(function(error){
+//			console.log(error);
+//		})
+
+		this.$http.post(hostCommint)  //请求社区管理数据
 		.then(function(response){
 			console.log(response);
 		})

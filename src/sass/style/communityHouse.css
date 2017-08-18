@@ -1,0 +1,272 @@
+.message-tis{
+	width: 100%;
+	height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+}
+.el-tabs__header{
+	border-bottom: 1px solid #038be2;
+}
+.el-tabs__nav {
+    position: relative;
+    transition: transform .3s;
+    float: left;
+    margin-left: 20px;
+}
+.el-tabs__item {
+    margin-top: 30px;
+    padding: 0 16px;
+    height: 50px;
+    box-sizing: border-box;
+    line-height: 50px;
+    display: inline-block;
+    list-style: none;
+    font-size: 18px;
+    color: #8391a5;
+    position: relative;
+    width: 180px;
+    text-align: center;
+}
+.is-active{
+	border: 1px solid #038be2!important;
+	border-bottom: 1px solid #ffffff!important;
+}
+.message-tis .ls{
+	height:800px;
+	overflow: auto;
+	padding-bottom: 50px;
+	
+}
+.message-tis .ls .lishi{
+	border-bottom:20px solid #f0f0f0;
+}
+.message-tis .ls .lishi:nth-last-child(1){
+	border-bottom:0px solid #f0f0f0;
+}
+.message-tis .house_hu{
+	width: 100%;
+	height: 100px;
+	border-bottom: 1px solid #dcdcdc;
+}
+.message-tis .house_hu .hux{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	color: white;
+	background: #038be2;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 5px;
+	font-size: 14px;
+	margin: 20px 30px 0 20px;
+}
+.message-tis .house_hu .adds{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	color: #666666;
+	background: #f8f8f8;
+	border: 1px solid #dcdcdc;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+.message-tis .house_xq{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.message-tis .house_xq img{
+	position: absolute;
+	top: 20px;
+	
+}
+.message-tis .house_xq .ceng{
+	margin-top: 20px;
+	display: inline-block;
+	width: 105px;
+	height: 42px;
+	background: #1fbba6 url(../../../static/images/temp/logo3.png) no-repeat 70px center;
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+	font-size: 16px;
+	color: white;
+	padding-left: 20px;
+	
+	line-height: 42px;
+	margin-left: 5px;
+	
+}
+.message-tis .house_xq .adda,.message-tis .house_xq .isste{
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	border:1px solid #038be2;
+	border-radius: 5px;
+	background: #fff;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+	color: #038be2;
+	float: right;
+	margin-right: 10px;
+	margin-top: 24px;
+}
+.message-tis .house_xq .isste{
+	background: #f8f8f8;
+	color: #666;
+	border:1px solid #dcdcdc;
+}
+.message-tis .house_xq .del{
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	margin-top: 24px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+	background: #f8f8f8;
+	color: #666;
+	float: right;
+	margin-right: 10px;
+	border:1px solid #dcdcdc;
+}
+.message-tis div .el-table{
+	text-align: center;
+}
+.message-tis .house_xqb{
+	margin-top: 15px;
+}
+.cell{
+	text-align: center;
+}
+.message-tis .el-tab-pane ul{
+	margin-left: 145px;
+	margin-top: 50px;
+}
+.message-tis .el-tab-pane ul li span{
+	font-size: 12px;
+	color: #333333;
+	font-weight: bold;
+}
+.message-tis .el-tab-pane ul li input{
+	width: 310px;
+	height: 34px;
+	margin: 0 10px 20px 10px;
+}
+
+.confirm2{
+	display: inline-block;
+  	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border-radius: 5px;
+  	background: #038be2;
+  	color: white;
+  	line-height: 40px;
+  	text-align: center;
+  	margin-left: 224px;
+  	margin-right: 30px;
+  	margin-top: 10px;
+  }
+.call{
+  	display: inline-block;
+  	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border: 1px solid #666;
+  	border-radius: 5px;
+  	background: #f8f8f8;
+  	color: #666666;
+  	line-height: 40px;
+  	text-align: center;
+}
+
+.message-tis .bgs{
+	position: relative;
+	width: 678px;
+	border: 1px solid #ccc;
+	border-collapse:collapse;
+	margin-left: 204px;
+	margin-top: 112px;
+	margin-bottom: 40px;
+}
+
+.message-tis .bgs thead tr td{
+	width: 25%;
+	text-align: center;
+	height: 48px;
+	line-height: 48px;
+	font-weight: bold;
+	border: 1px solid #ccc;
+	background: #f8f8f8;
+}
+.message-tis .mps{
+	
+	height: 65px;
+}
+.message-tis .mps td{
+	border: 1px solid #ccc;
+	text-align: center;
+}
+.message-tis .mps td input{
+	width: 148px;
+	height: 34px;
+	text-align: center;
+}
+.message-tis .bgs .add_a{
+	
+	width: 678px;
+	height: 66px;
+}
+.message-tis .bgs .add_a td{
+	padding-left: 10px;
+	border: 1px solid #ccc;
+}
+.message-tis .bgs .add_a td input{
+	width: 58px;
+	height: 28px;
+	text-align: center;
+	margin: 10px 10px;
+}
+.message-tis .bgs .add_a td a{
+	display: inline-block;
+	width: 58px;
+	height: 28px;
+	text-align: center;
+	line-height: 28px;
+	background: #f9f9f9;
+	border-radius: 5px;
+	border: 1px solid #dcdcdc;
+	color: #656565;
+	margin-left: 20px;
+}
+.message-tis .qd{
+	display: inline-block;
+	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border-radius: 5px;
+  	background: #038be2;
+  	color: white;
+  	line-height: 40px;
+  	text-align: center;
+  	margin-left: 388px;
+  	margin-right: 30px;
+  	
+}
+.message-tis .qx{
+	display: inline-block;
+	width: 140px;
+  	height: 40px;
+  	border: none;
+  	border: 1px solid #666;
+  	border-radius: 5px;
+  	background: #f8f8f8;
+  	color: #666666;
+  	line-height: 40px;
+  	text-align: center;
+}
