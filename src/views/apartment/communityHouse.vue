@@ -69,9 +69,7 @@
 								        label="状态">
 								      </el-table-column>
 								      <el-table-column
-									      fixed="right"
-									      label="操作"
-									      width="100">
+									      label="操作">
 									      <template scope="scope">
 									        <el-button @click="handleClick" type="text" size="small">编辑</el-button>
 									        <el-button type="text" size="small">删除</el-button>
@@ -128,9 +126,9 @@
 								        label="状态">
 								      </el-table-column>
 								      <el-table-column
-									     fixed="right"
+									     
 									      label="操作"
-									      width="100">
+									     >
 									      <template scope="scope">
 									        <el-button @click="handleClick" type="text" size="small">编辑</el-button>
 									        <el-button type="text" size="small">删除</el-button>
@@ -187,9 +185,9 @@
 								        label="状态">
 								      </el-table-column>
 								      <el-table-column
-									      fixed="right"
+									      
 									      label="操作"
-									      width="100">
+									      >
 									      <template scope="scope">
 									        <el-button @click="handleClick" type="text" size="small">编辑</el-button>
 									        <el-button type="text" size="small">删除</el-button>
@@ -364,7 +362,7 @@
 				tableData: [{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '18 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -373,7 +371,7 @@
 		          },{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '1518 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -382,7 +380,7 @@
 		          },{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '上海518 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -391,7 +389,7 @@
 		          },{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '上海518 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -400,7 +398,7 @@
 		          },{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '上海518 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -409,7 +407,7 @@
 		          },{
 		            date: '101',
 		            hx: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄',
+		            address: '上海8 弄',
 		            monery:'10',
 		            watch:'aaa',
 		            dian:'44',
@@ -420,7 +418,7 @@
 		},
 		methods:{
 			handleClick(tab, event){
-				this.$router.push({path:"/apartment/communityRoom"});
+				//this.$router.push({path:"/apartment/communityRoom"});
 				console.log(tab, event);
 			}
 		}

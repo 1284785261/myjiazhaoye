@@ -1,3 +1,7 @@
+body{
+	overflow:-Scroll;
+	overflow-x:hidden;
+}
 .message-tis{
 	width: 100%;
 	height: 1000px;
@@ -7,6 +11,9 @@
 }
 .el-tabs__header{
 	border-bottom: 1px solid #038be2;
+}
+.el-tabs__content{
+	height: 1000px;
 }
 .el-tabs__nav {
     position: relative;
@@ -36,6 +43,7 @@
 	height:800px;
 	overflow: auto;
 	padding-bottom: 50px;
+	overflow-x:hidden;
 	
 }
 .message-tis .ls .lishi{

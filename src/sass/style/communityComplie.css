@@ -5,47 +5,47 @@
 	overflow: hidden;
 	box-shadow: 0 3px 1px #ccc;
 }
-.message-tis table{
+.message-tis .cop{
 	position: relative;
 	margin-left: 84px;
 	margin-top: 30px;
 }
-.message-tis table tr{
+.message-tis .cop tr{
 	height: 54px;
 }
-.message-tis table tr td:nth-child(1){
+.message-tis .cop tr td:nth-child(1){
 	font-size: 12px;
 	font-weight: bold;
 	text-align: right;
 	padding-right: 10px;
 	
 }
-.message-tis table tr td .complie_name{
+.message-tis .cop tr td .complie_name{
 	width: 290px;
 	height: 35px;
 	border: none;
 	border: 1px solid #dcdcdc;
 	color: #c1b0be;
 }
-.message-tis table tr td .el-select{
+.message-tis .cop tr td .el-select{
 	width: 142px;
 	
 	border: 1px solid #dcdcdc;
 }
-.message-tis table tr td .el-select .el-input .el-input__inner{
+.message-tis .cop tr td .el-select .el-input .el-input__inner{
 	border: none;
 	color: #b8b8b8;
 	width: 140px;
 }
-.message-tis table tr .xiangxi{
+.message-tis .cop tr .xiangxi{
 	position: absolute;
 	left: 96px;
 }
-.message-tis table tr .xiangxi .el-input{
+.message-tis .cop tr .xiangxi .el-input{
 	border: 1px solid #dcdcdc;
 	width: 434px;
 }
-.message-tis table tr .xiangxi .el-input .el-input__inner{
+.message-tis .cop tr .xiangxi .el-input .el-input__inner{
 	border: none;
 	color: #b8b8b8;
 	width: 432px;
@@ -53,13 +53,13 @@
 .ivu-date-picker-editor input {
     width: 180px;
 }
-.message-tis table tr td .complie_name2,.message-tis table tr td .complie_name3{
+.message-tis .cop tr td .complie_name2,.message-tis .cop tr td .complie_name3{
 	width: 180px;
 	height: 35px;
 	border: none;
 	border: 1px solid #dcdcdc;
 }
-.message-tis table tr .unloading{
+.message-tis .cop tr .unloading{
 	position: absolute;
 	left: 120px;
 }

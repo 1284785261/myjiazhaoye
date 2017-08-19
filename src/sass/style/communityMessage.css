@@ -5,11 +5,11 @@
 	overflow: hidden;
 	box-shadow: 0 3px 1px #ccc;
 }
-.message-tis table{
+.message-tis .cops{
 	margin-left: 120px;
 	margin-top: 50px;
 }
-.message-tis table tr td {
+.message-tis .cops tr td {
 	font-size: 14px;
 	padding-right: 20px;
 }

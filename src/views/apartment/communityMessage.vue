@@ -12,7 +12,7 @@
 		          <h3><i class="icon icon-iden"></i>社区信息</h3>
 		        </div>
 		        <div class="message-tis">
-		        	<table>
+		        	<table class="cops">
 		        		<tr>
 		        			<td>社区名称：</td>
 		        			<td>社区名称：</td>

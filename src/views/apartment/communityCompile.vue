@@ -12,7 +12,7 @@
 		          <h3><i class="icon icon-iden"></i>编辑社区信息</h3>
 		        </div>
 		        <div class="message-tis">
-		        	<table>
+		        	<table class="cop">
 		        		<tr>
 		        			<td>社区名称：</td>
 		        			<td><input type="text" placeholder="请输入社区名称" class="complie_name"></td>

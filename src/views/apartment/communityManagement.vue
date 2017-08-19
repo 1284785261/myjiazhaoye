@@ -82,11 +82,7 @@
                     <router-link to="/communityHouse">资源管理</router-link>
                     <router-link to="/apartment/communitySettings">社区设置</router-link>
                     <a href="javascript:;">设备管理</a>
-                    <Button @click="closeCommunity = true" >关闭社区</Button>
-                    <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                      <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                      <p><b>佳兆业航运WEWA空间</b></p>
-                    </Modal>
+                    <a href="javascript:;" @click="hub()">关闭社区</a>
                   </td>
                 </tr>
               <tr>
@@ -130,11 +126,7 @@
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
-                  <Button @click="closeCommunity = true" >关闭社区</Button>
-                  <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                    <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                    <p><b>佳兆业航运WEWA空间</b></p>
-                  </Modal>
+                  <a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>
               <tr>
@@ -178,11 +170,7 @@
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
-                  <Button @click="closeCommunity = true" >关闭社区</Button>
-                  <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                    <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                    <p><b>佳兆业航运WEWA空间</b></p>
-                  </Modal>
+                  <a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>
             </table>
@@ -261,11 +249,7 @@
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
-                  <Button @click="closeCommunity = true" >开发社区</Button>
-                  <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                    <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                    <p><b>佳兆业航运WEWA空间</b></p>
-                  </Modal>
+                	<a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>
               <tr>
@@ -309,11 +293,7 @@
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
-                  <Button @click="closeCommunity = true" >开发社区</Button>
-                  <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                    <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                    <p><b>佳兆业航运WEWA空间</b></p>
-                  </Modal>
+                  <a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>
               <tr>
@@ -357,11 +337,7 @@
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
                   <a href="javascript:;">设备管理</a>
-                  <Button @click="closeCommunity = true" >开发社区</Button>
-                  <Modal v-model="closeCommunity" class-name="vertical-center-modal" width="280" :closable="false">
-                    <p>确认 <em style="color:#038be2;">关闭</em> 以下社区吗？</p>
-                    <p><b>佳兆业航运WEWA空间</b></p>
-                  </Modal>
+                  <a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>
             </table>
@@ -416,7 +392,17 @@
       </div>
       <footer-box></footer-box>
     </div>
+    <div class="lose" v-show="isShow">
+    	<span>确认<i>关闭</i>以下社区吗？</span>
+    	<p>佳兆业</p>
+    	<a @click="qs()">确定</a>
+    	<a @click="qb()">取消</a>
+    </div>
+    <div class="zhezhao"v-show="isShow">
+  	
+ 		</div>
   </div>
+  
 </template>
 
 <script>
@@ -425,7 +411,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {hostCommint} from '../api.js';
+  import {hostAuthor} from '../api.js';
     
 export default {
   components:{
@@ -462,7 +448,7 @@ export default {
         }
       ],
       model1: '',
-      closeCommunity:false,
+      isShow:false,
       tableEvaluates:[{
           date:"2017-06-27  12:00",
           community:"佳兆业航运WEWA空间",
@@ -503,46 +489,46 @@ export default {
       }
    },
   methods: {
-		
+		hub(){
+			this.isShow = !this.isShow;
+		},
+		qs(){
+			this.isShow =false;
+		},
+		qb(){
+			this.isShow =false;
+		}
   },
   created(){
   	console.log('hostAuthor')
-  	console.log(hostCommint)
+  	console.log(sessionStorage.getItem('token'))
   	console.log('hostAuthor')
-//		this.$http.post(hostAuthor)//请求用户个人信息数据
-//		.then(function(response){
-//			console.log(response);
-//		})
-//		.catch(function(error){
-//			console.log(error);
-//		})
-
-		this.$http.post(hostCommint)  //请求社区管理数据
+		this.$http.post(hostAuthor)//请求用户个人信息数据
 		.then(function(response){
 			console.log(response);
 		})
 		.catch(function(error){
 			console.log(error);
 		})
+
+//		this.$http.get(hostCommint)  //请求社区管理数据
+//		.then(function(response){
+//			console.log(response);
+//		})
+//		.catch(function(error){
+//			console.log(error);
+//		})
  }
 }
 </script>
 
 
 
-<style lang="scss" rel="stylesheet/scss" >
+<style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityManagement.scss';
-  .vertical-center-modal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .ivu-modal{
-      top: 0;
-    }
-  }
+ 
   
   .form-item .add{
   	display: inline-block;
@@ -557,5 +543,64 @@ export default {
   		font-size:16px;
   	}
   }
-  
+  .zhezhao{
+  	width: 100%;
+  	height: 100%;
+  	position: fixed;
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+  	background: #666;
+  	opacity: 0.5;
+  	z-index: 999;
+  }
+  .lose{
+  	z-index: 1000;
+  	position: fixed;
+  	top: 50%;
+  	left: 50%;
+  	width: 280px;
+  	height: 180px;
+  	border-radius: 10px;
+  	background: #fff;
+  	transform: translate(-50%,-50%);
+  	text-align: center;
+  }
+  .lose span{
+  	display: block;
+  	font-size: 12px;
+  	margin-top: 42px;
+  	margin-bottom: 18px;
+  }
+  .lose span i{
+  	font-style: normal;
+  	font-size: 10px;
+  	margin: 0 5px;
+  	color: #038be2;
+  }
+  .lose p{
+  	font-size: 12px;
+  	font-weight: bold;
+  	margin-bottom: 35px;
+  }
+  .lose a{
+  	display: inline-block;
+  	width: 90px;
+  	height: 30px;
+  	text-align: center;
+  	line-height: 30px;
+  	font-size: 12px;
+  	border-radius: 5px;
+  }
+  .lose a:nth-child(3){
+  	background: #038be2;
+  	color: white;
+  	margin-right: 20px;
+  }
+  .lose a:nth-child(4){
+  	background: #f8f8f8;
+  	color: #666;
+  	border: 1px solid #dcdcdc;
+  }
 </style>

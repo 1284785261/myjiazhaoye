@@ -243,12 +243,15 @@ export default {
 
 
 
-<style lang="scss" rel="stylesheet/scss" >
+<style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityPresentation.scss';
   
-  .info{
+  
+</style>
+<style>
+	.info{
     border-radius: 10px;
     line-height: 20px;
     padding: 10px;
@@ -303,11 +306,11 @@ export default {
   .ivu-modal-footer{
   	display: none;
   }
-  .ivu-modal{
+  .ivu-modal-wrap .ivu-modal{
   	width: 800px!important;
   	height: 600px;
   }
-  .ivu-modal-close{
+  .ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-close{
   	display: inline-block;
   	background: #333333;
   	width: 30px;
@@ -318,12 +321,12 @@ export default {
   	right: -5%;
   }
   
-  .ivu-modal-body{
+  .ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body{
   	width: 800px;
   	height: 600px;
   	overflow: hidden;
   }
-  .ivu-modal-body div img {
+  .ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body div img {
   	width: 100%;
   	height: 550px;
   }
