@@ -5,12 +5,15 @@ const host = 'http://115.29.138.230:8080';
 
 //http://115.29.138.230:8080/apis/community/pc/CxkjCommunity 200001
 //http://115.29.138.230:8080/apis/user/CxkjCenterPCGetUserInfo100004
+//http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityInfo200004 
+
 //用户登录接口
 const login = '/apis/user/CxkjCenterLogin100002';
 
-//用户个人信息
-const Author = '/cxkj-center/apis/user/info';
+//用户个人信息接口
+const Author = '/apis/user/info';
 
+//社区管理接口
 const Commint = '/apis/community/pc/CxkjCommunity';
 
 export const hostlogin = host + login;

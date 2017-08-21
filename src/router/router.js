@@ -14,12 +14,12 @@ import login from '../views/login.vue'
 
 
 
-import Workbench from '../views/apartment/workbench.vue'    //工作台
-import CommunityManagement from '../views/apartment/communityManagement.vue'  //社区管理
-import CommunityPresentation from '../views/apartment/communityPresentation.vue'  //社区介绍
-import CommunitySettings from '../views/apartment/communitySettings.vue'  //社区设置
-import CommunityMessage from '../views/apartment/communityMessage.vue'    //社区信息
-import CommunityComplie from '../views/apartment/communityCompile.vue'    //编辑社区信息
+//import Workbench from '../views/apartment/workbench.vue'    //工作台
+//import CommunityManagement from '../views/apartment/communityManagement.vue'  //社区管理
+//import CommunityPresentation from '../views/apartment/communityPresentation.vue'  //社区介绍
+//import CommunitySettings from '../views/apartment/communitySettings.vue'  //社区设置
+//import CommunityMessage from '../views/apartment/communityMessage.vue'    //社区信息
+//import CommunityComplie from '../views/apartment/communityCompile.vue'    //编辑社区信息
 
 
 Vue.use(Router)
@@ -30,7 +30,7 @@ export default new Router({
       path: '/',
       name: 'login',
       component: resolve =>
-      require(['../views/login.vue'],resolve)
+      require(['../views/login.vue'],resolve)  //登录页面
     },{
       path: '/apartment/workbench',
       name: 'workbench',
@@ -83,10 +83,20 @@ export default new Router({
       component: resolve =>
         require(['../views/apartment/communityHouse.vue'],resolve)
     },{
-      path:'/loginPassword',
+      path:'/loginPassword',				//修改登录密码
       name:'loginPassword',
       component: resolve =>
         require(['../views/personal/loginPassword'],resolve)
+    },{
+      path:'/lognPhone',				//修改手机号
+      name:'loginPhone',
+      component: resolve =>
+        require(['../views/personal/loginPhone'],resolve)
+    },{
+      path:'/amendWin',				//修改登录密码/手机号成功
+      name:'amendWin',
+      component: resolve =>
+        require(['../views/personal/amendWin'],resolve)
     },{
       path: '/apartment/communityHouseType',     //社区管理->管理户型
       name: 'communityHouseType',
@@ -97,7 +107,12 @@ export default new Router({
       name: 'communityAddRoom',
       component: resolve =>
         require(['../views/apartment/communityAddRoom.vue'],resolve)
-    }
-
+    },{
+      path: '/contract/contractIndex',     //合同管理首页
+      name: 'contractIndex',
+      component: resolve =>
+        require(['../views/contract/contractIndex.vue'],resolve)
+    },
+		
   ]
 })

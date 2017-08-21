@@ -42,7 +42,7 @@
 		        	</ul>
 		        	
 		        	
-		        	<a class="inste inste1">修改手机号</a>
+		        	<router-link to="/lognPhone" class="inste inste1">修改手机号</router-link>
 		        	<router-link to="/loginPassword" class="inste inste2">修改登录密码</router-link>
 		        </div>
 		        

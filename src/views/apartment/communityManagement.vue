@@ -12,169 +12,171 @@
         <Tabs type="card">
 
           <Tab-pane label="社区管理">
-            <div class="form-search-criteria">
-                <div class="form-item">
-
-                  	<router-link to="/apartment/communityComplie" class="add"><span>+</span>添加社区</router-link>
-
-                </div>
-               <div class="form-item">
-                 <span>开业日期：</span>
-                 <Date-picker type="date" placeholder="选择日期"></Date-picker>
-                 <span class="inline-block spanBar">-</span>
-                 <Date-picker type="date" placeholder="选择日期"></Date-picker>
-               </div>
-               <div class="form-item">
-                 <div class="form-search">
-                   <i class="iconfont icon-sousuo"></i>
-                   <Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-                   <input type="button" value="搜索">
-                 </div>
-               </div>
-            </div>
-            <table class="table ivu-table">
-                <tr>
-                  <th width="50px;">序号</th>
-                  <th>社区信息</th>
-                  <th width="140px;">资源概况</th>
-                  <th>人员配备</th>
-                  <th>社区设置</th>
-                  <th width="175px;">操作</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <dl>
-                      <dt>佳兆业航运WEWA空间</dt>
-                      <dd>社区类型：<span> 公寓+办公室</span></dd>
-                      <dd>开业日期：<span> 2017年6月27日</span></dd>
-                      <dd>物业合同截止：<span> 2027年6月27日</span></dd>
-                      <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
-                    </dl>
-                  </td>
-                  <td>
-                    <dl>
-                      <dd>公寓：<span>100套</span></dd>
-                      <dd>工位：<span> 100套</span></dd>
-                      <dd>办公室：<span> 100间</span></dd>
-                      <dd>会议室：<span> 15间</span></dd>
-                    </dl>
-                  </td>
-                  <td>
-                    <dl>
-                      <dd>店长：<span> 张明辉</span></dd>
-                      <dd>店长联系电话：<span> 15812345678</span></dd>
-                      <dd>社区服务电话：<span> 15858585858</span></dd>
-                      <dd>员工：<span> 30人</span></dd>
-                    </dl>
-                  </td>
-                  <td>
-                    <dl>
-                      <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-                      <dd>服务费：<span>  20.00元/月</span></dd>
-                      <dd>会议室套餐：<span>  已设置</span></dd>
-                      <dd>维修项：<span> 已设置</span></dd>
-                    </dl>
-                  </td>
-                  <td>
-                    <router-link to="/apartment/communityMessage">基本信息</router-link>
-                    <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                    <router-link to="/communityHouse">资源管理</router-link>
-                    <router-link to="/apartment/communitySettings">社区设置</router-link>
-                    <a href="javascript:;">设备管理</a>
-                    <a href="javascript:;" @click="hub()">关闭社区</a>
-                  </td>
-                </tr>
-              <tr>
-                <td>2</td>
-                <td>
-                  <dl>
-                    <dt>佳兆业航运WEWA空间</dt>
-                    <dd>社区类型：<span> 公寓+办公室</span></dd>
-                    <dd>开业日期：<span> 2017年6月27日</span></dd>
-                    <dd>物业合同截止：<span> 2027年6月27日</span></dd>
-                    <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>公寓：<span>100套</span></dd>
-                    <dd>工位：<span> 100套</span></dd>
-                    <dd>办公室：<span> 100间</span></dd>
-                    <dd>会议室：<span> 15间</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>店长：<span> 张明辉</span></dd>
-                    <dd>店长联系电话：<span> 15812345678</span></dd>
-                    <dd>社区服务电话：<span> 15858585858</span></dd>
-                    <dd>员工：<span> 30人</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-                    <dd>服务费：<span>  20.00元/月</span></dd>
-                    <dd>会议室套餐：<span>  已设置</span></dd>
-                    <dd>维修项：<span> 已设置</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <a href="javascript:;">基本信息</a>
-                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <router-link to="/communityHouse">资源管理</router-link>
-                  <router-link to="/apartment/communitySettings">社区设置</router-link>
-                  <a href="javascript:;">设备管理</a>
-                  <a href="javascript:;" @click="hub()">关闭社区</a>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>
-                  <dl>
-                    <dt>佳兆业航运WEWA空间</dt>
-                    <dd>社区类型：<span> 公寓+办公室</span></dd>
-                    <dd>开业日期：<span> 2017年6月27日</span></dd>
-                    <dd>物业合同截止：<span> 2027年6月27日</span></dd>
-                    <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>公寓：<span>100套</span></dd>
-                    <dd>工位：<span> 100套</span></dd>
-                    <dd>办公室：<span> 100间</span></dd>
-                    <dd>会议室：<span> 15间</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>店长：<span> 张明辉</span></dd>
-                    <dd>店长联系电话：<span> 15812345678</span></dd>
-                    <dd>社区服务电话：<span> 15858585858</span></dd>
-                    <dd>员工：<span> 30人</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <dl>
-                    <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-                    <dd>服务费：<span>  20.00元/月</span></dd>
-                    <dd>会议室套餐：<span>  已设置</span></dd>
-                    <dd>维修项：<span> 已设置</span></dd>
-                  </dl>
-                </td>
-                <td>
-                  <a href="javascript:;">基本信息</a>
-                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
-                  <router-link to="/communityHouse">资源管理</router-link>
-                  <router-link to="/apartment/communitySettings">社区设置</router-link>
-                  <a href="javascript:;">设备管理</a>
-                  <a href="javascript:;" @click="hub()">关闭社区</a>
-                </td>
-              </tr>
-            </table>
-            <Page :total="100" show-elevator></Page>
+          	<div class="message-tis">
+	            <div class="form-search-criteria">
+	                <div class="form-item">
+	
+	                  	<router-link to="/apartment/communityComplie" class="add"><span>+</span>添加社区</router-link>
+	
+	                </div>
+	               <div class="form-item">
+	                 <span>开业日期：</span>
+	                 <Date-picker type="date" placeholder="选择日期"></Date-picker>
+	                 <span class="inline-block spanBar">-</span>
+	                 <Date-picker type="date" placeholder="选择日期"></Date-picker>
+	               </div>
+	               <div class="form-item">
+	                 <div class="form-search">
+	                   <i class="iconfont icon-sousuo"></i>
+	                   <Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
+	                   <input type="button" value="搜索">
+	                 </div>
+	               </div>
+	            </div>
+	            <table class="table ivu-table">
+	                <tr>
+	                  <th width="50px;">序号</th>
+	                  <th>社区信息</th>
+	                  <th width="140px;">资源概况</th>
+	                  <th>人员配备</th>
+	                  <th>社区设置</th>
+	                  <th width="175px;">操作</th>
+	                </tr>
+	                <tr>
+	                  <td>1</td>
+	                  <td>
+	                    <dl>
+	                      <dt>佳兆业航运WEWA空间</dt>
+	                      <dd>社区类型：<span> 公寓+办公室</span></dd>
+	                      <dd>开业日期：<span> 2017年6月27日</span></dd>
+	                      <dd>物业合同截止：<span> 2027年6月27日</span></dd>
+	                      <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
+	                    </dl>
+	                  </td>
+	                  <td>
+	                    <dl>
+	                      <dd>公寓：<span>100套</span></dd>
+	                      <dd>工位：<span> 100套</span></dd>
+	                      <dd>办公室：<span> 100间</span></dd>
+	                      <dd>会议室：<span> 15间</span></dd>
+	                    </dl>
+	                  </td>
+	                  <td>
+	                    <dl>
+	                      <dd>店长：<span> 张明辉</span></dd>
+	                      <dd>店长联系电话：<span> 15812345678</span></dd>
+	                      <dd>社区服务电话：<span> 15858585858</span></dd>
+	                      <dd>员工：<span> 30人</span></dd>
+	                    </dl>
+	                  </td>
+	                  <td>
+	                    <dl>
+	                      <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
+	                      <dd>服务费：<span>  20.00元/月</span></dd>
+	                      <dd>会议室套餐：<span>  已设置</span></dd>
+	                      <dd>维修项：<span> 已设置</span></dd>
+	                    </dl>
+	                  </td>
+	                  <td>
+	                    <router-link to="/apartment/communityMessage">基本信息</router-link>
+	                    <router-link to="/apartment/communityPresentation">社区介绍</router-link>
+	                    <router-link to="/communityHouse">资源管理</router-link>
+	                    <router-link to="/apartment/communitySettings">社区设置</router-link>
+	                    <a href="javascript:;">设备管理</a>
+	                    <a href="javascript:;" @click="hub()">关闭社区</a>
+	                  </td>
+	                </tr>
+	              <tr>
+	                <td>2</td>
+	                <td>
+	                  <dl>
+	                    <dt>佳兆业航运WEWA空间</dt>
+	                    <dd>社区类型：<span> 公寓+办公室</span></dd>
+	                    <dd>开业日期：<span> 2017年6月27日</span></dd>
+	                    <dd>物业合同截止：<span> 2027年6月27日</span></dd>
+	                    <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>公寓：<span>100套</span></dd>
+	                    <dd>工位：<span> 100套</span></dd>
+	                    <dd>办公室：<span> 100间</span></dd>
+	                    <dd>会议室：<span> 15间</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>店长：<span> 张明辉</span></dd>
+	                    <dd>店长联系电话：<span> 15812345678</span></dd>
+	                    <dd>社区服务电话：<span> 15858585858</span></dd>
+	                    <dd>员工：<span> 30人</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
+	                    <dd>服务费：<span>  20.00元/月</span></dd>
+	                    <dd>会议室套餐：<span>  已设置</span></dd>
+	                    <dd>维修项：<span> 已设置</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <a href="javascript:;">基本信息</a>
+	                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
+	                  <router-link to="/communityHouse">资源管理</router-link>
+	                  <router-link to="/apartment/communitySettings">社区设置</router-link>
+	                  <a href="javascript:;">设备管理</a>
+	                  <a href="javascript:;" @click="hub()">关闭社区</a>
+	                </td>
+	              </tr>
+	              <tr>
+	                <td>3</td>
+	                <td>
+	                  <dl>
+	                    <dt>佳兆业航运WEWA空间</dt>
+	                    <dd>社区类型：<span> 公寓+办公室</span></dd>
+	                    <dd>开业日期：<span> 2017年6月27日</span></dd>
+	                    <dd>物业合同截止：<span> 2027年6月27日</span></dd>
+	                    <dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>公寓：<span>100套</span></dd>
+	                    <dd>工位：<span> 100套</span></dd>
+	                    <dd>办公室：<span> 100间</span></dd>
+	                    <dd>会议室：<span> 15间</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>店长：<span> 张明辉</span></dd>
+	                    <dd>店长联系电话：<span> 15812345678</span></dd>
+	                    <dd>社区服务电话：<span> 15858585858</span></dd>
+	                    <dd>员工：<span> 30人</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <dl>
+	                    <dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
+	                    <dd>服务费：<span>  20.00元/月</span></dd>
+	                    <dd>会议室套餐：<span>  已设置</span></dd>
+	                    <dd>维修项：<span> 已设置</span></dd>
+	                  </dl>
+	                </td>
+	                <td>
+	                  <a href="javascript:;">基本信息</a>
+	                  <router-link to="/apartment/communityPresentation">社区介绍</router-link>
+	                  <router-link to="/communityHouse">资源管理</router-link>
+	                  <router-link to="/apartment/communitySettings">社区设置</router-link>
+	                  <a href="javascript:;">设备管理</a>
+	                  <a href="javascript:;" @click="hub()">关闭社区</a>
+	                </td>
+	              </tr>
+	            </table>
+	            <Page :total="100" show-elevator></Page>
+	          </div>
           </Tab-pane>
 
           <Tab-pane label="已关闭的社区">
@@ -411,7 +413,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {hostAuthor} from '../api.js';
+  import {hostAuthor,hostCommint} from '../api.js';
     
 export default {
   components:{
@@ -500,12 +502,15 @@ export default {
 		}
   },
   created(){
-  	console.log('hostAuthor')
-  	console.log(sessionStorage.getItem('token'))
-  	console.log('hostAuthor')
+//	console.log('hostAuthor')
+//	console.log(11)
+//	console.log('hostAuthor')
+//	console.log(hostAuthor)
 		this.$http.post(hostAuthor)//请求用户个人信息数据
 		.then(function(response){
-			console.log(response);
+			console.log(111)
+			console.log(sessionStorage.getItem('token'))
+			console.log(response.data);
 		})
 		.catch(function(error){
 			console.log(error);

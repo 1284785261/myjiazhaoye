@@ -16,12 +16,21 @@ Vue.config.productionTip = false
 
 
 
+
+
+
+
 	//token配置
 	axios.interceptors.request.use(
 	  config => {
-	  	let Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
-//	    console.log("请求....")
+	  	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
+	    console.log("请求....")
+
+		console.log(Token)
+		console.log(sessionStorage.getItem('token'));
+		console.log(1111)
 	    config.headers['Authorization'] = Token
+	    //eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMDAwMDEiLCJpYXQiOjE1MDMyODc3OTIsInN1YiI6IlRiNm1EUWE2ZXFtSnY2cEpEQjdVUkE9PSJ9.tdUFIwfHMUoDFnZHRmbUTmeEldhvBHYxjJF4P6WbEXE
 	    return config
 	    console.log(config);
 	  },

@@ -39,6 +39,7 @@
           </Form-item>
         </Form>
       </div>
+      <p class="Copy">Copyright © 2017 佳兆业创享空间科技（深圳）有限公司版权所有 粤ICP备16035093号</p>
     </div>
   </div>
 </template>
@@ -46,6 +47,7 @@
 <script>
 
 import {hostlogin} from './api.js';
+import qs from 'qs'
 
 
   export default {
@@ -71,19 +73,31 @@ import {hostlogin} from './api.js';
     methods: {
       handleSubmit:function() {
       	var that = this;
-      	$.post(hostlogin,{userPhone:this.formInline.user,password:this.formInline.password},
-      	function(data){
-      		console.log(data);
-      		if(data.code==10000){
-      			
+      	//console.log('login1')
+      	this.$http.post(hostlogin,
+      		qs.stringify(
+      			{
+      				userPhone:this.formInline.user,
+      				password:this.formInline.password
+      			}
+      		)).then(
+      		function(res){
+//    		console.log('data1')
+//    		console.log(res);
+//    		console.log('data1')
+      		if(parseInt(res.data.code)==10000){
+//    			console.log('data333333')
+//    			console.log(res)
+      				sessionStorage.setItem("token",res.data.result.token);
+//    				console.log(789)
+//    				console.log(sessionStorage.getItem("token"))
+//    				console.log(789)
       				that.$router.push({path:"/apartment/communityManagement"});
-      				
-      				sessionStorage.setItem("token",data.result.token);
       				//把token上传到sessionStorage
       			
       		}
-      		else if(data.code==10002){ 			
-      			that.title = data.content;//把错误信息赋给当前的title
+      		else if(parseInt(res.data.code)==10002){ 			
+      			that.title = res.content;//把错误信息赋给当前的title
       			that.isShow = true;
       			
       			
@@ -92,7 +106,9 @@ import {hostlogin} from './api.js';
       				that.isShow = false;
       			},3000);
       		}
-      	},"json");
+      	}
+      	)
+      	
       }
 
 			
@@ -119,5 +135,11 @@ import {hostlogin} from './api.js';
   }
   .ivu-input-group-prepend{
   	background-color: #038be2!important;
+  }
+  .Copy{
+  	color: white;
+  	font-size: 14px;
+  	margin-top: 60px;
+  	margin-left: 145px;
   }
 </style>
