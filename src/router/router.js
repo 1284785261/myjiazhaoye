@@ -73,7 +73,7 @@ export default new Router({
       component: resolve =>
       require(['../views/personal/communityPersonal.vue'],resolve)
     },{
-      path: '/apartment/orderManagement',     //个人信息
+      path: '/apartment/orderManagement',     //订单管理
       name: 'orderManagement',
       component: resolve =>
         require(['../views/apartment/orderManagement.vue'],resolve)
@@ -87,7 +87,17 @@ export default new Router({
       name:'loginPassword',
       component: resolve =>
         require(['../views/personal/loginPassword'],resolve)
-    },
+    },{
+      path: '/apartment/communityHouseType',     //社区管理->管理户型
+      name: 'communityHouseType',
+      component: resolve =>
+        require(['../views/apartment/communityHouseType.vue'],resolve)
+    },{
+      path: '/apartment/communityAddRoom',     //社区管理->批量添加房间
+      name: 'communityAddRoom',
+      component: resolve =>
+        require(['../views/apartment/communityAddRoom.vue'],resolve)
+    }
 
   ]
 })
