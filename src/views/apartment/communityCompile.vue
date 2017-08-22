@@ -20,31 +20,31 @@
 		        		<tr>
 		        			<td>地址：</td>
 		        			<td>
-		        				<el-select v-model="value" placeholder="请选择省">
+		        				<el-select v-model="province" placeholder="请选择省"  @change='isActive(province)'>
 								    <el-option
-								      v-for="item in options"
-								      :key="item.value"
-								      :label="item.label"
-								      :value="item.value">
+								      v-for="item in parent"
+								      :key="item.areaName"
+								      :label="item.areaName"
+								      :value="item.areaName"
+								      >
 								    </el-option>
 								</el-select>
-								<el-select v-model="value" placeholder="请选择市">
+								<el-select v-model="city" placeholder="请选择市" @change='isActive2(city)'>
 								    <el-option
-								      v-for="item in options"
-								      :key="item.value"
-								      :label="item.label"
-								      :value="item.value">
+								      v-for="item in parents"
+								      :key="item.areaName"
+								      :label="item.areaName"
+								      :value="item.areaName">
 								    </el-option>
 								</el-select>
 								<el-select v-model="value" placeholder="请选择区">
 								    <el-option
-								      v-for="item in options"
-								      :key="item.value"
-								      :label="item.label"
-								      :value="item.value">
+								      v-for="item in countyList"
+								      :key="item.areaName"
+								      :label="item.areaName"
+								      :value="item.areaName">
 								    </el-option>
 								</el-select><br>
-		        				
 		        			</td>
 		        		</tr>
 		        		<tr>
@@ -53,9 +53,11 @@
 		        		<tr>
 		        			<td>社区类型：</td>
 		        			<td>
-		        				<el-checkbox v-model="checked">公寓</el-checkbox>
-		        				<el-checkbox v-model="checked">办公室</el-checkbox>
-		        				<el-checkbox v-model="checked">会议室</el-checkbox>
+		        				<el-checkbox-group v-model="checkList" @change="types(checkList)">
+								    <el-checkbox label="公寓"></el-checkbox>
+								    <el-checkbox label="办公室"></el-checkbox>
+								    <el-checkbox label="会议室"></el-checkbox>
+								</el-checkbox-group>
 		        			</td>
 		        		</tr>
 		        		<tr>
@@ -130,10 +132,10 @@
 	
 	import '../../sass/style/communityComplie.css';
 	import menuBox from '../../components/menuBox.vue';
-    import  rightHeader from '../../components/rightHeader.vue';
-    import  footerBox from '../../components/footerBox.vue';
-    import api from '../api.js';
-    
+    import rightHeader from '../../components/rightHeader.vue';
+    import footerBox from '../../components/footerBox.vue';
+    import {hostComplie,hostParent} from '../api.js';
+    import qs from 'qs';
     
     export default {
     	components:{
@@ -143,27 +145,17 @@
     	},
     	data(){
     		return{
-    			options: [{
-		          value: '选项1',
-		          label: '黄金糕'
-		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
-		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
-		        }],
+    			province:'',
+    			city:'',
 		        value: '',
 		        input: '',
 		        checked: true,
 		        file: null,
-                loadingStatus: false
+                loadingStatus: false,
+                parent:[],  //省的数据
+                parents:[], //市的数据
+                countyList:[],  //县的数据
+                checkList:['公寓']
 		   	}
     	},
     	methods:{
@@ -181,7 +173,60 @@
                     this.loadingStatus = false;
                     this.$Message.success('上传成功')
                 }, 1500);
-            }
+            },
+            isActive(value){//获取市的数据
+    
+            	let areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
+                this.httpPost(areaId,1);
+//				let parentId = this.parents[this.parent.findIndex(item => item.areaName == value)].areaId;
+//				this.httpPost(parentId,2);
+           	},
+           	isActive2(value){//获取区的数据
+            	let parentId = this.parents[this.parents.findIndex(item => item.areaName == value)].areaId;
+				this.httpPost(parentId,2);
+           	},
+            httpPost(id,num){  //获取省市区的方法调用
+             let Id = parseInt(id);
+             let vm = this
+           	 this.$http.post(hostParent,
+				qs.stringify(
+					{
+						'parentId':Id
+					}
+				)).then((response)=>{
+					if(num==1){
+						vm.parents = response.data.result.areaList;
+						//console.log(vm.parents);
+					}else if(num==2){
+						vm.countyList = response.data.result.areaList;
+						//console.log(vm.countyList);
+					}
+				})
+				.catch((error)=>{
+					console.log(126)
+					console.log(error);
+				})
+	
+           },
+           types(value){
+           		console.log(value);
+           }
+    	},
+    	created(){
+    		
+			this.$http.post(hostParent,//获取省的数据
+			qs.stringify(
+				{
+					'parentId':0
+				}
+			)).then((response)=>{
+				//console.log(response);
+				this.parent = response.data.result.areaList;
+				//console.log(this.parent);
+			})
+			.catch((error)=>{
+				console.log(error);
+			})
     	}
     }
 </script>
