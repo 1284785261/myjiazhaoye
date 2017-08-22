@@ -5,7 +5,7 @@
       <right-header></right-header>
       <div class="wordbench-box">
         <div class="ivu-site">
-          <span>您现在的位置：</span>
+          <span>您现在的位置：社区管理></span>
           <router-link  class="active" to="/apartment/communityManagement">管理户型</router-link>
         </div>
         <div class="ivu-bar-title">
@@ -26,210 +26,45 @@
               <th>朝向</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input   placeholder="请填写户型名称"></Input></td>
-              <td ><Input   placeholder="请填写面积"></Input></td>
+            <tr v-for="(house,index) in cxkjCommunityListHousetype">
+              <td>{{index+1}}</td>
+              <td ><Input v-model="house.housetypeName"  placeholder="请填写户型名称"></Input></td>
+              <td ><Input v-model="house.housetypeArea"  placeholder="请填写面积"></Input></td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="house.roomId" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in rooms" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="house.housetypeHall" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in halls" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="house.housetypeHygienism" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in hygienisms" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="house.housetypeWindow" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in windows" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="house.housetypeOrientations" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in orientations" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input   placeholder="请填写户型名称"></Input></td>
-              <td ><Input   placeholder="请填写面积"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input   placeholder="请填写户型名称"></Input></td>
-              <td ><Input   placeholder="请填写面积"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input   placeholder="请填写户型名称"></Input></td>
-              <td ><Input   placeholder="请填写面积"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input   placeholder="请填写户型名称"></Input></td>
-              <td ><Input   placeholder="请填写面积"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td ><Input placeholder="请填写户型名称"></Input></td>
-              <td ><Input placeholder="请填写面积"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
+                <a>复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
               </td>
             </tr>
           </table>
           <div class="add-item">
-            <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button>确定</Button>
+            <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button @click="addHouse()">确定</Button>
           </div>
           <div class="house-type-btn">
-            <Button type="primary" style="width: 130px;height: 40px">确定</Button>
+            <Button type="primary" style="width: 130px;height: 40px" @click="createNewHouse()">确定</Button>
             <Button style="width: 130px;height: 40px; margin-left: 20px;">取消</Button>
           </div>
         </div>
@@ -244,6 +79,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import api from '../api.js';
+  import qs from 'qs';
 
 
   export default {
@@ -256,28 +92,99 @@
       return{
         numberLine:1,
         value:"",
-        rootValue:"",
-        options: [{
-          value: '选项1',
-          label: '1室'
+        cxkjCommunityListHousetype :[
+          {
+            "communityId":5,
+            "housetypeName":"",
+            "housetypeArea":23.00,
+            "roomId":"",
+            "housetypeHall":"",
+            "housetypeHygienism":"",
+            "housetypeWindow":"",
+            "housetypeOrientations":""
+          }
+        ],
+//
+
+
+        rooms: [{
+          value: 1,
+          label: 1
         }, {
-          value: '选项2',
-          label: '2室'
+          value: 2,
+          label: 2
         }, {
-          value: '选项3',
-          label: '3室'
+          value: 3,
+          label: 3
+        }],
+        halls:[{
+          value: 1,
+          label: 1
         }, {
-          value: '选项4',
-          label: '4室'
+          value: 2,
+          label: 2
         }, {
-          value: '选项5',
-          label: '5室'
+          value: 3,
+          label: 3
+        }],
+        hygienisms:[{
+          value: 1,
+          label: 1
+        }, {
+          value: 2,
+          label: 2
+        }, {
+          value: 3,
+          label: 3
+        }],
+        windows:[{
+          value: '有',
+          label: '有'
+        }, {
+          value: '无',
+          label: '无'
+        }],
+        orientations:[{
+          value: '南',
+          label: '南'
+        }, {
+          value: '北',
+          label: '北'
         }],
       }
     },
     methods:{
-      handleClick(tab, event) {
-        console.log(tab, event);
+      deleteHouse(index){
+        this.cxkjCommunityListHousetype.splice(index,1);
+      },
+      addHouse(){
+        this.cxkjCommunityListHousetype.push({
+          rootValue:"",
+          resourceHouseType:"",
+          resourceArea:"",
+          resourceRoom:"",
+          resourceHall:"",
+          resourceHygienism:"",
+          resourceWindow:"",
+          resourceOrientations:"",
+        })
+      },
+      createNewHouse(){
+        var data = {cxkjCommunityListHousetype:this.cxkjCommunityListHousetype}
+        console.log(JSON.stringify(data))
+//        cxkjCommunityListHousetype[0] = this.cxkjCommunityListHousetype;
+//        cxkjCommunityListHousetype = this.cxkjCommunityListHousetype;
+//        this.$http.get('http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001').then(function(res){
+//            debugger
+//        })
+
+        this.$http.post(
+          'http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',qs.stringify(data)
+        ).then(function(res){
+          debugger
+        }).catch(function(err){
+          console.log(err);
+        })
       }
     }
   }
