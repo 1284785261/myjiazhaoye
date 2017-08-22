@@ -59,7 +59,7 @@
                   <td>1000.00</td>
                   <td>新用户收单优惠券29193184012830</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -71,7 +71,7 @@
                   <td>1000.00</td>
                   <td>新用户收单优惠券29193184012830</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -83,7 +83,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -95,7 +95,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -107,7 +107,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>已支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -119,7 +119,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -131,7 +131,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -143,7 +143,7 @@
                   <td>1000.00</td>
                   <td>--</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
               </table>
               <Page :total="100" show-elevator show-total></Page>
@@ -192,7 +192,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -203,7 +203,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -214,7 +214,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -225,7 +225,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -236,7 +236,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>已支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -247,7 +247,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -258,7 +258,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
                 <tr>
                   <td>2017-02-05 14:25</td>
@@ -269,7 +269,7 @@
                   <td>13633448899</td>
                   <td>1000.00</td>
                   <td>待支付</td>
-                  <td><a>查看详情</a></td>
+                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
               </table>
               <Page :total="100" show-elevator show-total></Page>

@@ -202,7 +202,7 @@
             <Button style="width: 130px;height: 40px; margin-left: 20px;">取消</Button>
           </div>
 
-          <Modal v-model="modal1" width="500">
+          <Modal v-model="modal3" width="500">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
               <span>电费设置</span>
             </div>
@@ -227,11 +227,11 @@
               </div>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del3">确定</Button>
             </div>
           </Modal>
 
-          <Modal v-model="modal2" width="500">
+          <Modal v-model="modal1" width="500">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
               <span>家用电器设置</span>
             </div>
@@ -250,11 +250,11 @@
               </table>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del2">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del">确定</Button>
             </div>
           </Modal>
 
-          <Modal v-model="modal3" width="500">
+          <Modal v-model="modal2" width="500">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
               <span>水费设置</span>
             </div>
@@ -279,7 +279,7 @@
               </div>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del3">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del2">确定</Button>
             </div>
           </Modal>
 

@@ -112,7 +112,11 @@ export default new Router({
       name: 'contractIndex',
       component: resolve =>
         require(['../views/contract/contractIndex.vue'],resolve)
+    },{
+      path: '/apartment/orderDetail',     //订单管理
+      name: 'orderDetail',
+      component: resolve => require(['../views/apartment/orderDetail.vue'],resolve)
     },
-		
+
   ]
 })
