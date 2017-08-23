@@ -56,7 +56,7 @@
                 </el-select>
               </td>
               <td>
-                <a>复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
+                <a @click="copyHouse(index)">复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
               </td>
             </tr>
           </table>
@@ -88,24 +88,25 @@
       menuBox,
       footerBox
     },
+    mounted:function () {
+      this.communityId = 5;
+    },
     data(){
       return{
         numberLine:1,
         value:"",
         cxkjCommunityListHousetype :[
           {
-            "communityId":5,
-            "housetypeName":"",
-            "housetypeArea":23.00,
-            "roomId":"",
-            "housetypeHall":"",
-            "housetypeHygienism":"",
-            "housetypeWindow":"",
-            "housetypeOrientations":""
+            communityId:"",
+            housetypeName:"",
+            housetypeArea:"",
+            roomId:"",
+            housetypeHall:"",
+            housetypeHygienism:"",
+            housetypeWindow:"",
+            housetypeOrientations:""
           }
         ],
-//
-
 
         rooms: [{
           value: 1,
@@ -154,34 +155,53 @@
       }
     },
     methods:{
+      init(){
+
+      },
       deleteHouse(index){
         this.cxkjCommunityListHousetype.splice(index,1);
       },
       addHouse(){
         this.cxkjCommunityListHousetype.push({
-          rootValue:"",
-          resourceHouseType:"",
-          resourceArea:"",
-          resourceRoom:"",
-          resourceHall:"",
-          resourceHygienism:"",
-          resourceWindow:"",
-          resourceOrientations:"",
+          "housetypeName":"",
+          "housetypeArea":"",
+          "roomId":"",
+          "housetypeHall":"",
+          "housetypeHygienism":"",
+          "housetypeWindow":"",
+          "housetypeOrientations":""
         })
       },
-      createNewHouse(){
-        var data = {cxkjCommunityListHousetype:this.cxkjCommunityListHousetype}
-        console.log(JSON.stringify(data))
-//        cxkjCommunityListHousetype[0] = this.cxkjCommunityListHousetype;
-//        cxkjCommunityListHousetype = this.cxkjCommunityListHousetype;
-//        this.$http.get('http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001').then(function(res){
-//            debugger
-//        })
+      copyHouse(index){debugger
+        var copyObj =  {
+          communityId:this.cxkjCommunityListHousetype[index].communityId,
+          housetypeName:this.cxkjCommunityListHousetype[index].housetypeName,
+          housetypeArea:this.cxkjCommunityListHousetype[index].housetypeArea,
+          roomId:this.cxkjCommunityListHousetype[index].housetypeHall,
+          housetypeHall:this.cxkjCommunityListHousetype[index].housetypeHall,
+          housetypeHygienism:this.cxkjCommunityListHousetype[index].housetypeHygienism,
+          housetypeWindow:this.cxkjCommunityListHousetype[index].housetypeWindow,
+          housetypeOrientations:this.cxkjCommunityListHousetype[index].housetypeOrientations
+        }
 
+      console.log(this.cxkjCommunityListHousetype[index])
+        this.cxkjCommunityListHousetype.splice(index+1,0, copyObj);
+      },
+      createNewHouse(){
+        var that = this;
+        var data = [].concat(this.cxkjCommunityListHousetype);
+
+        for(var i =0;i<data.length;i++){
+            data[i].communityId = this.communityId;
+            if(!(data[i].housetypeName &&  data[i].housetypeArea && data[i].roomId && data[i].housetypeHall && data[i].housetypeHygienism && data[i].housetypeWindow && data[i].housetypeOrientations)){
+              data.splice(i,1);
+            }
+        };
+        console.log(data);
         this.$http.post(
-          'http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',qs.stringify(data)
+          'http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',{cxkjCommunityListHousetype:data}
         ).then(function(res){
-          debugger
+            //that.$router.push({path:"/communityHouse"});
         }).catch(function(err){
           console.log(err);
         })

@@ -17,7 +17,7 @@
 		        	<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
 					    <el-tab-pane label="公寓(1000)" name="first">
 					    	<div class="house_hu">
-						  		<a href="#" class="hux">管理户型</a>
+						  		<router-link to="apartment/communityHouseType" class="hux">管理户型</router-link>
 						  		<a href="#" class="adds">添加楼层</a>
 						  	</div>
 						  	<div class="ls">
@@ -126,7 +126,7 @@
 								        label="状态">
 								      </el-table-column>
 								      <el-table-column
-									     
+
 									      label="操作"
 									     >
 									      <template scope="scope">
@@ -185,7 +185,7 @@
 								        label="状态">
 								      </el-table-column>
 								      <el-table-column
-									      
+
 									      label="操作"
 									      >
 									      <template scope="scope">
@@ -207,7 +207,7 @@
 					    			<span>工位租金：</span><input type="text" placeholder="请输入工位租金"/><span>元/天</span>
 					    		</li>
 					    	</ul>
-					    	
+
 					    	<a href="#" class="confirm2">确定</a>
 					    	<a href="#" class="call">取消</a>
 					    </el-tab-pane>
@@ -264,7 +264,7 @@
 					    			</td>
 					    		</tr>
 					    		<tr class="add_a">
-					    			<td width= "25% " colspan="4"> 
+					    			<td width= "25% " colspan="4">
 					    				<span>继续添加</span><input type="text" value="1"/> <span>行</span><a href="#">确定</a>
 					    			</td>
 					    		</tr>
@@ -325,7 +325,7 @@
 					    			</td>
 					    		</tr>
 					    		<tr class="add_a">
-					    			<td width= "25% " colspan="4"> 
+					    			<td width= "25% " colspan="4">
 					    				<span>继续添加</span><input type="text" value="1"/> <span>行</span><a href="#">确定</a>
 					    			</td>
 					    		</tr>
@@ -334,7 +334,7 @@
 					    	<a class="qx" href="#">取消</a>
 					    </el-tab-pane>
 				  	</el-tabs>
-				  	
+
 		        </div>
 			</div>
 			<footer-box></footer-box>
@@ -343,13 +343,13 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/communityHouse.css';
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
     import api from '../api.js';
-	
+
 	export default{
 		components:{
 			rightHeader,
@@ -428,5 +428,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>
