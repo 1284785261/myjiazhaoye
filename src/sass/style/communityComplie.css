@@ -61,7 +61,19 @@
 }
 .message-tis .cop tr .unloading{
 	position: absolute;
-	left: 120px;
+	left: 100px;
+	width:390px;
+	height: 100px;
+	border:1px dashed #9accea;
+	padding-left: 20px;
+}
+.message-tis .cop tr .unloading a{
+	font-size: 16px;
+	padding: 10px;
+}
+.message-tis .cop tr .unloading .el-icon-delete{
+	float: right;
+	margin: 5px;
 }
 .message-tis tr td .cas{
 	width: 260px;
@@ -82,4 +94,16 @@
 }
 .message-tis tr td .form-item{
 	width: 180px;
+}
+.operation-box2{
+	margin-left: 192px;
+    margin-top: 84px;
+}
+.operation-box2 Button{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+}
+.operation-box2 Button{
+	margin-right: 30px;
 }

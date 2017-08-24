@@ -133,6 +133,8 @@
   .apartment-list{
     padding:16px 15px 20px;
     @include clearfix;
+    
+    
     li{
       width: 33.333%;
       padding: 10px 15px;

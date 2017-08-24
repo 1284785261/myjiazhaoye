@@ -12,7 +12,7 @@
         <Tabs type="card">
 
           <Tab-pane label="社区管理">
-          	<div class="message-tis">
+          	<div class="message-ti">
 	            <div class="form-search-criteria">
 	                <div class="form-item">
 	
@@ -93,6 +93,7 @@
           </Tab-pane>
 
           <Tab-pane label="已关闭的社区">
+          	<div class="message-ti">
             <div class="form-search-criteria">
               <div class="form-item">
                 <b>社区：</b>
@@ -257,9 +258,11 @@
               </tr>
             </table>
             <Page :total="100" show-elevator></Page>
+            </div>
           </Tab-pane>
 
           <Tab-pane label="社区评价">
+          	<div class="message-ti">
             <div class="form-search-criteria">
               <div class="form-item">
                 <b>社区：</b>
@@ -301,6 +304,7 @@
               </tr>
             </table>
             <Page :total="100" show-elevator></Page>
+            </div>
           </Tab-pane>
 
         </Tabs>

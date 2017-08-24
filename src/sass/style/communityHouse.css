@@ -9,19 +9,19 @@ body{
 	overflow: hidden;
 	box-shadow: 0 3px 1px #ccc;
 }
-.el-tabs__header{
+.message-tis .el-tabs__header{
 	border-bottom: 1px solid #038be2;
 }
-.el-tabs__content{
+.message-tis .el-tabs__content{
 	height: 1000px;
 }
-.el-tabs__nav {
+.message-tis .el-tabs__nav {
     position: relative;
     transition: transform .3s;
     float: left;
     margin-left: 20px;
 }
-.el-tabs__item {
+.message-tis .el-tabs__item {
     margin-top: 30px;
     padding: 0 16px;
     height: 50px;

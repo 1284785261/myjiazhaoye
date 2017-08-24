@@ -120,7 +120,11 @@ export default new Router({
       path: '/contract/contractDetail',     //合同管理->合同详情
       name: 'contractDetail',
       component: resolve => require(['../views/contract/contractDetail.vue'],resolve)
-    }
+    },{
+      path: '/signed/lodgingHouse',     //公寓租客签约
+      name: 'lodgingHouse',
+      component: resolve => require(['../views/signed/lodgingHouse.vue'],resolve)
+    },
 
   ]
 })

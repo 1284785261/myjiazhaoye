@@ -31,7 +31,18 @@
           <div class="modular-box">
             <h3><i class="icon icon-info"></i>公寓管理</h3>
             <ul class="apartment-list">
-              <li v-for="apartment in apartments"><router-link to="/">{{apartment.model}}</router-link></li>
+              <li><router-link to="/">看房预约</router-link></li>
+              <li><router-link to="/signed/lodgingHouse">公寓签约</router-link></li>
+              <li><router-link to="/">公寓状态</router-link></li>
+              <li><router-link to="/">直播管理</router-link></li>
+              <li><router-link to="/">公寓租金账单</router-link></li>
+              <li><router-link to="/">公寓水电订单</router-link></li>
+              <li><router-link to="/">用户报修</router-link></li>
+              <li><router-link to="/">合同管理</router-link></li>
+              <li><router-link to="/">退租管理</router-link></li>
+              <li><router-link to="/">发起退款</router-link></li>
+              <li><router-link to="/">发起收款</router-link></li>
+              <li><router-link to="/">用户投诉</router-link></li>
             </ul>
           </div>
           </Col >
@@ -47,10 +58,21 @@
           </div>
           </Col>
           <Col span="12">
-          <div class="modular-box">
+          <div class="modular-box" style="height: 447px;">
             <h3><i class="icon icon-info"></i>联合办公管理</h3>
             <ul class="apartment-list">
-              <li v-for="apartment in apartments"><router-link to="/">{{apartment.model}}</router-link></li>
+              <li><router-link to="/">看房预约</router-link></li>
+              <li><router-link to="/">联合办公签约</router-link></li>
+              <li><router-link to="/">办公空间状态</router-link></li>
+              <li><router-link to="/">直播管理</router-link></li>
+              <li><router-link to="/">办公租金账单</router-link></li>
+              <li><router-link to="/">办公订单</router-link></li>
+              <li><router-link to="/">用户报修</router-link></li>
+              <li><router-link to="/">合同管理</router-link></li>
+              <li><router-link to="/">退租管理</router-link></li>
+              <li><router-link to="/">发起退款</router-link></li>
+              <li><router-link to="/">发起收款</router-link></li>
+              <li><router-link to="/">用户投诉</router-link></li>
             </ul>
           </div>
           </Col >
@@ -132,31 +154,7 @@ export default {
         content:"佳兆业航运WEWA空间年中用户回馈活动的通知",
         date:"17:30"
       }],
-      apartments:[{
-        model:"看房预约"
-      },{
-        model:"公寓签约"
-      },{
-        model:"公寓状态"
-      },{
-        model:"直播管理"
-      },{
-        model:"公寓租金账单"
-      },{
-        model:"公寓水电账单"
-      },{
-        model:"用户报修"
-      },{
-        model:"合同管理"
-      },{
-        model:"退租管理"
-      },{
-        model:"发起退款"
-      },{
-        model:"发起收款"
-      },{
-        model:"用户投诉"
-      }],
+      
       remains:[{
         content:"新增看房预约",
         item:{
