@@ -33,7 +33,7 @@
             <ul class="apartment-list">
               <li><router-link to="/">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingHouse">公寓签约</router-link></li>
-              <li><router-link to="/">公寓状态</router-link></li>
+              <li><router-link to="/signed/houseState">公寓状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">公寓租金账单</router-link></li>
               <li><router-link to="/">公寓水电订单</router-link></li>
@@ -62,8 +62,8 @@
             <h3><i class="icon icon-info"></i>联合办公管理</h3>
             <ul class="apartment-list">
               <li><router-link to="/">看房预约</router-link></li>
-              <li><router-link to="/">联合办公签约</router-link></li>
-              <li><router-link to="/">办公空间状态</router-link></li>
+              <li><router-link to="/signed/lodgingwork">联合办公签约</router-link></li>
+              <li><router-link to="/signed/workState">办公空间状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">办公租金账单</router-link></li>
               <li><router-link to="/">办公订单</router-link></li>

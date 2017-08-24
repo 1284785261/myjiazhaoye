@@ -124,6 +124,18 @@ export default new Router({
       path: '/signed/lodgingHouse',     //公寓租客签约
       name: 'lodgingHouse',
       component: resolve => require(['../views/signed/lodgingHouse.vue'],resolve)
+    },{
+      path: '/signed/lodgingwork',     //联合办公签约
+      name: 'lodgingwork',
+      component: resolve => require(['../views/signed/lodgingwork.vue'],resolve)
+    },{
+      path: '/signed/workState',     //办公空间状态
+      name: 'workState',
+      component: resolve => require(['../views/signed/workState.vue'],resolve)
+    },{
+      path: '/signed/houseState',     //公寓状态
+      name: 'houseState',
+      component: resolve => require(['../views/signed/houseState.vue'],resolve)
     },
 
   ]
