@@ -27,7 +27,7 @@
               <th>操作</th>
             </tr>
             <tr v-for="(house,index) in cxkjCommunityListHousetype">
-              <td>{{index+1}}</td>
+              <td style="width: 50px">{{index+1}}</td>
               <td ><Input v-model="house.housetypeName"  placeholder="请填写户型名称"></Input></td>
               <td ><Input v-model="house.housetypeArea"  placeholder="请填写面积"></Input></td>
               <td>
@@ -228,7 +228,6 @@
       th,td{
         border: 1px solid #ccc;
         padding: 15px 10px;
-        min-width: 130px;
       }
       tr>th:first-child,tr>td:first-child{
         border-left-width: 0;

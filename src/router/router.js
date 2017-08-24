@@ -78,7 +78,7 @@ export default new Router({
       component: resolve =>
         require(['../views/apartment/orderManagement.vue'],resolve)
     },{
-      path:'/communityHouse',        //社区公寓信息
+      path:'/apartment/communityHouse',        //社区公寓信息
       name:'communityHouse',
       component: resolve =>
         require(['../views/apartment/communityHouse.vue'],resolve)
@@ -113,10 +113,14 @@ export default new Router({
       component: resolve =>
         require(['../views/contract/contractIndex.vue'],resolve)
     },{
-      path: '/apartment/orderDetail',     //订单管理
+      path: '/apartment/orderDetail',     //订单详情
       name: 'orderDetail',
       component: resolve => require(['../views/apartment/orderDetail.vue'],resolve)
-    },
+    },{
+      path: '/contract/contractDetail',     //合同管理->合同详情
+      name: 'contractDetail',
+      component: resolve => require(['../views/contract/contractDetail.vue'],resolve)
+    }
 
   ]
 })
