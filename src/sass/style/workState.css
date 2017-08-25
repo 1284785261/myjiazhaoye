@@ -1,0 +1,270 @@
+#workstate{
+	width: 100%;
+	min-height: 1000px;
+	
+	overflow: hidden;
+	
+}
+#workstate .workstate1{
+	width: 100%;
+	min-height: 460px;
+	background: #fff;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.workstate1 .stateId{
+	float: left;
+	width: 124px;
+	height: 60px;
+	text-align: center;
+	background: url(../../../static/images/temp/logo2_03.png) no-repeat left 0;
+	background-size:contain;
+	position: absolute;
+	top: 10px;
+	color: white;
+}
+.workstate1 .stateId p:nth-child(1){
+	font-size: 18px;
+	line-height: 34px;
+	background: #1fbba6;
+	border-top-right-radius: 24px;
+	
+}
+.workstate1 .stateId p:nth-child(2){
+	font-size: 14px;
+	background: #1fbba6;
+	border-bottom-right-radius: 50px;
+}
+.workstate1 .riqi{
+	width: 1100px;
+	height: 60px;
+	margin: 5px 210px;
+}
+.workstate1 .riqi li{
+	height: 60px;
+	line-height: 60px;
+	float: left;
+	margin: 0px 25px 0 0;
+}
+.workstate1 .riqi li a{
+	width: 110px;
+	height: 60px;
+	line-height: 60px;
+	float: left;
+	text-align: center;
+	border-bottom: 3px solid #fff;
+}
+.workstate1 .riqi li a:hover{
+	border-bottom: 3px solid #038be2;
+}
+.workstate1 .gw{
+	line-height: 68px;
+    font-size: 14px;
+    color: #000;
+    position: absolute;
+    left: 140px;
+    top: 80px;
+}
+.workstate1 table{
+	width: 1000px;
+	height: 358px;
+	background: #f8f8f8;
+	position: absolute;
+	left: 215px;
+	top: 65px;
+	border-spacing:25px;
+}
+.workstate1 table td{
+	width: 110px;
+	height: 48px;
+	background: #fff;
+	text-align: center;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	
+}
+
+#workstate .workstate2{
+	width: 100%;
+	min-height: 460px;
+	background: #fff;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.workstate2 .stateId{
+	float: left;
+	width: 124px;
+	height: 60px;
+	text-align: center;
+	background: url(../../../static/images/temp/logo2_03.png) no-repeat left 0;
+	background-size:contain;
+	position: absolute;
+	top: 10px;
+	color: white;
+}
+.workstate2 .stateId p{
+	font-size: 18px;
+	line-height: 55px;
+	background: #1fbba6;
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+}
+.workstate2 .riqi{
+	width: 1100px;
+	height: 60px;
+	margin: 5px 210px;
+}
+.workstate2 .riqi li{
+	height: 60px;
+	line-height: 60px;
+	float: left;
+	margin: 0px 25px 0 0;
+}
+.workstate2 .riqi li a{
+	width: 110px;
+	height: 60px;
+	line-height: 60px;
+	float: left;
+	text-align: center;
+	border-bottom: 3px solid #fff;
+}
+.workstate2 .riqi li a:hover{
+	border-bottom: 3px solid #038be2;
+}
+.workstate2 .datas{
+	width:1100px;
+	margin: 15px 210px;
+}
+.workstate2 .datas li{
+	float: left;
+	width: 90px;
+	font-size: 12px;
+	color: #666666;
+	font-weight: bold;
+}
+.workstate2 .gw{
+	
+    font-size: 14px;
+    color: #000;
+    position: absolute;
+    left: 95px;
+    top: 134px;
+}
+.workstate2 .gw li{
+	height: 64px;
+}
+.workstate2 .gw li span{
+	font-size: 12px;
+	color: #000;
+	
+}
+.workstate2 .gw li span i{
+	font-size: 12px;
+	color: #a3a3a3;
+	margin-left: 18px;
+	font-style: inherit;
+}
+.workstate2 .gw li p{
+	font-size: 12px;
+	color: #000;
+}
+.workstate2 .huiyi{
+	position: absolute;
+	left: 215px;
+	top: 120px;
+}
+.workstate2 .huiyi li{
+	width: 1000px;
+	height: 46px;
+	border: 1px solid #ccc;
+	margin: 15px 0;
+}
+.workstate2 .huiyi li p{
+	float: left;
+	height: 46px;
+	width: 100px;
+	line-height: 46px;
+	background: #96a5af;
+	color: white;
+	margin-left: 100px;
+	text-align: center;
+}
+#workstate .workstate3{
+	width: 100%;
+	min-height: 460px;
+	background: #fff;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.workstate3 .stateId{
+	float: left;
+	width: 124px;
+	height: 60px;
+	text-align: center;
+	background: url(../../../static/images/temp/logo2_03.png) no-repeat left 0;
+	background-size:contain;
+	position: absolute;
+	top: 10px;
+	color: white;
+}
+.workstate3 .stateId p{
+	font-size: 18px;
+	line-height: 55px;
+	background: #1fbba6;
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+}
+.workstate3 .detals{
+	width: 1150px;
+	margin-left: 50px;
+	margin-top: 100px;
+	min-height: 360px;
+}
+.workstate3 .detals li{
+	width: 246px;
+	height: 160px;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	float: left;
+	margin: 20px;
+	font-size: 12px;
+}
+.workstate3 .detals li div span:nth-child(1){
+	font-weight: bold;
+	display: inline-block;
+	margin: 15px 20px 0 10px;
+}
+.workstate3 .detals li div span:nth-child(2){
+	
+	display: inline-block;
+	margin: 15px 46px 0 10px;
+	color: #c2c2c2;
+}
+.workstate3 .detals li div p:nth-child(4){
+	display:block;
+	margin: 10px 46px 10px 10px;
+	color: #ff3c31;
+}
+.workstate3 .detals li div p:nth-child(5){
+	display:block;
+	margin-left: 10px;
+	color: #666666;
+}
+.workstate3 .peiz{
+	width: 100%;
+	height: 60px;
+	background: #f8f8f8;
+	margin-top: 10px;
+	padding: 10px;
+	color: #333333;
+}
+.workstate3 .peiz span{
+	display: block;
+	margin: 10px 0;
+}

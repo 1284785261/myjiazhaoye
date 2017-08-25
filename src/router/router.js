@@ -140,10 +140,22 @@ export default new Router({
       path: '/bill/generateBill',     //账单管理->生成水电账单
       name: 'generateBill',
       component: resolve => require(['../views/bill/generateBill.vue'],resolve)
-    },{
-      path: '/member/memberManagement',     //账单管理->生成水电账单
+    }, {
+      path: '/member/memberManagement',     //会员管理
       name: 'memberManagement',
-      component: resolve => require(['../views/member/memberManagement.vue'],resolve)
+      component: resolve => require(['../views/member/memberManagement.vue'], resolve)
+    },{
+      path: '/signed/lodgingwork',     //联合办公签约
+      name: 'lodgingwork',
+      component: resolve => require(['../views/signed/lodgingwork.vue'],resolve)
+    },{
+      path: '/signed/workState',     //办公空间状态
+      name: 'workState',
+      component: resolve => require(['../views/signed/workState.vue'],resolve)
+    },{
+      path: '/signed/houseState',     //公寓状态
+      name: 'houseState',
+      component: resolve => require(['../views/signed/houseState.vue'],resolve)
     },
 
   ]

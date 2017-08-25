@@ -9,7 +9,7 @@
 					<router-link class="active" to="/apartment/communityManagement">工作台 > 签约</router-link>
 				</div>
 				<div class="ivu-bar-title">
-					<h3><i class="icon icon-iden"></i>公寓租客签约</h3>
+					<h3><i class="icon icon-iden"></i>联合办公签约</h3>
 					<span>佳兆业航运WEWA空间</span>
 				</div>
 				<div id="lodgingHouse">
@@ -20,7 +20,7 @@
 								<td>佳兆业</td>
 							</tr>
 							<tr>
-								<td>房间:</td>
+								<td>办公室:</td>
 								<td>
 									<el-select v-model="value" filterable placeholder="输入或选择">
 										<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -29,24 +29,18 @@
 								</td>
 							</tr>
 							<tr>
-								<td>户型:</td>
-								<td>标准大标间</td>
+								<td>类型:</td>
+								<td>4人间</td>
 							</tr>
 							<tr>
 								<td>合同编号:</td>
 								<td><input type="text" name="" id="" placeholder="请输入合同编号" /></td>
 							</tr>
-							<tr>
-								<td>租客类型:</td>
-								<td>
-									<el-radio class="radio" v-model="radio" label="1">个人租客</el-radio>
-									<el-radio class="radio" v-model="radio" label="2">公司租客</el-radio>
-								</td>
-							</tr>
+							
 						</table>
 					</div>
 					<div class="ivu-floor loadin2">
-						<p>承租人信息:</p>
+						<p>经办人信息:</p>
 						<table>
 							<tr>
 								<td>已注册手机号:</td>
@@ -77,7 +71,21 @@
 								<td><input type="text" placeholder="请输入证件号码"></td>
 							</tr>
 						</table>
-						<a> + 添加合租人</a>
+						
+					</div>
+					<div class="ivu-floor loadin3 wors">
+						<p>公司信息:</p>
+						<ul>
+							<li>
+								<span>公司信息：</span>
+								<input type="text" placeholder="请输入公司信息">
+							</li>
+							<li>
+								<span>法人姓名：</span>
+								<input type="text" placeholder="请输入法人姓名">
+							</li>
+						</ul>
+
 					</div>
 					<div class="ivu-floor loadin3">
 						<p>租期信息:</p>
@@ -179,17 +187,7 @@
 									</ul>
 								</td>
 							</tr>
-							<tr>
-								<td>水电费用:</td>
-								<td>
-									<ul class="uls">
-										<li><span>水费:</span><span>30.00元/人/月</span></li>
-										<li><span>电费:</span><span>2.20元/度</span>
-											<span>初始:</span><input type="text" /><span>度</span>
-										</li>
-									</ul>
-								</td>
-							</tr>
+							
 						</table>
 					</div>
 					<div class="ivu-floor loadin6">
@@ -241,22 +239,6 @@
 					</div>
 					<div class="ivu-floor loadin8">
 						
-						
-							<p class="hint">中介方:</p>
-							<table>
-								<tr>
-									<td>中介公司:</td>
-									<td><input type="text" placeholder="请输入中介公司名称"></td>
-								</tr>
-								<tr>
-									<td>中介人:</td>
-									<td><input type="text" placeholder="请输入中介人"></td>
-								</tr>
-								<tr>
-									<td>中介费:</td>
-									<td><input type="text" placeholder="请输入中介费"></td>
-								</tr>
-							</table>
 							<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
 							<Button class="addm">提交</Button>
 		
@@ -272,7 +254,7 @@
 </template>
 
 <script>
-	import '../../sass/style/lodgingHouse.css';
+	import '../../sass/style/lodgingwork.css';
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
