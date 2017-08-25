@@ -1,0 +1,185 @@
+.wprdbench .el-tabs__header{
+	border-bottom: 1px solid #038BE2;
+	margin: 0;
+}
+.wprdbench .el-tabs{
+	box-shadow: 0 3px 1px #ccc; 
+}
+.wprdbench .el-tabs__header .el-tabs__item{
+	background: #f8f8f8;
+	width: 160px;
+	height: 54px;
+	line-height: 54px;
+	text-align: center;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: 1px solid #038BE2;
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+.wprdbench .el-tabs__header .is-active{
+	background: #038be2;
+	color: white;
+	border-bottom: 1px solid #038BE2!important;
+	border-top-left-radius: 10px!important;
+	border-top-right-radius: 10px!important;
+}
+#messageInform1{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	position: relative;
+}
+#messageInform1 table{
+	width: 100%;
+	min-height: 96px;
+	border-collapse: collapse;
+	margin-top: 30px;
+}
+.messageInform2 table{
+	margin-top: 20px;
+}
+#messageInform1 table td{
+	height: 48px;
+	text-align: center;
+	color: #000;
+	font-size: 12px;
+	border: 1px solid #DCDCDC;
+}
+#messageInform1 table td:nth-child(3){
+	text-align: left;
+	padding-left: 20px;
+	
+	
+}
+#messageInform1 table tr td:nth-child(3){
+	color: #038be2;
+	font-weight: bold;
+}
+#messageInform1 table thead{
+	font-weight: bold;
+	background: #F8F8F8;
+}
+#messageInform1 .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#messageInform1 .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#messageInform1 .el-pagination button{
+	border: 1px solid #DCDCDC;
+}
+#messageInform1 .issue{
+	display: block;
+	width: 140px;
+	height: 40px;
+	background: #F8F8F8;
+	border:1px solid #DCDCDC;
+	text-align: center;
+	line-height: 40px;
+	color: #666;
+	border-radius: 5px;
+	margin-left: 20px;
+	margin-top: 30px;
+	font-size: 16px;
+}
+.zhezhaoa{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+	
+}
+.instas{
+	width: 500px;
+	height: 420px;
+	background: #fff;
+	z-index: 101;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-70%);
+	border-radius: 5px;
+	
+}
+.instas .el-icon-circle-close{
+	position: absolute;
+    right: -41px;
+    top: -41px;
+    font-size: 36px;
+    color: #3d3d3d;
+    cursor: pointer;
+    
+}
+.instas p{
+	width: 100%;
+	height: 60px;
+	background: #038BE2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+}
+.instas table{
+	width: 410px;
+	margin-left: 50px;
+	margin-top: 25px;
+}
+.instas table tr td:nth-child(1){
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+	color: #000;
+}
+.instas table tr td .el-select{
+	width: 320px;
+}
+.instas table tr td .el-select .el-input .el-input__icon{
+	border: 1px solid #DCDCDC;
+	transition:auto;
+	
+}
+
+.instas table tr td .el-select .el-input__inner{
+	border-radius: inherit;
+	width: 320px;
+}
+.instas table tr{
+	height: 60px;
+	
+}
+.instas tr td textarea{
+	width: 320px;
+	height: 120px;
+	border: none;
+	border: 1px solid #DCDCDC;
+}
+.instas tr td input{
+	width: 320px;
+	height: 34px;
+	border: none;
+	border: 1px solid #DCDCDC;
+}
+.instas a{
+	width: 140px;
+	height: 36px;
+	display: block;
+	text-align: center;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin-left: 180px;
+	margin-top: 10px;
+}

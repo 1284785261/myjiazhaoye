@@ -1,0 +1,269 @@
+#houseDetail{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#houseDetail .housedetail1{
+	height: 74px;
+	
+}
+.housedetail1 span{
+	font-size: 16px;
+	font-weight: bold;
+	color: #038BE2;
+	float: left;
+	margin: 32px 40px 0px 30px;
+}
+.housedetail1 span:nth-child(3){
+	font-size: 16px;
+	color: #000;
+	font-weight: normal;
+	margin-right: 200px;
+	float: right;
+}
+#houseDetail table{
+	width: 100%;
+	min-height: 648px;
+	border-collapse: collapse;
+	
+}
+#houseDetail table tr td{
+	border: 1px solid #dcdcdc;
+}
+#houseDetail table tr td:nth-child(1){
+	text-align: right;
+	padding-right: 50px;
+	background: #f8f8f8;
+	font-weight: bold;
+	color: #000;
+}
+#houseDetail table tr td:nth-child(2){
+	padding-left: 25px;
+}
+#houseDetail table tr:nth-child(1) td:nth-child(2) p{
+	line-height: 30px;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(1) td:nth-child(2) p span{
+	color: #ff1e11;
+}
+#houseDetail table tr:nth-child(1) td:nth-child(3) a{
+	width: 100px;
+	height: 30px;
+	background: white;
+	border: 1px solid #038BE2;
+	color: #038BE2;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 20px;
+	margin-left: 40px;
+}
+#houseDetail table tr:nth-child(2) td:nth-child(2) span{
+	margin: 0 20px;
+	font-size: 12px;
+	color: #000;
+}
+#houseDetail table tr:nth-child(3) td:nth-child(2) p{
+	line-height: 30px;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(3) td:nth-child(2) p span{
+	color: #3dc4b2;
+	margin-left: 10px;
+}
+#houseDetail table tr:nth-child(3) td:nth-child(3) a{
+	width: 100px;
+	height: 30px;
+	background: white;
+	border: 1px solid #038BE2;
+	color: #038BE2;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 20px;
+	margin-left: 40px;
+}
+
+#houseDetail table tr:nth-child(4) td:nth-child(2) span{
+	font-size: 12px;
+	margin-right: 50px;
+	color: #000;
+}
+#houseDetail table tr:nth-child(5) td:nth-child(2) p{
+	font-size: 12px;
+	
+	line-height: 30px;
+	color: #000;
+}
+#houseDetail table tr:nth-child(5) td:nth-child(2) p span{
+	margin-left: 65px;
+}
+#houseDetail table tr:nth-child(6) td:nth-child(2) p{
+	color: #ff1d10;
+	line-height: 32px;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(6) td:nth-child(3) a{
+	width: 100px;
+	height: 30px;
+	background: white;
+	border: 1px solid #038BE2;
+	color: #038BE2;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 20px;
+	margin-left: 40px;
+}
+#houseDetail table tr:nth-child(6) td:nth-child(3) span{
+	font-size: 12px;
+	color: #666;
+	margin-left: 40px;
+}
+#houseDetail table tr:nth-child(7) td:nth-child(2) span{
+	color: #000;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(7) td:nth-child(2) span:nth-child(1){
+	color: #1fbba6;
+	margin-right: 40px;
+}
+#houseDetail table tr:nth-child(7) td:nth-child(3) a{
+	width: 100px;
+	height: 30px;
+	background: white;
+	border: 1px solid #038BE2;
+	color: #038BE2;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 20px;
+	margin-left: 40px;
+}
+#houseDetail table tr:nth-child(8) td:nth-child(2) span{
+	color: #000;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(8) td:nth-child(2) span:nth-child(1){
+	color: #1fbba6;
+	margin-right: 40px;
+	line-height: 30px;
+}
+#houseDetail table tr:nth-child(8) td:nth-child(2) p{
+	font-size: 12px;
+	color: #000;
+}
+#houseDetail table tr:nth-child(8) td:nth-child(2) p b{
+	font-weight: normal;
+	color: #ff0e02;
+}
+#houseDetail table tr:nth-child(9) td:nth-child(2) span{
+	color: #000;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(9) td:nth-child(2) span:nth-child(1){
+	color: #1fbba6;
+	margin-right: 40px;
+	line-height: 30px;
+}
+#houseDetail table tr:nth-child(9) td:nth-child(2) p{
+	color: #000;
+	font-size: 12px;
+}
+#houseDetail table tr:nth-child(9) td:nth-child(2) p b{
+	font-weight: normal;
+	color: #ff0e02;
+}
+#houseDetail table tr td:nth-child(3) a:hover{
+	background: #038BE2;
+	color: white;
+}
+.hous{
+	position: relative;
+}
+.zhezha{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+	
+}
+.insta{
+	width: 400px;
+	height: 415px;
+	background: #fff;
+	z-index: 101;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-70%);
+	border-radius: 5px;
+	
+}
+.insta i{
+	position: absolute;
+    right: -41px;
+    top: -41px;
+    font-size: 36px;
+    color: #3d3d3d;
+    cursor: pointer;
+    
+}
+.insta p{
+	width: 100%;
+	height: 60px;
+	background: #038BE2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+}
+.insta table{
+	width: 285px;
+	margin-left: 50px;
+	margin-top: 30px;
+}
+.insta table tr{
+	height: 40px;
+}
+.insta table tr td:nth-child(1){
+	font-weight: bold;
+	font-size: 12px;
+	text-align: right;
+}
+.insta table tr td input{
+	padding-left: 10px;
+	margin-right: 10px;
+}
+.insta table tr td  textarea{
+	width: 198px;
+	height: 120px;
+	resize: none;
+}
+.insta a{
+	width: 140px;
+	height: 36px;
+	display: block;
+	text-align: center;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin-left: 115px;
+	margin-top: 10px;
+}

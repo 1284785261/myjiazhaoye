@@ -156,6 +156,42 @@ export default new Router({
       path: '/signed/houseState',     //公寓状态
       name: 'houseState',
       component: resolve => require(['../views/signed/houseState.vue'],resolve)
+    },{
+      path: '/signed/lodgingwork',     //联合办公签约
+      name: 'lodgingwork',
+      component: resolve => require(['../views/signed/lodgingwork.vue'],resolve)
+    },{
+      path: '/signed/workState',     //办公空间状态
+      name: 'workState',
+      component: resolve => require(['../views/signed/workState.vue'],resolve)
+    },{
+      path: '/signed/houseState',     //公寓状态
+      name: 'houseState',
+      component: resolve => require(['../views/signed/houseState.vue'],resolve)
+    },{
+      path: '/signed/houseDetail',     //公寓状态->公寓详情
+      name: 'houseDetail',
+      component: resolve => require(['../views/signed/houseDetail.vue'],resolve)
+    },{
+      path: '/signed/houseRecord',     //公寓状态->公寓详情->开门记录
+      name: 'houseRecord',
+      component: resolve => require(['../views/signed/houseRecord.vue'],resolve)
+    },{
+      path: '/signed/residentList',     //公寓状态->公寓详情->住户列表
+      name: 'residentList',
+      component: resolve => require(['../views/signed/residentList.vue'],resolve)
+    },{
+      path: '/signed/priceAdmin',     //公寓状态->公寓详情->调价管理
+      name: 'priceAdmin',
+      component: resolve => require(['../views/signed/priceAdmin.vue'],resolve)
+    },{
+      path: '/signed/priceCheck',     //公寓状态->公寓详情->调价管理->调价审核
+      name: 'priceCheck',
+      component: resolve => require(['../views/signed/priceCheck.vue'],resolve)
+    },{
+      path: '/signed/messageInform',     //消息中心
+      name: 'messageInform',
+      component: resolve => require(['../views/message/messageInform.vue'],resolve)
     },
 
   ]

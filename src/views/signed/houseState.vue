@@ -14,8 +14,8 @@
 		        </div>
 		    	<div id="houseState">
 		    		<div class="housestate1">
-		    			<a>住户列表</a>
-		    			<a>调价管理</a>
+		    			<router-link to="/signed/residentList">住户列表</router-link>
+		    			<router-link to="/signed/priceAdmin">调价管理</router-link>
 		    		</div>
 		    		<div class="housestate2">
 			        	<div class="state1">
@@ -29,10 +29,14 @@
 			        			<span>欠房租3天</span>
 			        			<span>租期剩余15天</span>
 			        			<p>￥1800.00<i>熊芳婷</i></p>
+			        			
 			        			<div class="sex">
-			        				<span>房间</span>
-			        				<span>点击弹出房间信息</span>
+				        			<router-link to="/signed/houseDetail">
+				        				<span>房间</span>
+				        				<span>点击弹出房间信息</span>
+				        			</router-link>
 			        			</div>
+			        			
 			        		</li>
 			        		<li>
 			        			<p>101</p>

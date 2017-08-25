@@ -1,0 +1,50 @@
+#residentList{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#residentList .residentlist{
+	height: 74px;
+	width: 100%;
+}
+#residentList .residentlist a{
+	display: inline-block;
+	color: #666;
+	width: 140px;
+	height: 40px;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 40px;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+#residentList table{
+	width: 100%;
+	min-height: 300px;
+	border-collapse: collapse;
+}
+#residentList table thead td{
+	background: #f8f8f8;
+	font-weight: bold;
+}
+#residentList table td{
+	color: #000;
+	height: 48px;
+	border: 1px solid #DCDCDC;
+	text-align: center;
+}
+#residentList .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#residentList .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#residentList .el-pagination button{
+	border: 1px solid #DCDCDC;
+}

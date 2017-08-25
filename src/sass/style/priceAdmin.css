@@ -1,0 +1,64 @@
+#priceAdmin{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#priceAdmin .priceadmin{
+	height: 74px;
+	width: 100%;
+}
+#priceAdmin .priceadmin span{
+	font-size: 12px;
+	margin-left: 20px;
+	line-height: 74px;
+}
+#priceAdmin .priceadmin a{
+	font-size: 12px;
+	width: 80px;
+	height: 30px;
+	background: #f8f8f8;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	color: #666;
+	display: inline-block;
+	text-align: center;
+	line-height: 30px;
+	margin: 0 7px;
+}
+#priceAdmin .priceadmin a:hover{
+	color: #038BE2;
+	background: #fff;
+	border: 1px solid #038BE2;
+}
+#priceAdmin table{
+	width: 100%;
+	border-collapse: collapse;
+}
+#priceAdmin table thead{
+	background: #f8f8f8;
+	font-weight: bold;
+	
+}
+#priceAdmin table tr td:nth-child(3){
+	color: #ff3b30;
+}
+#priceAdmin table td{
+	border: 1px solid #DCDCDC;
+	height: 48px;
+	text-align: center;
+	color: #000;
+}
+#priceAdmin .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#priceAdmin .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#priceAdmin .el-pagination button{
+	border: 1px solid #DCDCDC;
+}
