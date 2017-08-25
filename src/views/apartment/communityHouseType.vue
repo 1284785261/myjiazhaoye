@@ -107,7 +107,6 @@
             housetypeOrientations:""
           }
         ],
-
         rooms: [{
           value: 1,
           label: 1

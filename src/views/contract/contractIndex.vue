@@ -579,7 +579,7 @@ export default {
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  /*@import '../../sass/page/_communityManagement.scss';*/
+  @import '../../sass/page/_communityManagement.scss';
 
   #contract-index-wrap{
     .form-item .add{
@@ -594,54 +594,6 @@ export default {
       span{
         font-size:16px;
       }
-    }
-    .lose{
-      z-index: 1000;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 280px;
-      height: 180px;
-      border-radius: 10px;
-      background: #fff;
-      transform: translate(-50%,-50%);
-      text-align: center;
-    }
-    .lose span{
-      display: block;
-      font-size: 12px;
-      margin-top: 42px;
-      margin-bottom: 18px;
-    }
-    .lose span i{
-      font-style: normal;
-      font-size: 10px;
-      margin: 0 5px;
-      color: #038be2;
-    }
-    .lose p{
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 35px;
-    }
-    .lose a{
-      display: inline-block;
-      width: 90px;
-      height: 30px;
-      text-align: center;
-      line-height: 30px;
-      font-size: 12px;
-      border-radius: 5px;
-    }
-    .lose a:nth-child(3){
-      background: #038be2;
-      color: white;
-      margin-right: 20px;
-    }
-    .lose a:nth-child(4){
-      background: #f8f8f8;
-      color: #666;
-      border: 1px solid #dcdcdc;
     }
   }
 

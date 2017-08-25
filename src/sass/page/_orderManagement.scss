@@ -5,10 +5,20 @@
   box-shadow: 0 3px 1px #ccc;
   .el-tabs__header{
     border-bottom: 1px solid #038be2;
-    .is-active{
-      border: 1px solid #038BE2;
-      border-bottom-color: #fff;
-      border-radius: 4px 4px 0 0;
+    .el-tabs__nav{
+      margin-left:20px;
+      .el-tabs__item{
+        margin-top: 30px;
+        height: 50px;
+        line-height:50px;
+        font-size: 20px;
+        padding: 0 35px;
+      }
+      .is-active{
+        border: 1px solid #038BE2;
+        border-bottom-color: #fff;
+        border-radius: 4px 4px 0 0;
+      }
     }
   }
 

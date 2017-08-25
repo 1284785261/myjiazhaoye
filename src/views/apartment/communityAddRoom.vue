@@ -25,180 +25,40 @@
               <th>租金（元/月）</th>
               <th>操作</th>
             </tr>
-            <tr>
+            <tr v-for="(room,index) in cxkjCommunityListRoom">
               <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="room.floorId" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in floors" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
+              <td ><Input v-model="room.roomNum"  placeholder="请填写房号"></Input></td>
               <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a @click="modal1=true">床 衣柜 书桌 空调 电视机 洗衣机</a>
-              </td>
-              <td>
-                <a @click="modal2=true">在线 按用量8.00元/m³</a>
-              </td>
-              <td>
-                <a @click="modal3=true">在线 按用量2.2元/度</a>
-              </td>
-              <td>
-                <Input   placeholder="请填写租金"></Input>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-select v-model="room.roomType" filterable placeholder="请输入或选择">
+                  <el-option v-for="item in roomTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
-                <p>床 衣柜 书桌 空调 电视机 洗衣机</p>
+                <a @click="editRoomFurniture(room.roomFurniture,index)">{{room.roomFurniture}}</a>
               </td>
               <td>
-                <p>在线 按用量8.00元/m³</p>
+                <a @click="modal2=true">{{room.roomWater}}</a>
               </td>
               <td>
-                <p>在线 按用量2.2元/度</p>
+                <a @click="modal3=true">{{room.roomElectric}}</a>
               </td>
               <td>
-                <Input   placeholder="请填写租金"></Input>
+                <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
               </td>
               <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <p>床 衣柜 书桌 空调 电视机 洗衣机</p>
-              </td>
-              <td>
-                <p>在线 按用量8.00元/m³</p>
-              </td>
-              <td>
-                <p>在线 按用量2.2元/度</p>
-              </td>
-              <td>
-                <Input   placeholder="请填写租金"></Input>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <p>床 衣柜 书桌 空调 电视机 洗衣机</p>
-              </td>
-              <td>
-                <p>在线 按用量8.00元/m³</p>
-              </td>
-              <td>
-                <p>在线 按用量2.2元/度</p>
-              </td>
-              <td>
-                <Input   placeholder="请填写租金"></Input>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <a>床 衣柜 书桌 空调 电视机 洗衣机</a>
-              </td>
-              <td>
-                <a>在线 按用量8.00元/m³</a>
-              </td>
-              <td>
-                <a>在线 按用量2.2元/度</a>
-              </td>
-              <td>
-                <Input   placeholder="请填写租金"></Input>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
-              </td>
-            </tr>
-            <tr>
-              <td >
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td ><Input   placeholder="请填写房号"></Input></td>
-              <td>
-                <el-select v-model="rootValue" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </td>
-              <td>
-                <p>床 衣柜 书桌 空调 电视机 洗衣机</p>
-              </td>
-              <td>
-                <p>在线 按用量8.00元/m³</p>
-              </td>
-              <td>
-                <p>在线 按用量2.2元/度</p>
-              </td>
-              <td>
-                <Input   placeholder="请填写租金"></Input>
-              </td>
-              <td>
-                <a>复制</a><a style="padding-left: 10px">删除</a>
+                <a @click="copyRoom(index)">复制</a><a style="padding-left: 10px" @click="deleteRoom(index)">删除</a>
               </td>
             </tr>
           </table>
           <div class="add-item">
-            <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button>确定</Button>
+            <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" type="number" max="5" min="1" step="1" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button @click="addRoom()">确定</Button>
           </div>
           <div class="house-type-btn">
-            <Button type="primary" style="width: 130px;height: 40px">确定</Button>
+            <Button type="primary" style="width: 130px;height: 40px" @click="createNewRoom()">确定</Button>
             <Button style="width: 130px;height: 40px; margin-left: 20px;">取消</Button>
           </div>
 
@@ -211,17 +71,17 @@
               <div>
                 <div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>
                 <div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">
-                  <Radio-group v-model="vertical" vertical>
-                    <Radio label="count">
+                  <Radio-group v-model="electricTypeSelect" vertical>
+                    <Radio label="1">
                       <span>按用量 </span>
                     </Radio>
-                    <Radio label="member">
+                    <Radio label="2">
                       <span>按合租人数 </span>
                     </Radio>
                   </Radio-group>
                 </div>
                 <div style="display: inline-block;">
-                  <div><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>
+                  <div><Input v-model="electricValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>
                   <div style="padding-top: 10px"><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
                 </div>
               </div>
@@ -237,20 +97,22 @@
             </div>
             <div id="appliances-setting" class="modal-content-meddle">
               <table class="appliances-setting-table">
-                <tr>
-                  <td><Checkbox >床</Checkbox></td>
-                  <td><Checkbox >空调</Checkbox></td>
-                  <td><Checkbox >电视</Checkbox></td>
-                </tr>
-                <tr>
-                  <td><Checkbox >洗衣机</Checkbox></td>
-                  <td><Checkbox >书桌</Checkbox></td>
-                  <td><Checkbox >衣柜</Checkbox></td>
-                </tr>
+                <Checkbox-group v-model="checkBoxArr">
+                  <tr>
+                    <td><Checkbox label="床">床</Checkbox></td>
+                    <td><Checkbox label="空调">空调</Checkbox></td>
+                    <td><Checkbox label="电视机">电视机</Checkbox></td>
+                  </tr>
+                  <tr>
+                    <td><Checkbox label="洗衣机">洗衣机</Checkbox></td>
+                    <td><Checkbox label="书桌">书桌</Checkbox></td>
+                    <td><Checkbox label="衣柜">衣柜</Checkbox></td>
+                  </tr>
+                </Checkbox-group>
               </table>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="updatetRoomFurniture()">确定</Button>
             </div>
           </Modal>
 
@@ -263,17 +125,17 @@
               <div>
                 <div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>
                 <div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">
-                  <Radio-group v-model="vertical" vertical>
-                    <Radio label="count">
+                  <Radio-group v-model="waterTypeSelect" vertical>
+                    <Radio label="1">
                       <span>按用量 </span>
                     </Radio>
-                    <Radio label="member">
+                    <Radio label="2">
                       <span>按合租人数 </span>
                     </Radio>
                   </Radio-group>
                 </div>
                 <div style="display: inline-block;">
-                  <div><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>
+                  <div><Input v-model="waterValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>
                   <div style="padding-top: 10px"><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
                 </div>
               </div>
@@ -306,44 +168,105 @@
     },
     data(){
       return{
+        cxkjCommunityListRoom :[
+          {
+            communityId:"",
+            floorId:"",
+            roomNum:"",
+            roomType:"",
+            roomFurniture:"床 衣柜 书桌 空调 电视机 洗衣机",
+            roomWater:"在线 按用量8.00元/m³",
+            roomElectric:"在线 按用量2.2元/度",
+            roomRent:"",
+            waterType:1,
+            electricType:1,
+          }
+        ],
+        activeRoomIndex:0,
         numberLine:1,
         value:"",
         rootValue:"",
-        options: [{
-          value: '选项1',
-          label: '1室'
+        floors: [{
+          value: '1',
+          label: '1'
         }, {
-          value: '选项2',
-          label: '2室'
+          value: '2',
+          label: '2'
         }, {
-          value: '选项3',
-          label: '3室'
-        }, {
-          value: '选项4',
-          label: '4室'
-        }, {
-          value: '选项5',
-          label: '5室'
+          value: '3',
+          label: '3'
         }],
+        roomTypes: [{
+          value: '标准大标间  1室1厅1卫 35㎡ 朝南',
+          label: '标准大标间  1室1厅1卫 35㎡ 朝南'
+        }, {
+          value: '标准大标间  1室1厅1卫 35㎡ 朝北',
+          label: '标准大标间  1室1厅1卫 35㎡ 朝北'
+        }],
+        checkBoxArr:[],
         modal1: false,
         modal2: false,
         modal3: false,
         modal_loading: false,
-        vertical: 'count'
+        waterTypeSelect: 1,
+        waterValue:"",
+        electricTypeSelect:1,
+        electricValue:""
       }
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      del () {
-        this.modal1 = false;
-      },
       del2 () {
         this.modal2 = false;
       },
       del3 () {
         this.modal3 = false;
+      },
+      editRoomFurniture(furniture,index){
+        this.activeRoomIndex = index;
+        this.modal1=true;
+        this.checkBoxArr = furniture.split(" ");
+
+      },
+      updatetRoomFurniture () {
+        this.modal1 = false;
+        var furnitureStr = this.checkBoxArr.join(" ");
+        this.cxkjCommunityListRoom[this.activeRoomIndex].roomFurniture = furnitureStr;
+      },
+      addRoom(){
+        for(var i =0;i<this.numberLine;i++){
+          this.cxkjCommunityListRoom.push({
+            communityId:"",
+            floorId:"",
+            roomNum:"",
+            roomType:"",
+            roomFurniture:"床 衣柜 书桌 空调 电视机 洗衣机",
+            roomWater:"在线 按用量8.00元/m³",
+            roomElectric:"在线 按用量2.2元/度",
+            roomRent:"",
+            waterType:1,
+            electricType:1,
+          })
+        }
+      },
+      deleteRoom(index){
+        this.cxkjCommunityListRoom.splice(index,1);
+      },
+      copyRoom(index){
+        var copyObj = this.deepCopy(this.cxkjCommunityListRoom[index]);
+        this.cxkjCommunityListRoom.splice(index+1,0, copyObj);
+      },
+      deepCopy(source){
+        var result={};
+        for (var key in source) {
+          result[key] = typeof source[key]==='object'? deepCoyp(source[key]): source[key];
+        }
+        return result;
+      },
+      createNewRoom(){
+
       }
     }
   }

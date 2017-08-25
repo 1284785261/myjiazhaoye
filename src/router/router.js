@@ -78,7 +78,7 @@ export default new Router({
       component: resolve =>
         require(['../views/apartment/orderManagement.vue'],resolve)
     },{
-      path:'/apartment/communityHouse',        //社区公寓信息
+      path:'/communityHouse',        //社区公寓信息
       name:'communityHouse',
       component: resolve =>
         require(['../views/apartment/communityHouse.vue'],resolve)
@@ -124,6 +124,26 @@ export default new Router({
       path: '/signed/lodgingHouse',     //公寓租客签约
       name: 'lodgingHouse',
       component: resolve => require(['../views/signed/lodgingHouse.vue'],resolve)
+    },{
+      path: '/bill/billManagement',     //账单管理首页
+      name: 'billManagement',
+      component: resolve => require(['../views/bill/billManagement.vue'],resolve)
+    },{
+      path: '/bill/billDetail',     //账单管理->账单详情
+      name: 'billDetail',
+      component: resolve => require(['../views/bill/billDetail.vue'],resolve)
+    },{
+      path: '/bill/paymentInformation',     //账单管理->水电账单缴费情况
+      name: 'paymentInformation',
+      component: resolve => require(['../views/bill/paymentInformation.vue'],resolve)
+    },{
+      path: '/bill/generateBill',     //账单管理->生成水电账单
+      name: 'generateBill',
+      component: resolve => require(['../views/bill/generateBill.vue'],resolve)
+    },{
+      path: '/member/memberManagement',     //账单管理->生成水电账单
+      name: 'memberManagement',
+      component: resolve => require(['../views/member/memberManagement.vue'],resolve)
     },
 
   ]

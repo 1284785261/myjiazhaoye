@@ -8,11 +8,11 @@
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-xiaoxi"></i>消息中心</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-zhibo"></i>直播管理</router-link></li>
         <li><router-link :to="{ name: 'orderManagement' , params: { id: 123 }}"><i class="iconfont icon-dingdanguanli"></i>订单管理</router-link></li>
-        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>账单管理</router-link></li>
+        <li><router-link :to="{ name: 'billManagement' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>账单管理</router-link></li>
         <li><router-link :to="{ name: 'contractIndex' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>合同管理</router-link></li>
         <li><router-link :to="{ name: 'communityManagement' , params: { id: 123 }}"><i class="iconfont icon-shequ"></i>社区管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-fuwu"></i>企业服务</router-link></li>
-        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-guanli1"></i>会员管理</router-link></li>
+        <li><router-link :to="{ name: 'memberManagement' , params: { id: 123 }}"><i class="iconfont icon-guanli1"></i>会员管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-yunying"></i>运营报表</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-caiwuguanli"></i>财务管理</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-guanggao"></i>广告设置</router-link></li>
