@@ -164,7 +164,7 @@
                   <router-link to="/apartment/communityPresentation">社区介绍</router-link>
                   <router-link to="/communityHouse">资源管理</router-link>
                   <router-link to="/apartment/communitySettings">社区设置</router-link>
-                  <a href="javascript:;">设备管理</a>
+                  <router-link to="/apartment/equipmentManage">设备管理</router-link>
                 	<a href="javascript:;" @click="hub()">关闭社区</a>
                 </td>
               </tr>

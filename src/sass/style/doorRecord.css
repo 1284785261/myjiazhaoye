@@ -1,0 +1,45 @@
+#doorRecord{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+}
+#doorRecord .doorrecord{
+	height: 118px;
+	width: 100%;
+	background: #f7fbff;
+}
+#doorRecord .doorrecord ul li{
+	float: left;
+	
+	color: #666;
+	font-weight: bold;
+	margin:13px 40px;
+}
+#doorRecord .doorrecord ul li span{
+	font-size: 16px;
+	line-height: 32px;
+	display: inline-block;
+}
+#doorRecord .doorrecord ul li span:nth-child(2){
+	color: #4d4e4e;
+}
+#doorRecord table{
+	width: 720px;
+	min-height: 96px;
+	border-collapse: collapse;
+	margin-left: 180px;
+	margin-top: 40px;
+}
+#doorRecord table thead td{
+	background: #f8f8f8;
+}
+#doorRecord table td{
+	height: 48px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 12px;
+	color: #000;
+	border: 1px solid #DCDCDC;
+}

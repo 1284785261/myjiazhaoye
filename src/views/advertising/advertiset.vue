@@ -5,71 +5,45 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
+		          <span>您现在的位置： </span>
+		          <router-link  class="active" to="/apartment/communityManagement">广告设置</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>住户列表</h3>
+		          <h3><i class="icon icon-iden"></i>广告设置</h3>
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
-		    	<div id="residentList">
-		    		<div class="residentlist">
-		    			<a>导出</a>
+		    	<div id="advertiset">
+		    		<div class="advertiset1">
+		    			<span>Banner管理</span><router-link to="/advertising/addBanner">+ 添加Banner</router-link>
 		    		</div>
 		    		<table>
 		    			<thead>
-		    				<td>序号</td>
-		    				<td>姓名</td>
-		    				<td>性别</td>
-		    				<td>年龄</td>
-		    				<td>电话</td>
-		    				<td>当前租住</td>
-		    				<td>租期</td>
+		    				<td width="25%">缩略图</td>
+		    				<td width="30%">图片说明</td>
+		    				<td>排序</td>
+		    				<td>状态</td>
+		    				<td width="20%">操作</td>
 		    			</thead>
 		    			<tr>
+		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
+		    				<td>APP首页banner图</td>
 		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
+		    				<td>开放</td>
+		    				<td><a>修改</a><a>删除</a></td>
 		    			</tr>
 		    			<tr>
+		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
+		    				<td>APP首页banner图</td>
 		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
+		    				<td>开放</td>
+		    				<td><a>修改</a><a>删除</a></td>
 		    			</tr>
 		    			<tr>
+		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
+		    				<td>APP首页banner图</td>
 		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
+		    				<td>开放</td>
+		    				<td><a>修改</a><a>删除</a></td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -81,8 +55,7 @@
 				      :total="100">
 				    
 				    </el-pagination>
-				    
-		    	</div> 
+		    	</div>
 		        
 		    
 			</div>
@@ -93,7 +66,7 @@
 
 <script>
 	
-	import '../../sass/style/residentList.css';
+	import '../../sass/style/advertiset.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
@@ -108,6 +81,7 @@
     		return{
     			isHide:false,
     			currentPage3: 5
+    			
 		   	}
     	},
     	methods:{

@@ -1,0 +1,73 @@
+#advertiset{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#advertiset .advertiset1{
+	height: 76px;
+	width: 100%;
+	background: #ffffff;
+}
+#advertiset .advertiset1 span{
+	display: inline-block;
+	font-size: 16px;
+	color: #000;
+	font-weight: bold;
+	line-height: 76px;
+	margin-left: 20px;
+}
+#advertiset .advertiset1 a{
+	display: inline-block;
+	float:right;
+	width: 140px;
+	height: 36px;
+	border: 1px solid #038BE2;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 36px;
+	color: #038BE2;
+	margin-right: 20px;
+	margin-top: 20px;
+}
+#advertiset table{
+	width: 100%;
+	min-height: 210px;
+	border-collapse: collapse;
+}
+#advertiset table td{
+	border: 1px solid #DCDCDC;
+	text-align: center;
+	height: 160px;
+	font-size: 12px;
+}
+#advertiset table thead td{
+	background: #f8f8f8;
+	height: 48px;
+	color: #000;
+	font-weight: bold;
+}
+#advertiset table tr td img{
+	width: 200px;
+	height: 120px;
+}
+#advertiset table tr td a{
+	color: #038BE2;
+	margin-right: 20px;
+}
+#advertiset table tr td:nth-child(4){
+	color: #ff6612;
+}
+#advertiset .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#advertiset .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#advertiset .el-pagination button{
+	border: 1px solid #DCDCDC;
+}

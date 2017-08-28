@@ -196,6 +196,31 @@ export default new Router({
       path: '/member/memberInformation',     //会员管理
       name: 'memberInformation',
       component: resolve => require(['../views/member/memberInformation.vue'], resolve)
+    },{
+      path: '/apartment/equipmentManage',     //设备管理
+      name: 'equipmentManage',
+      component: resolve =>
+        require(['../views/apartment/equipmentManage.vue'],resolve)
+    },{
+      path: '/apartment/doorRecord',     //设备管理/开门记录
+      name: 'doorRecord',
+      component: resolve =>
+        require(['../views/apartment/doorRecord.vue'],resolve)
+    },{
+      path: '/apartment/meterReading',     //设备管理/抄电表/水表记录
+      name: 'meterReading',
+      component: resolve =>
+        require(['../views/apartment/meterReading.vue'],resolve)
+    },{
+      path: '/advertising/advertiset',     //广告设置
+      name: 'advertiset',
+      component: resolve =>
+        require(['../views/advertising/advertiset.vue'],resolve)
+    },{
+      path: '/advertising/addBanner',     //广告设置->添加banner
+      name: 'addBanner',
+      component: resolve =>
+        require(['../views/advertising/addBanner.vue'],resolve)
     },
 
   ]

@@ -1,0 +1,97 @@
+.avatar-uploader{
+	width: 198px;
+	height: 120px;
+	border: 1px solid #DCDCDC;
+}
+.avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #20a0ff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 186px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  
+#addbanner{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#addbanner table{
+	margin-left: 50px;
+	margin-top: 72px;
+}
+#addbanner table td:nth-child(1){
+	text-align: right;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000;
+	padding-right: 10px;
+}
+#addbanner table tr td{
+	position: relative;
+}
+#addbanner table tr td .sb{
+	position: absolute;
+	bottom: 10%;
+	left: 22%;
+	font-size: 12px;
+	transform: translate(-50%,-50%);
+}
+#addbanner table tr{
+	height: 60px;
+}
+#addbanner table tr input{
+	width: 300px;
+	height: 34px;
+	padding-left: 10px;
+}
+#addbanner table tr textarea{
+	width: 438px;
+	height: 118px;
+	padding-left: 10px;
+}
+#addbanner .tj{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	border: 1px solid #038BE2;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 36px;
+	color: white;
+	background: #038BE2;
+	margin-left: 165px;
+	margin-top: 30px;
+}
+#addbanner table tr .px{
+	width: 200px;
+}
+#addbanner .tis{
+	position: absolute;
+	left: 371px;
+    top: 168px;
+    color: #ff6612;
+    font-size: 12px;
+}
+#addbanner .tis i{
+	margin-right: 5px;
+	font-size: 16px;
+}
