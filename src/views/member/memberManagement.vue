@@ -57,8 +57,8 @@
                   <td>正常</td>
                   <td>习惯不好，扰邻</td>
                   <td>
-                    <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <a @click="openBlackModal()">设为黑名单</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr>
                 <tr>
@@ -74,7 +74,7 @@
                   <td>习惯不好，扰邻</td>
                   <td>
                     <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr>
                 <tr>
@@ -90,7 +90,7 @@
                   <td>习惯不好，扰邻</td>
                   <td>
                     <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr>
                 <tr>
@@ -106,7 +106,7 @@
                   <td>习惯不好，扰邻</td>
                   <td>
                     <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr> <tr>
                 <td>
@@ -121,7 +121,7 @@
                 <td>习惯不好，扰邻</td>
                 <td>
                   <a> 设为黑名单</a>
-                  <a> 详情</a>
+                  <router-link to="/member/memberInformation">详情</router-link>
                 </td>
               </tr>
                 <tr>
@@ -137,7 +137,7 @@
                   <td>习惯不好，扰邻</td>
                   <td>
                     <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr>
                 <tr>
@@ -153,7 +153,7 @@
                   <td>习惯不好，扰邻</td>
                   <td>
                     <a> 设为黑名单</a>
-                    <a> 详情</a>
+                    <router-link to="/member/memberInformation">详情</router-link>
                   </td>
                 </tr>
 
@@ -208,7 +208,7 @@
                   <td>正常</td>
                   <td>习惯不好，扰邻</td>
                   <td>
-                    <a>设为白名单</a>
+                    <a @click="openWhileModal()">设为白名单</a>
                     <a>详情</a>
                   </td>
                 </tr>
@@ -324,17 +324,41 @@
                     <a>详情</a>
                   </td>
                 </tr>
-
               </table>
               <Page :total="100" show-elevator></Page>
             </Tab-pane>
           </Tabs>
         </div>
-
       </div>
       <footer-box></footer-box>
     </div>
+    <div class="black-member-modal" v-if="blackModal" @click="closeBlackModal()"></div>
+    <div class="black-member-modal-content" v-if="blackModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/black-member-1.png">
+      </div>
+      <p>确定蒋该用户设置为<span>黑名单</span>吗?</p>
+      <div class="modal-btn">
+        <Button type="primary" @click="setBliakMember()">确定</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeBlackModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
 
+    <div class="black-member-modal" v-if="whileModal" @click="closeWhileModal()"></div>
+    <div class="black-member-modal-content" v-if="whileModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/black-member-2.png">
+      </div>
+      <p>确定蒋该用户设置为<span>白名单</span>吗?</p>
+      <div class="modal-btn">
+        <Button type="primary" @click="setWhileMember()">确定</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeWhileModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -384,6 +408,8 @@
         ],
         model1: '',
         isShow:false,
+        blackModal:false,
+        whileModal:false,
         tableEvaluates:[{
           date:"2017-06-27  12:00",
           community:"佳兆业航运WEWA空间",
@@ -424,10 +450,27 @@
       }
     },
     methods: {
-
+      closeBlackModal(){
+        this.blackModal = false;
+      },
+      openBlackModal(){
+        this.blackModal = true;
+      },
+      setBliakMember(){
+        this.blackModal = false;
+      },
+      closeWhileModal(){
+        this.whileModal = false;
+      },
+      openWhileModal(){
+        this.whileModal = true;
+      },
+      setWhileMember(){
+        this.whileModal = false;
+      }
     },
-    created(){
-    }
+
+
   }
 </script>
 
@@ -600,8 +643,75 @@
         color: #FF6612;
       }
     }
-
   }
 
+  .black-member-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .black-member-modal-content{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        width: 32px;
+        height: 32px;
+        margin-top: 30px;
+      }
+    }
+    p{
+      text-align: center;
+      span{
+        color: #038be2;
+        font-weight: 700;
+        padding: 0 10px;
+      }
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
+      }
+    }
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
 
 </style>

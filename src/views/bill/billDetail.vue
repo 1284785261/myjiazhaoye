@@ -91,12 +91,14 @@
               <table>
                 <tr>
                   <td>评价 :</td>
-                  <td style="font-size: 20px;color: #EFB023">
-                    <Icon type="ios-star"></Icon>
-                    <Icon type="ios-star"></Icon>
-                    <Icon type="ios-star"></Icon>
-                    <Icon type="ios-star"></Icon>
-                    <Icon type="ios-star-half"></Icon>
+                  <td >
+                    <el-rate
+                      v-model="value5"
+                      disabled
+                      show-text
+                      text-color="#ff9900"
+                      text-template="{value}">
+                    </el-rate>
                   </td>
                 </tr>
                 <tr>
@@ -129,7 +131,7 @@
     },
     data(){
       return{
-
+        value5: 4.8
       }
     },
     methods:{

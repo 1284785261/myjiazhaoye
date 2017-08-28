@@ -192,6 +192,10 @@ export default new Router({
       path: '/signed/messageInform',     //消息中心
       name: 'messageInform',
       component: resolve => require(['../views/message/messageInform.vue'],resolve)
+    },{
+      path: '/member/memberInformation',     //会员管理
+      name: 'memberInformation',
+      component: resolve => require(['../views/member/memberInformation.vue'], resolve)
     },
 
   ]
