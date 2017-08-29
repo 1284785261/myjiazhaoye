@@ -18,7 +18,20 @@
                 <h3><i class="icon icon-iden"></i>个人信息</h3>
                 <div class="member-img-content">
                   <div class="member-img">
-                    <img src="" alt="">
+                    <el-upload
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :show-file-list="false"
+                      :on-success="handleAvatarSuccess"
+                      :before-upload="beforeAvatarUpload">
+                      <template v-if="imageUrl">
+                        <img  :src="imageUrl" class="avatar">
+                        <img class="update-avatar" src="../../../static/images/icon/update-member-img.png" alt="">
+                      </template>
+                      <template v-else>
+                        <i class="el-icon-plus avatar-uploader-icon"></i>
+                        <span class="upload-img-text">上传照片</span>
+                      </template>
+                    </el-upload>
                   </div>
                   <table class="member-information-table">
                     <tr>
@@ -78,11 +91,27 @@
     },
     data(){
       return{
-        value5: 4.8
+        value5: 4.8,
+        imageUrl: ''
       }
     },
     methods:{
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
 
+        const isJPG = (file.type==="image/jpg" || file.type==="image/jpeg" || file.type==="image/png");
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
     }
   }
 </script>
@@ -131,15 +160,45 @@
         .member-img-content{
           .member-img{
             float: left;
-            width: 140px;
-            height: 160px;
-            padding: 30px 20px;
-            img{
+            margin: 30px 20px;
+            height: 100px;
+            width: 100px;
+            .avatar{
               border-radius: 10px;
-              width: 100%;
-              height: 100%;
-              background-color: red;
+              height: 100px;
+              width: 100px;
               border: none;
+            }
+            .update-avatar{
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              display: none;
+            }
+            :hover .update-avatar{
+              display: block;
+            }
+            .el-upload{
+              color: rgb(184,184,184);
+              background: rgb(248,248,248);
+              border: 1px solid #ccc;
+              border-radius: 10px;
+              position: relative;
+            }
+            .avatar-uploader-icon {
+              font-size: 28px;
+              color: #8c939d;
+              width: 100px;
+              height: 100px;
+              line-height: 80px;
+              text-align: center;
+            }
+            .upload-img-text{
+              display:inline-block;
+              position: absolute;
+              top: 57px;
+              left: 21px;
+
             }
           }
           .member-information-table{
@@ -201,6 +260,7 @@
         }
       }
     }
+
 
 
   }
