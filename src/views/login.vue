@@ -47,7 +47,7 @@
 <script>
 
 import {hostlogin} from './api.js';
-import qs from 'qs'
+import qs from 'qs';
 
 
   export default {

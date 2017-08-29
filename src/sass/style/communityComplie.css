@@ -65,15 +65,45 @@
 	width:390px;
 	height: 100px;
 	border:1px dashed #9accea;
-	padding-left: 20px;
+	
 }
-.message-tis .cop tr .unloading a{
-	font-size: 16px;
+.message-tis .cop tr .unloading li span{
+	font-size: 14px;
+	line-height: 30px;
+}
+.message-tis .cop tr .unloading a:nth-child(1){
+	font-size: 12px;
+}
+.message-tis .cop tr .unloading a:nth-child(2){
+	font-size: 14px;
 	padding: 10px;
 }
 .message-tis .cop tr .unloading .el-icon-delete{
 	float: right;
+	font-size: 16px;
 	margin: 5px;
+	cursor: pointer;
+}
+.message-tis .cop tr .unloading .el-icon-delete:hover{
+	color: #038BE2;
+}
+.message-tis .cop tr td .file{
+	width: 260px;
+	height: 34px;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.message-tis .cop tr td .mn{
+	position: relative;
+	width: 260px;
+	height: 34px;
+	display: inline-block;
+	border: 1px solid #DCDCDC;
+	line-height: 33px;
+	color: #cbcbcb;
+	padding-left: 10px;
 }
 .message-tis tr td .cas{
 	width: 260px;

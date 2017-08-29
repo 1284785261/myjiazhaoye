@@ -3,7 +3,7 @@
 const host = 'http://115.29.138.230:8080';
 //const host2 = 'http://192.168.26.117:9080';
 const host2 = 'http://localhost:9080';
-const host3 = 'http://192.168.26.164:8080';
+const host3 = 'http://192.168.26.118:8080';
 //http://115.29.138.230:8080/apis/community/pc/CxkjCommunity 200001
 
 //用户登录接口
@@ -19,7 +19,7 @@ const Commint = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001';
 
 //添加社区
 //http://115.29.138.230:8080/apis/community/pc/CxkjCommunityAdd200002
-const Complie ='/apis/community/pc/CxkjCommunityAdd200002';
+const Complie ='/cxkj_room/apis/pc/community/CxkjCommunityAdd200002';
 
 
 //地区选择省/市/区
