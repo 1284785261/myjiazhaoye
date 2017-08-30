@@ -61,6 +61,8 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import api from '../api.js';
+    import axios from 'axios';
+    import { hostAuthor } from '../api.js';
     import '../../sass/style/communityPersonal.css';
     
     export default {
@@ -73,7 +75,20 @@
     		return{
     			
     		}
+    	},
+    	mounted(){
+    		this.$http.get(hostAuthor)
+    		.then((response)=>{
+    			console.log(response);
+    		})
+    		.catch((error)=>{
+    			console.log(error);
+    		})
+    	},
+    	methods:{
+    		
     	}
+    	
     }
 </script>
 

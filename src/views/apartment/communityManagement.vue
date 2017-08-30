@@ -7,10 +7,10 @@
 				<div class="ivu-site">
 					<span>您现在的位置：</span>
 					<router-link class="active" to="/apartment/communityManagement">社区管理</router-link>
-					
+
 				</div>
 				<Tabs type="card">
-<!--<button @click='cs'>clickhgfdhgfdh</button>-->
+					<!--<button @click='cs'>clickhgfdhgfdh</button>-->
 					<Tab-pane label="社区管理">
 						<div class="message-ti">
 							<div class="form-search-criteria">
@@ -79,25 +79,19 @@
 									</td>
 									<td>
 										<router-link to="/apartment/communityMessage">基本信息</router-link>
-										<router-link to="/apartment/communityPresentation">社区介绍</router-link>
+										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
 										<router-link to="/communityHouse">资源管理</router-link>
 										<router-link to="/apartment/communitySettings">社区设置</router-link>
 										<a href="javascript:;">设备管理</a>
-										<a href="javascript:;" @click="hub()">关闭社区</a>
+										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
 									</td>
 								</tr>
 
 							</table>
 							<div class="block">
-						    <el-pagination
-						      @size-change="handleSizeChange"
-						      @current-change="handleCurrentChange"
-						      :current-page="currentPage4"
-						      :page-size="3"
-						      layout=" prev, pager, next, total,jumper"
-						      :total=totalNum>
-						    </el-pagination>
-						  </div>
+								<el-pagination @current-change="handleCurrentChange" :current-page="currentPage1" :page-size="3" layout=" prev, pager, next, total,jumper" :total=totalNum>
+								</el-pagination>
+							</div>
 						</div>
 					</Tab-pane>
 
@@ -133,140 +127,56 @@
 									<th>社区设置</th>
 									<th width="175px;">操作</th>
 								</tr>
-								<tr>
-									<td>1</td>
+								<tr v-for="(item,index) in commint2">
+									<td>{{index+1}}</td>
 									<td>
 										<dl>
-											<dt>佳兆业航运WEWA空间</dt>
-											<dd>社区类型：<span> 公寓+办公室</span></dd>
-											<dd>开业日期：<span> 2017年6月27日</span></dd>
+											<dt>{{item.communityName}}</dt>
+											<dd>社区类型：<span> {{item.communityType | Form(item.communityType)}}</span></dd>
+											<dd>开业日期：<span> {{item.communityOpeningDate | imata(item.communityOpeningDate)}}</span></dd>
 											<dd>物业合同截止：<span> 2027年6月27日</span></dd>
-											<dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
+											<dd>地址：<span> {{item.communityAddress}}</span></dd>
 										</dl>
 									</td>
 									<td>
 										<dl>
-											<dd>公寓：<span>100套</span></dd>
-											<dd>工位：<span> 100套</span></dd>
-											<dd>办公室：<span> 100间</span></dd>
-											<dd>会议室：<span> 15间</span></dd>
+											<dd>公寓：<span>{{item.cxkjCommunityListHousetypeSize}}套</span></dd>
+											<dd>工位：<span>{{item.cxkjCommunityPlaceSize}}套</span></dd>
+											<dd>办公室：<span> {{item.cxkjCommunityListOfficeSize}}间</span></dd>
+											<dd>会议室：<span> {{item.cxkjCommunityListMeetingSize}}间</span></dd>
 										</dl>
 									</td>
 									<td>
 										<dl>
-											<dd>店长：<span> 张明辉</span></dd>
-											<dd>店长联系电话：<span> 15812345678</span></dd>
-											<dd>社区服务电话：<span> 15858585858</span></dd>
-											<dd>员工：<span> 30人</span></dd>
+											<dd>店长：<span>item.shopkeeper.userName</span></dd>
+											<dd>店长联系电话：<span>item.shopkeeper.userPhone</span></dd>
+											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
+											<dd>员工：<span>{{item.employee}}</span></dd>
 										</dl>
 									</td>
 									<td>
 										<dl>
 											<dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-											<dd>服务费：<span>  20.00元/月</span></dd>
-											<dd>会议室套餐：<span>  已设置</span></dd>
-											<dd>维修项：<span> 已设置</span></dd>
+											<dd>服务费：<span>  {{item.serviceCost}}元/月</span></dd>
+											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
+											<dd>维修项：<span> {{item.maintain | Fors(item.maintain)}}</span></dd>
 										</dl>
 									</td>
 									<td>
-										<a href="javascript:;">基本信息</a>
-										<router-link to="/apartment/communityPresentation">社区介绍</router-link>
-										<router-link to="/communityHouse">资源管理</router-link>
-										<router-link to="/apartment/communitySettings">社区设置</router-link>
-										<router-link to="/apartment/equipmentManage">设备管理</router-link>
-										<a href="javascript:;" @click="hub()">关闭社区</a>
-									</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>
-										<dl>
-											<dt>佳兆业航运WEWA空间</dt>
-											<dd>社区类型：<span> 公寓+办公室</span></dd>
-											<dd>开业日期：<span> 2017年6月27日</span></dd>
-											<dd>物业合同截止：<span> 2027年6月27日</span></dd>
-											<dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>公寓：<span>100套</span></dd>
-											<dd>工位：<span> 100套</span></dd>
-											<dd>办公室：<span> 100间</span></dd>
-											<dd>会议室：<span> 15间</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>店长：<span> 张明辉</span></dd>
-											<dd>店长联系电话：<span> 15812345678</span></dd>
-											<dd>社区服务电话：<span> 15858585858</span></dd>
-											<dd>员工：<span> 30人</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-											<dd>服务费：<span>  20.00元/月</span></dd>
-											<dd>会议室套餐：<span>  已设置</span></dd>
-											<dd>维修项：<span> 已设置</span></dd>
-										</dl>
-									</td>
-									<td>
-										<a href="javascript:;">基本信息</a>
-										<router-link to="/apartment/communityPresentation">社区介绍</router-link>
+										<router-link to="/apartment/communityMessage">基本信息</router-link>
+										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
 										<router-link to="/communityHouse">资源管理</router-link>
 										<router-link to="/apartment/communitySettings">社区设置</router-link>
 										<a href="javascript:;">设备管理</a>
-										<a href="javascript:;" @click="hub()">关闭社区</a>
+										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">开放社区</a>
 									</td>
 								</tr>
-								<tr>
-									<td>3</td>
-									<td>
-										<dl>
-											<dt>佳兆业航运WEWA空间</dt>
-											<dd>社区类型：<span> 公寓+办公室</span></dd>
-											<dd>开业日期：<span> 2017年6月27日</span></dd>
-											<dd>物业合同截止：<span> 2027年6月27日</span></dd>
-											<dd>地址：<span> 广东省深圳市罗湖区嘉宾路4025号航运综合楼</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>公寓：<span>100套</span></dd>
-											<dd>工位：<span> 100套</span></dd>
-											<dd>办公室：<span> 100间</span></dd>
-											<dd>会议室：<span> 15间</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>店长：<span> 张明辉</span></dd>
-											<dd>店长联系电话：<span> 15812345678</span></dd>
-											<dd>社区服务电话：<span> 15858585858</span></dd>
-											<dd>员工：<span> 30人</span></dd>
-										</dl>
-									</td>
-									<td>
-										<dl>
-											<dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-											<dd>服务费：<span>  20.00元/月</span></dd>
-											<dd>会议室套餐：<span>  已设置</span></dd>
-											<dd>维修项：<span> 已设置</span></dd>
-										</dl>
-									</td>
-									<td>
-										<a href="javascript:;">基本信息</a>
-										<router-link to="/apartment/communityPresentation">社区介绍</router-link>
-										<router-link to="/communityHouse">资源管理</router-link>
-										<router-link to="/apartment/communitySettings">社区设置</router-link>
-										<a href="javascript:;">设备管理</a>
-										<a href="javascript:;" @click="hub()">关闭社区</a>
-									</td>
-								</tr>
+								
 							</table>
-							<Page :total="100" show-elevator></Page>
+							<div class="block">
+								<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage4" :page-size="3" layout=" prev, pager, next, total,jumper" :total=totalNum2>
+								</el-pagination>
+							</div>
 						</div>
 					</Tab-pane>
 
@@ -314,7 +224,7 @@
 									</td>
 								</tr>
 							</table>
-							<Page :total="100" show-elevator></Page>
+							
 						</div>
 					</Tab-pane>
 
@@ -323,8 +233,8 @@
 			<footer-box></footer-box>
 		</div>
 		<div class="lose" v-show="isShow">
-			<span>确认<i>关闭</i>以下社区吗？</span>
-			<p>佳兆业</p>
+			<span>确认<i>{{community.Close | mv(community.Close)}}</i>以下社区吗？</span>
+			<p>{{community.Name}}</p>
 			<a @click="qs()">确定</a>
 			<a @click="qb()">取消</a>
 		</div>
@@ -339,7 +249,7 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
-	import { hostAuthor, hostCommint } from '../api.js';
+	import { hostAuthor, hostCommint,hostOpen } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -351,7 +261,7 @@
 		},
 		data() {
 			return {
-				currentPage4: 4,
+				currentPage4: 1,
 				communitys: [{
 						value: 'beijing',
 						label: '北京市'
@@ -415,19 +325,29 @@
 					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
 					operation: "查看详情"
 				}],
-				commint: [], //社区管理数据展示
-				pageNum:1,//第几页的数据
-				totalNum:null, //数据总条数
-				totalPageNum:null, //总页码
-				pageSize:3 //每页显示的数据数量
+				commint: [], //社区管理全部数据展示
+				commint2:[], //已关闭社区数据
+				pageNum: 1, //第几页的数据
+				pageNum2: 1, //已关闭社区第几页的数据
+				totalNum: null, //数据总条数
+				totalNum2:null, //已关闭社区数据条数
+				pageSize: 3, //每页显示的数据数量
+				community:{
+					Close:null,
+					id:0,
+					Name:'佳兆业'
+				} //确定后需要的参数
+//				communityId:null, //关闭或打开社区操作的社区id
+//				communityIsClose:null, //关闭或打开社区的状态
+//				communityName:null //关闭或打开社区的name
 			}
 		},
-		filters: {
+		filters: { //过滤器
 			Fors(data) {
 				if(data == false) {
 					return '未设置';
 				}
-				if(data == true) {
+				else if(data == true) {
 					return '已设置';
 				}
 			},
@@ -435,10 +355,10 @@
 				if(data == '0,1') {
 					return '公寓+办公室'
 				}
-				if(data == '0') {
+				else if(data == '0') {
 					return '公寓'
 				}
-				if(data == '1') {
+				else if(data == '1') {
 					return '办公室'
 				}
 			},
@@ -453,74 +373,138 @@
 
 				}
 				return null;
+			},
+			hubs(val){
+				if(val == '0'){
+					return '关闭社区';
+				}
+				else if(val == '1'){
+					return '开放社区';
+				}
+			},
+			mv(val){
+				if(val =='1'){
+					return '关闭';
+				}
+				else if(val =='0'){
+					return '开放';
+				}
 			}
 		},
 
-		mounted(){
-			console.log(111)
+		mounted() {
+			 //初始化数据
+			//console.log(111)
 			this.befor();
+			this.befors();
 		},
 		methods: {
-			befor(){
+			befor() {
 				let vm = this
-				console.log(1111)
+				//console.log(1111)
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
 				axios.post(hostCommint, //请求数据列表
-					qs.stringify({
-						pageNum: pageNum,
-						pageSize: pageSize
+						qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize
+						})
+					).then((response) => {
+						console.log(response);
+						vm.commint = response.data.result.communityData.page;
+						vm.totalNum = response.data.result.communityData.totalNum;
+						//console.log(this.commint);
 					})
-				).then((response) => {
-					console.log(response);
-					vm.commint = response.data.result.communityData.page;
-					vm.totalNum = response.data.result.communityData.totalNum;
-					//console.log(this.commint);
-				})
-				.catch((error) => {
-					console.log(error);
-				})
+					.catch((error) => {
+						console.log(error);
+					})
 			},
-			cs(){
-				console.log(11111111111)
+			befors() {
+				let vm = this
+				//console.log(1111)
+				let pageNum2 = vm.pageNum2 || 1;
+				let pageSize = vm.pageSize || 3;
+				axios.post(hostCommint, //请求数据列表
+						qs.stringify({
+							pageNum2: pageNum2,
+							pageSize: pageSize,
+							communityIsClose:1
+						})
+					).then((response) => {
+						//console.log(response);
+						vm.commint2 = response.data.result.communityData.page;
+						vm.totalNum2 = response.data.result.communityData.totalNum;
+						//console.log(this.commint);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
 			},
-			hub() {
+			hub(val) {
 				this.isShow = !this.isShow;
+				//console.log(val);
+				let vm = this
+				if(val.Close == 0){
+					vm.community.Close = 1;
+					console.log('关闭')
+					console.log(vm.community.Close)
+					console.log('关闭')
+				}
+				else if(val.Close == 1){
+					vm.community.Close = 0;
+					console.log('开放')
+					console.log(vm.community.Close)
+					console.log('开放')
+				}
+				this.community.id=val.id;
+				this.community.Name=val.Name;
+				console.log(this.community);
+//				this.communityId = id;
+//				this.communityIsClose = val;
+//				this.communityName = name;
+//				console.log(this.communityId);
+//				console.log(111);
+//				console.log(this.communityIsClose);
+				//console.log(this.communityName);
 			},
-			qs() {
+			qs(){
 				this.isShow = false;
+				let vm= this
+				console.log("this.community.Close");
+				console.log(this.community.Close);
+				console.log("this.community.Close");
+				axios.post(hostOpen,
+						qs.stringify({
+							communityId:vm.community.id,
+							communityIsClose:vm.community.Close
+						})
+				)
+				.then((response)=>{
+					console.log(response)
+					debugger
+					vm.befor();
+					vm.befors();
+					alert('操作成功');
+				})
+				.catch((error)=>{
+					alert('操作失败');
+				})
 			},
 			qb() {
 				this.isShow = false;
 			},
-			handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-        this.pageNum = val;
-        this.befor();
-      }
+			handleCurrentChange(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.befor();
+			},
+			handleCurrentChange2(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum2 = val;
+				this.befors();
+			}
 		},
-//		created() {
-//
-//			}	
-			//	console.log('hostAuthor')
-			//	console.log(11)
-			//	console.log('hostAuthor')
-			//	console.log(hostAuthor)
-			//		this.$http.post(hostAuthor)//请求用户个人信息数据
-			//		.then(function(response){
-			//			console.log(111)
-			//			//console.log(sessionStorage.getItem('token'))
-			//			console.log(response.data);
-			//		})
-			//		.catch(function(error){
-			//			console.log(error);
-			//		})
 
-		
-		
 	}
 </script>
 
@@ -610,22 +594,27 @@
 		color: #666;
 		border: 1px solid #dcdcdc;
 	}
-	.message-ti	.block{
+	.message-ti{
+		position: relative;
+	}
+	.message-ti .block {
 		position: absolute;
 		bottom: 20%;
-		left:50%;
-		transform: translate(-50%,-50%);
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
-.message-ti	.block .el-pagination{
-	text-align: center;
-	margin-top: 40px;
 	
-}
-.message-ti	.block .el-pagination .el-pager .number{
-	margin: 0 5px;
-	border: 1px solid #DCDCDC;
-}
-.message-ti .block .el-pagination button{
-	border: 1px solid #DCDCDC;
-}
+	.message-ti .block .el-pagination {
+		text-align: center;
+		margin-top: 40px;
+	}
+	
+	.message-ti .block .el-pagination .el-pager .number {
+		margin: 0 5px;
+		border: 1px solid #DCDCDC;
+	}
+	
+	.message-ti .block .el-pagination button {
+		border: 1px solid #DCDCDC;
+	}
 </style>

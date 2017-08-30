@@ -206,7 +206,7 @@
 				this.param.append("communityLeaseEnd", vm.communityLeaseEnd);
 				this.param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
 				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-				this.$http.post('http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAdd200002', vm.param).then(res => {
+				this.$http.post(hostComplie, vm.param).then(res => {
 						console.log(res);
 						alert('已添加成功！');
 					})

@@ -9,27 +9,36 @@ const host3 = 'http://192.168.26.118:8080';
 //用户登录接口
 const login = '/apis/user/CxkjCenterLogin100002';
 
-//用户个人信息接口
-const Author = '/apis/user/info';
-
+//管家个人信息接口
+const Author = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformation200021';
+//http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformation200021
 //社区管理接口
-//http://localhost:9080/cxkj_room/apis/pc/cxkjcommunity/CxkjCommunity200001
 const Commint = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001';
 
-
 //添加社区
-//http://115.29.138.230:8080/apis/community/pc/CxkjCommunityAdd200002
 const Complie ='/cxkj_room/apis/pc/community/CxkjCommunityAdd200002';
 
+//关闭或开放社区
+const Open = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';
+
+//介绍页面数据
+const Present='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityDetails200047';
+//http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityDetails200047\
+
+//获取社区设置的方式
+const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
 export const hostlogin = host + login;
-export const hostAuthor = host + Author;
+export const hostAuthor = host3 + Author;
 export const hostCommint = host3 + Commint;
 export const hostComplie = host3 + Complie;
 export const hostParent = host3 + Parent;
+export const hostOpen = host3 + Open;
+export const hostPresent = host3 + Present;
+export const hostWay = host3 + Way;
 //export default {
 //hosts:function(){
 //		return{

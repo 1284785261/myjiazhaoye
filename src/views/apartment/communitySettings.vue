@@ -25,12 +25,11 @@
                         <tr v-for="tableRepair in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择付款方式">
+                            <el-select v-model="value1" placeholder="请选择付款方式"  @change='mus(value1)'>
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
-                                :labels="item.labels"
-                                :value="item.value1">
+                                v-for="item in option1"
+													      :key="item.value1"
+													      :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
@@ -53,12 +52,12 @@
                         <tr v-for="tableRepair in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择维修项目">
+                            <el-select v-model="value2" placeholder="请选择维修项目">
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
+                                v-for="item in option2"
+                                :key="item.value2"
                                 :labels="item.labels"
-                                :value="item.value1">
+                                :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
@@ -73,18 +72,16 @@
                     </div>
                   </div>
                 </div>
+               
                 <div class="ivu-floor floor02">
                   <div class="floor-main">
                     <span class="fl">家用电器：</span>
                     <div class="floor-item form-item">
-                      <el-checkbox v-model="checked">床</el-checkbox>
-                      <el-checkbox v-model="checked">洗衣机</el-checkbox>
-                      <el-checkbox v-model="checked">书桌</el-checkbox>
-                      <el-checkbox v-model="checked">空调</el-checkbox>
-                      <el-checkbox v-model="checked">电视</el-checkbox>
-                      <el-checkbox v-model="checked">衣柜</el-checkbox>
+                      <el-checkbox v-model="checked" v-for="item in option3">{{item.dataName}}</el-checkbox>
+                     
                     </div>
                   </div>
+                   
                   <div class="floor-main">
                     <span class="fl">服务费设置：</span>
                     <div class="floor-item form-item">
@@ -99,6 +96,7 @@
                     </div>
                   </div>
                 </div>
+                 
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
                     <div class="floor-main1">
@@ -146,12 +144,11 @@
                         <tr v-for="tableRepair in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择付款方式">
+                            <el-select v-model="value6" placeholder="请选择付款方式">
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
-                                :labels="item.labels"
-                                :value="item.value1">
+                                v-for="item in option6"
+                                :key="item.value6"
+                                :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
@@ -174,23 +171,22 @@
                         <tr v-for="tableRepair in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择套餐名称" style="width: 160px">
+                            <el-select v-model="value4" placeholder="请选择套餐名称" style="width: 160px">
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
-                                :labels="item.labels"
-                                :value="item.value1">
+                                v-for="item in option4"
+                                :key="item.value4"
+                                :labels="item.label4"
+                                :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span class="baifen2">元/</span></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择次数" style="width: 140px" class="tbs">
+                            <el-select v-model="value8" placeholder="请选择次数" style="width: 140px" class="tbs">
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
-                                :labels="item.labels"
-                                :value="item.value1">
+                                v-for="item in option8"
+                                :key="item.value8"
+                                :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
@@ -211,12 +207,11 @@
                         <tr v-for="tableRepair in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择维修项目">
+                            <el-select v-model="value7" placeholder="请选择维修项目">
                               <el-option
-                                v-for="item in options"
-                                :key="item.value1"
-                                :labels="item.labels"
-                                :value="item.value1">
+                                v-for="item in option7"
+                                :key="item.value7"
+                                :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
@@ -241,11 +236,8 @@
                   <div class="floor-main">
                     <span class="fl">办公物资：</span>
                     <div class="floor-item form-item">
-                      <el-checkbox v-model="checked">座机</el-checkbox>
-                      <el-checkbox v-model="checked">饮水机</el-checkbox>
-                      <el-checkbox v-model="checked">书桌</el-checkbox>
-                      <el-checkbox v-model="checked">打印机</el-checkbox>
-                      <el-checkbox v-model="checked">投影仪</el-checkbox>
+                      <el-checkbox v-model="checked" v-for="item in option5">{{item.dataName}}</el-checkbox>
+                     
                     </div>
                   </div>
                 </div>
@@ -271,7 +263,9 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-
+	import { hostWay } from '../api.js';
+	import axios from 'axios';
+	import qs from 'qs';
 export default {
   components:{
     rightHeader,
@@ -297,27 +291,26 @@ export default {
              },{
                value:"num3",
                label:"3"
-        }],
-        options: [{
-          value1: '选项1',
-          labels: '黄金糕'
-        }, {
-          value1: '选项2',
-          labels: '双皮奶'
-        }, {
-          value1: '选项3',
-          labels: '蚵仔煎'
-        }, {
-          value1: '选项4',
-          labels: '龙须面'
-        }, {
-          value1: '选项5',
-          labels: '北京烤鸭'
-        }],
-        value1: '',
-        selectNum:"",
-        deletect:"删除"
+      		}]
       }],
+      option1: [],
+      option2: [],
+      value1: '',
+      value2: '',
+      option3: [],
+      value3: '',
+      option4: [],
+      value4: '',
+      option5: [],
+      value5: '',
+      option6: [],
+      value6: '',
+      option7: [],
+      value7: '',
+      option8: [],
+      value8: '',
+      selectNum:"",
+      deletect:"删除",
       tableRepairs:[{
         checkValue:"",
         inputValue:"",
@@ -327,6 +320,9 @@ export default {
       }],
       activeName2:'first'
     }
+  },
+  mounted(){
+//	this.mus();
   },
   methods: {
   	handleClick(tab, event){
@@ -360,6 +356,92 @@ export default {
           date:"",
           deletect:"删除"
         })
+    },
+//  seting(){
+//  	let vm = this
+//  	axios.post(hostWay,
+//  		qs.stringify({
+//  			parentId:15
+//  		})
+//  	).then((response)=>{
+//  		//console.log(response);
+//  		vm.option2 = response.data.entity;
+//  		vm.option7 = response.data.entity;
+//  	//	console.log(vm.option2);
+//  	})
+//  	.catch((error)=>{
+//  		console.log(error);
+//  	})
+//  	axios.post(hostWay,
+//  		qs.stringify({
+//  			parentId:40
+//  		})
+//  	).then((response)=>{
+//  		//console.log(response);
+//  		vm.option8 = response.data.entity;
+//  	//	console.log(vm.option2);
+//  	})
+//  	.catch((error)=>{
+//  		console.log(error);
+//  	})
+//  },
+//  seting2(){
+//	   	let vm =this
+//	    axios.post(hostWay,
+//  		qs.stringify({
+//  			parentId:19
+//  		})
+//  	).then((response)=>{
+//  		//console.log(response);
+//  		vm.option3 = response.data.entity;
+//  	//	console.log(vm.option3);
+//  	})
+//  	.catch((error)=>{
+//  		console.log(error);
+//  	})
+//  	axios.post(hostWay,
+//  		qs.stringify({
+//  			parentId:26
+//  		})
+//  	).then((response)=>{
+//  		//console.log(response);
+//  		vm.option4 = response.data.entity;
+//  	//	console.log(vm.option4);
+//  	})
+//  	.catch((error)=>{
+//  		console.log(error);
+//  	})
+//  	axios.post(hostWay,
+//  		qs.stringify({
+//  			parentId:29
+//  		})
+//  	).then((response)=>{
+//  		//console.log(response);
+//  		vm.option5 = response.data.entity;
+//  	//	console.log(vm.option5);
+//  	})
+//  	.catch((error)=>{
+//  		console.log(error);
+//  	})
+//  
+//  },
+    mus(vul){
+    	let vm = this
+    	console.log(111);
+	    axios.post(hostWay,
+    		qs.stringify({
+    			parentId:1
+    		})
+    	).then((response)=>{
+    		console.log(response);
+    		vm.option1 = response.data.entity;
+    		//vm.option6 = response.data.entity;
+    		console.log(vm.option1);
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    	
     },
     deleteConference(item){
         this.tableConferences.splice(item,1);
