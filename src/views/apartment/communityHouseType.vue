@@ -198,8 +198,9 @@
         };
         console.log(data);
         this.$http.post(
-          'http://192.168.26.164:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',{cxkjCommunityListHousetype:data}
+          'http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',{cxkjCommunityListHousetype:data}
         ).then(function(res){
+            window.alert("添加户型成功!")
             //that.$router.push({path:"/communityHouse"});
         }).catch(function(err){
           console.log(err);

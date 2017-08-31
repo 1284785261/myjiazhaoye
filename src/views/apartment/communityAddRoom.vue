@@ -6,10 +6,12 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">批量添加房间</router-link>
+          <router-link v-if="isEidRoom"  class="active" to="/apartment/communityManagement">编辑房间</router-link>
+          <router-link v-else class="active" to="/apartment/communityManagement">批量添加房间</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>批量添加房间</h3>
+          <h3 v-if="isEidRoom"><i class="icon icon-iden"></i>编辑房间</h3>
+          <h3 v-else><i class="icon icon-iden"></i>批量添加房间</h3>
           <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="add-room-management">
@@ -27,24 +29,38 @@
             </tr>
             <tr v-for="(room,index) in cxkjCommunityListRoom">
               <td >
-                <el-select v-model="room.floorId" filterable placeholder="请输入或选择">
+                <el-select v-model="cacheFloorName" filterable placeholder="请输入或选择" disabled>
                   <el-option v-for="item in floors" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td ><Input v-model="room.roomNum"  placeholder="请填写房号"></Input></td>
               <td>
                 <el-select v-model="room.roomType" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in roomTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  <el-option v-for="item in filterRoomType" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
                 <a @click="editRoomFurniture(room.roomFurniture,index)">{{room.roomFurniture}}</a>
               </td>
               <td>
-                <a @click="modal2=true">{{room.roomWater}}</a>
+                <a @click="modal2=true">
+                  <template v-if="room.waterType==1">
+                    <span>在线 </span><span>按用量 {{room.roomWater}}元/m³</span>
+                  </template>
+                  <template v-else>
+                    <span>在线 </span><span>按合租人数 {{room.roomWater}}元/人</span>
+                  </template>
+                </a>
               </td>
               <td>
-                <a @click="modal3=true">{{room.roomElectric}}</a>
+                <a @click="modal3=true">
+                  <template v-if="room.roomElectric==1">
+                    <span>在线 </span><span>按用量 {{room.roomElectric}}元/度</span>
+                  </template>
+                  <template v-else>
+                    <span>在线 </span><span>按合租人数 {{room.roomElectric}}元/人</span>
+                  </template>
+                </a>
               </td>
               <td>
                 <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
@@ -54,7 +70,7 @@
               </td>
             </tr>
           </table>
-          <div class="add-item">
+          <div class="add-item" v-if="!isEidRoom">
             <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" type="number" max="5" min="1" step="1" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button @click="addRoom()">确定</Button>
           </div>
           <div class="house-type-btn">
@@ -158,6 +174,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import api from '../api.js';
+  import qs from 'qs';
 
 
   export default {
@@ -196,13 +213,7 @@
           value: '3',
           label: '3'
         }],
-        roomTypes: [{
-          value: '标准大标间  1室1厅1卫 35㎡ 朝南',
-          label: '标准大标间  1室1厅1卫 35㎡ 朝南'
-        }, {
-          value: '标准大标间  1室1厅1卫 35㎡ 朝北',
-          label: '标准大标间  1室1厅1卫 35㎡ 朝北'
-        }],
+        roomTypes: [],
         checkBoxArr:[],
         modal1: false,
         modal2: false,
@@ -211,8 +222,50 @@
         waterTypeSelect: 1,
         waterValue:"",
         electricTypeSelect:1,
-        electricValue:""
+        electricValue:"",
+        isEidRoom:false,//是否为编辑房间页面
+        cacheFloorId:"",//缓存楼层
+        cacheCommunityId:"",//缓存社区id
+        cacheFloorName:1//缓存名字
       }
+    },
+    mounted(){
+      var to_floorName = "";
+      var roomObj = this.$route.params.roomObj;
+      var communityId = this.$route.params.communityId;
+      var to_floorId = this.$route.params.floorId;
+      to_floorName = this.$route.params.floorName;
+      var floorId = "";
+      if(roomObj) {//编辑跳转
+        floorId = roomObj.floorId;
+        to_floorName = roomObj.floorName;
+        this.isEidRoom = true;
+        this.cacheCommunityId = roomObj.communityId;
+        for (var i = 0; i < this.cxkjCommunityListRoom.length; i++) {
+          this.cxkjCommunityListRoom = [{
+            communityId: roomObj.communityId,
+            floorId: roomObj.floorId,
+            roomNum: roomObj.roomNum || "",
+            roomType: roomObj.roomType,
+            roomFurniture: roomObj.roomFurniture || "",
+            roomWater: roomObj.roomWater,
+            roomElectric: roomObj.roomElectric,
+            roomRent: roomObj.roomRent,
+            waterType: roomObj.waterType,
+            electricType: roomObj.electricType,
+          }];
+        }
+      } else{//批量添加
+        floorId = to_floorId;
+        this.cacheCommunityId = communityId;
+        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
+          this.cxkjCommunityListRoom[i].floorId = floorId;
+        }
+      }
+      this.cacheFloorName = to_floorName;
+      this.cacheFloorId = floorId;//缓存当前楼层
+      this.getHouseType();
+      this.getFurniture();
     },
     methods:{
       handleClick(tab, event) {
@@ -228,7 +281,43 @@
         this.activeRoomIndex = index;
         this.modal1=true;
         this.checkBoxArr = furniture.split(" ");
-
+//        this.checkBoxArr = [];
+//        for(var i =0;i<checkName.length;i++){
+//            if(checkName == "床"){
+//              this.checkBoxArr.push("1");
+//            }else if(checkName == "空调"){
+//              this.checkBoxArr.push("2");
+//            }else if(checkName == "电视机"){
+//              this.checkBoxArr.push("3");
+//            }else if(checkName == "洗衣机"){
+//              this.checkBoxArr.push("4");
+//            }else if(checkName == "书桌"){
+//              this.checkBoxArr.push("5");
+//            }else if(checkName == "衣柜"){
+//              this.checkBoxArr.push("6");
+//            }
+//        };
+      },
+      getHouseType(){
+          var that = this;
+        this.$http.post(
+          'http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048',qs.stringify({communityId:this.cacheCommunityId})
+        ).then(function(res){
+          that.roomTypes = res.data.entity;
+          console.log(that.roomTypes)
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+      getFurniture(){
+//        var that = this;
+//        this.$http.post(
+//          'http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050',qs.stringify({parentId:19})
+//        ).then(function(res){debugger
+//          that.checkBoxArr = res.data.entity;
+//        }).catch(function(err){
+//          console.log(err);
+//        })
       },
       updatetRoomFurniture () {
         this.modal1 = false;
@@ -236,10 +325,11 @@
         this.cxkjCommunityListRoom[this.activeRoomIndex].roomFurniture = furnitureStr;
       },
       addRoom(){
+        var that = this;
         for(var i =0;i<this.numberLine;i++){
           this.cxkjCommunityListRoom.push({
             communityId:"",
-            floorId:"",
+            floorId:that.cacheFloorId,
             roomNum:"",
             roomType:"",
             roomFurniture:"床 衣柜 书桌 空调 电视机 洗衣机",
@@ -266,7 +356,54 @@
         return result;
       },
       createNewRoom(){
-
+        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
+          var furniture = this.cxkjCommunityListRoom[i].roomFurniture;
+          var checkName = furniture.split(" ");
+          var checkBoxArr = [];
+          var checkStr = '';
+          for(var i =0;i<checkName.length;i++){
+            if(checkName[i] == "床"){
+              checkBoxArr.push("20");
+            }else if(checkName[i] == "空调"){
+              checkBoxArr.push("21");
+            }else if(checkName[i] == "电视机"){
+              checkBoxArr.push("22");
+            }else if(checkName[i] == "洗衣机"){
+              checkBoxArr.push("23");
+            }else if(checkName[i] == "书桌"){
+              checkBoxArr.push("24");
+            }else if(checkName[i] == "衣柜"){
+              checkBoxArr.push("25");
+            }
+          };
+          checkStr = checkBoxArr.join(",");
+          this.cxkjCommunityListRoom[0].roomFurniture = checkStr;
+        }
+        //编辑房间接口还没有
+//        this.$http.post(
+//          'http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoom200007',{cxkjCommunityListRoom:this.cxkjCommunityListRoom}
+//        ).then(function(res){
+//          debugger
+//        }).catch(function(err){
+//          console.log(err);
+//        })
+      }
+    },
+    computed:{
+      filterRoomType:function(){
+        var filterroomTypes = [];
+        if(this.roomTypes){
+          for(var i =0;i<this.roomTypes.length;i++){
+            var houseType = this.roomTypes[i];
+            var typeObj = {};
+            var houseTypeStr = houseType.housetypeName + " " + houseType.housetypeArea + "㎡ "  + houseType.roomId +"室" + houseType.housetypeHall+"厅"
+              + houseType.housetypeHygienism +"卫 "+  houseType.housetypeWindow + " " +  houseType.housetypeOrientations;
+            typeObj.value = houseType.housetypeId;
+            typeObj.label = houseTypeStr;
+            filterroomTypes.push(typeObj)
+          }
+        }
+        return filterroomTypes;
       }
     }
   }
@@ -290,7 +427,6 @@
       th,td{
         border: 1px solid #ccc;
         padding: 15px 10px;
-        min-width: 130px;
       }
       tr>th:first-child,tr>td:first-child{
         border-left-width: 0;

@@ -18,63 +18,85 @@
             <el-tab-pane label="公寓(1000)" name="first">
               <div class="house_hu">
                 <router-link to="apartment/communityHouseType" class="hux">管理户型</router-link>
-                <a href="#" class="adds">添加楼层</a>
+                <a href="javascript:;" class="adds" @click="openFloorModal()">添加楼层</a>
               </div>
               <div class="ls">
-                <div class="lishi" v-for="floorData in filterRootData">
+                <div class="lishi" v-for="(floorData,index) in filterRootData">
                   <div class="house_xq">
                     <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">{{floorData.floorId}}层</a>
-                    <a href="#" class="del">删除楼层</a>
+                    <a href="#" class="ceng">{{floorData.floorName}}层</a>
+                    <a class="del" @click="openDeleteModal()">删除楼层</a>
                     <a href="#" class="isste">快速复制楼层</a>
-                    <router-link to="/apartment/communityAddRoom" class="adda">批量添加房间</router-link>
+                    <a href="#" class="isste">修改楼层信息</a>
+                    <!--<router-link to="/apartment/communityAddRoom" class="adda">批量添加房间</router-link>-->
+                    <router-link :to="{ name: 'communityAddRoom' , params: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
                   </div>
                   <div class="house_xqb">
                     <el-table
                       :data="floorData.cxkjCommunityListRoom"
                       border
                       style="width: 100%">
-                      <el-table-column
-                        prop="roomNum"
-                        label="房间"
-                        width="180">
-                      </el-table-column>
-                      <el-table-column
-                        prop="houseTypeStr"
-                        label="户型"
-                        width="180">
-                      </el-table-column>
-                      <el-table-column
-                        prop="roomFurniture"
-                        label="家具电器">
-                      </el-table-column>
-                      <el-table-column
-                        prop="roomRent"
-                        label="租金(元/月)">
-                      </el-table-column>
-                      <el-table-column
-                        prop="waterTypeStr"
-                        label="水表/水费">
-                      </el-table-column>
-                      <el-table-column
-                        prop="electricTypeStr"
-                        label="电表/电费">
-                      </el-table-column>
-                      <el-table-column
-                        prop="open"
-                        label="智能门锁">
-                      </el-table-column>
-                      <el-table-column
-                        prop="stateStr"
-                        label="状态">
-                      </el-table-column>
-                      <el-table-column
-                        label="操作">
-                        <template scope="scope">
-                          <el-button @click="handleClick" type="text" size="small">编辑</el-button>
-                          <el-button type="text" size="small">删除</el-button>
-                        </template>
-                      </el-table-column>
+                      <template scope="scope" v-if="false">
+                        <el-table-column
+                          label="房间"
+                          width="180">
+                          <template scope="scope">
+                           <span>{{scope.row.roomNum}}</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="houseTypeStr"
+                          label="户型"
+                          width="180">
+                        </el-table-column>
+                        <el-table-column
+                          prop="roomFurniture"
+                          label="家具电器">
+                        </el-table-column>
+                        <el-table-column
+                          label="租金(元/月)">
+                          <template scope="scope">
+                            <span style="color: red">{{scope.row.roomRent}}</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="水表/水费">
+                          <template scope="scope">
+                            <span v-if="true">在线 </span>
+                            <span v-else>离线 </span>
+                            <span v-if="scope.row.waterType ==1">按量计费</span>
+                            <span v-else>按人计费</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="电表/电费">
+                          <template scope="scope">
+                            <span v-if="true">在线 </span>
+                            <span v-else-if="">离线 </span>
+                            <span v-if="scope.row.electricType ==1">按量计费</span>
+                            <span v-else-if="scope.row.electricType ==2">按人计费</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="open"
+                          label="智能门锁">
+                        </el-table-column>
+                        <el-table-column
+                          label="状态">
+                          <template scope="scope">
+                            <span v-if="scope.row.state == 0" style="color: rgb(46,192,172);">配置中</span>
+                            <span v-else-if="scope.row.state == 1" style="color: rgb(255,102,18);">待出租</span>
+                            <span v-else-if="scope.row.state == 2" >已出租</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="操作">
+                          <template scope="scope">
+                            <el-button @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index])" type="text" size="small">编辑</el-button>
+                            <el-button type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
+                          </template>
+                        </el-table-column>
+                      </template>
                     </el-table>
                   </div>
                 </div>
@@ -93,12 +115,13 @@
               <a href="javascript:;" class="call">取消</a>
             </el-tab-pane>
             <el-tab-pane label="办公室" name="third">
-              <table class="bgs">
+              <table class="bgs" id="office-table">
                 <thead>
                 <tr>
                   <td>门牌号</td>
                   <td>工位数</td>
                   <td>租金(元/月)</td>
+                  <td>办公物资</td>
                   <td>操作</td>
                 </tr>
                 </thead>
@@ -112,12 +135,15 @@
                   <td>
                     <input type="text" v-model="office.officeRent"  placeholder="请输入租金">
                   </td>
+                  <td @click="openSelectOfficeModal">
+                    <p><a>饮水机 饮水机 饮水机 饮水机</a></p>
+                  </td>
                   <td>
                     <a href="javascript:;" @click="deleteOffice(index)">删除</a>
                   </td>
                 </tr>
                 <tr class="add_a">
-                  <td width="25% " colspan="4">
+                  <td width="25% " colspan="5">
                     <span>继续添加</span><input type="text" v-model="newRowNum" value="1"/> <span>行</span><a href="javascript:;" @click="addOffice()">确定</a>
                   </td>
                 </tr>
@@ -164,6 +190,62 @@
       </div>
       <footer-box></footer-box>
     </div>
+
+    <div class="community-house-modal" v-if="addFloorModal" @click="closeFloorModal()"></div>
+    <div class="community-house-modal-content" v-if="addFloorModal">
+      <div class="community-house-modal-content-title">
+        <span>添加楼层</span>
+      </div>
+      <div class="add-floor-table">
+          <table>
+            <tr>
+              <td>楼层 :</td>
+              <td><Input v-model="floorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
+            </tr>
+            <tr>
+              <td>房间数量 :</td>
+              <td><Input v-model="roomSize" placeholder="请填写整数" style="width: 225px;height: 36px"></Input> 间</td>
+            </tr>
+          </table>
+      </div>
+      <div class="modal-btn">
+        <Button type="primary" @click="createNewFloor()">确定</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeFloorModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
+    <div class="community-house-modal" v-if="deleteFloorModal" @click="closeDeleteModal()"></div>
+    <div class="black-member-modal-content" v-if="deleteFloorModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/delete.png">
+      </div>
+      <p>确认<span>删除</span>该楼层吗?</p>
+      <div class="modal-btn">
+        <Button type="primary" @click="deleteFloor()">确定</Button>
+        <Button type="default" @click="closeDeleteModal()" style="margin-left: 10px;">取消</Button>
+      </div>
+    </div>
+
+    <div class="community-house-modal" v-if="seleteOffieModal" @click="closeSeleteOffieModal()"></div>
+    <div id="select-office-modal" class="community-house-modal-content" v-if="seleteOffieModal">
+      <div class="community-house-modal-content-title">
+        <span>办公物资设置</span>
+      </div>
+      <div class="select-office-modal-checkbox">
+        <el-checkbox-group v-model="selectListData" @change="cg()">
+            <el-checkbox v-for="select in checkBoxArr" :label="select.dataName"></el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div class="modal-btn">
+        <Button type="primary" @click="seleteOffie()">确定</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeSeleteOffieModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -185,19 +267,26 @@
     data(){
       return {
         activeName2: 'first',
-        CommunityListRoom: [],
-        rootData:[],
         placeNum:"",
         placeRent:"",
         newRowNum:1,
         newMeetingRoeNum:1,
+        rootData:[],
         CommunityListOffice:[],
-       CommunityListMeeting:[]
+        CommunityListMeeting:[],
+        addFloorModal:false,
+        deleteFloorModal:false,
+        seleteOffieModal:false,
+        floorNum:"",//楼层
+        roomSize:"",//房间数量
+        checkBoxArr:[],
+        selectListData:[]
       }
     },
     mounted(){
       this.getCommunityListRoom();
       this.init();
+      this.getOfficeSelect();
     },
     computed:{
       filterRootData:function(){
@@ -206,19 +295,12 @@
               for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
                 var room = this.rootData[i].cxkjCommunityListRoom[j];
                 var houseType = room.cxkjCommunityHousetype;
-
                 if(houseType){
                   var houseTypeStr = houseType.housetypeName + " " + houseType.housetypeArea + "㎡ "  + houseType.roomId +"室" + houseType.housetypeHall+"厅"
                     + houseType.housetypeHygienism +"卫 "+  houseType.housetypeWindow + " " +  houseType.housetypeOrientations;
                   this.rootData[i].cxkjCommunityListRoom[j].houseTypeStr = houseTypeStr;
                 }
-                var waterTypeStr ="在线 " + (room.waterType == 1?"按量计费":"按人计费");
-                this.rootData[i].cxkjCommunityListRoom[j].waterTypeStr = waterTypeStr;
-                var electricTypeStr ="在线 " + (room.electricType == 1?"按量计费":"按人计费");
-                this.rootData[i].cxkjCommunityListRoom[j].electricTypeStr = electricTypeStr;
-                var stateStr = room.state == 0?"配置中":room.state == 1?"待出租":" 已出租";
-                this.rootData[i].cxkjCommunityListRoom[j].stateStr = stateStr;
-                room.roomRent = room.roomRent.toFixed(2);
+                room.roomRent = room.roomRent?room.roomRent.toFixed(2):room.roomRent;
               }
             }
           }
@@ -244,9 +326,49 @@
             });
           }
       },
-      handleClick(tab, event){
-        //this.$router.push({path:"/apartment/communityRoom"});
-        console.log(tab, event);
+      handleClick(){
+
+      },
+      editRoom(room){
+        this.$router.push({
+          name: 'communityAddRoom' ,
+          params: { roomObj: room }
+        });
+      },
+      closeFloorModal(){
+        this.addFloorModal = false;
+      },
+      openFloorModal(){
+        this.addFloorModal = true;
+      },
+      createNewFloor(){
+        this.addFloorModal = false;
+        var that = this;
+        this.$http.post("http://192.168.26.219:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046", qs.stringify({communityId: 3,floorNum:that.floorNum,roomSize:that.roomSize}))
+          .then(function (res) {debugger
+            window.alert("添加楼层成功!");
+            that.init();
+          }).catch(function(error){
+          console.log(error);
+        })
+      },
+      openDeleteModal(){
+        this.deleteFloorModal=true;
+      },
+      closeDeleteModal(){
+        this.deleteFloorModal=false;
+      },
+      deleteFloor(){
+        this.deleteFloorModal=false;
+      },
+      closeSeleteOffieModal(){
+        this.seleteOffieModal = false;
+      },
+      seleteOffie(){
+        this.seleteOffieModal = false;
+      },
+      openSelectOfficeModal(){
+        this.seleteOffieModal = true;
       },
       getCommunityListRoom(){
           var that = this;
@@ -262,6 +384,16 @@
           console.log(error);
         })
       },
+      getOfficeSelect(){
+        var that = this;
+        this.$http.post(
+          'http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050',qs.stringify({parentId:29})
+        ).then(function(res){debugger
+          that.checkBoxArr = res.data.entity;
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
       addCommunityPlace(){
           var that = this;
         var data = {
@@ -271,7 +403,7 @@
         };
         this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008", qs.stringify(data))
           .then(function (res) {
-            console.log("添加工位成功！")
+            window.alert("添加工位成功!");
             that.placeNum = "";
             that.placeRent = "";
           }).catch(function(error){
@@ -295,7 +427,7 @@
         var that = this;
         this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009", {cxkjCommunityListOffice:this.CommunityListOffice})
           .then(function (res) {
-            console.log("添加办公室成功！")
+            window.alert("添加办公室成功!");
             that.init();
           }).catch(function(error){
           console.log(error);
@@ -318,12 +450,25 @@
         var that = this;
         this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010", {cxkjCommunityListMeeting:this.CommunityListMeeting})
           .then(function (res) {
-            console.log("添加会议室成功！")
+            window.alert("添加会议室成功!");
             that.init();
           }).catch(function(error){
           console.log(error);
         })
       },
+      deleteRomm(room,index,rootDataindex){
+        var that = this;
+        this.$http.post("http://192.168.26.219:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049", qs.stringify({roomId:room.roomId,state:1}))
+          .then(function (res) {debugger
+            that.rootData[rootDataindex].cxkjCommunityListRoom.splice(index,1);
+            window.alert("删除成功!");
+          }).catch(function(error){
+          console.log(error);
+        })
+      },
+      cg(){
+          console.log(this.selectListData)
+      }
     }
   }
 </script>
@@ -332,4 +477,147 @@
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
 
+  .community-house-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .community-house-modal-content{
+    width:500px;
+    height:320px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .community-house-modal-content-title{
+      height: 60px;
+      width: 100%;
+      font-size: 20px;
+      color: #fff;
+      background-color:rgb(53,154,240);
+      text-align: center;
+      line-height: 60px;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .add-floor-table{
+      height: 175px;
+      width: 100%;
+      table{
+        margin: 0 auto;
+        padding-top: 40px;
+        tr td:nth-child(1){
+          font-weight: 700;
+          color: black;
+          text-align: right;
+        }
+        tr{
+          td{
+            padding: 10px;
+          }
+        }
+      }
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 140px;
+        height: 38px;
+      }
+    }
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+
+  .black-member-modal-content{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        margin-top: 30px;
+      }
+    }
+    p{
+      text-align: center;
+      span{
+        color: #038be2;
+        font-weight: 700;
+        padding: 0 10px;
+      }
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
+      }
+    }
+  }
+  #select-office-modal{
+    height: 280px;
+    width: 500px;
+    .select-office-modal-checkbox{
+      height: 120px;
+      width: 100%;
+      .el-checkbox-group{
+        width: 270px;
+        margin: 0 auto;
+        padding-top: 40px;
+        .el-checkbox{
+          margin-left: 0!important;
+          width: 90px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  .message-tis #office-table{
+    width: 878px;
+    margin-left: 100px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+  .message-tis #office-table thead tr td{
+    width: 20%;
+  }
 </style>
