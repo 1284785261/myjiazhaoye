@@ -1,13 +1,13 @@
 
 //共用接口
 const host = 'http://115.29.138.230:8080';
-//const host2 = 'http://192.168.26.117:9080';
-const host2 = 'http://localhost:9080';
+
 const host3 = 'http://192.168.26.118:8080';
-//http://115.29.138.230:8080/apis/community/pc/CxkjCommunity 200001
+//http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
 
 //用户登录接口
-const login = '/apis/user/CxkjCenterLogin100002';
+//const login = '/apis/user/CxkjCenterLogin100002';
+const login='/apis/user/CxkjCenterLogin100002';
 
 //管家个人信息接口
 const Author = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformation200021';
@@ -28,6 +28,8 @@ const Present='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityDetails200047';
 //获取社区设置的方式
 const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 
+//社区设置信息
+const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
@@ -39,6 +41,7 @@ export const hostParent = host3 + Parent;
 export const hostOpen = host3 + Open;
 export const hostPresent = host3 + Present;
 export const hostWay = host3 + Way;
+export const hostRoom = host3 +Room;
 //export default {
 //hosts:function(){
 //		return{

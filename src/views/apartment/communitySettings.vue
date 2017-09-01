@@ -22,20 +22,20 @@
                     <span class="fl">付款方式设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="tableRepair in tableRepairs">
+                        <tr v-for="(tableRepair,index) in tableRepairs">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value1" placeholder="请选择付款方式"  @change='mus(value1)'>
+                            <el-select v-model="tableRepair.value1" placeholder="请选择付款方式" @change="mus(tableRepair.value1,index)">
                               <el-option
-                                v-for="item in option1"
-													      :key="item.value1"
+                                v-for="item in tableRepair.option1"
+													      :key="item.dataName"
 													      :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
 
-                          <td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
-                          <td width="90px"><button class="btn_bar" @click="deleteRepair">{{tableRepair.deletect}}</button></td>
+                          <td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" ><span class="baifen">%</span></td>
+                          <td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair)">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
@@ -49,25 +49,24 @@
                     <span class="fl">维修项目设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="tableRepair in tableRepairs">
+                        <tr v-for="(tableRepair,index) in tableRepairs2">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value2" placeholder="请选择维修项目">
+                            <el-select v-model="tableRepair.value2" placeholder="请选择维修项目" @change="mvs(tableRepair.value2,index)">
                               <el-option
-                                v-for="item in option2"
-                                :key="item.value2"
-                                :labels="item.labels"
+                                v-for="item in tableRepair.option2"
+                                :key="item.dataName"
                                 :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
                           <td><span class="text-default">{{tableRepair.element}}</span></td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
-                          <td width="90px"><button class="btn_bar" @click="deleteRepair">{{tableRepair.deletect}}</button></td>
+                          <td width="90px"><button class="btn_bar" @click="deleteRepair2">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
-                        <Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
+                        <Button @click="addRepairs2"><Icon type="plus"></Icon>继续添加</Button>
                       </div>
                     </div>
                   </div>
@@ -77,21 +76,22 @@
                   <div class="floor-main">
                     <span class="fl">家用电器：</span>
                     <div class="floor-item form-item">
-                      <el-checkbox v-model="checked" v-for="item in option3">{{item.dataName}}</el-checkbox>
-                     
+                    	<el-checkbox-group v-model="checkList" @change="mms(checkList)">
+                      	<el-checkbox v-for="item in option3" :label=item.dataName></el-checkbox>
+                      </el-checkbox-group>
                     </div>
                   </div>
                    
                   <div class="floor-main">
                     <span class="fl">服务费设置：</span>
                     <div class="floor-item form-item">
-                      <span class="item-date"><input type="text" placeholder="请输入服务费">元/月 </span>
+                      <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost">元/月 </span>
                     </div>
                   </div>
                   <div class="floor-main">
                     <span class="fl">水电账单日设置：</span>
                     <div class="floor-item">
-                      <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                      <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyPayDate"></Date-picker>
                       <span class="ivu-yellow"><i class="ivu-icon ivu-icon-information-circled"></i>提醒管家收取水费、电费、服务费</span>
                     </div>
                   </div>
@@ -102,13 +102,12 @@
                     <div class="floor-main1">
                       <span class="fl">水费设置：</span>
                       <span class="f5">计费方式：</span>
-                      <el-radio-group v-model="radio2">
-
+                      <el-radio-group v-model="radio1">
                         <el-radio :label="1">按用量</el-radio><br>
                         <el-radio :label="2">按合租人数</el-radio>
                       </el-radio-group>
-                      <input class="inputs" type="text" v-model="input" placeholder="请填写金额"></input><span>元/m²</span><br>
-                      <input class="inputs inputs2" type="text" v-model="input" placeholder="请填写金额"></input><span>元/人</span>
+                      <input class="inputs" type="text" v-model="sect" placeholder="请填写金额"></input><span>元/m²</span><br>
+                      <input class="inputs inputs2" type="text" v-model="sect2" placeholder="请填写金额"></input><span>元/人</span>
                     </div>
                   </div>
                 </div>
@@ -122,13 +121,13 @@
                         <el-radio :label="1">按用量</el-radio><br>
                         <el-radio :label="2">按合租人数</el-radio>
                       </el-radio-group>
-                      <input class="inputs" type="text" v-model="input" placeholder="请填写金额"></input><span>元/度</span><br>
-                      <input  class="inputs inputs2" type="text" v-model="input" placeholder="请填写金额"></input><span>元/人</span>
+                      <input class="inputs" type="text" v-model="input1" placeholder="请填写金额"></input><span>元/度</span><br>
+                      <input  class="inputs inputs2" type="text" v-model="input2" placeholder="请填写金额"></input><span>元/人</span>
                     </div>
                   </div>
                 </div>
                 <div class="operation-box">
-                  <Button type="primary">确定</Button>
+                  <Button type="primary" @click="house()">确定</Button>
                   <Button>取消</Button>
                 </div>
               </div>
@@ -141,24 +140,24 @@
                     <span class="fl">付款方式设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="tableRepair in tableRepairs">
+                        <tr v-for="tableRepair in tableRepairs3">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value6" placeholder="请选择付款方式">
+                            <el-select v-model="tableRepair.value6" placeholder="请选择付款方式">
                               <el-option
-                                v-for="item in option6"
-                                :key="item.value6"
+                                v-for="item in tableRepair.option6"
+                                :key="item.dataName"
                                 :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
 
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
-                          <td width="90px"><button class="btn_bar" @click="deleteRepair">{{tableRepair.deletect}}</button></td>
+                          <td width="90px"><button class="btn_bar" @click="deleteRepair3">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
-                        <Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
+                        <Button @click="addRepairs3"><Icon type="plus"></Icon>继续添加</Button>
                       </div>
                     </div>
                   </div>
@@ -168,33 +167,32 @@
                     <span class="fl">会议室套餐设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="tableRepair in tableRepairs">
+                        <tr v-for="tableRepair in tableConferences">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value4" placeholder="请选择套餐名称" style="width: 160px">
+                            <el-select v-model="tableRepair.value4" placeholder="请选择套餐名称" style="width: 160px">
                               <el-option
-                                v-for="item in option4"
-                                :key="item.value4"
-                                :labels="item.label4"
+                                v-for="item in tableRepair.option4"
+                                :key="item.dataName"
                                 :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span class="baifen2">元/</span></td>
                           <td>
-                            <el-select v-model="value8" placeholder="请选择次数" style="width: 140px" class="tbs">
+                            <el-select v-model="tableRepair.value8" placeholder="请选择次数" style="width: 140px" class="tbs">
                               <el-option
-                                v-for="item in option8"
-                                :key="item.value8"
+                                v-for="item in tableRepair.option8"
+                                :key="item.dataName"
                                 :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
-                          <td width="50px"><button class="btn_bar" @click="deleteRepair">{{tableRepair.deletect}}</button></td>
+                          <td width="50px"><button class="btn_bar" @click="deleteConference">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
-                        <Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
+                        <Button @click="addRoom"><Icon type="plus"></Icon>继续添加</Button>
                       </div>
                     </div>
                   </div>
@@ -204,24 +202,24 @@
                     <span class="fl">维修项目设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="tableRepair in tableRepairs">
+                        <tr v-for="tableRepair in tableRepairs5">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="value7" placeholder="请选择维修项目">
+                            <el-select v-model="tableRepair.value7" placeholder="请选择维修项目">
                               <el-option
-                                v-for="item in option7"
-                                :key="item.value7"
+                                v-for="item in tableRepair.option7"
+                                :key="item.dataName"
                                 :value="item.dataName">
                               </el-option>
                             </el-select>
                           </td>
                           <td><span class="text-default">{{tableRepair.element}}</span></td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
-                          <td width="90px"><button class="btn_bar" @click="deleteRepair">{{tableRepair.deletect}}</button></td>
+                          <td width="90px"><button class="btn_bar" @click="deleteRepair5">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
-                        <Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
+                        <Button @click="addRepairs5"><Icon type="plus"></Icon>继续添加</Button>
                       </div>
                     </div>
                   </div>
@@ -236,13 +234,14 @@
                   <div class="floor-main">
                     <span class="fl">办公物资：</span>
                     <div class="floor-item form-item">
-                      <el-checkbox v-model="checked" v-for="item in option5">{{item.dataName}}</el-checkbox>
-                     
+                      <el-checkbox-group v-model="checkList2">
+                      	<el-checkbox v-for="item in option5" :label=item.dataName></el-checkbox>
+                      </el-checkbox-group>
                     </div>
                   </div>
                 </div>
                 <div class="operation-box">
-                  <Button type="primary">确定</Button>
+                  <Button type="primary" @click="refer()">确定</Button>
                   <Button>取消</Button>
                 </div>
               </div>
@@ -263,7 +262,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-	import { hostWay } from '../api.js';
+	import { hostWay,hostRoom } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 export default {
@@ -274,55 +273,91 @@ export default {
   },
   data () {
     return {
-    	checked:true,
+    	payId:null,
+    	checkList:[],
+    	checkList2:[],
     	input: '',
-    	radio2: '1',
+    	radio1: 1,
+    	radio2: 1,
       tableConferences:[{
           checkValue:"",
           inputValue:"",
           numValue:"",
           element:"元/",
-          numList:[{
-                value:"num1",
-                label:"1"
-             },{
-               value:"num2",
-               label:"2"
-             },{
-               value:"num3",
-               label:"3"
-      		}]
+          option4: [],
+      		value4: '',
+          option8: [],
+      		value8: ''
       }],
-      option1: [],
-      option2: [],
-      value1: '',
-      value2: '',
       option3: [],
       value3: '',
-      option4: [],
-      value4: '',
       option5: [],
       value5: '',
-      option6: [],
-      value6: '',
-      option7: [],
-      value7: '',
-      option8: [],
-      value8: '',
       selectNum:"",
       deletect:"删除",
       tableRepairs:[{
+        checkValue:"",
+        inputValue:"",
+        date:"",
+        deletect:"删除",
+        option1: [],
+        value1: ''
+      }],
+      tableRepairs2:[{     //公寓维修项目
+        checkValue:"",
+        inputValue:"",
+        element:"预计上门时间：",
+        date:"",
+        deletect:"删除",
+        option2: [],
+				value2: ''
+      }],
+      tableRepairs3:[{
+        checkValue:"",
+        inputValue:"",
+        date:"",
+        deletect:"删除",
+        option6: [],
+      	value6: ''
+      }],
+      tableRepairs4:[{
         checkValue:"",
         inputValue:"",
         element:"预计上门时间：",
         date:"",
         deletect:"删除"
       }],
-      activeName2:'first'
+      tableRepairs5:[{
+        checkValue:"",
+        inputValue:"",
+        element:"预计上门时间：",
+        date:"",
+        deletect:"删除",
+        option7: [],
+      	value7: ''
+      }],
+      activeName2:'first',
+      paymentId:null,    //付款方式的ID
+      cxkjCommunityListPayway:[],  //公寓付款方式
+      cxkjCommunityListMaintain:[], //公寓维修项目	
+      cxkjCommunityListConfig:[],  //公寓电器选择
+      serviceCost:null,   //公寓服务费
+      waterEnergyPayDate:null,  //公寓水电账单日设置
+      sect:null,
+      sect2:null,
+      input1:null,
+      input2:null,
+      waterChargeType:null,
+      energyChargeType:null,
+      waterPrice:null,
+      energyPrice:null,
+      communityId:null
     }
   },
   mounted(){
-//	this.mus();
+		this.seting();
+		this.seting2();
+		this.communityId = this.$route.query.id;
   },
   methods: {
   	handleClick(tab, event){
@@ -334,22 +369,48 @@ export default {
           inputValue:"",
           numValue:"",
           element:"元/",
-          numList:[{
-            value:"num1",
-            label:"1"
-          },{
-            value:"num2",
-            label:"2"
-          },{
-            value:"num3",
-            label:"3"
-          }],
           selectNum:"",
-          deletect:"删除"
+          deletect:"删除",
+          value4:'',
+          value8:''
         })
+        this.seting();
+				this.seting2();
     },
     addRepairs(){
         this.tableRepairs.push({
+          checkValue:"",
+          inputValue:"",
+          date:"",
+          deletect:"删除",
+          value1: ''
+        })
+        this.seting();
+    },
+    addRepairs2(){
+        this.tableRepairs2.push({
+          checkValue:"",
+          inputValue:"",
+          element:"预计上门时间：",
+          date:"",
+          deletect:"删除",
+          value2: ''
+        })
+        this.seting();
+    },
+    addRepairs3(){
+        this.tableRepairs3.push({
+          checkValue:"",
+          inputValue:"",
+          element:"预计上门时间：",
+          date:"",
+          deletect:"删除",
+          value6: ''
+        })
+        this.seting();
+    },
+    addRepairs4(){
+        this.tableRepairs4.push({
           checkValue:"",
           inputValue:"",
           element:"预计上门时间：",
@@ -357,97 +418,211 @@ export default {
           deletect:"删除"
         })
     },
-//  seting(){
-//  	let vm = this
-//  	axios.post(hostWay,
-//  		qs.stringify({
-//  			parentId:15
-//  		})
-//  	).then((response)=>{
-//  		//console.log(response);
-//  		vm.option2 = response.data.entity;
-//  		vm.option7 = response.data.entity;
-//  	//	console.log(vm.option2);
-//  	})
-//  	.catch((error)=>{
-//  		console.log(error);
-//  	})
-//  	axios.post(hostWay,
-//  		qs.stringify({
-//  			parentId:40
-//  		})
-//  	).then((response)=>{
-//  		//console.log(response);
-//  		vm.option8 = response.data.entity;
-//  	//	console.log(vm.option2);
-//  	})
-//  	.catch((error)=>{
-//  		console.log(error);
-//  	})
-//  },
-//  seting2(){
-//	   	let vm =this
-//	    axios.post(hostWay,
-//  		qs.stringify({
-//  			parentId:19
-//  		})
-//  	).then((response)=>{
-//  		//console.log(response);
-//  		vm.option3 = response.data.entity;
-//  	//	console.log(vm.option3);
-//  	})
-//  	.catch((error)=>{
-//  		console.log(error);
-//  	})
-//  	axios.post(hostWay,
-//  		qs.stringify({
-//  			parentId:26
-//  		})
-//  	).then((response)=>{
-//  		//console.log(response);
-//  		vm.option4 = response.data.entity;
-//  	//	console.log(vm.option4);
-//  	})
-//  	.catch((error)=>{
-//  		console.log(error);
-//  	})
-//  	axios.post(hostWay,
-//  		qs.stringify({
-//  			parentId:29
-//  		})
-//  	).then((response)=>{
-//  		//console.log(response);
-//  		vm.option5 = response.data.entity;
-//  	//	console.log(vm.option5);
-//  	})
-//  	.catch((error)=>{
-//  		console.log(error);
-//  	})
-//  
-//  },
-    mus(vul){
-    	let vm = this
-    	console.log(111);
+    addRepairs5(){
+        this.tableRepairs5.push({
+          checkValue:"",
+          inputValue:"",
+          element:"预计上门时间：",
+          date:"",
+          deletect:"删除",
+          value7:''
+        })
+        this.seting();
+    },
+    seting(){       
+    	let vm = this   //获取付款方式以及维修项目的数据
 	    axios.post(hostWay,
     		qs.stringify({
     			parentId:1
     		})
     	).then((response)=>{
     		console.log(response);
-    		vm.option1 = response.data.entity;
-    		//vm.option6 = response.data.entity;
-    		console.log(vm.option1);
+    		for(let i=0;i<vm.tableRepairs.length;i++){
+    			vm.tableRepairs[i].option1 = response.data.entity;
+    			console.log(vm.tableRepairs);
+    		}
+    		for(let i=0;i<vm.tableRepairs3.length;i++){
+    			vm.tableRepairs3[i].option6 = response.data.entity;
+    		}
+    		
+    		
     	})
     	.catch((error)=>{
     		console.log(error);
     	})
+    	axios.post(hostWay,
+    		qs.stringify({
+    			parentId:15
+    		})
+    	).then((response)=>{
+    		for(let i=0;i<vm.tableRepairs2.length;i++){
+    			vm.tableRepairs2[i].option2 = response.data.entity;
+    		}
+    		for(let i=0;i<vm.tableRepairs5.length;i++){
+    			vm.tableRepairs5[i].option7 = response.data.entity;
+    		}
+    		
+    		
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    	axios.post(hostWay,
+    		qs.stringify({
+    			parentId:40
+    		})
+    	).then((response)=>{
+    		for(let i=0;i<vm.tableConferences.length;i++){
+    			vm.tableConferences[i].option8 = response.data.entity;
+    		}
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    },
+    seting2(){
+    	let vm = this
+    	axios.post(hostWay,
+    		qs.stringify({
+    			parentId:19
+    		})
+    	).then((response)=>{
+    		vm.option3 = response.data.entity;
+    		//console.log(vm.option3);
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    	axios.post(hostWay,
+    		qs.stringify({
+    			parentId:26
+    		})
+    	).then((response)=>{
+    		for(let i=0;i<vm.tableConferences.length;i++){
+    			vm.tableConferences[i].option4 = response.data.entity;
+    		}
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    	axios.post(hostWay,
+    		qs.stringify({
+    			parentId:29
+    		})
+    	).then((response)=>{
+    		vm.option5 = response.data.entity;
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    },
+    
+    mus(vul,index){  //公寓付款方式
+					for(let i = 0;i<this.tableRepairs[index].option1.length;i++){
+						if(vul == this.tableRepairs[index].option1[i].dataName){
+							this.tableRepairs[index].inputValue = this.tableRepairs[index].option1[i].dataId
+							console.log(this.tableRepairs);
+						}
+					}
+     		
+    },
+    mvs(val,index){
+    	for(let i = 0;i<this.tableRepairs2[index].option2.length;i++){
+						if(val == this.tableRepairs2[index].option2[i].dataName){
+							this.tableRepairs2[index].inputValue = this.tableRepairs2[index].option2[i].dataId
+							console.log(this.tableRepairs2);
+					}
+			}
+    },
+    mms(list){
+    	let vm = this 
+    	vm.cxkjCommunityListConfig =[];
+    	for(let i =0 ;i<list.length;i++){
+    		vm.cxkjCommunityListConfig.push({configDataId:this.option3[this.option3.findIndex(item => item.dataName == list[i])].dataId});
+    		}
+    		
+	    	console.log(vm.cxkjCommunityListConfig);
+    },
+    deleteConference(){
+      this.tableConferences.splice(this.tableConferences.length-1,1);
+    },
+    deleteRepair(tableRepair){
+    	console.log(tableRepair);
+      this.tableRepairs.splice(this.tableRepairs.length-1,1);
+      let index = this.tableRepairs.findIndex(item => item == tableRepair);
+      this.cxkjCommunityListPayway.splice(index,1);
+      console.log(this.cxkjCommunityListPayway);
+    },
+    deleteRepair2(){
+      this.tableRepairs2.splice(this.tableRepairs2.length-1,1);
+    },
+    deleteRepair3(){
+      this.tableRepairs3.splice(this.tableRepairs3.length-1,1);
+    },
+    deleteRepair5(){
+      this.tableRepairs5.splice(this.tableRepairs5.length-1,1);
+    },
+    house(){
+    	let vm =this
+    	for(let i=0;i<vm.tableRepairs.length;i++){
+    		if(this.tableRepairs[i].checkValue == true){
+    			vm.cxkjCommunityListPayway.push({dataId:this.tableRepairs[i].inputValue,discount:this.tableRepairs[i].date});
+    			console.log(vm.cxkjCommunityListPayway);
+    		}
+    	}
+    	for(let i=0;i<vm.tableRepairs2.length;i++){
+    		if(this.tableRepairs2[i].checkValue == true){
+    			vm.cxkjCommunityListMaintain.push({communityMaintainDataId:this.tableRepairs2[i].inputValue,onSiteTime:this.tableRepairs2[i].date});
+    			console.log(vm.cxkjCommunityListMaintain);
+    		}
+    	}
+    	
+    	if(vm.radio1 == 1){
+    		this.waterChargeType = 1;
+    		vm.waterPrice = vm.sect;
+    	}
+    	else{
+    		this.waterChargeType = 2;
+    		vm.waterPrice = vm.sect2;
+    	}
+    	
+    	
+    	if(vm.radio2 ==1){
+    		this.energyChargeType = 1;
+    		vm.energyPrice = vm.input1;
+    		
+    	}
+    	else{
+    		this.energyChargeType = 2;
+    		vm.energyPrice = vm.input2;
+    	}
+    	axios.post(hostRoom,
+    		{
+    				communityId:vm.communityId,
+    				cxkjCommunityListPayway:vm.cxkjCommunityListPayway,
+    				cxkjCommunityListMaintain:vm.cxkjCommunityListMaintain,
+    				cxkjCommunityListConfig:vm.cxkjCommunityListConfig,
+    				serviceCost:vm.serviceCost,
+    				communityType:0,
+    				waterEnergyPayDate:vm.waterEnergyPayDate,
+    				waterChargeType:vm.waterChargeType,
+    				waterPrice:vm.waterPrice,
+    				energyChargeType:vm.energyChargeType,
+    				energyPrice:vm.energyPrice
+    		})
+    		.then((response)=>{
+    			console.log(response);
+    		})
+    		.catch((error)=>{
+    			console.log(error);
+    		})
+    		
+    		
+    	alert('设置成功');
     	
     },
-    deleteConference(item){
-        this.tableConferences.splice(item,1);
-    },
-    deleteRepair(item){
-      this.tableRepairs.splice(item,1);
+    refer(){
+    	
     }
   }
 }
