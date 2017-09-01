@@ -135,8 +135,8 @@
                   <td>
                     <input type="text" v-model="office.officeRent"  placeholder="请输入租金">
                   </td>
-                  <td @click="openSelectOfficeModal">
-                    <p><a>饮水机 饮水机 饮水机 饮水机</a></p>
+                  <td @click="openSelectOfficeModal(index)">
+                    <p><a v-if="office.officeFurniture">{{office.officeFurniture}}</a><a v-else>请设置办公物资</a></p>
                   </td>
                   <td>
                     <a href="javascript:;" @click="deleteOffice(index)">删除</a>
@@ -273,6 +273,7 @@
         newMeetingRoeNum:1,
         rootData:[],
         CommunityListOffice:[],
+        officeSelectIndex:0,
         CommunityListMeeting:[],
         addFloorModal:false,
         deleteFloorModal:false,
@@ -280,6 +281,7 @@
         floorNum:"",//楼层
         roomSize:"",//房间数量
         checkBoxArr:[],
+        checkBoxObj:{},
         selectListData:[]
       }
     },
@@ -316,6 +318,7 @@
               communityId:3,
               officeHouseNum:"",
               officeWorkNum:"",
+              officeFurniture:"",
               officeRent:""
             });
             this.CommunityListMeeting.push({
@@ -344,8 +347,8 @@
       createNewFloor(){
         this.addFloorModal = false;
         var that = this;
-        this.$http.post("http://192.168.26.219:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046", qs.stringify({communityId: 3,floorNum:that.floorNum,roomSize:that.roomSize}))
-          .then(function (res) {debugger
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046", qs.stringify({communityId: 3,floorNum:that.floorNum,roomSize:that.roomSize}))
+          .then(function (res) {
             window.alert("添加楼层成功!");
             that.init();
           }).catch(function(error){
@@ -366,16 +369,19 @@
       },
       seleteOffie(){
         this.seleteOffieModal = false;
+        this.CommunityListOffice[this.officeSelectIndex].officeFurniture = this.selectListData.join(" ");
       },
-      openSelectOfficeModal(){
+      openSelectOfficeModal(index){
         this.seleteOffieModal = true;
+        this.officeSelectIndex = index;
+        this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
       },
       getCommunityListRoom(){
           var that = this;
-        this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartment200005", qs.stringify({"communityId": 3}))
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartment200005", {"communityId": 3})
           .then(function (res) {
             if(res.status == 200 && res.statusText=="OK"){
-              that.rootData = res.data.result.communityData;
+              that.rootData = res.data.entity;
               console.log(that.rootData)
             }else{
 
@@ -388,8 +394,11 @@
         var that = this;
         this.$http.post(
           'http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050',qs.stringify({parentId:29})
-        ).then(function(res){debugger
+        ).then(function(res){
           that.checkBoxArr = res.data.entity;
+          for(var i =0;i<that.checkBoxArr.length;i++){
+            that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
+          }
         }).catch(function(err){
           console.log(err);
         })
@@ -401,7 +410,7 @@
           placeNum: this.placeNum,
           placeRent:this.placeRent
         };
-        this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008", qs.stringify(data))
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008", qs.stringify(data))
           .then(function (res) {
             window.alert("添加工位成功!");
             that.placeNum = "";
@@ -425,7 +434,20 @@
       },
       addCommunityOffice(){
         var that = this;
-        this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009", {cxkjCommunityListOffice:this.CommunityListOffice})
+        for(var i =0;i<this.CommunityListOffice.length;i++){
+            var officeFurniture = this.CommunityListOffice[i].officeFurniture.trim();
+            var FurnitureArr = officeFurniture.split(" ");
+            var dataArr = [];
+            for(var j =0;j<FurnitureArr.length;j++){
+              dataArr.push(this.checkBoxObj[FurnitureArr[j]]+"");
+            }
+            if(dataArr.length){
+              this.CommunityListOffice[i].officeFurniture = dataArr.join(",");
+            }else{
+              this.CommunityListOffice[i].officeFurniture = "";
+            }
+        }
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009", {cxkjCommunityListOffice:this.CommunityListOffice})
           .then(function (res) {
             window.alert("添加办公室成功!");
             that.init();
@@ -448,7 +470,7 @@
       },
       addCommunityMeeting(){
         var that = this;
-        this.$http.post("http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010", {cxkjCommunityListMeeting:this.CommunityListMeeting})
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010", {cxkjCommunityListMeeting:this.CommunityListMeeting})
           .then(function (res) {
             window.alert("添加会议室成功!");
             that.init();
@@ -458,8 +480,8 @@
       },
       deleteRomm(room,index,rootDataindex){
         var that = this;
-        this.$http.post("http://192.168.26.219:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049", qs.stringify({roomId:room.roomId,state:1}))
-          .then(function (res) {debugger
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049", qs.stringify({roomId:room.roomId,state:1}))
+          .then(function (res) {
             that.rootData[rootDataindex].cxkjCommunityListRoom.splice(index,1);
             window.alert("删除成功!");
           }).catch(function(error){
