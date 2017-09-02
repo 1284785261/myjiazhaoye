@@ -14,7 +14,7 @@
           <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="communitySettingwrap">
-          <el-tabs v-model="activeName2" type="card">
+          <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
             <el-tab-pane label="公寓设置" name="first">
               <div class="vue-warp-settings">
                 <div class="ivu-floor floor01">
@@ -167,10 +167,10 @@
                     <span class="fl">会议室套餐设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="(tableRepair,index) in tableConferences">
+                        <tr v-for="tableRepair in tableConferences">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="tableRepair.value4" placeholder="请选择套餐名称" @change="communit2(tableRepair.value4,index)" style="width: 160px">
+                            <el-select v-model="tableRepair.value4" placeholder="请选择套餐名称" style="width: 160px">
                               <el-option
                                 v-for="item in tableRepair.option4"
                                 :key="item.dataName"
@@ -180,7 +180,7 @@
                           </td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span class="baifen2">元/</span></td>
                           <td>
-                            <el-select v-model="tableRepair.value8" placeholder="请选择次数" @change="communit3(tableRepair.value8,index)" style="width: 140px" class="tbs">
+                            <el-select v-model="tableRepair.value8" placeholder="请选择次数" style="width: 140px" class="tbs">
                               <el-option
                                 v-for="item in tableRepair.option8"
                                 :key="item.dataName"
@@ -188,7 +188,7 @@
                               </el-option>
                             </el-select>
                           </td>
-                          <td width="50px"><button class="btn_bar" @click="deleteConference(tableRepair)">{{tableRepair.deletect}}</button></td>
+                          <td width="50px"><button class="btn_bar" @click="deleteConference">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
@@ -202,10 +202,10 @@
                     <span class="fl">维修项目设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
-                        <tr v-for="(tableRepair,index) in tableRepairs5">
+                        <tr v-for="tableRepair in tableRepairs5">
                           <td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
                           <td>
-                            <el-select v-model="tableRepair.value7" placeholder="请选择维修项目" @change="communit4(tableRepair.value7,index)">
+                            <el-select v-model="tableRepair.value7" placeholder="请选择维修项目">
                               <el-option
                                 v-for="item in tableRepair.option7"
                                 :key="item.dataName"
@@ -215,7 +215,7 @@
                           </td>
                           <td><span class="text-default">{{tableRepair.element}}</span></td>
                           <td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
-                          <td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair)">{{tableRepair.deletect}}</button></td>
+                          <td width="90px"><button class="btn_bar" @click="deleteRepair5">{{tableRepair.deletect}}</button></td>
                         </tr>
                       </table>
                       <div class="add-formItem">
@@ -228,13 +228,13 @@
                   <div class="floor-main">
                     <span class="fl">服务费设置：</span>
                     <div class="floor-item form-item">
-                      <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2">元/月 </span>
+                      <span class="item-date"><input type="text" placeholder="请输入服务费">元/月 </span>
                     </div>
                   </div>
                   <div class="floor-main">
                     <span class="fl">办公物资：</span>
                     <div class="floor-item form-item">
-                      <el-checkbox-group v-model="checkList2" @change="communit5(checkList2)">
+                      <el-checkbox-group v-model="checkList2">
                       	<el-checkbox v-for="item in option5" :label=item.dataName></el-checkbox>
                       </el-checkbox-group>
                     </div>
@@ -275,9 +275,7 @@ export default {
     return {
     	radio1: 1,
     	radio2: 1,
-    	checkList:[],
-    	checkList2:[],
-      tableConferences:[{     //会议室套餐
+      tableConferences:[{
           checkValue:"",
           inputValue:"",
           numValue:"",
@@ -317,13 +315,13 @@ export default {
         option6: [],
       	value6: ''
       }],
-//    tableRepairs4:[{
-//      checkValue:"",
-//      inputValue:"",
-//      element:"预计上门时间：",
-//      date:"",
-//      deletect:"删除"
-//    }],
+      tableRepairs4:[{
+        checkValue:"",
+        inputValue:"",
+        element:"预计上门时间：",
+        date:"",
+        deletect:"删除"
+      }],
       tableRepairs5:[{
         checkValue:"",
         inputValue:"",
@@ -338,7 +336,6 @@ export default {
       cxkjCommunityListMaintain:[], //公寓维修项目	
       cxkjCommunityListConfig:[],  //公寓电器选择
       serviceCost:null,   //公寓服务费
-      serviceCost2:null,   //社区服务费
       waterEnergyPayDate:null,  //公寓水电账单日设置
       sect:null,       //公寓水费用量1
       sect2:null,      //公寓水费用量2
@@ -348,8 +345,7 @@ export default {
       energyChargeType:null, //公寓电费类型
       waterPrice:null,  //公寓水费
       energyPrice:null, //公寓电费
-      communityId:null,  //社区ID
-      cxkjCommunityListMeetingSuit:[]   //会议室套餐
+      communityId:null  //社区ID
     }
   },
   mounted(){
@@ -358,6 +354,9 @@ export default {
 		this.communityId = this.$route.query.id;
   },
   methods: {
+  	handleClick(tab, event){
+  		console.log(tab, event);
+  	},
     addRoom(){
         this.tableConferences.push({
           checkValue:"",
@@ -366,14 +365,11 @@ export default {
           element:"元/",
           selectNum:"",
           deletect:"删除",
-          option4: [],
-      		value4: '',
-          option8: [],
-      		value8: ''
+          value4:'',
+          value8:''
         })
         this.seting();
 				this.seting2();
-				
     },
     addRepairs(){
         this.tableRepairs.push({
@@ -415,8 +411,6 @@ export default {
           date:"",
           deletect:"删除"
         })
-        this.seting();
-				this.seting2();
     },
     addRepairs5(){
         this.tableRepairs5.push({
@@ -439,12 +433,10 @@ export default {
     		console.log(response);
     		for(let i=0;i<vm.tableRepairs.length;i++){
     			vm.tableRepairs[i].option1 = response.data.entity;
-    			//console.log(vm.tableRepairs);
+    			console.log(vm.tableRepairs);
     		}
     		for(let i=0;i<vm.tableRepairs3.length;i++){
     			vm.tableRepairs3[i].option6 = response.data.entity;
-//  			console.log(222222222);
-//  			console.log(vm.tableRepairs3);
     		}
     		
     		
@@ -544,53 +536,20 @@ export default {
     	vm.cxkjCommunityListConfig =[];
     	for(let i =0 ;i<list.length;i++){
     		vm.cxkjCommunityListConfig.push({configDataId:this.option3[this.option3.findIndex(item => item.dataName == list[i])].dataId});
-    	}
+    		}
+    		
 	    	console.log(vm.cxkjCommunityListConfig);
     },
     communit1(val,index){
     	//社区付款方式
     	for(let i = 0;i<this.tableRepairs3[index].option6.length;i++){
-    		if(val == this.tableRepairs3[index].option6[i].dataName){
-    			this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
+    		if(val == this.tableRepairs3[index].option6.dataName){
+    			this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId
     		}
     	}
     },
-    communit2(val,index){
-    	//社区会议室套餐
-    	for(let i=0;i<this.tableConferences[index].option4.length;i++){
-    		if(val == this.tableConferences[index].option4[i].dataName){
-    			this.tableConferences[index].inputValue = this.tableConferences[index].option4[i].dataId;
-    		}
-    	}
-    	console.log(this.tableConferences);
-    },
-    communit3(val,index){
-    	for(let i=0;i<this.tableConferences[index].option8.length;i++){
-    		if(val == this.tableConferences[index].option8[i].dataName){
-    			this.tableConferences[index].numValue = this.tableConferences[index].option8[i].dataId;
-    		}
-    	}
-    },
-    communit4(val,index){
-    	for(let i=0;i<this.tableRepairs5[index].option7.length;i++){
-    		if(val == this.tableRepairs5[index].option7[i].dataName){
-    			this.tableRepairs5[index].inputValue = this.tableRepairs5[index].option7[i].dataId;
-    		}
-    	}
-    },
-    communit5(list){
-  	let vm = this 
-    	vm.cxkjCommunityListConfig =[];
-    	for(let i =0 ;i<list.length;i++){
-    		vm.cxkjCommunityListConfig.push({configDataId:this.option5[this.option5.findIndex(item => item.dataName == list[i])].dataId});
-    	}
-    		
-    },
-    deleteConference(tableRepair){  //删除社区办公室套餐
+    deleteConference(){
       this.tableConferences.splice(this.tableConferences.length-1,1);
-      let index = this.tableConferences.findIndex(item => item == tableRepair);
-      this.cxkjCommunityListMeetingSuit.splice(index,1);
-      console.log(this.cxkjCommunityListMeetingSuit);
     },
     deleteRepair(tableRepair){   //删除公寓付款方式
     	console.log(tableRepair);
@@ -604,32 +563,27 @@ export default {
       let index = this.tableRepairs2.findIndex(item => item == tableRepair);
       this.cxkjCommunityListMaintain.splice(index,1);
     },
-    deleteRepair3(tableRepair){          //删除社区付款方式
+    deleteRepair3(){          //删除社区付款方式
       this.tableRepairs3.splice(this.tableRepairs3.length-1,1);
       let index = this.tableRepairs3.findIndex(item => item == tableRepair);
       this.cxkjCommunityListPayway.splice(index,1);
     },
-    deleteRepair5(tableRepair){
+    deleteRepair5(){
       this.tableRepairs5.splice(this.tableRepairs5.length-1,1);
-      let index = this.tableRepairs5.findIndex(item => item == tableRepair);
-      this.cxkjCommunityListMaintain.splice(index,1);
     },
     house(){     
     	//公寓提交设置信息
     	let vm =this
-    	vm.cxkjCommunityListMaintain = [];
-    	vm.cxkjCommunityListPayway = [];
     	for(let i=0;i<vm.tableRepairs.length;i++){
     		if(this.tableRepairs[i].checkValue == true){
     			vm.cxkjCommunityListPayway.push({dataId:this.tableRepairs[i].inputValue,discount:this.tableRepairs[i].date});
-    			//console.log(vm.cxkjCommunityListPayway);
+    			console.log(vm.cxkjCommunityListPayway);
     		}
     	}
-    	
-    	for(let i=0;i<vm.tableRepairs2.length;i++){          
+    	for(let i=0;i<vm.tableRepairs2.length;i++){
     		if(this.tableRepairs2[i].checkValue == true){
     			vm.cxkjCommunityListMaintain.push({communityMaintainDataId:this.tableRepairs2[i].inputValue,onSiteTime:this.tableRepairs2[i].date});
-    			//console.log(vm.cxkjCommunityListMaintain);
+    			console.log(vm.cxkjCommunityListMaintain);
     		}
     	}
     	
@@ -674,51 +628,11 @@ export default {
     		})
     		
     		
-    	alert('公寓信息设置成功');
+    	alert('设置成功');
     	
     },
     refer(){
-    	//社区提交设置信息
-    	let vm = this
-    	vm.cxkjCommunityListPayway = [];
-    	vm.cxkjCommunityListMaintain = [];
-    	vm.cxkjCommunityListMeetingSuit = [];
-    	for(let i=0;i<vm.tableRepairs3.length;i++){
-    		if(this.tableRepairs3[i].checkValue == true){
-    			vm.cxkjCommunityListPayway.push({dataId:this.tableRepairs3[i].inputValue,discount:this.tableRepairs3[i].date});
-    			console.log(vm.cxkjCommunityListPayway);
-    		}
-    	}
     	
-	  	for(let i=0;i<vm.tableConferences.length;i++){
-	  		if(this.tableConferences[i].checkValue == true){
-	  			vm.cxkjCommunityListMeetingSuit.push({mettingSuitDataId:this.tableConferences[i].inputValue,meetingSuitPrice:this.tableConferences[i].date,meetingSuitUnitDataId:this.tableConferences[i].numValue});
-	  		}
-	  	}
-	  	console.log(11111111111111111);
-	  	console.log(vm.cxkjCommunityListMeetingSuit);
-	  	for(let i=0;i<vm.tableRepairs5.length;i++){
-	  		if(this.tableRepairs5[i].checkValue == true){
-	  			vm.cxkjCommunityListMaintain.push({communityMaintainDataId:this.tableRepairs5[i].inputValue,onSiteTime:this.tableRepairs5[i].date});
-	  		}
-	  	}
-	  	axios.post(hostRoom,
-    		{
-    				communityId:vm.communityId,
-    				communityType:1,
-    				cxkjCommunityListPayway:vm.cxkjCommunityListPayway,
-    				cxkjCommunityListMeetingSuit:vm.cxkjCommunityListMeetingSuit,
-    				cxkjCommunityListMaintain:vm.cxkjCommunityListMaintain,
-    				cxkjCommunityListConfig:vm.cxkjCommunityListConfig,
-    				serviceCost:vm.serviceCost2
-    				
-    		})
-    		.then((response)=>{
-    			console.log(response);
-    		})
-    		.catch((error)=>{
-    			console.log(error);
-    		})
     }
   }
 }

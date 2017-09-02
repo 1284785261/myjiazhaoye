@@ -1,8 +1,9 @@
 
 //共用接口
-const host = 'http://115.29.138.230:8080';
+//const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.118:8080';
+const host3 = 'http://120.78.16.234:8060';
+
 //http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
 
 //用户登录接口
@@ -30,10 +31,21 @@ const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 
 //社区设置信息
 const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
+
+export const Housetype =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048'
+export const SytemData =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
+export const RoomAdd =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046'
+export const Apartment =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartment200005'
+export const Place =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008'
+export const Office =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009'
+export const Meeting =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010'
+export const ShutdownRoom =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049'
+
+
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
-export const hostlogin = host + login;
+export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3 + Commint;
 export const hostComplie = host3 + Complie;
