@@ -40,25 +40,25 @@
                 </el-select>
               </td>
               <td>
-                <a @click="editRoomFurniture(room.roomFurniture,index)">{{room.roomFurniture}}</a>
+                <a @click="editRoomFurniture(room.roomFurniture,index)">{{room.roomFurniture}}<span v-if="!room.roomFurniture">请选择家用电器</span></a>
               </td>
               <td>
-                <a @click="modal2=true">
+                <a @click="editWater(index)">
                   <template v-if="room.waterType==1">
-                    <span>在线 </span><span>按用量 {{room.roomWater}}元/m³</span>
+                    <span>在线 </span><span>按用量 {{room.waterPrice}}元/m³</span>
                   </template>
                   <template v-else>
-                    <span>在线 </span><span>按合租人数 {{room.roomWater}}元/人</span>
+                    <span>在线 </span><span>按合租人数 {{room.waterPrice}}元/人</span>
                   </template>
                 </a>
               </td>
               <td>
-                <a @click="modal3=true">
-                  <template v-if="room.roomElectric==1">
-                    <span>在线 </span><span>按用量 {{room.roomElectric}}元/度</span>
+                <a @click="editElectric(index)">
+                  <template v-if="room.electricType==1">
+                    <span>在线 </span><span>按用量 {{room.energyPrice}}元/度</span>
                   </template>
                   <template v-else>
-                    <span>在线 </span><span>按合租人数 {{room.roomElectric}}元/人</span>
+                    <span>在线 </span><span>按合租人数 {{room.energyPrice}}元/人</span>
                   </template>
                 </a>
               </td>
@@ -74,8 +74,9 @@
             <span>继续添加&nbsp;&nbsp;</span><input v-model="numberLine" type="number" max="5" min="1" step="1" style="width: 50px;padding-left: 15px;">&nbsp;&nbsp;行&nbsp;&nbsp;&nbsp;&nbsp;<Button @click="addRoom()">确定</Button>
           </div>
           <div class="house-type-btn">
-            <Button type="primary" style="width: 130px;height: 40px" @click="createNewRoom()">确定</Button>
-            <Button style="width: 130px;height: 40px; margin-left: 20px;">取消</Button>
+            <Button v-if="isEidRoom"  type="primary" style="width: 130px;height: 40px" @click="updateRoom()">确定</Button>
+            <Button v-else  type="primary" style="width: 130px;height: 40px" @click="createNewRoom()">确定</Button>
+            <Button style="width: 130px;height: 40px; margin-left: 20px;" @click="cancleNewRoom()">取消</Button>
           </div>
 
           <Modal v-model="modal3" width="500">
@@ -98,34 +99,23 @@
                 </div>
                 <div style="display: inline-block;">
                   <div><Input v-model="electricValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>
-                  <div style="padding-top: 10px"><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
+                  <div style="padding-top: 10px"><Input v-model="energyOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
                 </div>
               </div>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del3">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="setElectric()">确定</Button>
             </div>
           </Modal>
 
-          <Modal v-model="modal1" width="500">
+          <Modal v-model="modal1" width="500" id="select-house-modal">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
               <span>家用电器设置</span>
             </div>
             <div id="appliances-setting" class="modal-content-meddle">
-              <table class="appliances-setting-table">
-                <Checkbox-group v-model="checkBoxArr">
-                  <tr>
-                    <td><Checkbox label="床">床</Checkbox></td>
-                    <td><Checkbox label="空调">空调</Checkbox></td>
-                    <td><Checkbox label="电视机">电视机</Checkbox></td>
-                  </tr>
-                  <tr>
-                    <td><Checkbox label="洗衣机">洗衣机</Checkbox></td>
-                    <td><Checkbox label="书桌">书桌</Checkbox></td>
-                    <td><Checkbox label="衣柜">衣柜</Checkbox></td>
-                  </tr>
-                </Checkbox-group>
-              </table>
+              <el-checkbox-group v-model="selectListData">
+                <el-checkbox v-for="select in checkBoxArr2" :label="select.dataName"></el-checkbox>
+              </el-checkbox-group>
             </div>
             <div slot="footer">
               <Button type="primary" size="large" style="width: 130px;height: 40px" @click="updatetRoomFurniture()">确定</Button>
@@ -152,12 +142,12 @@
                 </div>
                 <div style="display: inline-block;">
                   <div><Input v-model="waterValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>
-                  <div style="padding-top: 10px"><Input v-model="value" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
+                  <div style="padding-top: 10px"><Input v-model="waterOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
                 </div>
               </div>
             </div>
             <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="del2">确定</Button>
+              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="seWater()">确定</Button>
             </div>
           </Modal>
 
@@ -173,7 +163,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {api,Housetype,SytemData} from '../api.js';
+  import {api,Housetype,SytemData,addRoom,updateRoom} from '../api.js';
   import qs from 'qs';
 
 
@@ -191,12 +181,14 @@
             floorId:"",
             roomNum:"",
             roomType:"",
-            roomFurniture:"床 衣柜 书桌 空调 电视机 洗衣机",
-            roomWater:"在线 按用量8.00元/m³",
-            roomElectric:"在线 按用量2.2元/度",
+            roomFurniture:"",
+            roomWater:"1000",
+            roomElectric:"2000",
             roomRent:"",
             waterType:1,
             electricType:1,
+            waterPrice:"8",
+            energyPrice:"2.2"
           }
         ],
         activeRoomIndex:0,
@@ -214,15 +206,19 @@
           label: '3'
         }],
         roomTypes: [],
-        checkBoxArr:[],
+        checkBoxArr2:[],
+        checkBoxObj:{},
+        selectListData:[],
         modal1: false,
         modal2: false,
         modal3: false,
         modal_loading: false,
         waterTypeSelect: 1,
-        waterValue:"",
-        electricTypeSelect:1,
-        electricValue:"",
+        waterValue:"",//水费单价
+        waterOfValue:"",//水费人头费用
+        electricTypeSelect:1,//1按用量，2按人头
+        electricValue:"",//电费单价
+        energyOfValue:"",//电费人头费用
         isEidRoom:false,//是否为编辑房间页面
         cacheFloorId:"",//缓存楼层
         cacheCommunityId:"",//缓存社区id
@@ -230,73 +226,126 @@
       }
     },
     mounted(){
-      var to_floorName = "";
-      var roomObj = this.$route.params.roomObj;
-      var communityId = this.$route.params.communityId;
-      var to_floorId = this.$route.params.floorId;
-      to_floorName = this.$route.params.floorName;
-      var floorId = "";
-      if(roomObj) {//编辑跳转
-        floorId = roomObj.floorId;
-        to_floorName = roomObj.floorName;
-        this.isEidRoom = true;
-        this.cacheCommunityId = roomObj.communityId;
-        for (var i = 0; i < this.cxkjCommunityListRoom.length; i++) {
-          this.cxkjCommunityListRoom = [{
-            communityId: roomObj.communityId,
-            floorId: roomObj.floorId,
-            roomNum: roomObj.roomNum || "",
-            roomType: roomObj.roomType,
-            roomFurniture: roomObj.roomFurniture || "",
-            roomWater: roomObj.roomWater,
-            roomElectric: roomObj.roomElectric,
-            roomRent: roomObj.roomRent,
-            waterType: roomObj.waterType,
-            electricType: roomObj.electricType,
-          }];
-        }
-      } else{//批量添加
-        floorId = to_floorId;
-        this.cacheCommunityId = communityId;
-        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
-          this.cxkjCommunityListRoom[i].floorId = floorId;
-        }
-      }
-      this.cacheFloorName = to_floorName;
-      this.cacheFloorId = floorId;//缓存当前楼层
-      this.getHouseType();
-      this.getFurniture();
+      this.init();
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      del2 () {
-        this.modal2 = false;
+      init(){debugger
+        var to_floorName = "";
+        var roomObj = this.$route.params.roomObj;
+        var communityId = this.$route.params.communityId;
+        var to_floorId = this.$route.params.floorId;
+        this.cacheFloorName = this.$route.params.floorName;
+        var floorId = "";
+        if(roomObj) {//编辑跳转
+          floorId = roomObj.floorId;
+          this.isEidRoom = true;
+          this.cacheCommunityId = roomObj.communityId;
+          for (var i = 0; i < this.cxkjCommunityListRoom.length; i++) {
+            this.cxkjCommunityListRoom = [{
+              communityId: roomObj.communityId,
+              roomId:roomObj.roomId,
+              floorId: roomObj.floorId,
+              roomNum: roomObj.roomNum || "",
+              roomType: roomObj.roomType,
+              roomFurniture: roomObj.roomFurniture || "",
+              roomWater: roomObj.roomWater,
+              roomElectric: roomObj.roomElectric,
+              roomRent: roomObj.roomRent,
+              waterType: roomObj.waterType,
+              electricType: roomObj.electricType,
+              waterPrice:"8",
+              energyPrice:"2.2"
+            }];
+          }
+        } else{//批量添加
+          floorId = to_floorId;
+          this.cacheCommunityId = communityId;
+          this.cxkjCommunityListRoom =[
+            {
+              communityId:"",
+              floorId:"",
+              roomNum:"",
+              roomType:"",
+              roomFurniture:"",
+              roomWater:"1000",
+              roomElectric:"2000",
+              roomRent:"",
+              waterType:1,
+              electricType:1,
+              waterPrice:"8",
+              energyPrice:"2.2"
+            }
+          ];
+          for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
+            this.cxkjCommunityListRoom[i].communityId =communityId;
+            this.cxkjCommunityListRoom[i].floorId = floorId;
+          }
+        }
+        this.cacheFloorId = floorId;//缓存当前楼层
+        this.getHouseType();
+        this.getFurniture();
       },
-      del3 () {
+      //弹出编辑水费窗口
+      editWater(index){
+        this.modal2=true;
+        this.activeRoomIndex = index;
+        if(this.cxkjCommunityListRoom[this.activeRoomIndex].waterType == 1){
+          this.waterTypeSelect = 1;
+          this.waterValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
+          this.waterOfValue = "";
+        }else{
+          this.waterTypeSelect = 2;
+          this.waterOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
+          this.waterValue = "";
+        }
+      },
+      //弹出编辑电费窗口
+      editElectric(index){
+        this.modal3=true;
+        this.activeRoomIndex = index;
+        if(this.cxkjCommunityListRoom[this.activeRoomIndex].electricType == 1){
+          this.electricTypeSelect = 1;
+          this.electricValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
+          this.energyOfValue = "";
+        }else{
+          this.electricTypeSelect = 2;
+          this.energyOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
+          this.electricValue = "";
+        }
+      },
+      //编辑水费
+      seWater () {
+        this.modal2 = false;
+        if(this.waterTypeSelect==1){//按用量
+          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 1;
+          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterValue;
+        }else{
+          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 2;
+          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterOfValue;
+        }
+      },
+      //编辑电费
+      setElectric () {
         this.modal3 = false;
+        if(this.electricTypeSelect==1){//按用量
+          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 1;
+          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.electricValue;
+        }else{
+          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 2;
+          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.energyOfValue;
+        }
       },
       editRoomFurniture(furniture,index){
         this.activeRoomIndex = index;
         this.modal1=true;
-        this.checkBoxArr = furniture.split(" ");
-//        this.checkBoxArr = [];
-//        for(var i =0;i<checkName.length;i++){
-//            if(checkName == "床"){
-//              this.checkBoxArr.push("1");
-//            }else if(checkName == "空调"){
-//              this.checkBoxArr.push("2");
-//            }else if(checkName == "电视机"){
-//              this.checkBoxArr.push("3");
-//            }else if(checkName == "洗衣机"){
-//              this.checkBoxArr.push("4");
-//            }else if(checkName == "书桌"){
-//              this.checkBoxArr.push("5");
-//            }else if(checkName == "衣柜"){
-//              this.checkBoxArr.push("6");
-//            }
-//        };
+        this.selectListData = furniture.split(" ");
+      },
+      updatetRoomFurniture () {
+        this.modal1 = false;
+        this.cxkjCommunityListRoom[this.activeRoomIndex].roomFurniture = this.selectListData.join(" ");
       },
       getHouseType(){
           var that = this;
@@ -310,19 +359,15 @@
         })
       },
       getFurniture(){
-//        var that = this;
-//        this.$http.post(
-//          SytemData,qs.stringify({parentId:19})
-//        ).then(function(res){debugger
-//          that.checkBoxArr = res.data.entity;
-//        }).catch(function(err){
-//          console.log(err);
-//        })
-      },
-      updatetRoomFurniture () {
-        this.modal1 = false;
-        var furnitureStr = this.checkBoxArr.join(" ");
-        this.cxkjCommunityListRoom[this.activeRoomIndex].roomFurniture = furnitureStr;
+        var that = this;
+        this.$http.post(SytemData,qs.stringify({parentId:19})).then(function(res){
+          that.checkBoxArr2 = res.data.entity;
+          for(var i =0;i<that.checkBoxArr2.length;i++){
+            that.checkBoxObj[that.checkBoxArr2[i].dataName] = that.checkBoxArr2[i].dataId;
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
       },
       addRoom(){
         var that = this;
@@ -332,12 +377,14 @@
             floorId:that.cacheFloorId,
             roomNum:"",
             roomType:"",
-            roomFurniture:"床 衣柜 书桌 空调 电视机 洗衣机",
-            roomWater:"在线 按用量8.00元/m³",
-            roomElectric:"在线 按用量2.2元/度",
+            roomFurniture:"",
+            roomWater:"1000",
+            roomElectric:"2000",
             roomRent:"",
             waterType:1,
             electricType:1,
+            waterPrice:"8",
+            energyPrice:"2.20",
           })
         }
       },
@@ -355,38 +402,54 @@
         }
         return result;
       },
+      cancleNewRoom(){
+        window.history.go(-1);
+      },
       createNewRoom(){
+        var that = this;
         for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
-          var furniture = this.cxkjCommunityListRoom[i].roomFurniture;
-          var checkName = furniture.split(" ");
-          var checkBoxArr = [];
-          var checkStr = '';
-          for(var i =0;i<checkName.length;i++){
-            if(checkName[i] == "床"){
-              checkBoxArr.push("20");
-            }else if(checkName[i] == "空调"){
-              checkBoxArr.push("21");
-            }else if(checkName[i] == "电视机"){
-              checkBoxArr.push("22");
-            }else if(checkName[i] == "洗衣机"){
-              checkBoxArr.push("23");
-            }else if(checkName[i] == "书桌"){
-              checkBoxArr.push("24");
-            }else if(checkName[i] == "衣柜"){
-              checkBoxArr.push("25");
-            }
-          };
-          checkStr = checkBoxArr.join(",");
-          this.cxkjCommunityListRoom[0].roomFurniture = checkStr;
+          var roomFurniture = this.cxkjCommunityListRoom[i].roomFurniture.trim();
+          var furnitureArr = roomFurniture.split(" ");
+          var dataArr = [];
+          for(var j =0;j<furnitureArr.length;j++){
+            dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
+          }
+          if(dataArr.length){
+            this.cxkjCommunityListRoom[i].roomFurniture = dataArr.join(",");
+          }else{
+            this.cxkjCommunityListRoom[i].roomFurniture = "";
+          }
         }
-        //编辑房间接口还没有
-//        this.$http.post(
-//          'http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoom200007',{cxkjCommunityListRoom:this.cxkjCommunityListRoom}
-//        ).then(function(res){
-//          debugger
-//        }).catch(function(err){
-//          console.log(err);
-//        })
+        this.$http.post(addRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){debugger
+          alert("添加房间成功");
+          that.init();
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+      updateRoom(){
+        var that = this;
+        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
+          var roomFurniture = this.cxkjCommunityListRoom[i].roomFurniture.trim();
+          var furnitureArr = roomFurniture.split(" ");
+          var dataArr = [];
+          for(var j =0;j<furnitureArr.length;j++){
+            dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
+          }
+          if(dataArr.length){
+            this.cxkjCommunityListRoom[i].roomFurniture = dataArr.join(",");
+          }else{
+            this.cxkjCommunityListRoom[i].roomFurniture = "";
+          }
+        }
+        this.$http.post(updateRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){debugger
+          alert("编辑房间成功");
+          setTimeout(function(){
+            window.history.go(-1)
+          },500)
+        }).catch(function(err){
+          console.log(err);
+        })
       }
     },
     computed:{
@@ -496,14 +559,26 @@
       }
     }
   }
-  #appliances-setting{
-    .ivu-checkbox-wrapper{
-      padding-right: 30px;
-    }
-    .appliances-setting-table{
-      margin-left: 50px;
+
+  #select-house-modal{
+    height: 280px;
+    width: 500px;
+    .modal-content-meddle{
+      height: 120px;
+      width: 100%;
+      .el-checkbox-group{
+        width: 270px;
+        margin: 0 auto;
+        padding-top: 40px;
+        .el-checkbox{
+          margin-left: 0!important;
+          width: 90px;
+          padding-bottom: 10px;
+        }
+      }
     }
   }
+
 
 
 </style>

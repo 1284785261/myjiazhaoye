@@ -80,7 +80,7 @@
 									<td>
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
-										<router-link to="/communityHouse">资源管理</router-link>
+                    <router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId}}">社区设置</router-link>
 										<a href="javascript:;">设备管理</a>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
@@ -171,7 +171,7 @@
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">开放社区</a>
 									</td>
 								</tr>
-								
+
 							</table>
 							<div class="block">
 								<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage4" :page-size="3" layout=" prev, pager, next, total,jumper" :total=totalNum2>
@@ -224,7 +224,7 @@
 									</td>
 								</tr>
 							</table>
-							
+
 						</div>
 					</Tab-pane>
 
@@ -463,7 +463,7 @@
 						console.log(error);
 					})
 			},
-			
+
 			hub(val) {
 				this.isShow = !this.isShow;
 				//console.log(val);
@@ -550,7 +550,7 @@
 			font-size: 16px;
 		}
 	}
-	
+
 	.zhezhao {
 		width: 100%;
 		height: 100%;
@@ -563,7 +563,7 @@
 		opacity: 0.5;
 		z-index: 999;
 	}
-	
+
 	.lose {
 		z-index: 1000;
 		position: fixed;
@@ -576,27 +576,27 @@
 		transform: translate(-50%, -50%);
 		text-align: center;
 	}
-	
+
 	.lose span {
 		display: block;
 		font-size: 12px;
 		margin-top: 42px;
 		margin-bottom: 18px;
 	}
-	
+
 	.lose span i {
 		font-style: normal;
 		font-size: 10px;
 		margin: 0 5px;
 		color: #038be2;
 	}
-	
+
 	.lose p {
 		font-size: 12px;
 		font-weight: bold;
 		margin-bottom: 35px;
 	}
-	
+
 	.lose a {
 		display: inline-block;
 		width: 90px;
@@ -606,13 +606,13 @@
 		font-size: 12px;
 		border-radius: 5px;
 	}
-	
+
 	.lose a:nth-child(3) {
 		background: #038be2;
 		color: white;
 		margin-right: 20px;
 	}
-	
+
 	.lose a:nth-child(4) {
 		background: #f8f8f8;
 		color: #666;
@@ -627,17 +627,17 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
-	
+
 	.message-ti .block .el-pagination {
 		text-align: center;
 		margin-top: 40px;
 	}
-	
+
 	.message-ti .block .el-pagination .el-pager .number {
 		margin: 0 5px;
 		border: 1px solid #DCDCDC;
 	}
-	
+
 	.message-ti .block .el-pagination button {
 		border: 1px solid #DCDCDC;
 	}

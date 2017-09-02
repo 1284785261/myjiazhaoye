@@ -49,6 +49,11 @@ export const Place =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200
 export const Office =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009'
 export const Meeting =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010'
 export const ShutdownRoom =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049'
+export const addRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoom200007'
+export const updateRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditRoom200051'
+export const deleteFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownFloor200052'
+export const copyFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCopyFloor200053'
+
 
 
 //地区选择省/市/区
@@ -74,6 +79,5 @@ export const hostBeans = host3 +Beans;
 //			hostAuthor: host + Author
 //		}
 //}
-//	
+//
 //}
-		

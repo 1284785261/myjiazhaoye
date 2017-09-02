@@ -25,10 +25,9 @@
                   <div class="house_xq">
                     <img src="../../../static/images/temp/logo2_03.png">
                     <a href="#" class="ceng">{{floorData.floorName}}层</a>
-                    <a class="del" @click="openDeleteModal()">删除楼层</a>
-                    <a href="#" class="isste">快速复制楼层</a>
+                    <a class="del" @click="openDeleteModal(floorData.floorId)">删除楼层</a>
+                    <a  class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
                     <a href="#" class="isste">修改楼层信息</a>
-                    <!--<router-link to="/apartment/communityAddRoom" class="adda">批量添加房间</router-link>-->
                     <router-link :to="{ name: 'communityAddRoom' , params: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
                   </div>
                   <div class="house_xqb">
@@ -92,7 +91,7 @@
                         <el-table-column
                           label="操作">
                           <template scope="scope">
-                            <el-button @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index])" type="text" size="small">编辑</el-button>
+                            <el-button @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index],floorData.floorName)" type="text" size="small">编辑</el-button>
                             <el-button type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
                         </el-table-column>
@@ -135,8 +134,8 @@
                   <td>
                     <input type="text" v-model="office.officeRent"  placeholder="请输入租金">
                   </td>
-                  <td @click="openSelectOfficeModal">
-                    <p><a>饮水机 饮水机 饮水机 饮水机</a></p>
+                  <td @click="openSelectOfficeModal(index)">
+                    <p><a v-if="office.officeFurniture">{{office.officeFurniture}}</a><a v-else>请设置办公物资</a></p>
                   </td>
                   <td>
                     <a href="javascript:;" @click="deleteOffice(index)">删除</a>
@@ -234,7 +233,7 @@
         <span>办公物资设置</span>
       </div>
       <div class="select-office-modal-checkbox">
-        <el-checkbox-group v-model="selectListData" @change="cg()">
+        <el-checkbox-group v-model="selectListData">
             <el-checkbox v-for="select in checkBoxArr" :label="select.dataName"></el-checkbox>
         </el-checkbox-group>
       </div>
@@ -255,7 +254,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting} from '../api.js';
+  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor} from '../api.js';
   import qs from 'qs'
 
   export default{
@@ -266,6 +265,7 @@
     },
     data(){
       return {
+        communityId:"",
         activeName2: 'first',
         placeNum:"",
         placeRent:"",
@@ -273,6 +273,7 @@
         newMeetingRoeNum:1,
         rootData:[],
         CommunityListOffice:[],
+        officeSelectIndex:0,
         CommunityListMeeting:[],
         addFloorModal:false,
         deleteFloorModal:false,
@@ -280,10 +281,14 @@
         floorNum:"",//楼层
         roomSize:"",//房间数量
         checkBoxArr:[],
-        selectListData:[]
+        checkBoxObj:{},
+        selectListData:[],
+        deleteFloorId:"",//缓存要删除的楼层编号
       }
     },
     mounted(){
+      this.communityId = this.$route.query.communityId;
+      console.log(this.conmunityId)
       this.getCommunityListRoom();
       this.init();
       this.getOfficeSelect();
@@ -300,7 +305,7 @@
                     + houseType.housetypeHygienism +"卫 "+  houseType.housetypeWindow + " " +  houseType.housetypeOrientations;
                   this.rootData[i].cxkjCommunityListRoom[j].houseTypeStr = houseTypeStr;
                 }
-                room.roomRent = room.roomRent?room.roomRent.toFixed(2):room.roomRent;
+//                room.roomRent = room.roomRent?room.roomRent.toFixed(2):room.roomRent;
               }
             }
           }
@@ -316,6 +321,7 @@
               communityId:3,
               officeHouseNum:"",
               officeWorkNum:"",
+              officeFurniture:"",
               officeRent:""
             });
             this.CommunityListMeeting.push({
@@ -329,11 +335,13 @@
       handleClick(){
 
       },
-      editRoom(room){
+      editRoom(room,floorName){
         this.$router.push({
           name: 'communityAddRoom' ,
-          params: { roomObj: room }
+          params: { roomObj: room ,floorName:floorName}
         });
+        console.log(room)
+        console.log("传递对象===>")
       },
       closeFloorModal(){
         this.addFloorModal = false;
@@ -344,39 +352,67 @@
       createNewFloor(){
         this.addFloorModal = false;
         var that = this;
-        this.$http.post(RoomAdd, qs.stringify({communityId: 3,floorNum:that.floorNum,roomSize:that.roomSize}))
+        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046", qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
           .then(function (res) {debugger
-            window.alert("添加楼层成功!");
-            that.init();
+            if(res.data.code == 1004){
+              window.alert(res.data.content);
+            }else{
+              window.alert("添加楼层成功!");
+              that.getCommunityListRoom();
+            }
+
+
           }).catch(function(error){
           console.log(error);
         })
       },
-      openDeleteModal(){
+      openDeleteModal(floorId){
+        this.deleteFloorId = floorId;
         this.deleteFloorModal=true;
       },
       closeDeleteModal(){
         this.deleteFloorModal=false;
       },
+      //删除楼层
       deleteFloor(){
         this.deleteFloorModal=false;
+        var that = this;
+        this.$http.post(deleteFloor, qs.stringify({floorId:this.deleteFloorId}))
+          .then(function (res) {debugger
+            var flag = -1;
+            for(var i =0;i<that.rootData.length;i++){
+              if(that.rootData[i].floorId == that.deleteFloorId){
+                flag = i;
+                break;
+              }
+            }
+            debugger
+            if(flag != -1){
+              that.rootData.splice(flag,1);
+            }
+            window.alert("删除成功!");
+          }).catch(function(error){
+          console.log(error);
+        })
       },
       closeSeleteOffieModal(){
         this.seleteOffieModal = false;
       },
       seleteOffie(){
         this.seleteOffieModal = false;
+        this.CommunityListOffice[this.officeSelectIndex].officeFurniture = this.selectListData.join(" ");
       },
-      openSelectOfficeModal(){
+      openSelectOfficeModal(index){
         this.seleteOffieModal = true;
+        this.officeSelectIndex = index;
+        this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
       },
       getCommunityListRoom(){
-          var that = this;
-        this.$http.post(Apartment, qs.stringify({"communityId": 3}))
-          .then(function (res) {
+        var that = this;
+        this.$http.post(Apartment, {"communityId": this.communityId})
+          .then(function (res) {debugger
             if(res.status == 200 && res.statusText=="OK"){
-              that.rootData = res.data.result.communityData;
-              console.log(that.rootData)
+              that.rootData = res.data.entity;
             }else{
 
             }
@@ -388,16 +424,19 @@
         var that = this;
         this.$http.post(
           SytemData,qs.stringify({parentId:29})
-        ).then(function(res){debugger
+        ).then(function(res){
           that.checkBoxArr = res.data.entity;
+          for(var i =0;i<that.checkBoxArr.length;i++){
+            that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
+          }
         }).catch(function(err){
           console.log(err);
         })
       },
       addCommunityPlace(){
-          var that = this;
+        var that = this;
         var data = {
-          communityId : 3,
+          communityId : this.communityId,
           placeNum: this.placeNum,
           placeRent:this.placeRent
         };
@@ -416,15 +455,29 @@
       addOffice(){
         for(var i=0;i<this.newRowNum;i++){
           this.CommunityListOffice.push({
-            communityId:3,
+            communityId:this.communityId,
             officeHouseNum:"",
             officeWorkNum:"",
             officeRent:""
           });
         }
       },
+      //添加办公室
       addCommunityOffice(){
         var that = this;
+        for(var i =0;i<this.CommunityListOffice.length;i++){
+            var officeFurniture = this.CommunityListOffice[i].officeFurniture.trim();
+            var FurnitureArr = officeFurniture.split(" ");
+            var dataArr = [];
+            for(var j =0;j<FurnitureArr.length;j++){
+              dataArr.push(this.checkBoxObj[FurnitureArr[j]]+"");
+            }
+            if(dataArr.length){
+              this.CommunityListOffice[i].officeFurniture = dataArr.join(",");
+            }else{
+              this.CommunityListOffice[i].officeFurniture = "";
+            }
+        }
         this.$http.post(Office, {cxkjCommunityListOffice:this.CommunityListOffice})
           .then(function (res) {
             window.alert("添加办公室成功!");
@@ -439,7 +492,7 @@
       addMeeting(){
         for(var i=0;i<this.newMeetingRoeNum;i++){
           this.CommunityListMeeting.push({
-            communityId:3,
+            communityId:this.communityId,
             meetingHouseNum:"",
             meetingPersonNum:"",
             meetingRent:""
@@ -459,15 +512,22 @@
       deleteRomm(room,index,rootDataindex){
         var that = this;
         this.$http.post(ShutdownRoom, qs.stringify({roomId:room.roomId,state:1}))
-          .then(function (res) {debugger
+          .then(function (res) {
             that.rootData[rootDataindex].cxkjCommunityListRoom.splice(index,1);
             window.alert("删除成功!");
           }).catch(function(error){
           console.log(error);
         })
       },
-      cg(){
-          console.log(this.selectListData)
+      copyFloor(floorId){
+        var that = this;
+        this.$http.post(copyFloor, qs.stringify({communityId:this.communityId,floorId:floorId}))
+          .then(function (res) {debugger
+            that.getCommunityListRoom();
+            //window.alert("删除成功!");
+          }).catch(function(error){
+          console.log(error);
+        })
       }
     }
   }
