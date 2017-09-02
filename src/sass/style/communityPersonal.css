@@ -39,7 +39,13 @@
   text-decoration: none;
   border-radius: 5px;
   cursor: pointer;
-  
+}
+.message-tis .uploading .upload img{
+	width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .message-tis .uploading .upload .icon-jiahao1{
 	width: 2px;

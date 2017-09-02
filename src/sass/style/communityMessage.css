@@ -11,10 +11,21 @@
 }
 .message-tis .cops tr td {
 	font-size: 14px;
-	padding-right: 20px;
+	padding-right: 10px;
+	height: 40px;
+}
+.message-tis .cops tr:nth-child(1) td:nth-child(2){
+	font-weight: bold;
+}
+.message-tis .cops tr td:nth-child(1){
+	text-align: right;
 }
 .operation-box{
 	position: absolute;
+}
+.message-tis .cops tr td a {
+	display: block;
+	line-height: 30px;
 }
 .mess{
 	margin-right: 10px;

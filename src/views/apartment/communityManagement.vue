@@ -21,15 +21,15 @@
 								</div>
 								<div class="form-item">
 									<span>开业日期：</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="start"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="over"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-										<input type="button" value="搜索">
+										<Input v-model="vague" placeholder="搜索联系人或联系电话"></Input>
+										<input type="button" value="搜索" @click="btns()">
 									</div>
 								</div>
 							</div>
@@ -78,7 +78,7 @@
 										</dl>
 									</td>
 									<td>
-										<router-link to="/apartment/communityMessage">基本信息</router-link>
+										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
 										<router-link to="/communityHouse">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId}}">社区设置</router-link>
@@ -163,7 +163,7 @@
 										</dl>
 									</td>
 									<td>
-										<router-link to="/apartment/communityMessage">基本信息</router-link>
+										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
 										<router-link to="/communityHouse">资源管理</router-link>
 										<router-link to="/apartment/communitySettings">社区设置</router-link>
@@ -336,10 +336,10 @@
 					Close:null,
 					id:0,
 					Name:'佳兆业'
-				} //确定后需要的参数
-//				communityId:null, //关闭或打开社区操作的社区id
-//				communityIsClose:null, //关闭或打开社区的状态
-//				communityName:null //关闭或打开社区的name
+				}, //确定后需要的参数
+				start:null,   //模糊查询开业开始时间
+				over:null,   //模糊查询开业关闭时间
+				vague:null //模糊查询内容
 			}
 		},
 		filters: { //过滤器
@@ -410,6 +410,29 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
+						//console.log(response);
+						vm.commint = response.data.result.communityData.page;
+						vm.totalNum = response.data.result.communityData.totalNum;
+						//console.log(this.commint);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+			},
+			btns(){       //模糊搜索数据
+				let vm = this
+				vm.commint = [];
+				let pageNum = vm.pageNum || 1;
+				let pageSize = vm.pageSize || 3;
+				axios.post(hostCommint, //请求数据列表
+						qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize,
+							communityOpeningDate: vm.start,
+							communityNewOpeningDate: vm.over,
+							communityLikeName:vm.vague
+						})
+					).then((response) => {
 						console.log(response);
 						vm.commint = response.data.result.communityData.page;
 						vm.totalNum = response.data.result.communityData.totalNum;
@@ -440,6 +463,7 @@
 						console.log(error);
 					})
 			},
+			
 			hub(val) {
 				this.isShow = !this.isShow;
 				//console.log(val);

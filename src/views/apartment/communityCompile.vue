@@ -94,7 +94,7 @@
 							</td>
 						</tr>
 						<tr>
-								<ul class="unloading">
+								<ul class="unloading" v-if="ches">
 									<li v-for="(item,index) in fileList">
 										<span>已上传： </span><a>{{item[1]}}</a><i class="el-icon-delete" @click='removeItem(item)'></i>
 									</li>
@@ -159,7 +159,8 @@
 				communityLeaseEnd: null, //租期结束时间
 				communityFreeLeaseBegin: null, //免租期开始时间
 				communityFreeLeaseEnd: null, //免租期结束时间
-				communityContractFile: '' //物业合同
+				communityContractFile: '', //物业合同
+				ches:false
 			}
 		},
 		mounted() {
@@ -216,6 +217,7 @@
 			},
 			uploadFile(e) {
 				let vm = this
+				vm.ches = true;
 				let file = e.target.files[0];
 				let files = [file, file.name];
 				this.fileList.push(files);

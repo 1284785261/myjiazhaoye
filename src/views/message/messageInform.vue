@@ -8,7 +8,7 @@
 		          <span>您现在的位置：工作台 > </span>
 		          <router-link  class="active" to="/apartment/communityManagement">消息中心</router-link>
 		        </div>
-		        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+		        <el-tabs v-model="activeName2" type="card">
 				    <el-tab-pane label="通知消息" name="first">
 				    	<div id="messageInform1">
 				    		<table>
@@ -17,34 +17,20 @@
 				    				<td width="20%">时间</td>
 				    				<td>消息内容</td>
 				    			</thead>
-				    			<tr>
-				    				<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
+				    			<tr v-for="item in title">
+				    				<td>{{item.messageType}}</td>
+				    				<td>{{item.createtime}}</td>
+				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
-				    			<tr>
-				    				
-				   					<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
-				    				
-				    				
-				    			</tr>
-				    			<tr>
-				    				<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
-				    				
-				    			</tr>
+				    			
 				    		</table>
 				    		<el-pagination
-						      @size-change="handleSizeChange"
 						      @current-change="handleCurrentChange"
 						      :current-page.sync="currentPage3"
-						      :page-size="10"
+						      :page-size="8"
 						      layout="prev, pager, next,total,jumper"
-						      :total="100">
+						      :total=totalNum>
 						     
 						    </el-pagination>
 						    
@@ -59,34 +45,19 @@
 				    				<td width="20%">时间</td>
 				    				<td>消息内容</td>
 				    			</thead>
-				    			<tr>
-				    				<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
+				    			<tr v-for="item in title2">
+				    				<td>{{item.messageType}}</td>
+				    				<td>{{item.createtime}}</td>
+				    				<td>{{item.content}}</td>
 				    			
-				    			</tr>
-				    			<tr>
-				    				
-				   					<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
-				    				
-				    				
-				    			</tr>
-				    			<tr>
-				    				<td>1</td>
-				    				<td>熊反弹</td>
-				    				<td>女</td>
-				    				
 				    			</tr>
 				    		</table>
 				    		<el-pagination
-						      @size-change="handleSizeChange"
-						      @current-change="handleCurrentChange"
+						      @current-change="handleCurrentChange2"
 						      :current-page.sync="currentPage3"
-						      :page-size="10"
+						      :page-size="8"
 						      layout="prev, pager, next,total,jumper"
-						      :total="100">
+						      :total=totalNum2>
 						     
 						    </el-pagination>
 						    
@@ -144,7 +115,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+    import axios from 'axios';
+    import qs from 'qs';
+    import { hostBean,hostBeans } from '../api.js';
     export default {
     	components:{
     		rightHeader,
@@ -172,23 +145,71 @@
 		          value: '选项5',
 		          label: '北京烤鸭'
 		        }],
-		        value8: ''
+		        value8: '',
+		        pageNum:1,
+		        title:'',  //通知消息数据
+		        totalNum:null,
+		        pageNum2:1,
+		        title2:'',  //系统通知消息数据
+		        totalNum2:null
 		   	}
     	},
+    	mounted(){
+    		this.bean();
+    		this.bean2();
+    	},
     	methods:{
-    		handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
+    		
+		    handleCurrentChange(val) {
+		        //console.log(`当前页: ${val}`);
+		        this.pageNum =val;
 		    },
-		      handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
-		    },
-		    handleClick(tab, event) {
-		        console.log(tab, event);
+		    handleCurrentChange2(val) {
+		        //console.log(`当前页: ${val}`);
+		        this.pageNum2 =val;
 		    },
 		    instas:function(){
-    			
     			this.isHide = !this.isHide;
+    		},
+    		bean(){
+    			let vm =this
+    			let pageNum = vm.pageNum || 1;
+				let pageSize = vm.pageSize || 3;
+    			axios.get(hostBean, //请求数据列表
+						qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize
+						})
+					).then((response) => {
+						//console.log(response);
+						vm.title = response.data.pageBean.page;
+						vm.totalNum2 = response.data.pageBean.totalNum;
+						//console.log(this.commint);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+    		},
+    		bean2(){
+    			let vm =this
+    			let pageNum = vm.pageNum2 || 1;
+				let pageSize = vm.pageSize2 || 3;
+    			axios.get(hostBeans, //请求数据列表
+						qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize
+						})
+					).then((response) => {
+						console.log(response);
+						vm.title2 = response.data.pageBean.page;
+						vm.totalNum2 = response.data.pageBean.totalNum;
+						//console.log(this.commint);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
     		}
+    	
     	
     	},
     	created(){
