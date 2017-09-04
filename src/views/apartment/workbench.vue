@@ -87,7 +87,9 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-
+	import qs from 'qs';
+	import axios from 'axios';
+	import api from '../api.js';
 export default {
   components:{
     rightHeader,
@@ -205,6 +207,14 @@ export default {
         }
       }]
     }
+  },
+  mounted(){
+  	
+  },
+  methods:{
+  },
+  created(){
+  	
   }
 }
 </script>

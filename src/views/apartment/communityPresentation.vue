@@ -35,19 +35,19 @@
 								:on-exceeded-size="handleMaxSize" 
 								:before-upload="handleBeforeUpload" 
 								multiple type="drag" 
-								action="//jsonplaceholder.typicode.com/posts/" 
+								:action=url
 								style="display: inline-block;width:162px;">
 								<div style="width: 160px;height:120px;line-height:112px;">
 									<Icon type="camera"></Icon>
 								</div>
 							</Upload>
 							<Modal v-model="visible">
-								<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible">
+								<img :src="'http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test' + imgName + '/large'" v-if="visible">
 							</Modal>
 						</div>
-						<!--<div class="item-img">
+						<div class="item-img">
 							<span class="fl">办公区：</span>
-							<div class="demo-upload-list" v-for="item in uploadList">
+							<div class="demo-upload-list" v-for="item in uploadList2">
 								<template v-if="item.status === 'finished'">
 									<img :src="item.url">
 									<div class="demo-upload-list-cover">
@@ -70,7 +70,7 @@
 						</div>
 						<div class="item-img">
 							<span class="fl">公寓房间：</span>
-							<div class="demo-upload-list" v-for="item in uploadList">
+							<div class="demo-upload-list" v-for="item in uploadList3">
 								<template v-if="item.status === 'finished'">
 									<img :src="item.url">
 									<div class="demo-upload-list-cover">
@@ -92,20 +92,19 @@
 									<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
 								</div>
 							</Modal>
-						</div>-->
+						</div>
 					</div>
 
 					<h4 class="bts">详情描述：</h4>
 					<div class="components-container">
 
 						<div class="info"></div>
-						<!--<button @click="getUEContent()">获取内容</button>-->
 						<div class="editor-container">
 							
 							<UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
 						</div>
 					</div>
-					<button class="confirm">确定</button>
+					<button class="confirm" @click="getUEContent()">确定</button>
 					<button class="call">取消</button>
 				</div>
 			</div>
@@ -121,7 +120,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import UE from '../../components/uedit.vue';
 	import axios from 'axios';
-	import {hostPresent} from '../api.js';
+	import {hostPresent,imgPath,hostTitle} from '../api.js';
 	import qs from 'qs';
 	export default {
 		components: {
@@ -140,21 +139,24 @@
 //						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
 //				}],
 				defaultList2:[
-					{
-							'name': 'a42bdcc1178e62b4694c830f028db5c0',
-							'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-					}
-				],
+//{
+//						'name': 'a42bdcc1178e62b4694c830f028db5c0',
+//						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+//				}
+],
 				imgName: '',
 				visible: false,
 				uploadList: [],
+				uploadList2: [],
+				uploadList3: [],
 				defaultMsg: '',
 				config: {
 					initialFrameWidth: null,
 					initialFrameHeight: 350
 				},
 				communityId:null, //社区ID
-				community:null //当前页面数据
+				community:null, //当前页面数据
+				url:hostPresent
 			}
 
 		},
@@ -172,7 +174,14 @@
 					message: content,
 					type: 'success'
 				});
-				console.log(content)
+				
+				axios.post(hostPresent,
+					qs.stringify({
+						communityId:vm.communityId,
+						communityInfo:content
+					})
+				)
+				//console.log(content)
 			},
 			handleView(name) {
 				this.imgName = name;
@@ -201,7 +210,7 @@
 				});
 			},
 			handleBeforeUpload() {
-				const check = this.uploadList.length < 5;
+				const check = this.uploadList.length < 10;
 				if(!check) {
 					this.$Notice.warning({
 						title: '最多只能上传 5 张图片。'
@@ -211,22 +220,29 @@
 			},
 			present(){
 				let vm = this
-				axios.get(hostPresent,{
-					params:{
+				axios.post(hostTitle,
+					qs.stringify({
 						communityId:vm.communityId
-					}
-				})
+				}))
 				.then((response)=>{
-					console.log(1111111);
-					//console.log(response);
-					vm.community = response.data.entity;
-					console.log(vm.community);
+					//console.log(1111111);
+					console.log(response);
+					vm.community = response.data.result.community;
+					//console.log(vm.community);
 					const arr = vm.community.communityFace.split(",");
+					const arr2 = vm.community.communityWork.split(",");
+					const arr3 = vm.community.communityFlat.split(",");
 					//console.log(arr);
 					arr.forEach(function(item,index){
-						vm.defaultList2.push({'name':index,'url':item});
+						vm.uploadList.push({'name':index,'url':imgPath+item,'status':"finished"});
 					})
-					console.log(vm.defaultList2);
+					arr2.forEach(function(item,index){
+						vm.uploadList2.push({'name':index,'url':imgPath+item,'status':"finished"});
+					})
+					arr2.forEach(function(item,index){
+						vm.uploadList3.push({'name':index,'url':imgPath+item,'status':"finished"});
+					})
+					//console.log(vm.defaultList2);
 				})
 				.catch((error)=>{
 					console.log(error);

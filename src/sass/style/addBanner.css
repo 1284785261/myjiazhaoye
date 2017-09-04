@@ -48,12 +48,46 @@
 #addbanner table tr td{
 	position: relative;
 }
+#addbanner table tr td .bt{
+	width: 200px;
+	height: 120px;
+	position: relative;
+	margin: 5px;
+	background: #f8f8f8;
+	border: 1px solid #DCDCDC;
+}
 #addbanner table tr td .sb{
 	position: absolute;
 	bottom: 10%;
-	left: 22%;
+	left: 50%;
 	font-size: 12px;
 	transform: translate(-50%,-50%);
+}
+#addbanner table tr td .bt .files{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 200px;
+	height: 120px;
+	z-index: 100;
+	opacity: 0;
+}
+#addbanner table tr td .bt img{
+	width: 196px;
+	height: 116px;
+	position: absolute;
+	left: 0;
+	top:0;
+	margin: 2px;
+}
+#addbanner table tr td .bt i{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 194px;
+	height: 114px;
+	margin: 3px;
+	border: 3px solid #ffffff;
 }
 #addbanner table tr{
 	height: 60px;
@@ -94,4 +128,7 @@
 #addbanner .tis i{
 	margin-right: 5px;
 	font-size: 16px;
+}
+#addbanner .opacity{
+	opacity: 0;
 }

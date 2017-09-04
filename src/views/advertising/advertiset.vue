@@ -24,26 +24,12 @@
 		    				<td>状态</td>
 		    				<td width="20%">操作</td>
 		    			</thead>
-		    			<tr>
-		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
-		    				<td>APP首页banner图</td>
-		    				<td>1</td>
-		    				<td>开放</td>
-		    				<td><a>修改</a><a>删除</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
-		    				<td>APP首页banner图</td>
-		    				<td>1</td>
-		    				<td>开放</td>
-		    				<td><a>修改</a><a>删除</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td><img src="../../../static/images/temp/uploadImg.png"></td>
-		    				<td>APP首页banner图</td>
-		    				<td>1</td>
-		    				<td>开放</td>
-		    				<td><a>修改</a><a>删除</a></td>
+		    			<tr v-for="item in Datas">
+		    				<td><img :src=imgPath+item.bannerPic></td>
+		    				<td>{{item.imgExplain}}</td>
+		    				<td>{{item.listNumber}}</td>
+		    				<td>{{item.isClose | order(item.isClose)}}</td>
+		    				<td><router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}">修改</router-link><a>删除</a></td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -70,7 +56,10 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+    import qs from 'qs';
+	import axios from 'axios';
+	import { hostAdvert,imgPath } from '../api.js';
+	
     export default {
     	components:{
     		rightHeader,
@@ -80,9 +69,12 @@
     	data(){
     		return{
     			isHide:false,
-    			currentPage3: 5
-    			
+    			currentPage3: 1,
+    			Datas:null
 		   	}
+    	},
+    	mounted(){
+    		this.datas();
     	},
     	methods:{
     		handleSizeChange(val) {
@@ -90,8 +82,28 @@
 		    },
 		    handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
+		    },
+		    datas(){
+		    	axios.post(hostAdvert)
+		    	.then((response)=>{
+		    		console.log(response);
+		    		this.Datas = response.data.pageBean;
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
 		    }
     	
+    	},
+    	filters:{
+    		order(number){
+    			if(number == '0'){
+    				return '开放'
+    			}
+    			else if(number == '1'){
+    				return '关闭'
+    			}
+    		}
     	},
     	created(){
     		

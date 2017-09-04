@@ -2,7 +2,7 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host2 = 'http://192.168.26.118:8080';
+const host2 = 'http://192.168.26.167:8080';
 const host3 = 'http://120.78.16.234:8060';
 
 //http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
@@ -23,9 +23,8 @@ const Complie ='/cxkj_room/apis/pc/community/CxkjCommunityAdd200002';
 //关闭或开放社区
 const Open = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';
 
-//介绍页面数据
-const Present='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityDetails200047';
-//http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityDetails200047\
+//修改介绍页面数据
+const Present='/cxkj-room/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003';
 
 //获取社区设置的方式
 const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
@@ -40,6 +39,19 @@ const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
 const Bean = '/cxkj-room/apis/pc/message/CxkjAnnouncementMessage300017'
 //系统通知消息列表
 const Beans = '/cxkj-room/apis/pc/message/CxkjSystemMessage300018'
+
+
+//广告页面管理数据
+const Advert = '/cxkj-room/apis/pc/ad/CxkjAdIndexPage300008'
+
+//广告修改信息接口
+const amend = '/cxkj-room/apis/pc/ad/CxkjGoAdEdit300020'
+
+//广告页面添加banner
+const Addadvert = '/cxkj-room/apis/pc/ad/CxkjAdAdd300009'
+
+//用户个人信息上传头像
+const portrait ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalUpdate200060'
 
 export const Housetype =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048'
 export const SytemData =host3+'cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
@@ -69,9 +81,13 @@ export const hostPresent = host3 + Present;
 export const hostWay = host3 + Way;
 export const hostRoom = host3 +Room;
 export const imgPath = 'http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test';    //图片路径前缀
-export const hostTitle = host2 + Title;
+export const hostTitle = host3 + Title;
 export const hostBean = host3 + Bean;
-export const hostBeans = host3 +Beans;
+export const hostBeans = host3 + Beans;
+export const hostAdvert = host3 + Advert;
+export const hostAddadvert = host3 +Addadvert;
+export const hostportrait = host2 +portrait;
+export const hostamend =host3 + amend;
 //export default {
 //hosts:function(){
 //		return{

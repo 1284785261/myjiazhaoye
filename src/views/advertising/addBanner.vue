@@ -17,26 +17,24 @@
 		    			<tr>
 		    				<td>上传banner图：</td>
 		    				<td>
-		    					<el-upload
-								  class="avatar-uploader"
-								  action="https://jsonplaceholder.typicode.com/posts/"
-								  :show-file-list="false"
-								  :on-success="handleAvatarSuccess"
-								  :before-upload="beforeAvatarUpload">
-								  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-								  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-								</el-upload>
-								<span class="sb">上传图片</span>
+								<div class="bt">
+									<img v-show="imageUrl"  :src=imageUrl />
+									<div :class="{opacity:imageUrl!=''}">
+									<i class="el-icon-plus avatar-uploader-icon"></i>
+									<span class="sb">上传图片</span>
+									<input type="file" accept="image/png,image/jpg" name="file" class="files" @change='uploadFile'/>
+									</div>
+								</div>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>图片链接：</td>
-		    				<td><input type="text" placeholder="请输入链接"></td>
+		    				<td><input type="text" placeholder="请输入链接" v-model="links"></td>
 		    			</tr>
 		    			<tr>
 		    				<td>图片说明：</td>
 		    				<td>
-		    					<textarea placeholder="请输入图片说明">
+		    					<textarea placeholder="请输入图片说明" v-model="title">
 		    						
 		    					</textarea>
 		    				</td>
@@ -44,16 +42,16 @@
 		    			<tr>
 		    				<td>状态：</td>
 		    				<td>
-		    					<el-radio class="radio" v-model="radio" label="1">开放</el-radio>
-  								<el-radio class="radio" v-model="radio" label="2">关闭</el-radio>
+		    					<el-radio class="radio" v-model="radio" label="0">开放</el-radio>
+  								<el-radio class="radio" v-model="radio" label="1">关闭</el-radio>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>排序：</td>
-		    				<td><input type="text" placeholder="请输入排序号" class="px"></td>
+		    				<td><input type="text" placeholder="请输入排序号" class="px" v-model="listNumber"></td>
 		    			</tr>
 		    		</table>
-		    		<a class="tj">确定</a>
+		    		<a class="tj" @click="adds">确定</a>
 		    		<p class="tis"><i class="el-icon-warning"></i>请添加大小不超过500k、分辨率为750*450px、图片格式为JPG或PNG等</p>
 		    	</div>
 		        
@@ -70,7 +68,10 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+    import qs from 'qs';
+	import axios from 'axios';
+	import { hostAddadvert,hostamend,imgPath } from '../api.js';
+	
     export default {
     	components:{
     		rightHeader,
@@ -80,26 +81,78 @@
     	data(){
     		return{
     			isHide:false,
+    			isHide2:true,
     			imageUrl: '',
-    			radio: '1'
+    			radio: '0',
+    			links:null,
+    			title:null,
+    			listNumber:null,
+    			filelist:[],
+    			id:null,
+    			param:null
 		   	}
     	},
+    	mounted(){
+    		this.param = new FormData();
+    		let vm = this
+    		if(this.$route.query.id !=null){
+    			this.id = this.$route.query.id;
+    			this.isHide = true;
+    			this.isHide2 = false;
+    			console.log(111)
+    			axios.post(hostamend,
+    			qs.stringify({
+    				adId:this.id
+    			}))
+    			.then((response)=>{
+    				console.log(222)
+    				console.log(response);
+    				vm.imageUrl =imgPath + response.data.entity.bannerPic;
+    				vm.links = response.data.entity.imgUrl;
+    				vm.title = response.data.entity.imgExplain;
+    				vm.listNumber = response.data.entity.listNumber;
+    				vm.radio = response.data.entity.isClose+'';
+    				
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		}
+    	},
     	methods:{
-    		handleAvatarSuccess(res, file) {
-		        this.imageUrl = URL.createObjectURL(file.raw);
-		    },
-		    beforeAvatarUpload(file) {
-		        const isJPG = file.type === 'image/jpeg';
-		        const isLt2M = file.size / 1024 / 1024 < 2;
-		
-		        if (!isJPG) {
-		          this.$message.error('上传头像图片只能是 JPG 格式!');
-		        }
-		        if (!isLt2M) {
-		          this.$message.error('上传头像图片大小不能超过 2MB!');
-		        }
-		        return isJPG && isLt2M;
-		    }
+    		uploadFile(e){
+    			let vm = this
+    			vm.filelist = [];
+    			this.isHide = true;
+    			this.isHide2 = false;
+    			let file = e.target.files[0];
+    			
+    			let files = [file,file.name];
+    			this.filelist.push(files);
+    			if(file.size > 1024 * 521) {
+			        alert('图片大小不能超过 500KB!');
+			        return false;
+			    }
+    			let windowURL = window.URL || window.webkitURL;
+    			this.imageUrl =  windowURL.createObjectURL(e.target.files[0]);
+    			console.log(this.filelist);
+    		},
+    		adds:function(){
+    			let vm= this
+    			this.param.append('adPicFile',this.filelist[0][0]);
+    			this.param.append("imgUrl",this.links);
+    			this.param.append("imgExplain",this.title);
+    			this.param.append("isClose",this.radio);
+    			this.param.append("listNumber",this.listNumber);
+				console.log(this.param);
+    			this.$http.post(hostAddadvert,this.param).then(res => {
+    				//console.log(res);
+    			})
+    			.catch(error =>{
+    				console.log(error);
+    			})
+    			
+    		}
     	},
     	created(){
     		

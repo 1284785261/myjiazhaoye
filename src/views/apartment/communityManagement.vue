@@ -99,22 +99,16 @@
 						<div class="message-ti">
 							<div class="form-search-criteria">
 								<div class="form-item">
-									<b>社区：</b>
-									<Select v-model="model1" style="width:200px">
-										<Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
-									</Select>
-								</div>
-								<div class="form-item">
 									<span>开业日期：</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="start"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="over"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-										<input type="button" value="搜索">
+										<Input v-model="vague" placeholder="搜索联系人或联系电话"></Input>
+										<input type="button" value="搜索" @click="btusy">
 									</div>
 								</div>
 							</div>
@@ -463,7 +457,30 @@
 						console.log(error);
 					})
 			},
-
+			btusy(){  //关闭社区页面模糊查询
+				let vm = this
+				vm.commint2 = [];
+				let pageNum = vm.pageNum || 1;
+				let pageSize = vm.pageSize || 3;
+				axios.post(hostCommint, //请求数据列表
+						qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize,
+							communityIsClose:1,
+							communityOpeningDate: vm.start,
+							communityNewOpeningDate: vm.over,
+							communityLikeName:vm.vague
+						})
+					).then((response) => {
+						console.log(response);
+						vm.commint2 = response.data.result.communityData.page;
+						vm.totalNum2 = response.data.result.communityData.totalNum;
+						//console.log(this.commint);
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+			},
 			hub(val) {
 				this.isShow = !this.isShow;
 				//console.log(val);

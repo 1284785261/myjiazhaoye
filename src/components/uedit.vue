@@ -33,7 +33,7 @@
 	    },
 	    methods: {
 	      getUEContent() { // 获取内容方法
-	        return this.editor.getContent()
+	        return this.editor.getContent();
 	      }
 	    },
 	    destroyed() {

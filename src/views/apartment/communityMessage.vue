@@ -15,7 +15,7 @@
 		        	<table class="cops">
 		        		<tr>
 		        			<td>社区名称：</td>
-		        			<td>{{Datas.communityName}}</td>
+		        			<td>{{ Name }}</td>
 		        		</tr>
 		        		<tr>
 		        			<td>社区地址：</td>
@@ -46,9 +46,9 @@
 		        			<td>{{ freelease }}</td>
 		        		</tr>
 		        		<tr>
-		        			<td>物业合同：</td>
+		        			<td>物业合同：{{contract}}</td>
 		        			<td>
-		        						<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess" />{{item}} {{ contract }}</a>
+		        				<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess">{{ item }}</a>
 		        			</td>
 		        		</tr>
 		        	</table>
@@ -89,7 +89,8 @@
     			communityId:null,
     			Datas:null,
     			site:null,
-    			contart:[]
+    			contart:[],
+    			Name:null
     		}
     	},
     	mounted(){
@@ -107,8 +108,9 @@
     				communityId:vm.communityId
     			}))
     			.then((response) => {
-    				//console.log(response);
+    				console.log(response);
     				vm.Datas = response.data.result.community;
+    				vm.Name = response.data.result.community.communityName;
     				if(vm.Datas.province.areaName == vm.Datas.city.areaName){
     					vm.site = vm.Datas.province.areaName + vm.Datas.district.areaName +vm.Datas.communityAddress;
     				}
@@ -173,10 +175,8 @@
     		},
     		contract:function(){
     			let mv = this.Datas.communityContract.split(',');
+    			console.log(111111111);
     			console.log(mv);
-//  			var s=">haadha>>dfh>aha>>adh>>ahf>>haadhsdh>fdhh";
-//				s=s.substring(s.lastIndexOf(">")+1,s.length); 
-//				alert(s);
 				for(let i=0;i < mv.length; i++){
 					this.contart.push(mv[i].substring(mv[i].lastIndexOf("/")+1,mv[i].length));
 					
