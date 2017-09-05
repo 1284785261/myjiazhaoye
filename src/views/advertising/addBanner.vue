@@ -9,7 +9,7 @@
 		          <router-link  class="active" to="/apartment/communityManagement">广告设置</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>添加Banner</h3>
+		          <h3><i class="icon icon-iden"></i>{{whirt}}</h3>
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
 		    	<div id="addbanner">
@@ -70,7 +70,7 @@
     import footerBox from '../../components/footerBox.vue';
     import qs from 'qs';
 	import axios from 'axios';
-	import { hostAddadvert,hostamend,imgPath } from '../api.js';
+	import { hostAddadvert,hostamend,imgPath,hostAlter } from '../api.js';
 	
     export default {
     	components:{
@@ -80,8 +80,8 @@
     	},
     	data(){
     		return{
+    			whirt:'添加Banner',
     			isHide:false,
-    			isHide2:true,
     			imageUrl: '',
     			radio: '0',
     			links:null,
@@ -95,17 +95,15 @@
     	mounted(){
     		this.param = new FormData();
     		let vm = this
-    		if(this.$route.query.id !=null){
+    		if(this.$route.query.id !=null){   //修改banner页面
     			this.id = this.$route.query.id;
     			this.isHide = true;
-    			this.isHide2 = false;
-    			console.log(111)
+    			vm.whirt ='修改Banner';
     			axios.post(hostamend,
     			qs.stringify({
     				adId:this.id
     			}))
     			.then((response)=>{
-    				console.log(222)
     				console.log(response);
     				vm.imageUrl =imgPath + response.data.entity.bannerPic;
     				vm.links = response.data.entity.imgUrl;
@@ -124,8 +122,7 @@
     			let vm = this
     			vm.filelist = [];
     			this.isHide = true;
-    			this.isHide2 = false;
-    			let file = e.target.files[0];
+    			let file = e.target.files[0];   //添加新的banner数据
     			
     			let files = [file,file.name];
     			this.filelist.push(files);
@@ -145,13 +142,25 @@
     			this.param.append("isClose",this.radio);
     			this.param.append("listNumber",this.listNumber);
 				console.log(this.param);
-    			this.$http.post(hostAddadvert,this.param).then(res => {
-    				//console.log(res);
-    			})
-    			.catch(error =>{
-    				console.log(error);
-    			})
-    			
+				if(this.id != null){
+					this.param.append('adId',this.id);
+					this.$http.post(hostAlter,this.param).then(res => {
+	    				//console.log(res);
+	    				alert('修改成功');
+	    			})
+	    			.catch(error =>{
+	    				console.log(error);
+	    			})
+				}
+				else{
+	    			this.$http.post(hostAddadvert,this.param).then(res => {
+	    				//console.log(res);
+	    				alert('添加成功');
+	    			})
+	    			.catch(error =>{
+	    				console.log(error);
+	    			})
+    			}
     		}
     	},
     	created(){

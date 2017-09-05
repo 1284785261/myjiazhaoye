@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：</span>
-		          <router-link  class="active" to="/apartment/communityManagement">工作台>个人信息</router-link>
+		          <span>您现在的位置：工作台 > </span>
+		          <router-link  class="active" to="/apartment/communityManagement">个人信息</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>修改登录密码</h3>
@@ -15,8 +15,8 @@
 		        <div class="message-tis">
 		        	<div class="amendwin">
 		        		<i class="el-icon-circle-check"></i>
-		        		<p>登录密码修改成功，即将回到工作台</p>
-		        		<p>如果浏览器未自动跳转，请点击 <a>工作台 →</a></p>
+		        		<p>{{ title }}修改成功，即将回到工作台</p>
+		        		<p>如果浏览器未自动跳转，请点击 <router-link to="/apartment/workbench">工作台 →</router-link></p>
 		        	</div>
 		        </div>
 			</div>
@@ -41,7 +41,19 @@
     	},
     	data(){
     		return{
-    			
+    			title:null
+    		}
+    	},
+    	mounted(){
+    		this.scrll();
+    		this.title = this.$route.query.names;
+    	},
+    	methods:{
+    		scrll(){
+    			let vm = this;
+	    		setTimeout(function(){
+	    			vm.$router.push('/apartment/workbench');
+	    		},3000);	
     		}
     	}
     }

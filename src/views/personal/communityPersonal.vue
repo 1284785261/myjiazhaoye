@@ -19,7 +19,7 @@
                     	<a class="upload" href="javascript:void(0);">
                     		<input type="file" class="upfile" @change="loadfile" accept="image/png,image/jpg">
                     	
-                    		<img :src="imgPath1" />
+                    		<img :src=imgPath1 />
                     		<span class="iconfont icon-jiahao1" v-if="chen"></span>
                     		<span class="iconfont icon-jiahao2" v-if="chen"></span>
                     		<span class="jiahao3" v-if="chen">上传照片</span>
@@ -46,7 +46,7 @@
 		        	
 		        	
 		        	<router-link to="/lognPhone" class="inste inste1">修改手机号</router-link>
-		        	<router-link to="/loginPassword" class="inste inste2">修改登录密码</router-link>
+		        	<a class="inste inste2" @click="emss">修改登录密码</a>
 		        </div>
 		        
 		        
@@ -67,6 +67,8 @@
     import axios from 'axios';
     import { hostAuthor,imgPath,hostportrait } from '../api.js';
     import '../../sass/style/communityPersonal.css';
+    
+    
     
     export default {
     	components:{
@@ -111,16 +113,22 @@
     			let file = e.target.files[0];
     			let files = [file,file.name];
     			this.filelist.push(files);
+    			vm.chen = false;
     			let windowURL = window.URL || window.webkitURL;
     			this.imgPath1 = windowURL.createObjectURL(e.target.files[0]);
     			this.param.append('headPicFile',this.filelist[0][0]);
     			this.param.append('id',this.user.id);
     			this.$http.post(hostportrait,this.param).then(res => {
     				console.log(res);
+    				
     			})
     			.catch(error => {
     				console.log(error);
     			})
+    		},
+    		emss(){
+    			sessionStorage.setItem("phone",this.user.userPhone);
+    			this.$router.push('/loginPassword');
     		}
     	}
     	

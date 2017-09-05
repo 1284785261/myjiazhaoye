@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：</span>
-		          <router-link  class="active" to="/apartment/communityManagement">工作台>个人信息</router-link>
+		          <span>您现在的位置：工作台 ></span>
+		          <router-link  class="active" to="/apartment/communityManagement">个人信息</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>修改登录密码</h3>
@@ -17,29 +17,33 @@
 		        		<table>
 		        			<tr>
 		        				<td>手机号码:</td>
-		        				<td>1111111111</td>
+		        				<td>{{phone}}</td>
 		        			</tr>
 		        			<tr>
 		        				<td>验证码:</td>
-		        				<td><input type="text" name="" id="yzm" placeholder="请输入短信验证码"/><a>获取验证码</a></td>
+		        				<td><input type="text" name="" id="yzm" placeholder="请输入短信验证码" v-model="verify"/><a @click="gain" :disabled="disabled">{{title}}</a></td>
 		        			</tr>
 		        			<tr class="yzms">
 		        				
 		        			</tr>
 		        			<tr>
+		        				<td>原密码:</td>
+		        				<td><input type="password" placeholder="请输入原密码" v-model="word"></td>
+		        			</tr>
+		        			<tr>
 		        				<td>新登录密码:</td>
-		        				<td><input type="text" placeholder="请输入新登录密码"></td>
+		        				<td><input type="password" placeholder="请输入新登录密码" v-model="word1"></td>
 		        			</tr>
 		        			<tr>
 		        				<td>确认新密码:</td>
-		        				<td><input type="text" placeholder="请再次确认新密码"></td>
+		        				<td><input type="password" placeholder="请再次确认新密码" v-model="word2"></td>
 		        			</tr>
 		        		</table>
-		        		<div class="yz">
-		        			<i class="el-icon-warning"></i><span>验证码已发送，120s内输入有效</span>
+		        		<div class="yz" v-show="chens">
+		        			<i class="el-icon-warning"></i><span>验证码已发送，{{ time }}s内输入有效</span>
 		        		</div>
-		        		<div class="yz yz2">
-		        			<i class="el-icon-circle-close"></i><span>你输入的密码不一致，请重新输入</span>
+		        		<div class="yz yz2" v-show="inhide">
+		        			<i class="el-icon-circle-close"></i><span>{{ title2 }}</span>
 		        		</div>
 		        		<button @click="amendwin()">提交</button>
 		        		
@@ -56,8 +60,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
-    import api from '../api.js';
-    
+    import qs from 'qs';
+	import axios from 'axios';
+	import { hostPassword,hostAuthcode } from '../api.js';
     
     export default{
     	components:{
@@ -67,12 +72,105 @@
     	},
     	data(){
     		return{
-    			
+    			time:120,
+    			chens:false,
+    			disabled:false,
+    			title:'获取验证码',
+    			inhide:false,
+    			word:null,
+    			word1:null,
+    			word2:null,
+    			phone:null,
+    			verify:null,
+    			title2:'你输入的密码不一致，请重新输入'
     		}
+    	},
+    	mounted(){
+    		this.phone = sessionStorage.getItem("phone");
+    		//console.log(sessionStorage.getItem("phone"));
     	},
     	methods:{
     		amendwin(){
-    			this.$router.push({path:"/amendWin"});
+    			let vm = this
+    			axios.post(hostPassword,
+    				qs.stringify({
+    					oldPassword:vm.word,
+    					'password':vm.word1,
+    					verifyCode:vm.verify
+    				})
+    			)
+    			.then((response) => {
+    				console.log(response);
+    				if(response.data.code == 10000){
+    					alert('修改密码成功');
+    					this.$router.push({path:"/amendWin",query:{names:'修改登录密码'}});
+    				}
+    				else if(response.data.code == 10003){
+    					vm.inhide= true;
+    					vm.title2 = response.data.content;
+    				}
+    				else if(response.data.code == 10002){
+    					vm.inhide= true;
+    					vm.title2 = response.data.content;
+    				}
+    				else if(response.data.code == 10001){
+    					vm.inhide= true;
+    					vm.title2 = response.data.content;
+    				}
+    			})
+    			.catch((error) => {
+    				console.log(error);
+    			})
+//  			this.$router.push({path:"/amendWin"});
+    		},
+    		gain(){
+    			let vm = this;
+    			vm.time = 120;
+    			vm.disabled = true;
+    			vm.title = '发送中';
+    			axios.post(hostAuthcode,
+    				qs.stringify({
+    					'phone':vm.phone,
+    					'messageType': 0
+    				})
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				if(response.data.code == 10004){
+    					vm.inhide = true;
+    					vm.chens = false;
+    					vm.disabled = false;
+    					vm.title2 = response.data.content +',请勿频繁发送验证码';
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    			let times = setInterval(function(){
+    				vm.time--;
+    				if(vm.time <= 0){
+    					clearInterval(times);
+    					vm.chens = false;
+    					vm.disabled = false;
+    					vm.title = '获取验证码';
+    				}
+    			},1000);
+    			
+    			
+    		}
+    	},
+    	watch:{
+    		word2:function(val){
+    			console.log(val);
+    			let vm = this;
+    			console.log(vm.word1);
+    			if(val != vm.word1){
+    				vm.inhide = true;
+	    			
+    			}
+    			else if(val == vm.word1){
+	    			vm.inhide = false;
+	    		}
     		}
     	}
     }

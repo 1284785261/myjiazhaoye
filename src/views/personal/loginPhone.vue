@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：</span>
-		          <router-link  class="active" to="/apartment/communityManagement">工作台 > 个人信息</router-link>
+		          <span>您现在的位置：工作台 > </span>
+		          <router-link  class="active" to="/apartment/communityManagement">个人信息</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>修改手机号</h3>
@@ -17,29 +17,29 @@
 		        		<table>
 		        			<tr>
 		        				<td>当前手机号码:</td>
-		        				<td>1111111111</td>
+		        				<td>{{phone}}</td>
 		        			</tr>
 		        			<tr>
 		        				<td>验证码:</td>
-		        				<td><input type="text" name="" id="yzm" placeholder="请输入短信验证码"/><a>获取验证码</a></td>
+		        				<td><input type="text" name="" id="yzm" placeholder="请输入短信验证码" v-model="verify" @blur="yanz"/><a @click="mvs" :disabled="disabled">获取验证码</a></td>
 		        			</tr>
 		        			<tr class="yzms">
 		        				
 		        			</tr>
 		        			<tr>
 		        				<td>新手机号码:</td>
-		        				<td><input type="text" placeholder="请输入新手机号"><i class="el-icon-circle-check zqs"></i></td>
+		        				<td><input type="text" placeholder="请输入新手机号" v-model="phones" @blur="yans(phones)"><i class="el-icon-circle-check zqs" v-show="ts"></i></td>
 		        			</tr>
 		        			<tr>
 		        				<td>验证码:</td>
-		        				<td><input type="text" id="yzm" placeholder="请输入短信验证码"><a>获取验证码</a></td>
+		        				<td><input type="text" id="yzm" placeholder="请输入短信验证码" v-model="verify2"><a @click="mvs2">获取验证码</a></td>
 		        			</tr>
 		        		</table>
-		        		<div class="yz3">
-		        			<i class="el-icon-warning"></i><span>验证码已发送，120s内输入有效</span>
+		        		<div class="yz3" v-show="ins">
+		        			<i class="el-icon-warning"></i><span>验证码已发送，{{time}}s内输入有效</span>
 		        		</div>
-		        		<div class="yz3 yz4">
-		        			<i class="el-icon-circle-close"></i><span>你输入的验证码错误，请重新获取</span>
+		        		<div class="yz3 yz4" v-show="ins2">
+		        			<i class="el-icon-circle-close"></i><span>{{title2}}</span>
 		        		</div>
 		        		<button @click="amendwin()" class="tj">提交</button>
 		        		
@@ -56,7 +56,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
-    import api from '../api.js';
+    import qs from 'qs';
+	import axios from 'axios';
+	import { hostPhone,hostAuthcode,hostOldphone } from '../api.js';
     
     
     export default{
@@ -67,12 +69,171 @@
     	},
     	data(){
     		return{
-    			
+    			ins:false,
+    			ins2:false,
+    			time:120,
+    			phone:null,
+    			verify:null,
+    			phones:null,
+    			verify2:null,
+    			disabled:false,
+    			title2:'你输入的验证码错误，请重新获取',
+    			ts:false,
+    			oldphone:false
     		}
+    	},
+    	mounted(){
+    		this.phone = sessionStorage.getItem("phone");
     	},
     	methods:{
     		amendwin(){
     			this.$router.push({path:"/amendWin"});
+    		},
+    		mvs(){
+    			let vm = this
+    			
+    			axios.post(hostAuthcode,   //请求验证码
+    				qs.stringify({
+    					'phone':vm.phone,
+    					'messageType': 0
+    				})
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				if(response.data.code == 10000){
+    					vm.ins = true;
+    					let times = setInterval(function(){
+		    				vm.time--;
+		    				if(vm.time <= 0){
+		    					clearInterval(times);
+		    					vm.ins = false;
+		    					vm.disabled = false;
+		    					
+		    				}
+		    			},1000);
+    				}
+    				else if(response.data.code == 10004){
+    					vm.disabled = false;
+    					vm.ins2 = true;
+    					vm.ins = false;
+    					vm.title2 = response.data.content +',请勿频繁发送验证码';
+    					setTimeout(function(){
+    						vm.ins2 = false;
+    					},3000);
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		mvs2(){
+    			let vm = this
+    			axios.post(hostAuthcode,   //请求新手机验证码
+    				qs.stringify({
+    					'phone':vm.phone,
+    					'messageType': 0
+    				})
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				if(response.data.code == 10000){
+    					vm.ins = true;
+    					let times = setInterval(function(){
+		    				vm.time--;
+		    				if(vm.time <= 0){
+		    					clearInterval(times);
+		    					vm.ins = false;
+		    					vm.disabled = false;
+		    					
+		    				}
+		    			},1000);
+    				}
+    				else if(response.data.code == 10004){
+    					vm.disabled = false;
+    					vm.ins2 = true;
+    					vm.ins = false;
+    					vm.title2 = response.data.content +',请勿频繁发送验证码';
+    					setTimeout(function(){
+    						vm.ins2 = false;
+    					},3000);
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		yanz(){
+    			let vm = this
+    			axios.post(hostOldphone,
+    				qs.stringify({
+    					userPhone :vm.phone,
+    					verifyCode:vm.verify
+    				})
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				let code = parseInt(response.data.code)
+    				if(code == 10000){
+    					clearInterval(times);
+    					vm.ins = false;
+    					vm.ins2 = true;
+    					vm.disabled = false;
+    					vm.title2 = '原手机'+ response.data.content;
+    					vm.oldphone = true;
+    				}
+    				else if(code == 10003){
+    					vm.ins2 = true;
+    					vm.title2 ='原手机'+ response.data.content;
+    				}
+    				else if(code == 10001){
+    					vm.ins2 = true;
+    					vm.title2 ='原手机'+ response.data.content;
+    				}
+    				else{
+    					vm.ins2 = true;
+    					vm.title2 ='原手机验证不通过';
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		yans(phones){
+    			if((/^1[34578]\d{9}$/.test(phones))){
+    				this.ts = true;
+    			}
+    			else{
+    				this.ts = false;
+    			}
+    		},
+    		tj(){
+    			let vm = this
+    			if(this.oldphone == true && this.ts == true){
+    				axios.post(hostPhone,
+    				qs.stringify({
+    					newPhone:vm.phones,
+    					oldPhone:vm.phone,
+    					verifyCode:vm.verify2
+    				}))
+    				.then((response) => {
+    					let code = parseInt(response.data.code);
+    					if(code  == 10000){
+    						alert('修改手机号成功');
+    						this.$router.push({path:"/amendWin",query:{names:'修改手机号码'}});
+    					}
+    					else{
+    						vm.ins2 = true;
+    						vm.title2 ='新手机'+ response.data.content;
+    					}
+    				})
+    				.catch((error) => {
+    					console.log(error);
+    				})
+    			}
+    			else{
+    				vm.ins2 = true;
+    				vm.title2 ='原手机验证不通过';
+    			}
     		}
     	}
     }

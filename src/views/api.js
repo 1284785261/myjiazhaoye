@@ -53,6 +53,22 @@ const Addadvert = '/cxkj-room/apis/pc/ad/CxkjAdAdd300009'
 //用户个人信息上传头像
 const portrait ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalUpdate200060'
 
+//广告修改上传
+const Alter = '/cxkj-room/apis/pc/ad/CxkjAdEdit300010';
+
+//广告删除
+const Delete = '/cxkj-room/apis/pc/ad/CxkjAdDel300011'
+
+//修改登录密码
+const Password = '/cxkj-center/apis/user/CxkjCenterUpdatePassword100007'
+
+//获取验证码接口
+const Authcode = '/cxkj-center/apis/verify/CxkjCenterSendcode10009'
+
+const Oldphone = '/cxkj-center/apis/user/CxkjCenterValidPhone100018'
+//修改手机号
+const Phone = '/cxkj-center/apis/user/CxkjCenterUpdatePhone100008'
+
 export const Housetype =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048'
 export const SytemData =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 export const RoomAdd =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046'
@@ -93,6 +109,12 @@ export const hostAdvert = host3 + Advert;
 export const hostAddadvert = host3 +Addadvert;
 export const hostportrait = host2 +portrait;
 export const hostamend =host3 + amend;
+export const hostAlter = host3 + Alter;
+export const hostDelete = host3 + Delete;
+export const hostPassword = host3 + Password;
+export const hostAuthcode = host3 + Authcode;
+export const hostPhone = host3 + Phone;
+export const hostOldphone =host3 + Oldphone;
 //export default {
 //hosts:function(){
 //		return{

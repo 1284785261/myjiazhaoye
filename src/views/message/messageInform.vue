@@ -175,7 +175,7 @@
     			let vm =this
     			let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
-    			axios.get(hostBean, //请求数据列表
+    			axios.get(hostBean, //请求通知消息数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize
@@ -183,7 +183,7 @@
 					).then((response) => {
 						//console.log(response);
 						vm.title = response.data.pageBean.page;
-						vm.totalNum2 = response.data.pageBean.totalNum;
+						vm.totalNum = response.data.pageBean.totalNum;
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -194,7 +194,7 @@
     			let vm =this
     			let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize2 || 3;
-    			axios.get(hostBeans, //请求数据列表
+    			axios.get(hostBeans, //请求系统通知数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize

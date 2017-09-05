@@ -29,7 +29,7 @@
 		    				<td>{{item.imgExplain}}</td>
 		    				<td>{{item.listNumber}}</td>
 		    				<td>{{item.isClose | order(item.isClose)}}</td>
-		    				<td><router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}">修改</router-link><a>删除</a></td>
+		    				<td><router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}">修改</router-link><a @click="deletes(item.adId)">删除</a></td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -58,7 +58,7 @@
     import footerBox from '../../components/footerBox.vue';
     import qs from 'qs';
 	import axios from 'axios';
-	import { hostAdvert,imgPath } from '../api.js';
+	import { hostAdvert,imgPath,hostDelete } from '../api.js';
 	
     export default {
     	components:{
@@ -84,7 +84,7 @@
 		        console.log(`当前页: ${val}`);
 		    },
 		    datas(){
-		    	axios.post(hostAdvert)
+		    	axios.post(hostAdvert)  //获取所有banner数据
 		    	.then((response)=>{
 		    		console.log(response);
 		    		this.Datas = response.data.pageBean;
@@ -92,6 +92,22 @@
 		    	.catch((error)=>{
 		    		console.log(error);
 		    	})
+		    },
+		    deletes(id){
+		    	axios.post(hostDelete,   //删除广告
+		    	qs.stringify({
+		    		adIds:id
+		    	}))
+		    	.then((response)=>{
+		    		console.log(response);
+		    		console.log('删除成功');
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
+		    	let index = this.Datas.findIndex(item => item.adId == id);
+		    	this.Datas.splice(index,1);
+		    	//this.datas();
 		    }
     	
     	},

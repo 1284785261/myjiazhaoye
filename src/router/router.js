@@ -32,7 +32,7 @@ export default new Router({
       component: resolve =>
       require(['../views/login.vue'],resolve)  //登录页面
     },{
-      path: '/apartment/workbench',
+      path: '/apartment/workbench',   //工作台
       name: 'workbench',
       component: resolve =>
       require(['../views/apartment/workbench.vue'],resolve)
