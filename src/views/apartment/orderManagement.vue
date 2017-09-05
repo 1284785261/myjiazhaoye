@@ -18,21 +18,21 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+                  <Select v-model="stationCommunity" style="width:200px">
+                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <span>开业日期：</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" v-model="stationStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" v-model="stationEndDate" placeholder="选择日期"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-                    <input type="button" value="搜索">
+                    <Input v-model="stationKeyWord" placeholder="搜索联系人或联系电话"></Input>
+                    <input type="button" @click="searchStation()" value="搜索">
                   </div>
                 </div>
               </div>
@@ -49,125 +49,46 @@
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
+                <tr v-for="station in stationOrderList">
+                  <td>{{station.createTime | timefilter}}</td>
+                  <td>{{station.communityName}}</td>
+                  <td>{{station.placeNum}}</td>
                   <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>新用户收单优惠券29193184012830</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>新用户收单优惠券29193184012830</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>已支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>2</td>
-                  <td>2017.03.02</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>--</td>
-                  <td>待支付</td>
+                  <td>{{station.userName}}</td>
+                  <td>{{station.userTelephone}}</td>
+                  <td>{{station.totalMoney}}</td>
+                  <td>--暂无--</td>
+                  <td>
+                    <span v-if="station.orderState == 1">待支付</span>
+                    <span v-if="station.orderState == 2" style="color: #ccc;">已支付</span>
+                    <span v-if="station.orderState == 3" style="color: green;">未使用</span>
+                    <span v-if="station.orderState == 4" >已使用</span>
+                  </td>
                   <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
               </table>
-              <Page :total="100" show-elevator show-total></Page>
+              <Page :total="stationTotalNum" :current="stationCurrent" :page-size="10" show-elevator show-total @on-change="searchStation"></Page>
             </el-tab-pane>
 
             <el-tab-pane label="会议室订单" name="second">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+                  <Select v-model="officeCommunity" style="width:200px">
+                    <Option v-for="community in  communitySelectList" :value="community.communityId" :key="community.communityName">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <span>开业日期：</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" v-model="officeStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" v-model="officeEndDate" placeholder="选择日期"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-                    <input type="button" value="搜索">
+                    <Input v-model="keyWord" placeholder="搜索联系人或联系电话"></Input>
+                    <input type="button" @click="search()" value="搜索">
                   </div>
                 </div>
               </div>
@@ -183,96 +104,25 @@
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
+                <tr v-for="office in officeOrderList">
+                  <td>{{office.createTime | timefilter}}</td>
+                  <td>{{office.communityName}}</td>
+                  <td>{{office.meetingHouseNum}},{{office.meetingPersonNum}}</td>
                   <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
+                  <td>{{office.userName}}</td>
+                  <td>{{office.userTelephone}}</td>
+                  <td>{{office.totalMoney}}</td>
+                  <td>
+                    <span v-if="office.orderState == 1">待支付</span>
+                    <span v-if="office.orderState == 2" style="color: #ccc;">已支付</span>
+                    <span v-if="office.orderState == 3" style="color: green;">未使用</span>
+                    <span v-if="office.orderState == 4" >已使用</span>
+                  </td>
                   <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
                 </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>已支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
-                <tr>
-                  <td>2017-02-05 14:25</td>
-                  <td>佳兆航运WEVA空间</td>
-                  <td>8人间 806</td>
-                  <td>2017.03.02 14:00-18:00</td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
-                </tr>
+
               </table>
-              <Page :total="100" show-elevator show-total></Page>
+              <Page :total="officeTotalNum" :current="officeCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
             </el-tab-pane>
           </el-tabs>
 
@@ -288,7 +138,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import {allCommunity} from '../api.js';
 
 
   export default {
@@ -328,12 +178,148 @@
             label: '重庆市'
           }
         ],
+        communitySelectList:[{
+          communityId: -1,
+          communityName: '全部'
+        }],
+        stationSelectList:[
+          {
+            communityId: -1,
+            communityName: '全部'
+          }
+        ],
+        //会议
+        officeStartDate:"",
+        officeEndDate:"",
+        officeOrderList:[],
+        officeTotalNum:0,
+        keyWord:"",
+        officeCurrent:1,
+        officeCommunity:-1,
+        //工位
+        stationStartDate:"",
+        stationEndDate:"",
+        stationOrderList:[],
+        stationTotalNum:0,
+        stationKeyWord:"",
+        stationCurrent:1,
+        stationCommunity:-1,
       }
+    },
+    mounted(){
+      Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+          "M+": this.getMonth() + 1, //月份
+          "d+": this.getDate(), //日
+          "h+": this.getHours(), //小时
+          "m+": this.getMinutes(), //分
+          "s+": this.getSeconds(), //秒
+          "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+          "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+          if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+      };
+      this.getCommunityData();
+      this.getStationOrder({pageNum:1,type:1});
+      this.getOfficeOrder({pageNum:1,type:0});
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      //获取会议室订单数据，type=0
+      getOfficeOrder(data){
+        var that = this;
+        this.$http.get(allOrder,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+                var pageBean = res.data.pageBean;
+                that.officeOrderList = pageBean.page;
+                that.officeTotalNum = pageBean.totalNum;
+            }
+            if(res.data.code == 10008){
+              that.officeOrderList = [];
+              that.officeTotalNum = 0;
+            }
+        })
+      },
+      getStationOrder(data){
+        var that = this;
+        this.$http.get(allOrder,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.pageBean;
+              that.stationOrderList = pageBean.page;
+              that.stationTotalNum = pageBean.totalNum;
+            }
+            console.log("station==>")
+            console.log(res)
+            if(res.data.code == 10008){
+              that.stationOrderList = [];
+              that.stationTotalNum = 0;
+            }
+          })
+      },
+      getCommunityData(){
+        var that = this;
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.communitySelectList = that.communitySelectList.concat(res.data.entity)
+              that.stationSelectList = that.stationSelectList.concat(res.data.entity)
+            }
+          })
+      },
+      //会议搜索
+      search(page){
+        var data = {
+          pageNum:page || 1,
+          type:0
+        };
+        if(this.stationCommunity != -1){
+          data.communityId = this.stationCommunity;
+        }
+        if(this.officeStartDate){
+            data.beginDate = new Date(this.officeStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.officeEndDate){
+          data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
+        }
+        if(this.keyWord){
+          data.keyWord = this.keyWord;
+        }
+        this.getOfficeOrder(data);
+      },
+      //工位搜索
+      searchStation(page){
+        var data = {
+          pageNum:page || 1,
+          type:1
+        };
+        if(this.officeCommunity != -1){
+          data.communityId = this.officeCommunity;
+        }
+        if(this.stationStartDate){
+          data.beginDate = new Date(this.stationStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.stationEndDate){
+          data.endDate = new Date(this.stationEndDate).Format("yyyy-MM-dd");
+        }
+        if(this.stationKeyWord){
+          data.keyWord = this.stationKeyWord;
+        }
+        this.getStationOrder(data);
       }
+    },
+    filters:{
+        timefilter(value){
+          if(value){
+            return new Date(value).Format("yyyy-MM-dd hh:mm")
+          }
+        }
     }
   }
 </script>

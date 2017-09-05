@@ -78,7 +78,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import {api,addHouseType} from '../api.js';addHouseType
   import qs from 'qs';
 
 
@@ -89,24 +89,25 @@
       footerBox
     },
     mounted:function () {
-      this.communityId = 5;
+      this.communityId = this.$route.query.communityId;debugger
+      this.cxkjCommunityListHousetype = [
+        {
+          communityId:this.communityId,
+          housetypeName:"",
+          housetypeArea:"",
+          roomId:"",
+          housetypeHall:"",
+          housetypeHygienism:"",
+          housetypeWindow:"",
+          housetypeOrientations:""
+        }
+      ]
     },
     data(){
       return{
         numberLine:1,
         value:"",
-        cxkjCommunityListHousetype :[
-          {
-            communityId:"",
-            housetypeName:"",
-            housetypeArea:"",
-            roomId:"",
-            housetypeHall:"",
-            housetypeHygienism:"",
-            housetypeWindow:"",
-            housetypeOrientations:""
-          }
-        ],
+        cxkjCommunityListHousetype :[],
         rooms: [{
           value: 1,
           label: 1
@@ -162,16 +163,17 @@
       },
       addHouse(){
         this.cxkjCommunityListHousetype.push({
-          "housetypeName":"",
-          "housetypeArea":"",
-          "roomId":"",
-          "housetypeHall":"",
-          "housetypeHygienism":"",
-          "housetypeWindow":"",
-          "housetypeOrientations":""
+          communityId:this.communityId,
+          housetypeName:"",
+          housetypeArea:"",
+          roomId:"",
+          housetypeHall:"",
+          housetypeHygienism:"",
+          housetypeWindow:"",
+          housetypeOrientations:""
         })
       },
-      copyHouse(index){debugger
+      copyHouse(index){
         var copyObj =  {
           communityId:this.cxkjCommunityListHousetype[index].communityId,
           housetypeName:this.cxkjCommunityListHousetype[index].housetypeName,
@@ -198,7 +200,7 @@
         };
         console.log(data);
         this.$http.post(
-          'http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006',{cxkjCommunityListHousetype:data}
+          addHouseType,{cxkjCommunityListHousetype:data}
         ).then(function(res){
             window.alert("添加户型成功!")
             //that.$router.push({path:"/communityHouse"});

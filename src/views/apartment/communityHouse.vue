@@ -17,7 +17,7 @@
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
             <el-tab-pane label="公寓(1000)" name="first">
               <div class="house_hu">
-                <router-link to="apartment/communityHouseType" class="hux">管理户型</router-link>
+                <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux">管理户型</router-link>
                 <a href="javascript:;" class="adds" @click="openFloorModal()">添加楼层</a>
               </div>
               <div class="ls">
@@ -71,7 +71,7 @@
                           label="电表/电费">
                           <template scope="scope">
                             <span v-if="true">在线 </span>
-                            <span v-else-if="">离线 </span>
+                            <span v-else>离线 </span>
                             <span v-if="scope.row.electricType ==1">按量计费</span>
                             <span v-else-if="scope.row.electricType ==2">按人计费</span>
                           </template>
@@ -352,7 +352,7 @@
       createNewFloor(){
         this.addFloorModal = false;
         var that = this;
-        this.$http.post("http://192.168.26.118:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046", qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
+        this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
           .then(function (res) {debugger
             if(res.data.code == 1004){
               window.alert(res.data.content);

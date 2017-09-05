@@ -187,8 +187,8 @@
             roomRent:"",
             waterType:1,
             electricType:1,
-            waterPrice:"8",
-            energyPrice:"2.2"
+            waterPrice:8,
+            energyPrice:2.2
           }
         ],
         activeRoomIndex:0,
@@ -256,8 +256,8 @@
               roomRent: roomObj.roomRent,
               waterType: roomObj.waterType,
               electricType: roomObj.electricType,
-              waterPrice:"8",
-              energyPrice:"2.2"
+              waterPrice:8,
+              energyPrice:2.2
             }];
           }
         } else{//批量添加
@@ -275,8 +275,8 @@
               roomRent:"",
               waterType:1,
               electricType:1,
-              waterPrice:"8",
-              energyPrice:"2.2"
+              waterPrice:8,
+              energyPrice:2.2
             }
           ];
           for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
@@ -383,8 +383,8 @@
             roomRent:"",
             waterType:1,
             electricType:1,
-            waterPrice:"8",
-            energyPrice:"2.20",
+            waterPrice:8,
+            energyPrice:2.2,
           })
         }
       },
