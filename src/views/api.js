@@ -68,7 +68,9 @@ export const copyFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCop
 export const addHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006'
 export const allCommunity =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAll200059'
 export const allOrder =host3+'/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
-
+export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
+export const officeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
+export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
 
 
 //地区选择省/市/区

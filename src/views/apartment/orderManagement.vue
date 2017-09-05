@@ -64,7 +64,7 @@
                     <span v-if="station.orderState == 3" style="color: green;">未使用</span>
                     <span v-if="station.orderState == 4" >已使用</span>
                   </td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
+                  <td><router-link :to="{name:'orderDetail',query:{id:station.officeOrderId,type:station.type}}">查看详情</router-link></td>
                 </tr>
               </table>
               <Page :total="stationTotalNum" :current="stationCurrent" :page-size="10" show-elevator show-total @on-change="searchStation"></Page>
@@ -118,7 +118,7 @@
                     <span v-if="office.orderState == 3" style="color: green;">未使用</span>
                     <span v-if="office.orderState == 4" >已使用</span>
                   </td>
-                  <td><router-link to="/apartment/orderDetail">查看详情</router-link></td>
+                  <td><router-link :to="{name:'orderDetail',query:{id:office.officeOrderId,type:office.type}}">查看详情</router-link></td>
                 </tr>
 
               </table>
@@ -138,7 +138,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity} from '../api.js';
+  import {allCommunity,allOrder} from '../api.js';
 
 
   export default {
@@ -150,34 +150,6 @@
     data(){
       return{
         activeName2: 'first',
-        model1:"",
-        value:"",
-        communitys: [
-          {
-            value: 'beijing',
-            label: '北京市'
-          },
-          {
-            value: 'shanghai',
-            label: '上海市'
-          },
-          {
-            value: 'shenzhen',
-            label: '深圳市'
-          },
-          {
-            value: 'hangzhou',
-            label: '杭州市'
-          },
-          {
-            value: 'nanjing',
-            label: '南京市'
-          },
-          {
-            value: 'chongqing',
-            label: '重庆市'
-          }
-        ],
         communitySelectList:[{
           communityId: -1,
           communityName: '全部'
@@ -207,7 +179,7 @@
       }
     },
     mounted(){
-      Date.prototype.Format = function (fmt) { //author: meizz
+      Date.prototype.Format = function (fmt) {
         var o = {
           "M+": this.getMonth() + 1, //月份
           "d+": this.getDate(), //日
@@ -279,8 +251,8 @@
           pageNum:page || 1,
           type:0
         };
-        if(this.stationCommunity != -1){
-          data.communityId = this.stationCommunity;
+        if(this.officeCommunity != -1){
+          data.communityId = this.officeCommunity;
         }
         if(this.officeStartDate){
             data.beginDate = new Date(this.officeStartDate).Format("yyyy-MM-dd");
@@ -299,8 +271,8 @@
           pageNum:page || 1,
           type:1
         };
-        if(this.officeCommunity != -1){
-          data.communityId = this.officeCommunity;
+        if(this.stationCommunity != -1){
+          data.communityId = this.stationCommunity;
         }
         if(this.stationStartDate){
           data.beginDate = new Date(this.stationStartDate).Format("yyyy-MM-dd");

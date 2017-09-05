@@ -27,7 +27,7 @@
                     <a href="#" class="ceng">{{floorData.floorName}}层</a>
                     <a class="del" @click="openDeleteModal(floorData.floorId)">删除楼层</a>
                     <a  class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
-                    <a href="#" class="isste">修改楼层信息</a>
+                    <a  class="isste" @click="openEditFloorModal(index)">修改楼层信息</a>
                     <router-link :to="{ name: 'communityAddRoom' , params: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
                   </div>
                   <div class="house_xqb">
@@ -215,6 +215,27 @@
       </div>
     </div>
 
+    <div class="community-house-modal" v-if="editFloorModal" @click="closeFloorModal()"></div>
+    <div class="community-house-modal-content" v-if="editFloorModal">
+      <div class="community-house-modal-content-title">
+        <span>添加楼层</span>
+      </div>
+      <div class="add-floor-table">
+        <table>
+          <tr>
+            <td>楼层 :</td>
+            <td><Input v-model="editfloorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-btn">
+        <Button type="primary" @click="editNewFloor()">确定</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeFloorModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
     <div class="community-house-modal" v-if="deleteFloorModal" @click="closeDeleteModal()"></div>
     <div class="black-member-modal-content" v-if="deleteFloorModal">
       <div class="modal-img-wrap">
@@ -254,7 +275,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor} from '../api.js';
+  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor} from '../api.js';
   import qs from 'qs'
 
   export default{
@@ -278,6 +299,9 @@
         addFloorModal:false,
         deleteFloorModal:false,
         seleteOffieModal:false,
+        editFloorModal:false,
+        editfloorNum:"",
+        editActiveindex:0,
         floorNum:"",//楼层
         roomSize:"",//房间数量
         checkBoxArr:[],
@@ -295,21 +319,23 @@
     },
     computed:{
       filterRootData:function(){
-          if(this.rootData.length>0){
-            for(var i =0;i<this.rootData.length;i++){
-              for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
-                var room = this.rootData[i].cxkjCommunityListRoom[j];
-                var houseType = room.cxkjCommunityHousetype;
-                if(houseType){
-                  var houseTypeStr = houseType.housetypeName + " " + houseType.housetypeArea + "㎡ "  + houseType.roomId +"室" + houseType.housetypeHall+"厅"
-                    + houseType.housetypeHygienism +"卫 "+  houseType.housetypeWindow + " " +  houseType.housetypeOrientations;
-                  this.rootData[i].cxkjCommunityListRoom[j].houseTypeStr = houseTypeStr;
-                }
-//                room.roomRent = room.roomRent?room.roomRent.toFixed(2):room.roomRent;
+        if(this.rootData.length>0){
+          for(var i =0;i<this.rootData.length;i++){
+            for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
+              var room = this.rootData[i].cxkjCommunityListRoom[j];
+              var houseType = room.cxkjCommunityHousetype;
+              if(houseType){
+                var houseTypeStr = houseType.housetypeName + " " + houseType.housetypeArea + "㎡ "  + houseType.roomId +"室" + houseType.housetypeHall+"厅"
+                  + houseType.housetypeHygienism +"卫 "+  houseType.housetypeWindow + " " +  houseType.housetypeOrientations;
+                this.rootData[i].cxkjCommunityListRoom[j].houseTypeStr = houseTypeStr;
               }
             }
           }
-          return this.rootData;
+        }
+        this.rootData.sort(function(a,b){
+           return a.floorName - b.floorName
+        });
+        return this.rootData;
       }
     },
     methods: {
@@ -345,26 +371,48 @@
       },
       closeFloorModal(){
         this.addFloorModal = false;
+        this.editFloorModal = false;
       },
       openFloorModal(){
         this.addFloorModal = true;
       },
+      openEditFloorModal(index){
+        this.editFloorModal = true;
+        this.editActiveindex = index;
+        this.editfloorNum = this.rootData[index].floorName;
+      },
+      //添加楼层
       createNewFloor(){
         this.addFloorModal = false;
         var that = this;
         this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
           .then(function (res) {debugger
-            if(res.data.code == 1004){
+            if(res.data.code == 10004){
               window.alert(res.data.content);
-            }else{
+            }else if(res.data.code == 10000){
               window.alert("添加楼层成功!");
               that.getCommunityListRoom();
             }
-
-
           }).catch(function(error){
           console.log(error);
         })
+      },
+      //修改楼层信息
+      editNewFloor(){
+        this.editFloorModal = false;
+        var floorId = this.rootData[this.editActiveindex].floorId;
+        this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
+          .then(function (res) {debugger
+            if(res.data.code == 10004){
+              window.alert("楼层已存在!");
+            }else if(res.data.code == 10000){
+              window.alert("修改楼层成功!");
+              that.getCommunityListRoom();
+            }
+          }).catch(function(error){
+          console.log(error);
+        })
+
       },
       openDeleteModal(floorId){
         this.deleteFloorId = floorId;
