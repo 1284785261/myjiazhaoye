@@ -168,7 +168,7 @@
 
 							</table>
 							<div class="block">
-								<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage4" :page-size="3" layout=" prev, pager, next, total,jumper" :total=totalNum2>
+								<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage1" :page-size="3" layout=" prev, pager, next, total,jumper" :total=totalNum2>
 								</el-pagination>
 							</div>
 						</div>
@@ -229,7 +229,7 @@
 		<div class="lose" v-show="isShow">
 			<span>确认<i>{{community.Close | mv(community.Close)}}</i>以下社区吗？</span>
 			<p>{{community.Name}}</p>
-			<a @click="qs()">确定</a>
+			<a @click="qsm()">确定</a>
 			<a @click="qb()">取消</a>
 		</div>
 		<div class="zhezhao" v-show="isShow">
@@ -255,7 +255,7 @@
 		},
 		data() {
 			return {
-				currentPage4: 1,
+				currentPage1: 1,
 				communitys: [{
 						value: 'beijing',
 						label: '北京市'
@@ -396,6 +396,7 @@
 			befor() {
 				let vm = this
 				//console.log(1111)
+				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
 				axios.post(hostCommint, //请求数据列表
@@ -508,7 +509,7 @@
 //				console.log(this.communityIsClose);
 				//console.log(this.communityName);
 			},
-			qs(){
+			qsm(){
 				this.isShow = false;
 				let vm= this
 				console.log("this.community.Close");

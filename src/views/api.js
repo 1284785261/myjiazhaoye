@@ -2,8 +2,9 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host2 = 'http://192.168.26.167:8080';
-const host3 = 'http://120.78.16.234:8060';
+const host3 = 'http://192.168.26.186:8080';
+//const host3 = 'http://120.78.16.234:8060';
+const host1 = 'http://192.168.26.135:8091';
 
 //http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
 
@@ -36,10 +37,16 @@ const Title='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityInfo200011'
 const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
 
 //通知消息列表
-const Bean = '/cxkj-room/apis/pc/message/CxkjAnnouncementMessage300017'
+const Bean = '/apis/pc/message/CxkjAnnouncementMessage300017'
+
 //系统通知消息列表
 const Beans = '/cxkj-room/apis/pc/message/CxkjSystemMessage300018'
 
+//获取系统消息发布范围
+const Range = '/apis/pc/message/CxkjGetPublishRange300046'
+
+//发布系统消息
+const Range2 = '/apis/pc/message/CxkjPublishSystemMessage300019'
 
 //广告页面管理数据
 const Advert = '/cxkj-room/apis/pc/ad/CxkjAdIndexPage300008'
@@ -94,7 +101,7 @@ export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDet
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
-export const hostCommint = host2 + Commint;
+export const hostCommint = host3+ Commint;
 export const hostComplie = host3 + Complie;
 export const hostParent = host3 + Parent;
 export const hostOpen = host3 + Open;
@@ -103,11 +110,11 @@ export const hostWay = host3 + Way;
 export const hostRoom = host3 +Room;
 export const imgPath = 'http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test';    //图片路径前缀
 export const hostTitle = host3 + Title;
-export const hostBean = host3 + Bean;
+export const hostBean = host1 + Bean;
 export const hostBeans = host3 + Beans;
-export const hostAdvert = host3 + Advert;
-export const hostAddadvert = host3 +Addadvert;
-export const hostportrait = host2 +portrait;
+export const hostAdvert = host1 + Advert;
+export const hostAddadvert = host1 +Addadvert;
+export const hostportrait = host3+portrait;
 export const hostamend =host3 + amend;
 export const hostAlter = host3 + Alter;
 export const hostDelete = host3 + Delete;
@@ -115,6 +122,8 @@ export const hostPassword = host3 + Password;
 export const hostAuthcode = host3 + Authcode;
 export const hostPhone = host3 + Phone;
 export const hostOldphone =host3 + Oldphone;
+export const hostRange = host1 + Range;
+export const hostRange2 = host1 + Range2;
 //export default {
 //hosts:function(){
 //		return{

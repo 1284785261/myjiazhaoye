@@ -81,12 +81,11 @@
 				<tr>
 					<td>发布范围：</td>
 					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或者选择">
+						<el-select v-model="value8" filterable placeholder="请输入或者选择" @change="mvvs(value8)">
 						    <el-option
 						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      :key="item.areaId"
+						      :value="item.areaName">
 						    </el-option>
 						</el-select>
 					</td>
@@ -94,17 +93,17 @@
 				<tr>
 					<td>消息内容：</td>
 					<td>
-						<textarea placeholder="请输入消息内容">
+						<textarea placeholder="请输入消息内容" v-model="titl1">
 							
 						</textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>超链接：</td>
-					<td><input type="text" placeholder="请输入链接" /></td>
+					<td><input type="text" placeholder="请输入链接" v-model="titl2"/></td>
 				</tr>
 			</table>
-			<a>发布</a>
+			<a @click="issue">发布</a>
 		</div>
 	</div>
 </template>
@@ -117,7 +116,7 @@
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
     import qs from 'qs';
-    import { hostBean,hostBeans } from '../api.js';
+    import { hostBean,hostBeans,hostRange,hostRange2 } from '../api.js';
     export default {
     	components:{
     		rightHeader,
@@ -129,34 +128,23 @@
     			isHide:false,
     			currentPage3: 5,
     			activeName2: 'first',
-    			options: [{
-		          value: '选项1',
-		          label: '黄金糕'
-		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
-		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
-		        }],
+    			options: [],
 		        value8: '',
 		        pageNum:1,
 		        title:'',  //通知消息数据
 		        totalNum:null,
 		        pageNum2:1,
 		        title2:'',  //系统通知消息数据
-		        totalNum2:null
+		        totalNum2:null,
+		        areaId:null,
+		       	titl1:null,
+		       	titl2:null,
 		   	}
     	},
     	mounted(){
     		this.bean();
     		this.bean2();
+    		this.range();
     	},
     	methods:{
     		
@@ -200,7 +188,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						vm.title2 = response.data.pageBean.page;
 						vm.totalNum2 = response.data.pageBean.totalNum;
 						//console.log(this.commint);
@@ -208,6 +196,42 @@
 					.catch((error) => {
 						console.log(error);
 					})
+    		},
+    		range(){
+    			axios.get(hostRange)
+    			.then((response)=>{
+    				console.log(111111111);
+    				console.log(response);
+    				this.options = response.data.pageBean;
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		mvvs(val){
+    			this.areaId = this.options[this.options.findIndex(item => item.areaName == val)].areaId;
+    			//console.log(this.areaId);
+    		},
+    		issue(){
+    			let vm = this
+    			vm.areaId = parseInt(vm.areaId);
+    			console.log(vm.titl1);
+    			console.log(vm.titl2);
+    			axios.post(hostRange2,
+    				{
+    					cityId:vm.areaId,
+    					content:vm.titl1,
+    					messageUrl:vm.titl2
+    				}
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				alert('发布成功');
+    				this.isHide = !this.isHide;
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
     		}
     	
     	

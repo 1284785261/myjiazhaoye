@@ -21,7 +21,8 @@ Vue.config.productionTip = false
 //token配置
 axios.interceptors.request.use(
   config => {
-  	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
+	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
+//  	const Token ="eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDQyMzI5MDMsInN1YiI6InQ2eUgzZDh2SDJHbjNMTEt3MUdOSC9JY3VXZThjdlJqbkwwQmVsZTdIY1NJNnFlcWFvc2U5YXYzRHl2RTBvRE1QWmZHMHkxb1VITVRcclxuWlJYR0MrMnlxZz09In0.SCMcQTGcu7sNfRB88jgQEeyYDDoDuOp2WzofGKZaxQI"
     console.log("请求....")
 
 	//console.log(Token)

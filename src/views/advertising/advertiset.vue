@@ -33,12 +33,11 @@
 		    			</tr>
 		    		</table>
 		    		<el-pagination
-				      @size-change="handleSizeChange"
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="10"
+				      :page-size="3"
 				      layout="prev, pager, next,total,jumper"
-				      :total="100">
+				      :total=totalNum>
 				    
 				    </el-pagination>
 		    	</div>
@@ -70,24 +69,33 @@
     		return{
     			isHide:false,
     			currentPage3: 1,
-    			Datas:null
+    			Datas:null,
+    			totalNum:null,
+    			pageNum:1
 		   	}
     	},
     	mounted(){
     		this.datas();
     	},
     	methods:{
-    		handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
-		    },
 		    handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
+		        //console.log(`当前页: ${val}`);
+		        this.pageNum = val;
 		    },
 		    datas(){
-		    	axios.post(hostAdvert)  //获取所有banner数据
+		    	let vm =this
+    			let pageNum = vm.pageNum || 1;
+				let pageSize = vm.pageSize || 3;
+		    	axios.get(hostAdvert,
+		    		qs.stringify({
+		    			pageNum:pageNum,
+		    			pageSize:pageSize
+		    		})
+		    	)  //获取所有banner数据
 		    	.then((response)=>{
 		    		console.log(response);
-		    		this.Datas = response.data.pageBean;
+		    		this.Datas = response.data.pageBean.page;
+		    		this.totalNum = response.data.pageBean.totalNum;
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);

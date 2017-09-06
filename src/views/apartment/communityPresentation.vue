@@ -16,80 +16,113 @@
 					<div class="ivu-main-img">
 						<h4>社区图片：</h4>
 						<div class="item-img">
-							<span class="fl">门面：</span>
+							<span class="fl">公寓：</span>
 							<div class="demo-upload-list" v-for="item in uploadList">
-								<template v-if="item.status === 'finished'">
-									<img :src="item.url">
+								<template>
+									<img :src="item">
 									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-										<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
 									</div>
 								</template>
-								<template v-else>
+								<template>
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
 							</div>
-							<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList2" 
-								:on-success="handleSuccess" :format="['jpg','jpeg','png']" 
-								:max-size="2048" :on-format-error="handleFormatError" 
-								:on-exceeded-size="handleMaxSize" 
-								:before-upload="handleBeforeUpload" 
-								multiple type="drag" 
-								:action=url
-								style="display: inline-block;width:162px;">
-								<div style="width: 160px;height:120px;line-height:112px;">
-									<Icon type="camera"></Icon>
+							<div class="demo-upload-list" v-for="item in uploadList4">
+								<template>
+									<img :src="item">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove1(item)"></Icon>
+									</div>
+								</template>
+								<template>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+							</div>
+							<div class="uplodas">
+								<div>
+								<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile"/>	
+								<Icon type="camera" class="icons"></Icon>
 								</div>
-							</Upload>
+							</div>
+									
 							<Modal v-model="visible">
-								<img :src="'http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test' + imgName + '/large'" v-if="visible">
+								<img :src="imgName" v-if="visible">
+							</Modal>
+						</div>
+						<div class="item-img">
+							<span class="fl">社区门面：</span>
+							<div class="demo-upload-list" v-for="item in uploadList2">
+								<template>
+									<img :src="item">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView2(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove5(item)"></Icon>
+									</div>
+								</template>
+								<template>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+							</div>
+							<div class="demo-upload-list" v-for="item in uploadList5">
+								<template>
+									<img :src="item">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView2(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove2(item)"></Icon>
+									</div>
+								</template>
+								<template>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+							</div>
+							<div class="uplodas">
+								<div>
+								<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2"/>	
+								<Icon type="camera" class="icons"></Icon>
+								</div>
+							</div>
+							<Modal v-model="visible">
+								<img :src="imgName" v-if="visible">
 							</Modal>
 						</div>
 						<div class="item-img">
 							<span class="fl">办公区：</span>
-							<div class="demo-upload-list" v-for="item in uploadList2">
-								<template v-if="item.status === 'finished'">
-									<img :src="item.url">
-									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-										<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-									</div>
-								</template>
-								<template v-else>
-									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-								</template>
-							</div>
-							<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" action="//jsonplaceholder.typicode.com/posts/" style="display: inline-block;width:162px;">
-								<div style="width: 160px;height:120px;line-height:112px;">
-									<Icon type="camera"></Icon>
-								</div>
-							</Upload>
-							<Modal v-model="visible">
-								<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-							</Modal>
-						</div>
-						<div class="item-img">
-							<span class="fl">公寓房间：</span>
 							<div class="demo-upload-list" v-for="item in uploadList3">
-								<template v-if="item.status === 'finished'">
-									<img :src="item.url">
+								<template>
+									<img :src="item">
 									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-										<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+										<Icon type="ios-eye-outline" @click.native="handleView3(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove6(item)"></Icon>
 									</div>
 								</template>
-								<template v-else>
+								<template>
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
 							</div>
-							<Upload ref="upload" :show-upload-list="false" :default-file-list="defaultList" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" action="//jsonplaceholder.typicode.com/posts/" style="display: inline-block;width:162px;">
-								<div style="width: 160px;height:120px;line-height:112px;">
-									<Icon type="camera"></Icon>
+							<div class="demo-upload-list" v-for="item in uploadList6">
+								<template>
+									<img :src="item">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView3(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
+									</div>
+								</template>
+								<template>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+							</div>
+							<div class="uplodas">
+								<div>
+								<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3"/>	
+								<Icon type="camera" class="icons"></Icon>
 								</div>
-							</Upload>
+							</div>
 							<Modal v-model="visible">
 								<div style="text-align:center">
-									<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+									<img :src="imgName" v-if="visible">
 								</div>
 							</Modal>
 						</div>
@@ -104,7 +137,7 @@
 							<UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
 						</div>
 					</div>
-					<button class="confirm" @click="getUEContent()">确定</button>
+					<button class="confirm" @click="click">确定</button>
 					<button class="call">取消</button>
 				</div>
 			</div>
@@ -131,24 +164,25 @@
 		},
 		data() {
 			return {
-//				defaultList: [{
-//						'name': 'a42bdcc1178e62b4694c830f028db5c0',
-//						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-//				},{
-//						'name': 'a42bdcc1178e62b4694c830f028db5c0',
-//						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-//				}],
+				content:'',
 				defaultList2:[
 //{
 //						'name': 'a42bdcc1178e62b4694c830f028db5c0',
 //						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
 //				}
-],
+				],
+				filelist1:[],
+				filelist2:[],
+				filelist3:[],
 				imgName: '',
 				visible: false,
 				uploadList: [],
 				uploadList2: [],
 				uploadList3: [],
+				
+				uploadList4: [],
+				uploadList5: [],
+				uploadList6: [],
 				defaultMsg: '',
 				config: {
 					initialFrameWidth: null,
@@ -156,67 +190,175 @@
 				},
 				communityId:null, //社区ID
 				community:null, //当前页面数据
-				url:hostPresent
+				url:hostPresent,
+				param:null
 			}
 
 		},
 		mounted() {
-			this.uploadList = this.$refs.upload.fileList;
+			//this.uploadList = this.$refs.upload.fileList;
 			this.communityId = this.$route.query.id;
 			this.present();	
-			console.log(this.uploadList);
+			//console.log(this.uploadList);
+			this.param = new FormData();
 		},
 		methods: {
 			getUEContent() {
-				let content = this.$refs.ue.getUEContent();
+				let vm = this
+				vm.content = this.$refs.ue.getUEContent(); 
+		
 				this.$notify({
 					title: '获取成功，可在控制台查看！',
-					message: content,
+					message: vm.content,
 					type: 'success'
 				});
-				
-				axios.post(hostPresent,
-					qs.stringify({
-						communityId:vm.communityId,
-						communityInfo:content
-					})
-				)
+			
 				//console.log(content)
 			},
-			handleView(name) {
+			click(){
+				let vm = this
+//				this.getUEContent()
+//			
+//				console.log(this.communityId);
+//				console.log(this.content)
+//				console.log(this.filelist1)
+//				console.log(this.uploadList)
+//				console.log(111111111111111);
+//				console.log(this.filelist2)
+//				console.log(this.uploadList2)
+//				console.log(this.filelist3)
+//				console.log(this.uploadList2)
+				//console.log('开始')
+			if(vm.filelist1.length){
+	
+				for(let i in vm.filelist1) {
+					vm.param.append('communityFlatFiles', vm.filelist1[i]);
+				}
+			}
+			if(vm.filelist2.length){
+				for(let i in vm.filelist2) {
+					vm.param.append('communityFaceFiles', vm.filelist2[i]);
+				}
+			}
+			if(vm.filelist3.length){
+				for(let i in vm.filelist3) {
+					vm.param.append('communityWorkFiles', vm.filelist3[i]);
+				}
+			}
+				this.param.append("communityId",vm.communityId);
+				this.param.append("communityInfo",vm.content);
+//				this.param.append("communityFlatFiles",vm.filelist1);
+				this.param.append("communityFlatHide",vm.uploadList);
+//				this.param.append("communityFaceFiles",vm.filelist2);
+				this.param.append("communityFaceHide",vm.uploadList2);
+//				this.param.append("communityWorkFiles",vm.filelist3);
+				this.param.append("communityWorkHide",vm.uploadList2);
+				this.$http.post( 'http://192.168.26.186:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003', vm.param).then((response) =>{
+					console.log("response");
+					console.log(response);
+					console.log("response");
+				})
+				.catch((error) =>{
+					console.log(error);
+				})
+			},
+			handleView1(name) {
+				console.log(name);
 				this.imgName = name;
 				this.visible = true;
 			},
-			handleRemove(file) {
-				// 从 upload 实例删除数据
-				const fileList = this.$refs.upload.fileList;
-				this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+			handleView2(name) {
+				console.log(name);
+				this.imgName = name;
+				this.visible = true;
 			},
-			handleSuccess(res, file) {
-				// 因为上传过程为实例，这里模拟添加 url
-				file.url = this.community.communityFace;
-				file.name = 'ms';
+			handleView3(name) {
+				console.log(name);
+				this.imgName = name;
+				this.visible = true;
 			},
-			handleFormatError(file) {
-				this.$Notice.warning({
-					title: '文件格式不正确',
-					desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
-				});
+			handleRemove1(item){
+				let fileIndex = this.uploadList4.findIndex(items => items == item);
+				this.uploadList4.splice(fileIndex,1);
+				this.filelist1.splice(fileIndex,1);
+				console.log(this.uploadList4);
+				console.log(this.filelist1);
 			},
-			handleMaxSize(file) {
-				this.$Notice.warning({
-					title: '超出文件大小限制',
-					desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
-				});
+			handleRemove2(item){
+				let fileIndex = this.uploadList5.findIndex(items => items == item);
+				this.uploadList5.splice(fileIndex,1);
+				this.filelist2.splice(fileIndex,1);
 			},
-			handleBeforeUpload() {
-				const check = this.uploadList.length < 10;
-				if(!check) {
-					this.$Notice.warning({
-						title: '最多只能上传 5 张图片。'
-					});
+			handleRemove3(item){
+				let fileIndex = this.uploadList6.findIndex(items => items == item);
+				this.uploadList6.splice(fileIndex,1);
+				this.filelist3.splice(fileIndex,1);
+			},
+			handleRemove4(item){
+				let fileIndex = this.uploadList.findIndex(items => items == item);
+				this.uploadList.splice(fileIndex,1);
+				
+				
+			},
+			handleRemove5(item){
+				let fileIndex = this.uploadList2.findIndex(items => items == item);
+				this.uploadList2.splice(fileIndex,1);
+				
+			},
+			handleRemove6(item){
+				let fileIndex = this.uploadList3.findIndex(items => items == item);
+				this.uploadList3.splice(fileIndex,1);
+				
+			},
+			uploadfile(e){
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				
+				//console.log(this.filelist1);
+				let windowURL = window.URL || window.webkitURL;
+				
+				if(vm.uploadList.length + vm.uploadList4.length<5){
+					this.filelist1.push(files);
+//					console.log(111111);
+				console.log(this.filelist1);
+					vm.uploadList4.push(windowURL.createObjectURL(e.target.files[0]));
 				}
-				return check;
+				else{
+					alert('最多可以上传5张图片');
+				}
+//				console.log(this.uploadList);
+			},
+			uploadfile2(e){
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				
+				let windowURL = window.URL || window.webkitURL;
+				
+				if(vm.uploadList2.length + vm.uploadList5.length<5){
+					this.filelist2.push(files);
+					vm.uploadList5.push(windowURL.createObjectURL(e.target.files[0]));
+				}
+				else{
+					alert('最多可以上传5张图片');
+				}
+//				console.log(this.uploadList);
+			},
+			uploadfile3(e){
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				
+				let windowURL = window.URL || window.webkitURL;
+				
+				if(vm.uploadList3.length + vm.uploadList6.length<5){
+					this.filelist3.push(files);
+					vm.uploadList6.push(windowURL.createObjectURL(e.target.files[0]));
+				}
+				else{
+					alert('最多可以上传5张图片');
+				}
 			},
 			present(){
 				let vm = this
@@ -225,24 +367,21 @@
 						communityId:vm.communityId
 				}))
 				.then((response)=>{
-					//console.log(1111111);
 					console.log(response);
 					vm.community = response.data.result.community;
-					//console.log(vm.community);
 					const arr = vm.community.communityFace.split(",");
 					const arr2 = vm.community.communityWork.split(",");
 					const arr3 = vm.community.communityFlat.split(",");
 					//console.log(arr);
-					arr.forEach(function(item,index){
-						vm.uploadList.push({'name':index,'url':imgPath+item,'status':"finished"});
+					arr.forEach(function(item){
+						vm.uploadList.push(imgPath+item);
 					})
 					arr2.forEach(function(item,index){
-						vm.uploadList2.push({'name':index,'url':imgPath+item,'status':"finished"});
+						vm.uploadList2.push(imgPath+item);
 					})
 					arr2.forEach(function(item,index){
-						vm.uploadList3.push({'name':index,'url':imgPath+item,'status':"finished"});
+						vm.uploadList3.push(imgPath+item);
 					})
-					//console.log(vm.defaultList2);
 				})
 				.catch((error)=>{
 					console.log(error);
