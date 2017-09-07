@@ -94,11 +94,11 @@ export const allOrder =host3+'/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList3
 export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
 export const officeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
 export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
-export const officeOrderUsed =lizhiguang+'/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
-export const roomContract =lizhiguang+'/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
-export const officeContract =lizhiguang+'/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
-export const propertyContract =lizhiguang+'/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
-export const contractDetai =lizhiguang+'/apis/pc/contractMgrCenter/CxkjContractDetail300067';
+export const officeOrderUsed =host3+'/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
+export const roomContract =host3+'/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
+export const officeContract =host3+'/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
+export const propertyContract =host3+'/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
+export const contractDetai =host3+'/apis/pc/contractMgrCenter/CxkjContractDetail300067';
 
 
 //地区选择省/市/区
