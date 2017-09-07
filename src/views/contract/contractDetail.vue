@@ -14,7 +14,7 @@
         <div id="contract-detail-wrap">
           <div class="contract-detail-wrap-head">
             <div class="content-item content-item-img">
-              <img src="" alt="公寓图片">
+              <img :src="contractDetailData.communityWork" alt="公寓图片">
             </div>
             <div class="content-item content-item-info">
               <h3 style="margin: 0;padding: 0">佳兆业航运WEWA空间</h3>
@@ -205,7 +205,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import {contractDetai,imgPath} from '../api.js';
 
 
   export default {
@@ -215,15 +215,29 @@
       footerBox
     },
     mounted(){
-
+      this.init();
     },
     data(){
       return{
-
+        contractSignId:"",
+        isOffice:"",
+        contractDetailData:{}
       }
     },
     methods:{
-
+      init(){
+        this.contractSignId = this.$route.query.contractSignId;
+        this.isOffice = this.$route.query.isOffice;
+        this.getContractDetail({contractSignId:this.contractSignId,isOffice:this.isOffice});
+      },
+      getContractDetail(data){
+        let that = this;
+        this.$http.get(contractDetai,{params:data}).then(function(res){debugger
+          if(res.status == 200 && res.data.code == 10000){
+              that.contractDetailData = res.data.entity;
+          }
+        })
+      }
     }
   }
 </script>

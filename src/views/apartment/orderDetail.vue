@@ -16,6 +16,7 @@
             <img v-if="detailData.orderState==2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
             <img v-else-if="detailData.orderState==4" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已使用">
             <img v-else-if="detailData.orderState==1" src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
+            <img v-else-if="detailData.orderState==3" src="../../../static/images/icon/orderDetail_04.png" alt="订单详情-未使用">
             <div class="order-detail-wrap-head-content">
               <h3>
                 <label v-if="detailType==1">工位订单</label>
@@ -23,9 +24,10 @@
                 <span v-if="detailData.orderState==2">已支付</span>
                 <span v-else-if="detailData.orderState==4">已使用</span>
                 <span v-else-if="detailData.orderState==1">待支付</span>
+                <span v-else-if="detailData.orderState==3">未使用</span>
               </h3>
             </div>
-            <div v-if="detailData.orderState==2" class="order-detail-wrap-head-btn">
+            <div v-if="detailData.orderState==2" class="order-detail-wrap-head-btn" @click="useOrder">
               确认用户已使用
             </div>
           </div>
@@ -41,10 +43,12 @@
                   <td>会议室 :</td>
                   <td>{{detailData.meetingPersonNum}}人间</td>
                 </tr>
-                <tr>
+
+                <tr v-if="detailData.orderState != 3">
                   <td>使用时间 :</td>
                   <td>2017/6/30 - 2017/7/3（共4天）</td>
                 </tr>
+
                 <tr v-if="detailType==1">
                   <td>价格 :</td>
                   <td>{{detailData.placeRent}}元/位·天</td>
@@ -53,7 +57,7 @@
                   <td>价格 :</td>
                   <td>{{detailData.meetingRent}}元/小时</td>
                 </tr>
-                <tr>
+                <tr v-if="detailData.orderState != 3"s>
                   <td>小计 :</td>
                   <td style="color: red">{{detailData.placeDays * detailData.placeRent}}元</td>
                 </tr>
@@ -72,7 +76,7 @@
                 </tr>
               </table>
             </li>
-            <li>
+            <li v-if="detailData.orderState != 3">
               <h3><i class="icon icon-iden"></i>联系人信息</h3>
               <table>
                 <tr>
@@ -106,12 +110,12 @@
                 </tr>
               </table>
             </li>
-            <li>
+            <li v-if="detailData.orderState != 3">
               <h3><i class="icon icon-iden"></i>订单信息</h3>
               <table>
                 <tr>
                   <td>订单时间 :</td>
-                  <td>{{detailData.createTime | timefilter}}</td>
+                  <td>{{detailData.createTime | timefilter }}</td>
                 </tr>
                 <tr>
                   <td>订单编号 :</td>
@@ -119,7 +123,7 @@
                 </tr>
                 <tr v-if="detailData.orderState != 1">
                   <td>支付时间 :</td>
-                  <td>{{detailData.paySuccessTime | timefilter}}</td>
+                  <td>{{detailData.paySuccessTime | timefilter }}</td>
                 </tr>
                 <tr v-if="detailData.orderState != 1">
                   <td>支付方式 :
@@ -159,7 +163,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {officeDetail,placeDetail} from '../api.js';
+  import {officeDetail,placeDetail,officeOrderUsed} from '../api.js';
 
 
   export default {
@@ -207,7 +211,7 @@
       getOfficeDetail(data){
         var that = this;
         this.$http.get(officeDetail,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.detailData = res.data.entity;
             }
@@ -217,18 +221,26 @@
       getPlaceDetail(data){
         var that = this;
         this.$http.get(placeDetail,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.detailData = res.data.entity;
             }
             console.log(that.detailData)
           })
       },
+      useOrder(){
+        var that = this;
+        this.$http.get(officeOrderUsed,{params:{officeOrderId:this.officeOrderId}})
+          .then(function(res){
+            that.init();
+          })
+
+      }
     },
     filters:{
       timefilter(value){
         if(value){
-          return new Date(value).Format("yyyy-MM-dd hh:mm:ss")
+          return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
         }
       }
     },

@@ -15,27 +15,27 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+                  <Select v-model="roomCommunity" style="width:200px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <span>签约日期：</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="value" placeholder="搜索合同的联系人或联系电话"></Input>
-                    <input type="button" value="搜索">
+                    <Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>
+                    <input type="button" @click="roomSearch()" value="搜索">
                   </div>
                 </div>
               </div>
               <table class="table ivu-table">
                 <tr>
-                  <th width="50px;">合同编号</th>
+                  <th >合同编号</th>
                   <th>签约日期</th>
                   <th>所属社区</th>
                   <th>公寓房间</th>
@@ -43,136 +43,33 @@
                   <th>承租人</th>
                   <th>租金(元/月)</th>
                   <th>状态</th>
-                  <th width="175px;">操作</th>
+                  <th>操作</th>
                 </tr>
-                <tr>
-                  <td>SZ1234567890</td>
+                <tr v-for="room in roomContractList">
+                  <td>{{room.contractNumber}}</td>
+                  <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{room.communityName}}</td>
+                  <td>{{room.floorName}}层 {{room.roomNum}}</td>
+                  <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
+                  <td>{{room.userName}}</td>
+                  <td style="color: red;">{{room.rentPay}}</td>
                   <td>
-                    2017-02-04
+                    <span v-if="room.contractState == 1">待确认</span>
+                    <span v-else-if="room.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
+                    <span v-else-if="room.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
+                    <span v-else-if="room.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
+                    <span v-else-if="room.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
+                    <span v-else-if="room.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
+                    <span v-else-if="room.contractState == 7" style="color: rgb(255,29,16)">违约</span>
+                    <span v-else-if="room.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
+                    <span v-else-if="room.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
                   </td>
                   <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                   </td>
                 </tr>
               </table>
-              <Page :total="100" show-elevator></Page>
+              <Page :total="31" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
 
             </Tab-pane>
 
@@ -180,27 +77,27 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+                  <Select v-model="officeCommunity" style="width:200px">
+                    <Option v-for="community in  officeContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <span>签约日期：</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="value" placeholder="搜索联系人或联系电话"></Input>
-                    <input type="button" value="搜索">
+                    <Input v-model="officeSearchKey" placeholder="搜索联系人或联系电话"></Input>
+                    <input type="button" value="搜索" @click="officeSearch()">
                   </div>
                 </div>
               </div>
               <table class="table ivu-table">
                 <tr>
-                  <th width="50px;">合同编号</th>
+                  <th>合同编号</th>
                   <th>签约日期</th>
                   <th>社区        租期</th>
                   <th>办公室</th>
@@ -209,124 +106,58 @@
                   <th>联系电话</th>
                   <th>租金(元/月)</th>
                   <th>状态</th>
-                  <th width="175px;">操作</th>
+                  <th>操作</th>
                 </tr>
-                <tr>
-                  <td>SZ1234567890</td>
+                <tr v-for="office in officeContractList">
+                  <td>{{office.contractNumber}}</td>
+                  <td>{{office.createTime | timefilter("yyyy-MM-dd")}}</td>
                   <td>
-                    2017-02-04
+                    <p>{{office.communityName}}</p>
+                    <p>租期：{{office.beginDate | timefilter("yyyy.MM.dd")}}-{{office.endDate | timefilter("yyyy.MM.dd")}}</p>
+                  </td>
+                  <td>{{office.floorName}}层 {{office.roomNum}}</td>
+                  <td>{{office.companyInfo}}</td>
+                  <td>{{office.userName}}</td>
+                  <td>{{office.userPhone}}</td>
+                  <td>{{office.rentPay}}</td>
+                  <td>
+                    <span v-if="office.contractState == 1">待确认</span>
+                    <span v-else-if="office.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
+                    <span v-else-if="office.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
+                    <span v-else-if="office.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
+                    <span v-else-if="office.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
+                    <span v-else-if="office.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
+                    <span v-else-if="office.contractState == 7" style="color: rgb(255,29,16)">违约</span>
+                    <span v-else-if="office.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
+                    <span v-else-if="office.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
                   </td>
                   <td>
-                    <p>佳兆业航运空间</p>
-                    <p>租期：2017.03.02-2017.03.20</p>
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    深圳市向阳传媒有限公司
-                  </td>
-                  <td>赵大师</td>
-                  <td>1111111111111</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    <p>佳兆业航运空间</p>
-                    <p>租期：2017.03.02-2017.03.20</p>
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    深圳市向阳传媒有限公司
-                  </td>
-                  <td>赵大师</td>
-                  <td>1111111111111</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    <p>佳兆业航运空间</p>
-                    <p>租期：2017.03.02-2017.03.20</p>
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    深圳市向阳传媒有限公司
-                  </td>
-                  <td>赵大师</td>
-                  <td>1111111111111</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    <p>佳兆业航运空间</p>
-                    <p>租期：2017.03.02-2017.03.20</p>
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    深圳市向阳传媒有限公司
-                  </td>
-                  <td>赵大师</td>
-                  <td>1111111111111</td>
-                  <td>1000.00</td>
-                  <td>待支付</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                   </td>
                 </tr>
               </table>
-              <Page :total="100" show-elevator></Page>
+              <Page :total="officeTotalNum" :current="officeContractCurrent" :page-size="10" show-elevator show-total @on-change="officeSearch"></Page>
             </Tab-pane>
 
             <Tab-pane label="物业合同">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="model1" style="width:200px">
-                    <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+                  <Select v-model="propertyCommunity" style="width:200px">
+                    <Option v-for="community in  propertyContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <span>签约时间：</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="propertyStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="propertyEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search" style="margin-left: 0;">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="value" placeholder="搜索用户"></Input>
-                    <input type="button" value="搜索">
-
+                    <Input v-model="propertySearchKey" placeholder="搜索用户"></Input>
+                    <input type="button" value="搜索" @click="propertySearch()">
                   </div>
                 </div>
               </div>
@@ -334,142 +165,42 @@
                 <tr>
                   <th width="50px;">合同编号</th>
                   <th>签约日期</th>
-                  <th>所属社区</th>
-                  <th>公寓房间</th>
-                  <th>租期</th>
-                  <th>承租人</th>
+                  <th>社区        租期</th>
+                  <th>免租期</th>
+                  <th>业主</th>
+                  <th>联系电话</th>
                   <th>租金(元/月)</th>
                   <th>状态</th>
-                  <th width="175px;">操作</th>
+                  <th >操作</th>
                 </tr>
-                <tr>
-                  <td>SZ1234567890</td>
+                <tr v-for="property in propertyContractList">
+                  <td>{{property.contractNumber}}</td>
+                  <td>{{property.createTime | timefilter("yyyy-MM-dd")}}</td>
                   <td>
-                    2017-02-04
+                    <p>{{property.communityName}}</p>
+                    <p>租期：{{property.beginDate | timefilter("yyyy.MM.dd")}}-{{property.endDate | timefilter("yyyy.MM.dd")}}</p>
+                  </td>
+                  <td>{{property.beginDate | timefilter("yyyy.MM.dd")}}-{{property.endDate | timefilter("yyyy.MM.dd")}}</td>
+                  <td>{{office.userName}}</td>
+                  <td>{{office.userPhone}}</td>
+                  <td>{{office.rentPay}}</td>
+                  <td>
+                    <span v-if="property.contractState == 1">待确认</span>
+                    <span v-else-if="property.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
+                    <span v-else-if="property.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
+                    <span v-else-if="property.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
+                    <span v-else-if="property.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
+                    <span v-else-if="property.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
+                    <span v-else-if="property.contractState == 7" style="color: rgb(255,29,16)">违约</span>
+                    <span v-else-if="property.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
+                    <span v-else-if="property.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
                   </td>
                   <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SZ1234567890</td>
-                  <td>
-                    2017-02-04
-                  </td>
-                  <td>
-                    佳兆业航运WEWA空间
-                  </td>
-                  <td>
-                    2层201
-                  </td>
-                  <td>
-                    2017.03.02-2017.05.01
-                  </td>
-                  <td>赵大师</td>
-                  <td>1000.00</td>
-                  <td>待确认</td>
-                  <td>
-                    <router-link to="/contract/contractDetail">查看详情</router-link>
+                    <router-link to="/contract/contractDetail">社区信息</router-link>
                   </td>
                 </tr>
               </table>
-              <Page :total="100" show-elevator></Page>
+              <Page :total="propertyTotalNum" :current="propertyContractCurrent" :page-size="10" show-elevator show-total @on-change="propertySearch"></Page>
             </Tab-pane>
 
           </Tabs>
@@ -489,7 +220,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {hostAuthor,hostCommint} from '../api.js';
+  import {allCommunity,roomContract,officeContract,propertyContract} from '../api.js';
 
 export default {
   components:{
@@ -499,75 +230,190 @@ export default {
   },
   data () {
     return {
-      communitys: [
-        {
-          value: 'beijing',
-          label: '北京市'
-        },
-        {
-          value: 'shanghai',
-          label: '上海市'
-        },
-        {
-          value: 'shenzhen',
-          label: '深圳市'
-        },
-        {
-          value: 'hangzhou',
-          label: '杭州市'
-        },
-        {
-          value: 'nanjing',
-          label: '南京市'
-        },
-        {
-          value: 'chongqing',
-          label: '重庆市'
-        }
-      ],
-      model1: '',
-      isShow:false,
-      tableEvaluates:[{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-      },{
-        date:"2017-06-27  12:00",
-        community:"佳兆业航运WEWA空间",
-        user:"叶晓琳",
-        order:"公寓租金账单  7月",
-        evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-        operation:"查看详情"
-      },{
-        date:"2017-06-27  12:00",
-        community:"佳兆业航运WEWA空间",
-        user:"叶晓琳",
-        order:"公寓租金账单  7月",
-        evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-        operation:"查看详情"
-      },{
-        date:"2017-06-27  12:00",
-        community:"佳兆业航运WEWA空间",
-        user:"叶晓琳",
-        order:"公寓租金账单  7月",
-        evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-        operation:"查看详情"
-      },{
-        date:"2017-06-27  12:00",
-        community:"佳兆业航运WEWA空间",
-        user:"叶晓琳",
-        order:"公寓租金账单  7月",
-        evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-        operation:"查看详情"
-      }]
+      RoomContractSelects:[{
+        communityId: -1,
+        communityName: '全部'
+      }],//下拉选
+      roomCommunity:-1,//当前选中
+      roomContractList:[],//公寓合同数据
+      roomTotalNum:0,//公寓合同总条数
+      roomContractCurrent:1,//公寓合同当前页
+      roomStartDate:"",//公寓签约开始时间
+      roomEndDate:"",//公寓签约结束时间
+      roomSearchKey:"",//公寓搜索关键字
 
+
+      officeContractSelects:[{
+        communityId: -1,
+        communityName: '全部'
+      }],
+      officeContractList:[],
+      officeCommunity:-1,//联合办公当前选中社区
+      officeTotalNum:0,//联合办公合同总条数
+      officeContractCurrent:1,//联合办公合同当前页
+      officeStartDate:"",//联合办公签约开始时间
+      officeEndDate:"",//联合办公签约结束时间
+      officeSearchKey:"",//联合办公搜索关键字
+
+
+      propertyContractSelects:[{
+        communityId: -1,
+        communityName: '全部'
+      }],
+      propertyContractList:[],
+      propertyCommunity:-1,//物业当前选中社区
+      propertyTotalNum:0,//物业合同总条数
+      propertyContractCurrent:1,//物业合同当前页
+      propertyStartDate:"",//物业签约开始时间
+      propertyEndDate:"",//物业签约结束时间
+      propertySearchKey:"",//物业搜索关键字
       }
    },
+  mounted(){
+    Date.prototype.Format = function (fmt) {
+      var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+      };
+      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+      for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      return fmt;
+    };
+    this.getCommunityData();
+    this.getRoomContract({pageNum:1});
+    this.getOfficeContract({pageNum:1});
+    //this.getPropertyContract({pageNum:1});
+  },
   methods: {
+    getCommunityData(){
+      var that = this;
+      this.$http.get(allCommunity)
+        .then(function(res){
+          if(res.status == 200 && res.data.code == 10000){
+            that.RoomContractSelects = that.RoomContractSelects.concat(res.data.entity);
+            that.officeContractSelects = that.officeContractSelects.concat(res.data.entity);
+            that.propertyContractSelects = that.propertyContractSelects.concat(res.data.entity);
+          }
+        })
+    },
+    getRoomContract(data){
+      var that = this;
+      this.$http.get(roomContract,{params:data})
+        .then(function(res){debugger
+          if(res.status == 200 && res.data.code == 10000){
+            var pageBean = res.data.pageBean;
+            that.roomContractList = pageBean.page;
+            that.roomTotalNum = pageBean.totalNum;
+          }
+          if(res.data.code == 10008){
+            that.roomContractList = [];
+            that.roomTotalNum = 0;
+          }
+        })
+    },
+    roomSearch(page){
+      var data = {
+        pageNum:page || 1
+      }
+      if(this.roomCommunity =! -1){
+        data.communityId = this.roomCommunity;
+      }
+      if(this.roomSearchKey){
+        data.keyWord = this.roomSearchKey;
+      }
+      if(this.roomStartDate){
+        data.beginDate = new Date(this.roomStartDate).Format("yyyy-MM-dd");
+      }
+      if(this.roomEndDate){
+        data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
+      }
+      this.getRoomContract(data);
+    },
 
+    getOfficeContract(data){
+      var that = this;
+      this.$http.get(officeContract,{params:data})
+        .then(function(res){debugger
+          if(res.status == 200 && res.data.code == 10000){
+            var pageBean = res.data.pageBean;
+            that.officeContractList = pageBean.page;
+            that.officeTotalNum = pageBean.totalNum;
+          }
+          if(res.data.code == 10008){
+            that.officeContractList = [];
+            that.officeTotalNum = 0;
+          }
+        })
+    },
+
+    officeSearch(page){
+      var data = {
+        pageNum:page || 1
+      }
+      if(this.officeCommunity =! -1){
+        data.communityId = this.officeCommunity;
+      }
+      if(this.officeSearchKey){
+        data.keyWord = this.officeSearchKey;
+      }
+      if(this.officeStartDate){
+        data.beginDate = new Date(this.officeStartDate).Format("yyyy-MM-dd");
+      }
+      if(this.officeEndDate){
+        data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
+      }
+      this.getOfficeContract(data);debugger
+    },
+
+    getPropertyContract(data){
+      var that = this;
+      this.$http.get(propertyContract,{params:data})
+        .then(function(res){debugger
+          if(res.status == 200 && res.data.code == 10000){
+            var pageBean = res.data.pageBean;
+            that.propertyContractList = pageBean.page;
+            that.propertyTotalNum = pageBean.totalNum;
+          }
+          console.log(pageBean.page)
+          if(res.data.code == 10008){
+            that.propertyContractList = [];
+            that.propertyTotalNum = 0;
+          }
+        })
+    },
+
+    propertySearch(page){
+      var data = {
+        pageNum:page || 1
+      }
+      if(this.propertyCommunity =! -1){
+        data.communityId = this.propertyCommunity;
+      }
+      if(this.propertySearchKey){
+        data.keyWord = this.propertySearchKey;
+      }
+      if(this.propertyStartDate){
+        data.beginDate = new Date(this.propertyStartDate).Format("yyyy-MM-dd");
+      }
+      if(this.propertyEndDate){
+        data.endDate = new Date(this.propertyEndDate).Format("yyyy-MM-dd");
+      }
+      this.getPropertyContract(data);debugger
+    },
+
+  },
+  filters:{
+    timefilter(value,format){
+      if(value){
+        return new Date(value).Format(format)
+      }
+    }
   },
   created(){
   }
@@ -582,6 +428,11 @@ export default {
   @import '../../sass/page/_communityManagement.scss';
 
   #contract-index-wrap{
+    height: 100%;
+    min-height: 1000px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 3px 1px #ccc;
     .form-item .add{
       display: inline-block;
       width: 140px;
@@ -593,6 +444,13 @@ export default {
       font-weight: bold;
       span{
         font-size:16px;
+      }
+    }
+    table{
+      tr{
+        td,th{
+          text-align: center;
+        }
       }
     }
   }

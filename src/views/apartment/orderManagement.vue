@@ -38,11 +38,11 @@
               </div>
               <table class="orderManagement-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
                 <tr>
-                  <th width="120px">订单时间</th>
+                  <th>订单时间</th>
                   <th>所属社区</th>
                   <th>预订数量</th>
                   <th>使用时间</th>
-                  <th width="150px">联系人</th>
+                  <th>联系人</th>
                   <th>联系电话</th>
                   <th>订单金额/元</th>
                   <th>使用优惠券</th>
@@ -98,7 +98,7 @@
                   <th>所属社区</th>
                   <th>会议室</th>
                   <th>使用时间</th>
-                  <th width="150px">联系人</th>
+                  <th>联系人</th>
                   <th>联系电话</th>
                   <th>订单金额/元</th>
                   <th>状态</th>
@@ -107,7 +107,7 @@
                 <tr v-for="office in officeOrderList">
                   <td>{{office.createTime | timefilter}}</td>
                   <td>{{office.communityName}}</td>
-                  <td>{{office.meetingHouseNum}},{{office.meetingPersonNum}}</td>
+                  <td><span v-if="office.meetingPersonNum">{{office.meetingPersonNum}}人间 </span>{{office.meetingHouseNum}}</td>
                   <td>2017.03.02 14:00-18:00</td>
                   <td>{{office.userName}}</td>
                   <td>{{office.userTelephone}}</td>
