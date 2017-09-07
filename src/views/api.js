@@ -2,8 +2,9 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.186:8080';
+const host3 = 'http://192.168.26.191:8080';
 //const host3 = 'http://120.78.16.234:8060';
+//http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
 
 //http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
@@ -19,13 +20,13 @@ const Author = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformatio
 const Commint = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001';
 
 //添加社区
-const Complie ='/cxkj_room/apis/pc/community/CxkjCommunityAdd200002';
+const Complie ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAdd200002';
 
 //关闭或开放社区
 const Open = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';
 
 //修改介绍页面数据
-const Present='/cxkj-room/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003';
+const Present='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003';
 
 //获取社区设置的方式
 const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
@@ -67,38 +68,27 @@ const Alter = '/cxkj-room/apis/pc/ad/CxkjAdEdit300010';
 const Delete = '/cxkj-room/apis/pc/ad/CxkjAdDel300011'
 
 //修改登录密码
-const Password = '/cxkj-center/apis/user/CxkjCenterUpdatePassword100007'
+const Password = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityModifyPassword200055'
 
 //获取验证码接口
 const Authcode = '/cxkj-center/apis/verify/CxkjCenterSendcode10009'
 
 const Oldphone = '/cxkj-center/apis/user/CxkjCenterValidPhone100018'
 //修改手机号
-const Phone = '/cxkj-center/apis/user/CxkjCenterUpdatePhone100008'
+const Phone = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityModifyPhone200047'
 
-export const Housetype =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048'
-export const SytemData =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
-export const RoomAdd =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046'
-export const Apartment =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartment200005'
-export const Place =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008'
-export const Office =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009'
-export const Meeting =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010'
-export const ShutdownRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049'
-export const addRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoom200007'
-export const updateRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditRoom200051'
-export const deleteFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownFloor200052'
-export const copyFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCopyFloor200053'
-export const addHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006'
-export const allCommunity =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAll200059'
-export const allOrder =host3+'/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
-export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
-export const officeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
-export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
-export const officeOrderUsed =host3+'/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
-export const roomContract =host3+'/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
-export const officeContract =host3+'/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
-export const propertyContract =host3+'/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
-export const contractDetai =host3+'/apis/pc/contractMgrCenter/CxkjContractDetail300067';
+//公寓状态数据
+const State = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartmentState200031'
+
+//住户列表
+const Household = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousehold200032'
+
+//调价管理
+const Table = '/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePriceTable200033'
+
+
+
+
 
 
 //地区选择省/市/区
@@ -129,6 +119,9 @@ export const hostPhone = host3 + Phone;
 export const hostOldphone =host3 + Oldphone;
 export const hostRange = host1 + Range;
 export const hostRange2 = host1 + Range2;
+export const hostState = host3 +State;
+export const hostHousehold = host3 +Household;
+export const hostTable = host3 + Table;
 //export default {
 //hosts:function(){
 //		return{
@@ -138,3 +131,27 @@ export const hostRange2 = host1 + Range2;
 //}
 //
 //}
+
+export const Housetype =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetype200048'
+export const SytemData =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
+export const RoomAdd =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityFloorRoomAdd200046'
+export const Apartment =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityApartment200005'
+export const Place =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlace200008'
+export const Office =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOffice200009'
+export const Meeting =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeeting200010'
+export const ShutdownRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownRoom200049'
+export const addRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoom200007'
+export const updateRoom =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditRoom200051'
+export const deleteFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdownFloor200052'
+export const copyFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCopyFloor200053'
+export const addHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006'
+export const allCommunity =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAll200059'
+export const allOrder =host3+'/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
+export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
+export const officeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
+export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
+export const officeOrderUsed =host3+'/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
+export const roomContract =host3+'/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
+export const officeContract =host3+'/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
+export const propertyContract =host3+'/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
+export const contractDetai =host3+'/apis/pc/contractMgrCenter/CxkjContractDetail300067';

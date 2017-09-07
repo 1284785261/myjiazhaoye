@@ -18,8 +18,8 @@
 				    				<td>消息内容</td>
 				    			</thead>
 				    			<tr v-for="item in title">
-				    				<td>{{item.messageType}}</td>
-				    				<td>{{item.createtime}}</td>
+				    				<td>{{item.messageType | types(item.messageType)}}</td>
+				    				<td>{{item.createtime | time(item.createtime)}}</td>
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
@@ -46,8 +46,8 @@
 				    				<td>消息内容</td>
 				    			</thead>
 				    			<tr v-for="item in title2">
-				    				<td>{{item.messageType}}</td>
-				    				<td>{{item.createtime}}</td>
+				    				<td>{{item.messageType | types(item.messageType)}}</td>
+				    				<td>{{item.createtime | time(item.createtime)}}</td>
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
@@ -162,7 +162,7 @@
     		bean(){
     			let vm =this
     			let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 3;
+				let pageSize = vm.pageSize || 8;
     			axios.get(hostBean, //请求通知消息数据列表
 						qs.stringify({
 							pageNum: pageNum,
@@ -181,14 +181,14 @@
     		bean2(){
     			let vm =this
     			let pageNum = vm.pageNum2 || 1;
-				let pageSize = vm.pageSize2 || 3;
+				let pageSize = vm.pageSize2 || 8;
     			axios.get(hostBeans, //请求系统通知数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						vm.title2 = response.data.pageBean.page;
 						vm.totalNum2 = response.data.pageBean.totalNum;
 						//console.log(this.commint);
@@ -199,9 +199,9 @@
     		},
     		range(){
     			axios.get(hostRange)
-    			.then((response)=>{
-    				console.log(111111111);
-    				console.log(response);
+    			.then((response)=>{  //请求通知范围
+//  				console.log(111111111);
+//  				console.log(response);
     				this.options = response.data.pageBean;
     			})
     			.catch((error)=>{
@@ -215,8 +215,6 @@
     		issue(){
     			let vm = this
     			vm.areaId = parseInt(vm.areaId);
-    			console.log(vm.titl1);
-    			console.log(vm.titl2);
     			axios.post(hostRange2,
     				{
     					cityId:vm.areaId,
@@ -235,6 +233,40 @@
     		}
     	
     	
+    	},
+    	filters:{
+    		types(val){
+    			if(val == 1){
+    				return '系统消息'
+    			}
+    			else if(val == 2){
+    				return '预约通知'
+    			}
+    			else if(val == 3){
+    				return '订单支付通知'
+    			}
+    			else if(val == 4){
+    				return '合同待签通知'
+    			}
+    			else if(val == 5){
+    				return '合同即将到期通知'
+    			}
+    			else if(val == 6){
+    				return '支付通知'
+    			}
+    			else if(val == 7){
+    				return '用户报修通知'
+    			}
+    		},
+    		time(val){
+    			var date = new Date(val);
+					var Y = date.getFullYear() + '-';
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+					var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '  ';
+					var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
+					var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
+					return Y + M + D + H + mm;
+    		}
     	},
     	created(){
     		

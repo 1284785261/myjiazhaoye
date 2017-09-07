@@ -24,7 +24,7 @@
 }
 #residentList table{
 	width: 100%;
-	min-height: 300px;
+	min-height: 100px;
 	border-collapse: collapse;
 }
 #residentList table thead td{

@@ -27,10 +27,6 @@
 		        				
 		        			</tr>
 		        			<tr>
-		        				<td>原密码:</td>
-		        				<td><input type="password" placeholder="请输入原密码" v-model="word"></td>
-		        			</tr>
-		        			<tr>
 		        				<td>新登录密码:</td>
 		        				<td><input type="password" placeholder="请输入新登录密码" v-model="word1"></td>
 		        			</tr>
@@ -77,7 +73,6 @@
     			disabled:false,
     			title:'获取验证码',
     			inhide:false,
-    			word:null,
     			word1:null,
     			word2:null,
     			phone:null,
@@ -94,8 +89,9 @@
     			let vm = this
     			axios.post(hostPassword,
     				qs.stringify({
-    					oldPassword:vm.word,
-    					'password':vm.word1,
+    					userPhone:vm.phone,
+    					'oldPassword':vm.word1,
+    					'password':vm.word2,
     					verifyCode:vm.verify
     				})
     			)

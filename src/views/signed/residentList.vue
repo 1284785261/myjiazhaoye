@@ -26,50 +26,15 @@
 		    				<td>当前租住</td>
 		    				<td>租期</td>
 		    			</thead>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    			</tr>
-		    			<tr>
-		    				<td>1</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
+		    			<tr v-for="(item,index) in Datas">
+		    				<td>{{index+1}}</td>
+		    				<td>{{item.user.userName}}</td>
+		    				<td>{{item.user.gender | gender(item.user.gender)}}</td>
+		    				<td>{{item.user.userBirthday | Birthday(item.user.userBirthday)}}岁</td>
+		    				<td>{{item.user.userPhone}}</td>
+		    				<td v-if="item.cxkjCommunityRoom != null ">{{ item.cxkjCommunityRoom.roomNum }}层-{{ item.cxkjCommunityFloor.floorName }}</td>
+		    				<td v-else> -- </td>
+		    				<td>{{item.beginDate | begin(item.beginDate)}}--{{item.endDate | end(item.endDate)}}</td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -97,6 +62,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import axios from 'axios';
+    import { hostHousehold } from '../api.js';
+    import qs from 'qs';
     
     export default {
     	components:{
@@ -107,8 +75,46 @@
     	data(){
     		return{
     			isHide:false,
-    			currentPage3: 5
+    			currentPage3: 5,
+    			communityId:null,
+    			Datas:[]
 		   	}
+    	},
+    	mounted(){
+    		this.communityId = this.$route.query.id;
+    		//console.log(this.communityId);
+    		this.datas();
+    	},
+    	filters:{
+    		begin(val){
+		    	var date =new Date(val);
+    			var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+		    },
+		    end(val){
+		    	var date =new Date(val);
+    			var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+		    },
+		    gender(val){
+		    	if(val==1){
+		    		return '男'
+		    	}
+		    	else if(val == 2){
+		    		return '女'
+		    	}
+		    },
+		    Birthday(val){
+		    	var date = new Date(val);
+		    	var date2 = new Date();
+		    	var dates = parseInt((date2.getTime() - date.getTime())/1000);
+		    	var year = Math.floor(dates/ 86400 /365);
+		    	return year;
+		    }
     	},
     	methods:{
     		handleSizeChange(val) {
@@ -116,7 +122,20 @@
 		    },
 		    handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
-		    }
+		    },
+		    datas(){
+		    	axios.post(hostHousehold,
+		    		qs.stringify({
+		    			communityId:this.communityId
+		    		}))
+		    	.then((response)=>{
+		    		console.log(response);
+		    		this.Datas = response.data.entity;
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
+		  }
     	
     	},
     	created(){

@@ -33,7 +33,7 @@
             <ul class="apartment-list">
               <li><router-link to="/">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingHouse">公寓签约</router-link></li>
-              <li><router-link to="/signed/houseState">公寓状态</router-link></li>
+              <li><router-link :to="{path:'/signed/houseState',query:{communityId:3}}">公寓状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">公寓租金账单</router-link></li>
               <li><router-link to="/">公寓水电订单</router-link></li>

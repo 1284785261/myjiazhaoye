@@ -253,7 +253,7 @@
 				this.param.append("communityFaceHide",vm.uploadList2);
 //				this.param.append("communityWorkFiles",vm.filelist3);
 				this.param.append("communityWorkHide",vm.uploadList2);
-				this.$http.post( 'http://192.168.26.186:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003', vm.param).then((response) =>{
+				this.$http.post( hostPresent, vm.param).then((response) =>{
 					console.log("response");
 					console.log(response);
 					console.log("response");

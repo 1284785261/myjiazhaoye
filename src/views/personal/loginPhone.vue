@@ -164,9 +164,9 @@
     		},
     		yanz(){
     			let vm = this
-    			axios.post(hostOldphone,
+    			axios.post(hostPhone,
     				qs.stringify({
-    					userPhone :vm.phone,
+    					oldPhone :vm.phone,
     					verifyCode:vm.verify
     				})
     			)
@@ -208,11 +208,10 @@
     		},
     		tj(){
     			let vm = this
-    			if(this.oldphone == true && this.ts == true){
+    			if(this.ts == true){
     				axios.post(hostPhone,
     				qs.stringify({
     					newPhone:vm.phones,
-    					oldPhone:vm.phone,
     					verifyCode:vm.verify2
     				}))
     				.then((response) => {

@@ -179,21 +179,21 @@
 					//  				this.param.append('communityContractFiles',vm.fileList[i][0],vm.fileList[i][1]);
 					vm.param.append('communityContractFiles', vm.fileList[i][0], vm.fileList[i][1]);
 				}
-				console.log('参数')
-				console.log(vm.communityName)
-				console.log(vm.areaId)
-				console.log(vm.parentId)
-				console.log(vm.areas)
-				console.log(vm.communityAddress)
-				console.log(vm.communityOpeningDate)
-				console.log(vm.communityType)
-				console.log(vm.communityPhone)
-				console.log(vm.communityContractNum)
-				console.log(vm.communityLeaseBegin)
-				console.log(vm.communityLeaseEnd)
-				console.log(vm.communityFreeLeaseBegin)
-				//  			console.log(vm.communityContractFile)
-				console.log('参数')
+//				console.log('参数')
+//				console.log(vm.communityName)
+//				console.log(vm.areaId)
+//				console.log(vm.parentId)
+//				console.log(vm.areas)
+//				console.log(vm.communityAddress)
+//				console.log(vm.communityOpeningDate)
+//				console.log(vm.communityType)
+//				console.log(vm.communityPhone)
+//				console.log(vm.communityContractNum)
+//				console.log(vm.communityLeaseBegin)
+//				console.log(vm.communityLeaseEnd)
+//				console.log(vm.communityFreeLeaseBegin)
+//				console.log(vm.communityContractFile)
+//				console.log('参数')
 				this.param.append("communityName", vm.communityName);
 				this.param.append("communityProvince", vm.areaId);
 				this.param.append("communityCity", vm.parentId);
