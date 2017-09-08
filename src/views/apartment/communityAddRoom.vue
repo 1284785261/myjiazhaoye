@@ -25,7 +25,7 @@
               <th>水表/水费</th>
               <th>电表/电费</th>
               <th>租金（元/月）</th>
-              <th>操作</th>
+              <th v-if="!isEidRoom">操作</th>
             </tr>
             <tr v-for="(room,index) in cxkjCommunityListRoom">
               <td >
@@ -36,36 +36,36 @@
               <td ><Input v-model="room.roomNum"  placeholder="请填写房号"></Input></td>
               <td>
                 <el-select v-model="room.roomType" filterable placeholder="请输入或选择">
-                  <el-option v-for="item in filterRoomType" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  <el-option v-for="item in filterRoomType" :key="item.label" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
               <td>
                 <a @click="editRoomFurniture(room.roomFurniture,index)">{{room.roomFurniture}}<span v-if="!room.roomFurniture">请选择家用电器</span></a>
               </td>
               <td>
-                <a @click="editWater(index)">
+                <p>
                   <template v-if="room.waterType==1">
                     <span>在线 </span><span>按用量 {{room.waterPrice}}元/m³</span>
                   </template>
                   <template v-else>
                     <span>在线 </span><span>按合租人数 {{room.waterPrice}}元/人</span>
                   </template>
-                </a>
+                </p>
               </td>
               <td>
-                <a @click="editElectric(index)">
+                <p>
                   <template v-if="room.electricType==1">
                     <span>在线 </span><span>按用量 {{room.energyPrice}}元/度</span>
                   </template>
                   <template v-else>
                     <span>在线 </span><span>按合租人数 {{room.energyPrice}}元/人</span>
                   </template>
-                </a>
+                </p>
               </td>
               <td>
                 <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
               </td>
-              <td>
+              <td v-if="!isEidRoom">
                 <a @click="copyRoom(index)">复制</a><a style="padding-left: 10px" @click="deleteRoom(index)">删除</a>
               </td>
             </tr>
@@ -79,34 +79,34 @@
             <Button style="width: 130px;height: 40px; margin-left: 20px;" @click="cancleNewRoom()">取消</Button>
           </div>
 
-          <Modal v-model="modal3" width="500">
-            <div slot="header" style="background-color:#2d8cf0;text-align:center;">
-              <span>电费设置</span>
-            </div>
-            <div class="modal-content-meddle">
-              <p style="margin-bottom: 15px"><b>电表状态 :</b><span style="padding-left: 17px;">在线</span></p>
-              <div>
-                <div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>
-                <div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">
-                  <Radio-group v-model="electricTypeSelect" vertical>
-                    <Radio label="1">
-                      <span>按用量 </span>
-                    </Radio>
-                    <Radio label="2">
-                      <span>按合租人数 </span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div style="display: inline-block;">
-                  <div><Input v-model="electricValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>
-                  <div style="padding-top: 10px"><Input v-model="energyOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
-                </div>
-              </div>
-            </div>
-            <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="setElectric()">确定</Button>
-            </div>
-          </Modal>
+          <!--<Modal v-model="modal3" width="500">-->
+            <!--<div slot="header" style="background-color:#2d8cf0;text-align:center;">-->
+              <!--<span>电费设置</span>-->
+            <!--</div>-->
+            <!--<div class="modal-content-meddle">-->
+              <!--<p style="margin-bottom: 15px"><b>电表状态 :</b><span style="padding-left: 17px;">在线</span></p>-->
+              <!--<div>-->
+                <!--<div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>-->
+                <!--<div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">-->
+                  <!--<Radio-group v-model="electricTypeSelect" vertical>-->
+                    <!--<Radio label="1">-->
+                      <!--<span>按用量 </span>-->
+                    <!--</Radio>-->
+                    <!--<Radio label="2">-->
+                      <!--<span>按合租人数 </span>-->
+                    <!--</Radio>-->
+                  <!--</Radio-group>-->
+                <!--</div>-->
+                <!--<div style="display: inline-block;">-->
+                  <!--<div><Input v-model="electricValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>-->
+                  <!--<div style="padding-top: 10px"><Input v-model="energyOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div slot="footer">-->
+              <!--<Button type="primary" size="large" style="width: 130px;height: 40px" @click="setElectric()">确定</Button>-->
+            <!--</div>-->
+          <!--</Modal>-->
 
           <Modal v-model="modal1" width="500" id="select-house-modal">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
@@ -122,38 +122,49 @@
             </div>
           </Modal>
 
-          <Modal v-model="modal2" width="500">
-            <div slot="header" style="background-color:#2d8cf0;text-align:center;">
-              <span>水费设置</span>
-            </div>
-            <div class="modal-content-meddle">
-              <p style="margin-bottom: 15px"><b>水表状态 :</b><span style="padding-left: 17px;">在线</span></p>
-              <div>
-                <div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>
-                <div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">
-                  <Radio-group v-model="waterTypeSelect" vertical>
-                    <Radio label="1">
-                      <span>按用量 </span>
-                    </Radio>
-                    <Radio label="2">
-                      <span>按合租人数 </span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div style="display: inline-block;">
-                  <div><Input v-model="waterValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>
-                  <div style="padding-top: 10px"><Input v-model="waterOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>
-                </div>
-              </div>
-            </div>
-            <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="seWater()">确定</Button>
-            </div>
-          </Modal>
+          <!--<Modal v-model="modal2" width="500">-->
+            <!--<div slot="header" style="background-color:#2d8cf0;text-align:center;">-->
+              <!--<span>水费设置</span>-->
+            <!--</div>-->
+            <!--<div class="modal-content-meddle">-->
+              <!--<p style="margin-bottom: 15px"><b>水表状态 :</b><span style="padding-left: 17px;">在线</span></p>-->
+              <!--<div>-->
+                <!--<div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>-->
+                <!--<div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">-->
+                  <!--<Radio-group v-model="waterTypeSelect" vertical>-->
+                    <!--<Radio label="1">-->
+                      <!--<span>按用量 </span>-->
+                    <!--</Radio>-->
+                    <!--<Radio label="2">-->
+                      <!--<span>按合租人数 </span>-->
+                    <!--</Radio>-->
+                  <!--</Radio-group>-->
+                <!--</div>-->
+                <!--<div style="display: inline-block;">-->
+                  <!--<div><Input v-model="waterValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>-->
+                  <!--<div style="padding-top: 10px"><Input v-model="waterOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div slot="footer">-->
+              <!--<Button type="primary" size="large" style="width: 130px;height: 40px" @click="seWater()">确定</Button>-->
+            <!--</div>-->
+          <!--</Modal>-->
 
         </div>
       </div>
       <footer-box></footer-box>
+    </div>
+
+    <div class="community-room-modal" v-if="addRoomSeccess"></div>
+    <div id="addroom-success-modal" v-if="addRoomSeccess">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/house_type_success.png">
+      </div>
+      <p class="success-p">
+        <span v-if="isEidRoom">编辑成功</span>
+        <span v-else>添加成功</span>
+      </p>
     </div>
   </div>
 
@@ -205,6 +216,7 @@
           value: '3',
           label: '3'
         }],
+        addRoomSeccess:false,
         roomTypes: [],
         checkBoxArr2:[],
         checkBoxObj:{},
@@ -288,56 +300,59 @@
         this.getHouseType();
         this.getFurniture();
       },
+      getRoomSource(){
+
+      },
       //弹出编辑水费窗口
-      editWater(index){
-        this.modal2=true;
-        this.activeRoomIndex = index;
-        if(this.cxkjCommunityListRoom[this.activeRoomIndex].waterType == 1){
-          this.waterTypeSelect = 1;
-          this.waterValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
-          this.waterOfValue = "";
-        }else{
-          this.waterTypeSelect = 2;
-          this.waterOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
-          this.waterValue = "";
-        }
-      },
+//      editWater(index){
+//        this.modal2=true;
+//        this.activeRoomIndex = index;
+//        if(this.cxkjCommunityListRoom[this.activeRoomIndex].waterType == 1){
+//          this.waterTypeSelect = 1;
+//          this.waterValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
+//          this.waterOfValue = "";
+//        }else{
+//          this.waterTypeSelect = 2;
+//          this.waterOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice;
+//          this.waterValue = "";
+//        }
+//      },
       //弹出编辑电费窗口
-      editElectric(index){
-        this.modal3=true;
-        this.activeRoomIndex = index;
-        if(this.cxkjCommunityListRoom[this.activeRoomIndex].electricType == 1){
-          this.electricTypeSelect = 1;
-          this.electricValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
-          this.energyOfValue = "";
-        }else{
-          this.electricTypeSelect = 2;
-          this.energyOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
-          this.electricValue = "";
-        }
-      },
+//      editElectric(index){
+//        this.modal3=true;
+//        this.activeRoomIndex = index;
+//        if(this.cxkjCommunityListRoom[this.activeRoomIndex].electricType == 1){
+//          this.electricTypeSelect = 1;
+//          this.electricValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
+//          this.energyOfValue = "";
+//        }else{
+//          this.electricTypeSelect = 2;
+//          this.energyOfValue = this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice;
+//          this.electricValue = "";
+//        }
+//      },
       //编辑水费
-      seWater () {
-        this.modal2 = false;
-        if(this.waterTypeSelect==1){//按用量
-          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 1;
-          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterValue;
-        }else{
-          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 2;
-          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterOfValue;
-        }
-      },
+//      seWater () {
+//        this.modal2 = false;
+//        if(this.waterTypeSelect==1){//按用量
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 1;
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterValue;
+//        }else{
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].waterType = 2;
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].waterPrice = this.waterOfValue;
+//        }
+//      },
       //编辑电费
-      setElectric () {
-        this.modal3 = false;
-        if(this.electricTypeSelect==1){//按用量
-          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 1;
-          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.electricValue;
-        }else{
-          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 2;
-          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.energyOfValue;
-        }
-      },
+//      setElectric () {
+//        this.modal3 = false;
+//        if(this.electricTypeSelect==1){//按用量
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 1;
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.electricValue;
+//        }else{
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].electricType = 2;
+//          this.cxkjCommunityListRoom[this.activeRoomIndex].energyPrice = this.energyOfValue;
+//        }
+//      },
       editRoomFurniture(furniture,index){
         this.activeRoomIndex = index;
         this.modal1=true;
@@ -420,9 +435,13 @@
             this.cxkjCommunityListRoom[i].roomFurniture = "";
           }
         }
-        this.$http.post(addRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){debugger
-          alert("添加房间成功");
-          that.init();
+        this.$http.post(addRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){
+//          that.init();
+          that.addRoomSeccess = true;
+          setTimeout(function(){
+            that.addRoomSeccess = false;
+            history.go(-1);
+          },1500)
         }).catch(function(err){
           console.log(err);
         })
@@ -442,11 +461,12 @@
             this.cxkjCommunityListRoom[i].roomFurniture = "";
           }
         }
-        this.$http.post(updateRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){debugger
-          alert("编辑房间成功");
+        this.$http.post(updateRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){
+          that.addRoomSeccess = true;
           setTimeout(function(){
-            window.history.go(-1)
-          },500)
+            that.addRoomSeccess = false;
+            history.go(-1);
+          },1500)
         }).catch(function(err){
           console.log(err);
         })
@@ -575,6 +595,76 @@
           width: 90px;
           padding-bottom: 10px;
         }
+      }
+    }
+  }
+
+  #addroom-success-modal{
+    width: 240px;
+    height: 160px;
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+
+  .community-room-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  #addroom-success-modal{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        margin-top: 30px;
+      }
+    }
+    .success-p{
+      text-align: center;
+      padding-top: 15px;
+      font-size: 18px;
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
       }
     }
   }

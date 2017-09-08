@@ -24,7 +24,7 @@
               <th>卫</th>
               <th>窗</th>
               <th>朝向</th>
-              <th>操作</th>
+              <th style="width: 120px;">操作</th>
             </tr>
             <tr v-for="(house,index) in cxkjCommunityListHousetype">
               <td style="width: 50px">{{index+1}}</td>
@@ -55,7 +55,7 @@
                   <el-option v-for="item in orientations" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
-              <td>
+              <td style="width: 120px;">
                 <a @click="copyHouse(index)">复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
               </td>
             </tr>
@@ -71,6 +71,22 @@
       </div>
       <footer-box></footer-box>
     </div>
+
+    <div class="community-housetype-modal" v-if="successModal"></div>
+    <div id="houseType-success-modal" class="black-member-modal-content" v-if="successModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/house_type_success.png">
+      </div>
+      <p class="success-p">提交成功</p>
+      <!--<div class="modal-btn">-->
+        <!--<Button type="primary" @click="deleteFloor()">确定</Button>-->
+        <!--<Button type="default" @click="closeDeleteModal()" style="margin-left: 10px;">取消</Button>-->
+      <!--</div>-->
+      <!--<div class="modal-close-btn" @click="closeSuccessModal()">-->
+        <!--<Icon type="ios-close-empty"></Icon>-->
+      <!--</div>-->
+    </div>
+
   </div>
 </template>
 
@@ -89,7 +105,7 @@
       footerBox
     },
     mounted:function () {
-      this.communityId = this.$route.query.communityId;debugger
+      this.communityId = this.$route.query.communityId;
       this.cxkjCommunityListHousetype = [
         {
           communityId:this.communityId,
@@ -152,6 +168,7 @@
           value: '北',
           label: '北'
         }],
+        successModal:false,
       }
     },
     methods:{
@@ -160,6 +177,9 @@
       },
       deleteHouse(index){
         this.cxkjCommunityListHousetype.splice(index,1);
+      },
+      closeSuccessModal(){
+        this.successModal = false;
       },
       addHouse(){
         this.cxkjCommunityListHousetype.push({
@@ -184,8 +204,6 @@
           housetypeWindow:this.cxkjCommunityListHousetype[index].housetypeWindow,
           housetypeOrientations:this.cxkjCommunityListHousetype[index].housetypeOrientations
         }
-
-      console.log(this.cxkjCommunityListHousetype[index])
         this.cxkjCommunityListHousetype.splice(index+1,0, copyObj);
       },
       createNewHouse(){
@@ -198,12 +216,14 @@
               data.splice(i,1);
             }
         };
-        console.log(data);
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
         ).then(function(res){
-            window.alert("添加户型成功!")
-            //that.$router.push({path:"/communityHouse"});
+            that.successModal = true;
+            setTimeout(function(){
+                that.successModal = false;
+                history.go(-1);
+            },1500)
         }).catch(function(err){
           console.log(err);
         })
@@ -247,5 +267,76 @@
     margin: 70px auto;
     text-align: center;
   }
+
+  #houseType-success-modal{
+    width: 240px;
+    height: 160px;
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+
+  .community-housetype-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  #houseType-success-modal{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        margin-top: 30px;
+      }
+    }
+    .success-p{
+      text-align: center;
+      padding-top: 15px;
+      font-size: 18px;
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
+      }
+    }
+  }
+
 
 </style>

@@ -6,10 +6,10 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">订单详情</router-link>
+          <router-link  class="active" to="/apartment/communityManagement">合同详情</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>订单详情</h3>
+          <h3><i class="icon icon-iden"></i>合同详情</h3>
         </div>
         <div id="contract-detail-wrap">
           <div class="contract-detail-wrap-head">
@@ -17,9 +17,16 @@
               <img :src="contractDetailData.communityWork" alt="公寓图片">
             </div>
             <div class="content-item content-item-info">
-              <h3 style="margin: 0;padding: 0">佳兆业航运WEWA空间</h3>
-              <p class="content-item-info-p1"><span>公寓3层301</span><span>标准大标间</span></p>
-              <p class="content-item-info-p2">1800.00 元/月</p>
+              <h3 style="margin: 0;padding: 0">{{contractDetailData.communityName}}</h3>
+              <p v-if="isOffice==0" class="content-item-info-p1">
+                <span>公寓</span>
+                <span> {{contractDetailData.floorName}}层{{contractDetailData.roomNum}}</span>
+              </p>
+              <p v-if="isOffice==1" class="content-item-info-p1">
+                <span>办公室</span>
+                <span> {{contractDetailData.officeHouseNum}}</span>
+              </p>
+              <p class="content-item-info-p2">{{contractDetailData.rentPay}} 元/月</p>
             </div>
             <div class="content-item content-item-btn">
               <div class="order-detail-wrap-head-btn">
@@ -32,18 +39,35 @@
                 查看电子合同
               </div>
               <div class="right-content-info">
-                <h3>待确认</h3>
+                <h3 v-if="contractDetailData.contractState == 1">待确认</h3>
+                <h3 v-else-if="contractDetailData.contractState == 2" style="color: rgb(255,102,18)">待付款</h3>
+                <h3 v-else-if="contractDetailData.contractState == 3" style="color: rgb(255,102,18)">待付首款</h3>
+                <h3 v-else-if="contractDetailData.contractState == 4" style="color: rgb(31,187,166)">履约中</h3>
+                <h3 v-else-if="contractDetailData.contractState == 5" style="color: rgb(31,187,166)">退租中</h3>
+                <h3 v-else-if="contractDetailData.contractState == 6" style="color: rgb(153,153,153)">退组办结</h3>
+                <h3 v-else-if="contractDetailData.contractState == 7" style="color: rgb(255,29,16)">违约</h3>
+                <h3 v-else-if="contractDetailData.contractState == 8" style="color: rgb(153,153,153)">违约办结</h3>
+                <h3 v-else-if="contractDetailData.contractState == 9" style="color: rgb(153,153,153)">到期办结</h3>
               </div>
             </div>
           </div>
+          <!--0:公寓 1:办公室-->
+          <!--customerType  1:个人租客 2:公司租客-->
           <div class="contract-detail-table-wrap">
             <table class="contract-detail-table1" border="1" bordercolor="#ccc" cellspacing="0">
-              <tr class="tr1">
-                <td class="td1">公寓公司合同:</td>
+              <tr class="tr1" v-if="isOffice==0">
+                <td class="td1" v-if="contractDetailData.customerType == 1">公寓合同:</td>
+                <td class="td1" v-else>公寓公司合同:</td>
                 <td class="td1 table1-first-td">
                   <span>公寓</span>&nbsp;&nbsp;&nbsp;
-                  <span>3层301</span>&nbsp;&nbsp;&nbsp;
-                  <span>标准大标间</span>
+                  <span>{{contractDetailData.floorName}}层{{contractDetailData.roomNum}}</span>&nbsp;&nbsp;&nbsp;
+                </td>
+              </tr>
+              <tr class="tr1" v-if="isOffice==1">
+                <td class="td1">联合办公合同:</td>
+                <td class="td1 table1-first-td">
+                  <span>办公室</span>&nbsp;&nbsp;&nbsp;
+                  <span>{{contractDetailData.officeHouseNum}}</span>
                 </td>
               </tr>
               <tr class="tr1">
@@ -52,22 +76,22 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">合同编码 :</td>
-                      <td class="td2">GY12345678900</td>
+                      <td class="td2">{{contractDetailData.contractNumber}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">租期 :</td>
-                      <td class="td2">2017.6.30-2018.6.30(一年)</td>
+                      <td class="td2">{{contractDetailData.beginDate | timefilter("yyyy.MM.dd")}}-{{contractDetailData.endDate | timefilter("yyyy.MM.dd")}}(一年)</td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1">经办人信息:</td>
+                <td class="td1"><span v-if="contractDetailData.customerType == 2">经办人信息:</span><span v-else-if="contractDetailData.customerType == 1">联系人信息:</span></td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">姓名 :</td>
-                      <td class="td2">叶晓婷</td>
+                      <td class="td2">{{contractDetailData.userName}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">证件类型 :</td>
@@ -75,11 +99,11 @@
                     </tr>
                     <tr class="tr2">
                       <td class="td2">证件号码 :</td>
-                      <td class="td2">4408811894507165489</td>
+                      <td class="td2">{{contractDetailData.userCertificate}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">联系方式 :</td>
-                      <td class="td2">13570276266</td>
+                      <td class="td2">{{contractDetailData.userPhone}}</td>
                     </tr>
                   </table>
                 </td>
@@ -90,11 +114,11 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">公司名称 :</td>
-                      <td class="td2">深圳市向阳花传媒有限公司</td>
+                      <td class="td2">{{contractDetailData.companyInfo}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">法人姓名 :</td>
-                      <td class="td2">冯潇霆</td>
+                      <td class="td2">{{contractDetailData.companyLegalPerson}}</td>
                     </tr>
                   </table>
                 </td>
@@ -117,30 +141,30 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">中介公司 :</td>
-                      <td class="td2">深圳市向阳花传媒有限公司</td>
+                      <td class="td2">{{contractDetailData.intermediaryCompany}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">中介人 :</td>
-                      <td class="td2">冯潇霆</td>
+                      <td class="td2">{{contractDetailData.intermediaryName}}</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">中介费 :</td>
-                      <td class="td2" style="color: red">200元</td>
+                      <td class="td2" style="color: red">{{contractDetailData.intermediaryMoney}}元</td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1">首款<br>押二付一，两次付清:</td>
+                <td class="td1">首款<br><span v-if="contractDetailData.cyclePayType==1">押二付一</span><span v-else-if="contractDetailData.cyclePayType==2">押一付一</span>，<span v-if="contractDetailData.firstMoneyPayType == 2">两次付清</span><span v-else-if="contractDetailData.firstMoneyPayType == 1">一次性付清</span>:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">押金 :</td>
-                      <td class="td2">3600.00元</td>
+                      <td class="td2">{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">首月租金 :</td>
-                      <td class="td2">3600.00元</td>
+                      <td class="td2">{{contractDetailData.rentPay}}元</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">服务费 :</td>
@@ -148,19 +172,20 @@
                     </tr>
                     <tr class="tr2">
                       <td class="td2">优惠券代扣 :</td>
-                      <td class="td2" style="color: red">-200.00元</td>
+                      <td class="td2" style="color: red">暂无</td>
                     </tr>
+                    <br>
                     <tr class="tr2">
                       <td class="td2">第一次支付 :</td>
-                      <td class="td2">3600.00元</td>
+                      <td class="td2">{{contractDetailData.firstMoney}}元</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">第二次支付 :</td>
-                      <td class="td2">3600.00元</td>
+                      <td class="td2">{{contractDetailData.secondPayMoney}}元</td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2">合计 :</td>
-                      <td class="td2" style="font-size: 18px;color: red">7200.00元</td>
+                      <td class="td2" style="font-size: 18px;color: red">{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</td>
                     </tr>
                   </table>
                 </td>
@@ -169,13 +194,9 @@
                 <td class="td1">物资清单:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
-                    <tr class="tr2">
-                      <td class="td2">合同编码 :</td>
-                      <td class="td2">GY12345678900</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">租期 :</td>
-                      <td class="td2">2017.6.30-2018.6.30(一年)</td>
+                    <tr class="tr2" v-for="material in materials">
+                      <td class="td2">{{material.materialName}} </td>
+                      <td class="td2">{{material.count}}</td>
                     </tr>
                   </table>
                 </td>
@@ -185,7 +206,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2"><b>0/12月</b></td>
+                      <td class="td2"><b>{{contractDetailData.paidMonthCount}}/12月</b></td>
                     </tr>
                   </table>
                 </td>
@@ -215,12 +236,27 @@
       footerBox
     },
     mounted(){
+      Date.prototype.Format = function (fmt) {
+        var o = {
+          "M+": this.getMonth() + 1, //月份
+          "d+": this.getDate(), //日
+          "h+": this.getHours(), //小时
+          "m+": this.getMinutes(), //分
+          "s+": this.getSeconds(), //秒
+          "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+          "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+          if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+      };
       this.init();
     },
     data(){
       return{
         contractSignId:"",
-        isOffice:"",
+        isOffice:0,//0:公寓 1:办公室
         contractDetailData:{}
       }
     },
@@ -238,7 +274,21 @@
           }
         })
       }
-    }
+    },
+    computed:{
+      materials:function(){
+          if(this.contractDetailData.materials){
+            return JSON.parse(this.contractDetailData.materials);
+          }
+      }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 

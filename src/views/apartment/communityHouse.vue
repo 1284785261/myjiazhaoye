@@ -24,13 +24,13 @@
                 <div class="lishi" v-for="(floorData,index) in filterRootData">
                   <div class="house_xq">
                     <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">{{floorData.floorName}}层</a>
+                    <a class="ceng" @click="hideTable(index)">{{floorData.floorName}}层</a>
                     <a class="del" @click="openDeleteModal(floorData.floorId)">删除楼层</a>
-                    <a  class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
-                    <a  class="isste" @click="openEditFloorModal(index)">修改楼层信息</a>
+                    <a class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
+                    <a class="isste" @click="openEditFloorModal(index)">修改楼层信息</a>
                     <router-link :to="{ name: 'communityAddRoom' , params: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
                   </div>
-                  <div class="house_xqb">
+                  <div class="house_xqb" v-if="floorData.showTable">
                     <el-table
                       :data="floorData.cxkjCommunityListRoom"
                       border
@@ -322,6 +322,7 @@
         if(this.rootData.length>0){
           for(var i =0;i<this.rootData.length;i++){
             for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
+              this.$set(this.rootData[i],"showTable",true);
               var room = this.rootData[i].cxkjCommunityListRoom[j];
               var houseType = room.cxkjCommunityHousetype;
               if(houseType){
@@ -360,6 +361,9 @@
       },
       handleClick(){
 
+      },
+      hideTable(index){
+        this.$set(this.rootData[index],"showTable",!this.rootData[index].showTable);
       },
       editRoom(room,floorName){
         this.$router.push({
@@ -586,82 +590,82 @@
   @import '../../sass/base/_public.scss';
 
   .community-house-modal{
-    width:100%;
-    height:100%;
-    background-color:rgba(0,0,0,0.4);
-    position: fixed;
-    overflow: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-  }
-  .community-house-modal-content{
-    width:500px;
-    height:320px;
-    background-color:#fff;
-    border-radius: 5px;
-    margin: auto;
-    position: fixed;
-    z-index:9999;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    .community-house-modal-content-title{
-      height: 60px;
-      width: 100%;
-      font-size: 20px;
-      color: #fff;
-      background-color:rgb(53,154,240);
-      text-align: center;
-      line-height: 60px;
-      border-top-right-radius: 5px;
-      border-top-left-radius: 5px;
-    }
-    .add-floor-table{
-      height: 175px;
-      width: 100%;
-      table{
-        margin: 0 auto;
-        padding-top: 40px;
-        tr td:nth-child(1){
-          font-weight: 700;
-          color: black;
-          text-align: right;
-        }
-        tr{
-          td{
-            padding: 10px;
+       width:100%;
+       height:100%;
+       background-color:rgba(0,0,0,0.4);
+       position: fixed;
+       overflow: auto;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       left: 0;
+       z-index: 999;
+     }
+    .community-house-modal-content{
+      width:500px;
+      height:320px;
+      background-color:#fff;
+      border-radius: 5px;
+      margin: auto;
+      position: fixed;
+      z-index:9999;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      .community-house-modal-content-title{
+        height: 60px;
+        width: 100%;
+        font-size: 20px;
+        color: #fff;
+        background-color:rgb(53,154,240);
+        text-align: center;
+        line-height: 60px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+      }
+      .add-floor-table{
+        height: 175px;
+        width: 100%;
+        table{
+          margin: 0 auto;
+          padding-top: 40px;
+          tr td:nth-child(1){
+            font-weight: 700;
+            color: black;
+            text-align: right;
+          }
+          tr{
+            td{
+              padding: 10px;
+            }
           }
         }
       }
-    }
-    .modal-btn{
-      text-align: center;
-      button{
-        width: 140px;
-        height: 38px;
+      .modal-btn{
+        text-align: center;
+        button{
+          width: 140px;
+          height: 38px;
+        }
       }
-    }
-    .modal-close-btn{
-      position: absolute;
-      top: -36px;
-      right: -36px;
-      width: 36px;
-      height: 36px;
-      color: #fff;
-      background-color:rgba(0,0,0,0.7) ;
-      border-radius: 100%;
-      text-align: center;
-      font-size: 36px;
-      cursor: pointer;
-      i{
-        position: relative;
-        top: -8px;
+      .modal-close-btn{
+        position: absolute;
+        top: -36px;
+        right: -36px;
+        width: 36px;
+        height: 36px;
+        color: #fff;
+        background-color:rgba(0,0,0,0.7) ;
+        border-radius: 100%;
+        text-align: center;
+        font-size: 36px;
+        cursor: pointer;
+        i{
+          position: relative;
+          top: -8px;
+        }
       }
-    }
   }
 
   .black-member-modal-content{
