@@ -92,6 +92,7 @@
     		.then((response)=>{
     			console.log(response);
     			vm.user = response.data.entity;
+    			sessionStorage.setItem("phone",this.user.userPhone);
     			if(response.data.entity.headPic != null){
     				vm.imgPath1 = imgPath + response.data.entity.headPic;
     				vm.chen=false;
@@ -127,7 +128,6 @@
     			})
     		},
     		emss(){
-    			sessionStorage.setItem("phone",this.user.userPhone);
     			this.$router.push('/loginPassword');
     		}
     	}

@@ -64,7 +64,6 @@
 	margin-left: 40px;
 }
 #houseDetail table tr:nth-child(2) td:nth-child(2) span{
-	margin: 0 20px;
 	font-size: 12px;
 	color: #000;
 }
@@ -248,11 +247,15 @@
 .insta table tr td input{
 	padding-left: 10px;
 	margin-right: 10px;
+	height: 34px;
+	border: 1px solid #DCDCDC;
 }
 .insta table tr td  textarea{
 	width: 198px;
 	height: 120px;
 	resize: none;
+	border: none;
+	border: 1px solid #DCDCDC;
 }
 .insta a{
 	width: 140px;

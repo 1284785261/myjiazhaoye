@@ -36,6 +36,7 @@
 
 #priceAdmin table{
 	width: 100%;
+	min-height: 100px;
 	border-collapse: collapse;
 }
 #priceAdmin table thead{
@@ -62,4 +63,13 @@
 }
 #priceAdmin .el-pagination button{
 	border: 1px solid #DCDCDC;
+}
+#priceAdmin table .act{
+	color: #21baa6;
+}
+#priceAdmin table .acts{
+	color: #333333;
+}
+#priceAdmin table .act2{
+	color: #666666;
 }

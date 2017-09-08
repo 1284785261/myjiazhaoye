@@ -26,8 +26,9 @@
             <Input type="password" v-model="formInline.password" placeholder="请输入登录密码">
             <Icon class="iconfont icon-mima" slot="prepend"></Icon>
             </Input>
+            
           </Form-item>
-          <span class="tit" v-show="isShow">{{this.title}}</span>
+          <span class="titp" v-show="isShow">{{title}}</span>
           <Form-item>
           	
             <Button type="primary" @click="handleSubmit">登录</Button>
@@ -66,8 +67,8 @@ import qs from 'qs';
           ]
         },
         title:null,//接受登录错误的信息
-        isShow:false //控制是否弹出错误信息
-       
+        isShow:false, //控制是否弹出错误信息
+       	ins:0
       }
     },
     methods: {
@@ -80,29 +81,30 @@ import qs from 'qs';
       				userPhone:this.formInline.user,
       				password:this.formInline.password
       			}
-      		)).then(
-      		function(res){
-      		if(parseInt(res.data.code)==10000){
+      		))
+      	.then((res)=>{
+      		console.log(res);
+      			if(parseInt(res.data.code)==10000){
       				sessionStorage.setItem("token",res.data.result.token);
       				that.$router.push({path:"/apartment/communityManagement"});
       				//把token上传到sessionStorage
       			
       		}
       		else if(parseInt(res.data.code)==10002){ 			
-      			that.title = res.content;//把错误信息赋给当前的title
+      			that.title = res.data.content;//把错误信息赋给当前的title
       			that.isShow = true;
-      			
+      			console.log(that.isShow);
       			
       			setInterval(function(){//设置定时器控制title消失
       			
       				that.isShow = false;
       			},3000);
       		}
-      	}
-      	)
-      	
+      	})
+      	.catch((error)=>{
+      		console.log(error);
+      	})	
       }
-
 			
     }
   }
@@ -115,18 +117,17 @@ import qs from 'qs';
   	width: 100%;
   	height: 100%;
   }
-  .tit{
+  .titp{
   	position: absolute;
     top: 51.5%;
+    display: inline-block;
+    width: 100px;
+    height: 20px;
     font-size: 12px;
     color: red;
-   
   }
   #loginBack{
   	height: 1000px;
-  }
-  .ivu-input-group-prepend{
-  	background-color: #038be2!important;
   }
   .Copy{
   	color: white;

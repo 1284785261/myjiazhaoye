@@ -15,7 +15,7 @@
 		    	<div id="priceAdmin">
 		    		<div class="priceadmin">
 		    			<span>筛选：</span>
-		    			<a v-for="(item,index) in tite" @click="classify(index)" :class="{'active':isAicat === index}">{{item}}</a>
+		    			<a v-for="(item,index) in tite" @click="classify(index)" :class="{'active':isAicat == index}">{{item}}</a>
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -28,15 +28,16 @@
 		    				<td>状态</td>
 		    				<td>操作</td>
 		    			</thead>
-		    			<tr>
-		    				<td>111111111111111</td>
-		    				<td>熊反弹</td>
-		    				<td>女</td>
-		    				<td>110岁</td>
-		    				<td>123456789</td>
-		    				<td>1层-10</td>
-		    				<td>2017366-1045121</td>
-		    				<td><router-link to="/signed/priceCheck">审批</router-link></td>
+		    			<tr v-for="item in mindata">
+		    				<td>{{item.createtime | time}}</td>
+		    				<td>{{item.cxkjCommunityFloor.floorName}}层{{item.cxkjCommunityRoom.roomNum}}</td>
+		    				<td>{{item.newPrice}}.00</td>
+		    				<td>{{item.oldPrice}}.00</td>
+		    				<td>{{item.user.userType | type(item.user.userType)}} {{item.user.userName}}</td>
+		    				<td>{{item.reason}}</td>
+		    				<td :class="[{'act':item.status == 0},{'acts':item.status == 1},{'act2':item.status == 2}]">{{item.status | statu(item.status)}}</td>
+		    				<td v-if="item.status == 0" v-color ><router-link :to="{path:'/signed/priceCheck',query:{id:item.priceManagerId,ids:communityId}}">审批</router-link></td>
+		    				<td v-else>--</td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -44,7 +45,7 @@
 				      :current-page.sync="currentPage3"
 				      :page-size="10"
 				      layout="prev, pager, next,total,jumper"
-				      :total="100">
+				      :total=totolNum>
 				     <a>跳转</a> 
 				    </el-pagination>
 				    
@@ -58,7 +59,6 @@
 </template>
 
 <script>
-	
 	import '../../sass/style/priceAdmin.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -67,7 +67,9 @@
     import { hostTable } from '../api.js';
     import qs from 'qs';
     
+   
     export default {
+    	
     	components:{
     		rightHeader,
     		menuBox,
@@ -76,37 +78,107 @@
     	data(){
     		return{
     			isHide:false,
-    			currentPage3: 5,
+    			currentPage3: 0,
     			communityId:null,
-    			tite:['全部','已生效','审批中','不通过'],
-    			isAicat:''
+    			tite:['全部','审批中','已生效','不通过'],
+    			isAicat:'',
+    			mindata:null,
+    			totolNum:null,
+    			pageNum:1,
+    			status:null
 		   	}
+    	},
+
+    	filters:{
+    		time(val){
+    			var date =new Date(val);
+    			var Y = date.getFullYear() + '-';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+    			return Y + M + D;
+    		},
+    		type(val){
+    			if(val == 1){
+    				return '普通用户'
+    			}
+    			else if(val == 2){
+    				return 'PC端用户'
+    			}
+    			else if(val == 3){
+    				return '管家用户'
+    			}
+    		},
+    		statu(val){
+    			if(val == 0){
+    				return '审批中'
+    			}
+    			else if(val == 1){
+    				return '已生效'
+    			}
+    			else if(val == 2){
+    				return '不通过'
+    			}
+    		}
     	},
     	mounted(){
     		this.communityId = this.$route.query.id;
+    		console.log(this.communityId);
     		this.datas();
     	},
     	methods:{
 		      handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
+//		        console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.datas();
 		      },
 		      datas(){
 		      	axios.post(hostTable,
 		      		qs.stringify({
 		      			communityId:this.communityId,
-		      			status:0
+		      			pageNum:this.pageNum,
 		      		})
 		      	)
 		      	.then((response)=>{
-    				console.log(response);
- 					//this.bigdata= response.data.entity;
+    				//console.log(response);
+ 					this.mindata = response.data.entity.page;
+ 					this.totolNum = response.data.entity.totalNum;
     			})
     			.catch((error)=>{
     				console.log(error);
     			})
 		      },
 		      classify(index){
+		      	this.mindata = null;
+		      	this.status = 0;
 		      	this.isAicat = index;
+		      	let vm = this
+		      	if(this.isAicat == 0){
+		      		this.datas();
+		      	}
+		      	else if(this.isAicat == 1){
+		      		this.status = 0;
+		      	}
+		      	else if(this.isAicat == 2){
+		      		this.status = 1;
+		      	}
+		      	else if(this.isAicat == 3){
+		      		this.status = 2;
+		      	}
+	      		axios.post(hostTable,
+		      		qs.stringify({
+		      			communityId:vm.communityId,
+		      			pageNum:vm.pageNum,
+		      			status:vm.status
+		      		})
+		      	)
+		      	.then((response)=>{
+    				//console.log(response);
+   					vm.mindata = response.data.entity.page;
+   					vm.totolNum = response.data.entity.totalNum;
+    			})
+		      	.catch((error)=>{
+		      		console.log(error);
+		      	})
 		      	
 		      }
     	

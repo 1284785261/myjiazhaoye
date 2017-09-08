@@ -16,58 +16,56 @@
 		    		<table class="titles">
 		    			<tr>
 		    				<td>申请时间：</td>
-		    				<td>2017-07-01   22:00</td>
+		    				<td>{{Datas[0].createtime | time }}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>状态：</td>
-		    				<td class="mv">审批中</td>
+		    				<td class="mv">{{Datas[0].status | statu}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>房间：</td>
-		    				<td>2层 011</td>
+		    				<td>{{Datas[0].cxkjCommunityFloor.floorName}}层 {{Datas[0].cxkjCommunityRoom.roomNum}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>原价格：</td>
-		    				<td>1880.00元/月</td>
+		    				<td>{{Datas[0].oldPrice}}.00元/月</td>
 		    			</tr>
 		    			<tr>
 		    				<td>新价格：</td>
-		    				<td class="mvs">1580.00元/月</td>
+		    				<td class="mvs">{{Datas[0].newPrice}}.00元/月</td>
 		    			</tr>
 		    			<tr>
 		    				<td>调价原因：</td>
-		    				<td>促销</td>
+		    				<td>{{Datas[0].reason}}</td>
 		    			</tr>
 		    		</table>
 					<ul>
 						<li>
 							<span>审批：</span>
-							 <el-radio class="radio" v-model="radio" label="1">同意</el-radio>
-  							 <el-radio class="radio" v-model="radio" label="2">不同意</el-radio>
+							 <el-radio class="radio" v-model="radioq" label="0">不同意</el-radio>
+  							 <el-radio class="radio" v-model="radioq" label="1">同意</el-radio>
 						</li>
 						<li>
 							<span>备注：</span>
-							<textarea placeholder="请输入备注内容">
+							<textarea placeholder="请输入备注内容" v-model="texts">
 								
 							</textarea>
 						</li>
-						<a>确定</a>
+						<a @click="refer">确定</a>
 					</ul>
 					<h4>审批记录</h4>
 					<table class="titles2">
 						<thead>
-							<td>时间</td>
-							<td>操作人</td>
-							<td>审批结果</td>
-							<td>备注</td>
+							<td width="25%">时间</td>
+							<td width="25%">操作人</td>
+							<td width="25%">审批结果</td>
+							<td width="25%">备注</td>
 						</thead>
-						<tr>
-							<td>
-								206513161
-							</td>
-							<td>找嗷嗷</td>
-							<td>--</td>
-							<td>同意</td>
+						<tr v-for="item in cxkjRoomListPriceVerify">
+							<td>{{item.newtime | newtime}}</td>
+							<td>{{item.user.userName}}</td>
+							<td>{{item.verifyResult | verifyResult}}</td>
+							<td>{{item.remark}}</td>
 						</tr>
 					</table>
 		    	</div>
@@ -83,6 +81,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import axios from 'axios';
+    import { hostTable,hostPriceInfo } from '../api.js';
+    import qs from 'qs';
     
     export default {
     	components:{
@@ -93,11 +94,98 @@
     	data(){
     		return{
     			isHide:false,
-    			radio: '1'
+    			radioq: '0',
+    			priceManagerId:null,
+    			communityId:null,
+    			Datas:null,
+    			texts:'',
+    			cxkjRoomListPriceVerify:null
 		   	}
     	},
+    	filters:{
+    		time(val){
+    			var date =new Date(val);
+    			var Y = date.getFullYear() + '-';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
+				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
+				return Y + M + D +'   '+ H + mm;
+    		},
+    		statu(val){
+    			if(val == 0){
+    				return '审批中'
+    			}
+    			else if(val == 1){
+    				return '已生效'
+    			}
+    			else if(val == 2){
+    				return '不通过'
+    			}
+    		},
+    		newtime(val){
+    			var date =new Date(val);
+    			var Y = date.getFullYear() + '-';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())+' ';
+				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
+				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes())+':';
+				var s = (date.getSeconds()<10 ? '0'+date.getSeconds() : date.getSeconds());
+				
+				return Y + M + D +'   '+ H + mm + s;
+    		},
+    		verifyResult(val){
+    			if(val == 0){
+    				return '不同意'
+    			}
+    			else if(val == 1){
+    				return '同意'
+    			}
+    		}
+    	},
+    	mounted(){
+    		this.priceManagerId = this.$route.query.id;
+    		this.communityId = this.$route.query.ids;
+    		this.datas();
+    	},
     	methods:{
-    		
+    		datas(){
+    			axios.post(hostTable,
+    				qs.stringify({
+    					priceManagerId:this.priceManagerId,
+    					communityId:this.communityId
+    				})
+    			)
+    			.then((response)=>{
+    				console.log(response);
+    				this.Datas = response.data.entity.page;
+    				this.cxkjRoomListPriceVerify = this.Datas[0].cxkjRoomListPriceVerify;
+    				console.log(this.cxkjRoomListPriceVerify);
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		refer(){
+    			let vm = this
+    			console.log(vm.radioq);
+//  			console.log(vm.Datas[0].priceManagerId);
+    			axios.post(hostPriceInfo,
+    				qs.stringify({
+    					managerId:vm.Datas[0].priceManagerId,
+    					verifyResult:vm.radioq,
+    					remark:vm.texts
+    				})
+    			)
+    			.then((response) =>{
+    				console.log(response);
+    				alert('审核成功');
+    				this.datas();
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		}
     	},
     	created(){
     		

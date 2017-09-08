@@ -38,12 +38,11 @@
 		    			</tr>
 		    		</table>
 		    		<el-pagination
-				      @size-change="handleSizeChange"
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="10"
+				      :page-size="5"
 				      layout="prev, pager, next,total,jumper"
-				      :total="100">
+				      :total=totolNum>
 				    
 				    </el-pagination>
 				    
@@ -77,7 +76,9 @@
     			isHide:false,
     			currentPage3: 5,
     			communityId:null,
-    			Datas:[]
+    			Datas:[],
+    			totolNum:null,
+    			pageNum:1
 		   	}
     	},
     	mounted(){
@@ -117,20 +118,22 @@
 		    }
     	},
     	methods:{
-    		handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
-		    },
 		    handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
+//		        console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.datas();
 		    },
 		    datas(){
 		    	axios.post(hostHousehold,
 		    		qs.stringify({
-		    			communityId:this.communityId
+		    			communityId:this.communityId,
+		    			pageNum: this.pageNum,
+		    			pageSize:5
 		    		}))
 		    	.then((response)=>{
 		    		console.log(response);
-		    		this.Datas = response.data.entity;
+		    		this.Datas = response.data.entity.page;
+		    		this.totolNum = response.data.entity.totalNum;
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);

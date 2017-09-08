@@ -14,17 +14,17 @@
 		        </div>
 		    	<div id="houseDetail">
 		    		<div class="housedetail1">
-		    			<span>101房间</span>
-		    			<span>标准大单间</span>
+		    			<span>{{Datas.roomNum}}房间</span>
+		    			<span>{{Datas.cxkjCommunityHousetype.housetypeName}}</span>
 		    			<span>操作</span>
 		    		</div>
 		    		<table>
 		    			<tr>
 		    				<td width="15%">房间信息：</td>
 		    				<td>
-		    					<p>格局：1室0厅1卫 有窗</p>
-		    					<p>面积：35.00m²</p>
-		    					<p>租金：<span>1800.00元/月</span></p>
+		    					<p>格局：{{Datas.cxkjCommunityHousetype.roomId}}室{{Datas.cxkjCommunityHousetype.housetypeHall}}厅{{Datas.cxkjCommunityHousetype.housetypeHygienism}}卫 {{Datas.cxkjCommunityHousetype.housetypeWindow}}</p>
+		    					<p>面积：{{Datas.cxkjCommunityHousetype.housetypeArea}}m²</p>
+		    					<p>租金：<span>{{Datas.roomRent | roomRent}}</span></p>
 		    				</td>
 		    				<td width="20%" rowspan="2">
 		    					<a>新签租约</a>
@@ -33,15 +33,20 @@
 		    			</tr>
 		    			<tr>
 		    				<td>配置：</td>
-		    				<td><span>床</span><span>床</span><span>床</span><span>床</span><span>床</span></td>
+		    				<td><span>{{Datas.roomFurniture}}</span></td>
 		    				
 		    			</tr>
 		    			<tr>
 		    				<td>租约信息：</td>
-		    				<td>
-		    					<p>合同编码：GYdlaskdla</p>
-		    					<p>状态：<span>履约中</span></p>
-		    					<p>租期：20163165-161316</p>
+		    				<td v-if="Datas.cxkjContractSign != null">
+		    					<p>合同编码：{{Datas.cxkjContractSign.contractNumber}}</p>
+		    					<p>状态：<span>{{Datas.cxkjContractSign.contractState | contractState}}</span></p>
+		    					<p>租期：{{Datas.cxkjContractSign.beginDate | beginDate}}--{{Datas.cxkjContractSign.endDate | endDate}}</p>
+		    				</td>
+		    				<td v-else>
+		    					<p>合同编码：无</p>
+		    					<p>状态：<span>无</span></p>
+		    					<p>租期：无</p>
 		    				</td>
 		    				<td rowspan="3">
 		    					<a>查看租约</a>
@@ -51,24 +56,38 @@
 		    			</tr>
 		    			<tr>
 		    				<td>承租人：</td>
-		    				<td><span>叶晓婷</span><span>联系电话：186461366</span></td>
+		    				<td v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.user != null">
+		    					<span >{{Datas.cxkjContractSign.user.userName}}</span>
+		    					<span>联系电话：{{Datas.cxkjContractSign.user.userPhone}}</span>
+		    				</td>
+		    				<td v-else><span >无</span>
+		    					<span>联系电话：无</span></td>
 		    			</tr>
 		    			<tr>
 		    				<td>
 		    					首笔支付：
 		    				</td>
 		    				<td>
-		    					<p>押金：1800.00元<span>租金：1800.00元</span></p>
-		    					<p>预存：300.00元<span>服务费：300.00元</span></p>
+		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
+		    					<p v-else>押金：无<span>租金：无</span></p>
+		    					<p >预存：300.00元<span v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost}}</span>
+		    						<span v-else> 服务费：无</span>
+		    					</p>
 		    				</td>
+		    				<!--<td>
+		    					<p>押金：0元<span>租金：0元</span></p>
+		    					<p>预存：300.00元<span>服务费：0元</span></p>
+		    				</td>-->
 		    			</tr>
 		    			<tr>
 		    				<td>
 		    					账单状态：
 		    				</td>
 		    				<td>
-		    					<p>租金账单已欠3天</p>
-		    					<p>水电账单已支付</p>
+		    					<p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
+		    					<p v-else></p>
+		    					<p v-if="Datas.cxkjWaterEnergyBill != null">水电账单{{Datas.cxkjWaterEnergyBill.payStatus | payStatus}}</p>
+		    					<p v-else></p>
 		    				</td>
 		    				<td>
 		    					<a>查看租金账单</a>
@@ -118,27 +137,27 @@
 				<table>
 					<tr>
 						<td>房间：</td>
-						<td>2层201</td>
+						<td>{{Datas.cxkjCommunityFloor.floorName}}层{{Datas.roomNum}}</td>
 					</tr>
 					<tr>
 						<td>原价：</td>
-						<td>1800元/月</td>
+						<td>{{Datas.roomRent | roomRent}}</td>
 					</tr>
 					<tr>
 						<td>新价格：</td>
-						<td><input type="text" />元/月
+						<td><input type="text" v-model="money"/>元/月
 						</td>
 					</tr>
 					<tr>
 						<td>调价原因：</td>
 						<td>
-							<textarea>
+							<textarea v-model="texs">
 								
 							</textarea>
 						</td>
 					</tr>
 				</table>
-				<a>提交</a>
+				<a @click="bus()">提交</a>
 		</div>
 	</div>
 </template>
@@ -149,7 +168,9 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+    import axios from 'axios';
+    import { hostRoominfo,hostPrice } from '../api.js';
+    import qs from 'qs';
     export default {
     	components:{
     		rightHeader,
@@ -158,13 +179,153 @@
     	},
     	data(){
     		return{
-    			isHide:false
+    			isHide:false,
+    			roomid:null,
+    			Datas:null,
+    			money:null,
+    			texs:null,
+    			communityId:null
 		   	}
+    	},
+    	filters:{
+    		deposit(val){
+    			if(val == null){
+    				return '无'
+    			}
+    			else if(val !=null){
+    				return val.toFixed(2)+'元';
+    			}
+    		},
+    		cyclePayMoney(val){
+    			if(val == null){
+    				return '无'
+    			}
+    			else if(val !=null){
+    				return val.toFixed(2)+'元';
+    			}
+    		},
+    		beginDate(val){
+				var date = new Date(val);
+				var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+    		},
+    		endDate(val){
+    			var date = new Date(val);
+				var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+    		},
+    		serviceCost(val){
+    			if(val != null){
+    				return val.toFixed(2)+'元';
+    			}
+    		},
+    		contractState(val){
+    			if(val == 1){
+    				return '待确认'
+    			}
+    			else if(val == 2){
+    				return '待付款'
+    			}
+    			else if(val == 3){
+    				return '待付首款'
+    			}
+    			else if(val == 4){
+    				return '履约中'
+    			}
+    			else if(val == 5){
+    				return '退租中'
+    			}
+    			else if(val == 6){
+    				return '退组办结'
+    			}
+    			else if(val == 7){
+    				return '违约'
+    			}
+    			else if(val == 8){
+    				return '违约办结'
+    			}
+    			else if(val == 9){
+    				return '到期办结'
+    			}
+    			
+    		},
+    		billState(val){
+    			if(val == 1){
+    				return '待支付'
+    			}
+    			else if(val == 2){
+    				return '已支付'
+    			}
+    			else if(val == 3){
+    				return '违约'
+    			}
+    			else if(val == 4){
+    				return '违约办结'
+    			}
+    		},
+    		payStatus(val){
+    			if(val == 1){
+    				return '待支付'
+    			}
+    			else if(val == 2){
+    				return '已支付'
+    			}
+    			else if(val == 3){
+    				return '违约'
+    			}
+    			else if(val == 4){
+    				return '违约办结'
+    			}
+    		},
+    		roomRent(val){
+    			if(val != null){
+    				return val.toFixed(2)+'元';
+    			}
+    		}
+    	},
+    	mounted(){
+    		this.roomid = this.$route.query.id;
+    		this.communityId = this.$route.query.ids;
+    		this.datas();
     	},
     	methods:{
     		instas:function(){
-    			
     			this.isHide = !this.isHide;
+    		},
+    		datas(){
+    			axios.post(hostRoominfo,
+    				qs.stringify({
+    					roomId:this.roomid
+    				})
+    			)
+    			.then((response) => {
+    				console.log(response);
+    				this.Datas = response.data.entity;
+    			})
+    			.catch((error) => {
+    				console.log(error);
+    			})
+    		},
+    		bus(){
+    			this.isHide = !this.isHide;
+    			axios.post(hostPrice,
+    				qs.stringify({
+    					communityId:this.communityId,
+    					roomId:this.roomid,
+    					newPrice:this.money,
+    					reason:this.texs
+    				})
+    			).then((response) =>{
+    				console.log(response);
+    				alert('调价成功');
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
     		}
     	
     	},

@@ -27,13 +27,17 @@
 			        		<li v-for="its in item.cxkjCommunityListRoom" >
 			        			<div>
 					        			<p>{{its.roomNum}}</p>
-					        			<p>biaozhun</p>
+					        			<p v-if="its.cxkjCommunityHousetype != null">{{its.cxkjCommunityHousetype.housetypeName}}</p>
+					        			<p v-else></p>
 					        			<span>1</span>
-					        			<span></span>
-					        			<p>￥{{its.roomRent}}.00<i>{{its.roomStatus | states(its.roomStatus)}}</i></p>
+					        			<span v-if="its.cxkjContractSign != null">租期剩余{{its.cxkjContractSign.endDay}}天</span>
+					        			<span v-else></span>
+					        			<p>￥{{its.roomRent}}.00
+					        				<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]">{{its.roomStatus | states(its.roomStatus)}}</i>
+					        			</p>
 			        			</div>
 			        			
-				        		<router-link to="/signed/houseDetail" class="sex">
+				        		<router-link :to="{path:'/signed/houseDetail',query:{id:its.roomId,ids:communityId}}" class="sex">
 				        				<span>房间</span>
 				        				<span>点击弹出房间信息</span>
 				        		</router-link>

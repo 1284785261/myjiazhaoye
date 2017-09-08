@@ -46,6 +46,7 @@
 	height: 138px;
 	margin-left: 45px;
 	padding: 5px;
+	resize: none;
 }
 #priceCheck ul li:nth-child(2) span{
 	position: absolute;

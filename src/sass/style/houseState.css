@@ -114,7 +114,12 @@
 	height: 160px;
 	display: inline-block;
 }
-
+#houseState .housestate2 .state2 li div .act{
+	color: #1fbba6;
+}
+#houseState .housestate2 .state2 li div .act2{
+	color: #038be2;
+}
 #houseState .housestate2 .state2 li div p:nth-child(1){
 	font-size: 12px;
 	font-weight: bold;

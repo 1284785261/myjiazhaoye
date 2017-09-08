@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
 
@@ -86,11 +86,14 @@ const Household = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousehold200032
 //调价管理
 const Table = '/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePriceTable200033'
 
+//公寓状态房间信息
+const Roominfo = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoomInfo200062'
 
+//调价申请
+const Price ='/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePrice200063'
 
-
-
-
+//调价审核
+const PriceInfo = '/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePriceInfo200064'
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
@@ -122,6 +125,9 @@ export const hostRange2 = host1 + Range2;
 export const hostState = host3 +State;
 export const hostHousehold = host3 +Household;
 export const hostTable = host3 + Table;
+export const hostRoominfo = host3 +Roominfo;
+export const hostPrice = host3 +Price;
+export const hostPriceInfo = host3 + PriceInfo;
 //export default {
 //hosts:function(){
 //		return{
