@@ -13,87 +13,80 @@
         </div>
         <div id="bill-detail-wrap">
           <div class="order-detail-wrap-head">
-            <img v-if="true" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
-            <img v-else-if="false" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已使用">
-            <img v-else-if="false" src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
+            <img v-if="billDetailList.billState == 1" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
+            <img v-else src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
             <div class="order-detail-wrap-head-content">
               <h3>
                 <span style="padding-right: 10px;">6月</span>
-                <span>公寓租金</span>
-                <span class="colorSpan" v-if="true">已支付</span>
-                <span class="colorSpan" v-else-if="false">待支付</span>
+                <span v-if="billType == 0">公寓租金</span>
+                <span v-if="billType == 1">办公室租金</span>
+                <span class="colorSpan" v-if="billDetailList.billState == 1">已支付</span>
+                <span class="colorSpan" v-else-if="billDetailList.billState == 2">待支付</span>
+                <span class="colorSpan" v-else-if="billDetailList.billState == 3">违约</span>
+                <span class="colorSpan" v-else-if="billDetailList.billState == 4">违约办结</span>
               </h3>
-              <h3 v-if="false">会议室订单
-                <span>已使用</span>
-              </h3>
-            </div>
-            <div class="order-detail-wrap-head-btn">
-              确认用户已使用
             </div>
           </div>
           <ul class="order-detail-content">
-            <li>
-              <h3><i class="icon icon-iden"></i>佳兆航运WEVA空间</h3>
-              <table>
+            <li style="position: relative">
+              <h3><i class="icon icon-iden"></i>{{billDetailList.communityName}}</h3>
+              <table >
                 <tr>
                   <td>房间 :</td>
-                  <td>1个</td>
+                  <td v-if="billType == 0">公寓 {{billDetailList.floorName}}层 {{billDetailList.roomNum}}房间</td>
+                  <td v-if="billType == 1">办公室 {{billDetailList.officeWorkNum}}人间 {{billDetailList.officeHouseNum}}</td>
                 </tr>
                 <tr>
                   <td>租期 :</td>
-                  <td>2017/6/30 - 2017/7/3（共4天）</td>
+                  <td>{{billDetailList.beginDate | timefilter("yyyy.MM.dd")}}-{{billDetailList.endDate | timefilter("yyyy.MM.dd")}}（共4天）</td>
                 </tr>
                 <tr>
                   <td>租金 :</td>
-                  <td>100.00元/位·天</td>
+                  <td>{{billDetailList.generalRent}}元/位·天</td>
                 </tr>
               </table>
+              <div class="check-contract-btn">
+                查看合同
+              </div>
             </li>
             <li>
               <h3><i class="icon icon-iden"></i>订单信息</h3>
               <table>
                 <tr>
                   <td>订单时间 :</td>
-                  <td>2017-07-01 14:33:59</td>
+                  <td>{{billDetailList.createTime | timefilter("yyyy-MM-dd hh:mm:ss")}}</td>
                 </tr>
                 <tr>
                   <td>订单编号 :</td>
-                  <td>2017063073</td>
+                  <td>{{billDetailList.billNo}}</td>
                 </tr>
-                <tr v-if="true">
-                  <td>支付时间 :</td>
-                  <td>2017-07-01 14:33:59</td>
-                </tr>
-                <tr v-if="true">
+                <tr v-if="billDetailList.billState == 1">
                   <td>支付方式 :</td>
-                  <td>支付宝</td>
+                  <td>
+                    <span v-if="billDetailList.payType == 1">支付宝</span>
+                    <span v-if="billDetailList.payType == 2">微信</span>
+                    <span v-if="billDetailList.payType == 3">银联</span>
+                    <span v-if="billDetailList.payType == 4">其他方式</span>
+                  </td>
                 </tr>
-                <!--<tr>-->
-                  <!--<td>优惠券 :</td>-->
-                  <!--<td>400.00元</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>实付 :</td>-->
-                  <!--<td style="color: red;font-size: 20px;">400.00元</td>-->
-                <!--</tr>-->
-                <tr v-if="true">
+                <tr v-if="billDetailList.billState == 1">
                   <td>支付成功时间 :</td>
-                  <td>2017-07-01 14:33:59</td>
+                  <td>{{billDetailList.paySuccessTime | timefilter("yyyy-MM-dd hh:mm:ss")}}</td>
                 </tr>
-                <tr>
+                <tr v-if="billDetailList.billState == 2">
                   <td colspan="2" class="payInfo">待支付 剩余12分钟</td>
                 </tr>
               </table>
-              <Button v-if="false" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>
+              <Button v-if="billDetailList.billState == 2" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>
             </li>
-            <li v-if="true">
+            <li v-if="billDetailList.billState == 1">
               <h3><i class="icon icon-iden"></i>用户评价</h3>
               <table>
                 <tr>
                   <td>评价 :</td>
                   <td >
                     <el-rate
-                      v-model="value5"
+                      v-model="billDetailList.score"
                       disabled
                       show-text
                       text-color="#ff9900"
@@ -103,7 +96,7 @@
                 </tr>
                 <tr>
                   <td>评价内容 :</td>
-                  <td>地铁口近，交通方便</td>
+                  <td>{{billDetailList.content}}</td>
                 </tr>
               </table>
             </li>
@@ -120,7 +113,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import {roomBillDetail,officeBillDetail} from '../api.js';
 
 
   export default {
@@ -131,12 +124,49 @@
     },
     data(){
       return{
-        value5: 4.8
+        value5: 4.8,
+        billDetailList:[],
+        billType:0,//0公寓，1办公室
+      }
+    },
+    mounted(){
+      var billId = this.$route.query.billId;
+      this.billType = this.$route.query.type;
+      if(this.billType == 0){
+        this.getRoomBillDetail({billId:billId});
+      }else{
+        this.getOfficeBillDetail({billId:billId});
       }
     },
     methods:{
+      getRoomBillDetail(data){
+        var vm = this;
+        this.$http.get(roomBillDetail,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              vm.billDetailList = res.data.entity;
+            }
 
-    }
+          })
+      },
+      getOfficeBillDetail(data){
+        var vm = this;
+        this.$http.get(officeBillDetail,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              vm.billDetailList = res.data.entity;
+            }
+
+          })
+      },
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 
@@ -168,26 +198,6 @@
             padding-left: 50px;
             color: rgb(255,102,18);
           }
-        }
-      }
-      .order-detail-wrap-head-btn{
-        position: absolute;
-        right: 50px;
-        top: 60px;
-        display: inline-block;
-        text-align: center;
-        width: 140px;
-        height: 40px;
-        border-radius: 5px;
-        border: solid 1px rgb(3,139,226);
-        color: rgb(70,170,234);
-        background-color: #fff;
-        line-height: 40px;
-        font-size: 16px;
-        cursor: pointer;
-        &:hover{
-          background-color: rgb(3,139,226);
-          color: #fff;
         }
       }
     }
@@ -232,6 +242,19 @@
             color: red;
           }
         }
+      }
+      .check-contract-btn{
+        position: absolute;
+        right: 15px;
+        bottom: 30px;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: solid 1px rgb(3,139,226);
+        border-radius: 5px;
+        color: rgb(3,139,226);
+        cursor: pointer;
       }
     }
   }

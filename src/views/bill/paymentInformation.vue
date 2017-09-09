@@ -17,9 +17,9 @@
             <ul>
               <li>所属社区 :<span style="color: #038be2;font-weight: 700;">佳兆业航运WEWA空间</span></li>
               <li>出账日期 :<span>2017-07-01</span></li>
-              <li>全部租客 :<span>56户</span></li>
-              <li>待缴 :<span style="color:red;font-weight: 700;">36户</span></li>
-              <li>已缴 :<span style="color:black;font-weight: 700;">20户</span></li>
+              <li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>
+              <li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>
+              <li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>
             </ul>
           </div>
           <div class="form-search-criteria">
@@ -196,7 +196,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import {statisticsInfoOfUser} from '../api.js';
 
 
   export default {
@@ -210,11 +210,25 @@
         activeName2: 'first',
         model1:"",
         value:"",
+        communityPayStatic:[],
       }
+    },
+    mounted(){
+      var id = this.$route.query.communityId;
+      this.getPayStatic({communityId:id})
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      getPayStatic(data){
+        var that = this;
+        this.$http.get(statisticsInfoOfUser,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.communityPayStatic = res.data.entity;
+            }
+          })
       },
       gotoPayInfo(){
         this.$router.push({path:"/bill/paymentInformation"});

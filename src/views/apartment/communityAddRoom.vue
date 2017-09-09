@@ -108,7 +108,7 @@
             <!--</div>-->
           <!--</Modal>-->
 
-          <Modal v-model="modal1" width="500" id="select-house-modal">
+          <Modal v-model="modal1" width="500" id="select-house-modal" style="position: absolute; top: 0">
             <div slot="header" style="background-color:#2d8cf0;text-align:center;">
               <span>家用电器设置</span>
             </div>
@@ -174,7 +174,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {api,Housetype,SytemData,addRoom,updateRoom} from '../api.js';
+  import {api,Housetype,SytemData,addRoom,updateRoom,IntroduceInfo,roomInfo} from '../api.js';
   import qs from 'qs';
 
 
@@ -198,13 +198,12 @@
             roomRent:"",
             waterType:1,
             electricType:1,
-            waterPrice:8,
-            energyPrice:2.2
+            waterPrice:0,
+            energyPrice:0
           }
         ],
         activeRoomIndex:0,
         numberLine:1,
-        value:"",
         rootValue:"",
         floors: [{
           value: '1',
@@ -234,7 +233,14 @@
         isEidRoom:false,//是否为编辑房间页面
         cacheFloorId:"",//缓存楼层
         cacheCommunityId:"",//缓存社区id
-        cacheFloorName:1//缓存名字
+        cacheFloorName:1,//缓存名字
+
+        cun_waterPrice :null,
+        cun_energyPrice :null,
+        cun_waterChargeType:null,
+        cun_energyChargeType :null,
+
+        roomId:null,
       }
     },
     mounted(){
@@ -244,37 +250,17 @@
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      init(){debugger
-        var to_floorName = "";
-        var roomObj = this.$route.params.roomObj;
-        var communityId = this.$route.params.communityId;
-        var to_floorId = this.$route.params.floorId;
-        this.cacheFloorName = this.$route.params.floorName;
-        var floorId = "";
-        if(roomObj) {//编辑跳转
-          floorId = roomObj.floorId;
+      init(){
+        this.cacheFloorId = this.$route.query.floorId;
+        this.cacheCommunityId = this.$route.query.communityId;
+        this.cacheFloorName = this.$route.query.floorName;
+        this.roomId = this.$route.query.roomId;
+
+        //编辑房间
+        if(this.roomId){
           this.isEidRoom = true;
-          this.cacheCommunityId = roomObj.communityId;
-          for (var i = 0; i < this.cxkjCommunityListRoom.length; i++) {
-            this.cxkjCommunityListRoom = [{
-              communityId: roomObj.communityId,
-              roomId:roomObj.roomId,
-              floorId: roomObj.floorId,
-              roomNum: roomObj.roomNum || "",
-              roomType: roomObj.roomType,
-              roomFurniture: roomObj.roomFurniture || "",
-              roomWater: roomObj.roomWater,
-              roomElectric: roomObj.roomElectric,
-              roomRent: roomObj.roomRent,
-              waterType: roomObj.waterType,
-              electricType: roomObj.electricType,
-              waterPrice:8,
-              energyPrice:2.2
-            }];
-          }
-        } else{//批量添加
-          floorId = to_floorId;
-          this.cacheCommunityId = communityId;
+        }else{//批量添加房间
+          this.isEidRoom = false;
           this.cxkjCommunityListRoom =[
             {
               communityId:"",
@@ -287,21 +273,80 @@
               roomRent:"",
               waterType:1,
               electricType:1,
-              waterPrice:8,
-              energyPrice:2.2
+              waterPrice:0,
+              energyPrice:0
             }
           ];
           for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
-            this.cxkjCommunityListRoom[i].communityId =communityId;
-            this.cxkjCommunityListRoom[i].floorId = floorId;
+            this.cxkjCommunityListRoom[i].communityId =this.cacheCommunityId;
+            this.cxkjCommunityListRoom[i].floorId = this.cacheFloorId;
           }
         }
-        this.cacheFloorId = floorId;//缓存当前楼层
         this.getHouseType();
-        this.getFurniture();
+        this.getIntroduceInfo();
       },
-      getRoomSource(){
+      //查询社区设置信息
+      getIntroduceInfo(){
+        var that = this;
+        this.$http.post(
+          IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId})
+        ).then(function(res){
+          var communitySettingInfo = res.data.entity;
+          //获取家电数据
+          var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
+          that.checkBoxArr2 = [];
+          for(var i =0;i<communityListConfig.length;i++){
+            that.checkBoxArr2.push(communityListConfig[i].systemData);
+          }
+          for(var i =0;i<that.checkBoxArr2.length;i++){
+            that.checkBoxObj[that.checkBoxArr2[i].dataName] = that.checkBoxArr2[i].dataId;
+          }
+          //缓存社区水电计费方式
+          that.cun_waterPrice = communitySettingInfo.waterPrice;
+          that.cun_energyPrice = communitySettingInfo.energyPrice;
+          that.cun_waterChargeType = communitySettingInfo.waterChargeType;
+          that.cun_energyChargeType = communitySettingInfo.energyChargeType;
+          //批量添加房间时默认同步社区水电计费方式
+          if(!that.isEidRoom){
+            //获取社区水电计费方式
+            that.cxkjCommunityListRoom[0].waterPrice = that.cun_waterPrice;
+            that.cxkjCommunityListRoom[0].energyPrice = that.cun_energyPrice;
+            that.cxkjCommunityListRoom[0].waterType = that.cun_waterChargeType;
+            that.cxkjCommunityListRoom[0].electricType = that.cun_energyChargeType;
+          }else{
+            that.getRoomSource();
+          }
 
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+      //获取房间信息（编辑房间时）
+      getRoomSource(){
+        var that = this;
+        this.$http.post(
+          roomInfo,qs.stringify({roomId:this.roomId})
+        ).then(function(res){
+          var roomObj = res.data.entity;
+          that.cxkjCommunityListRoom = [{
+              communityId: roomObj.communityId,
+              roomId:roomObj.roomId,
+              floorId: roomObj.floorId,
+              roomNum: roomObj.roomNum || "",
+              roomType: roomObj.roomType,
+              roomFurniture: roomObj.roomFurniture || "",
+              roomWater: roomObj.roomWater,
+              roomElectric: roomObj.roomElectric,
+              roomRent: roomObj.roomRent,
+              waterType: roomObj.waterType || that.cun_waterChargeType,
+              electricType: roomObj.electricType || that.cun_energyChargeType,
+              waterPrice:roomObj.waterPrice || that.cun_waterPrice,
+              energyPrice:roomObj.energyPrice || that.cun_energyPrice
+          }];
+          console.log(that.cxkjCommunityListRoom)
+        }).catch(function(err){
+          console.log(err);
+        })
       },
       //弹出编辑水费窗口
 //      editWater(index){
@@ -363,43 +408,35 @@
         this.cxkjCommunityListRoom[this.activeRoomIndex].roomFurniture = this.selectListData.join(" ");
       },
       getHouseType(){
-          var that = this;
+        var that = this;
         this.$http.post(
           Housetype,qs.stringify({communityId:this.cacheCommunityId})
         ).then(function(res){
           that.roomTypes = res.data.entity;
-          console.log(that.roomTypes)
-        }).catch(function(err){
-          console.log(err);
-        })
-      },
-      getFurniture(){
-        var that = this;
-        this.$http.post(SytemData,qs.stringify({parentId:19})).then(function(res){
-          that.checkBoxArr2 = res.data.entity;
-          for(var i =0;i<that.checkBoxArr2.length;i++){
-            that.checkBoxObj[that.checkBoxArr2[i].dataName] = that.checkBoxArr2[i].dataId;
-          }
         }).catch(function(err){
           console.log(err);
         })
       },
       addRoom(){
         var that = this;
+        var roomNum = this.cxkjCommunityListRoom[this.cxkjCommunityListRoom.length-1].roomNum;debugger
         for(var i =0;i<this.numberLine;i++){
+          if(roomNum && /^[0-9]*$/.test(roomNum)){
+            roomNum++;
+          }
           this.cxkjCommunityListRoom.push({
-            communityId:"",
+            communityId:that.cacheCommunityId,
             floorId:that.cacheFloorId,
-            roomNum:"",
+            roomNum:roomNum || "",
             roomType:"",
             roomFurniture:"",
             roomWater:"1000",
             roomElectric:"2000",
             roomRent:"",
-            waterType:1,
-            electricType:1,
-            waterPrice:8,
-            energyPrice:2.2,
+            waterType:that.cun_waterChargeType,
+            electricType:that.cun_energyChargeType,
+            waterPrice:that.cun_waterPrice,
+            energyPrice:that.cun_energyPrice,
           })
         }
       },
@@ -436,7 +473,6 @@
           }
         }
         this.$http.post(addRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){
-//          that.init();
           that.addRoomSeccess = true;
           setTimeout(function(){
             that.addRoomSeccess = false;
@@ -497,8 +533,9 @@
   @import '../../sass/base/_public.scss';
 
   #add-room-management{
-    height: 985px;
-    /*width: 100%;*/
+    width: 100%;
+    height: 100%;
+    min-height: 1000px;
     background-color: #fff;
     box-shadow: 0 3px 3px #ccc;
     .add-room-table{

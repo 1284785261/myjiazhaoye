@@ -152,12 +152,26 @@ export const deleteFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityS
 export const copyFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCopyFloor200053'
 export const addHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityResource200006'
 export const allCommunity =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAll200059'
-export const allOrder =host3+'/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
 export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
-export const officeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
-export const placeDetail =host3+'/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
-export const officeOrderUsed =host3+'/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
-export const roomContract =host3+'/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
-export const officeContract =host3+'/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
-export const propertyContract =host3+'/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
-export const contractDetai =host3+'/apis/pc/contractMgrCenter/CxkjContractDetail300067';
+
+export const IntroduceInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduceInfo200065'
+export const roomInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoomInfo200062'
+
+//订单管理
+export const allOrder =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
+export const officeDetail =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
+export const placeDetail =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjPlaceOrderDetail300044'
+export const officeOrderUsed =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjConfirmOfficeOrderUsed300068';
+//合同管理
+export const roomContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjRoomContractList300064';
+export const officeContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
+export const propertyContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
+export const contractDetai =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjContractDetail300067';
+
+//账单管理
+export const roomBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillList300039';
+export const officeBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetOfficeBillList300040';
+export const waterEnergyBill =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetWaterEnergyBillList300034';
+export const roomBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillDetail300041';
+export const officeBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetOfficeBillDetail300042';
+export const statisticsInfoOfUser =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetStatisticsInfoOfUser300036';

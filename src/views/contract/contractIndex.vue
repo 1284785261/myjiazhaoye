@@ -69,7 +69,7 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="31" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
+              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
 
             </Tab-pane>
 
@@ -321,7 +321,7 @@ export default {
       var data = {
         pageNum:page || 1
       }
-      if(this.roomCommunity =! -1){
+      if(this.roomCommunity != -1){
         data.communityId = this.roomCommunity;
       }
       if(this.roomSearchKey){
@@ -356,7 +356,7 @@ export default {
       var data = {
         pageNum:page || 1
       }
-      if(this.officeCommunity =! -1){
+      if(this.officeCommunity != -1){
         data.communityId = this.officeCommunity;
       }
       if(this.officeSearchKey){
@@ -392,7 +392,7 @@ export default {
       var data = {
         pageNum:page || 1
       }
-      if(this.propertyCommunity =! -1){
+      if(this.propertyCommunity != -1){
         data.communityId = this.propertyCommunity;
       }
       if(this.propertySearchKey){

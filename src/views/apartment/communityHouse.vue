@@ -28,7 +28,7 @@
                     <a class="del" @click="openDeleteModal(floorData.floorId)">删除楼层</a>
                     <a class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
                     <a class="isste" @click="openEditFloorModal(index)">修改楼层信息</a>
-                    <router-link :to="{ name: 'communityAddRoom' , params: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
+                    <router-link :to="{ name: 'communityAddRoom' , query: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
                   </div>
                   <div class="house_xqb" v-if="floorData.showTable">
                     <el-table
@@ -91,7 +91,7 @@
                         <el-table-column
                           label="操作">
                           <template scope="scope">
-                            <el-button @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index],floorData.floorName)" type="text" size="small">编辑</el-button>
+                            <el-button type="text" size="small"><router-link :to="{name:'communityAddRoom',query:{roomId:floorData.cxkjCommunityListRoom[scope.$index].roomId,floorName:floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}">编辑</router-link></el-button>
                             <el-button type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
                         </el-table-column>
@@ -364,14 +364,6 @@
       },
       hideTable(index){
         this.$set(this.rootData[index],"showTable",!this.rootData[index].showTable);
-      },
-      editRoom(room,floorName){
-        this.$router.push({
-          name: 'communityAddRoom' ,
-          params: { roomObj: room ,floorName:floorName}
-        });
-        console.log(room)
-        console.log("传递对象===>")
       },
       closeFloorModal(){
         this.addFloorModal = false;
