@@ -180,7 +180,7 @@
 								<div class="form-item">
 									<b>社区：</b>
 									<Select v-model="model1" style="width:200px">
-										<Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+										<Option v-for="community in  communitys" :value="community.communityName" :key="community.communityName">{{ community.communityName }}</Option>
 									</Select>
 								</div>
 								<div class="form-item">
@@ -243,7 +243,7 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
-	import { hostAuthor, hostCommint,hostOpen } from '../api.js';
+	import { hostAuthor, hostCommint,hostOpen,allCommunity } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -256,31 +256,7 @@
 		data() {
 			return {
 				currentPage1: 1,
-				communitys: [{
-						value: 'beijing',
-						label: '北京市'
-					},
-					{
-						value: 'shanghai',
-						label: '上海市'
-					},
-					{
-						value: 'shenzhen',
-						label: '深圳市'
-					},
-					{
-						value: 'hangzhou',
-						label: '杭州市'
-					},
-					{
-						value: 'nanjing',
-						label: '南京市'
-					},
-					{
-						value: 'chongqing',
-						label: '重庆市'
-					}
-				],
+				communitys: [],   //社区介绍社区分类
 				model1: '',
 				isShow: false,
 				tableEvaluates: [{
@@ -391,8 +367,19 @@
 			//console.log(111)
 			this.befor();
 			this.befors();
+			this.classifys();
 		},
 		methods: {
+			classifys(){
+				axios.post(allCommunity).then((response)=>{   //获取社区分类数据
+	  	 			console.log(response);
+		  	 		this.communitys = response.data.entity;
+		  	 		this.model1 =this.communitys[0].communityName;
+		  	 	})
+		  	 	.catch((error)=>{
+		  	 		console.log(error);
+		  	 	})
+			},
 			befor() {
 				let vm = this
 				//console.log(1111)
@@ -405,7 +392,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						vm.commint = response.data.result.communityData.page;
 						vm.totalNum = response.data.result.communityData.totalNum;
 						//console.log(this.commint);
@@ -428,7 +415,7 @@
 							communityLikeName:vm.vague
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						vm.commint = response.data.result.communityData.page;
 						vm.totalNum = response.data.result.communityData.totalNum;
 						//console.log(this.commint);
@@ -458,7 +445,7 @@
 						console.log(error);
 					})
 			},
-			btusy(){  //关闭社区页面模糊查询
+			btusy(){  //已关闭社区页面模糊查询
 				let vm = this
 				vm.commint2 = [];
 				let pageNum = vm.pageNum || 1;
@@ -473,7 +460,7 @@
 							communityLikeName:vm.vague
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						vm.commint2 = response.data.result.communityData.page;
 						vm.totalNum2 = response.data.result.communityData.totalNum;
 						//console.log(this.commint);
@@ -500,7 +487,7 @@
 				}
 				this.community.id=val.id;
 				this.community.Name=val.Name;
-				console.log(this.community);
+				//console.log(this.community);
 //				this.communityId = id;
 //				this.communityIsClose = val;
 //				this.communityName = name;
@@ -512,9 +499,6 @@
 			qsm(){
 				this.isShow = false;
 				let vm= this
-				console.log("this.community.Close");
-				console.log(this.community.Close);
-				console.log("this.community.Close");
 				axios.post(hostOpen,
 						qs.stringify({
 							communityId:vm.community.id,
@@ -522,8 +506,7 @@
 						})
 				)
 				.then((response)=>{
-					console.log(response)
-					debugger
+					//console.log(response)
 					vm.befor();
 					vm.befors();
 					alert('操作成功');

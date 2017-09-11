@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-//const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+const host3 = 'http://192.168.26.191:8080';
+//const host3 = 'http://120.78.16.234:8060';
 //http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
 
@@ -104,6 +104,12 @@ const Workbench = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjCommunityManagerT
 
 //工作台-发起收款列表
 const Payment = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPaymentTable200035'
+
+//工作台-发起收款列表-发起收款
+const Payment2 = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPayment200036'
+
+//工作台 - 收款详情
+const Details = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityGatheringDetails200037'
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
@@ -141,6 +147,8 @@ export const hostPriceInfo = host3 + PriceInfo;
 export const hostManager = host3 + Manager;
 export const hostWorkbench = host3 + Workbench;
 export const hostPayment = host3 +Payment;
+export const hostPayment2 = host3 + Payment2;
+export const hostDetails = host3 + Details;
 //export default {
 //hosts:function(){
 //		return{

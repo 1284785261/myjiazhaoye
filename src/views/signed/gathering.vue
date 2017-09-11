@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="bugbox">
 		<menu-box></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -14,14 +14,13 @@
 		        </div>
 		    	<div id="gethering">
 		    		<div class="residentlist">
-		    			<a>发起收款</a>
+		    			<a @click="mvvs()">发起收款</a>
 		    			<span class="zhut">状态：</span>
-		    			<el-select v-model="value" placeholder="请选择">
+		    			<el-select v-model="value" placeholder="请选择" @change="select(value)">
 						    <el-option
 						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      :key="item.dataName"
+						      :value="item.dataName">
 						    </el-option>
 						</el-select>
 		    			<span class="zhut">发起时间：</span>
@@ -29,9 +28,8 @@
 						<span class="inline-block spanBar zhut2">——</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
 						<div>
-							<a class="st">搜索</a>
-							
-							<input type="text" placeholder="搜索收款对象/手机号" class="phs"/><i class="el-icon-search inss"></i>
+							<input type="text" placeholder="搜索收款对象/手机号" class="phs" v-model="values"/><i class="el-icon-search inss"></i>
+							<a class="st" @click="seek">搜索</a>
 						</div>
 						
 		    		</div>
@@ -44,9 +42,10 @@
 		    				<td>金额/元</td>
 		    				<td>状态</td>
 		    				<td>收款备注</td>
+		    				<td>操作</td>
 		    			</thead>
 		    			<tr v-for="item in Datas">
-		    				<td>{{item.gatheringNo}}1111111111111111111111</td>
+		    				<td>{{item.gatheringNo}}</td>
 		    				<td>{{item.gatheringDate | Date}}</td>
 		    				<td>{{item.userName}}</td>
 		    				<td>{{item.userPhone}}</td>
@@ -54,6 +53,7 @@
 		    				<td :class="{'tasm':item.gatheringState == 1}">{{item.gatheringState | State}}</td>
 		    				<td v-if="item.gatheringInfo != null">{{item.gatheringInfo}}</td>
 		    				<td v-else>--</td>
+		    				<td><router-link :to="{path:'/signed/gatherDetails',query:{id:item.gatheringId}}">查看详情</router-link></td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -71,6 +71,35 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<div class="shade" v-show="isHide">		
+		</div>
+		<div class="bruin" v-show="isHide">
+			<i class="el-icon-circle-close" @click="mvvs()"></i>
+			<p>发布收款</p>
+			<table>
+				<tr>
+					<td>用户注册手机号：</td>
+					<td>
+						<input type="text" placeholder="请输入手机号" v-model="phone"/>
+					</td>
+				</tr>
+				<tr>
+					<td>收款金额：</td>
+					<td>
+						<input type="text" placeholder="请输入金额" class="mongs" v-model="money"/><span>元</span>
+					</td>
+				</tr>
+				<tr>
+					<td>收款备注：</td>
+					<td>
+						<textarea placeholder="请输入收款备注" v-model="titl1">
+							
+						</textarea>
+					</td>
+				</tr>
+			</table>
+			<a @click="payment()">向用户收款</a>
+		</div>
 	</div>
 </template>
 
@@ -80,7 +109,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostPayment } from '../api.js';
+    import { hostPayment,hostPayment2,hostWay } from '../api.js';
     import qs from 'qs';
     
     export default{
@@ -92,35 +121,25 @@
     	data(){
     		return{
     			currentPage3:1,
-    			input2: '',
-    			options: [{
-		          value: '选项1',
-		          label: '黄金糕'
-		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
-		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
-		        }],
-		        value: '',
+    			options: [],
+		        values:null,
 		        communityLeaseBegin:null,
 		        communityLeaseEnd:null,
 		        pageNum:1,
 		        communityId:null,
 		        Datas:null,
-		        totalNum:null
+		        totalNum:null,
+		        isHide:false,
+		        phone:null,
+		        money:null,
+		        titl1:null,
+		        gatheringState:null
     		}
     	},
     	mounted(){
     		this.communityId = this.$route.query.communityId;
     		this.datas();
+    		this.states();
     	},
     	filters:{
     		Money(val){
@@ -156,20 +175,87 @@
 				this.pageNum = val;
 			},
 			datas(){
-				axios.post(hostPayment,
+				axios.post(hostPayment,  //请求收款数据列表
 					qs.stringify({
 						pageNum:this.pageNum,
 						communityId:this.communityId
 					})
 				)
-				.then((response)=>{
-	 			console.log(response);
+				.then((response)=>{       
+	 			//console.log(response);
 	 			this.Datas = response.data.entity.page;
 	 			this.totalNum = response.data.entity.totalNum;
 		 		})
 		 		.catch((error)=>{
 		 			console.log(error);
 		 		})
+			},
+			mvvs(){
+				this.isHide = !this.isHide;
+			},
+			payment(){
+				axios.post(hostPayment2,     //发起新的收款
+					qs.stringify({
+						userPhone:this.phone,
+						gatheringInfo:this.titl1,
+						communityId:this.communityId,
+						gatheringMoney:this.money
+					})
+				).then((response)=>{
+					//console.log(11111);
+					//console.log(response);
+					
+					this.isHide = !this.isHide;
+					alert('发起收款成功');
+				})
+				.catch((error)=>{
+					console.log(error);
+				})
+			},
+			states(){
+				axios.post(hostWay,
+					qs.stringify({
+						parentId:51
+					})
+				).then((response)=>{
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						this.options = response.data.entity;
+					}
+				}).catch((error)=>{
+					console.log(error);
+				})
+			},
+			select(val){
+				console.log(val);
+				if(val == '待支付'){
+					this.gatheringState = 1;
+				}
+				else if(val == '已支付'){
+					this.gatheringState = 2;
+				}
+			},
+			seek(){
+				this.Datas = null;
+				this.totalNum = null;
+				let vm = this;
+				axios.post(hostPayment,
+					qs.stringify({
+						gatheringState:this.communityLeaseBegin,
+						gatheringEndDate:this.communityLeaseEnd,
+						gatheringState:this.gatheringState,
+						userNameLike:this.values,
+						userPhoneLike:this.values
+					})
+				).then((response)=>{
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10004){
+						vm.Datas = response.data.entity.page;
+						vm.totalNum = response.data.entity.totalNum;
+					}
+				}).catch((error)=>{
+					console.log(error);
+				})
 			}
     	}
     }

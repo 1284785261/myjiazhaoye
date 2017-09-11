@@ -226,7 +226,12 @@ export default new Router({
       name: 'gathering',
       component: resolve =>
         require(['../views/signed/gathering.vue'],resolve)
-    },
+    },{						
+    	path:'/signed/gatherDetails',		//工作台-发起收款-收款详情
+    	name:'gatherDetails',
+    	component:resolve =>
+    		require(['../views/signed/gatherDetails.vue'],resolve)
+    }
 
   ]
 })

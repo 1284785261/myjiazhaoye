@@ -1,0 +1,40 @@
+#gatherdetails{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+
+#gatherdetails table{
+	margin-top: 40px;
+	min-height: 100px;
+	margin-left: 110px;
+	border-collapse: collapse;
+}
+#gatherdetails table tr td:nth-child(1){
+	text-align: right;
+	color: #666666;
+	padding-right: 10px;
+}
+#gatherdetails table tr{
+	font-size: 12px;
+	line-height: 32px;
+	color: #000;
+}
+#gatherdetails table tr td span{
+	margin-left: 60px;
+	color: #ff6612;
+	font-weight: bold;
+}
+#gatherdetails .list2{
+	margin-left: 120px;
+}
+#gatherdetails p{
+	width: 90%;
+	height: 1px;
+	border: 1px dashed #dcdcdc;
+	margin-top: 20px;
+	margin-left: 50px;
+}

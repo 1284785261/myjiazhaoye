@@ -53,13 +53,13 @@
           <div class="modular-box">
             <h3><i class="icon icon-info"></i>今日待办</h3>
             <ul class="remain-list" v-if="remains != null">
-              <li v-if="remains.roomMoney>0"><router-link to="/">新增看房预约<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.roomCount>0"><router-link to="/">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.officeCount>0"><router-link to="/">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.waterEnergyCount>0"><router-link to="/">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.roomMoney>0"><router-link to="/">用户报修<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.rentCount>0"><router-link to="/">用户退房<span><span>{{remains.rentCount}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
-              <li v-if="remains.expireCount>0"><router-link to="/">合同即将到期<span><span>{{remains.expireCount}}户</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.roomMoney != null"><router-link to="/">新增看房预约<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.roomCount != null"><router-link to="/">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.officeCount != null"><router-link to="/">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.waterEnergyCount != null"><router-link to="/">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.roomMoney != null"><router-link to="/">用户报修<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.rentCount != null"><router-link to="/">用户退房<span><span>{{remains.rentCount}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.expireCount != null"><router-link to="/">合同即将到期<span><span>{{remains.expireCount}}户</span></span></router-link><i class="iconfont icon-you"></i></li>
            		<li><router-link to="/">今日直播时间<span><span>18:00-19:00</span></span></router-link><i class="iconfont icon-you"></i></li>
            		<li><router-link to="/">待处理用户投诉<span><span>6人</span></span></router-link><i class="iconfont icon-you"></i></li>
             </ul>
@@ -111,20 +111,20 @@ export default {
     return {
       item2:true,
       cityList: [],
-        selectModel1:null,
+      selectModel1:null,
       model1: '123',
       datas:[{
           classD:"backOrange",
           title:"昨日收款",
-          num:"273079.00"
+          num:""
       },{
         classD:"backGreen",
         title:"待收账单",
-        num:"73079.00"
+        num:""
       },{
         classD:"backBlue",
         title:"昨日业绩",
-        num:"30笔"
+        num:""
       }],
       myInfos:[{
         icon:"iconfont icon-baoxiu",
@@ -179,7 +179,7 @@ export default {
   },
   methods:{
   	 title(){
-  	 	axios.post(allCommunity).then((response)=>{
+  	 	axios.post(allCommunity).then((response)=>{   //获取社区分类数据
   	 		console.log(response);
   	 		this.cityList = response.data.entity;
   	 		this.selectModel1 =this.cityList[0].communityName;
@@ -199,6 +199,9 @@ export default {
 	 			})
 	 		).then((response)=>{
 	 			console.log(response);
+	 			this.datas[0].num = response.data.result.yesterdayPay+'.00';
+	 			this.datas[1].num = response.data.result.todayWaitPay+'.00';
+	 			this.datas[2].num = response.data.result.yesterdayCount+'笔';
 	 		})
 	 		.catch((error)=>{
 	 			console.log(error);
@@ -209,7 +212,7 @@ export default {
 	 				communityId:Index
 	 			})
 	 		).then((response)=>{
-	 			//console.log(response);
+	 			console.log(response);
 	 			this.remains = response.data.result;
 	 		})
 	 		.catch((error)=>{

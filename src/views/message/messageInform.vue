@@ -71,8 +71,7 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
-		<div class="zhezhaoa" v-show="isHide">
-			
+		<div class="zhezhaoa" v-show="isHide">		
 		</div>
 		<div class="instas" v-show="isHide">
 			<i class="el-icon-circle-close" @click="instas()"></i>
@@ -260,12 +259,12 @@
     		},
     		time(val){
     			var date = new Date(val);
-					var Y = date.getFullYear() + '-';
-					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-					var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '  ';
-					var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
-					var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
-					return Y + M + D + H + mm;
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '  ';
+				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
+				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
+				return Y + M + D + H + mm;
     		}
     	},
     	created(){
