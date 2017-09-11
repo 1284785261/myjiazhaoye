@@ -170,6 +170,7 @@
     }
   }
   .remain-list{
+    min-height: 395px;
     padding: 0 15px;
     li{
       line-height: 43px;
@@ -222,5 +223,11 @@
         color:#bebebe;
       }
     }
+  }
+  .muvs{
+      width: 100%;
+      min-height: 395px;
+      text-align: center;
+      line-height: 355px;
   }
 }

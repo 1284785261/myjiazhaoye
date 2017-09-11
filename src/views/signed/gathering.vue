@@ -1,0 +1,182 @@
+<template>
+	<div>
+		<menu-box></menu-box>
+		<div class="right-content" id="right-content">
+			<right-header></right-header>
+			<div class="wordbench-box">
+				<div class="ivu-site">
+		          <span>您现在的位置：工作台 > </span>
+		          <router-link  class="active" to="/apartment/communityManagement">发起收款记录</router-link>
+		        </div>
+		        <div class="ivu-bar-title">
+		          <h3><i class="icon icon-iden"></i>发起收款记录</h3>
+		          <span>佳兆业航运WEWA空间</span>
+		        </div>
+		    	<div id="gethering">
+		    		<div class="residentlist">
+		    			<a>发起收款</a>
+		    			<span class="zhut">状态：</span>
+		    			<el-select v-model="value" placeholder="请选择">
+						    <el-option
+						      v-for="item in options"
+						      :key="item.value"
+						      :label="item.label"
+						      :value="item.value">
+						    </el-option>
+						</el-select>
+		    			<span class="zhut">发起时间：</span>
+		    			<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
+						<span class="inline-block spanBar zhut2">——</span>
+						<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
+						<div>
+							<a class="st">搜索</a>
+							
+							<input type="text" placeholder="搜索收款对象/手机号" class="phs"/><i class="el-icon-search inss"></i>
+						</div>
+						
+		    		</div>
+		    		<table>
+		    			<thead>
+		    				<td>订单号</td>
+		    				<td>发起时间</td>
+		    				<td>收款对象</td>
+		    				<td>收款对象注册手机号</td>
+		    				<td>金额/元</td>
+		    				<td>状态</td>
+		    				<td>收款备注</td>
+		    			</thead>
+		    			<tr v-for="item in Datas">
+		    				<td>{{item.gatheringNo}}1111111111111111111111</td>
+		    				<td>{{item.gatheringDate | Date}}</td>
+		    				<td>{{item.userName}}</td>
+		    				<td>{{item.userPhone}}</td>
+		    				<td :class="{'tas':item.gatheringMoney != null}">{{item.gatheringMoney | Money}}</td>
+		    				<td :class="{'tasm':item.gatheringState == 1}">{{item.gatheringState | State}}</td>
+		    				<td v-if="item.gatheringInfo != null">{{item.gatheringInfo}}</td>
+		    				<td v-else>--</td>
+		    			</tr>
+		    		</table>
+		    		<el-pagination
+				      @current-change="handleCurrentChange"
+				      :current-page.sync="currentPage3"
+				      :page-size="5"
+				      layout="prev, pager, next,total,jumper"
+				      :total=totalNum>
+				    
+				    </el-pagination>
+				    
+		    	</div> 
+		        
+		    
+			</div>
+			<footer-box></footer-box>
+		</div>
+	</div>
+</template>
+
+<script>
+	import '../../sass/style/gethering.css';
+	import menuBox from '../../components/menuBox.vue';
+    import rightHeader from '../../components/rightHeader.vue';
+    import footerBox from '../../components/footerBox.vue';
+    import axios from 'axios';
+    import { hostPayment } from '../api.js';
+    import qs from 'qs';
+    
+    export default{
+    	components:{
+    		rightHeader,
+    		menuBox,
+    		footerBox
+    	},
+    	data(){
+    		return{
+    			currentPage3:1,
+    			input2: '',
+    			options: [{
+		          value: '选项1',
+		          label: '黄金糕'
+		        }, {
+		          value: '选项2',
+		          label: '双皮奶'
+		        }, {
+		          value: '选项3',
+		          label: '蚵仔煎'
+		        }, {
+		          value: '选项4',
+		          label: '龙须面'
+		        }, {
+		          value: '选项5',
+		          label: '北京烤鸭'
+		        }],
+		        value: '',
+		        communityLeaseBegin:null,
+		        communityLeaseEnd:null,
+		        pageNum:1,
+		        communityId:null,
+		        Datas:null,
+		        totalNum:null
+    		}
+    	},
+    	mounted(){
+    		this.communityId = this.$route.query.communityId;
+    		this.datas();
+    	},
+    	filters:{
+    		Money(val){
+    			if(val != null){
+    				return val.toFixed(2);
+    			}
+    			else{
+    				return '--'
+    			}
+    		},
+    		State(val){
+    			if(val == 1){
+    				return '待支付'
+    			}
+    			else if(val == 2){
+    				return '已支付'
+    			}
+    		},
+    		Date(val){
+    			if(val != null) {
+					var date = new Date(val);
+					var Y = date.getFullYear() + '-';
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+					var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+					return Y + M + D;
+
+				}
+    		}
+    	},
+    	methods:{
+		    handleCurrentChange(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum = val;
+			},
+			datas(){
+				axios.post(hostPayment,
+					qs.stringify({
+						pageNum:this.pageNum,
+						communityId:this.communityId
+					})
+				)
+				.then((response)=>{
+	 			console.log(response);
+	 			this.Datas = response.data.entity.page;
+	 			this.totalNum = response.data.entity.totalNum;
+		 		})
+		 		.catch((error)=>{
+		 			console.log(error);
+		 		})
+			}
+    	}
+    }
+</script>
+
+<style lang="scss" rel="stylesheet/scss">
+  @import '../../sass/base/_mixin.scss';
+  @import '../../sass/base/_public.scss';
+  
+</style>

@@ -74,7 +74,7 @@
     	data(){
     		return{
     			isHide:false,
-    			currentPage3: 5,
+    			currentPage3: 1,
     			communityId:null,
     			Datas:[],
     			totolNum:null,
@@ -124,10 +124,11 @@
 				this.datas();
 		    },
 		    datas(){
+		    	let pageNum = this.pageNum || 1;
 		    	axios.post(hostHousehold,
 		    		qs.stringify({
 		    			communityId:this.communityId,
-		    			pageNum: this.pageNum,
+		    			pageNum: pageNum,
 		    			pageSize:5
 		    		}))
 		    	.then((response)=>{

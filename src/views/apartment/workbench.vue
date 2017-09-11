@@ -7,8 +7,8 @@
         <div class="main-home">
           <div class="home-item">
             <h3>张之如<span>管家</span></h3>
-            <Select v-model="selectModel1" style="width:240px">
-              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="selectModel1" style="width:240px" @on-change="temp(selectModel1)">
+              <Option v-for="item in cityList" :value="item.communityName" :key="item.communityName" >{{ item.communityName }}</Option>
             </Select>
           </div>
           <ul class="list-data">
@@ -33,7 +33,7 @@
             <ul class="apartment-list">
               <li><router-link to="/">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingHouse">公寓签约</router-link></li>
-              <li><router-link :to="{path:'/signed/houseState',query:{communityId:3}}">公寓状态</router-link></li>
+              <li><router-link :to="{path:'/signed/houseState',query:{communityId:communityId}}">公寓状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">公寓租金账单</router-link></li>
               <li><router-link to="/">公寓水电订单</router-link></li>
@@ -41,7 +41,7 @@
               <li><router-link to="/">合同管理</router-link></li>
               <li><router-link to="/">退租管理</router-link></li>
               <li><router-link to="/">发起退款</router-link></li>
-              <li><router-link to="/">发起收款</router-link></li>
+              <li><router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
             </ul>
           </div>
@@ -52,9 +52,20 @@
           <Col span="12">
           <div class="modular-box">
             <h3><i class="icon icon-info"></i>今日待办</h3>
-            <ul class="remain-list">
-              <li v-for="remain in remains"><router-link to="/">{{remain.content}}<span>{{remain.item.item1}}<span>{{remain.item.item2}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+            <ul class="remain-list" v-if="remains != null">
+              <li v-if="remains.roomMoney>0"><router-link to="/">新增看房预约<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.roomCount>0"><router-link to="/">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.officeCount>0"><router-link to="/">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.waterEnergyCount>0"><router-link to="/">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.roomMoney>0"><router-link to="/">用户报修<span><span>{{remains.roomMoney}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.rentCount>0"><router-link to="/">用户退房<span><span>{{remains.rentCount}}人</span></span></router-link><i class="iconfont icon-you"></i></li>
+              <li v-if="remains.expireCount>0"><router-link to="/">合同即将到期<span><span>{{remains.expireCount}}户</span></span></router-link><i class="iconfont icon-you"></i></li>
+           		<li><router-link to="/">今日直播时间<span><span>18:00-19:00</span></span></router-link><i class="iconfont icon-you"></i></li>
+           		<li><router-link to="/">待处理用户投诉<span><span>6人</span></span></router-link><i class="iconfont icon-you"></i></li>
             </ul>
+            <div class="muvs" v-else>
+            		<img src="../../../static/images/temp/ms_06.png" />
+            </div>
           </div>
           </Col>
           <Col span="12">
@@ -89,7 +100,7 @@
   import  footerBox from '../../components/footerBox.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import api from '../api.js';
+	import { allCommunity,hostManager,hostWorkbench } from '../api.js';
 export default {
   components:{
     rightHeader,
@@ -99,23 +110,8 @@ export default {
   data () {
     return {
       item2:true,
-      cityList: [
-        {
-          value: 'jiazhaoye',
-          label: '佳兆业航运WEWA空间'
-        },
-        {
-          value: 'jiazhaoye1',
-          label: '佳兆业航运WEWA空间1'
-        },
-        {
-          value: 'jiazhaoye2',
-          label: '佳兆业航运WEWA空间2'
-        },
-        {
-          value: 'jiazhaoye3',
-          label: '佳兆业航运WEWA空间3'
-        }],
+      cityList: [],
+        selectModel1:null,
       model1: '123',
       datas:[{
           classD:"backOrange",
@@ -157,61 +153,69 @@ export default {
         date:"17:30"
       }],
       
-      remains:[{
-        content:"新增看房预约",
-        item:{
-          item1:"20人"
-        }
-      },{
-        content:"待收公寓租金",
-        item:{
-          item1:"17笔",
-          item2:"33445.00元"
-        }
-      },{
-        content:"待收联合办公租金",
-        item:{
-          item1:"17笔",
-          item2:"33445.00元"
-        }
-      },{
-        content:"待收水电账单",
-        item:{
-          item1:"17笔",
-          item2:"33445.00元"
-        }
-      },{
-        content:"用户报修",
-       item:{
-         item1:"20人"
-       }
-      },{
-        content:"用户退房",
-        item:{
-            item1:"20人"
-        }
-      },{
-        content:"合同将到期",
-        item:{
-            item1:"20户"
-        }
-      },{
-        content:"今日直播时间",
-        item:{
-            item1:"18:00-19:00"
-        }
-      },{
-        content:"待处理用户投诉",
-        item:{
-            item1:"6人"
-        }
-      }]
+      remains:null,
+      communityId:null
     }
   },
   mounted(){
-  	
+  	this.title();
+  },
+  filters:{
+  	roomMoney(val){
+  		if(val != null){
+  			return val.toFixed(2)+'元';
+  		}
+  	},
+  	officeMoney(val){
+  		if(val != null){
+  			return val.toFixed(2)+'元';
+  		}
+  	},
+  	waterEnergyMoney(val){
+  		if(val != null){
+  			return val.toFixed(2)+'元';
+  		}
+  	}
   },
   methods:{
+  	 title(){
+  	 	axios.post(allCommunity).then((response)=>{
+  	 		console.log(response);
+  	 		this.cityList = response.data.entity;
+  	 		this.selectModel1 =this.cityList[0].communityName;
+  	 	})
+  	 	.catch((error)=>{
+  	 		console.log(error);
+  	 	})
+  	 	
+  	 },
+  	 temp(val){
+		 		let Index =this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
+		 		this.communityId = Index;
+  	 		//console.log(Index);
+	 		axios.post(hostManager,  //获取管家收款数据
+	 			qs.stringify({
+	 				communityId:Index
+	 			})
+	 		).then((response)=>{
+	 			console.log(response);
+	 		})
+	 		.catch((error)=>{
+	 			console.log(error);
+	 		})
+  	 		
+	 		axios.post(hostWorkbench,  //获取今日待办数据
+	 			qs.stringify({
+	 				communityId:Index
+	 			})
+	 		).then((response)=>{
+	 			//console.log(response);
+	 			this.remains = response.data.result;
+	 		})
+	 		.catch((error)=>{
+	 			console.log(error);
+	 		})
+  	 }
   },
   created(){
   	

@@ -1,0 +1,127 @@
+#gethering{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#gethering .residentlist{
+	height: 74px;
+	width: 100%;
+	
+}
+#gethering .residentlist a{
+	display: inline-block;
+	color: #666;
+	width: 140px;
+	height: 40px;
+	border: 1px solid #DCDCDC;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 40px;
+	margin-left: 20px;
+	margin-top: 20px;
+	background: #f8f8f8;
+	float: left;
+}
+#gethering .residentlist .zhut{
+	margin-left: 30px;
+	float: left;
+	line-height: 74px;
+	font-weight: bold;
+}
+#gethering .residentlist .el-select{
+	float: left;
+	width: 118px;
+	height: 34px;
+	margin-top: 20px;
+}
+#gethering .residentlist .el-select .el-input__inner{
+	border: none;
+	border: 1px solid #dcdcdc;
+	border-radius: inherit;
+}
+#gethering .residentlist .zhut2{
+	float: left;
+	margin: 0 10px;
+	line-height: 74px;
+}
+#gethering .residentlist .el-select .el-input__icon{
+	transition: transform .0s;
+	background: #f8f8f8;
+	height: 35px;
+    border: 1px solid #dcdcdc;
+}
+#gethering .residentlist .ivu-date-picker{
+	width: 128px;
+	height: 34px;
+	float: left;
+	margin-top: 20px;
+}
+#gethering .residentlist div .phs{
+	width: 200px;
+	height: 36px;
+	float: right;
+	margin-top: 20px;
+	padding-left: 20px;
+}
+#gethering .residentlist div .el-input .is-clickable{
+	left: 0;
+}
+#gethering .residentlist div{
+	position: relative;
+}
+#gethering .residentlist div .inss{
+	position: absolute;
+	right: 268px;
+	top: 31px;
+	color: #999999;
+	font-size: 16px;
+}
+#gethering .residentlist div .st{
+	width: 68px;
+	height: 36px;
+	color: white;
+	text-align: center;
+	line-height: 36px;
+	background: #038be2;
+	font-size: 16px;
+	margin-left: 0px;
+	border-radius:inherit;
+	float: right;
+	margin-right: 20px;
+}
+#gethering table{
+	width: 100%;
+	min-height: 100px;
+	border-collapse: collapse;
+}
+#gethering table thead td{
+	background: #f8f8f8;
+	font-weight: bold;
+}
+#gethering table td{
+	color: #000;
+	height: 48px;
+	border: 1px solid #DCDCDC;
+	text-align: center;
+}
+#gethering .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#gethering .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#gethering .el-pagination button{
+	border: 1px solid #DCDCDC;
+}
+
+#gethering table tr .tas{
+	color: #ff5950;
+}
+#gethering table tr .tasm{
+	color: #ff6612;
+}

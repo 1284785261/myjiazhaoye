@@ -94,6 +94,16 @@ const Price ='/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePrice2000
 
 //调价审核
 const PriceInfo = '/cxkj-room/apis/pc/roomModifyPrice/CxkjCommunityAdjustThePriceInfo200064'
+
+
+//工作台-管家收款
+const Manager = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjCommunityManagerMoney200066'
+
+//工作台-今日待办
+const Workbench = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjCommunityManagerTodayTask200030'
+
+//工作台-发起收款列表
+const Payment = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPaymentTable200035'
 //地区选择省/市/区
 //http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
@@ -128,6 +138,9 @@ export const hostTable = host3 + Table;
 export const hostRoominfo = host3 +Roominfo;
 export const hostPrice = host3 +Price;
 export const hostPriceInfo = host3 + PriceInfo;
+export const hostManager = host3 + Manager;
+export const hostWorkbench = host3 + Workbench;
+export const hostPayment = host3 +Payment;
 //export default {
 //hosts:function(){
 //		return{

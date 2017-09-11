@@ -405,7 +405,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						vm.commint = response.data.result.communityData.page;
 						vm.totalNum = response.data.result.communityData.totalNum;
 						//console.log(this.commint);

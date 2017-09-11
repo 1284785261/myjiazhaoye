@@ -221,6 +221,11 @@ export default new Router({
       name: 'addBanner',
       component: resolve =>
         require(['../views/advertising/addBanner.vue'],resolve)
+    },{
+      path: '/signed/gathering',     //工作台-发起收款
+      name: 'gathering',
+      component: resolve =>
+        require(['../views/signed/gathering.vue'],resolve)
     },
 
   ]
