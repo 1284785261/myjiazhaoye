@@ -231,6 +231,11 @@ export default new Router({
     	name:'gatherDetails',
     	component:resolve =>
     		require(['../views/signed/gatherDetails.vue'],resolve)
+    },{
+    	path:'/apartment/commentdetails',		//社区评论详情
+    	name:'commentdetails',
+    	component:resolve =>
+    		require(['../views/apartment/commentdetails.vue'],resolve)
     }
 
   ]

@@ -110,9 +110,18 @@ const Payment2 = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPayment20
 
 //工作台 - 收款详情
 const Details = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityGatheringDetails200037'
+
+//工作台-办公场地状态
+const Status ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatus200034'
 //地区选择省/市/区
-//http://115.29.138.230:8080/cxkj-room/apis/cxkjsystemarea/parent-area
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
+
+//社区评论列表
+const Comment = '/cxkj-room/apis/comment/CxkjCommunityCommentTable200069'
+
+//社区评论详情
+const CommentInfo = '/cxkj-room/apis/comment/CxkjCommunityCommentInfo200058'
+
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -149,6 +158,9 @@ export const hostWorkbench = host3 + Workbench;
 export const hostPayment = host3 +Payment;
 export const hostPayment2 = host3 + Payment2;
 export const hostDetails = host3 + Details;
+export const hostStatus = host3 + Status;
+export const hostComment = host3 + Comment;
+export const hostCommentInfo = host3 + CommentInfo;
 //export default {
 //hosts:function(){
 //		return{

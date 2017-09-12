@@ -1,9 +1,10 @@
+#right-content{
+	height: 100%!important;
+}
 #workstate{
 	width: 100%;
 	min-height: 1000px;
-	
 	overflow: hidden;
-	
 }
 #workstate .workstate1{
 	width: 100%;
@@ -234,6 +235,7 @@
 	float: left;
 	margin: 20px;
 	font-size: 12px;
+	position: relative;
 }
 .workstate3 .detals li div span:nth-child(1){
 	font-weight: bold;
@@ -260,11 +262,23 @@
 	width: 100%;
 	height: 60px;
 	background: #f8f8f8;
-	margin-top: 10px;
+	position: absolute;
+	bottom: 0;
 	padding: 10px;
 	color: #333333;
+	border-top: 1px solid #DCDCDC;
 }
 .workstate3 .peiz span{
 	display: block;
 	margin: 10px 0;
+}
+.workstate3 .peiz1{
+	line-height: 40px;
+	text-align: center;
+	color: #1fbba6;
+}
+.workstate3 .peiz2{
+	line-height: 40px;
+	text-align: center;
+	color: #038BE2;
 }

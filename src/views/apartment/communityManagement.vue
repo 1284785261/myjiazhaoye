@@ -179,21 +179,21 @@
 							<div class="form-search-criteria">
 								<div class="form-item">
 									<b>社区：</b>
-									<Select v-model="model1" style="width:200px">
+									<Select v-model="model1" style="width:200px" @on-change="tems(model1)">
 										<Option v-for="community in  communitys" :value="community.communityName" :key="community.communityName">{{ community.communityName }}</Option>
 									</Select>
 								</div>
 								<div class="form-item">
 									<span>评价时间：</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="createtimes"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="commentDate"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search" style="margin-left: 0;">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="value" placeholder="搜索用户"></Input>
-										<input type="button" value="搜索">
+										<Input v-model="valu" placeholder="搜索用户"></Input>
+										<input type="button" value="搜索" @click="seek">
 										<Button class="ivu-btn-export">导出</Button>
 									</div>
 								</div>
@@ -208,17 +208,24 @@
 									<th>操作</th>
 								</tr>
 								<tr v-for="tableEvaluate in tableEvaluates">
-									<td><span class="text-default">{{tableEvaluate.date}}</span></td>
-									<td style="text-align: center"><span class="text-black">{{tableEvaluate.community}}</span></td>
-									<td style="text-align: center"><span class="text-black">{{tableEvaluate.user}}</span></td>
-									<td style="text-align: center"><span class="text-default">{{tableEvaluate.order}}</span></td>
-									<td><span class="text-black">{{tableEvaluate.evaluate}}</span></td>
+									<td><span class="text-default">{{tableEvaluate.createtime | createtime}}</span></td>
+									<td style="text-align: center"><span class="text-black">{{tableEvaluate.cxkjCommunity.communityName}}</span></td>
+									<td style="text-align: center"><span class="text-black">{{tableEvaluate.userInfo.userName}}</span></td>
+									<td style="text-align: center">
+										<span class="text-default" v-if="tableEvaluate.cxkjBill != null">{{tableEvaluate.cxkjBill.billName}}</span>
+										<span class="text-default" v-if="tableEvaluate.cxkjOfficeOrder != null">{{tableEvaluate.cxkjOfficeOrder.orderName}}</span>
+										<span class="text-default" v-else>--</span>
+									</td>
+									<td><span class="text-black">{{tableEvaluate.content}}</span></td>
 									<td>
-										<router-link to="/">{{tableEvaluate.operation}}</router-link>
+										<router-link :to="{path:'/apartment/commentdetails',query:{id:tableEvaluate.commentId}}">查看详情</router-link>
 									</td>
 								</tr>
 							</table>
-
+							<div class="block">
+								<el-pagination @current-change="handleCurrentChange3" :current-page="currentPage1" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum3>
+								</el-pagination>
+							</div>
 						</div>
 					</Tab-pane>
 
@@ -243,7 +250,7 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
-	import { hostAuthor, hostCommint,hostOpen,allCommunity } from '../api.js';
+	import { hostAuthor, hostCommint,hostOpen,allCommunity,hostComment } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -259,48 +266,15 @@
 				communitys: [],   //社区介绍社区分类
 				model1: '',
 				isShow: false,
-				tableEvaluates: [{
-					date: "2017-06-27  12:00",
-					community: "佳兆业航运WEWA空间",
-					user: "叶晓琳",
-					order: "公寓租金账单  7月",
-					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-					operation: "查看详情"
-				}, {
-					date: "2017-06-27  12:00",
-					community: "佳兆业航运WEWA空间",
-					user: "叶晓琳",
-					order: "公寓租金账单  7月",
-					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-					operation: "查看详情"
-				}, {
-					date: "2017-06-27  12:00",
-					community: "佳兆业航运WEWA空间",
-					user: "叶晓琳",
-					order: "公寓租金账单  7月",
-					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-					operation: "查看详情"
-				}, {
-					date: "2017-06-27  12:00",
-					community: "佳兆业航运WEWA空间",
-					user: "叶晓琳",
-					order: "公寓租金账单  7月",
-					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-					operation: "查看详情"
-				}, {
-					date: "2017-06-27  12:00",
-					community: "佳兆业航运WEWA空间",
-					user: "叶晓琳",
-					order: "公寓租金账单  7月",
-					evaluate: "离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-					operation: "查看详情"
-				}],
+				tableEvaluates: [],
 				commint: [], //社区管理全部数据展示
 				commint2:[], //已关闭社区数据
 				pageNum: 1, //第几页的数据
 				pageNum2: 1, //已关闭社区第几页的数据
+				pageNum3: 1,  //社区评价第几页
 				totalNum: null, //数据总条数
 				totalNum2:null, //已关闭社区数据条数
+				totalNum3:null,  //社区评价数据条数
 				pageSize: 3, //每页显示的数据数量
 				community:{
 					Close:null,
@@ -309,7 +283,11 @@
 				}, //确定后需要的参数
 				start:null,   //模糊查询开业开始时间
 				over:null,   //模糊查询开业关闭时间
-				vague:null //模糊查询内容
+				vague:null, //模糊查询内容
+				valu:null,
+				createtimes:null,
+				commentDate:null,
+				communityId:null
 			}
 		},
 		filters: { //过滤器
@@ -359,6 +337,19 @@
 				else if(val =='0'){
 					return '开放';
 				}
+			},
+			createtime(val){
+				if(val != null) {
+					var date = new Date(val);
+					var Y = date.getFullYear() + '.';
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+					var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+					var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
+					var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+					var ss = ((date.getSeconds()<10 ? '0'+date.getSeconds() : date.getSeconds()));
+					return Y + M + D +'   '+ H + mm + ss;
+				}
+				return null;
 			}
 		},
 
@@ -368,13 +359,18 @@
 			this.befor();
 			this.befors();
 			this.classifys();
+			this.comment();
 		},
 		methods: {
 			classifys(){
 				axios.post(allCommunity).then((response)=>{   //获取社区分类数据
-	  	 			console.log(response);
-		  	 		this.communitys = response.data.entity;
-		  	 		this.model1 =this.communitys[0].communityName;
+					//console.log(111);
+	  	 			//console.log(response);
+	  	 			if(response.status == 200 && response.data.code == 10000){
+	  	 				this.communitys = response.data.entity;
+		  	 			this.model1 =this.communitys[0].communityName;
+	  	 			}
+		  	 		
 		  	 	})
 		  	 	.catch((error)=>{
 		  	 		console.log(error);
@@ -393,8 +389,10 @@
 						})
 					).then((response) => {
 						//console.log(response);
-						vm.commint = response.data.result.communityData.page;
-						vm.totalNum = response.data.result.communityData.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.commint = response.data.result.communityData.page;
+							vm.totalNum = response.data.result.communityData.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -416,8 +414,10 @@
 						})
 					).then((response) => {
 						//console.log(response);
-						vm.commint = response.data.result.communityData.page;
-						vm.totalNum = response.data.result.communityData.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.commint = response.data.result.communityData.page;
+							vm.totalNum = response.data.result.communityData.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -429,7 +429,7 @@
 				//console.log(1111)
 				let pageNum2 = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
-				axios.post(hostCommint, //请求数据列表
+				axios.post(hostCommint, //请求已关闭社区数据列表
 						qs.stringify({
 							pageNum2: pageNum2,
 							pageSize: pageSize,
@@ -437,8 +437,10 @@
 						})
 					).then((response) => {
 						//console.log(response);
-						vm.commint2 = response.data.result.communityData.page;
-						vm.totalNum2 = response.data.result.communityData.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.commint2 = response.data.result.communityData.page;
+							vm.totalNum2 = response.data.result.communityData.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -461,15 +463,17 @@
 						})
 					).then((response) => {
 						//console.log(response);
-						vm.commint2 = response.data.result.communityData.page;
-						vm.totalNum2 = response.data.result.communityData.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.commint2 = response.data.result.communityData.page;
+							vm.totalNum2 = response.data.result.communityData.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
 						console.log(error);
 					})
 			},
-			hub(val) {
+			hub(val) {   //关闭社区按钮事件
 				this.isShow = !this.isShow;
 				//console.log(val);
 				let vm = this
@@ -487,16 +491,8 @@
 				}
 				this.community.id=val.id;
 				this.community.Name=val.Name;
-				//console.log(this.community);
-//				this.communityId = id;
-//				this.communityIsClose = val;
-//				this.communityName = name;
-//				console.log(this.communityId);
-//				console.log(111);
-//				console.log(this.communityIsClose);
-				//console.log(this.communityName);
 			},
-			qsm(){
+			qsm(){     //关闭社区按钮确定
 				this.isShow = false;
 				let vm= this
 				axios.post(hostOpen,
@@ -518,7 +514,7 @@
 			qb() {
 				this.isShow = false;
 			},
-			handleCurrentChange(val) {
+			handleCurrentChange(val) { //分页事件
 				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.befor();
@@ -527,6 +523,50 @@
 				//console.log(`当前页: ${val}`);
 				this.pageNum2 = val;
 				this.befors();
+			},
+			handleCurrentChange3(val){
+				this.pageNum3 = val;
+			},
+			comment(){
+				let vm= this
+				axios.post(hostComment,
+					qs.stringify({
+						pageNum:vm.pageNum
+					})
+				).then((response)=>{
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						vm.tableEvaluates = response.data.entity.page;
+						vm.totalNum3 = response.data.entity.totalNum;
+					}
+				}).catch((error)=>{
+					console.log(error);
+				})
+			},
+			tems(val){
+				console.log(val);
+				let Index =this.communitys[this.communitys.findIndex(item => item.communityName == val)].communityId;
+		 		console.log(Index);
+		 		this.communityId = Index;
+			},
+			seek(){
+				let vm = this
+				axios.post(hostComment,
+					qs.stringify({
+						createtime:this.createtime,
+						commentDate:this.commentDate,
+						userNameLike:this.valu,
+						communityId:this.communityId,
+					})
+				).then((response)=>{
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						vm.tableEvaluates = response.data.entity.page;
+						vm.totalNum3 = response.data.entity.totalNum;
+					}
+				}).catch((error)=>{
+					console.log(error);
+				})
 			}
 		},
 

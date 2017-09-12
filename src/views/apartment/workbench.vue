@@ -74,7 +74,7 @@
             <ul class="apartment-list">
               <li><router-link to="/">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingwork">联合办公签约</router-link></li>
-              <li><router-link to="/signed/workState">办公空间状态</router-link></li>
+              <li><router-link :to="{path:'/signed/workState',query:{id:communityId}}">办公空间状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">办公租金账单</router-link></li>
               <li><router-link to="/">办公订单</router-link></li>

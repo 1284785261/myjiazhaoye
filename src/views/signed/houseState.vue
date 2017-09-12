@@ -29,7 +29,8 @@
 					        			<p>{{its.roomNum}}</p>
 					        			<p v-if="its.cxkjCommunityHousetype != null">{{its.cxkjCommunityHousetype.housetypeName}}</p>
 					        			<p v-else></p>
-					        			<span>1</span>
+					        			<span v-if="its.cxkjContractSign != null && its.cxkjContractSign.RentArrears != null">{{its.cxkjContractSign.RentArrears}}</span>
+					        			<span v-else></span>
 					        			<span v-if="its.cxkjContractSign != null">租期剩余{{its.cxkjContractSign.endDay}}天</span>
 					        			<span v-else></span>
 					        			<p>￥{{its.roomRent}}.00
@@ -113,13 +114,13 @@
     				})
     			)
     			.then((response)=>{
-    				//console.log(response);
+    			console.log(response);
  				this.bigdata= response.data.entity;
     				for(var i=0;i<this.bigdata.length;i++){
     					this.$set(this.bigdata[i],"hais",true);
     				}
-    				console.log("sdafadsa");
-    				console.log(this.bigdata);
+    				//console.log("sdafadsa");
+    				//console.log(this.bigdata);
     			})
     			.catch((error)=>{
     				console.log(error);

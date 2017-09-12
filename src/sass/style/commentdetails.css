@@ -1,0 +1,54 @@
+#commentdetails{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+	
+}
+#commentdetails div{
+	width: 90%;
+	min-height: 120px;
+	margin-left: 5%;
+	overflow: hidden;
+	border-bottom: 1px dashed #DCDCDC;
+	position: relative;
+	color: #000;
+}
+#commentdetails div ul{
+	width: 100%;
+	margin-left: 20px;
+}
+#commentdetails div ul li{
+	float: left;
+	margin-right: 180px;
+}
+#commentdetails div h4{
+	font-size: 16px;
+	color: #038ae3;
+	background:url(../../../static/images/icon/iden.png) no-repeat left top;
+	padding-left: 15px;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+#commentdetails div ul li span{
+	font-size: 12px;
+	line-height: 37px;
+}
+#commentdetails div ul li span .el-rate{
+	position: absolute;
+	top: 74px;
+	left: 0;
+}
+#commentdetails div ul li .des{
+	margin-left: 80px;
+}
+#commentdetails .pingj{
+	border: none;
+}
+#commentdetails div ul li span i{
+	font-style: normal;
+	color: #fd1e0f;
+	font-weight: bold;
+}

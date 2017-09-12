@@ -29,13 +29,6 @@
         			<li><a>7月6日</a></li>
         			<li><i class="el-icon-caret-right"></i></li>
         		</ul>
-        		<ul class="gw">
-        			<li><span>工位1</span></li>
-        			<li><span>工位1</span></li>
-        			<li><span>工位1</span></li>
-        			<li><span>工位1</span></li>
-        			<li><span>工位1</span></li>
-        		</ul>
         		<table>
         			<tr>
         				<td>喜洋洋</td>
@@ -158,58 +151,23 @@
         			<p>办公室</p>
         		</div>
         		<ul class="detals">
-        			<li>
+        			<li v-for="administ in administrationoffice">
         				<div>
-	        				<span>201</span>
-	        				<span>4人间</span>
-	        				<span>￥16800.00/月</span>
+	        				<span>{{administ.officeHouseNum}}</span>
+	        				<span>{{administ.officeWorkNum | officeWorkNum}}</span>
+	        				<span>{{administ.officeRent | officeRent}}</span>
 	        				<p>欠房租三天</p>
-	        				<p>租期:2017.05.15-2017.08.06</p>
+	        				<p v-if="administ.cxkjContractSign != null">租期:{{administ.cxkjContractSign.beginDate | beginDate}}-{{administ.cxkjContractSign.endDate | endDate}}</p>
+	        				<p v-else></p>
         				</div>
-        				<p class="peiz">
-        					叶晓婷    1315646461
-        					<span>深圳市打开了大有限公司</span>
+        				<p class="peiz" v-if="administ.cxkjContractSign != null && administ.officeStatus == 2">
+        					{{administ.cxkjContractSign.user.userName}}    {{administ.cxkjContractSign.user.userPhone}}
+        					<span>{{administ.cxkjContractSign.companyInfo}}</span>
         				</p>
+        				<p class="peiz peiz1" v-else-if="administ.officeStatus == 0">配置中</p>
+        				<p class="peiz peiz2" v-else-if="administ.officeStatus == 1">待出租</p>
         			</li>
-        			<li>
-        				<div>
-	        				<span>201</span>
-	        				<span>4人间</span>
-	        				<span>￥16800.00/月</span>
-	        				<p>欠房租三天</p>
-	        				<p>租期:2017.05.15-2017.08.06</p>
-        				</div>
-        				<p class="peiz">
-        					叶晓婷    1315646461
-        					<span>深圳市打开了大有限公司</span>
-        				</p>
-        			</li>
-        			<li>
-        				<div>
-	        				<span>201</span>
-	        				<span>4人间</span>
-	        				<span>￥16800.00/月</span>
-	        				<p>欠房租三天</p>
-	        				<p>租期:2017.05.15-2017.08.06</p>
-        				</div>
-        				<p class="peiz">
-        					叶晓婷    1315646461
-        					<span>深圳市打开了大有限公司</span>
-        				</p>
-        			</li>
-        			<li>
-        				<div>
-	        				<span>201</span>
-	        				<span>4人间</span>
-	        				<span>￥16800.00/月</span>
-	        				<p>欠房租三天</p>
-	        				<p>租期:2017.05.15-2017.08.06</p>
-        				</div>
-        				<p class="peiz">
-        					叶晓婷    1315646461
-        					<span>深圳市打开了大有限公司</span>
-        				</p>
-        			</li>
+        			
         		</ul>
         	</div>
         </div>
@@ -225,7 +183,9 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import axios from 'axios';
+  import { hostStatus } from '../api.js';
+  import qs from 'qs';
 
 
   export default {
@@ -259,13 +219,48 @@
         modal2: false,
         modal3: false,
         modal_loading: false,
-        vertical: 'count'
+        vertical: 'count',
+        communityId:null,
+        station:null, //工位数据
+        conferenceroom:null,  //会议室数据
+        administrationoffice:null   //办公室数据
       }
     },
+    filters:{
+    	officeWorkNum(val){
+    		if(val != null){
+    			return val+'人间'
+    		}
+    		else{
+    			return false
+    		}
+    	},
+    	officeRent(val){
+    		if(val != null){
+    			return '￥'+val.toFixed(2)+'/月'
+    		}
+    	},
+    	beginDate(val){
+    		var date = new Date(val);
+				var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+    	},
+    	endDate(val){
+    		var date = new Date(val);
+				var Y = date.getFullYear() + '.';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				return Y + M + D;
+    	}
+    },
+    mounted(){
+    	this.communityId = this.$route.query.id;
+    	this.datas();
+    	this.Open(val);
+    },
     methods:{
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
       del () {
         this.modal1 = false;
       },
@@ -274,6 +269,26 @@
       },
       del3 () {
         this.modal3 = false;
+      },
+      datas(){
+      	let vm = this
+      	axios.post(hostStatus,
+      		qs.stringify({
+      			communityId:this.communityId
+      		})
+      	).then((response)=>{
+      		console.log(response);
+      		if(response.status == 200 && response.data.code == 10000){
+      			vm.station = response.data.entity.cxkjCommunityListPlace;
+      			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;
+      			vm.administrationoffice = response.data.entity.cxkjCommunityListOffice;
+      			console.log(vm.station);
+      			console.log(response.data.entity.cxkjCommunityListPlace);
+      		}
+      	})
+      	.catch((error)=>{
+      		console.log(error);
+      	})
       }
     }
   }

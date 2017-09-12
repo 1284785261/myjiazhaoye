@@ -1,8 +1,11 @@
+#right-content{
+	height: 100%!important;
+}
 #houseState{
 	width: 100%;
 	min-height: 1000px;
 	background: #fff;
-	overflow: hidden;
+	overflow:hidden;
 	box-shadow: 0 3px 1px #ccc;
 	position: relative;
 }
