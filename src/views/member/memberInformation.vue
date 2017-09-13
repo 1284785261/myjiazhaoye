@@ -32,19 +32,20 @@
                         <span class="upload-img-text">上传照片</span>
                       </template>
                     </el-upload>
+                    <input type="file" class="upfile"  accept="image/png,image/jpg">
                   </div>
                   <table class="member-information-table">
                     <tr>
-                      <td><span>会员名称 :</span><span style="font-weight: 700">不死鸟</span></td>
-                      <td><span>会员性别 :</span><span>男</span></td>
+                      <td><span>会员名称 :</span><span style="font-weight: 700">{{userData.userName}}</span></td>
+                      <td><span>会员性别 :</span><span v-if="userData.gender == 1">男</span><span v-if="userData.gender == 2">女</span></td>
                     </tr>
                     <tr>
-                      <td><span>会员手机 :</span><span>13801380138</span></td>
-                      <td><span>会员年龄 :</span><span>24岁</span></td>
+                      <td><span>会员手机 :</span><span>{{userData.userPhone}}</span></td>
+                      <td><span>会员年龄 :</span><span>{{userData.userBirthday}}岁</span></td>
                     </tr>
                     <tr>
-                      <td><span>会员邮箱 :</span><span>138013801@163.com</span></td>
-                      <td><span>会员身份证 :</span><span>440881199305143568</span></td>
+                      <td><span>会员邮箱 :</span><span>{{userData.userEMail}}</span></td>
+                      <td><span>会员身份证 :</span><span>{{userData.userIdCard}}</span></td>
                     </tr>
                   </table>
                 </div>
@@ -80,7 +81,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import qs from 'qs';
+  import {eemberInformation,imgPath} from '../api.js';
 
 
   export default {
@@ -92,10 +94,27 @@
     data(){
       return{
         value5: 4.8,
-        imageUrl: ''
+        imageUrl: '',
+        userId:"",
+        userData:{},
+        imgPath:"",
       }
     },
+    mounted(){
+      this.imgPath = imgPath;
+      this.userId = this.$route.query.id;
+      this.getUserInfo({id:this.userId});
+    },
     methods:{
+      getUserInfo(params){
+          var vm  = this;
+        this.$http.post(eemberInformation,qs.stringify(params)).then(function(res){debugger
+          if(res.status == 200 && res.data.code == 10000){
+            vm.userData = res.data.entity;
+          }
+
+        })
+      },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },
@@ -200,6 +219,19 @@
               left: 21px;
 
             }
+          }
+          .upfile{//文件上传input
+            cursor: pointer;
+            direction: rtl;
+            height: 100px;
+            opacity: 0;
+            width: 100px;
+            filter: alpha(opacity=0);
+            position: absolute;
+            top: 169px;
+            left: 91px;
+            background-color: red;
+            z-index: 60;
           }
           .member-information-table{
             float: left;

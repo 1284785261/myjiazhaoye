@@ -190,6 +190,14 @@ export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEdi
 export const IntroduceInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduceInfo200065'
 export const roomInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoomInfo200062'
 
+//会员管理
+export const memberTable =host3+'/cxkj-room/apis/pcManager/communityMember/CxkjCommunityMemberTable200018'//会员管理列表
+export const editBlacklist =host3+'/cxkj-room/apis/pcManager/communityMember/CxkjCommunityEditBlacklist200067'//设置黑名单
+export const eemberInformation =host3+'/cxkj-room/apis/pcManager/communityMember/CxkjCommunityMemberInformation200019'//会员信息
+export const editWhilelist =host3+'/cxkj-room/apis/pcManager/communityMember/CxkjCommunityEditWhitelist200068'//设置为白名单
+
+
+
 //订单管理
 export const allOrder =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjOfficeOrderList300038'
 export const officeDetail =host3+'/cxkj-room/apis/pc/officeOrderMgrCenter/CxkjMeetingOrderDetail300045'
@@ -208,3 +216,5 @@ export const waterEnergyBill =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetW
 export const roomBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillDetail300041';
 export const officeBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetOfficeBillDetail300042';
 export const statisticsInfoOfUser =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetStatisticsInfoOfUser300036';
+export const billPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetWaterEnergyBillPaymentList300035';
+export const saveBillPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWaterEnergy300037';

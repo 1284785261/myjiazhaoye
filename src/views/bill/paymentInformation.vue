@@ -15,8 +15,8 @@
         <div id="pay-information-wrap">
           <div class="pay-information-wrap-head">
             <ul>
-              <li>所属社区 :<span style="color: #038be2;font-weight: 700;">佳兆业航运WEWA空间</span></li>
-              <li>出账日期 :<span>2017-07-01</span></li>
+              <li>所属社区 :<span style="color: #038be2;font-weight: 700;">{{communityPayStatic.communityName}}</span></li>
+              <li>出账日期 :<span>{{createtime | timefilter("yyyy-MM-dd")}}</span></li>
               <li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>
               <li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>
               <li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>
@@ -25,15 +25,15 @@
           <div class="form-search-criteria">
             <div class="form-item pay-btn-group">
               <span>筛选: </span>
-              <Button class="active-btn">全部</Button>
-              <Button>待缴</Button>
-              <Button>已缴</Button>
+              <Button :class="{'active-btn':activeStatus == 0}" @click="filterBill(0)">全部</Button>
+              <Button :class="{'active-btn':activeStatus == 1}" @click="filterBill(1)">待缴</Button>
+              <Button :class="{'active-btn':activeStatus == 2}" @click="filterBill(2)">已缴</Button>
             </div>
             <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
-                <Input v-model="value" placeholder="搜索账单联系人或联系电话"></Input>
-                <input type="button" value="搜索">
+                <Input v-model="searchKey" placeholder="搜索账单联系人或联系电话"></Input>
+                <input type="button" value="搜索" @click="search()">
               </div>
             </div>
             <div class="form-item">
@@ -50,140 +50,35 @@
               <th class="th1">联系电话</th>
               <th class="th1">状态</th>
             </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
+            <tr class="tr1" v-for="(item,index) in billPaymentList">
+              <td class="td1">{{item.roomNum}}</td>
               <td class="td1">
                 <table class="table2">
                   <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
+                    <td class="td2">读数 :<span>{{item.waterData}}</span></td>
+                    <td class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
+                    <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                   </tr>
                   <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
+                    <td class="td2">读数 :<span>{{item.energyData}}</span></td>
+                    <td class="td2">用电量 :<span>{{item.energySize}}度</span></td>
+                    <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                   </tr>
                 </table>
               </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
+              <td class="td1">{{item.serviceCost}}</td>
+              <td class="td1">{{item.totalMoney}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
               <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
-                  </tr>
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
-                  </tr>
-                </table>
+                <span v-if="item.payStatus == 1">待缴</span>
+                <span v-if="item.payStatus == 2" style="color: #ccc;">已缴</span>
+                <span v-if="item.payStatus == 3" style="color: red;">违约</span>
+                <span v-if="item.payStatus == 4" style="color: red;">违约办结</span>
               </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
-                  </tr>
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
-                  </tr>
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
-                  </tr>
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>370</span></td>
-                    <td class="td2">用水量 :<span>37m³</span></td>
-                    <td class="td2">水费 :<span>191.40元</span></td>
-                  </tr>
-                  <tr class="tr2">
-                    <td class="td2">读数 :<span>1020</span></td>
-                    <td class="td2">用电量 :<span>227度</span></td>
-                    <td class="td2">电费 :<span>304.40元</span></td>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1">待缴</td>
             </tr>
           </table>
-          <Page :total="100" show-elevator show-total></Page>
+          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
         </div>
 
       </div>
@@ -196,7 +91,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {statisticsInfoOfUser} from '../api.js';
+  import {statisticsInfoOfUser,billPayment} from '../api.js';
 
 
   export default {
@@ -210,12 +105,22 @@
         activeName2: 'first',
         model1:"",
         value:"",
+        communityId:"",
         communityPayStatic:[],
+
+        billPaymentList:[],
+        billTotalNum:0,
+        billCurrent:1,
+        searchKey:"",
+        activeStatus:0,
+        createtime:0,
+
       }
     },
     mounted(){
-      var id = this.$route.query.communityId;
-      this.getPayStatic({communityId:id})
+      this.communityId = this.$route.query.communityId;
+      this.getPayStatic({communityId:this.communityId});
+      this.getbillPayment({communityId:this.communityId,pageNum:1});
     },
     methods:{
       handleClick(tab, event) {
@@ -230,10 +135,55 @@
             }
           })
       },
-      gotoPayInfo(){
-        this.$router.push({path:"/bill/paymentInformation"});
+      getbillPayment(data){
+        var that = this;
+        this.$http.get(billPayment,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.pageBean;
+              that.billPaymentList = pageBean.page;
+              that.billTotalNum = pageBean.totalNum;
+            }
+            if(res.data.code == 10001){
+              that.billPaymentList = [];
+              that.billTotalNum = 0;
+            }
+          })
+      },
+      search(page){
+          //接口待修改
+        var params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+        if(this.searchKey){
+          params.keyWord = this.searchKey
+        }
+        if(this.activeStatus != 0){
+          params.payStatus = this.activeStatus;
+        }
+        this.getbillPayment(params);
+      },
+      filterBill(payStatus){
+        this.activeStatus = payStatus;
+        var params = {
+          pageNum:1,
+          keyWord : this.searchKey,
+          communityId:this.communityId,
+        }
+        if(this.activeStatus != 0){
+          params.payStatus = this.activeStatus;
+        }
+        this.getbillPayment(params);
       }
-    }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 

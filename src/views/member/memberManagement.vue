@@ -17,149 +17,52 @@
                   <ul>
                     <li>
                       <span>会员名称 :</span>
-                      <input type="text" placeholder="请输入会员名称">
+                      <input type="text" placeholder="请输入会员名称" v-model="memberName">
                     </li>
                     <li>
                       <span>会员手机号 :</span>
-                      <input type="text" placeholder="请输入会员手机号">
+                      <input type="text" placeholder="请输入会员手机号" v-model="memberPhone">
                     </li>
-                    <li>
-                      <span>会员等级 :</span>
-                      <input type="text" placeholder="请输入会员等级">
-                    </li>
+                    <!--<li>-->
+                      <!--<span>会员等级 :</span>-->
+                      <!--<input type="text" placeholder="请输入会员等级" v-model="memberGrade">-->
+                    <!--</li>-->
                   </ul>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 120px;height: 35px;">查询</Button>
+                  <Button style="width: 120px;height: 35px;" @click="pageSearch()">查询</Button>
                 </div>
               </div>
               <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
                 <tr>
-                  <th>选择</th>
                   <th>会员名称</th>
                   <th>会员手机号</th>
-                  <th>会员等级</th>
                   <th>性别</th>
                   <th>创建日期</th>
                   <th>状态</th>
                   <th>备注</th>
                   <th>操作</th>
                 </tr>
-                <tr>
+                <tr v-for="(item,index) in  memberList">
+                  <td>{{item.userName}}</td>
+                  <td>{{item.userPhone}}</td>
                   <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
+                    <span v-if="item.gender==1">男</span>
+                    <span v-else>女</span>
                   </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
+                  <td>{{item.createtime| timefilter("yyyy-MM-dd hh:mm:ss")}}</td>
                   <td>
-                    <a @click="openBlackModal()">设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
+                    <span v-if="item.userBlacklist==1" style="color: red;">黑名单</span>
+                    <span v-else>正常</span>
                   </td>
-                </tr>
-                <tr>
+                  <td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"--"}}</td>
                   <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a> 设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
+                    <a @click="openBlackModal(item.id,index)" v-if="item.userBlacklist!=1">设为黑名单</a>
+                    <router-link :to="{name:'memberInformation',query:{id:item.id}}">详情</router-link>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a> 设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a> 设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
-                  </td>
-                </tr> <tr>
-                <td>
-                  <Checkbox v-model="isChecked"></Checkbox>
-                </td>
-                <td>欧阳宇明</td>
-                <td>13633448899</td>
-                <td>钻石</td>
-                <td>男</td>
-                <td>2017-02-05 10:10:05</td>
-                <td>正常</td>
-                <td>习惯不好，扰邻</td>
-                <td>
-                  <a> 设为黑名单</a>
-                  <router-link to="/member/memberInformation">详情</router-link>
-                </td>
-              </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a> 设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a> 设为黑名单</a>
-                    <router-link to="/member/memberInformation">详情</router-link>
-                  </td>
-                </tr>
-
-
               </table>
-              <Page :total="100" show-elevator></Page>
+              <Page :total="memberTotalNum" :current="memberCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
             </Tab-pane>
 
             <Tab-pane label="黑名单管理">
@@ -168,164 +71,59 @@
                   <ul>
                     <li>
                       <span>会员名称 :</span>
-                      <input type="text" placeholder="请输入会员名称">
+                      <input type="text" placeholder="请输入会员名称" v-model="blackMemberName">
                     </li>
                     <li>
                       <span>会员手机号 :</span>
-                      <input type="text" placeholder="请输入会员手机号">
+                      <input type="text" placeholder="请输入会员手机号" v-model="blackMemberPhone">
                     </li>
-                    <li>
-                      <span>会员等级 :</span>
-                      <input type="text" placeholder="请输入会员等级">
-                    </li>
+                    <!--<li>-->
+                      <!--<span>会员等级 :</span>-->
+                      <!--<input type="text" placeholder="请输入会员等级">-->
+                    <!--</li>-->
                   </ul>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 120px;height: 35px;">查询</Button>
+                  <Button style="width: 120px;height: 35px;" @click="blackPageSearch()">查询</Button>
                 </div>
               </div>
               <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
                 <tr>
-                  <th>选择</th>
+                  <th style="width:80px;">选择</th>
                   <th>会员名称</th>
                   <th>会员手机号</th>
-                  <th>会员等级</th>
                   <th>性别</th>
                   <th>创建日期</th>
                   <th>状态</th>
                   <th>黑名单原因</th>
                   <th>操作</th>
                 </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
+                <tr v-for="(item,index) in  blackMemberList">
+                  <td style="width:80px;">
+                    <div @click="checkAllSelect(index,item.isChecked)"><Checkbox label="item.isChecked" v-model="item.isChecked"></Checkbox></div>
                   </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
+                  <td>{{item.userName}}</td>
+                  <td>{{item.userPhone}}</td>
                   <td>
-                    <a @click="openWhileModal()">设为白名单</a>
-                    <a>详情</a>
+                    <span v-if="item.gender==1">男</span>
+                    <span v-else>女</span>
                   </td>
-                </tr>
-                <tr>
+                  <td>{{item.createtime| timefilter("yyyy-MM-dd hh:mm:ss")}}</td>
                   <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
+                    <span v-if="item.userBlacklist==1" style="color: red;">黑名单</span>
+                    <span v-else>正常</span>
                   </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
+                  <td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"--"}}</td>
                   <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <Checkbox v-model="isChecked"></Checkbox>
-                  </td>
-                  <td>欧阳宇明</td>
-                  <td>13633448899</td>
-                  <td>钻石</td>
-                  <td>男</td>
-                  <td>2017-02-05 10:10:05</td>
-                  <td>正常</td>
-                  <td>习惯不好，扰邻</td>
-                  <td>
-                    <a>设为白名单</a>
-                    <a>详情</a>
+                    <a @click="openWhileModal(item.cxkjCenterBlacklist.blacklistId,index)">设为白名单</a>
                   </td>
                 </tr>
               </table>
-              <Page :total="100" show-elevator></Page>
+              <div class="all-select-wrap">
+                <div @click="selectAll" style="display: inline-block"><Checkbox label="全选" v-model="checkAllStatus">全选</Checkbox></div>
+                <Button style="width: 120px;height: 30px;" :disabled="checkBtnStatus"  @click="setAllWhile()">批量设为白名单</Button>
+              </div>
+              <Page :total="blackMemberTotalNum"  :current="blackMemberCurrent"  :page-size="10" show-elevator show-total @on-change="blackPageSearch"></Page>
             </Tab-pane>
           </Tabs>
         </div>
@@ -333,11 +131,15 @@
       <footer-box></footer-box>
     </div>
     <div class="black-member-modal" v-if="blackModal" @click="closeBlackModal()"></div>
-    <div class="black-member-modal-content" v-if="blackModal">
+    <div id="black-member"  class="black-member-modal-content" v-if="blackModal">
       <div class="modal-img-wrap">
         <img src="../../../static/images/icon/black-member-1.png">
       </div>
       <p>确定蒋该用户设置为<span>黑名单</span>吗?</p>
+      <div class="modal-reason-wrap">
+        <span>备注 :</span>
+        <textarea name="remarks" style="width:160px;height: 70px;resize: none;" placeholder="请输入原因" v-model="remarks"></textarea>
+      </div>
       <div class="modal-btn">
         <Button type="primary" @click="setBliakMember()">确定</Button>
       </div>
@@ -369,7 +171,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {hostAuthor,hostCommint} from '../api.js';
+  import {memberTable,editBlacklist,eemberInformation,editWhilelist} from '../api.js';
+  import qs from 'qs';
 
   export default {
     components:{
@@ -380,97 +183,208 @@
     data () {
       return {
         isChecked:true,
-        communitys: [
-          {
-            value: 'beijing',
-            label: '北京市'
-          },
-          {
-            value: 'shanghai',
-            label: '上海市'
-          },
-          {
-            value: 'shenzhen',
-            label: '深圳市'
-          },
-          {
-            value: 'hangzhou',
-            label: '杭州市'
-          },
-          {
-            value: 'nanjing',
-            label: '南京市'
-          },
-          {
-            value: 'chongqing',
-            label: '重庆市'
-          }
-        ],
-        model1: '',
-        isShow:false,
         blackModal:false,
         whileModal:false,
-        tableEvaluates:[{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-        },{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-        },{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-        },{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-        },{
-          date:"2017-06-27  12:00",
-          community:"佳兆业航运WEWA空间",
-          user:"叶晓琳",
-          order:"公寓租金账单  7月",
-          evaluate:"离地铁口近，交通方便，管理员认真负责，周围配套设施齐全",
-          operation:"查看详情"
-        }]
+
+        memberName:"",
+        memberPhone:"",
+        memberList:[],
+        memberTotalNum:0,
+        memberCurrent:1,
+        memberId:null,
+        remarks:"",
+
+        blackMemberList:[],
+        blackMemberTotalNum:0,
+        blackMemberName:"",
+        blackMemberPhone:"",
+        checkAllStatus:false,
+        blackMemberCurrent:1,
 
       }
     },
+    mounted(){
+      this.init();
+    },
     methods: {
+      init(){
+          this.blackMemberCurrent = 1,
+          this.getmemberTable({pageNum:1});
+          this.getBlackMemberTable({pageNum:1,userBlacklist:1});
+        },
+      //会员列表
+      getmemberTable(params){
+        var that = this;
+        this.$http.post(memberTable,qs.stringify(params))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.entity;
+              that.memberList = pageBean.page;
+              that.memberTotalNum = pageBean.totalNum;
+            }
+            if(res.data.code == 10004){
+              that.memberList = [];
+              that.memberTotalNum = 0;
+            }
+        })
+      },
+      //会员搜索
+      pageSearch(page){
+        var params = {
+          pageNum:page || 1,
+        }
+        if(this.memberName){
+          params.userNameLike = this.memberName;
+        }
+        if(this.memberPhone){
+          params.userPhoneLike = this.memberPhone;
+        }
+        this.getmemberTable(params);debugger
+      },
+      //黑名单列表
+      getBlackMemberTable(params){
+        var that = this;
+        this.$http.post(memberTable,qs.stringify(params))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.entity;
+              that.blackMemberList = pageBean.page;
+              that.blackMemberTotalNum = pageBean.totalNum;
+              for(var i =0;i<that.blackMemberList.length;i++){
+                that.$set(that.blackMemberList[i],"isChecked",false);
+              }
+            }
+            if(res.data.code == 10004){
+              that.blackMemberList = [];
+              that.blackMemberTotalNum = 0;
+            }
+          })
+      },
+      //黑名单搜索
+      blackPageSearch(page){
+        var params = {
+          pageNum:page || 1,
+          userBlacklist : 1
+        }
+        if(this.blackMemberName){
+          params.userNameLike = this.blackMemberName;
+        }
+        if(this.blackMemberPhone){
+          params.userPhoneLike = this.blackMemberPhone;
+        }
+        this.getBlackMemberTable(params);
+      },
+
       closeBlackModal(){
         this.blackModal = false;
       },
-      openBlackModal(){
+      openBlackModal(id){
         this.blackModal = true;
+        this.memberId = id;
       },
+      //设置为黑名单
       setBliakMember(){
+          var vm = this;
         this.blackModal = false;
+        var params = {
+          userId:this.memberId,
+          note:this.remarks
+        };
+        this.remarks = "";
+        this.$http.post(editBlacklist,qs.stringify(params))
+          .then(function(res){
+            vm.init()
+          })
       },
       closeWhileModal(){
         this.whileModal = false;
       },
-      openWhileModal(){
+
+      openWhileModal(blacklistId,index){
+        console.log(this.checkAll)
+        debugger
         this.whileModal = true;
+        this.blacklistId = blacklistId;
       },
+      //设置为白名单
       setWhileMember(){
+        var vm = this;
         this.whileModal = false;
+        var params = [{
+          blacklistId:this.blacklistId,
+        }]
+        this.$http.post(editWhilelist,{cxkjCenterBlacklist:params})
+          .then(function(res){
+            vm.init()
+          })
+      },
+      //批量设置白名单
+      setAllWhile(){
+        var vm = this;
+        var params = []
+        for(var i = 0;i<this.blackMemberList.length;i++){
+          params.push({blacklistId:this.blackMemberList[i].cxkjCenterBlacklist.blacklistId})
+        }
+        this.$http.post(editWhilelist,{cxkjCenterBlacklist:params})
+          .then(function(res){
+            vm.checkAllStatus = false;
+            vm.init()
+          })
+      },
+      //单选事件
+      selectAll(){
+        if(!this.checkAllStatus){
+          for(var i = 0;i<this.blackMemberList.length;i++){
+            this.$set(this.blackMemberList[i],"isChecked",true);
+          }
+        }else{
+          for(var i = 0;i<this.blackMemberList.length;i++){
+            this.$set(this.blackMemberList[i],"isChecked",false);
+          }
+        }
+        this.checkAllStatus = !this.checkAllStatus;
+      },
+      //全选事件
+      checkAllSelect(index,isChecked){
+        this.blackMemberList[index].isChecked = !isChecked;
+        var flag = true;
+        for(var i = 0;i<this.blackMemberList.length;i++){
+          if(!this.blackMemberList[i].isChecked){
+            flag = false;
+            break;
+          }
+        }
+        if(this.blackMemberList.length){
+          this.checkAllStatus = flag;
+        }else{
+          this.checkAllStatus = false;
+        }
+        console.log(flag)
       }
     },
-
-
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
+    computed:{
+      checkBtnStatus:function(){
+        var flag = true;//假设一个没选
+        for(var i = 0;i<this.blackMemberList.length;i++){
+          if(this.blackMemberList[i].isChecked){
+            flag = false;
+            break;
+          }
+        }
+        if(this.blackMemberList.length > 0){
+          return flag;
+        }else{
+          return true;
+        }
+      }
+    }
   }
 </script>
 
@@ -712,6 +626,24 @@
         top: -8px;
       }
     }
+  }
+  #black-member{
+    height: 270px;
+    .modal-reason-wrap{
+      margin-top: 20px;
+      text-align: center;
+      height: 70px;
+      span{
+        position: relative;
+        top: -50px;
+        font-weight: 700;
+        color: black;
+      }
+    }
+  }
+  .all-select-wrap{
+    margin-left: 28px;
+    margin-top: 10px;
   }
 
 </style>

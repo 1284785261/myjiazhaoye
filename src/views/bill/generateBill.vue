@@ -16,16 +16,16 @@
           <div class="form-search-criteria">
             <div class="form-item">
               <b>社区：</b>
-              <Select v-model="model1" style="width:200px">
-                <Option v-for="community in  communitys" :value="community.value" :key="community.value">{{ community.label }}</Option>
+              <Select v-model="billCommunity" style="width:200px">
+                <Option v-for="community in  billSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
               </Select>
             </div>
             <div class="form-item">
-              当前公寓共合计 : <span style="font-weight: 700;color: black;">56户</span>
+              当前公寓共合计 : <span style="font-weight: 700;color: black;">{{communityPayStatic.totalCount}}户</span>
             </div>
             <div class="form-item right-btn-group">
               <Button style="width: 100px;height: 30px;">抄表</Button>
-              <Button style="width: 180px;height: 30px;margin-left: 30px;">请保存正在编辑的账单</Button>
+              <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else>生成账单并发送给租客</span></Button>
             </div>
           </div>
           <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
@@ -38,265 +38,46 @@
               <th class="th1">联系电话</th>
               <th class="th1">操作</th>
             </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
+            <tr class="tr1" v-for="(item,index) in billPaymentList">
+              <td class="td1">{{item.roomNum}}</td>
               <td class="td1">
                 <table class="table2">
                   <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
+                    <template v-if="!item.isEdit">
+                      <td class="td2">读数 :<span>{{item.waterData}}</span></td>
+                      <td class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
+                      <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
+                      <td class="td2">读数 :<input type="text" v-model="item.waterData"/></td>
+                      <td class="td2">用水量 :<input type="text" v-model="item.waterSize"/>m³</td>
+                      <td class="td2">水费 :<input type="text" v-model="item.waterCost"/>元</td>
                     </template>
                   </tr>
                   <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
+                    <template v-if="!item.isEdit">
+                      <td class="td2">读数 :<span>{{item.energyData}}</span></td>
+                      <td class="td2">用电量 :<span>{{item.energySize}}度</span></td>
+                      <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
+                      <td class="td2">读数 :<input type="text" v-model="item.energyData"></td>
+                      <td class="td2">用电量 :<input type="text"  v-model="item.energySize"/>度</td>
+                      <td class="td2">电费 :<input type="text"  v-model="item.energyCost"/>元</td>
                     </template>
                   </tr>
                 </table>
               </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
-            </tr>
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
+              <td class="td1"  v-if="!item.isEdit">{{item.serviceCost}}</td>
+              <td class="td1" v-else><input type="text" style="height: 30px;width:70px;" v-model="item.serviceCost"></td>
+              <td class="td1">{{item.totalMoney}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
+              <td class="td1"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
 
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
-            </tr>
-
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
-            </tr>
-
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
-            </tr>
-
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a @click="editBill()">修改账单</a></td>
-            </tr>
-
-            <tr class="tr1">
-              <td class="td1">201</td>
-              <td class="td1">
-                <table class="table2">
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>370</span></td>
-                      <td class="td2">用水量 :<span>37m³</span></td>
-                      <td class="td2">水费 :<span>191.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text" value="370"/></td>
-                      <td class="td2">用水量 :<input type="text" value="37"/>m³</td>
-                      <td class="td2">水费 :<input type="text" value="191.40"/>元</td>
-                    </template>
-                  </tr>
-                  <tr class="tr2">
-                    <template v-if="true">
-                      <td class="td2">读数 :<span>1020</span></td>
-                      <td class="td2">用电量 :<span>227度</span></td>
-                      <td class="td2">电费 :<span>304.40元</span></td>
-                    </template>
-                    <template v-else>
-                      <td class="td2">读数 :<input type="text"value="1020"></td>
-                      <td class="td2">用电量 :<input type="text" value="227"/>度</td>
-                      <td class="td2">电费 :<input type="text" value="304.40"/>元</td>
-                    </template>
-                  </tr>
-                </table>
-              </td>
-              <td class="td1">100.00</td>
-              <td class="td1">591.80</td>
-              <td class="td1">赵明宇</td>
-              <td class="td1">13633448899</td>
-              <td class="td1"><a id="test" name="aaaa" @click="editBill()">修改账单</a></td>
-            </tr>
           </table>
-          <Page :total="100" show-elevator show-total></Page>
+          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
         </div>
 
       </div>
@@ -309,7 +90,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import api from '../api.js';
+  import qs from 'qs';
+  import {allCommunity,billPayment,statisticsInfoOfUser,saveBillPayment} from '../api.js';
 
 
   export default {
@@ -323,43 +105,115 @@
         activeName2: 'first',
         model1:"",
         value:"",
-        communitys: [
-          {
-            value: 'beijing',
-            label: '北京市'
-          },
-          {
-            value: 'shanghai',
-            label: '上海市'
-          },
-          {
-            value: 'shenzhen',
-            label: '深圳市'
-          },
-          {
-            value: 'hangzhou',
-            label: '杭州市'
-          },
-          {
-            value: 'nanjing',
-            label: '南京市'
-          },
-          {
-            value: 'chongqing',
-            label: '重庆市'
-          }
-        ],
+        billSelects:[],//下拉选
+        billCommunity:0,
+        communityPayStatic:[],
+        billPaymentList:[],
+        billTotalNum:0,
+        billCurrent:1,
       }
+    },
+    mounted(){
+      this.getCommunityData();
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      gotoPayInfo(){
-        this.$router.push({path:"/bill/paymentInformation"});
+      getCommunityData(){
+        var that = this;
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.billSelects = res.data.entity;
+            }
+            that.billCommunity = that.billSelects[0].communityId;
+            that.getPayStatic({communityId:that.billSelects[0].communityId});
+            that.getbillPayment({communityId:that.billSelects[0].communityId,pageNum:1});
+          })
       },
-      editBill(){
-        document.getElementById("test").text
+      getPayStatic(data){
+        var that = this;
+        this.$http.get(statisticsInfoOfUser,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.communityPayStatic = res.data.entity;
+            }
+          })
+      },
+      getbillPayment(data){
+        var that = this;
+        this.$http.get(billPayment,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.pageBean;
+              that.billPaymentList = pageBean.page;
+              that.billTotalNum = pageBean.totalNum;
+              for(var i =0;i<that.billPaymentList.length;i++){
+                that.$set(that.billPaymentList[i],"isEdit",false);
+                that.$set(that.billPaymentList[i],"content","修改账单");
+              }
+            }
+            if(res.data.code == 10001){
+              that.billPaymentList = [];
+              that.billTotalNum = 0;
+            }
+          })
+      },
+      pageSearch(page){
+        var params = {
+          communityId : this.billCommunity,
+          pageNum:page || 1
+        }
+        this.getbillPayment(params);
+      },
+      editBill(index,isEdit){
+        if(!isEdit){//由正常改为编辑状态
+          this.$set(this.billPaymentList[index],"isEdit",!isEdit);
+          this.$set(this.billPaymentList[index],"content","保存");
+        }else{//保存修改
+          this.$set(this.billPaymentList[index],"isEdit",!isEdit);
+          this.$set(this.billPaymentList[index],"content","修改账单");
+          var obj = this.billPaymentList[index];
+          var params = {
+            roomId:obj.roomId,
+            waterData:obj.waterData,
+            waterSize:obj.waterSize,
+            energyData:obj.energyData,
+            energySize:obj.energySize,
+            serviceCost:obj.serviceCost
+          };
+          this.saveBillPayment(params);
+        }
+
+      },
+      saveBillPayment(params){
+        var that = this;
+        this.$http.post(saveBillPayment,qs.stringify(params))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+            }
+          })
+      },
+    },
+    computed:{
+      editing:function(){
+        var flag = false;
+        for(var i =0;i<this.billPaymentList.length;i++){
+          if(this.billPaymentList[i].isEdit){
+            flag = true;
+            break;
+          }
+        }
+        return flag;
+      }
+    },
+    watch:{
+      billCommunity:function(newValue,oldValue){
+          var vm = this;
+          setTimeout(function(){
+            vm.getbillPayment({communityId:newValue,pageNum:1});
+          });
       }
     }
   }
