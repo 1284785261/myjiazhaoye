@@ -262,7 +262,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-	import { hostWay,hostRoom } from '../api.js';
+	import { hostWay,hostRoom,hostRooms } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 export default {
@@ -348,7 +348,9 @@ export default {
   mounted(){
 		this.seting();
 		this.seting2();
+		
 		this.communityId = this.$route.query.id;
+		this.befors();
   },
   methods: {
     addRoom(){          //添加会议室套餐类别
@@ -416,7 +418,7 @@ export default {
     			parentId:1
     		})
     	).then((response)=>{
-    		console.log(response);
+    		//console.log(response);
     		for(let i=0;i<vm.tableRepairs.length;i++){
     			vm.tableRepairs[i].option1 = response.data.entity;
     			//console.log(vm.tableRepairs);
@@ -496,7 +498,36 @@ export default {
     		console.log(error);
     	})
     },
-    
+    befors(){
+    	let vm = this
+    	axios.post(hostRooms,
+    		qs.stringify({
+    			communityId:this.communityId,
+    			communityType:0
+    		})
+    	)
+    	.then((response)=>{
+//  		console.log(11111111111);
+//  		console.log(response);
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    	
+    	axios.post(hostRooms,
+    		qs.stringify({
+    			communityId:this.communityId,
+    			communityType:1
+    		})
+    	)
+    	.then((response)=>{
+    		console.log(11111111111);
+    		console.log(response);
+    	})
+    	.catch((error)=>{
+    		console.log(error);
+    	})
+    },
     mus(vul,index){  
     	//公寓付款方式
 					for(let i = 0;i<this.tableRepairs[index].option1.length;i++){
@@ -538,7 +569,7 @@ export default {
     	for(let i = 0;i<this.tableRepairs3[index].option6.length;i++){
     		if(val == this.tableRepairs3[index].option6[i].dataName){
     			this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
-    			console.log(this.tableRepairs3);
+    			//console.log(this.tableRepairs3);
     		}
     	}
     },
@@ -546,7 +577,7 @@ export default {
     	for(let i = 0;i<this.tableConferences[index].option4.length;i++){
     		if(val == this.tableConferences[index].option4[i].dataName){
     			this.tableConferences[index].inputValue = this.tableConferences[index].option4[i].dataId;
-    			console.log(this.tableConferences);
+    			//console.log(this.tableConferences);
     		}
     	}
     },
@@ -554,7 +585,7 @@ export default {
     	for(let i = 0;i<this.tableConferences[index].option8.length;i++){
     		if(val == this.tableConferences[index].option8[i].dataName){
     			this.tableConferences[index].inputValue2 = this.tableConferences[index].option8[i].dataId;
-    			console.log(this.tableConferences);
+    			//console.log(this.tableConferences);
     		}
     	}
     },
@@ -562,7 +593,7 @@ export default {
     	for(let i = 0;i<this.tableRepairs5[index].option7.length;i++){
     		if(val == this.tableRepairs5[index].option7[i].dataName){
     			this.tableRepairs5[index].inputValue = this.tableRepairs5[index].option7[i].dataId;
-    			console.log(this.tableRepairs5);
+    			//console.log(this.tableRepairs5);
     		}
     	}
     },
@@ -700,7 +731,7 @@ export default {
 	    				communityType:1
 	    		})
 	    		.then((response)=>{
-	    			console.log(response);
+	    			//console.log(response);
 	    			if(response.status ==200 && response.data.code == 10000){
 	    				alert('办公设置成功');
 	    			}

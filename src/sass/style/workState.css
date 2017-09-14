@@ -55,6 +55,9 @@
 	z-index: 100;
 	cursor: pointer;
 }
+.workstate1 .el-icon-caret-right:hover{
+	color: #038AE3;
+}
 .workstate1 .el-icon-caret-left{
 	
 	position: absolute;
@@ -62,6 +65,9 @@
 	top: 23px;
 	z-index: 100;
 	cursor: pointer;
+}
+.workstate1 .el-icon-caret-left:hover{
+	color: #038AE3;
 }
 .workstate1 #riqi{
 	height: 60px;
@@ -153,19 +159,51 @@
 	border-top-right-radius: 50px;
 	border-bottom-right-radius: 50px;
 }
-.workstate2 .riqi{
-	width: 1100px;
+.workstate2 #riqi2{
 	height: 60px;
-	margin: 5px 210px;
-	overflow: hidden;
+	position: absolute;
+	transition: all 1s; 
+	left: 0;
 }
-.workstate2 .riqi li{
+.workstate2 #vvvv{
+	height:60px;
+	width: 1000px;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 -webkit-overflow-scrolling: touch;
+	 white-space: nowrap;
+	 position: relative;
+	 margin-left: 210px;
+}
+.workstate2 .el-icon-caret-right{
+	position: absolute;
+	right: 390px;
+	top: 23px;
+	z-index: 100;
+	cursor: pointer;
+}
+.workstate2 .el-icon-caret-right:hover{
+	color: #038AE3;
+}
+.workstate2 .el-icon-caret-left{
+	
+	position: absolute;
+	left: 185px;
+	top: 23px;
+	z-index: 100;
+	cursor: pointer;
+}
+.workstate2 .el-icon-caret-left:hover{
+	color: #038AE3;
+}
+.workstate2 #riqi2 li{
 	height: 60px;
+	display:inline-block;
 	line-height: 60px;
 	float: left;
-	margin: 0px 25px 0 0;
+	margin: 0 5px;
 }
-.workstate2 .riqi li a{
+.workstate2 #riqi2 li a{
 	width: 110px;
 	height: 60px;
 	line-height: 60px;
@@ -174,13 +212,14 @@
 	color: #000;
 	border-bottom: 3px solid #fff;
 }
-.workstate2 .riqi li .tbe{
+.workstate2 #riqi2 li .tbe{
 	color: #038BE2;
 	border-bottom: 3px solid #038be2;
 }
 .workstate2 .datas{
 	width:1100px;
 	margin: 15px 210px;
+	text-align: left;
 }
 .workstate2 .datas li{
 	float: left;
@@ -188,6 +227,7 @@
 	font-size: 12px;
 	color: #666666;
 	font-weight: bold;
+	margin-left: 6px;
 }
 .workstate2 .gw{
 	
@@ -224,9 +264,11 @@
 }
 .workstate2 .huiyi li{
 	width: 1000px;
-	height: 46px;
+	height: 48px;
 	border: 1px solid #ccc;
 	margin: 15px 0;
+	position: relative;
+	overflow: hidden;
 }
 .workstate2 .huiyi li p{
 	float: left;
@@ -235,7 +277,8 @@
 	line-height: 46px;
 	background: #96a5af;
 	color: white;
-	margin-left: 100px;
+	position: absolute;
+	left: 0;
 	text-align: center;
 }
 #workstate .workstate3{

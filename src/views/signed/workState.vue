@@ -23,11 +23,11 @@
         			
 	        		<ul id="riqi">
 	        			
-	        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat == index}" @click="violence(index)">{{date(item-2)}}</a></li>
+	        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat == index}" @click="violence($event,index)">{{date(item-2)}}</a></li>
 	        		</ul>
 	        		
         		</div>
-        		<i class="el-icon-caret-right" @mouseenter="rights($event)"></i>
+        		<i class="el-icon-caret-right" @mousedown="rights($event)"></i>
         		<ul class="gongwei">
         			<li>
         				<span v-for="item in gongweis" :class="{'tms':item.value != ''}">{{item.value}}</span>
@@ -38,24 +38,17 @@
         		<div class="stateId">
         			<p>会议室</p>
         		</div>
-        		<ul class="riqi">
-        			<li><i class="el-icon-caret-left"></i></li>
-        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat2 == index}" @click="bomb(index)">{{date(item-2)}}</a></li>
-        			<li><i class="el-icon-caret-right"></i></li>
-        		</ul>
+        		<i class="el-icon-caret-left" @mousedown="lefts2($event)"></i>
+        		<div id="vvvv">
+	        		<ul id="riqi2">
+	        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat2 == index}" @click="bomb($event,index)">{{date(item-2)}}</a></li>
+	        		</ul>
+        		</div>
+        		<i class="el-icon-caret-right" @mousedown="rights2($event)"></i>
         		<ul class="datas">
-        			<li>09:00</li>
-        			<li>10:00</li>
-        			<li>11:00</li>
-        			<li>12:00</li>
-        			<li>13:00</li>
-        			<li>14:00</li>
-        			<li>15:00</li>
-        			<li>16:00</li>
-        			<li>17:00</li>
-        			<li>18:00</li>
-        			<li>19:00</li>
+        			<li v-for="item in dilemma">{{item}}</li>
         		</ul>
+        		
         		<ul class="gw">
         			<li v-for="item in conferenceroom">
         				<span>{{item.meetingHouseNum}}<i>{{item.meetingPersonNum}}人间</i></span>
@@ -64,25 +57,9 @@
         			
         		</ul>
         		<ul class="huiyi">
-        			<li>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        			</li>
-        			<li>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        			</li>
-        			<li>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        			</li>
-        			<li>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
-        				<p>叶晓婷</p>
+        			<li v-for="item in conferenceroom">
+        				<p v-if="item.cxkjOfficeOrderList.length != 0" v-for="ite in item.cxkjOfficeOrderList" :style="{left:(ite.cxkjOfficeOrderDetails.beginHour-9)*100 +'px',width:(ite.cxkjOfficeOrderDetails.endHour-ite.cxkjOfficeOrderDetails.beginHour)*100+'px'}">{{ite.userName}}</p>
+        				<p v-else></p>
         			</li>
         		</ul>
         	</div>
@@ -125,7 +102,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import axios from 'axios';
-  import { hostStatus } from '../api.js';
+  import { hostStatusPl,hostStatusMe,hostStatusof } from '../api.js';
   import qs from 'qs';
 
 
@@ -139,36 +116,16 @@
       return{
         numberLine:1,
         value:"",
-        rootValue:"",
-        options: [{
-          value: '选项1',
-          label: '1室'
-        }, {
-          value: '选项2',
-          label: '2室'
-        }, {
-          value: '选项3',
-          label: '3室'
-        }, {
-          value: '选项4',
-          label: '4室'
-        }, {
-          value: '选项5',
-          label: '5室'
-        }],
-        modal1: false,
-        modal2: false,
-        modal3: false,
-        modal_loading: false,
-        vertical: 'count',
         communityId:null,
         station:null, //工位数据
         conferenceroom:null,  //会议室数据
         administrationoffice:null,   //办公室数据
-        times:[],
         isAicat:'1',
         isAicat2:'1',
-        gongweis:[]
+        gongweis:[],  //所有工位的数据
+       	dilemma:[],  //日期时刻
+       	days:'',   //工位当前日期
+       	days2:''   //会议室当前日期
       }
     },
     filters:{
@@ -206,47 +163,157 @@
     mounted(){
     	this.communityId = this.$route.query.id;
     	this.datas();
+    	this.datam();
     },
     methods:{
-      del() {
-        this.modal1 = false;
-      },
-      del2() {
-        this.modal2 = false;
-      },
-      del3() {
-        this.modal3 = false;
-      },
-      datas(){
+    	datam(){    //生成日期时间刻
+    		for(var i=9;i<=19;i++){
+    			this.dilemma.push( i + ':00');
+    		}
+    		//console.log(this.dilemma);
+    	},
+      datas(){   //进入页面获取今天的所有数据
       	let vm = this
-      	axios.post(hostStatus,
+      	axios.post(hostStatusPl,
       		qs.stringify({
-      			communityId:this.communityId
+      			communityId:this.communityId          //工位数据
       		})
       	).then((response)=>{
       		//console.log(response);
       		if(response.status == 200 && response.data.code == 10000){
-      			vm.station = response.data.entity.cxkjCommunityListPlace;
-      			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;
-      			vm.administrationoffice = response.data.entity.cxkjCommunityListOffice;
-      			console.log(vm.station);
+    				vm.station = response.data.entity;
+//    			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;
+//    			vm.administrationoffice = response.data.entity.cxkjCommunityListOffice;
+//    			//console.log(vm.conferenceroom);
       			for(let i=0;i<vm.station.placeNum;i++){
       				this.gongweis.push({value:''});
       			}
       			for(let i=0;i<vm.station.cxkjOfficeOrderList.length;i++){
       				this.gongweis[i].value = this.station.cxkjOfficeOrderList[i].userName;
       			}
-//    			console.log(11111111111111);
 //    			console.log(this.gongweis);
-      			//console.log(response.data.entity.cxkjCommunityListPlace);
+      		}
+      	})
+      	.catch((error)=>{
+      		console.log(error);
+      	})
+      	
+      	
+      	axios.post(hostStatusMe,          //会议室数据
+      		qs.stringify({          
+      			communityId:this.communityId
+      		})
+      	).then((response)=>{
+      		//console.log(response);
+      		if(response.status == 200 && response.data.code == 10000){
+      			vm.conferenceroom=response.data.entity;
+      		}
+      	})
+      	.catch((error)=>{
+      		console.log(error);
+      	})
+      	axios.post(hostStatusof,          //办公室数据
+      		qs.stringify({
+      			communityId:this.communityId
+      		})
+      	).then((response)=>{
+      		//console.log(response);
+      		if(response.status == 200 && response.data.code == 10000){
+      			vm.administrationoffice = response.data.entity;
+      		}
+      	})
+      	.catch((error)=>{          
+      		console.log(error);
+      	})
+      },
+      violence(event,index){
+      	let e = event.target          //选择日期刷新工位数据
+      	let vm = this
+      	this.station=null;
+				
+      	this.gongweis = [];
+      	this.isAicat = index;
+      	let dd = new Date()
+      	let year = dd.getFullYear();
+      	let m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+        let d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();
+      	if(index == 1){
+      		e.innerHTML = '今天'
+      	}
+      	if(e.innerHTML == '今天' && index == 1){
+      		this.days = year +'-'+m +'-'+d
+      	}else{
+	      	let tims = year+'年'+e.innerHTML;
+	      	tims = tims.replace(/年|月|日/g,'-');
+	      	tims = tims.substring(0,tims.length - 1);
+	      	this.days = tims;
+      	}
+      	//console.log(this.days);
+      	if(index == 1){
+      		e.innerHTML = '今天'
+      	}
+      	axios.post(hostStatusPl,
+      		qs.stringify({
+      			communityId:this.communityId,
+      			scheduledPlaceDate:this.days
+      		})
+      	)
+      	.then((response)=>{
+      		//console.log(response);  
+      		if(response.status == 200 && response.data.code == 10000){
+      			vm.station = response.data.entity;
+      			for(let i=0;i<vm.station.placeNum;i++){
+      				this.gongweis.push({value:''});
+      			}
+      			for(let i=0;i<vm.station.cxkjOfficeOrderList.length;i++){
+      				this.gongweis[i].value = this.station.cxkjOfficeOrderList[i].userName;
+      			}
+      			//console.log(vm.station);
+//    			console.log(this.gongweis);
       		}
       	})
       	.catch((error)=>{
       		console.log(error);
       	})
       },
-      violence(index){
-      	this.isAicat = index;
+      bomb(event,index){
+      	this.isAicat2 = index;       //选择办公室会议数据展示
+      	let e = event.target          
+      	let vm = this
+      	vm.conferenceroom =null 
+      	let dd = new Date()
+      	let year = dd.getFullYear();
+      	let m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+        let d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();
+      	if(index == 1){
+      		e.innerHTML = '今天'
+      	}
+      	if(e.innerHTML == '今天' && index == 1){
+      		this.days2 = year +'-'+m +'-'+d
+      	}else{
+      	let tims = year+'年'+e.innerHTML;
+      	this.conferenceroom = null;
+				tims = tims.replace(/年|月|日/g,'-');
+      	tims = tims.substring(0,tims.length - 1);
+      	this.days2 = tims;
+      	}
+				//console.log(this.days2)
+      	axios.post(hostStatusMe,
+      		qs.stringify({
+      			communityId:this.communityId,
+      			ScheduledMeetingDate:this.days2
+      		})
+      	)
+      	.then((response)=>{
+      	//console.log(response);  
+      		if(response.status == 200 && response.data.code == 10000){
+      			vm.conferenceroom = response.data.entity;
+      			//console.log(vm.conferenceroom);
+      		}
+      	})
+      	.catch((error)=>{
+      		console.log(error);
+      	})
       },
       date(AddDayCount){//设置时间显示
         let dd = new Date();
@@ -257,31 +324,49 @@
         if(AddDayCount == 0){
           this.day = m+"-"+d
           this.days =y+ '-' +this.day
+          this.days2 = y+ '-' +this.day
           return '今天'
         }
         return  m+"月"+d+'日';
       },
-      bomb(index){
-      	this.isAicat2 = index;
-      },
-      rights(e){
+      rights(e){      //工位向右滑动按钮
 	      	var listu = document.getElementById('riqi');
 	      	var list = listu.getElementsByTagName('li');
-      		var dis  = listu.offsetLeft + 200;
+      		var dis  = listu.offsetLeft + 150;
       		listu.style.left  = dis + 'px';
-      		if(parseInt(listu.style.left)>350){
+      		if(parseInt(listu.style.left)>-20){
       			dis = listu.offsetLeft;
-      			listu.style.left =  dis +'px';
+      			listu.style.left =  0 +'px';
       		}
       },
-      lefts(){
+      lefts(e){       //工位向左滑动按钮
       		var listu = document.getElementById('riqi');
 	      	var list = listu.getElementsByTagName('li');
-      		var dis  = listu.offsetLeft - 200;
+      		var dis  = listu.offsetLeft - 150;
       		listu.style.left  = dis + 'px';
-      		if(parseInt(listu.style.left)<-1600){
+      		if(parseInt(listu.style.left)<=-1160){
       			dis = listu.offsetLeft;
-      			listu.style.left =  dis +'px';
+      			listu.style.left =  -1160 +'px';
+      		}
+      },
+      rights2(e){      //会议室向右滑动按钮
+	      	var listu = document.getElementById('riqi2');
+	      	var list = listu.getElementsByTagName('li');
+      		var dis  = listu.offsetLeft + 150;
+      		listu.style.left  = dis + 'px';
+      		if(parseInt(listu.style.left)>-20){
+      			dis = listu.offsetLeft;
+      			listu.style.left =  0 +'px';
+      		}
+      },
+      lefts2(e){       //会议室向左滑动按钮
+      		var listu = document.getElementById('riqi2');
+	      	var list = listu.getElementsByTagName('li');
+      		var dis  = listu.offsetLeft - 150;
+      		listu.style.left  = dis + 'px';
+      		if(parseInt(listu.style.left)<=-830){
+      			dis = listu.offsetLeft;
+      			listu.style.left =  -830 +'px';
       		}
       }
     }

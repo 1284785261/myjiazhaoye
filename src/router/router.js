@@ -236,7 +236,13 @@ export default new Router({
     	name:'commentdetails',
     	component:resolve =>
     		require(['../views/apartment/commentdetails.vue'],resolve)
-    }
+    },{
+    	path:'/signed/housesubscribe',		//工作台-看房预约
+    	name:'housesubscribe',
+    	component:resolve =>
+    		require(['../views/signed/housesubscribe.vue'],resolve)
+    },
+
 
   ]
 })

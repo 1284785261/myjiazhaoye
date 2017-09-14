@@ -72,8 +72,20 @@ background-color: #fff;
       border:none;
       position: relative;
       left: -5px;
-      top: 2px;
+      top: 1px;
       cursor: pointer;
+    }
+    .exports{
+        width: 70px;
+        height: 38px;
+        display: inline-block;
+        border: 1px solid #DCDCDC;
+        border-radius: 5px;
+        background: #f8f8f8;
+        color: #666666;
+        line-height: 36px;
+        text-align: center;
+        margin-left: 20px;
     }
   }
 }
@@ -100,11 +112,6 @@ background-color: #fff;
   border-radius: 0;
 }
 
-.ivu-date-picker-editor{
-  input{
-    width: 140px;
-  }
-}
 .ivu-icon-ios-calendar-outline{
  color:#038be2;
   font-family: "iconfont" !important;

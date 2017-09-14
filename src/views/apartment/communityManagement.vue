@@ -194,7 +194,7 @@
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="valu" placeholder="搜索用户"></Input>
 										<input type="button" value="搜索" @click="seek">
-										<Button class="ivu-btn-export">导出</Button>
+										<a class="exports" :href="'http://192.168.26.191:8080/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='+communityId">导出</a>
 									</div>
 								</div>
 							</div>

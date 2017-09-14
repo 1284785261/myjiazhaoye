@@ -34,6 +34,9 @@ const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 //社区基本信息
 const Title='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityInfo200011'
 
+//社区编辑获取信息
+const Rooms = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduceInfo200065'
+
 //社区编辑设置信息
 const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
 
@@ -111,8 +114,15 @@ const Payment2 = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPayment20
 //工作台 - 收款详情
 const Details = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityGatheringDetails200037'
 
-//工作台-办公场地状态
-const Status ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatus200034'
+//工作台-办公场地状态 -会议室
+const StatusMe = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatusMetting200076'
+
+//工作台-办公场地状态 -办公室
+const Statusof = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatusOffice200077'
+
+//工作台-办公场地状态 -工位
+const StatusPl = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatusPlace200034'
+
 //地区选择省/市/区
 const Parent ='/cxkj-room/apis/cxkjsystemarea/parent-area';
 
@@ -160,10 +170,13 @@ export const hostWorkbench = host3 + Workbench;
 export const hostPayment = host3 +Payment;
 export const hostPayment2 = host3 + Payment2;
 export const hostDetails = host3 + Details;
-export const hostStatus = host3 + Status;
 export const hostComment = host3 + Comment;
 export const hostCommentInfo = host3 + CommentInfo;
 export const hostdaocu = host3 + daocu;
+export const hostStatusMe = host3 +StatusMe;
+export const hostStatusof = host3 +Statusof;
+export const hostStatusPl = host3 +StatusPl;
+export const hostRooms = host3 + Rooms;
 //export default {
 //hosts:function(){
 //		return{

@@ -31,7 +31,7 @@
           <div class="modular-box">
             <h3><i class="icon icon-info"></i>公寓管理</h3>
             <ul class="apartment-list">
-              <li><router-link to="/">看房预约</router-link></li>
+              <li><router-link to="/signed/housesubscribe">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingHouse">公寓签约</router-link></li>
               <li><router-link :to="{path:'/signed/houseState',query:{communityId:communityId}}">公寓状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
@@ -72,7 +72,7 @@
           <div class="modular-box" style="height: 447px;">
             <h3><i class="icon icon-info"></i>联合办公管理</h3>
             <ul class="apartment-list">
-              <li><router-link to="/">看房预约</router-link></li>
+              <li><router-link to="/signed/housesubscribe">看房预约</router-link></li>
               <li><router-link to="/signed/lodgingwork">联合办公签约</router-link></li>
               <li><router-link :to="{path:'/signed/workState',query:{id:communityId}}">办公空间状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
