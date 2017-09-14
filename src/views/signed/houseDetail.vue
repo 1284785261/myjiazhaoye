@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
+		          <router-link  class="active" to="/signed/houseState">公寓状态</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
@@ -304,28 +304,42 @@
     			)
     			.then((response) => {
     				console.log(response);
-    				this.Datas = response.data.entity;
+    				if(response.status == 200 && response.data.code == 10000){
+    					this.Datas = response.data.entity;
+    				}
     			})
     			.catch((error) => {
     				console.log(error);
     			})
     		},
     		bus(){
-    			this.isHide = !this.isHide;
-    			axios.post(hostPrice,
+    			if(this.money ==null ||this.texs == null){
+    				alert('输出信息不完整');
+    			}
+    			else{
+    				axios.post(hostPrice,
     				qs.stringify({
     					communityId:this.communityId,
     					roomId:this.roomid,
     					newPrice:this.money,
     					reason:this.texs
     				})
-    			).then((response) =>{
-    				console.log(response);
-    				alert('调价成功');
-    			})
-    			.catch((error)=>{
-    				console.log(error);
-    			})
+	    			).then((response) =>{
+	    				console.log(response);
+	    				if(response.status == 200 && response.data.code == 10000){
+	    					alert('调价成功');
+	    					this.isHide = !this.isHide;
+	    				}
+	    				else{
+	    					alert('调价失败');
+	    				}
+	    				
+	    			})
+	    			.catch((error)=>{
+	    				console.log(error);
+	    			})
+    			}
+    			
     		}
     	
     	},

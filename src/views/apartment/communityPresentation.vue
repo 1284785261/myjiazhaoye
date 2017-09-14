@@ -234,6 +234,7 @@
 				for(let i in vm.filelist1) {
 					vm.param.append('communityFlatFiles', vm.filelist1[i]);
 				}
+				console.log(vm.filelist1);
 			}
 			if(vm.filelist2.length){
 				for(let i in vm.filelist2) {
@@ -247,16 +248,18 @@
 			}
 				this.param.append("communityId",vm.communityId);
 				this.param.append("communityInfo",vm.content);
-//				this.param.append("communityFlatFiles",vm.filelist1);
 				this.param.append("communityFlatHide",vm.uploadList);
-//				this.param.append("communityFaceFiles",vm.filelist2);
 				this.param.append("communityFaceHide",vm.uploadList2);
-//				this.param.append("communityWorkFiles",vm.filelist3);
 				this.param.append("communityWorkHide",vm.uploadList2);
+				
 				this.$http.post( hostPresent, vm.param).then((response) =>{
-					console.log("response");
 					console.log(response);
-					console.log("response");
+					if(response.status == 200 && response.data.code == 10000){
+						alert('操作成功');
+					}
+					else{
+						alert('操作失败，请检查信息完整');
+					}
 				})
 				.catch((error) =>{
 					console.log(error);
@@ -368,20 +371,23 @@
 				}))
 				.then((response)=>{
 					console.log(response);
-					vm.community = response.data.result.community;
-					const arr = vm.community.communityFace.split(",");
-					const arr2 = vm.community.communityWork.split(",");
-					const arr3 = vm.community.communityFlat.split(",");
-					//console.log(arr);
-					arr.forEach(function(item){
-						vm.uploadList.push(imgPath+item);
-					})
-					arr2.forEach(function(item,index){
-						vm.uploadList2.push(imgPath+item);
-					})
-					arr2.forEach(function(item,index){
-						vm.uploadList3.push(imgPath+item);
-					})
+					if(response.status == 200 && response.data.code == 10000){
+						vm.community = response.data.result.community;
+						const arr = vm.community.communityFace.split(",");
+						const arr2 = vm.community.communityWork.split(",");
+						const arr3 = vm.community.communityFlat.split(",");
+						//console.log(arr);
+						arr.forEach(function(item){
+							vm.uploadList.push(imgPath + item);
+						})
+						arr2.forEach(function(item,index){
+							vm.uploadList2.push(imgPath + item);
+						})
+						arr2.forEach(function(item,index){
+							vm.uploadList3.push(imgPath + item);
+						})
+					}
+					
 				})
 				.catch((error)=>{
 					console.log(error);

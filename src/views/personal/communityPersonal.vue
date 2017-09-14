@@ -91,17 +91,17 @@
     		this.$http.get(hostAuthor)
     		.then((response)=>{
     			console.log(response);
-    			vm.user = response.data.entity;
-    			sessionStorage.setItem("phone",this.user.userPhone);
-    			if(response.data.entity.headPic != null){
-    				vm.imgPath1 = imgPath + response.data.entity.headPic;
-    				vm.chen=false;
+    			if(response.status == 200 && response.data.code == 10000){
+	    			vm.user = response.data.entity;
+	    			sessionStorage.setItem("phone",this.user.userPhone);
+	    			if(response.data.entity.headPic != null){
+	    				vm.imgPath1 = imgPath + response.data.entity.headPic;
+	    				vm.chen=false;
+	    			}
+	    			else{
+	    				vm.chen=true;
+	    			}
     			}
-    			else{
-    				vm.chen=true;
-    			}
-    			
-    			
     		})
     		.catch((error)=>{
     			console.log(error);
@@ -121,7 +121,12 @@
     			this.param.append('id',this.user.id);
     			this.$http.post(hostportrait,this.param).then(res => {
     				console.log(res);
-    				
+    				if(res.status == 200 && res.data.code == 10000){
+    					alert('上传头像成功');
+    				}
+    				else{
+    					alert('上传头像失败');
+    				}
     			})
     			.catch(error => {
     				console.log(error);

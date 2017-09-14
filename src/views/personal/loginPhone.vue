@@ -100,7 +100,7 @@
     			)
     			.then((response)=>{
     				console.log(response);
-    				if(response.data.code == 10000){
+    				if(response.data.code == 10000 && response.status == 200){
     					vm.ins = true;
     					let times = setInterval(function(){
 		    				vm.time--;
@@ -136,7 +136,7 @@
     			)
     			.then((response)=>{
     				console.log(response);
-    				if(response.data.code == 10000){
+    				if(response.data.code == 10000 && response.status == 200){
     					vm.ins = true;
     					let times = setInterval(function(){
 		    				vm.time--;

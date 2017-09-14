@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">发起收款记录</router-link>
+		          <router-link  class="active" to="/apartment/workbench">发起收款记录</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>发起收款记录</h3>

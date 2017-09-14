@@ -415,6 +415,7 @@
 					).then((response) => {
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
+							alert('搜索成功');
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
@@ -464,6 +465,7 @@
 					).then((response) => {
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
+							alert('搜索成功');
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
@@ -479,15 +481,15 @@
 				let vm = this
 				if(val.Close == 0){
 					vm.community.Close = 1;
-					console.log('关闭')
-					console.log(vm.community.Close)
-					console.log('关闭')
+//					console.log('关闭')
+//					console.log(vm.community.Close)
+//					console.log('关闭')
 				}
 				else if(val.Close == 1){
 					vm.community.Close = 0;
-					console.log('开放')
-					console.log(vm.community.Close)
-					console.log('开放')
+//					console.log('开放')
+//					console.log(vm.community.Close)
+//					console.log('开放')
 				}
 				this.community.id=val.id;
 				this.community.Name=val.Name;
@@ -502,10 +504,16 @@
 						})
 				)
 				.then((response)=>{
-					//console.log(response)
-					vm.befor();
-					vm.befors();
-					alert('操作成功');
+					console.log(response)
+					if(response.status == 200 && response.data.code == 10000){
+						vm.befor();
+						vm.befors();
+						alert('操作成功');
+					}
+					else{
+						alert('操作失败');
+					}
+					
 				})
 				.catch((error)=>{
 					alert('操作失败');
@@ -561,6 +569,7 @@
 				).then((response)=>{
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
+						alert('搜索成功');
 						vm.tableEvaluates = response.data.entity.page;
 						vm.totalNum3 = response.data.entity.totalNum;
 					}

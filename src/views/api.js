@@ -38,16 +38,16 @@ const Title='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityInfo200011'
 const Room ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduce200004'
 
 //通知消息列表
-const Bean = '/apis/pc/message/CxkjAnnouncementMessage300017'
+const Bean = '/cxkj-room/apis/pc/message/CxkjAnnouncementMessage300017'
 
 //系统通知消息列表
 const Beans = '/cxkj-room/apis/pc/message/CxkjSystemMessage300018'
 
 //获取系统消息发布范围
-const Range = '/apis/pc/message/CxkjGetPublishRange300046'
+const Range = '/cxkj-room/apis/pc/message/CxkjGetPublishRange300046'
 
 //发布系统消息
-const Range2 = '/apis/pc/message/CxkjPublishSystemMessage300019'
+const Range2 = '/cxkj-room/apis/pc/message/CxkjPublishSystemMessage300019'
 
 //广告页面管理数据
 const Advert = '/cxkj-room/apis/pc/ad/CxkjAdIndexPage300008'
@@ -122,6 +122,8 @@ const Comment = '/cxkj-room/apis/comment/CxkjCommunityCommentTable200069'
 //社区评论详情
 const CommentInfo = '/cxkj-room/apis/comment/CxkjCommunityCommentInfo200058'
 
+//导出
+const daocu = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHouseholdDownload200070'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -133,10 +135,10 @@ export const hostWay = host3 + Way;
 export const hostRoom = host3 +Room;
 export const imgPath = 'http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test';    //图片路径前缀
 export const hostTitle = host3 + Title;
-export const hostBean = host1 + Bean;
+export const hostBean = host3 + Bean;
 export const hostBeans = host3 + Beans;
-export const hostAdvert = host1 + Advert;
-export const hostAddadvert = host1 +Addadvert;
+export const hostAdvert = host3 + Advert;
+export const hostAddadvert = host3 +Addadvert;
 export const hostportrait = host3+portrait;
 export const hostamend =host3 + amend;
 export const hostAlter = host3 + Alter;
@@ -145,8 +147,8 @@ export const hostPassword = host3 + Password;
 export const hostAuthcode = host3 + Authcode;
 export const hostPhone = host3 + Phone;
 export const hostOldphone =host3 + Oldphone;
-export const hostRange = host1 + Range;
-export const hostRange2 = host1 + Range2;
+export const hostRange = host3 + Range;
+export const hostRange2 = host3 + Range2;
 export const hostState = host3 +State;
 export const hostHousehold = host3 +Household;
 export const hostTable = host3 + Table;
@@ -161,6 +163,7 @@ export const hostDetails = host3 + Details;
 export const hostStatus = host3 + Status;
 export const hostComment = host3 + Comment;
 export const hostCommentInfo = host3 + CommentInfo;
+export const hostdaocu = host3 + daocu;
 //export default {
 //hosts:function(){
 //		return{

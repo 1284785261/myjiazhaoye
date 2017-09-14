@@ -630,7 +630,10 @@ export default {
     		this.energyChargeType = 2;
     		vm.energyPrice = vm.input2;
     	}
-    	axios.post(hostRoom,
+    	if(vm.communityId == null || vm.cxkjCommunityListPayway == [] || vm.cxkjCommunityListMaintain == [] || vm.cxkjCommunityListConfig == [] || vm.serviceCost ==null || vm.waterEnergyPayDate == null || vm.waterChargeType == null || vm.waterPrice==null || vm.energyChargeType == null || vm.energyPrice == null){
+    		alert('信息填入不完整，都不能为空');
+    	}else{
+    		axios.post(hostRoom,
     		{
     				communityId:vm.communityId,
     				cxkjCommunityListPayway:vm.cxkjCommunityListPayway,
@@ -649,10 +652,15 @@ export default {
     			if(response.status ==200 && response.data.code == 10000){
     				alert('公寓设置成功');
     			}
+    			else{
+    				alert('公寓设置失败,请检查是否有效信息');
+    			}
     		})
     		.catch((error)=>{
     			console.log(error);
     		})
+    	}
+    	
     	
     },
     refer(){
@@ -678,25 +686,32 @@ export default {
     			console.log(vm.cxkjCommunityListMaintain);
     		}
     	}
-    	axios.post(hostRoom,
-    		{
-    				communityId:vm.communityId,
-    				cxkjCommunityListPayway:vm.cxkjCommunityListPayway,
-    				cxkjCommunityListMaintain:vm.cxkjCommunityListMaintain,
-    				cxkjCommunityListConfig:vm.cxkjCommunityListConfig,
-    				cxkjCommunityListMeetingSuit:vm.cxkjCommunityListMeetingSuit,
-    				serviceCost:vm.serviceCost,
-    				communityType:1
-    		})
-    		.then((response)=>{
-    			console.log(response);
-    			if(response.status ==200 && response.data.code == 10000){
-    				alert('办公设置成功');
-    			}
-    		})
-    		.catch((error)=>{
-    			console.log(error);
-    		})
+    	if(vm.communityId == null || vm.cxkjCommunityListPayway == [] || vm.cxkjCommunityListMaintain == [] || vm.cxkjCommunityListConfig == [] || vm.serviceCost ==null || vm.cxkjCommunityListMeetingSuit == []){
+    		alert('信息填入不完整，不能为空');
+    	}else{
+	    	axios.post(hostRoom,
+	    		{
+	    				communityId:vm.communityId,
+	    				cxkjCommunityListPayway:vm.cxkjCommunityListPayway,
+	    				cxkjCommunityListMaintain:vm.cxkjCommunityListMaintain,
+	    				cxkjCommunityListConfig:vm.cxkjCommunityListConfig,
+	    				cxkjCommunityListMeetingSuit:vm.cxkjCommunityListMeetingSuit,
+	    				serviceCost:vm.serviceCost,
+	    				communityType:1
+	    		})
+	    		.then((response)=>{
+	    			console.log(response);
+	    			if(response.status ==200 && response.data.code == 10000){
+	    				alert('办公设置成功');
+	    			}
+	    			else{
+	    				alert('办公设置失败，请检查信息是否有效');
+	    			}
+	    		})
+	    		.catch((error)=>{
+	    			console.log(error);
+	    		})
+    	}
     }
   }
 }

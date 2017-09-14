@@ -10,7 +10,7 @@ background-color: #fff;
     min-height: 1000px;
     background: #fff;
     overflow: hidden;
-    box-shadow: 0 3px 1px #ccc;
+    box-shadow: 0 2px 1px #ccc;
 }
 .card .message-ti .ivu-table{
     overflow: inherit!important;
@@ -18,6 +18,9 @@ background-color: #fff;
 }
 .card .message-ti .ivu-table tr td{
     border: 1px solid #DCDCDC;
+}
+.ivu-tabs.ivu-tabs-card{
+    box-shadow: 0 3px 1px #ccc;
 }
 .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
   height: 54px;
@@ -205,7 +208,6 @@ table{
   width: 100%;
   height: 100%;
   background-color: #fff;
-  
 }
 .ivu-btn-export{
   width: 68px;

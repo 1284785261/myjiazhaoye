@@ -97,7 +97,7 @@
     			)
     			.then((response) => {
     				console.log(response);
-    				if(response.data.code == 10000){
+    				if(response.data.code == 10000 && response.status == 200){
     					alert('修改密码成功');
     					this.$router.push({path:"/amendWin",query:{names:'修改登录密码'}});
     				}

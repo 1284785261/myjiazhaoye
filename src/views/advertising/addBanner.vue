@@ -89,7 +89,7 @@
     			listNumber:null,
     			filelist:[],
     			id:null,
-    			param:null
+    			param:[]
 		   	}
     	},
     	mounted(){
@@ -105,11 +105,14 @@
     			}))
     			.then((response)=>{
     				console.log(response);
-    				vm.imageUrl =imgPath + response.data.entity.bannerPic;
-    				vm.links = response.data.entity.imgUrl;
-    				vm.title = response.data.entity.imgExplain;
-    				vm.listNumber = response.data.entity.listNumber;
-    				vm.radio = response.data.entity.isClose+'';
+    				if(response.status == 200 && response.data.code == 10000){
+    					vm.imageUrl =imgPath + response.data.entity.bannerPic;
+	    				vm.links = response.data.entity.imgUrl;
+	    				vm.title = response.data.entity.imgExplain;
+	    				vm.listNumber = response.data.entity.listNumber;
+	    				vm.radio = response.data.entity.isClose+'';
+    				}
+    				
     				
     			})
     			.catch((error)=>{
@@ -135,32 +138,60 @@
     			console.log(this.filelist);
     		},
     		adds:function(){
-    			let vm= this
-    			this.param.append('adPicFile',this.filelist[0][0]);
-    			this.param.append("imgUrl",this.links);
-    			this.param.append("imgExplain",this.title);
-    			this.param.append("isClose",this.radio);
-    			this.param.append("listNumber",this.listNumber);
-				console.log(this.param);
-				if(this.id != null){
-					this.param.append('adId',this.id);
-					this.$http.post(hostAlter,this.param).then(res => {
-	    				//console.log(res);
-	    				alert('修改成功');
-	    			})
-	    			.catch(error =>{
-	    				console.log(error);
-	    			})
-				}
-				else{
-	    			this.$http.post(hostAddadvert,this.param).then(res => {
-	    				//console.log(res);
-	    				alert('添加成功');
-	    			})
-	    			.catch(error =>{
-	    				console.log(error);
-	    			})
-    			}
+    				let vm= this
+    				console.log(this.links);
+    				console.log(this.title);
+    				console.log(this.radio);
+    				console.log(this.listNumber);
+    				if(this.filelist.length){
+    					this.param.append('adPicFile',this.filelist[0][0]);
+    				}else{
+    					this.param.append('adPicFile','');
+    				}
+//	    			this.param.append('adPicFile',this.filelist[0][0]);
+	    			this.param.append("imgUrl",this.links);
+	    			this.param.append("imgExplain",this.title);
+	    			this.param.append("isClose",this.radio);
+	    			this.param.append("listNumber",this.listNumber);
+					//console.log(this.param);
+					if(this.id != null){
+						this.param.append('adId',this.id);
+						this.$http.post(hostAlter,this.param).then(res => {
+		    				console.log(res);
+		    				if(res.status == 200 && res.data.code == 10000){
+		    					alert('修改成功');
+		    					vm.$router.push('/advertising/advertiset');
+		    				}
+		    				else{
+		    					alert('修改失败');
+		    				}
+		    			})
+		    			.catch(error =>{
+		    				console.log(error);
+		    			})
+					}
+					else{
+						if(this.filelist == [] || this.links == null || this.title == null || this.radio == '' || this.listNumber == null){
+		    				alert('信息填入不完整');
+		    			}
+						else{
+							this.$http.post(hostAddadvert,this.param).then(res => {
+		    				console.log(res);
+		    				if(res.status == 200 && res.data.code == 10000){
+		    					alert('添加成功');
+		    					vm.$router.push('/advertising/advertiset');
+		    				}
+		    				else{
+		    					alert('添加失败');
+		    				}
+		    				
+			    			})
+			    			.catch(error =>{
+			    				console.log(error);
+			    			})
+						}
+		    			
+	    		}
     		}
     	},
     	created(){

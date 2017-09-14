@@ -181,8 +181,10 @@ export default {
   	 title(){
   	 	axios.post(allCommunity).then((response)=>{   //获取社区分类数据
   	 		console.log(response);
-  	 		this.cityList = response.data.entity;
-  	 		this.selectModel1 =this.cityList[0].communityName;
+  	 		if(response.status ==200 && response.data.code == 10000){
+	  	 		this.cityList = response.data.entity;
+	  	 		this.selectModel1 =this.cityList[0].communityName;
+	  	 	}
   	 	})
   	 	.catch((error)=>{
   	 		console.log(error);
@@ -199,9 +201,11 @@ export default {
 	 			})
 	 		).then((response)=>{
 	 			console.log(response);
-	 			this.datas[0].num = response.data.result.yesterdayPay+'.00';
-	 			this.datas[1].num = response.data.result.todayWaitPay+'.00';
-	 			this.datas[2].num = response.data.result.yesterdayCount+'笔';
+	 			if(response.status ==200 && response.data.code == 10000){
+		 			this.datas[0].num = response.data.result.yesterdayPay+'.00';
+		 			this.datas[1].num = response.data.result.todayWaitPay+'.00';
+		 			this.datas[2].num = response.data.result.yesterdayCount+'笔';
+		 		}
 	 		})
 	 		.catch((error)=>{
 	 			console.log(error);
@@ -213,7 +217,10 @@ export default {
 	 			})
 	 		).then((response)=>{
 	 			console.log(response);
-	 			this.remains = response.data.result;
+	 			if(response.status ==200 && response.data.code == 10000){
+	 				this.remains = response.data.result;
+	 			}
+	 			
 	 		})
 	 		.catch((error)=>{
 	 			console.log(error);

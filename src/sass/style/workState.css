@@ -38,26 +38,56 @@
 	background: #1fbba6;
 	border-bottom-right-radius: 50px;
 }
-.workstate1 .riqi{
-	width: 1100px;
-	height: 60px;
-	margin: 5px 210px;
+.workstate1 #mmmm{
+	height:60px;
+	width: 1000px;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 -webkit-overflow-scrolling: touch;
+	 white-space: nowrap;
+	 position: relative;
+	 margin-left: 210px;
 }
-.workstate1 .riqi li{
+.workstate1 .el-icon-caret-right{
+	position: absolute;
+	right: 390px;
+	top: 23px;
+	z-index: 100;
+	cursor: pointer;
+}
+.workstate1 .el-icon-caret-left{
+	
+	position: absolute;
+	left: 185px;
+	top: 23px;
+	z-index: 100;
+	cursor: pointer;
+}
+.workstate1 #riqi{
 	height: 60px;
+	position: absolute;
+	transition: all 1s; 
+	left: 0;
+}
+.workstate1 #riqi li{
+	height: 60px;
+	display:inline-block;
 	line-height: 60px;
 	float: left;
-	margin: 0px 25px 0 0;
+	margin: 0 5px;
 }
-.workstate1 .riqi li a{
+.workstate1 #riqi li a{
 	width: 110px;
 	height: 60px;
+	color: #000;
 	line-height: 60px;
 	float: left;
+	margin-left: 22px;
 	text-align: center;
 	border-bottom: 3px solid #fff;
 }
-.workstate1 .riqi li a:hover{
+.workstate1 #riqi li .tbe{
+	color: #038BE2;
 	border-bottom: 3px solid #038be2;
 }
 .workstate1 .gw{
@@ -68,25 +98,34 @@
     left: 140px;
     top: 80px;
 }
-.workstate1 table{
+
+.workstate1 .gongwei{
 	width: 1000px;
-	height: 358px;
+	margin-left: 210px;
 	background: #f8f8f8;
-	position: absolute;
-	left: 215px;
-	top: 65px;
-	border-spacing:25px;
+	margin-bottom: 20px;
+	border: 1px solid #DCDCDC;
 }
-.workstate1 table td{
+.workstate1 .gongwei li{
+	width: 1000px;
+	margin: 10px 0 20px 10px;
+}
+.workstate1 .gongwei li span{
 	width: 110px;
 	height: 48px;
+	margin: 20px 14.5px;
 	background: #fff;
 	text-align: center;
 	border: 1px solid #dcdcdc;
 	border-radius: 5px;
-	
+	display: inline-block;
+	line-height: 48px;
+	vertical-align: middle;
 }
-
+.workstate1 .gongwei li .tms{
+	background: #96a5af;
+	color: white;
+}
 #workstate .workstate2{
 	width: 100%;
 	min-height: 460px;
@@ -118,6 +157,7 @@
 	width: 1100px;
 	height: 60px;
 	margin: 5px 210px;
+	overflow: hidden;
 }
 .workstate2 .riqi li{
 	height: 60px;
@@ -131,9 +171,11 @@
 	line-height: 60px;
 	float: left;
 	text-align: center;
+	color: #000;
 	border-bottom: 3px solid #fff;
 }
-.workstate2 .riqi li a:hover{
+.workstate2 .riqi li .tbe{
+	color: #038BE2;
 	border-bottom: 3px solid #038be2;
 }
 .workstate2 .datas{
@@ -151,9 +193,11 @@
 	
     font-size: 14px;
     color: #000;
-    position: absolute;
+    margin-left: 95px;
+    margin-top: 75px;
+    /*position: absolute;
     left: 95px;
-    top: 134px;
+    top: 134px;*/
 }
 .workstate2 .gw li{
 	height: 64px;

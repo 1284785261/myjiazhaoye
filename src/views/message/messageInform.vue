@@ -169,8 +169,10 @@
 						})
 					).then((response) => {
 						//console.log(response);
-						vm.title = response.data.pageBean.page;
-						vm.totalNum = response.data.pageBean.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.title = response.data.pageBean.page;
+							vm.totalNum = response.data.pageBean.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -187,9 +189,12 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
+						
 						console.log(response);
-						vm.title2 = response.data.pageBean.page;
-						vm.totalNum2 = response.data.pageBean.totalNum;
+						if(response.status == 200 && response.data.code == 10000){
+							vm.title2 = response.data.pageBean.page;
+							vm.totalNum2 = response.data.pageBean.totalNum;
+						}
 						//console.log(this.commint);
 					})
 					.catch((error) => {
@@ -201,7 +206,9 @@
     			.then((response)=>{  //请求通知范围
 //  				console.log(111111111);
 //  				console.log(response);
-    				this.options = response.data.pageBean;
+					if(response.status == 200 && response.data.code == 10000){
+    					this.options = response.data.pageBean;
+    				}
     			})
     			.catch((error)=>{
     				console.log(error);
@@ -214,21 +221,32 @@
     		issue(){
     			let vm = this
     			vm.areaId = parseInt(vm.areaId);
-    			axios.post(hostRange2,
+    			if(vm.areaId == null || vm.titl1 == null || vm.titl2 == null){
+    				alert('发布信息不完整');
+    			}
+    			else{
+    				axios.post(hostRange2,
     				{
     					cityId:vm.areaId,
     					content:vm.titl1,
     					messageUrl:vm.titl2
-    				}
-    			)
-    			.then((response)=>{
-    				console.log(response);
-    				alert('发布成功');
-    				this.isHide = !this.isHide;
-    			})
-    			.catch((error)=>{
-    				console.log(error);
-    			})
+    				})
+	    			.then((response)=>{
+	    				console.log(response);
+	    				if(response.status == 200 && response.data.code == 10000){
+	    					alert('发布成功');
+	    					this.isHide = !this.isHide;
+	    				}
+	    				else{
+	    					alert('发布失败');
+	    				}
+	    				
+	    			})
+	    			.catch((error)=>{
+	    				console.log(error);
+	    			})
+    			}
+    			
     		}
     	
     	

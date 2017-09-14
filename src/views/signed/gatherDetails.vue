@@ -150,7 +150,10 @@
 		    		})
 		    	).then((response)=>{
 		    		console.log(response);
-		    		this.Datas = response.data.entity;
+		    		if(response.status == 200 && response.data.code == 10000){
+		    			this.Datas = response.data.entity;
+		    		}
+		    		
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);

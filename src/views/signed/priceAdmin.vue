@@ -136,12 +136,15 @@
 		      		qs.stringify({
 		      			communityId:this.communityId,
 		      			pageNum:this.pageNum,
+		      			pageSize:8
 		      		})
 		      	)
 		      	.then((response)=>{
     				//console.log(response);
- 					this.mindata = response.data.entity.page;
- 					this.totolNum = response.data.entity.totalNum;
+    				if(response.status == 200 && response.data.code == 10000){
+	 					this.mindata = response.data.entity.page;
+	 					this.totolNum = response.data.entity.totalNum;
+	 				}
     			})
     			.catch((error)=>{
     				console.log(error);
@@ -173,8 +176,10 @@
 		      	)
 		      	.then((response)=>{
     				//console.log(response);
-   					vm.mindata = response.data.entity.page;
-   					vm.totolNum = response.data.entity.totalNum;
+    				if(response.status == 200 && response.data.code == 10000){
+	   					vm.mindata = response.data.entity.page;
+	   					vm.totolNum = response.data.entity.totalNum;
+	   				}
     			})
 		      	.catch((error)=>{
 		      		console.log(error);

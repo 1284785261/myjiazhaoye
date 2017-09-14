@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
+		          <router-link  class="active" to="/signed/houseState">公寓状态</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>调价审核</h3>
@@ -54,7 +54,7 @@
 						<a @click="refer">确定</a>
 					</ul>
 					<h4>审批记录</h4>
-					<table class="titles2">
+					<table class="titles2" v-show="isHides">
 						<thead>
 							<td width="25%">时间</td>
 							<td width="25%">操作人</td>
@@ -99,7 +99,8 @@
     			communityId:null,
     			Datas:null,
     			texts:'',
-    			cxkjRoomListPriceVerify:null
+    			cxkjRoomListPriceVerify:null,
+    			isHides:false
 		   	}
     	},
     	filters:{
@@ -158,8 +159,10 @@
     			)
     			.then((response)=>{
     				console.log(response);
-    				this.Datas = response.data.entity.page;
-    				this.cxkjRoomListPriceVerify = this.Datas[0].cxkjRoomListPriceVerify;
+    				if(response.status == 200 && response.data.code == 10000){
+	    				this.Datas = response.data.entity.page;
+	    				this.cxkjRoomListPriceVerify = this.Datas[0].cxkjRoomListPriceVerify;
+	    			}
     				console.log(this.cxkjRoomListPriceVerify);
     			})
     			.catch((error)=>{
@@ -179,8 +182,11 @@
     			)
     			.then((response) =>{
     				console.log(response);
-    				alert('审核成功');
-    				this.datas();
+    				if(response.status == 200 && response.data.code == 10000){
+	    				alert('审核成功');
+	    				this.datas();
+	    				this.isHides = true;
+	    			}
     			})
     			.catch((error)=>{
     				console.log(error);

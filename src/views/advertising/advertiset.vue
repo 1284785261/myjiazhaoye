@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置： </span>
-		          <router-link  class="active" to="/apartment/communityManagement">广告设置</router-link>
+		          <router-link  class="active" to="/advertising/advertiset">广告设置</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>广告设置</h3>
@@ -25,7 +25,7 @@
 		    				<td width="20%">操作</td>
 		    			</thead>
 		    			<tr v-for="item in Datas">
-		    				<td><img :src=imgPath+item.bannerPic></td>
+		    				<td><img :src='imgPaths + item.bannerPic'></td>
 		    				<td>{{item.imgExplain}}</td>
 		    				<td>{{item.listNumber}}</td>
 		    				<td>{{item.isClose | order(item.isClose)}}</td>
@@ -35,7 +35,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="3"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total=totalNum>
 				    
@@ -71,11 +71,14 @@
     			currentPage3: 1,
     			Datas:null,
     			totalNum:null,
-    			pageNum:1
+    			pageNum:1,
+    			imgPaths:null,
+    			pageSize:3
 		   	}
     	},
     	mounted(){
     		this.datas();
+    		this.imgPaths = imgPath;
     	},
     	methods:{
 		    handleCurrentChange(val) {
@@ -89,32 +92,46 @@
 		    	axios.get(hostAdvert,
 		    		qs.stringify({
 		    			pageNum:pageNum,
-		    			pageSize:pageSize
+		    			pageSize: pageSize
 		    		})
 		    	)  //获取所有banner数据
 		    	.then((response)=>{
+		    		console.log("response");
 		    		console.log(response);
-		    		this.Datas = response.data.pageBean.page;
-		    		this.totalNum = response.data.pageBean.totalNum;
+		    		console.log("response");
+		    		if(response.status == 200 && response.data.code == 10000){
+			    		this.Datas = response.data.pageBean.page;
+			    		this.totalNum = response.data.pageBean.totalNum;
+		    		}
+		    		else{
+		    			console.log('获取数据异常');
+		    		}
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);
 		    	})
 		    },
 		    deletes(id){
+		    	let val = id;
 		    	axios.post(hostDelete,   //删除广告
-		    	qs.stringify({
-		    		adIds:id
-		    	}))
+		    	{
+		    		adIds:val
+		    	})
 		    	.then((response)=>{
 		    		console.log(response);
-		    		console.log('删除成功');
+		    		if(response.status == 200 && response.data.code == 10000){
+		    			alert('删除成功');
+		    			this.datas();
+		    		}
+		    		else{
+		    			alert('删除失败');
+		    		}
+		    		
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);
 		    	})
-		    	let index = this.Datas.findIndex(item => item.adId == id);
-		    	this.Datas.splice(index,1);
+		    	
 		    	//this.datas();
 		    }
     	

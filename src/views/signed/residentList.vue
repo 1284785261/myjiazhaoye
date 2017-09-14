@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
+		          <router-link  class="active" to="/signed/houseState">公寓状态</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>住户列表</h3>
@@ -14,7 +14,8 @@
 		        </div>
 		    	<div id="residentList">
 		    		<div class="residentlist">
-		    			<a>导出</a>
+		    			<!--@click="daochu"-->
+		    			<a  :href="'http://192.168.26.191:8080/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='+communityId">导出</a>
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -32,7 +33,7 @@
 		    				<td>{{item.user.gender | gender(item.user.gender)}}</td>
 		    				<td>{{item.user.userBirthday | Birthday(item.user.userBirthday)}}岁</td>
 		    				<td>{{item.user.userPhone}}</td>
-		    				<td v-if="item.cxkjCommunityRoom != null ">{{ item.cxkjCommunityRoom.roomNum }}层-{{ item.cxkjCommunityFloor.floorName }}</td>
+		    				<td v-if="item.cxkjCommunityFloor != null ">{{ item.cxkjCommunityFloor.floorName }}层-{{ item.cxkjCommunityRoom.roomNum }}</td>
 		    				<td v-else> -- </td>
 		    				<td>{{item.beginDate | begin(item.beginDate)}}--{{item.endDate | end(item.endDate)}}</td>
 		    			</tr>
@@ -62,7 +63,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import { hostHousehold,hostdaocu } from '../api.js';
     import qs from 'qs';
     
     export default {
@@ -133,13 +134,15 @@
 		    		}))
 		    	.then((response)=>{
 		    		console.log(response);
-		    		this.Datas = response.data.entity.page;
-		    		this.totolNum = response.data.entity.totalNum;
+		    		if(response.status == 200 && response.data.code == 10000){
+			    		this.Datas = response.data.entity.page;
+			    		this.totolNum = response.data.entity.totalNum;
+			    	}
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);
 		    	})
-		  }
+		  	}
     	
     	},
     	created(){

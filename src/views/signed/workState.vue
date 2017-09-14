@@ -18,64 +18,21 @@
         			<p>工位</p>
         			<p>100元/个·天</p>
         		</div>
-        		<ul class="riqi">
-        			<li><i class="el-icon-caret-left"></i></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>今天</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><i class="el-icon-caret-right"></i></li>
+        		<i class="el-icon-caret-left" @mousedown="lefts($event)"></i>
+        		<div id="mmmm">
+        			
+	        		<ul id="riqi">
+	        			
+	        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat == index}" @click="violence(index)">{{date(item-2)}}</a></li>
+	        		</ul>
+	        		
+        		</div>
+        		<i class="el-icon-caret-right" @mouseenter="rights($event)"></i>
+        		<ul class="gongwei">
+        			<li>
+        				<span v-for="item in gongweis" :class="{'tms':item.value != ''}">{{item.value}}</span>
+        			</li>
         		</ul>
-        		<table>
-        			<tr>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        			</tr>
-        			<tr>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        			</tr>
-        			<tr>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        			</tr>
-        			<tr>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        			</tr>
-        			<tr>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        				<td>喜洋洋</td>
-        			</tr>
-        		</table>
         	</div>
         	<div class="workstate2">
         		<div class="stateId">
@@ -83,13 +40,7 @@
         		</div>
         		<ul class="riqi">
         			<li><i class="el-icon-caret-left"></i></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>今天</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
-        			<li><a>7月6日</a></li>
+        			<li v-for="(item,index) in 15"><a :class="{'tbe':isAicat2 == index}" @click="bomb(index)">{{date(item-2)}}</a></li>
         			<li><i class="el-icon-caret-right"></i></li>
         		</ul>
         		<ul class="datas">
@@ -106,22 +57,11 @@
         			<li>19:00</li>
         		</ul>
         		<ul class="gw">
-        			<li>
-        				<span>301<i>4人间</i></span>
-        				<p>200元/时</p>
+        			<li v-for="item in conferenceroom">
+        				<span>{{item.meetingHouseNum}}<i>{{item.meetingPersonNum}}人间</i></span>
+        				<p>{{item.meetingRent}}元/时</p>
         			</li>
-        			<li>
-        				<span>301<i>4人间</i></span>
-        				<p>200元/时</p>
-        			</li>
-        			<li>
-        				<span>301<i>4人间</i></span>
-        				<p>200元/时</p>
-        			</li>
-        			<li>
-        				<span>301<i>4人间</i></span>
-        				<p>200元/时</p>
-        			</li>
+        			
         		</ul>
         		<ul class="huiyi">
         			<li>
@@ -156,8 +96,9 @@
 	        				<span>{{administ.officeHouseNum}}</span>
 	        				<span>{{administ.officeWorkNum | officeWorkNum}}</span>
 	        				<span>{{administ.officeRent | officeRent}}</span>
-	        				<p>欠房租三天</p>
-	        				<p v-if="administ.cxkjContractSign != null">租期:{{administ.cxkjContractSign.beginDate | beginDate}}-{{administ.cxkjContractSign.endDate | endDate}}</p>
+	        				<p v-if="administ.cxkjContractSign != null">{{administ.cxkjContractSign.rentArrears | rentArrears}}</p>
+	        				<p v-else></p>
+	        				<p v-if="administ.cxkjContractSign != null">租期: {{administ.cxkjContractSign.beginDate | beginDate}} - {{administ.cxkjContractSign.endDate | endDate}}</p>
 	        				<p v-else></p>
         				</div>
         				<p class="peiz" v-if="administ.cxkjContractSign != null && administ.officeStatus == 2">
@@ -223,7 +164,11 @@
         communityId:null,
         station:null, //工位数据
         conferenceroom:null,  //会议室数据
-        administrationoffice:null   //办公室数据
+        administrationoffice:null,   //办公室数据
+        times:[],
+        isAicat:'1',
+        isAicat2:'1',
+        gongweis:[]
       }
     },
     filters:{
@@ -253,21 +198,23 @@
 				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
 				return Y + M + D;
+    	},
+    	rentArrears(val){
+    		return '已欠租'+ val +'天';
     	}
     },
     mounted(){
     	this.communityId = this.$route.query.id;
     	this.datas();
-    	this.Open(val);
     },
     methods:{
-      del () {
+      del() {
         this.modal1 = false;
       },
-      del2 () {
+      del2() {
         this.modal2 = false;
       },
-      del3 () {
+      del3() {
         this.modal3 = false;
       },
       datas(){
@@ -277,18 +224,65 @@
       			communityId:this.communityId
       		})
       	).then((response)=>{
-      		console.log(response);
+      		//console.log(response);
       		if(response.status == 200 && response.data.code == 10000){
       			vm.station = response.data.entity.cxkjCommunityListPlace;
       			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;
       			vm.administrationoffice = response.data.entity.cxkjCommunityListOffice;
       			console.log(vm.station);
-      			console.log(response.data.entity.cxkjCommunityListPlace);
+      			for(let i=0;i<vm.station.placeNum;i++){
+      				this.gongweis.push({value:''});
+      			}
+      			for(let i=0;i<vm.station.cxkjOfficeOrderList.length;i++){
+      				this.gongweis[i].value = this.station.cxkjOfficeOrderList[i].userName;
+      			}
+//    			console.log(11111111111111);
+//    			console.log(this.gongweis);
+      			//console.log(response.data.entity.cxkjCommunityListPlace);
       		}
       	})
       	.catch((error)=>{
       		console.log(error);
       	})
+      },
+      violence(index){
+      	this.isAicat = index;
+      },
+      date(AddDayCount){//设置时间显示
+        let dd = new Date();
+        dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+        let y = dd.getFullYear();
+        let m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+        let d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();//获取当前几号，不足10补0
+        if(AddDayCount == 0){
+          this.day = m+"-"+d
+          this.days =y+ '-' +this.day
+          return '今天'
+        }
+        return  m+"月"+d+'日';
+      },
+      bomb(index){
+      	this.isAicat2 = index;
+      },
+      rights(e){
+	      	var listu = document.getElementById('riqi');
+	      	var list = listu.getElementsByTagName('li');
+      		var dis  = listu.offsetLeft + 200;
+      		listu.style.left  = dis + 'px';
+      		if(parseInt(listu.style.left)>350){
+      			dis = listu.offsetLeft;
+      			listu.style.left =  dis +'px';
+      		}
+      },
+      lefts(){
+      		var listu = document.getElementById('riqi');
+	      	var list = listu.getElementsByTagName('li');
+      		var dis  = listu.offsetLeft - 200;
+      		listu.style.left  = dis + 'px';
+      		if(parseInt(listu.style.left)<-1600){
+      			dis = listu.offsetLeft;
+      			listu.style.left =  dis +'px';
+      		}
       }
     }
   }

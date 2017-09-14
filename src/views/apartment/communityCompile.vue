@@ -207,13 +207,23 @@
 				this.param.append("communityLeaseEnd", vm.communityLeaseEnd);
 				this.param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
 				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-				this.$http.post(hostComplie, vm.param).then(res => {
+				if(vm.communityName == null || vm.areaId == null || vm.parentId== null || vm.areas== null || vm.communityAddress== null || vm.communityOpeningDate== null || vm.communityType== null || vm.communityPhone== null || vm.communityContractNum== null || vm.communityLeaseBegin== null || vm.communityLeaseEnd== null || vm.communityFreeLeaseBegin== null || vm.communityFreeLeaseEnd== null || vm.fileList ==[]){
+					alert('信息填入不完整，请补充完信息');
+				}
+				else{
+					this.$http.post(hostComplie, vm.param).then(res => {
 						console.log(res);
-						alert('已添加成功！');
+						if(res.status == 200 && res.data.code == 10000){
+							alert('已添加成功！');
+						}
+						else{
+							alert('添加失败！请检查错误信息')
+						}
 					})
 					.catch(error => {
 						console.log(error);
 					})
+				}
 			},
 			uploadFile(e) {
 				let vm = this

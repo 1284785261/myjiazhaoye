@@ -47,8 +47,8 @@
 		        		</tr>
 		        		<tr>
 		        			<td>物业合同：{{contract}}</td>
-		        			<td>
-		        				<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess">{{ item }}</a>
+		        			<td style="width: 500px;">
+		        				<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess">{{ item }}</a><br/>
 		        			</td>
 		        		</tr>
 		        	</table>
@@ -109,15 +109,16 @@
     			}))
     			.then((response) => {
     				console.log(response);
-    				vm.Datas = response.data.result.community;
-    				vm.Name = response.data.result.community.communityName;
-    				if(vm.Datas.province.areaName == vm.Datas.city.areaName){
-    					vm.site = vm.Datas.province.areaName + vm.Datas.district.areaName +vm.Datas.communityAddress;
+    				if(response.status == 200 && response.data.code == 10000){
+	    				vm.Datas = response.data.result.community;
+	    				vm.Name = response.data.result.community.communityName;
+	    				if(vm.Datas.province.areaName == vm.Datas.city.areaName){
+	    					vm.site = vm.Datas.province.areaName + vm.Datas.district.areaName +vm.Datas.communityAddress;
+	    				}
+	    				else{
+	    					vm.site = vm.Datas.province.areaName +vm.Datas.city.areaName+ vm.Datas.district.areaName +vm.Datas.communityAddress;
+	    				}
     				}
-    				else{
-    					vm.site = vm.Datas.province.areaName +vm.Datas.city.areaName+ vm.Datas.district.areaName +vm.Datas.communityAddress;
-    				}
-    				
     			})
     			.catch((error) => {
     				console.log(error);
