@@ -142,8 +142,8 @@
 									</td>
 									<td>
 										<dl>
-											<dd>店长：<span>item.shopkeeper.userName</span></dd>
-											<dd>店长联系电话：<span>item.shopkeeper.userPhone</span></dd>
+										<dd>店长：<span><!--{{item.shopkeeper.userName}}--></span></dd>
+                    <dd>店长联系电话：<span><!--{{item.shopkeeper.userPhone}}--></span></dd>
 											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
 											<dd>员工：<span>{{item.employee}}</span></dd>
 										</dl>

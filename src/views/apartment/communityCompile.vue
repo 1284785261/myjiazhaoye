@@ -215,6 +215,7 @@
 						console.log(res);
 						if(res.status == 200 && res.data.code == 10000){
 							alert('已添加成功！');
+							vm.$router.push('/apartment/communityManagement');
 						}
 						else{
 							alert('添加失败！请检查错误信息')

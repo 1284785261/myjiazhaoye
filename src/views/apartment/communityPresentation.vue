@@ -19,9 +19,9 @@
 							<span class="fl">公寓：</span>
 							<div class="demo-upload-list" v-for="item in uploadList">
 								<template>
-									<img :src="item">
+									<img :src="imgPath+item">
 									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
+										<Icon type="ios-eye-outline" @click.native="handleView1(imgPath+item)"></Icon>
 										<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
 									</div>
 								</template>
@@ -56,9 +56,9 @@
 							<span class="fl">社区门面：</span>
 							<div class="demo-upload-list" v-for="item in uploadList2">
 								<template>
-									<img :src="item">
+									<img :src="imgPath+item">
 									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView2(item)"></Icon>
+										<Icon type="ios-eye-outline" @click.native="handleView2(imgPath+item)"></Icon>
 										<Icon type="ios-trash-outline" @click.native="handleRemove5(item)"></Icon>
 									</div>
 								</template>
@@ -92,9 +92,9 @@
 							<span class="fl">办公区：</span>
 							<div class="demo-upload-list" v-for="item in uploadList3">
 								<template>
-									<img :src="item">
+									<img :src="imgPath+item">
 									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView3(item)"></Icon>
+										<Icon type="ios-eye-outline" @click.native="handleView3(imgPath+item)"></Icon>
 										<Icon type="ios-trash-outline" @click.native="handleRemove6(item)"></Icon>
 									</div>
 								</template>
@@ -165,12 +165,7 @@
 		data() {
 			return {
 				content:'',
-				defaultList2:[
-//{
-//						'name': 'a42bdcc1178e62b4694c830f028db5c0',
-//						'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-//				}
-				],
+				defaultList2:[],
 				filelist1:[],
 				filelist2:[],
 				filelist3:[],
@@ -191,7 +186,8 @@
 				communityId:null, //社区ID
 				community:null, //当前页面数据
 				url:hostPresent,
-				param:null
+				param:null,
+				imgPath:''
 			}
 
 		},
@@ -201,6 +197,7 @@
 			this.present();	
 			//console.log(this.uploadList);
 			this.param = new FormData();
+			this.imgPath = imgPath
 		},
 		methods: {
 			getUEContent() {
@@ -229,37 +226,44 @@
 //				console.log(this.filelist3)
 //				console.log(this.uploadList2)
 				//console.log('开始')
-			if(vm.filelist1.length){
-	
-				for(let i in vm.filelist1) {
-					vm.param.append('communityFlatFiles', vm.filelist1[i]);
-				}
-				console.log(vm.filelist1);
-			}
-			if(vm.filelist2.length){
-				for(let i in vm.filelist2) {
-					vm.param.append('communityFaceFiles', vm.filelist2[i]);
-				}
-			}
-			if(vm.filelist3.length){
-				for(let i in vm.filelist3) {
-					vm.param.append('communityWorkFiles', vm.filelist3[i]);
-				}
-			}
 				this.param.append("communityId",vm.communityId);
 				this.param.append("communityInfo",vm.content);
 				this.param.append("communityFlatHide",vm.uploadList);
 				this.param.append("communityFaceHide",vm.uploadList2);
-				this.param.append("communityWorkHide",vm.uploadList2);
+				this.param.append("communityWorkHide",vm.uploadList3);
+				console.log(vm.filelist1.length);
+				console.log(11111111111111111);
+				if(vm.filelist1.length){
+					for(let i in vm.filelist1) {
+						console.log(111+'aaa')
+						vm.param.append('communityFlatFiles', vm.filelist1[i]);
+						debugger
+					}
+					console.log(vm.filelist1);
+				}
+				if(vm.filelist2.length){
+					for(let i in vm.filelist2) {
+						vm.param.append('communityFaceFiles', vm.filelist2[i]);
+					}
+					console.log(vm.filelist2);
+				}
+				if(vm.filelist3.length){
+					for(let i in vm.filelist3) {
+						vm.param.append('communityWorkFiles', vm.filelist3[i]);
+					}
+					console.log(vm.filelist3);
+				}
+				
 				
 				this.$http.post( hostPresent, vm.param).then((response) =>{
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						alert('操作成功');
+						vm.$router.push({path:"/apartment/communityManagement"});
 					}
-					else{
-						alert('操作失败，请检查信息完整');
-					}
+//					else{
+//						alert('操作失败，请检查信息完整');
+//					}
 				})
 				.catch((error) =>{
 					console.log(error);
@@ -300,17 +304,19 @@
 			handleRemove4(item){
 				let fileIndex = this.uploadList.findIndex(items => items == item);
 				this.uploadList.splice(fileIndex,1);
-				
+				console.log(this.uploadList);
 				
 			},
 			handleRemove5(item){
 				let fileIndex = this.uploadList2.findIndex(items => items == item);
 				this.uploadList2.splice(fileIndex,1);
+				console.log(this.uploadList2);
 				
 			},
 			handleRemove6(item){
 				let fileIndex = this.uploadList3.findIndex(items => items == item);
 				this.uploadList3.splice(fileIndex,1);
+				console.log(this.uploadList3);
 				
 			},
 			uploadfile(e){
@@ -322,7 +328,7 @@
 				let windowURL = window.URL || window.webkitURL;
 				
 				if(vm.uploadList.length + vm.uploadList4.length<5){
-					this.filelist1.push(files);
+					this.filelist1.push(file);
 //					console.log(111111);
 				console.log(this.filelist1);
 					vm.uploadList4.push(windowURL.createObjectURL(e.target.files[0]));
@@ -340,7 +346,7 @@
 				let windowURL = window.URL || window.webkitURL;
 				
 				if(vm.uploadList2.length + vm.uploadList5.length<5){
-					this.filelist2.push(files);
+					this.filelist2.push(file);
 					vm.uploadList5.push(windowURL.createObjectURL(e.target.files[0]));
 				}
 				else{
@@ -356,7 +362,7 @@
 				let windowURL = window.URL || window.webkitURL;
 				
 				if(vm.uploadList3.length + vm.uploadList6.length<5){
-					this.filelist3.push(files);
+					this.filelist3.push(file);
 					vm.uploadList6.push(windowURL.createObjectURL(e.target.files[0]));
 				}
 				else{
@@ -365,6 +371,7 @@
 			},
 			present(){
 				let vm = this
+				
 				axios.post(hostTitle,
 					qs.stringify({
 						communityId:vm.communityId
@@ -373,19 +380,35 @@
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						vm.community = response.data.result.community;
-						const arr = vm.community.communityFace.split(",");
-						const arr2 = vm.community.communityWork.split(",");
-						const arr3 = vm.community.communityFlat.split(",");
+						let arr = [];
+						let arr2 = [];
+						let arr3 = [];
+						
+						arr2 = vm.community.communityFace.split(",");
+						arr3 = vm.community.communityWork.split(",");
+						arr = vm.community.communityFlat.split(",");
 						//console.log(arr);
-						arr.forEach(function(item){
-							vm.uploadList.push(imgPath + item);
-						})
-						arr2.forEach(function(item,index){
-							vm.uploadList2.push(imgPath + item);
-						})
-						arr2.forEach(function(item,index){
-							vm.uploadList3.push(imgPath + item);
-						})
+						console.log(arr);
+						console.log(arr2);
+						console.log(arr3);
+						vm.uploadList = [];
+						vm.uploadList2 = [];
+						vm.uploadList3 = [];
+						if(arr != ''){
+							arr.forEach(function(item){
+							vm.uploadList.push(item);
+							})
+						}
+						if(arr2 != ''){
+							arr2.forEach(function(item,index){
+								vm.uploadList2.push(item);
+							})
+						}
+						if(arr3 != ''){
+							arr3.forEach(function(item,index){
+								vm.uploadList3.push(item);
+							})
+						}
 					}
 					
 				})

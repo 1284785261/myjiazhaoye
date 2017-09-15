@@ -60,6 +60,190 @@
       left: 1070px;
       top: 15px;
 }
+#housesubscrib .scherm{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+}
+#housesubscrib .instas4{
+	width: 400px;
+	height: 320px;
+	background: #fff;
+	z-index: 101;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	border-radius: 5px;
+	text-align: center;
+}
+#housesubscrib .instas4 .el-icon-circle-close{
+	position: absolute;
+    right: -41px;
+    top: -41px;
+    font-size: 36px;
+    color: #3d3d3d;
+    cursor: pointer;    
+}
+#housesubscrib .instas4 table{
+	margin-left: 50px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	position: relative;
+}
+#housesubscrib .instas4 table tr{
+	line-height: 50px;
+}
+#housesubscrib .instas4 table tr td textarea{
+	width: 200px;
+	height: 100px;
+	resize: none;
+	vertical-align:top!important;
+	line-height: 20px;
+}
+#housesubscrib .instas4 table tr td .lov{
+	position: absolute;
+	left: 28px;
+	top: 36px;
+}
+#housesubscrib .instas4 table tr td:nth-child(1){
+	text-align: right;
+}
+#housesubscrib .instas4 table tr td:nth-child(2){
+	text-align: left;
+}
+#housesubscrib .instas4 span{
+	color: #000;
+	font-weight: bold;
+}
+#housesubscrib .instas4 p{
+	width: 100%;
+	height: 60px;
+	background: #038BE2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+}
+#housesubscrib .instas4 .tjss{
+	width: 140px;
+	height: 36px;
+	display: block;
+	text-align: center;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin-left: 120px;
+	cursor: pointer;
+}
+
+#housesubscrib .popup{
+	width: 500px;
+	height: 480px;
+	background: #fff;
+	z-index: 101;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	border-radius: 5px;
+}
+#housesubscrib .popup div{
+	width: 100%;
+	height: 80px;
+	background: #f7fbff;
+	border: 1px solid #DCDCDC;
+}
+#housesubscrib .popup div span{
+	line-height: 80px;
+}
+#housesubscrib .popup .xuxian{
+	height: 1px;
+    width: 90%;
+    border: 1px dashed #DCDCDC;
+    position: absolute;
+    left: 5%;
+    bottom: 142px;
+}
+#housesubscrib .popup .cha{
+	width: 100px;
+	height: 36px;
+	border-radius: 5px;
+	line-height: 36px;
+	text-align: center;
+	border: 1px solid #038BE2;
+	font-size: 12px;
+	color: #038BE2;
+	display: block;
+	position: absolute;
+	right: 30px;
+	bottom: 66px;
+}
+#housesubscrib .popup table tr td .ivu-icon-ios-telephone{
+	font-size: 20px;
+	color: #4fcab9;
+	margin-left: 15px;
+	cursor: pointer;
+}
+#housesubscrib .popup table tr td:nth-child(1){
+	text-align: right;
+	padding-right: 10px;
+	color: #666666;
+}
+#housesubscrib .popup table:nth-child(4){
+	position: absolute;
+	left: 30px;
+    top: 157px;
+	line-height: 32px;
+	color: #000;
+}
+#housesubscrib .popup table:nth-child(6){
+	position: absolute;
+	left: 59px;
+    bottom: 32px;
+	line-height: 32px;
+	color: #000;
+}
+#housesubscrib .popup div span:nth-child(1){
+	float: left;
+	font-size: 14px;
+	margin-left: 30px;
+	color: #333333;
+}
+#housesubscrib .popup div span:nth-child(2){
+	float: right;
+	font-size: 16px;
+	margin-right: 30px;
+	color: #999999;
+}
+#housesubscrib .popup .el-icon-circle-close{
+	position: absolute;
+    right: -41px;
+    top: -41px;
+    font-size: 36px;
+    color: #3d3d3d;
+    cursor: pointer;    
+}
+#housesubscrib .popup p{
+	width: 100%;
+	height: 60px;
+	background: #038BE2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+}
 #housesubscribe table{
 	width: 100%;
 	min-height: 100px;

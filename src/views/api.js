@@ -4,6 +4,7 @@
 
 const host3 = 'http://192.168.26.191:8080';
 //const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
 
@@ -28,7 +29,7 @@ const Open = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';
 //修改介绍页面数据
 const Present='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200003';
 
-//获取社区设置的方式
+//获取社区设置的方式(字典)
 const Way ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200050'
 
 //社区基本信息
@@ -134,6 +135,15 @@ const CommentInfo = '/cxkj-room/apis/comment/CxkjCommunityCommentInfo200058'
 
 //导出
 const daocu = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHouseholdDownload200070'
+
+//获取签约未出租房间列表
+const RoomList = '/cxkj-room/apis/pcManager/cxkjcontractsign/RentRoomList500051'
+
+//获取签约的用户个人信息
+const RoomUser = '/cxkj-room/apis/pcManager/cxkjcontractsign/UserInfo500053'
+//获取签约的信息
+const Controller = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignStart500057'
+
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -177,6 +187,9 @@ export const hostStatusMe = host3 +StatusMe;
 export const hostStatusof = host3 +Statusof;
 export const hostStatusPl = host3 +StatusPl;
 export const hostRooms = host3 + Rooms;
+export const hostController = host3 + Controller;
+export const hostRoomList = host3 + RoomList;
+export const hostRoomUser = host3 + RoomUser;
 //export default {
 //hosts:function(){
 //		return{

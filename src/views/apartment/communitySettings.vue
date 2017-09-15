@@ -132,7 +132,7 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="办公设置" name="second">
+            <el-tab-pane label="办公设置" name="second" @click='qkDate'>
 
               <div class="vue-warp-settings">
                 <div class="ivu-floor floor01">
@@ -228,7 +228,7 @@
                   <div class="floor-main">
                     <span class="fl">服务费设置：</span>
                     <div class="floor-item form-item">
-                      <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost">元/月 </span>
+                      <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2">元/月 </span>
                     </div>
                   </div>
                   <div class="floor-main">
@@ -333,6 +333,7 @@ export default {
       cxkjCommunityListConfig:[],  //公寓电器选择
       cxkjCommunityListMeetingSuit:[], //会议室套餐设置
       serviceCost:null,   //公寓服务费
+      serviceCost2:null,
       waterEnergyPayDate:null,  //公寓水电账单日设置
       sect:null,       //公寓水费用量1
       sect2:null,      //公寓水费用量2
@@ -353,6 +354,10 @@ export default {
 		this.befors();
   },
   methods: {
+  	qkDate(){
+  		this.cxkjCommunityListPayway = [];
+  		this.cxkjCommunityListMaintain = []
+  	},
     addRoom(){          //添加会议室套餐类别
         this.tableConferences.push({
           checkValue:"",
@@ -717,9 +722,15 @@ export default {
     			console.log(vm.cxkjCommunityListMaintain);
     		}
     	}
-    	if(vm.communityId == null || vm.cxkjCommunityListPayway == [] || vm.cxkjCommunityListMaintain == [] || vm.cxkjCommunityListConfig == [] || vm.serviceCost ==null || vm.cxkjCommunityListMeetingSuit == []){
+    	if(vm.communityId == null || vm.cxkjCommunityListPayway == [] || vm.cxkjCommunityListMaintain == [] || vm.cxkjCommunityListConfig == [] || vm.serviceCost2 ==null || vm.cxkjCommunityListMeetingSuit == []){
     		alert('信息填入不完整，不能为空');
     	}else{
+    		console.log(vm.cxkjCommunityListPayway);
+    		console.log(vm.cxkjCommunityListMaintain);
+    		console.log(vm.cxkjCommunityListConfig);
+    		console.log(vm.cxkjCommunityListMeetingSuit);
+    		console.log(vm.communityId)
+    		debugger
 	    	axios.post(hostRoom,
 	    		{
 	    				communityId:vm.communityId,
@@ -727,12 +738,15 @@ export default {
 	    				cxkjCommunityListMaintain:vm.cxkjCommunityListMaintain,
 	    				cxkjCommunityListConfig:vm.cxkjCommunityListConfig,
 	    				cxkjCommunityListMeetingSuit:vm.cxkjCommunityListMeetingSuit,
-	    				serviceCost:vm.serviceCost,
+	    				serviceCost:vm.serviceCost2,
 	    				communityType:1
 	    		})
 	    		.then((response)=>{
 	    			//console.log(response);
-	    			if(response.status ==200 && response.data.code == 10000){
+	    					let code=parseInt(response.data.code)
+	    					console.log(code)
+	    			if(code == 10000){
+//	    			if(response.status ==200 && response.data.code == 10000){
 	    				alert('办公设置成功');
 	    			}
 	    			else{
