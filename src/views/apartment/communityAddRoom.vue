@@ -290,7 +290,7 @@
         var that = this;
         this.$http.post(
           IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId})
-        ).then(function(res){
+        ).then(function(res){debugger
           var communitySettingInfo = res.data.entity;
           //获取家电数据
           var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
@@ -419,7 +419,7 @@
       },
       addRoom(){
         var that = this;
-        var roomNum = this.cxkjCommunityListRoom[this.cxkjCommunityListRoom.length-1].roomNum;debugger
+        var roomNum = this.cxkjCommunityListRoom[this.cxkjCommunityListRoom.length-1].roomNum;
         for(var i =0;i<this.numberLine;i++){
           if(roomNum && /^[0-9]*$/.test(roomNum)){
             roomNum++;

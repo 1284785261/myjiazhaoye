@@ -133,8 +133,14 @@
         }, {
           value: 3,
           label: 3
+        }, {
+          value: 4,
+          label: 4
         }],
         halls:[{
+          value: 0,
+          label: 0
+        },{
           value: 1,
           label: 1
         }, {
@@ -145,6 +151,9 @@
           label: 3
         }],
         hygienisms:[{
+          value: 0,
+          label: 0
+        },{
           value: 1,
           label: 1
         }, {
@@ -210,12 +219,16 @@
         var that = this;
         var data = [].concat(this.cxkjCommunityListHousetype);
 
-        for(var i =0;i<data.length;i++){
-            data[i].communityId = this.communityId;
-            if(!(data[i].housetypeName &&  data[i].housetypeArea && data[i].roomId && data[i].housetypeHall && data[i].housetypeHygienism && data[i].housetypeWindow && data[i].housetypeOrientations)){
-              data.splice(i,1);
-            }
-        };
+        //表单验证
+//        for(var j =0;j<data.length;j++){
+//            for(var key in data[j]){
+//                if(key != "communityId" && !data[j][key]!=""){
+//                    console.log(key)
+//                  window.alert("信息填写不完整！")
+//                  break;
+//                }
+//            }
+//        }
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
         ).then(function(res){

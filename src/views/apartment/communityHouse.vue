@@ -2,7 +2,7 @@
 
   <div>
     <menu-box></menu-box>
-    <div class="right-content" id="right-content">
+    <div class="right-content" id="right-content" style="height: 100%!important;">
       <right-header></right-header>
       <div class="wordbench-box">
         <div class="ivu-site">
@@ -147,8 +147,10 @@
                   </td>
                 </tr>
               </table>
-              <a class="qd" href="javascript:;" @click="addCommunityOffice()">确定</a>
-              <a class="qx" href="#">取消</a>
+              <div style="margin-bottom: 50px;">
+                <a class="qd" href="javascript:;" @click="addCommunityOffice()">确定</a>
+                <a class="qx" @click="cancleCommunityMeeting()" >取消</a>
+              </div>
             </el-tab-pane>
             <el-tab-pane label="会议室" name="fourth">
               <table class="bgs">
@@ -180,8 +182,10 @@
                   </td>
                 </tr>
               </table>
-              <a class="qd" href="javascript:;" @click="addCommunityMeeting()">确定</a>
-              <a class="qx" href="javascript:;">取消</a>
+              <div style="margin-bottom: 50px;">
+                <a class="qd" href="javascript:;" @click="addCommunityMeeting()">确定</a>
+                <a class="qx" href="javascript:;" @click="cancleCommunityMeeting()">取消</a>
+              </div>
             </el-tab-pane>
           </el-tabs>
 
@@ -319,7 +323,7 @@
     },
     computed:{
       filterRootData:function(){
-        if(this.rootData.length>0){
+        if(this.rootData.length>0){debugger
           for(var i =0;i<this.rootData.length;i++){
             for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
               this.$set(this.rootData[i],"showTable",true);
@@ -343,16 +347,16 @@
       init(){
         this.CommunityListOffice = [];
         this.CommunityListMeeting = [];
-          for(var i=0;i<3;i++){
+          for(var i=0;i<1;i++){
             this.CommunityListOffice.push({
-              communityId:3,
+              communityId:this.communityId,
               officeHouseNum:"",
               officeWorkNum:"",
               officeFurniture:"",
               officeRent:""
             });
             this.CommunityListMeeting.push({
-              communityId:3,
+              communityId:this.communityId,
               meetingHouseNum:"",
               meetingPersonNum:"",
               meetingRent:""
@@ -455,7 +459,7 @@
         var that = this;
         this.$http.post(Apartment, {"communityId": this.communityId})
           .then(function (res) {debugger
-            if(res.status == 200 && res.statusText=="OK"){
+            if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
               that.rootData = res.data.entity;
             }else{
 
@@ -552,6 +556,9 @@
           }).catch(function(error){
           console.log(error);
         })
+      },
+      cancleCommunityMeeting(){
+        this.init();
       },
       deleteRomm(room,index,rootDataindex){
         var that = this;

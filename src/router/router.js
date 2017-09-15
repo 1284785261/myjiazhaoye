@@ -261,7 +261,17 @@ export default new Router({
       name:'communityDevice',
       component:resolve =>
         require(['../views/apartment/communityDevice.vue'],resolve)
-    }
+    },{
+    path:'/operation/operationReport',		//运营报表
+    name:'operationReport',
+    component:resolve =>
+    require(['../views/operation/operationReport.vue'],resolve)
+    },{
+      path:'/operation/operationDayReport',		//运营报表-日报
+      name:'operationDayReport',
+      component:resolve =>
+        require(['../views/operation/operationDayReport.vue'],resolve)
+    },
 
 
   ]

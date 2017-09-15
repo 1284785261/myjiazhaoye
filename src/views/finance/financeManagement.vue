@@ -505,6 +505,9 @@
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
+    .ivu-tabs-card{
+      box-shadow:none;
+    }
     .finance-header-kong{
       height: 60px;
       width: 100%;
