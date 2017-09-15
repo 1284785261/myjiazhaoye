@@ -164,18 +164,18 @@
           label: 3
         }],
         windows:[{
-          value: '有',
-          label: '有'
+          value: '有窗',
+          label: '有窗'
         }, {
-          value: '无',
-          label: '无'
+          value: '无窗',
+          label: '无窗'
         }],
         orientations:[{
-          value: '南',
-          label: '南'
+          value: '朝南',
+          label: '朝南'
         }, {
-          value: '北',
-          label: '北'
+          value: '朝北',
+          label: '朝北'
         }],
         successModal:false,
       }
@@ -231,7 +231,7 @@
 //        }
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
-        ).then(function(res){
+        ).then(function(res){debugger
             that.successModal = true;
             setTimeout(function(){
                 that.successModal = false;

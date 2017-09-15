@@ -46,7 +46,7 @@
 
                 <tr v-if="detailData.orderState != 3">
                   <td>使用时间 :</td>
-                  <td>2017/6/30 - 2017/7/3（共4天）</td>
+                  <td>2017/9/16 - 2017/9/17</td>
                 </tr>
 
                 <tr v-if="detailType==1">

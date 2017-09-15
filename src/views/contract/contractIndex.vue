@@ -418,6 +418,9 @@ export default {
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
+    .ivu-tabs-card{
+      box-shadow:none;
+    }
     .form-item .add{
       display: inline-block;
       width: 140px;

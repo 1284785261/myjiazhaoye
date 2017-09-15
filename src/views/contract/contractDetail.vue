@@ -85,13 +85,13 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">合同编码 :<span>{{contractDetailData.contractNumber}}</span></td>
-                      <td class="td2">租期 :<span>{{contractDetailData.beginDate | timefilter("yyyy.MM.dd")}}-{{contractDetailData.endDate | timefilter("yyyy.MM.dd")}}(一年)</span></td>
+                      <td class="td2">租期 :<span>{{contractDetailData.beginDate | timefilter("yyyy.MM.dd")}}-{{contractDetailData.endDate | timefilter("yyyy.MM.dd")}}</span></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1"><span v-if="contractDetailData.customerType == 2">经办人信息:</span><span v-else>联系人信息:</span></td>
+                <td class="td1"><span v-if="contractDetailData.customerType == 2">经办人信息:</span><span v-else-if="contractDetailData.customerType == 1">承租人信息:</span></td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
@@ -103,7 +103,7 @@
                   </table>
                 </td>
               </tr>
-              <tr class="tr1">
+              <tr class="tr1" v-if="contractDetailData.customerType && contractDetailData.customerType==2">
                 <td class="td1">公司信息:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
@@ -118,8 +118,8 @@
                 <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else>查看证明:</span></td>
                 <td class="td1 left-text-td">
                   <ul>
-                    <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)">
-                      <img :src="item.filePath" alt="">
+                    <li v-for="(item,index) in contractDetailData.credentialsImages">
+                      <img :src="imgPath+item.filePath" alt="">
                       <p>{{item.fileTitle}}</p>
                     </li>
                   </ul>
@@ -144,7 +144,7 @@
                     <tr class="tr2">
                       <td class="td2">押金 :<span>{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</span></td>
                       <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
-                      <td class="td2">服务费 :<span>3600.00元</span></td>
+                      <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
                     <tr class="tr2">
@@ -155,13 +155,13 @@
                   </table>
                 </td>
               </tr>
-              <tr class="tr1">
+              <tr class="tr1" v-if="contractDetailData.materials">
                 <td class="td1">物资清单:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2" v-for="material in contractDetailData.materials">
                       <td class="td2">{{material.materialName}} </td>
-                      <td class="td2">{{material.count}}</td>
+                      <td class="td2">x{{material.count}}</td>
                     </tr>
                   </table>
                 </td>
@@ -187,7 +187,7 @@
     <div class="community-house-modal" v-if="preView" @click="closePreViewModal()"></div>
     <div class="contract-modal-content preview-modal-content" v-if="preView">
       <div class="pre-view">
-        <img :src="preViewSrc" alt="">
+        <img :src="imgPath+preViewSrc" alt="">
       </div>
       <div class="next-btn" @click="nextToView()">
         <Icon type="ios-arrow-left"></Icon>
@@ -243,8 +243,11 @@
     },
     mounted(){
       this.init();
+      this.imgPath = imgPath;
     },
     data(){
+        //customerType	1:个人租客 2:公司租客
+      //isOffice	string	0:公寓 1:办公室
       return{
         contractSignId:"",
         isOffice:0,//0:公寓 1:办公室
@@ -262,16 +265,18 @@
       },
       getContractDetail(data){
         let that = this;
-        this.$http.get(contractDetai,{params:data}).then(function(res){debugger
+        this.$http.get(contractDetai,{params:data}).then(function(res){
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
+              var arr = [];
+              //默认显示第一张公寓图片
+              that.contractDetailData.certificateImage = that.contractDetailData.communityWork.split(",")[0];
               if(that.contractDetailData.credentialsImages){
                 that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
               }
               if(that.contractDetailData.materials){
                 that.contractDetailData.materials =   JSON.parse(that.contractDetailData.materials);
               }
-              console.log(that.contractDetailData)
           }
         })
       },
@@ -323,6 +328,8 @@
   #contract-detail-wrap {
     padding-bottom: 50px;
     width: 100%;
+    height: 100%;
+    min-height: 1000px;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
     .contract-detail-wrap-head{
