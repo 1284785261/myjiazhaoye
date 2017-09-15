@@ -82,8 +82,8 @@
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
                     <router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId}}">社区设置</router-link>
-										<a href="javascript:;">设备管理</a>
-										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
+                    <router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
+                    <a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
 									</td>
 								</tr>
 
@@ -370,7 +370,7 @@
 	  	 				this.communitys = response.data.entity;
 		  	 			this.model1 =this.communitys[0].communityName;
 	  	 			}
-		  	 		
+
 		  	 	})
 		  	 	.catch((error)=>{
 		  	 		console.log(error);
@@ -513,7 +513,7 @@
 					else{
 						alert('操作失败');
 					}
-					
+
 				})
 				.catch((error)=>{
 					alert('操作失败');

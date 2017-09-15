@@ -345,7 +345,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a @click="adddian2()">修改</a>
 								  				<a>关闭</a>
 								  				<router-link to="/apartment/meterReading">抄表记录</router-link>
@@ -378,7 +378,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -396,7 +396,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -414,14 +414,14 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
 							  				</div>
 							  			</td>
 							  		</tr>
-							  	
+
 							  	</table>
 					    	</div>
 					    	<div class="equipment1 equipment2">
@@ -452,7 +452,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -470,7 +470,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -488,7 +488,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -506,7 +506,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -524,14 +524,14 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
 							  				</div>
 							  			</td>
 							  		</tr>
-							  	
+
 							  	</table>
 					    	</div>
 					    </el-tab-pane>
@@ -564,7 +564,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -582,7 +582,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -600,7 +600,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -618,7 +618,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -636,14 +636,14 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
 							  				</div>
 							  			</td>
 							  		</tr>
-							  	
+
 							  	</table>
 					    	</div>
 					    	<div class="equipment1 equipment2">
@@ -674,7 +674,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -692,7 +692,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -710,7 +710,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -728,7 +728,7 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
@@ -746,14 +746,14 @@
 							  			<td>在线</td>
 							  			<td>
 							  				<div>
-								  				
+
 								  				<a>修改</a>
 								  				<a>关闭</a>
 								  				<a>抄表记录</a>
 							  				</div>
 							  			</td>
 							  		</tr>
-							  	
+
 							  	</table>
 					    	</div>
 					    </el-tab-pane>
@@ -920,16 +920,16 @@
 					    </el-tab-pane>
 					</el-tabs>
 		    	</div>
-		        
-		    
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
 		<div class="scherm" v-show="isHid">
-			
+
 		</div>
 		<div class="scherm scherm2" v-show="isHid2">
-			
+
 		</div>
 		<div class="instas2" v-show="isHide">
 				<i class="ivu-icon ivu-icon-ios-locked-outline"></i>
@@ -937,7 +937,7 @@
 				<p>房间<b>1层 103</b>的门锁吗?</p>
 				<a>确定</a><a @click="instas()">取消</a>
 		</div>
-		
+
 		<div class="instas3" v-show="isHide2">
 				<i class="el-icon-circle-close" @click="instas3()"></i>
 				<p>获取临时密码</p>
@@ -1017,7 +1017,7 @@
 					<td>1层 103
 						<a @click="instas6()">解除门锁</a>
 					</td>
-					
+
 				</tr>
 				<tr>
 					<td>供应商：</td>
@@ -1159,7 +1159,7 @@
 						<input type="text" placeholder="请输入网关名称" />
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td>供应商：</td>
 					<td>
@@ -1209,7 +1209,7 @@
 						<input type="text" placeholder="请输入网关名称" />
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td>供应商：</td>
 					<td>
@@ -1249,12 +1249,12 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/equipment.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -1343,11 +1343,11 @@
     		handleClick(tab, event) {
 		        console.log(tab, event);
 		    }
-    	
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>
@@ -1355,5 +1355,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>

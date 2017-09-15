@@ -29,25 +29,34 @@
               <p class="content-item-info-p2">{{contractDetailData.rentPay}} 元/月</p>
             </div>
             <div class="content-item content-item-btn">
-              <div class="order-detail-wrap-head-btn">
-                联系租户
+              <div class="order-detail-wrap-head-btn" @click="openBankModal()" v-if="contractDetailData.contractState == 7">
+                查看银行账户信息
               </div>
               <div class="order-detail-wrap-head-btn">
+                预览合同
+              </div>
+              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 4">
+                打印合同
+              </div>
+              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 1">
                 修改合同
               </div>
-              <div class="order-detail-wrap-head-btn">
-                查看电子合同
+              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 9 || contractDetailData.contractState == 6">
+                查看退租详情
+              </div>
+              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 5">
+                查看退租申请
               </div>
               <div class="right-content-info">
-                <h3 v-if="contractDetailData.contractState == 1">待确认</h3>
+                <h3 v-if="contractDetailData.contractState == 1">待确认</h3><!--修改合同,预览合同-->
                 <h3 v-else-if="contractDetailData.contractState == 2" style="color: rgb(255,102,18)">待付款</h3>
-                <h3 v-else-if="contractDetailData.contractState == 3" style="color: rgb(255,102,18)">待付首款</h3>
-                <h3 v-else-if="contractDetailData.contractState == 4" style="color: rgb(31,187,166)">履约中</h3>
-                <h3 v-else-if="contractDetailData.contractState == 5" style="color: rgb(31,187,166)">退租中</h3>
-                <h3 v-else-if="contractDetailData.contractState == 6" style="color: rgb(153,153,153)">退组办结</h3>
-                <h3 v-else-if="contractDetailData.contractState == 7" style="color: rgb(255,29,16)">违约</h3>
-                <h3 v-else-if="contractDetailData.contractState == 8" style="color: rgb(153,153,153)">违约办结</h3>
-                <h3 v-else-if="contractDetailData.contractState == 9" style="color: rgb(153,153,153)">到期办结</h3>
+                <h3 v-else-if="contractDetailData.contractState == 3" style="color: rgb(255,102,18)">待付首款</h3><!--预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 4" style="color: rgb(31,187,166)">履约中</h3><!--预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 5" style="color: rgb(31,187,166)">退租中</h3><!--查看退租申请，预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 6" style="color: rgb(153,153,153)">退组办结</h3><!--查看退租详情,预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 7" style="color: rgb(255,29,16)">违约</h3><!--查看银行账户信息,预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 8" style="color: rgb(153,153,153)">违约办结</h3><!--预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 9" style="color: rgb(153,153,153)">到期办结</h3><!--查看退租详情,预览合同-->
               </div>
             </div>
           </div>
@@ -75,35 +84,21 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">合同编码 :</td>
-                      <td class="td2">{{contractDetailData.contractNumber}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">租期 :</td>
-                      <td class="td2">{{contractDetailData.beginDate | timefilter("yyyy.MM.dd")}}-{{contractDetailData.endDate | timefilter("yyyy.MM.dd")}}(一年)</td>
+                      <td class="td2">合同编码 :<span>{{contractDetailData.contractNumber}}</span></td>
+                      <td class="td2">租期 :<span>{{contractDetailData.beginDate | timefilter("yyyy.MM.dd")}}-{{contractDetailData.endDate | timefilter("yyyy.MM.dd")}}(一年)</span></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1"><span v-if="contractDetailData.customerType == 2">经办人信息:</span><span v-else-if="contractDetailData.customerType == 1">联系人信息:</span></td>
+                <td class="td1"><span v-if="contractDetailData.customerType == 2">经办人信息:</span><span v-else>联系人信息:</span></td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">姓名 :</td>
-                      <td class="td2">{{contractDetailData.userName}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">证件类型 :</td>
-                      <td class="td2">身份证</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">证件号码 :</td>
-                      <td class="td2">{{contractDetailData.userCertificate}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">联系方式 :</td>
-                      <td class="td2">{{contractDetailData.userPhone}}</td>
+                      <td class="td2">姓名 :<span>{{contractDetailData.userName}}</span></td>
+                      <td class="td2">证件类型 :身份证</td>
+                      <td class="td2">证件号码 :<span>{{contractDetailData.userCertificate}}</span></td>
+                      <td class="td2">联系方式 :<span>{{contractDetailData.userPhone}}</span></td>
                     </tr>
                   </table>
                 </td>
@@ -113,26 +108,21 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">公司名称 :</td>
-                      <td class="td2">{{contractDetailData.companyInfo}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">法人姓名 :</td>
-                      <td class="td2">{{contractDetailData.companyLegalPerson}}</td>
+                      <td class="td2">公司名称 :<span>{{contractDetailData.companyInfo}}</span></td>
+                      <td class="td2">法人姓名 :<span>{{contractDetailData.companyLegalPerson}}</span></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1">企业资料:</td>
+                <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else>查看证明:</span></td>
                 <td class="td1 left-text-td">
-                  <a>承租人身份证</a><a>委托书</a>
-                </td>
-              </tr>
-              <tr class="tr1">
-                <td class="td1">查看证明:</td>
-                <td class="td1 left-text-td">
-                  <a>承租人身份证</a><a>免责声明</a><a>服务守则</a>
+                  <ul>
+                    <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)">
+                      <img :src="item.filePath" alt="">
+                      <p>{{item.fileTitle}}</p>
+                    </li>
+                  </ul>
                 </td>
               </tr>
               <tr class="tr1">
@@ -140,16 +130,9 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">中介公司 :</td>
-                      <td class="td2">{{contractDetailData.intermediaryCompany}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">中介人 :</td>
-                      <td class="td2">{{contractDetailData.intermediaryName}}</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">中介费 :</td>
-                      <td class="td2" style="color: red">{{contractDetailData.intermediaryMoney}}元</td>
+                      <td class="td2">中介公司 :<span>{{contractDetailData.intermediaryCompany}}</span></td>
+                      <td class="td2">中介人 :<span>{{contractDetailData.intermediaryName}}</span></td>
+                      <td class="td2">中介费 :<span>{{contractDetailData.intermediaryMoney}}元</span></td>
                     </tr>
                   </table>
                 </td>
@@ -159,33 +142,15 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">押金 :</td>
-                      <td class="td2">{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</td>
+                      <td class="td2">押金 :<span>{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</span></td>
+                      <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
+                      <td class="td2">服务费 :<span>3600.00元</span></td>
+                      <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
                     <tr class="tr2">
-                      <td class="td2">首月租金 :</td>
-                      <td class="td2">{{contractDetailData.rentPay}}元</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">服务费 :</td>
-                      <td class="td2">3600.00元</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">优惠券代扣 :</td>
-                      <td class="td2" style="color: red">暂无</td>
-                    </tr>
-                    <br>
-                    <tr class="tr2">
-                      <td class="td2">第一次支付 :</td>
-                      <td class="td2">{{contractDetailData.firstMoney}}元</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">第二次支付 :</td>
-                      <td class="td2">{{contractDetailData.secondPayMoney}}元</td>
-                    </tr>
-                    <tr class="tr2">
-                      <td class="td2">合计 :</td>
-                      <td class="td2" style="font-size: 18px;color: red">{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</td>
+                      <td class="td2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
+                      <td class="td2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
+                      <td class="td2">合计 :<span>{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</span></td>
                     </tr>
                   </table>
                 </td>
@@ -194,7 +159,7 @@
                 <td class="td1">物资清单:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
-                    <tr class="tr2" v-for="material in materials">
+                    <tr class="tr2" v-for="material in contractDetailData.materials">
                       <td class="td2">{{material.materialName}} </td>
                       <td class="td2">{{material.count}}</td>
                     </tr>
@@ -219,6 +184,47 @@
       </div>
       <footer-box></footer-box>
     </div>
+    <div class="community-house-modal" v-if="preView" @click="closePreViewModal()"></div>
+    <div class="contract-modal-content preview-modal-content" v-if="preView">
+      <div class="pre-view">
+        <img :src="preViewSrc" alt="">
+      </div>
+      <div class="next-btn" @click="nextToView()">
+        <Icon type="ios-arrow-left"></Icon>
+      </div>
+      <div class="pre-btn" @click="preToView()">
+        <Icon type="ios-arrow-right"></Icon>
+      </div>
+      <div class="modal-close-btn" @click="closePreViewModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
+    <div class="contract-index-modal" v-if="bankModal" @click="closeBankModal()"></div>
+    <div class="contract-modal-content" v-if="bankModal">
+      <div class="community-house-modal-content-title">
+        <span>查看银行账户信息</span>
+      </div>
+      <div class="contract-detail-table">
+        <table>
+          <tr>
+            <td>账户名 :</td>
+            <td>李米月</td>
+          </tr>
+          <tr>
+            <td>账  户 :</td>
+            <td>65532188212540548</td>
+          </tr>
+          <tr>
+            <td>开户行 :</td>
+            <td>中国建设银行深圳国贸支行</td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-close-btn" @click="closeBankModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -242,7 +248,10 @@
       return{
         contractSignId:"",
         isOffice:0,//0:公寓 1:办公室
-        contractDetailData:{}
+        contractDetailData:{},
+        bankModal:false,
+        preView:false,
+        preViewSrc:""
       }
     },
     methods:{
@@ -256,15 +265,45 @@
         this.$http.get(contractDetai,{params:data}).then(function(res){debugger
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
+              if(that.contractDetailData.credentialsImages){
+                that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
+              }
+              if(that.contractDetailData.materials){
+                that.contractDetailData.materials =   JSON.parse(that.contractDetailData.materials);
+              }
+              console.log(that.contractDetailData)
           }
         })
-      }
-    },
-    computed:{
-      materials:function(){
-          if(this.contractDetailData.materials){
-            return JSON.parse(this.contractDetailData.materials);
-          }
+      },
+      openBankModal(){
+        this.bankModal=true;
+      },
+      closeBankModal(){
+        this.bankModal=false;
+      },
+      preViewPc(index){
+        this.activeViewIndex = index;
+        this.preViewSrc = this.contractDetailData.credentialsImages[index].filePath;
+        this.preView = true;
+      },
+      closePreViewModal(){
+        this.preView = false;
+      },
+      nextToView(){
+        if(this.activeViewIndex < this.contractDetailData.credentialsImages.length -1 ){
+          this.activeViewIndex++;
+          this.preViewSrc = this.contractDetailData.credentialsImages[this.activeViewIndex].filePath;
+        }else{
+          this.preViewSrc = this.contractDetailData.credentialsImages[this.contractDetailData.credentialsImages.length -1].filePath;
+        }
+      },
+      preToView(){
+        if(this.activeViewIndex>0){
+          this.activeViewIndex--;
+          this.preViewSrc = this.contractDetailData.credentialsImages[this.activeViewIndex].filePath;
+        }else{
+          this.preViewSrc = this.contractDetailData.credentialsImages[0].filePath;
+        }
       }
     },
     filters:{
@@ -280,7 +319,6 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-
 
   #contract-detail-wrap {
     padding-bottom: 50px;
@@ -371,14 +409,22 @@
             padding-top: 20px;
             padding-bottom: 20px;
             .contract-detail-table2{
-              .tr2>.td2:nth-child(1){
-                text-align: right;
-                width: 110px;
+              .tr2{
+                td{
+                  padding-left: 30px;
+                  span{
+                    padding-left: 5px;
+                  }
+                }
               }
-              .tr2>.td2:nth-child(2){
-                text-align: left;
-                padding-left: 10px;
-              }
+              /*.tr2>.td2:nth-child(1){*/
+                /*text-align: right;*/
+                /*width: 110px;*/
+              /*}*/
+              /*.tr2>.td2:nth-child(2){*/
+                /*text-align: left;*/
+                /*padding-left: 10px;*/
+              /*}*/
             }
           }
           .table1-first-td{
@@ -388,15 +434,136 @@
             color: black;
           }
           .left-text-td{
-            text-align: left;
-            a{
-              padding-left: 30px;
+            ul{
+              li{
+                display: inline-block;
+                float: left;
+                height: 160px;
+                width: 160px;
+                margin-left: 30px;
+                img{
+                  height: 120px;
+                  width: 160px;
+                }
+                p{
+                  margin-top: 15px;
+                }
+              }
             }
           }
         }
       }
     }
 
+  }
 
+  .contract-index-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  .contract-modal-content{
+    width:440px;
+    height:300px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .community-house-modal-content-title{
+      height: 60px;
+      width: 100%;
+      font-size: 20px;
+      color: #fff;
+      background-color:rgb(53,154,240);
+      text-align: center;
+      line-height: 60px;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .contract-detail-table{
+      height: 100px;
+      width: 100%;
+      padding-top: 30px;
+      table{
+        margin: 0 auto;
+        tr{
+          td{
+            padding: 5px 0;
+          }
+          td:nth-child(1){
+            width: 60px;
+            text-align: right;
+            font-weight: 700;
+            color: black;
+          }
+          td:nth-child(2){
+            text-align: left;
+            padding-left: 5px;
+          }
+        }
+      }
+    }
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+  .preview-modal-content{
+    width:720px;
+    height:540px;
+    .pre-view{
+      width: 100%;
+      height: 100%;
+      img{
+        width: 100%;
+        height: 100%;
+        background-size: 100%;
+      }
+    }
+    .next-btn,.pre-btn{
+      width: 70px;
+      height: 70px;
+      position: absolute;
+      font-size: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .next-btn{
+      left: -80px;
+      top: 250px;
+    }
+    .pre-btn{
+      right: -80px;
+      top: 250px;
+    }
   }
 </style>

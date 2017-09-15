@@ -438,6 +438,9 @@ export default {
         }
       }
     }
+    .ivu-tabs-bar{
+      background-color: rgb(240,240,240);
+    }
   }
 
   .zhezhao{

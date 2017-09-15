@@ -226,7 +226,7 @@ export default new Router({
       name: 'gathering',
       component: resolve =>
         require(['../views/signed/gathering.vue'],resolve)
-    },{						
+    },{
     	path:'/signed/gatherDetails',		//工作台-发起收款-收款详情
     	name:'gatherDetails',
     	component:resolve =>
@@ -241,7 +241,27 @@ export default new Router({
     	name:'housesubscribe',
     	component:resolve =>
     		require(['../views/signed/housesubscribe.vue'],resolve)
-    },
+    },{
+      path:'/finance/financeManagement',		//财务管理
+      name:'financeManagement',
+      component:resolve =>
+        require(['../views/finance/financeManagement.vue'],resolve)
+    },{
+      path:'/finance/invoiceDetail',		//财务管理-发票详情
+      name:'invoiceDetail',
+      component:resolve =>
+        require(['../views/finance/invoiceDetail.vue'],resolve)
+    },{
+      path:'/finance/refundDetail',		//财务管理-发票详情
+      name:'refundDetail',
+      component:resolve =>
+        require(['../views/finance/refundDetail.vue'],resolve)
+    },{
+      path:'/apartment/communityDevice',		//社区管理-设备管理
+      name:'communityDevice',
+      component:resolve =>
+        require(['../views/apartment/communityDevice.vue'],resolve)
+    }
 
 
   ]

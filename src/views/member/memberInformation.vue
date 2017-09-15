@@ -18,21 +18,22 @@
                 <h3><i class="icon icon-iden"></i>个人信息</h3>
                 <div class="member-img-content">
                   <div class="member-img">
-                    <el-upload
-                      action="https://jsonplaceholder.typicode.com/posts/"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeAvatarUpload">
-                      <template v-if="imageUrl">
-                        <img  :src="imageUrl" class="avatar">
-                        <img class="update-avatar" src="../../../static/images/icon/update-member-img.png" alt="">
-                      </template>
-                      <template v-else>
-                        <i class="el-icon-plus avatar-uploader-icon"></i>
-                        <span class="upload-img-text">上传照片</span>
-                      </template>
-                    </el-upload>
-                    <input type="file" class="upfile"  accept="image/png,image/jpg">
+                    <img  :src="imgPath+userData.headPic" class="avatar">
+                    <!--<el-upload-->
+                      <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+                      <!--:show-file-list="false"-->
+                      <!--:on-success="handleAvatarSuccess"-->
+                      <!--:before-upload="beforeAvatarUpload">-->
+                      <!--<template v-if="imageUrl">-->
+                        <!--<img  :src="imageUrl" class="avatar">-->
+                        <!--<img class="update-avatar" src="../../../static/images/icon/update-member-img.png" alt="">-->
+                      <!--</template>-->
+                      <!--<template v-else>-->
+                        <!--<i class="el-icon-plus avatar-uploader-icon"></i>-->
+                        <!--<span class="upload-img-text">上传照片</span>-->
+                      <!--</template>-->
+                    <!--</el-upload>-->
+                    <!--<input type="file" class="upfile"  accept="image/png,image/jpg">-->
                   </div>
                   <table class="member-information-table">
                     <tr>
@@ -108,9 +109,10 @@
     methods:{
       getUserInfo(params){
           var vm  = this;
-        this.$http.post(eemberInformation,qs.stringify(params)).then(function(res){debugger
+        this.$http.post(eemberInformation,qs.stringify(params)).then(function(res){
           if(res.status == 200 && res.data.code == 10000){
             vm.userData = res.data.entity;
+            console.log(vm.userData.cxkjContractSign)
           }
 
         })

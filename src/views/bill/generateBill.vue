@@ -36,7 +36,7 @@
               <th class="th1">合计应收/元</th>
               <th class="th1">租客/联系人</th>
               <th class="th1">联系电话</th>
-              <th class="th1">操作</th>
+              <th class="th1" style="min-width: 85px;">操作</th>
             </tr>
             <tr class="tr1" v-for="(item,index) in billPaymentList">
               <td class="td1">{{item.roomNum}}</td>
@@ -73,7 +73,7 @@
               <td class="td1">{{item.totalMoney}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
-              <td class="td1"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
+              <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
 
           </table>
@@ -190,7 +190,7 @@
       saveBillPayment(params){
         var that = this;
         this.$http.post(saveBillPayment,qs.stringify(params))
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
             }
           })

@@ -301,8 +301,6 @@
       },
 
       openWhileModal(blacklistId,index){
-        console.log(this.checkAll)
-        debugger
         this.whileModal = true;
         this.blacklistId = blacklistId;
       },
@@ -322,9 +320,10 @@
       setAllWhile(){
         var vm = this;
         var params = []
+        console.log(this.blackMemberList);
         for(var i = 0;i<this.blackMemberList.length;i++){
           params.push({blacklistId:this.blackMemberList[i].cxkjCenterBlacklist.blacklistId})
-        }
+        }debugger
         this.$http.post(editWhilelist,{cxkjCenterBlacklist:params})
           .then(function(res){
             vm.checkAllStatus = false;
