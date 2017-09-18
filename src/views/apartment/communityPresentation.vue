@@ -237,7 +237,6 @@
 					for(let i in vm.filelist1) {
 						console.log(111+'aaa')
 						vm.param.append('communityFlatFiles', vm.filelist1[i]);
-						debugger
 					}
 					console.log(vm.filelist1);
 				}

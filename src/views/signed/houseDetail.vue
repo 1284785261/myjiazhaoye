@@ -314,7 +314,7 @@
     		},
     		bus(){
     			if(this.money ==null ||this.texs == null){
-    				alert('输出信息不完整');
+    				alert('输入信息不完整');
     			}
     			else{
     				axios.post(hostPrice,

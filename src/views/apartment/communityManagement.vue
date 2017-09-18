@@ -287,7 +287,8 @@
 				valu:null,
 				createtimes:null,
 				commentDate:null,
-				communityId:null
+				communityId:null,
+				param:'',
 			}
 		},
 		filters: { //过滤器
@@ -360,6 +361,7 @@
 			this.befors();
 			this.classifys();
 			this.comment();
+			this.param = new FormData();
 		},
 		methods: {
 			classifys(){
@@ -404,15 +406,27 @@
 				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
+//				let start = new Date(vm.start).getTime()
+//				let over = new Date(vm.over).getTime()
+////				console.log(start);
+//				console.log(over);
+//				debugger
+				this.param.append("pageNum", pageNum);
+				this.param.append("pageSize", pageSize);
+				this.param.append("communityOpeningDate", vm.start);
+				this.param.append("communityNewOpeningDate", vm.over);
+				this.param.append("communityLikeName", vm.vague);
+//				this.param.append("pageNum", pageNum);
+//				this.param.append("pageNum", pageNum);
+//	qs.stringify({
+//							pageNum: pageNum,
+//							pageSize: pageSize,
+//							communityOpeningDate: vm.start,
+//							communityNewOpeningDate: vm.over,
+//							communityLikeName:vm.vague
+//						}
 				axios.post(hostCommint, //请求数据列表
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityOpeningDate: vm.start,
-							communityNewOpeningDate: vm.over,
-							communityLikeName:vm.vague
-						})
-					).then((response) => {
+					vm.param).then((response) => {
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							alert('搜索成功');

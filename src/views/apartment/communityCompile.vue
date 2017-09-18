@@ -176,8 +176,7 @@
 //				console.log(vm.fileList.length)
 //				console.log('vm.fileList.Length')
 				for(let i = 0; i < vm.fileList.length; i++) {
-					//  				this.param.append('communityContractFiles',vm.fileList[i][0],vm.fileList[i][1]);
-					vm.param.append('communityContractFiles', vm.fileList[i][0], vm.fileList[i][1]);
+					vm.param.append('communityContractFiles', vm.fileList[i][0],vm.fileList[i][1]);
 				}
 //				console.log('参数')
 //				console.log(vm.communityName)
@@ -185,14 +184,15 @@
 //				console.log(vm.parentId)
 //				console.log(vm.areas)
 //				console.log(vm.communityAddress)
-//				console.log(vm.communityOpeningDate)
+				console.log(vm.communityOpeningDate)
 //				console.log(vm.communityType)
-//				console.log(vm.communityPhone)
-//				console.log(vm.communityContractNum)
-//				console.log(vm.communityLeaseBegin)
-//				console.log(vm.communityLeaseEnd)
-//				console.log(vm.communityFreeLeaseBegin)
-//				console.log(vm.communityContractFile)
+				console.log(vm.communityPhone)
+				console.log(vm.communityContractNum)
+				console.log(vm.communityLeaseBegin)
+				console.log(vm.communityLeaseEnd)
+				console.log(vm.communityFreeLeaseBegin)
+				console.log(vm.communityFreeLeaseEnd)
+				console.log(vm.communityContractFile)
 //				console.log('参数')
 				this.param.append("communityName", vm.communityName);
 				this.param.append("communityProvince", vm.areaId);
@@ -207,7 +207,7 @@
 				this.param.append("communityLeaseEnd", vm.communityLeaseEnd);
 				this.param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
 				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-				if(vm.communityName == null || vm.areaId == null || vm.parentId== null || vm.areas== null || vm.communityAddress== null || vm.communityOpeningDate== null || vm.communityType== null || vm.communityPhone== null || vm.communityContractNum== null || vm.communityLeaseBegin== null || vm.communityLeaseEnd== null || vm.communityFreeLeaseBegin== null || vm.communityFreeLeaseEnd== null || vm.fileList ==[]){
+				if(vm.parentId== null || vm.areas== null || vm.communityAddress== null || vm.communityOpeningDate== null || vm.communityType== '' || vm.communityPhone== null || vm.communityContractNum== null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.fileList == []){
 					alert('信息填入不完整，请补充完信息');
 				}
 				else{
