@@ -271,7 +271,17 @@ export default new Router({
       name:'operationDayReport',
       component:resolve =>
         require(['../views/operation/operationDayReport.vue'],resolve)
-    },
+    },{
+      path:'/operation/operationMonthReport',		//运营报表-月报
+      name:'operationMonthReport',
+      component:resolve =>
+        require(['../views/operation/operationMonthReport.vue'],resolve)
+    },{
+      path:'/custom/customServiceManagement',		//客服管理-投诉管理
+      name:'customServiceManagement',
+      component:resolve =>
+        require(['../views/custom/customServiceManagement.vue'],resolve)
+    }
 
 
   ]

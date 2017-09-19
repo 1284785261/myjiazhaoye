@@ -22,10 +22,12 @@
               <th>房号</th>
               <th>户型与格局</th>
               <th>家用电器</th>
-              <th>水表/水费</th>
-              <th>电表/电费</th>
+              <th v-if="cxkjCommunityListRoom[0].waterType == 1">水表/水费</th>
+              <th>水表读数</th>
+              <th v-if="cxkjCommunityListRoom[0].electricType == 1">电表/电费</th>
+              <th>电表读数</th>
               <th>租金（元/月）</th>
-              <th v-if="!isEidRoom">操作</th>
+              <th v-if="!isEidRoom" style="width: 110px;">操作</th>
             </tr>
             <tr v-for="(room,index) in cxkjCommunityListRoom">
               <td >
@@ -52,6 +54,7 @@
                   </template>
                 </p>
               </td>
+              <td v-if="room.waterType==1"><Input v-model="room.roomWater"  placeholder="请填写水表读数"></Input></td>
               <td>
                 <p>
                   <template v-if="room.electricType==1">
@@ -62,6 +65,7 @@
                   </template>
                 </p>
               </td>
+              <td v-if="room.electricType == 1"><Input v-model="room.roomElectric"  placeholder="请填写电表读数"></Input></td>
               <td>
                 <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
               </td>
@@ -79,78 +83,25 @@
             <Button style="width: 130px;height: 40px; margin-left: 20px;" @click="cancleNewRoom()">取消</Button>
           </div>
 
-          <!--<Modal v-model="modal3" width="500">-->
-            <!--<div slot="header" style="background-color:#2d8cf0;text-align:center;">-->
-              <!--<span>电费设置</span>-->
-            <!--</div>-->
-            <!--<div class="modal-content-meddle">-->
-              <!--<p style="margin-bottom: 15px"><b>电表状态 :</b><span style="padding-left: 17px;">在线</span></p>-->
-              <!--<div>-->
-                <!--<div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>-->
-                <!--<div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">-->
-                  <!--<Radio-group v-model="electricTypeSelect" vertical>-->
-                    <!--<Radio label="1">-->
-                      <!--<span>按用量 </span>-->
-                    <!--</Radio>-->
-                    <!--<Radio label="2">-->
-                      <!--<span>按合租人数 </span>-->
-                    <!--</Radio>-->
-                  <!--</Radio-group>-->
-                <!--</div>-->
-                <!--<div style="display: inline-block;">-->
-                  <!--<div><Input v-model="electricValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/度</span><br></div>-->
-                  <!--<div style="padding-top: 10px"><Input v-model="energyOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div slot="footer">-->
-              <!--<Button type="primary" size="large" style="width: 130px;height: 40px" @click="setElectric()">确定</Button>-->
-            <!--</div>-->
-          <!--</Modal>-->
 
-          <Modal v-model="modal1" width="500" id="select-house-modal" style="position: absolute; top: 0">
-            <div slot="header" style="background-color:#2d8cf0;text-align:center;">
-              <span>家用电器设置</span>
+
+          <div class="community-addroom-setting-madal" v-if="modal1" @click="closeRoomFurniture()"></div>
+          <div class="community-addroom-setting-madal-content" v-if="modal1">
+            <div class="community-addroom-setting-madal-content-title">
+              <span>家具配置</span>
             </div>
-            <div id="appliances-setting" class="modal-content-meddle">
+            <div class="modal-content-meddle">
               <el-checkbox-group v-model="selectListData">
                 <el-checkbox v-for="select in checkBoxArr2" :label="select.dataName"></el-checkbox>
               </el-checkbox-group>
             </div>
-            <div slot="footer">
-              <Button type="primary" size="large" style="width: 130px;height: 40px" @click="updatetRoomFurniture()">确定</Button>
+            <div class="modal-btn">
+              <Button type="primary" @click="updatetRoomFurniture()">确定</Button>
             </div>
-          </Modal>
-
-          <!--<Modal v-model="modal2" width="500">-->
-            <!--<div slot="header" style="background-color:#2d8cf0;text-align:center;">-->
-              <!--<span>水费设置</span>-->
-            <!--</div>-->
-            <!--<div class="modal-content-meddle">-->
-              <!--<p style="margin-bottom: 15px"><b>水表状态 :</b><span style="padding-left: 17px;">在线</span></p>-->
-              <!--<div>-->
-                <!--<div style="display: inline-block;vertical-align: top;padding-top: 6px;"><b>计费方式 :</b></div>-->
-                <!--<div style="display: inline-block;padding-left: 15px;vertical-align: bottom;">-->
-                  <!--<Radio-group v-model="waterTypeSelect" vertical>-->
-                    <!--<Radio label="1">-->
-                      <!--<span>按用量 </span>-->
-                    <!--</Radio>-->
-                    <!--<Radio label="2">-->
-                      <!--<span>按合租人数 </span>-->
-                    <!--</Radio>-->
-                  <!--</Radio-group>-->
-                <!--</div>-->
-                <!--<div style="display: inline-block;">-->
-                  <!--<div><Input v-model="waterValue" placeholder="请填写金额" style="width: 120px"></Input><span style="padding-left:10px; ">元/m³</span><br></div>-->
-                  <!--<div style="padding-top: 10px"><Input v-model="waterOfValue" placeholder="请填写金额" style="width: 120px"></Input ><span style="padding-left:10px;">元/人</span></div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div slot="footer">-->
-              <!--<Button type="primary" size="large" style="width: 130px;height: 40px" @click="seWater()">确定</Button>-->
-            <!--</div>-->
-          <!--</Modal>-->
-
+            <div class="modal-close-btn" @click="closeRoomFurniture()">
+              <Icon type="ios-close-empty"></Icon>
+            </div>
+          </div>
         </div>
       </div>
       <footer-box></footer-box>
@@ -193,8 +144,8 @@
             roomNum:"",
             roomType:"",
             roomFurniture:"",
-            roomWater:"1000",
-            roomElectric:"2000",
+            roomWater:"",
+            roomElectric:"",
             roomRent:"",
             waterType:1,
             electricType:1,
@@ -268,8 +219,8 @@
               roomNum:"",
               roomType:"",
               roomFurniture:"",
-              roomWater:"1000",
-              roomElectric:"2000",
+              roomWater:"",
+              roomElectric:"",
               roomRent:"",
               waterType:1,
               electricType:1,
@@ -290,7 +241,7 @@
         var that = this;
         this.$http.post(
           IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId})
-        ).then(function(res){debugger
+        ).then(function(res){
           var communitySettingInfo = res.data.entity;
           //获取家电数据
           var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
@@ -430,8 +381,8 @@
             roomNum:roomNum || "",
             roomType:"",
             roomFurniture:"",
-            roomWater:"1000",
-            roomElectric:"2000",
+            roomWater:"",
+            roomElectric:"",
             roomRent:"",
             waterType:that.cun_waterChargeType,
             electricType:that.cun_energyChargeType,
@@ -459,53 +410,102 @@
       },
       createNewRoom(){
         var that = this;
-        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
-          var roomFurniture = this.cxkjCommunityListRoom[i].roomFurniture.trim();
-          var furnitureArr = roomFurniture.split(" ");
-          var dataArr = [];
-          for(var j =0;j<furnitureArr.length;j++){
-            dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
-          }
-          if(dataArr.length){
-            this.cxkjCommunityListRoom[i].roomFurniture = dataArr.join(",");
-          }else{
-            this.cxkjCommunityListRoom[i].roomFurniture = "";
+        var data = [].concat(this.cxkjCommunityListRoom);
+        for(var j =0;j<data.length;j++){
+          for(var key in data[j]){
+            if(data[j][key]===""){
+              if(this.cxkjCommunityListRoom[0].electricType == 2 &&　key == "roomElectric"){//如果按人计算，电表可以为空
+                  continue;
+              }
+              if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
+                continue;
+              }
+              console.log(key)
+              that.$message({
+                message: '信息填写不完整!',
+                showClose: true,
+                type: 'warning'
+              });
+              return;
+            }
           }
         }
-        this.$http.post(addRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){
+        for(var i =0;i<data.length;i++){
+          if(data[i].roomFurniture){
+            var roomFurniture = data[i].roomFurniture.trim();
+            var furnitureArr = roomFurniture.split(" ");
+            var dataArr = [];
+            for(var j =0;j<furnitureArr.length;j++){
+              dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
+            }
+            if(dataArr.length){
+              data[i].roomFurniture = dataArr.join(",");
+            }else{
+              data[i].roomFurniture = "";
+            }
+          }
+        }
+        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
           that.addRoomSeccess = true;
           setTimeout(function(){
             that.addRoomSeccess = false;
             history.go(-1);
-          },1500)
+          },1000)
         }).catch(function(err){
           console.log(err);
         })
       },
       updateRoom(){
         var that = this;
-        for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
-          var roomFurniture = this.cxkjCommunityListRoom[i].roomFurniture.trim();
-          var furnitureArr = roomFurniture.split(" ");
-          var dataArr = [];
-          for(var j =0;j<furnitureArr.length;j++){
-            dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
-          }
-          if(dataArr.length){
-            this.cxkjCommunityListRoom[i].roomFurniture = dataArr.join(",");
-          }else{
-            this.cxkjCommunityListRoom[i].roomFurniture = "";
+        var data = [].concat(this.cxkjCommunityListRoom);
+        for(var j =0;j<data.length;j++){
+          for(var key in data[j]){
+            if(data[j][key]===""){
+              if(this.cxkjCommunityListRoom[0].electricType == 2 &&　key == "roomElectric"){//如果按人计算，电表可以为空
+                continue;
+              }
+              if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
+                continue;
+              }
+              console.log(key)
+              that.$message({
+                message: '信息填写不完整!',
+                showClose: true,
+                type: 'warning'
+              });
+              return;
+            }
           }
         }
-        this.$http.post(updateRoom,{cxkjCommunityListRoom:this.cxkjCommunityListRoom}).then(function(res){
-          that.addRoomSeccess = true;
-          setTimeout(function(){
-            that.addRoomSeccess = false;
-            history.go(-1);
-          },1500)
+        for(var i =0;i<data.length;i++){
+          if(data[i].roomFurniture){
+            var roomFurniture = data[i].roomFurniture.trim();
+            var furnitureArr = roomFurniture.split(" ");
+            var dataArr = [];
+            for(var j =0;j<furnitureArr.length;j++){
+              dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
+            }
+            if(dataArr.length){
+              data[i].roomFurniture = dataArr.join(",");
+            }else{
+              data[i].roomFurniture = "";
+            }
+          }
+        }
+        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
+            if(res.status == 200 && res.data.code === 10000){
+              that.addRoomSeccess = true;
+              setTimeout(function(){
+                that.addRoomSeccess = false;
+                history.go(-1);
+              },1000)
+            }
         }).catch(function(err){
           console.log(err);
         })
+      },
+      closeRoomFurniture(){
+          this.modal1 = false;
       }
     },
     computed:{
@@ -702,6 +702,102 @@
         width: 90px;
         height: 30px;
         margin-top: 20px;
+      }
+    }
+  }
+
+
+  //家具设置modal
+  .community-addroom-setting-madal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .community-addroom-setting-madal-content{
+    width:500px;
+    height:320px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-content-meddle{
+      height: 120px;
+      width: 100%;
+      margin-bottom: 40px;
+      .el-checkbox-group{
+        width: 270px;
+        margin: 0 auto;
+        padding-top: 40px;
+        .el-checkbox{
+          margin-left: 0!important;
+          width: 90px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+    .community-addroom-setting-madal-content-title{
+      height: 60px;
+      width: 100%;
+      font-size: 20px;
+      color: #fff;
+      background-color:rgb(53,154,240);
+      text-align: center;
+      line-height: 60px;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .add-floor-table{
+      height: 175px;
+      width: 100%;
+      table{
+        margin: 0 auto;
+        padding-top: 40px;
+        tr td:nth-child(1){
+          font-weight: 700;
+          color: black;
+          text-align: right;
+        }
+        tr{
+          td{
+            padding: 10px;
+          }
+        }
+      }
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 140px;
+        height: 38px;
+      }
+    }
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
       }
     }
   }

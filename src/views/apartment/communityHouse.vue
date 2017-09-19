@@ -111,7 +111,7 @@
                 </li>
               </ul>
               <a href="javascript:;" class="confirm2" @click="addCommunityPlace()">确定</a>
-              <a href="javascript:;" class="call">取消</a>
+              <a href="javascript:;" class="call" @click="canCommunityPlace()">取消</a>
             </el-tab-pane>
             <el-tab-pane label="办公室" name="third">
               <table class="bgs" id="office-table">
@@ -270,6 +270,16 @@
       </div>
     </div>
 
+    <div class="community-house-modal" v-if="successModal"></div>
+    <div id="house-success-modal" v-if="successModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/house_type_success.png">
+      </div>
+      <p class="success-p">
+        <span>{{successMassage}}</span>
+      </p>
+    </div>
+
   </div>
 </template>
 
@@ -312,6 +322,8 @@
         checkBoxObj:{},
         selectListData:[],
         deleteFloorId:"",//缓存要删除的楼层编号
+        successModal:false,
+        successMassage:"添加成功！"
       }
     },
     mounted(){
@@ -323,7 +335,7 @@
     },
     computed:{
       filterRootData:function(){
-        if(this.rootData.length>0){debugger
+        if(this.rootData.length>0){
           for(var i =0;i<this.rootData.length;i++){
             for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
               this.$set(this.rootData[i],"showTable",true);
@@ -386,11 +398,15 @@
         this.addFloorModal = false;
         var that = this;
         this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
-          .then(function (res) {debugger
+          .then(function (res) {
             if(res.data.code == 10004){
-              window.alert(res.data.content);
+              that.waringInfo(res.data.content);
             }else if(res.data.code == 10000){
-              window.alert("添加楼层成功!");
+              that.successMassage = "添加楼层成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
               that.getCommunityListRoom();
             }
           }).catch(function(error){
@@ -399,14 +415,19 @@
       },
       //修改楼层信息
       editNewFloor(){
+        var that = this;
         this.editFloorModal = false;
         var floorId = this.rootData[this.editActiveindex].floorId;
         this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
           .then(function (res) {debugger
             if(res.data.code == 10004){
-              window.alert("楼层已存在!");
+              that.waringInfo("该楼层已存在!");
             }else if(res.data.code == 10000){
-              window.alert("修改楼层成功!");
+              that.successMassage = "修改楼层成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
               that.getCommunityListRoom();
             }
           }).catch(function(error){
@@ -426,7 +447,7 @@
         this.deleteFloorModal=false;
         var that = this;
         this.$http.post(deleteFloor, qs.stringify({floorId:this.deleteFloorId}))
-          .then(function (res) {debugger
+          .then(function (res) {
             var flag = -1;
             for(var i =0;i<that.rootData.length;i++){
               if(that.rootData[i].floorId == that.deleteFloorId){
@@ -434,11 +455,10 @@
                 break;
               }
             }
-            debugger
             if(flag != -1){
               that.rootData.splice(flag,1);
             }
-            window.alert("删除成功!");
+            that.waringInfo("删除成功!")
           }).catch(function(error){
           console.log(error);
         })
@@ -458,7 +478,7 @@
       getCommunityListRoom(){
         var that = this;
         this.$http.post(Apartment, {"communityId": this.communityId})
-          .then(function (res) {debugger
+          .then(function (res) {
             if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
               that.rootData = res.data.entity;
             }else{
@@ -483,6 +503,10 @@
       },
       addCommunityPlace(){
         var that = this;
+        if(this.placeNum === "" || this.placeRent ===""){
+          this.waringInfo("信息填写不完整!")
+          return;
+        }
         var data = {
           communityId : this.communityId,
           placeNum: this.placeNum,
@@ -490,12 +514,16 @@
         };
         this.$http.post(Place, qs.stringify(data))
           .then(function (res) {
-            window.alert("添加工位成功!");
+            that.successInfo("添加工位成功!");
             that.placeNum = "";
             that.placeRent = "";
           }).catch(function(error){
           console.log(error);
         })
+      },
+      canCommunityPlace(){
+        this.placeNum = "";
+        this.placeRent = "";
       },
       deleteOffice(index){
         this.CommunityListOffice.splice(index,1);
@@ -504,6 +532,7 @@
         for(var i=0;i<this.newRowNum;i++){
           this.CommunityListOffice.push({
             communityId:this.communityId,
+            officeFurniture:"",
             officeHouseNum:"",
             officeWorkNum:"",
             officeRent:""
@@ -513,7 +542,17 @@
       //添加办公室
       addCommunityOffice(){
         var that = this;
+        var data = this.CommunityListOffice;
+        for(var j =0;j<data.length;j++){
+          for(var key in data[j]){
+            if(data[j][key]===""){
+              this.waringInfo("信息填写不完整!")
+              return;
+            }
+          }
+        }
         for(var i =0;i<this.CommunityListOffice.length;i++){
+          if(this.CommunityListOffice[i].officeFurniture){
             var officeFurniture = this.CommunityListOffice[i].officeFurniture.trim();
             var FurnitureArr = officeFurniture.split(" ");
             var dataArr = [];
@@ -525,11 +564,11 @@
             }else{
               this.CommunityListOffice[i].officeFurniture = "";
             }
+          }
         }
         this.$http.post(Office, {cxkjCommunityListOffice:this.CommunityListOffice})
           .then(function (res) {
-            window.alert("添加办公室成功!");
-            that.init();
+            that.successInfo("添加办公室成功!");
           }).catch(function(error){
           console.log(error);
         })
@@ -549,10 +588,18 @@
       },
       addCommunityMeeting(){
         var that = this;
+        var data = this.CommunityListMeeting;
+        for(var j =0;j<data.length;j++){
+          for(var key in data[j]){
+            if(data[j][key]===""){
+              this.waringInfo("信息填写不完整!")
+              return;
+            }
+          }
+        }
         this.$http.post(Meeting, {cxkjCommunityListMeeting:this.CommunityListMeeting})
           .then(function (res) {
-            window.alert("添加会议室成功!");
-            that.init();
+            that.successInfo("添加会议室成功!");
           }).catch(function(error){
           console.log(error);
         })
@@ -565,7 +612,7 @@
         this.$http.post(ShutdownRoom, qs.stringify({roomId:room.roomId,state:1}))
           .then(function (res) {
             that.rootData[rootDataindex].cxkjCommunityListRoom.splice(index,1);
-            window.alert("删除成功!");
+            that.waringInfo("删除成功!")
           }).catch(function(error){
           console.log(error);
         })
@@ -573,12 +620,32 @@
       copyFloor(floorId){
         var that = this;
         this.$http.post(copyFloor, qs.stringify({communityId:this.communityId,floorId:floorId}))
-          .then(function (res) {debugger
+          .then(function (res) {
+            that.$message({
+              showClose: true,
+              message: '复制成功!',
+              type: 'success'
+            });
             that.getCommunityListRoom();
-            //window.alert("删除成功!");
           }).catch(function(error){
           console.log(error);
         })
+      },
+      waringInfo(message){
+        this.$message({
+          message: message,
+          showClose: true,
+          type: 'warning'
+        });
+      },
+      successInfo(successMassage){
+        var that = this;
+        that.successMassage = successMassage;
+        that.successModal = true;
+        setTimeout(function(){
+          that.successModal = false;
+          that.init();
+        },1000)
       }
     }
   }
@@ -730,5 +797,62 @@
   }
   .message-tis #office-table thead tr td{
     width: 20%;
+  }
+
+
+  #house-success-modal{
+    width: 240px;
+    height: 160px;
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+  #house-success-modal{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        margin-top: 30px;
+      }
+    }
+    .success-p{
+      text-align: center;
+      padding-top: 15px;
+      font-size: 18px;
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
+      }
+    }
   }
 </style>

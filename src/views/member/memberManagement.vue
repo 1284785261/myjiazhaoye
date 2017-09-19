@@ -41,7 +41,7 @@
                   <th>创建日期</th>
                   <th>状态</th>
                   <th>备注</th>
-                  <th>操作</th>
+                  <th>操作{{memberCurrent}}</th>
                 </tr>
                 <tr v-for="(item,index) in  memberList">
                   <td>{{item.userName}}</td>
@@ -190,7 +190,7 @@
         memberPhone:"",
         memberList:[],
         memberTotalNum:0,
-        memberCurrent:1,
+        memberCurrent:2,
         memberId:null,
         remarks:"",
 
@@ -208,9 +208,10 @@
     },
     methods: {
       init(){
-          this.blackMemberCurrent = 1,
-          this.getmemberTable({pageNum:1});
-          this.getBlackMemberTable({pageNum:1,userBlacklist:1});
+        this.getmemberTable({pageNum:1});
+        this.getBlackMemberTable({pageNum:1,userBlacklist:1});
+        this.blackMemberCurrent = 1;
+        this.memberCurrent = 1;
         },
       //会员列表
       getmemberTable(params){

@@ -16,13 +16,13 @@
               </div>
             </div>
             <div class="report-item">
-              <div class="img-content-wrap isActive">
+              <div class="img-content-wrap isActive" @click="goToMonth()">
                 <img src="../../../static/images/icon/operation_yue_03.png" alt="月报">
                 <span>月报</span>
               </div>
             </div>
           </div>
-          <div class="report-center-wrap">
+          <div class="report-center-wrap" >
             <img src="../../../static/images/icon/operation_null.png" alt="月报">
           </div>
         </div>
@@ -56,6 +56,9 @@
     methods:{
       goToDay(){
           this.$router.push({name:"operationDayReport"})
+      },
+      goToMonth(){
+          this.$router.push({name:"operationMonthReport"})
       }
     }
   }

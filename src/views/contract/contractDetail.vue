@@ -118,7 +118,7 @@
                 <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else>查看证明:</span></td>
                 <td class="td1 left-text-td">
                   <ul>
-                    <li v-for="(item,index) in contractDetailData.credentialsImages">
+                    <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)">
                       <img :src="imgPath+item.filePath" alt="">
                       <p>{{item.fileTitle}}</p>
                     </li>
@@ -184,15 +184,16 @@
       </div>
       <footer-box></footer-box>
     </div>
+
     <div class="community-house-modal" v-if="preView" @click="closePreViewModal()"></div>
     <div class="contract-modal-content preview-modal-content" v-if="preView">
       <div class="pre-view">
         <img :src="imgPath+preViewSrc" alt="">
       </div>
-      <div class="next-btn" @click="nextToView()">
+      <div class="next-btn" @click="preToView()">
         <Icon type="ios-arrow-left"></Icon>
       </div>
-      <div class="pre-btn" @click="preToView()">
+      <div class="pre-btn" @click="nextToView()">
         <Icon type="ios-arrow-right"></Icon>
       </div>
       <div class="modal-close-btn" @click="closePreViewModal()">
@@ -286,7 +287,7 @@
       closeBankModal(){
         this.bankModal=false;
       },
-      preViewPc(index){
+      preViewPc(index){debugger
         this.activeViewIndex = index;
         this.preViewSrc = this.contractDetailData.credentialsImages[index].filePath;
         this.preView = true;
@@ -464,7 +465,7 @@
 
   }
 
-  .contract-index-modal{
+  .contract-index-modal,.community-house-modal{
     width:100%;
     height:100%;
     background-color:rgba(0,0,0,0.4);

@@ -65,7 +65,7 @@
           </div>
           <div class="house-type-btn">
             <Button type="primary" style="width: 130px;height: 40px" @click="createNewHouse()">确定</Button>
-            <Button style="width: 130px;height: 40px; margin-left: 20px;">取消</Button>
+            <Button style="width: 130px;height: 40px; margin-left: 20px;" @click="back()">取消</Button>
           </div>
         </div>
       </div>
@@ -77,15 +77,10 @@
       <div class="modal-img-wrap">
         <img src="../../../static/images/icon/house_type_success.png">
       </div>
-      <p class="success-p">提交成功</p>
-      <!--<div class="modal-btn">-->
-        <!--<Button type="primary" @click="deleteFloor()">确定</Button>-->
-        <!--<Button type="default" @click="closeDeleteModal()" style="margin-left: 10px;">取消</Button>-->
-      <!--</div>-->
-      <!--<div class="modal-close-btn" @click="closeSuccessModal()">-->
-        <!--<Icon type="ios-close-empty"></Icon>-->
-      <!--</div>-->
+      <p class="success-p">户型创建成功</p>
     </div>
+
+
 
   </div>
 </template>
@@ -203,32 +198,31 @@
         })
       },
       copyHouse(index){
-        var copyObj =  {
-          communityId:this.cxkjCommunityListHousetype[index].communityId,
-          housetypeName:this.cxkjCommunityListHousetype[index].housetypeName,
-          housetypeArea:this.cxkjCommunityListHousetype[index].housetypeArea,
-          roomId:this.cxkjCommunityListHousetype[index].housetypeHall,
-          housetypeHall:this.cxkjCommunityListHousetype[index].housetypeHall,
-          housetypeHygienism:this.cxkjCommunityListHousetype[index].housetypeHygienism,
-          housetypeWindow:this.cxkjCommunityListHousetype[index].housetypeWindow,
-          housetypeOrientations:this.cxkjCommunityListHousetype[index].housetypeOrientations
-        }
+        var copyObj = this.deepCopy(this.cxkjCommunityListHousetype[index]);
         this.cxkjCommunityListHousetype.splice(index+1,0, copyObj);
+      },
+      deepCopy(source){
+        var result={};
+        for (var key in source) {
+          result[key] = typeof source[key]==='object'? deepCoyp(source[key]): source[key];
+        }
+        return result;
       },
       createNewHouse(){
         var that = this;
         var data = [].concat(this.cxkjCommunityListHousetype);
-
-        //表单验证
-//        for(var j =0;j<data.length;j++){
-//            for(var key in data[j]){
-//                if(key != "communityId" && !data[j][key]!=""){
-//                    console.log(key)
-//                  window.alert("信息填写不完整！")
-//                  break;
-//                }
-//            }
-//        }
+        for(var j =0;j<data.length;j++){
+            for(var key in data[j]){
+                if(data[j][key]===""){
+                  that.$message({
+                    message: '信息填写不完整!',
+                    showClose: true,
+                    type: 'warning'
+                  });
+                  return;
+                }
+            }
+        }
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
         ).then(function(res){debugger
@@ -240,6 +234,9 @@
         }).catch(function(err){
           console.log(err);
         })
+      },
+      back(){
+        window.history.go(-1);
       }
     }
   }

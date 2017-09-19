@@ -6,17 +6,17 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="">日报</router-link>
+          <router-link  class="active" to="">月报</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>日报</h3>
+          <h3><i class="icon icon-iden"></i>月报</h3>
         </div>
         <div id="operation-day-report-wrap">
           <div class="operation-day-report-content">
             <div>
-              <Date-picker type="date" placeholder="选择日期" v-model="startDate"></Date-picker>
+              <Date-picker type="month" placeholder="选择日期" v-model="startDate"></Date-picker>
               至
-              <Date-picker type="date" placeholder="选择日期" v-model="endDate"></Date-picker>
+              <Date-picker type="month" placeholder="选择日期" v-model="endDate"></Date-picker>
             </div>
             <dev class="day-report-btn">
               <Button type="primary" style="width:120px;height: 38px;">导出报表</Button>
@@ -88,40 +88,40 @@
             <li class="day-report-table-li">
               <h3><i class="icon icon-iden"></i>财务情况</h3>
               <ul class="day-report-inner-ul">
-                <li class="day-report-inner-li">
-                  <div class="inner-li-title">当前现金收入</div>
-                  <di class="inner-li-content">
-                    <div class="inner-li-content-item">
-                      <p>应收已收/元</p>
-                      <span>290000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>应收未收/元</p>
-                      <span style="color: red">290000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>回收率</p>
-                      <span style="color: #00a0e9;">290000.00</span>
-                    </div>
-                  </di>
-                </li>
-                <li class="day-report-inner-li">
-                  <div class="inner-li-title">明日租金预期</div>
-                  <di class="inner-li-content">
-                    <div class="inner-li-content-item">
-                      <p>预计租金收支差/元</p>
-                      <span>29000000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>预计租金收入/元</p>
-                      <span style="color: #3dc4b2;">2900000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>预计租金支出/元</p>
-                      <span style="color: red;">2900000.00</span>
-                    </div>
-                  </di>
-                </li>
+                <!--<li class="day-report-inner-li">-->
+                  <!--<div class="inner-li-title">当前现金收入</div>-->
+                  <!--<di class="inner-li-content">-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>应收已收/元</p>-->
+                      <!--<span>290000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>应收未收/元</p>-->
+                      <!--<span style="color: red">290000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>回收率</p>-->
+                      <!--<span style="color: #00a0e9;">290000.00</span>-->
+                    <!--</div>-->
+                  <!--</di>-->
+                <!--</li>-->
+                <!--<li class="day-report-inner-li">-->
+                  <!--<div class="inner-li-title">明日租金预期</div>-->
+                  <!--<di class="inner-li-content">-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金收支差/元</p>-->
+                      <!--<span>29000000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金收入/元</p>-->
+                      <!--<span style="color: #3dc4b2;">2900000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金支出/元</p>-->
+                      <!--<span style="color: red;">2900000.00</span>-->
+                    <!--</div>-->
+                  <!--</di>-->
+                <!--</li>-->
                 <li class="day-report-inner-li">
                   <div class="inner-li-title">现金收入</div>
                   <div class="inner-li-total-income">
@@ -314,7 +314,7 @@
             }
           }
           li:nth-of-type(even){
-           margin-left: 1%;
+            margin-left: 1%;
           }
         }
       }
