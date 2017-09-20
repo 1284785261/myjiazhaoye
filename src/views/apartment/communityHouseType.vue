@@ -71,17 +71,8 @@
       </div>
       <footer-box></footer-box>
     </div>
-
-    <div class="community-housetype-modal" v-if="successModal"></div>
-    <div id="houseType-success-modal" class="black-member-modal-content" v-if="successModal">
-      <div class="modal-img-wrap">
-        <img src="../../../static/images/icon/house_type_success.png">
-      </div>
-      <p class="success-p">户型创建成功</p>
-    </div>
-
-
-
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 </template>
 
@@ -89,6 +80,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import {api,addHouseType} from '../api.js';addHouseType
   import qs from 'qs';
 
@@ -97,7 +90,9 @@
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      successModal,
+      warningModal
     },
     mounted:function () {
       this.communityId = this.$route.query.communityId;
@@ -173,6 +168,9 @@
           label: '朝北'
         }],
         successModal:false,
+        successMessage:"户型创建成功！",
+        warningModal:false,
+        warningMessage:"信息填写不完整，请填写完整后重新提交！"
       }
     },
     methods:{
@@ -181,9 +179,6 @@
       },
       deleteHouse(index){
         this.cxkjCommunityListHousetype.splice(index,1);
-      },
-      closeSuccessModal(){
-        this.successModal = false;
       },
       addHouse(){
         this.cxkjCommunityListHousetype.push({
@@ -214,18 +209,14 @@
         for(var j =0;j<data.length;j++){
             for(var key in data[j]){
                 if(data[j][key]===""){
-                  that.$message({
-                    message: '信息填写不完整!',
-                    showClose: true,
-                    type: 'warning'
-                  });
+                  that.warningModal = true;
                   return;
                 }
             }
         }
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
-        ).then(function(res){debugger
+        ).then(function(res){
             that.successModal = true;
             setTimeout(function(){
                 that.successModal = false;
@@ -234,6 +225,9 @@
         }).catch(function(err){
           console.log(err);
         })
+      },
+      closeWarningModal(){
+        this.warningModal = false;
       },
       back(){
         window.history.go(-1);

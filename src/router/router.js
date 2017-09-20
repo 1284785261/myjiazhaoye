@@ -281,6 +281,11 @@ export default new Router({
       name:'customServiceManagement',
       component:resolve =>
         require(['../views/custom/customServiceManagement.vue'],resolve)
+    },{
+      path:'/custom/complainDetail',		//客服管理-投诉管理
+      name:'complainDetail',
+      component:resolve =>
+        require(['../views/custom/complainDetail.vue'],resolve)
     }
 
 

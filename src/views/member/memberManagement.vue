@@ -135,7 +135,7 @@
       <div class="modal-img-wrap">
         <img src="../../../static/images/icon/black-member-1.png">
       </div>
-      <p>确定蒋该用户设置为<span>黑名单</span>吗?</p>
+      <p>确定将该用户设置为<span>黑名单</span>吗?</p>
       <div class="modal-reason-wrap">
         <span>备注 :</span>
         <textarea name="remarks" style="width:160px;height: 70px;resize: none;" placeholder="请输入原因" v-model="remarks"></textarea>

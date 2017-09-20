@@ -270,15 +270,18 @@
       </div>
     </div>
 
-    <div class="community-house-modal" v-if="successModal"></div>
-    <div id="house-success-modal" v-if="successModal">
-      <div class="modal-img-wrap">
-        <img src="../../../static/images/icon/house_type_success.png">
-      </div>
-      <p class="success-p">
-        <span>{{successMassage}}</span>
-      </p>
-    </div>
+    <!--<div class="community-house-modal" v-if="successModal"></div>-->
+    <!--<div id="house-success-modal" v-if="successModal">-->
+      <!--<div class="modal-img-wrap">-->
+        <!--<img src="../../../static/images/icon/house_type_success.png">-->
+      <!--</div>-->
+      <!--<p class="success-p">-->
+        <!--<span>{{successMessage}}</span>-->
+      <!--</p>-->
+    <!--</div>-->
+
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 
   </div>
 </template>
@@ -289,6 +292,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor} from '../api.js';
   import qs from 'qs'
 
@@ -296,7 +301,9 @@
     components: {
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      warningModal,
+      successModal
     },
     data(){
       return {
@@ -323,7 +330,9 @@
         selectListData:[],
         deleteFloorId:"",//缓存要删除的楼层编号
         successModal:false,
-        successMassage:"添加成功！"
+        successMessage:"创建成功！",
+        warningModal:false,
+        warningMessage:"信息填写不完整，请填写完整后重新提交！"
       }
     },
     mounted(){
@@ -378,6 +387,9 @@
       handleClick(){
 
       },
+      closeWarningModal(){
+        this.warningModal = false;
+      },
       hideTable(index){
         this.$set(this.rootData[index],"showTable",!this.rootData[index].showTable);
       },
@@ -400,14 +412,18 @@
         this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
           .then(function (res) {
             if(res.data.code == 10004){
-              that.waringInfo(res.data.content);
+              that.successMessage = "该楼层已存在!";
+              that.successModal = true;
             }else if(res.data.code == 10000){
-              that.successMassage = "添加楼层成功!";
+              that.successMessage = "添加楼层成功!";
               that.successModal = true;
               setTimeout(function(){
                 that.successModal = false;
               },1000)
               that.getCommunityListRoom();
+            }else if(res.data.code == 10006){
+              that.warningMessage = "链接超时！"
+              that.warningModal = true;
             }
           }).catch(function(error){
           console.log(error);
@@ -421,14 +437,18 @@
         this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
           .then(function (res) {debugger
             if(res.data.code == 10004){
-              that.waringInfo("该楼层已存在!");
+              that.warningMessage = "该楼层已存在！";
+              that.warningModal = true;
             }else if(res.data.code == 10000){
-              that.successMassage = "修改楼层成功!";
+              that.successMessage = "修改楼层成功!";
               that.successModal = true;
               setTimeout(function(){
                 that.successModal = false;
               },1000)
               that.getCommunityListRoom();
+            }else if(res.data.code == 10006){
+              that.warningMessage = "链接超时！";
+              that.warningModal = true;
             }
           }).catch(function(error){
           console.log(error);
@@ -458,7 +478,11 @@
             if(flag != -1){
               that.rootData.splice(flag,1);
             }
-            that.waringInfo("删除成功!")
+            that.successMessage = "删除楼层成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
           }).catch(function(error){
           console.log(error);
         })
@@ -504,7 +528,8 @@
       addCommunityPlace(){
         var that = this;
         if(this.placeNum === "" || this.placeRent ===""){
-          this.waringInfo("信息填写不完整!")
+          that.warningMessage = "工位信息填写不完整！";
+          that.warningModal = true;
           return;
         }
         var data = {
@@ -514,7 +539,11 @@
         };
         this.$http.post(Place, qs.stringify(data))
           .then(function (res) {
-            that.successInfo("添加工位成功!");
+            that.successMessage = "添加工位成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
             that.placeNum = "";
             that.placeRent = "";
           }).catch(function(error){
@@ -546,7 +575,8 @@
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
-              this.waringInfo("信息填写不完整!")
+              that.warningMessage = "办公室信息填写不完整！";
+              that.warningModal = true;
               return;
             }
           }
@@ -592,7 +622,8 @@
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
-              this.waringInfo("信息填写不完整!")
+              that.warningMessage = "会议室信息填写不完整！";
+              that.warningModal = true;
               return;
             }
           }
@@ -612,7 +643,11 @@
         this.$http.post(ShutdownRoom, qs.stringify({roomId:room.roomId,state:1}))
           .then(function (res) {
             that.rootData[rootDataindex].cxkjCommunityListRoom.splice(index,1);
-            that.waringInfo("删除成功!")
+            that.successMessage = "删除房间成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
           }).catch(function(error){
           console.log(error);
         })
@@ -621,26 +656,19 @@
         var that = this;
         this.$http.post(copyFloor, qs.stringify({communityId:this.communityId,floorId:floorId}))
           .then(function (res) {
-            that.$message({
-              showClose: true,
-              message: '复制成功!',
-              type: 'success'
-            });
+            that.successMessage = "复制楼层成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000);
             that.getCommunityListRoom();
           }).catch(function(error){
           console.log(error);
         })
       },
-      waringInfo(message){
-        this.$message({
-          message: message,
-          showClose: true,
-          type: 'warning'
-        });
-      },
-      successInfo(successMassage){
+      successInfo(successMessage){
         var that = this;
-        that.successMassage = successMassage;
+        that.successMessage = successMessage;
         that.successModal = true;
         setTimeout(function(){
           that.successModal = false;

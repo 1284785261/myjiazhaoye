@@ -9,10 +9,11 @@
           <router-link  class="active" to="/apartment/communityManagement">合同详情</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>合同详情</h3>
+          <h3 v-if="!PreViewContract"><i class="icon icon-iden"></i>合同详情</h3>
+          <h3 v-else><i class="icon icon-iden"></i>预览合同</h3>
         </div>
         <div id="contract-detail-wrap">
-          <div class="contract-detail-wrap-head">
+          <div class="contract-detail-wrap-head" v-if="!PreViewContract">
             <div class="content-item content-item-img">
               <img :src="contractDetailData.communityWork" alt="公寓图片">
             </div>
@@ -32,7 +33,7 @@
               <div class="order-detail-wrap-head-btn" @click="openBankModal()" v-if="contractDetailData.contractState == 7">
                 查看银行账户信息
               </div>
-              <div class="order-detail-wrap-head-btn">
+              <div class="order-detail-wrap-head-btn" @click="PreViewContract = true">
                 预览合同
               </div>
               <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 4">
@@ -66,7 +67,7 @@
             <table class="contract-detail-table1" border="1" bordercolor="#ccc" cellspacing="0">
               <tr class="tr1" v-if="isOffice==0">
                 <td class="td1" v-if="contractDetailData.customerType == 1">公寓合同:</td>
-                <td class="td1" v-else>公寓公司合同:</td>
+                <td class="td1" v-else-if="contractDetailData.customerType == 2">公寓公司合同:</td>
                 <td class="td1 table1-first-td">
                   <span>公寓</span>&nbsp;&nbsp;&nbsp;
                   <span>{{contractDetailData.floorName}}层{{contractDetailData.roomNum}}</span>&nbsp;&nbsp;&nbsp;
@@ -115,11 +116,12 @@
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else>查看证明:</span></td>
+                <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else-if="contractDetailData.customerType == 1">查看证明:</span></td>
                 <td class="td1 left-text-td">
                   <ul>
                     <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)">
-                      <img :src="imgPath+item.filePath" alt="">
+                      <img :src="imgPath+item.filePath" alt="证明图片">
+                      <div class="picture-modal"><Icon type="ios-search"></Icon></div>
                       <p>{{item.fileTitle}}</p>
                     </li>
                   </ul>
@@ -132,7 +134,7 @@
                     <tr class="tr2">
                       <td class="td2">中介公司 :<span>{{contractDetailData.intermediaryCompany}}</span></td>
                       <td class="td2">中介人 :<span>{{contractDetailData.intermediaryName}}</span></td>
-                      <td class="td2">中介费 :<span>{{contractDetailData.intermediaryMoney}}元</span></td>
+                      <td class="td2">中介费 :<span span style="color: red;">{{contractDetailData.intermediaryMoney}}元</span></td>
                     </tr>
                   </table>
                 </td>
@@ -141,7 +143,7 @@
                 <td class="td1">首款<br><span v-if="contractDetailData.cyclePayType==1">押二付一</span><span v-else-if="contractDetailData.cyclePayType==2">押一付一</span>，<span v-if="contractDetailData.firstMoneyPayType == 2">两次付清</span><span v-else-if="contractDetailData.firstMoneyPayType == 1">一次性付清</span>:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
-                    <tr class="tr2">
+                    <tr class="tr2 span-padding">
                       <td class="td2">押金 :<span>{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</span></td>
                       <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
@@ -150,7 +152,7 @@
                     <tr class="tr2">
                       <td class="td2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
                       <td class="td2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
-                      <td class="td2">合计 :<span>{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</span></td>
+                      <td class="td2">合计 :<span style="color: red;">{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</span></td>
                     </tr>
                   </table>
                 </td>
@@ -177,8 +179,10 @@
                 </td>
               </tr>
             </table>
+            <div class="print-contract-btn" v-if="PreViewContract">
+              <Button type="primary" style="width: 180px;height: 36px;" @click="test()">打印合同</Button>
+            </div>
           </div>
-
         </div>
 
       </div>
@@ -255,7 +259,8 @@
         contractDetailData:{},
         bankModal:false,
         preView:false,
-        preViewSrc:""
+        preViewSrc:"",
+        PreViewContract:false,//预览合同
       }
     },
     methods:{
@@ -266,7 +271,7 @@
       },
       getContractDetail(data){
         let that = this;
-        this.$http.get(contractDetai,{params:data}).then(function(res){
+        this.$http.get(contractDetai,{params:data}).then(function(res){debugger
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
               var arr = [];
@@ -425,14 +430,11 @@
                   }
                 }
               }
-              /*.tr2>.td2:nth-child(1){*/
-                /*text-align: right;*/
-                /*width: 110px;*/
-              /*}*/
-              /*.tr2>.td2:nth-child(2){*/
-                /*text-align: left;*/
-                /*padding-left: 10px;*/
-              /*}*/
+              .span-padding{
+                td{
+                  padding-bottom: 10px;
+                }
+              }
             }
           }
           .table1-first-td{
@@ -449,18 +451,40 @@
                 height: 160px;
                 width: 160px;
                 margin-left: 30px;
+                position: relative;
                 img{
                   height: 120px;
                   width: 160px;
+                  cursor: pointer;
+                }
+                .picture-modal{
+                  position: absolute;
+                  background-color: rgba(0,0,0,0.4);
+                  height: 120px;
+                  width: 160px;
+                  cursor: pointer;
+                  font-size: 36px;
+                  color: #fff;
+                  top: 0;
+                  text-align: center;
+                  line-height: 120px;
+                  display: none;
                 }
                 p{
                   margin-top: 15px;
                 }
               }
+              li:hover div.picture-modal{
+                display: block;
+              }
             }
           }
         }
       }
+    }
+    .print-contract-btn{
+      text-align: center;
+      margin-top: 50px;
     }
 
   }
@@ -574,4 +598,5 @@
       top: 250px;
     }
   }
+
 </style>

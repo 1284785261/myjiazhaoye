@@ -107,16 +107,19 @@
       <footer-box></footer-box>
     </div>
 
-    <div class="community-room-modal" v-if="addRoomSeccess"></div>
-    <div id="addroom-success-modal" v-if="addRoomSeccess">
-      <div class="modal-img-wrap">
-        <img src="../../../static/images/icon/house_type_success.png">
-      </div>
-      <p class="success-p">
-        <span v-if="isEidRoom">编辑成功</span>
-        <span v-else>添加成功</span>
-      </p>
-    </div>
+    <!--<div class="community-room-modal" v-if="successModal"></div>-->
+    <!--<div id="addroom-success-modal" v-if="successModal">-->
+      <!--<div class="modal-img-wrap">-->
+        <!--<img src="../../../static/images/icon/house_type_success.png">-->
+      <!--</div>-->
+      <!--<p class="success-p">-->
+        <!--<span v-if="isEidRoom">编辑成功</span>-->
+        <!--<span v-else>添加成功</span>-->
+      <!--</p>-->
+    <!--</div>-->
+
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 
 </template>
@@ -125,6 +128,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import {api,Housetype,SytemData,addRoom,updateRoom,IntroduceInfo,roomInfo} from '../api.js';
   import qs from 'qs';
 
@@ -133,7 +138,9 @@
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      warningModal,
+      successModal
     },
     data(){
       return{
@@ -166,7 +173,7 @@
           value: '3',
           label: '3'
         }],
-        addRoomSeccess:false,
+        successModal:false,
         roomTypes: [],
         checkBoxArr2:[],
         checkBoxObj:{},
@@ -190,6 +197,11 @@
         cun_energyPrice :null,
         cun_waterChargeType:null,
         cun_energyChargeType :null,
+
+        successModal:false,
+        successMessage:"添加房间成功！",
+        warningModal:false,
+        warningMessage:"房间信息填写不完整，请填写完整后重新提交！",
 
         roomId:null,
       }
@@ -235,6 +247,9 @@
         }
         this.getHouseType();
         this.getIntroduceInfo();
+      },
+      closeWarningModal(){
+        this.warningModal = false;
       },
       //查询社区设置信息
       getIntroduceInfo(){
@@ -420,12 +435,8 @@
               if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
                 continue;
               }
-              console.log(key)
-              that.$message({
-                message: '信息填写不完整!',
-                showClose: true,
-                type: 'warning'
-              });
+              that.warningModal = true;
+              that.warningMessage = "房间信息填写不完整，请填写完整后重新提交！";
               return;
             }
           }
@@ -446,9 +457,10 @@
           }
         }
         this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
-          that.addRoomSeccess = true;
+          that.successMessage = "添加房间成功！";
+          that.successModal = true;
           setTimeout(function(){
-            that.addRoomSeccess = false;
+            that.successModal = false;
             history.go(-1);
           },1000)
         }).catch(function(err){
@@ -467,12 +479,8 @@
               if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
                 continue;
               }
-              console.log(key)
-              that.$message({
-                message: '信息填写不完整!',
-                showClose: true,
-                type: 'warning'
-              });
+              that.warningModal = true;
+              that.warningMessage = "房间信息填写不完整，请填写完整后重新提交！";
               return;
             }
           }
@@ -494,9 +502,10 @@
         }
         this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
             if(res.status == 200 && res.data.code === 10000){
-              that.addRoomSeccess = true;
+              that.successMessage = "编辑房间成功！";
+              that.successModal = true;
               setTimeout(function(){
-                that.addRoomSeccess = false;
+                that.successModal = false;
                 history.go(-1);
               },1000)
             }

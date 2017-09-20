@@ -12,22 +12,22 @@
           <h3><i class="icon icon-iden"></i>投诉管理</h3>
           <span>佳兆业航运WEWA空间</span>
         </div>
-        <div id="bill-management-wrap">
+        <div id="custom-service-management-wrap">
           <div class="form-search-criteria">
             <div class="form-item">
               <b>社区：</b>
-              <Select v-model="roomCommunity" style="width:200px">
+              <Select v-model="roomCommunity" style="width:150px">
                 <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
               </Select>
             </div>
             <div class="form-item">
               <b>状态：</b>
-              <Select v-model="roomCommunity" style="width:200px">
+              <Select v-model="roomCommunity" style="width:100px">
                 <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
               </Select>
             </div>
             <div class="form-item">
-              <span>投诉时间：</span>
+              <span>开业日期：</span>
               <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
               <span class="inline-block spanBar">-</span>
               <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
@@ -35,7 +35,7 @@
             <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
-                <Input v-model="roomSearchKey" placeholder="搜索投诉人或联系电话"></Input>
+                <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
                 <input type="button" value="搜索" @click="roomSearch()">
               </div>
             </div>
@@ -50,20 +50,17 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr v-for="room in roomBillList">
-              <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
-              <td>{{room.communityName}}</td>
-              <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
-              <td>{{room.userName}}</td>
-              <td>{{room.userPhone}}</td>
+            <tr>
+              <td>投诉时间</td>
+              <td>投诉时间</td>
+              <td>投诉时间</td>
+              <td>投诉时间</td>
+              <td>投诉时间</td>
               <td>
-                <span v-if="room.billState == 1">待支付</span>
-                <span v-if="room.billState == 2" style="color: #ccc;">已支付</span>
-                <span v-if="room.billState == 3" style="color: red;">违约</span>
-                <span v-if="room.billState == 4">违约办结</span>
+                <span>确认</span>
               </td>
               <td>
-                <router-link :to="{name:'billDetail',query:{billId:room.billId,type:0}}"> 账单详情</router-link>
+                <router-link :to="{name:'complainDetail',query:{}}"> 账单详情</router-link>
                 <router-link to="/bill/billDetail"> 查看合同</router-link>
               </td>
             </tr>
@@ -80,7 +77,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill} from '../api.js';
+  import {allCommunity} from '../api.js';
 
 
   export default {
@@ -91,40 +88,11 @@
     },
     data(){
       return{
-        activeName2: 'first',
-        model1:"",
-        value:"",
-        communitys: [
-          {
-            value: 'beijing',
-            label: '北京市'
-          },
-          {
-            value: 'shanghai',
-            label: '上海市'
-          },
-          {
-            value: 'shenzhen',
-            label: '深圳市'
-          },
-          {
-            value: 'hangzhou',
-            label: '杭州市'
-          },
-          {
-            value: 'nanjing',
-            label: '南京市'
-          },
-          {
-            value: 'chongqing',
-            label: '重庆市'
-          }
-        ],
 
       }
     },
     mounted(){
-
+      this.getCommunityData();
 
     },
     methods:{
@@ -137,8 +105,6 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.RoomBillSelects = that.RoomBillSelects.concat(res.data.entity);
-              that.officeBillSelects = that.officeBillSelects.concat(res.data.entity);
-              that.waterEnergyBillSelects = that.waterEnergyBillSelects.concat(res.data.entity);
             }
           })
       },
@@ -153,12 +119,6 @@
       }
     },
     watch:{
-      waterEnergyStartDate:function(newValue,oldValue){
-        var vm = this;
-        setTimeout(function(){
-          vm.waterEnergySearch();
-        },50);
-      },
 
     }
   }
@@ -168,7 +128,7 @@
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
 
-  #bill-management-wrap{
+  #custom-service-management-wrap{
     height: 100%;
     min-height: 1000px;
     width: 100%;
@@ -177,13 +137,13 @@
 
     .form-search-criteria{
       position: relative;
-      padding: 21px 0 21px 20px;
+      padding: 0 0 21px 20px;
       .form-item{
         display: inline-block;
         margin-right: 20px;
+        padding-top: 20px;
         .form-search{
           position: relative;
-          margin-left: 108px;
           .ivu-input-wrapper{
             width: auto;
           }
@@ -216,7 +176,7 @@
         }
       }
     }
-    .house-bill-table,.water-bill-table,.office-bill-table{
+    .house-bill-table{
       border-collapse:collapse;
       text-align: center;
       th{
@@ -231,6 +191,24 @@
       }
       tr>td:last-child,tr>th:last-child{
         border-right-width: 0;
+      }
+    }
+    .ivu-date-picker{
+      width: 120px;
+    }
+    .ivu-page{
+      margin: 50px 0 160px 0;
+      text-align: center;
+    }
+    .ivu-icon-ios-calendar-outline{
+      color:#038be2;
+      font-family: "iconfont" !important;
+      font-size: 18px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      &:before{
+        content: "\e60c";
       }
     }
   }

@@ -115,7 +115,7 @@
                     <p>{{office.communityName}}</p>
                     <p>租期：{{office.beginDate | timefilter("yyyy.MM.dd")}}-{{office.endDate | timefilter("yyyy.MM.dd")}}</p>
                   </td>
-                  <td>{{office.floorName}}层 {{office.roomNum}}</td>
+                  <td>{{office.officeHouseNum}}</td>
                   <td>{{office.companyInfo}}</td>
                   <td>{{office.userName}}</td>
                   <td>{{office.userPhone}}</td>
@@ -174,29 +174,22 @@
                   <th >操作</th>
                 </tr>
                 <tr v-for="property in propertyContractList">
-                  <td>{{property.contractNumber}}</td>
-                  <td>{{property.createTime | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{property.communityContractNum}}</td>
+                  <td>{{property.propertySignDate | timefilter("yyyy-MM-dd")}}</td>
                   <td>
                     <p>{{property.communityName}}</p>
-                    <p>租期：{{property.beginDate | timefilter("yyyy.MM.dd")}}-{{property.endDate | timefilter("yyyy.MM.dd")}}</p>
+                    <p>租期：{{property.communityLeaseBegin | timefilter("yyyy.MM.dd")}}-{{property.communityLeaseEnd | timefilter("yyyy.MM.dd")}}</p>
                   </td>
-                  <td>{{property.beginDate | timefilter("yyyy.MM.dd")}}-{{property.endDate | timefilter("yyyy.MM.dd")}}</td>
-                  <td>{{office.userName}}</td>
-                  <td>{{office.userPhone}}</td>
-                  <td>{{office.rentPay}}</td>
+                  <td>{{property.communityFreeLeaseBegin | timefilter("yyyy.MM.dd")}}-{{property.communityFreeLeaseEnd | timefilter("yyyy.MM.dd")}}</td>
+                  <td>{{property.propertyContactName}}</td>
+                  <td>{{property.propertyContactPhone}}</td>
+                  <td>{{property.propertyRent}}</td>
                   <td>
-                    <span v-if="property.contractState == 1">待确认</span>
-                    <span v-else-if="property.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
-                    <span v-else-if="property.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
-                    <span v-else-if="property.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
-                    <span v-else-if="property.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
-                    <span v-else-if="property.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
-                    <span v-else-if="property.contractState == 7" style="color: rgb(255,29,16)">违约</span>
-                    <span v-else-if="property.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
-                    <span v-else-if="property.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
+                    <span v-if="property.propertySignStatus == 0" style="color: #3dc4b2;">履约中</span>
+                    <span v-else-if="property.contractState == 1" style="color: #96a5af;">已完结</span>
                   </td>
                   <td>
-                    <router-link to="/contract/contractDetail">社区信息</router-link>
+                    <router-link :to="{name:'communityMessage',query:{id:property.communityId}}">社区信息</router-link>
                   </td>
                 </tr>
               </table>
@@ -273,7 +266,7 @@ export default {
     this.getCommunityData();
     this.getRoomContract({pageNum:1});
     this.getOfficeContract({pageNum:1});
-    //this.getPropertyContract({pageNum:1});
+    this.getPropertyContract({pageNum:1});
   },
   methods: {
     getCommunityData(){
