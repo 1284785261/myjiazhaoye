@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-// const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+export const host3 = 'http://192.168.26.191:8080';
+//const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
@@ -147,6 +147,14 @@ const Controller = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignStart500057'
 //公寓个人签约
 const SigController = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignPersonel500054'
 
+//公寓公司签约
+const SignCompany = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignCompany500055'
+
+//联合办公未出租办公室
+const OfficeList = '/cxkj-room/apis/pcManager/cxkjcontractsign/RentOfficeList500052'
+
+//联合办公签约
+const SignOffice = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignOffice500056'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -194,6 +202,9 @@ export const hostController = host3 + Controller;
 export const hostRoomList = host3 + RoomList;
 export const hostRoomUser = host3 + RoomUser;
 export const hostSigController = host3 + SigController;
+export const hostOfficeList = host3 + OfficeList;
+export const hostSignCompany = host3 + SignCompany;
+export const hostSignOffice = host3 +SignOffice;
 //export default {
 //hosts:function(){
 //		return{

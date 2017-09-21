@@ -1,70 +1,93 @@
-#lodgingHouse{
+#lodgingwork{
 	width: 100%;
 	height: 100%;
 	background: #fff;
 	overflow: hidden;
 	box-shadow: 0 3px 1px #ccc;
-	
-	
 }
-#lodgingHouse .ivu-floor{
+#lodgingwork .ivu-floor{
 	border-bottom: 1px dashed #dcdcdc;
 	width: 90%;
 	margin-left: 5%;
 	padding: 20px 0;
 }
-#lodgingHouse .loadin1 table{
+#lodgingwork .loadin1 table{
 	margin-left: 85px;
 	font-size: 12px;
 }
-#lodgingHouse .loadin1 table tr{
+#lodgingwork .loadin1 table tr{
 	height: 44px;
 }
-#lodgingHouse .loadin1 table tr td:nth-child(1){
+#lodgingwork .loadin1 table tr td:nth-child(1){
 	text-align: right;
 	font-weight: bold;
 	padding-right: 10px;
 	
 }
-#lodgingHouse .loadin1 table tr td .el-select{
+#lodgingwork .loadin1 table tr td .el-select{
 	width: 198px;
 }
-#lodgingHouse .loadin1 table tr td .el-select .el-input__inner{
+#lodgingwork .loadin1 table tr td .el-select .el-input__inner{
 	width: 198px;
 	border-radius: 0;
 	border: 1px solid #dcdcdc; 
 }
-#lodgingHouse .loadin1 table tr td input{
+#lodgingwork .loadin1 table tr td input{
 	width: 198px;
 	height: 34px;
 }
-#lodgingHouse .loadin2{
-	overflow: hidden;
+#lodgingwork .loadin2{
+	min-height: 370px;
 	position: relative;
 }
-#lodgingHouse .loadin2 p{
+#lodgingwork .loadin2 p{
 	width: 83px;
 	float: left;
 	margin-left: 66px;
 	font-weight: bold;
 }
-#lodgingHouse .loadin2 table{
-	float: left;
+#lodgingwork .loadin2 table{
 	width: 600px;
 	height: 260px;
 	background: #f8f8f8;
-	margin-bottom: 70px;
+	margin-left: 150px;
+	margin-bottom: 5px;
 }
-#lodgingHouse .loadin2 table tr td:nth-child(1){
+#lodgingwork .loadin2 table tr td:nth-child(1){
 	text-align: right;
 	width: 110px;
 	padding-right: 10px;
 }
-#lodgingHouse .loadin2 a{
+#lodgingwork .loadinv {
+	height: 190px;
+}
+#lodgingwork .loadinv p{
+	width: 83px;
+	float: left;
+	margin-left: 66px;
+	font-weight: bold;
+}
+#lodgingwork .loadinv table{
+	float: left;
+	width: 600px;
+	height: 124px;
+	background: #f8f8f8;
+}
+#lodgingwork .loadinv table tr td:nth-child(1){
+	text-align: right;
+	width: 110px;
+	padding-right: 10px;
+}
+#lodgingwork .loadinv table tr td input{
+	width: 198px;
+	height: 34px;
+	border: none;
+	border: 1px solid #DCDCDC;
+}
+#lodgingwork .loadin2 a{
 	display: block;
-	position: absolute;
-	left: 154px;
-	bottom: 34px;
+	margin-left: 154px;
+	margin-top: 30px;
 	width: 140px;
 	height: 36px;
 	text-align: center;
@@ -73,59 +96,45 @@
 	border-radius: 5px;
 	font-weight: bold;
 }
-#lodgingHouse .loadin2 table tr td input{
+#lodgingwork .loadin2 table tr td input{
 	width: 198px;
 	height: 34px;
 	border: 1px solid #dddee1;
 }
-#lodgingHouse .loadin3{
-	overflow: hidden;
+#lodgingwork .loadin3{
 	position: relative;
+	height: 230px;
 }
-#lodgingHouse .loadin3 p{
+#lodgingwork .loadin3 p{
 	width: 73px;
 	float: left;
 	margin-left: 76px;
 	font-weight: bold;
 }
-#lodgingHouse .loadin3 ul{
+#lodgingwork .loadin3 .zq{
 	float: left;
 	width: 600px;
 	height: 180px;
-	
 	background: #F8F8F8;
 }
-#lodgingHouse .wors ul{
-	float: left;
-	width: 600px;
-	height: 120px;
-	background: #F8F8F8;
-}
-#lodgingHouse .wors ul li input{
-	width: 198px;
-	height: 34px;
-}
-#lodgingHouse .loadin3 ul li{
+#lodgingwork .loadin3 .zq li{
 	margin-top: 10px;
 	height: 50px;
 }
-#lodgingHouse .loadin3 ul li .ivu-date-picker{
-	width: 140px;
-}
-#lodgingHouse .loadin3 ul li span{
+#lodgingwork .loadin3 .zq li .qzr{
 	margin-left: 50px;
 	margin-right: 10px;
 }
-#lodgingHouse .loadin3 ul .apartment{
+#lodgingwork .loadin3 .zq .apartment{
 	margin-left: 60px;
 	background: none!important;
 }
-#lodgingHouse .loadin3 ul .apartment li{
+#lodgingwork .loadin3 .zq .apartment li{
 	float: left;
 	margin-right: 20px;
 	
 }
-#lodgingHouse .loadin3 ul .apartment li a{
+#lodgingwork .loadin3 .zq .apartment li a{
 	float: left;
 	width: 90px;
 	height: 36px;
@@ -135,6 +144,14 @@
 	line-height: 36px;
 	background: #fff;
 	color: #333333;
+}
+#lodgingwork .loadin3 .zq .apartment li .hus{
+	border: 1px solid #038BE2;
+	color: #038BE2;
+}
+#lodgingwork .loadin4{
+	position: relative;
+	min-height: 420px;
 }
 .loadin4 .div1{
 	width: 100%;
@@ -171,7 +188,7 @@
 
 .loadin4 .div2{
 	width: 100%;
-	overflow: hidden;
+	min-height: 50px;
 	position: relative;
 }
 .loadin4 .div2 p{
@@ -185,25 +202,27 @@
 .loadin4 .div2 .floor-item{
 	float: left;
 	width: 600px;
-	background: #f8f8f8;
-	margin-bottom: 30px;
+	display: block;
 }
 .loadin4 .div2 .floor-item table{
-	float: left;
-	width: 500px;
-	margin-left: 20px;
+	width: 600px;
 	background: #f8f8f8;
 	
 }
+.clear{ 
+	clear:both
+} 
 .loadin4 .div2 table tr td{
 	background: #f8f8f8;
 	border-bottom: none!important;
 	border-left: none;
+	padding-left: 20px;
 }
 .loadin4 .div2 table tr td input{
 	width: 198px;
 	height: 34px;
 	border: 1px solid #dddee1;
+
 }
 .loadin4 .div2 table tr td span{
 	margin-left: 10px;
@@ -215,17 +234,15 @@
 	font-size: 14px;
 	font-weight: bold;
 }
-.loadin4 .addm{
+#lodgingwork .loadin4 .div2 .addm{
 	display: block;
-	margin-left: 150px;
 	width: 140px;
 	height: 36px;
 	background: #fff;
+	margin-top: 30px;
 	border: 1px solid #038BE2;
 	color: #038BE2;
 	text-align: center;
-	
-	
 }
 .loadin5 table tr td:nth-child(1){
 	text-align: right;
@@ -275,9 +292,113 @@
 .loadin6 table tr{
 	height: 50px;
 }
+.loadin6 table tr .boxs .demo-upload-list{
+	float: left;
+	display: inline-block;
+	width: 160px;
+	height: 120px;
+	text-align: center;
+	line-height: 108px;
+	border: 1px solid #dcdcdc;
+	overflow: hidden;
+	padding: 3px;
+	background: #fff;
+	position: relative;
+	box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.loadin6 table tr .boxs .demo-upload-list img{
+  width: 100%;
+  height: 100%;
+}
+.loadin6 table tr .boxs .demo-upload-list-cover{
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,.6);
+}
+.loadin6 table tr .boxs .demo-upload-list-cover i:before{
+	display: none;
+}
+.loadin6 table tr .boxs .demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+}
+.loadin6 table tr .boxs .ivu-main-img{
+	position: relative;
+}
+.loadin6 table tr .boxs .ivu-main-img .item-img{
+	margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.loadin6 table tr .boxs .demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+.loadin6 table tr .boxs .demo-upload-list-cover .ivu-icon-ios-trash-outline{
+    background-image: url("/static/images/icon/trash-outline.png");
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.loadin6 table tr .boxs .uplodas{
+	float: left;
+    display: inline-block;
+    position: relative;
+    height: 122px;
+    width: 162px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.loadin6 table tr .boxs .uplodas div{
+	position: absolute;
+    left: 0;
+    top: 0;
+    width: 162px;
+    height: 122px;
+    line-height: 112px;
+    border: 1px solid #DCDCDC;
+}
+.loadin6 table tr .boxs .uplodas .file{
+	position: absolute;
+    left: 0;
+    top: 0;
+    width: 160px;
+    height: 120px;
+    z-index: 50;
+    opacity: 0;
+    cursor: pointer;
+}
+.loadin6 table tr .boxs .uplodas .titew{
+	z-index: 40;
+	width: 110px;
+	position: absolute;
+    left: 16%;
+    top: 16%;
+    text-align: center;
+    font-size: 12px;
+    color: #B8B8B8;
+}
+.loadin6 table tr .boxs .uplodas div .icons{
+	background-image: url(/static/images/icon/upload.png);
+    width: 160px;
+    height: 120px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
 .loadin7 .div2{
 	width: 100%;
-	overflow: hidden;
 	position: relative;
 }
 .loadin7 .div2 p{
@@ -291,12 +412,10 @@
 .loadin7 .div2 .floor-item{
 	float: left;
 	width: 600px;
-	background: #f8f8f8;
-	margin-bottom: 30px;
 }
 .loadin7 .div2 .floor-item table{
 	float: left;
-	width: 300px;
+	width: 600px;
 	background: #f8f8f8;
 	
 }
@@ -317,9 +436,9 @@
 }
 .loadin7 .addm{
 	display: inline-block;
-	margin-left: 150px;
 	width: 140px;
 	height: 36px;
+	margin-top: 20px;
 	background: #fff;
 	border: 1px solid #038BE2;
 	color: #038BE2;
@@ -383,4 +502,7 @@
 	color: #fff;
 	text-align: center;
 	margin-bottom: 50px;
+}
+.ivu-icon.ivu-icon-camera::before{
+    display: none;
 }

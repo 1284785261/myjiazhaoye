@@ -15,7 +15,7 @@
 		    	<div id="residentList">
 		    		<div class="residentlist">
 		    			<!--@click="daochu"-->
-		    			<a  :href="'http://192.168.26.191:8080/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='+communityId">导出</a>
+		    			<a  :href="host3+communityId">导出</a>
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -44,12 +44,12 @@
 				      :page-size="5"
 				      layout="prev, pager, next,total,jumper"
 				      :total=totolNum>
-				    
+
 				    </el-pagination>
-				    
-		    	</div> 
-		        
-		    
+
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/residentList.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -65,7 +65,7 @@
     import axios from 'axios';
     import { hostHousehold,hostdaocu } from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -79,10 +79,12 @@
     			communityId:null,
     			Datas:[],
     			totolNum:null,
-    			pageNum:1
+    			pageNum:1,
+          host3:''
 		   	}
     	},
     	mounted(){
+        this.host3 = host3+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='
     		this.communityId = this.$route.query.id;
     		//console.log(this.communityId);
     		this.datas();
@@ -143,11 +145,11 @@
 		    		console.log(error);
 		    	})
 		  	}
-    	
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>
@@ -155,5 +157,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>

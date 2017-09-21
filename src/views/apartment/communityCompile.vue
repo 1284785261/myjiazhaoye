@@ -14,11 +14,11 @@
 				<div class="message-tis">
 					<table class="cop">
 						<tr>
-							<td>社区名称：</td>
+							<td><span class="btxs">*</span>社区名称：</td>
 							<td><input type="text" placeholder="请输入社区名称" class="complie_name" v-model="communityName"></td>
 						</tr>
 						<tr>
-							<td>地址：</td>
+							<td><span class="btxs">*</span>地址：</td>
 							<td>
 								<el-select v-model="province" placeholder="请选择省" @change='isActive(province)'>
 									<el-option v-for="item in parent" :key="item.areaName" :label="item.areaName" :value="item.areaName">
@@ -40,7 +40,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>社区类型：</td>
+							<td><span class="btxs">*</span>社区类型：</td>
 							<td>
 								<el-checkbox-group v-model="checkList" @change="types(checkList)">
 									<el-checkbox label="公寓"></el-checkbox>
@@ -50,7 +50,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>开业日期：</td>
+							<td><span class="btxs">*</span>开业日期：</td>
 							<td>
 								<div class="form-item">
 									<Date-picker type="date" placeholder="选择日期" v-model="communityOpeningDate"></Date-picker>
@@ -58,16 +58,16 @@
 							</td>
 						</tr>
 						<tr>
-							<td>社区服务电话：</td>
+							<td><span class="btxs">*</span>社区服务电话：</td>
 							<td><input type="text" placeholder="请输入社区服务电话" class="complie_name2" v-model="communityPhone"></td>
 						</tr>
 						<tr>
-							<td>物业合同编号：</td>
+							<td><span class="btxs">*</span>物业合同编号：</td>
 							<td><input type="text" placeholder="请输入物业合同编号" class="complie_name3" v-model="communityContractNum"></td>
 						</tr>
 						<tr>
 							<td>
-								租期：
+								<span class="btxs">*</span>租期：
 							</td>
 							<td>
 								<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
@@ -77,7 +77,7 @@
 						</tr>
 						<tr>
 							<td>
-								免租期：
+								<span class="btxs">*</span>免租期：
 							</td>
 							<td>
 								<Date-picker type="date" placeholder="请选择日期" v-model="communityFreeLeaseBegin"></Date-picker>
@@ -87,12 +87,12 @@
 						</tr>
 						<tr>
 							<td valign="top">
-								物业合同：
+								<span class="btxs">*</span>物业合同：
 							</td>
 							<td class="bargain">
 								<!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
 								<!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-								<el-upload class="upload-demo" action="http://192.168.26.191:8080/cxkj-room/apis/system/file/SystemFileUpload100023" :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success='success' :on-error='error'>
+								<el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success='success' :on-error='error'>
 									<el-button size="small" type="primary">点击上传</el-button>
 									<div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传jpg/png文件</div>
 								</el-upload>
@@ -126,7 +126,7 @@
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostComplie, hostParent, hostTitle } from '../api.js';
+	import { hostComplie, hostParent, hostTitle ,host3} from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -142,6 +142,7 @@
 				data: {
 					module: 'community'
 				},
+        host3:'',
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
@@ -180,7 +181,8 @@
 			}
 		},
 		mounted() {
-			this.param = new FormData(); //创建form对象
+      this.host3 = host3+'/cxkj-room/apis/system/file/SystemFileUpload100023';
+      this.param = new FormData(); //创建form对象
 			if(this.$route.query.id){
 				this.communityId = this.$route.query.id;
 				this.befor();
@@ -226,7 +228,7 @@
 			    		console.log(error);
 			    	})
 				}
-				
+
 			},
 			handleRemove(file, fileList) { //删除文件
 				console.log(file,fileList);
@@ -236,7 +238,7 @@
 				}
 			},
 			success(response) { //上传文件成功
-				
+
 				if(response.code == 10000) {
 //					console.log(this.fileList);
 //					console.log(response);

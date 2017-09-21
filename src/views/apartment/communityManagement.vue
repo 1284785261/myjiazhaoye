@@ -194,7 +194,7 @@
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="valu" placeholder="搜索用户"></Input>
 										<input type="button" value="搜索" @click="seek">
-										<a class="exports" :href="'http://192.168.26.191:8080/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='+communityId">导出</a>
+										<a class="exports" :href="host3+communityId">导出</a>
 									</div>
 								</div>
 							</div>
@@ -267,6 +267,7 @@
 				model1: '',
 				isShow: false,
 				tableEvaluates: [],
+        host3:'',
 				commint: [], //社区管理全部数据展示
 				commint2:[], //已关闭社区数据
 				pageNum: 1, //第几页的数据
@@ -357,6 +358,7 @@
 		mounted() {
 			 //初始化数据
 			//console.log(111)
+      this.host3 = host3+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
 			this.befor();
 			this.befors();
 			this.classifys();

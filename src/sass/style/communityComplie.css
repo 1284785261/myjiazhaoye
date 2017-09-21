@@ -87,6 +87,10 @@
 .message-tis .cop tr .unloading .el-icon-delete:hover{
 	color: #038BE2;
 }
+.message-tis .cop .btxs{
+	color: red;
+	margin-right: 5px;
+}
 /*.message-tis .cop tr td .file{
 	width: 260px;
 	height: 34px;

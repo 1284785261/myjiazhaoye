@@ -26,17 +26,16 @@
             <Input type="password" v-model="formInline.password" placeholder="请输入登录密码">
             <Icon class="iconfont icon-mima" slot="prepend"></Icon>
             </Input>
-            
+
           </Form-item>
           <span class="titp" v-show="isShow">{{title}}</span>
           <Form-item>
-          	
+
             <Button type="primary" @click="handleSubmit">登录</Button>
-          	
+
           </Form-item>
           <Form-item class="ivu-form-bottom">
               <router-link to="/">忘记密码？</router-link>
-              <em>还没有账号？<router-link to="/">请立即注册<i class="iconfont icon-youjiantou"></i></router-link></em>
           </Form-item>
         </Form>
       </div>
@@ -89,24 +88,24 @@ import qs from 'qs';
       				sessionStorage.setItem("token",res.data.result.token);
       				that.$router.push({path:"/apartment/communityManagement"});
       				//把token上传到sessionStorage
-      			
+
       		}
-      		else{ 			
+      		else{
       			that.title = res.data.content;//把错误信息赋给当前的title
       			that.isShow = true;
       			console.log(that.isShow);
-      			
+
       			setInterval(function(){//设置定时器控制title消失
-      			
+
       				that.isShow = false;
       			},3000);
       		}
       	})
       	.catch((error)=>{
       		console.log(error);
-      	})	
+      	})
       }
-			
+
     }
   }
 </script>

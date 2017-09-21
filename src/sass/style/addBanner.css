@@ -101,6 +101,7 @@
 	width: 438px;
 	height: 118px;
 	padding-left: 10px;
+	resize: none;
 }
 #addbanner .tj{
 	display: inline-block;

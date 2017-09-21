@@ -19,7 +19,7 @@
               <div class="vue-warp-settings">
                 <div class="ivu-floor floor01">
                   <div class="floor-main">
-                    <span class="fl">付款方式设置：</span>
+                    <span class="fl"><span class="btxs">*</span>付款方式设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
                         <tr v-for="(tableRepair,index) in tableRepairs">
@@ -46,7 +46,7 @@
                 </div>
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
-                    <span class="fl">维修项目设置：</span>
+                    <span class="fl"><span class="btxs">*</span>维修项目设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
                         <tr v-for="(tableRepair,index) in tableRepairs2">
@@ -74,7 +74,7 @@
                
                 <div class="ivu-floor floor02">
                   <div class="floor-main">
-                    <span class="fl">家用电器：</span>
+                    <span class="fl"><span class="btxs">*</span>家用电器：</span>
                     <div class="floor-item form-item">
                     	<el-checkbox-group v-model="checkList" @change="mms(checkList)">
                       	<el-checkbox v-for="item in option3" :label=item.dataName></el-checkbox>
@@ -83,13 +83,13 @@
                   </div>
                    
                   <div class="floor-main">
-                    <span class="fl">服务费设置：</span>
+                    <span class="fl"><span class="btxs">*</span>服务费设置：</span>
                     <div class="floor-item form-item">
                       <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost">元/月 </span>
                     </div>
                   </div>
                   <div class="floor-main">
-                    <span class="fl">水电账单日设置：</span>
+                    <span class="fl"><span class="btxs">*</span>水电账单日设置：</span>
                     <div class="floor-item">
                       <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyPayDate"></Date-picker>
                       <span class="ivu-yellow"><i class="ivu-icon ivu-icon-information-circled"></i>提醒管家收取水费、电费、服务费</span>
@@ -100,7 +100,7 @@
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
                     <div class="floor-main1">
-                      <span class="fl">水费设置：</span>
+                      <span class="fl"><span class="btxs">*</span>水费设置：</span>
                       <span class="f5">计费方式：</span>
                       <el-radio-group v-model="radio1">
                         <el-radio :label="1">按用量</el-radio><br>
@@ -114,7 +114,7 @@
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
                     <div class="floor-main1">
-                      <span class="fl">电费设置：</span>
+                      <span class="fl"><span class="btxs">*</span>电费设置：</span>
                       <span class="f5">计费方式：</span>
                       <el-radio-group v-model="radio2">
 
@@ -137,7 +137,7 @@
               <div class="vue-warp-settings">
                 <div class="ivu-floor floor01">
                   <div class="floor-main">
-                    <span class="fl">付款方式设置：</span>
+                    <span class="fl"><span class="btxs">*</span>付款方式设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
                         <tr v-for="(tableRepair,index) in tableRepairs3">
@@ -164,7 +164,7 @@
                 </div>
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
-                    <span class="fl">会议室套餐设置：</span>
+                    <span class="fl"><span class="btxs">*</span>会议室套餐设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
                         <tr v-for="(tableRepair,index) in tableConferences">
@@ -199,7 +199,7 @@
                 </div>
                 <div class="ivu-floor floor03">
                   <div class="floor-main">
-                    <span class="fl">维修项目设置：</span>
+                    <span class="fl"><span class="btxs">*</span>维修项目设置：</span>
                     <div class="floor-item">
                       <table class="table ivu-table">
                         <tr v-for="(tableRepair,index) in tableRepairs5">
@@ -226,13 +226,13 @@
                 </div>
                 <div class="ivu-floor floor02">
                   <div class="floor-main">
-                    <span class="fl">服务费设置：</span>
+                    <span class="fl"><span class="btxs">*</span>服务费设置：</span>
                     <div class="floor-item form-item">
                       <span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2">元/月 </span>
                     </div>
                   </div>
                   <div class="floor-main">
-                    <span class="fl">办公物资：</span>
+                    <span class="fl"><span class="btxs">*</span>办公物资：</span>
                     <div class="floor-item form-item">
                       <el-checkbox-group v-model="checkList2" @change="mmu(checkList2)">
                       	<el-checkbox v-for="item in option5" :label=item.dataName></el-checkbox>
@@ -369,36 +369,36 @@ export default {
     	.then((response)=>{
     		console.log(response);
     		if(response.status == 200 && response.data.code == 10000){
-    			vm.serviceCost2 = response.data.entity.serviceCost;
-    			for(let i =0;i<response.data.entity.cxkjCommunityListConfig.length;i++){
-    				vm.checkList2.push(response.data.entity.cxkjCommunityListConfig[i].systemData.dataName);
+    			vm.serviceCost2 = response.data.entity[0].serviceCost;
+    			for(let i =0;i<response.data.entity[0].cxkjCommunityListConfig.length;i++){
+    				vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
     			}
-    			if(this.tableRepairs3.length < response.data.entity.cxkjCommunityListPayway.length){
+    			if(this.tableRepairs3.length < response.data.entity[0].cxkjCommunityListPayway.length){
     				vm.addRepairs3();
     			}
-					for(let i = 0;i<response.data.entity.cxkjCommunityListPayway.length;i++){
+					for(let i = 0;i<response.data.entity[0].cxkjCommunityListPayway.length;i++){
 						this.tableRepairs3[i].checkValue = true;
-						this.tableRepairs3[i].value6 = response.data.entity.cxkjCommunityListPayway[i].systemData.dataName;
-						this.tableRepairs3[i].date = response.data.entity.cxkjCommunityListPayway[i].discount;
+						this.tableRepairs3[i].value6 = response.data.entity[0].cxkjCommunityListPayway[i].systemData.dataName;
+						this.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
 					}
-    			console.log(this.tableRepairs3);
-    			if(this.tableConferences.length<response.data.entity.cxkjCommunityListMeetingSuit.length){
+    			//console.log(this.tableRepairs3);
+    			if(this.tableConferences.length<response.data.entity[0].cxkjCommunityListMeetingSuit.length){
     				this.addRoom();
     			}
-    				for(let i = 0;i<response.data.entity.cxkjCommunityListMeetingSuit.length;i++){
+    				for(let i = 0;i<response.data.entity[0].cxkjCommunityListMeetingSuit.length;i++){
     					this.tableConferences[i].checkValue = true;
-    					this.tableConferences[i].value4 = response.data.entity.cxkjCommunityListMeetingSuit[i].mettingSuitSystemData.dataName;
-    					this.tableConferences[i].value8 = response.data.entity.cxkjCommunityListMeetingSuit[i].meetingSuitUnitSystemData.dataName;
-    					this.tableConferences[i].date = response.data.entity.cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
+    					this.tableConferences[i].value4 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].mettingSuitSystemData.dataName;
+    					this.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitUnitSystemData.dataName;
+    					this.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
     				}
     			
-    			if(this.tableRepairs5.length < response.data.entity.cxkjCommunityListMaintain.length){
+    			if(this.tableRepairs5.length < response.data.entity[0].cxkjCommunityListMaintain.length){
     				vm.addRepairs5();
     			}
-    			for(let i = 0;i<response.data.entity.cxkjCommunityListMaintain.length;i++){
+    			for(let i = 0;i<response.data.entity[0].cxkjCommunityListMaintain.length;i++){
     				this.tableRepairs5[i].checkValue = true;
-    				this.tableRepairs5[i].value7 = response.data.entity.cxkjCommunityListMaintain[i].systemData.dataName;
-    				this.tableRepairs5[i].date = response.data.entity.cxkjCommunityListMaintain[i].onSiteTime;
+    				this.tableRepairs5[i].value7 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
+    				this.tableRepairs5[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
     			}
     			//console.log(this.tableRepairs5);
     			
@@ -565,45 +565,45 @@ export default {
     		})
     	)
     	.then((response)=>{
-    		//console.log(response);
+    		console.log(response);
     		if(response.status == 200 && response.data.code == 10000){
-    			vm.serviceCost = response.data.entity.serviceCost;
-    			vm.waterEnergyPayDate = response.data.entity.waterEnergyPayDate;
-    			if(response.data.entity.waterChargeType == 1){
+    			vm.serviceCost = response.data.entity[0].serviceCost;
+    			vm.waterEnergyPayDate = response.data.entity[0].waterEnergyPayDate;
+    			if(response.data.entity[0].waterChargeType == 1){
     					vm.radio1 = 1;
-    					vm.sect = response.data.entity.waterPrice;
+    					vm.sect = response.data.entity[0].waterPrice;
     			}
     			else{
     					vm.radio1 = 2;
-    					vm.sec2 = response.data.entity.waterPrice;
+    					vm.sec2 = response.data.entity[0].waterPrice;
     			}
-    			if(response.data.entity.energyChargeType == 1){
+    			if(response.data.entity[0].energyChargeType == 1){
     					vm.radio2 = 1;
-    					vm.input1 = response.data.entity.waterPrice;
+    					vm.input1 = response.data.entity[0].waterPrice;
     			}
     			else{
     					vm.radio2 = 2;
-    					vm.input2 = response.data.entity.waterPrice;
+    					vm.input2 = response.data.entity[0].waterPrice;
     			}
-    			for(let i =0;i<response.data.entity.cxkjCommunityListConfig.length;i++){
-    				vm.checkList.push(response.data.entity.cxkjCommunityListConfig[i].systemData.dataName);
+    			for(let i =0;i<response.data.entity[0].cxkjCommunityListConfig.length;i++){
+    				vm.checkList.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
     			}
-    			if(this.tableRepairs.length < response.data.entity.cxkjCommunityListPayway.length){
+    			if(this.tableRepairs.length < response.data.entity[0].cxkjCommunityListPayway.length){
     				this.addRepairs();
     			}
-    				for(let i = 0;i<response.data.entity.cxkjCommunityListPayway.length;i++){
+    				for(let i = 0;i<response.data.entity[0].cxkjCommunityListPayway.length;i++){
     					this.tableRepairs[i].checkValue = true;
-    					this.tableRepairs[i].value1 = response.data.entity.cxkjCommunityListPayway[i].systemData.dataName;
-    					this.tableRepairs[i].date = response.data.entity.cxkjCommunityListPayway[i].discount;
+    					this.tableRepairs[i].value1 = response.data.entity[0].cxkjCommunityListPayway[i].systemData.dataName;
+    					this.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
     				}
     			
-    			if(this.tableRepairs2.length < response.data.entity.cxkjCommunityListMaintain.length){
+    			if(this.tableRepairs2.length < response.data.entity[0].cxkjCommunityListMaintain.length){
     				this.addRepairs2();
     			}
-    				for(let i = 0;i<response.data.entity.cxkjCommunityListMaintain.length;i++){
+    				for(let i = 0;i<response.data.entity[0].cxkjCommunityListMaintain.length;i++){
     					this.tableRepairs2[i].checkValue = true;
-    					this.tableRepairs2[i].value2 = response.data.entity.cxkjCommunityListMaintain[i].systemData.dataName;
-    					this.tableRepairs2[i].date = response.data.entity.cxkjCommunityListMaintain[i].onSiteTime;
+    					this.tableRepairs2[i].value2 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
+    					this.tableRepairs2[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
     				}
     			
     			

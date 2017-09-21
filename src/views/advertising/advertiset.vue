@@ -26,7 +26,8 @@
 		    			</thead>
 		    			<tr v-for="item in Datas">
 		    				<td><img :src='imgPaths + item.bannerPic'></td>
-		    				<td>{{item.imgExplain}}</td>
+		    				<td v-if="item.imgExplain != null">{{item.imgExplain}}</td>
+		    				<td v-else>无</td>
 		    				<td>{{item.listNumber}}</td>
 		    				<td>{{item.isClose | order(item.isClose)}}</td>
 		    				<td><router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}">修改</router-link><a @click="deletes(item.adId)">删除</a></td>
@@ -112,11 +113,11 @@
 		    	})
 		    },
 		    deletes(id){
-		    	let val = id;
+		    	console.log(typeof(id));
 		    	axios.post(hostDelete,   //删除广告
-		    	{
-		    		adIds:val
-		    	})
+		    	qs.stringify({
+		    		adIds:id
+		    	}))
 		    	.then((response)=>{
 		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){

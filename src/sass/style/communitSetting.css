@@ -19,6 +19,10 @@
 #communitySettingwrap .el-tabs__item{
 	font-size: 18px;
 }
+#communitySettingwrap .btxs{
+	margin-right: 5px;
+	color: red;
+}
 #communitySettingwrap .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
     border: 1px solid #038BE2;
     border-bottom-color:#fff ;

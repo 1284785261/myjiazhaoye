@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 					<span>您现在的位置：工作台  > </span>
-					<router-link class="active" to="/apartment/communityManagement"> 签约</router-link>
+					<router-link class="active" to="/apartment/workbench"> 签约</router-link>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>公寓租客签约</h3>
@@ -14,7 +14,6 @@
 				</div>
 				<div id="lodgingHouse">
 					<div class="ivu-floor loadin1">
-						
 						<table>
 							<tr>
 								<td>所属社区:</td>
@@ -65,8 +64,8 @@
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
 										<el-radio class="radio" v-model="userInfos.radio2" label="2">女</el-radio>
+										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -99,8 +98,8 @@
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
 										<el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
+										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -125,7 +124,7 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie" on-change="mts(onhrie)"></Date-picker>
+									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie" ></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
 									<Date-picker type="date" placeholder="请选择日期" v-model="expire"></Date-picker>
@@ -327,7 +326,7 @@
 					<!--公司租客-->
 					<div v-if="radios == 2">
 						<div class="ivu-floor loadin2">
-							<p>承租人信息:</p>
+							<p>经办人信息:</p>
 							<table v-for="userInfos in aaduserInfo">
 								<tr>
 									<td>已注册手机号:</td>
@@ -342,8 +341,8 @@
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
 										<el-radio class="radio" v-model="userInfos.radio2" label="2">女</el-radio>
+										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -376,8 +375,8 @@
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
 										<el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
+										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -402,12 +401,12 @@
 							<p>公司信息:</p>
 							<table>
 								<tr>
-									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号"></td>
+									<td>公司信息:</td>
+									<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo"></td>
 								</tr>
 								<tr>
-									<td>姓名:</td>
-									<td><input type="text" placeholder="请输入姓名"></td>
+									<td>法人姓名:</td>
+									<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson"></td>
 								</tr>
 							</table>
 						</div>
@@ -415,7 +414,7 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie" on-change="mts(onhrie)"></Date-picker>
+									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
 									<Date-picker type="date" placeholder="请选择日期" v-model="expire"></Date-picker>
@@ -506,7 +505,9 @@
 									<td>水电费用:</td>
 									<td>
 										<ul class="uls">
-											<li><span>水费:</span><span>{{housetderta.waterPrice | waterPrice}}元/人/月</span></li>
+											<li><span>水费:</span><span>{{housetderta.waterPrice | waterPrice}}元/人/月</span>
+												<span>初始:</span><input type="text" v-model="housetderta.roomWater"/><span>度</span>
+											</li>
 											<li><span>电费:</span><span>{{housetderta.energyPrice | energyPrice}}元/度</span>
 												<span>初始:</span><input type="text" v-model="housetderta.roomWater"/><span>度</span>
 											</li>
@@ -515,25 +516,68 @@
 								</tr>
 							</table>
 						</div>
-						<div class="ivu-floor loadin6">
+							<div class="ivu-floor loadin6">
 							<table>
 								<tr>
 									<td>是否签署纸质合同:</td>
 									<td>
-										<el-radio class="radio" v-model="radio" label="1">是</el-radio>
-										<el-radio class="radio" v-model="radio" label="2">否</el-radio>
+										<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
+										<el-radio class="radio" v-model="radio4" label="2">否</el-radio>
 									</td>
 								</tr>
 								<tr>
 									<td>上传证明:</td>
-									<td>
-										<el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-											<i class="el-icon-plus"></i>
-	
-										</el-upload>
-										<el-dialog v-model="dialogVisible" size="tiny">
-											<img width="100%" :src="dialogImageUrl" alt="">
-										</el-dialog>
+									<td class="boxs">
+										<div class="ivu-main-img">
+											<div class="item-img">
+												<div class="uplodas">
+													<div>
+													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile"/>	
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传经办人身份证</span>
+													</div>
+												</div>
+												<div class="uplodas">
+													<div>
+													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2"/>	
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传委托书</span>
+													</div>
+												</div>
+												<div class="uplodas">
+													<div>
+													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3"/>	
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传合同</span>
+													</div>
+												</div>
+												<div class="demo-upload-list" v-for="item in uploadList">
+											        <template>
+											            <img :src="item">
+											            <div class="demo-upload-list-cover">
+											                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+											            </div>
+											        </template>
+											    </div> 
+											    
+												<div class="demo-upload-list" v-for="item in uploadList2">
+											        <template>
+											            <img :src="item">
+											            <div class="demo-upload-list-cover">
+											                <Icon type="ios-trash-outline" @click.native="handleRemove2(item)"></Icon>
+											            </div>
+											        </template>
+											    </div>
+											    <div class="demo-upload-list" v-for="item in uploadList3">
+											        <template>
+											            <img :src="item">
+											            <div class="demo-upload-list-cover">
+											                <Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
+											            </div>
+											        </template>
+											    </div>
+											</div>
+										</div>
 									</td>
 								</tr>
 							</table>
@@ -576,7 +620,7 @@
 									</tr>
 								</table>
 								<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
-								<Button class="addm" @click="SigController">提交</Button>
+								<Button class="addm" @click="SigController2">提交</Button>
 						</div>
 					</div>
 				</div>
@@ -599,7 +643,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostController,hostRoomList,hostRoomUser,hostWay,imgPath,hostSigController } from '../api.js';
+	import { hostController,hostRoomList,hostRoomUser,hostWay,imgPath,hostSigController,hostSignCompany } from '../api.js';
 	
 	export default {
 		components: {
@@ -659,7 +703,7 @@
 					userCertificate:'',
 					username:'',
 					phone:null,
-					radio2: '1',
+					radio2: '2',
 					options2:[],
 				}],
 				ieList:[],
@@ -685,10 +729,12 @@
 				discount:null,   //折扣
 				uploadList: [],
 				uploadList2:[],
+				uploadList3:[],
 				finished:false,
 				imgName:'',
 				filelist1:[],
 				filelist2:[],
+				filelist3:[],
 				dat:null,
 				hints:{
 					company:'',
@@ -711,7 +757,9 @@
 				otherCostJson:'',
 				materials:'',
 				options4:[],
-				furniture:''
+				furniture:'',
+				companyInfo:'',    //公司信息
+				companylegalPerson:''
 			}
 		},
 		mounted(){
@@ -976,6 +1024,9 @@
 				this.ieList[index].certificateType = this.options2[this.options2.findIndex(item => item.dataName == val)].dataId;
 				console.log(this.ieList);
 			},
+			closeWarningModal(){
+				this.warningModal = false;
+			},
 			room(Num){
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
 				console.log(this.housetderta);
@@ -1032,6 +1083,11 @@
                this.uploadList2.splice(fileIndex,1);
                this.filelist2.splice(fileIndex,1);
             },
+            handleRemove3(item) {
+               let fileIndex = this.uploadList3.findIndex(items => items == item);
+               this.uploadList3.splice(fileIndex,1);
+               this.filelist3.splice(fileIndex,1);
+            },
 			uploadfile(e){
 				let vm = this;
 				let file = e.target.files[0];
@@ -1055,6 +1111,20 @@
 				if(vm.uploadList2.length<1){
 					this.filelist2.push(file);
 					vm.uploadList2.push(windowURL.createObjectURL(e.target.files[0]));
+				}
+				else{
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile3(e){
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+				
+				if(vm.uploadList3.length<1){
+					this.filelist3.push(file);
+					vm.uploadList3.push(windowURL.createObjectURL(e.target.files[0]));
 				}
 				else{
 					alert('最多可以上传1张图片');
@@ -1090,7 +1160,7 @@
 				}
 			},
 			SigController(){
-				let vm = this
+				let vm = this               //公寓个人租客签约
 				let arr = [];
 				for(let i = 0;i< this.tableRepairs.length;i++){
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != ''){
@@ -1178,6 +1248,120 @@
 				console.log(this.param);
 
 		        axios.post(hostSigController,this.param).then(res =>{
+		        	if(res.status == 200 && res.data.code == 10000){
+						console.log(res);
+						vm.successModal = true;
+						setTimeout(()=>{
+							vm.successModal = false;
+							this.$router.push('/apartment/workbench');
+						},3000);
+					}
+		        	else{
+		        		vm.warningModal = true;
+		        	}
+				})
+				.catch(error=>{
+					console.log(error);
+				})
+		       
+			},
+			SigController2(){
+				let vm = this         //公寓公司租客签约
+				let arr = [];
+				for(let i = 0;i< this.tableRepairs.length;i++){
+					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != ''){
+						arr.push({"costName":this.tableRepairs[i].inputValue,"costAmount":this.tableRepairs[i].date});
+					}
+					//console.log(arr);
+				}
+				this.otherCostJson = JSON.stringify(arr);
+				
+				let arr2 = [];
+				for(let i = 0;i<this.tableRepairs2.length;i++){
+					if(this.tableRepairs2[i].inputValue != '' && this.tableRepairs2[i].date != ''){
+						arr2.push({"materialName":this.tableRepairs2[i].inputValue,"count":this.tableRepairs2[i].date});
+					}
+				}
+				let arr3 = [];
+				this.materials = JSON.stringify(arr2);
+				for(let i = 0;i<arr2.length;i++){
+					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
+				}
+				if(this.filelist1.length){
+					for(let i = 0;i<this.filelist1.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist1[i]);
+						this.param.append('credentialsTitle','经办人身份证');
+					}
+				}
+				if(this.filelist2.length){
+					for(let i = 0;i<this.filelist2.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist2[i]);
+						this.param.append('credentialsTitle','委托书照片');
+					}
+				}
+				if(this.filelist3.length){
+					for(let i = 0;i<this.filelist3.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist3[i]);
+						this.param.append('credentialsTitle','合同照片');
+					}
+				}
+				//furniture
+				this.furniture = JSON.stringify(arr3);
+				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
+				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
+				
+//				console.log(this.credentialsImagesArray);
+//				console.log(this.credentialsTitle);
+				this.param.append('communityId',this.communityId);
+				this.param.append('contractNumber',this.contract);
+				this.param.append('buildingId',this.housetderta.roomId);
+				this.param.append('buildingVersion',this.housetderta.version);
+				this.param.append('housetypeId',this.housetderta.housetypeId);
+				this.param.append('customerType',2);
+				this.param.append('beginDate',this.onhrie);
+				this.param.append('endDate',this.expire);
+				this.param.append('cyclePayType',this.cyclePayType);
+				this.param.append('cyclePayMoney',this.housetderta.roomRent);
+				this.param.append('cyclePayDiscount',this.discount);
+				this.param.append('serviceCost',this.serve);
+				this.param.append('firstMoneyPayType',this.radio3);
+				this.param.append('firstPayMoney',this.housetderta.firstmoneys);
+				this.param.append('firstMoney',this.onemoney);
+				this.param.append('secondPayMoney',this.housetderta.twomoney);
+				this.param.append('secondPayDate',this.dat);
+				this.param.append('waterChargeModel',this.housetderta.waterType);
+				this.param.append('electricChargeModel',this.housetderta.electricType);
+				this.param.append('isPaper',this.radio4);
+				this.param.append('user.id',this.user.id);
+				this.param.append('user.version',this.user.version);
+				this.param.append('user.userPhone',this.user.userPhone);
+				this.param.append('user.userName',this.user.userName);
+				this.param.append('user.gender',this.user.gender);
+				this.param.append('user.certificateId',this.user.certificateId);
+				this.param.append('user.userCertificate',this.user.userCertificate);
+				console.log(this.user);
+				if(this.hints.company != ''){
+					this.param.append('intermediaryCompany',this.hints.company);
+				}
+				if(this.hints.man != ''){
+					this.param.append('intermediaryName',this.hints.man);
+				}
+				if(this.hints.cost != ''){
+					this.param.append('intermediaryMoney',this.hints.cost);
+				}
+				this.param.append('materials',this.materials);
+				this.param.append('furniture',this.furniture);
+				if(this.otherCostJson){
+					this.param.append('otherCostJson',this.otherCostJson);
+				}
+				if(this.ieList.length){
+					this.param.append('ieList',this.ieList);
+				}
+				this.param.append('companyInfo',this.companyInfo);
+				this.param.append('companylegalPerson',this.companylegalPerson);
+				console.log(this.param);
+
+		        axios.post(hostSignCompany,this.param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);
 						vm.successModal = true;
