@@ -15,7 +15,7 @@
         <div id="contract-detail-wrap">
           <div class="contract-detail-wrap-head" v-if="!PreViewContract">
             <div class="content-item content-item-img">
-              <img :src="contractDetailData.communityWork" alt="公寓图片">
+              <img :src="imgPath+contractDetailData.communityWork" alt="公寓图片">
             </div>
             <div class="content-item content-item-info">
               <h3 style="margin: 0;padding: 0">{{contractDetailData.communityName}}</h3>
@@ -324,7 +324,8 @@
               that.contractDetailData = res.data.entity;
               var arr = [];
               //默认显示第一张公寓图片
-              that.contractDetailData.certificateImage = that.contractDetailData.communityWork.split(",")[0];
+              that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
+              console.log(that.contractDetailData.communityWork)
               if(that.contractDetailData.credentialsImages){
                 that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
               }

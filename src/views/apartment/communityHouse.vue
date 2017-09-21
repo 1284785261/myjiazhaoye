@@ -557,7 +557,7 @@
         this.CommunityListOffice[this.officeSelectIndex].officeFurniture = this.selectListData.join(" ");
       },
       openSelectOfficeModal(index){
-        if(this.checkBoxObj.length>0){
+        if(this.checkBoxArr.length>0){
           this.seleteOffieModal = true;
           this.officeSelectIndex = index;
           this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
