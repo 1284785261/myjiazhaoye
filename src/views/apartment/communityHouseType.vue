@@ -82,7 +82,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {api,addHouseType} from '../api.js';addHouseType
+  import {addHouseType,Housetype,deleteHouseType} from '../api.js';
   import qs from 'qs';
 
 
@@ -107,7 +107,8 @@
           housetypeWindow:"",
           housetypeOrientations:""
         }
-      ]
+      ];
+      this.getHouseType();
     },
     data(){
       return{
@@ -177,8 +178,38 @@
       init(){
 
       },
+      getHouseType(){
+        var that = this;
+        this.$http.post(
+          Housetype,qs.stringify({communityId:this.communityId})
+        ).then(function(res){
+          if(res.data.code == 10000){
+            that.cxkjCommunityListHousetype = res.data.entity;
+          }else if(res.data.code == 10004){
+
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
       deleteHouse(index){
-        this.cxkjCommunityListHousetype.splice(index,1);
+        var that = this;
+        if(this.cxkjCommunityListHousetype[index].housetypeId){
+          this.$http.post(deleteHouseType,qs.stringify({housetypeId:this.cxkjCommunityListHousetype[index].housetypeId})).then(function(res){debugger
+            if(res.data.code == 10000){
+              that.cxkjCommunityListHousetype.splice(index,1);
+              that.successMessage = "删除户型成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }
+          }).catch(function(err){
+            console.log(err);
+          })
+        }else{
+          this.cxkjCommunityListHousetype.splice(index,1);
+        }
       },
       addHouse(){
         this.cxkjCommunityListHousetype.push({
@@ -217,11 +248,12 @@
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
         ).then(function(res){
+            that.successMessage = "编辑户型成功!";
             that.successModal = true;
             setTimeout(function(){
                 that.successModal = false;
                 history.go(-1);
-            },1500)
+            },1000)
         }).catch(function(err){
           console.log(err);
         })
@@ -241,8 +273,8 @@
   @import '../../sass/base/_public.scss';
 
   #house-type-management{
-    height: 985px;
-    /*width: 100%;*/
+    min-height: 1000px;
+    height: 100%;
     background-color: #fff;
     box-shadow: 0 3px 3px #ccc;
     .house-type-table{

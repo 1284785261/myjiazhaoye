@@ -153,7 +153,7 @@
       <div class="modal-img-wrap">
         <img src="../../../static/images/icon/black-member-2.png">
       </div>
-      <p>确定蒋该用户设置为<span>白名单</span>吗?</p>
+      <p>确定将该用户设置为<span>白名单</span>吗?</p>
       <div class="modal-btn">
         <Button type="primary" @click="setWhileMember()">确定</Button>
       </div>
@@ -321,10 +321,11 @@
       setAllWhile(){
         var vm = this;
         var params = []
-        console.log(this.blackMemberList);
         for(var i = 0;i<this.blackMemberList.length;i++){
-          params.push({blacklistId:this.blackMemberList[i].cxkjCenterBlacklist.blacklistId})
-        }debugger
+          if(this.blackMemberList[i].isChecked){
+            params.push({blacklistId:this.blackMemberList[i].cxkjCenterBlacklist.blacklistId})
+          }
+        }
         this.$http.post(editWhilelist,{cxkjCenterBlacklist:params})
           .then(function(res){
             vm.checkAllStatus = false;

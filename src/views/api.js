@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+// const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 const host1 = 'http://192.168.26.135:8091';
@@ -216,8 +216,17 @@ export const addHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity
 export const allCommunity =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAll200059'
 export const editFloor =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityEditFloor200061'
 
-export const IntroduceInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduceInfo200065'
-export const roomInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoomInfo200062'
+export const IntroduceInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityIntroduceInfo200065';
+export const roomInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityRoomInfo200062';
+export const deleteHouseType =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityHousetypeDelete200086';//删除户型
+export const placeInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPlaceInfo200087';//工位详情
+export const officeInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeAll200088';//办公室详情
+export const deleteOffice =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeDelete200089';//删除办公室
+export const meetingInfo =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeetingInfo200091';//会议室信息
+export const deleteMeeting =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMeetingDelete200090';//删除会议室
+
+
+
 
 //会员管理
 export const memberTable =host3+'/cxkj-room/apis/pcManager/communityMember/CxkjCommunityMemberTable200018'//会员管理列表
@@ -247,3 +256,8 @@ export const officeBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetOffi
 export const statisticsInfoOfUser =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetStatisticsInfoOfUser300036';
 export const billPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetWaterEnergyBillPaymentList300035';
 export const saveBillPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWaterEnergy300037';
+
+//客服管理
+export const complainList =host3+'/cxkj-room/apis/pc/complainCenter/CxkjComplainList300086';
+export const complainDetail =host3+'/cxkj-room/apis/pc/complainCenter/CxkjComplainDetail300087';
+

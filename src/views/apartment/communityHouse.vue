@@ -104,10 +104,10 @@
             <el-tab-pane label="开放工位" name="second">
               <ul>
                 <li>
-                  <span>开放工位：</span><input v-model="placeNum" type="text" placeholder="请输入开放工位数"/><span>个</span>
+                  <span>开放工位：</span><input v-model="placeData.placeNum" type="text" placeholder="请输入开放工位数"/><span>个</span>
                 </li>
                 <li>
-                  <span>工位租金：</span><input v-model="placeRent" type="text" placeholder="请输入工位租金"/><span>元/天</span>
+                  <span>工位租金：</span><input v-model="placeData.placeRent" type="text" placeholder="请输入工位租金"/><span>元/天</span>
                 </li>
               </ul>
               <a href="javascript:;" class="confirm2" @click="addCommunityPlace()">确定</a>
@@ -149,7 +149,7 @@
               </table>
               <div style="margin-bottom: 50px;">
                 <a class="qd" href="javascript:;" @click="addCommunityOffice()">确定</a>
-                <a class="qx" @click="cancleCommunityMeeting()" >取消</a>
+                <a class="qx" @click="canclCommunityOffice()" >取消</a>
               </div>
             </el-tab-pane>
             <el-tab-pane label="会议室" name="fourth">
@@ -294,7 +294,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor} from '../api.js';
+  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor,placeInfo,officeInfo,deleteOffice,meetingInfo,deleteMeeting,IntroduceInfo} from '../api.js';
   import qs from 'qs'
 
   export default{
@@ -309,8 +309,6 @@
       return {
         communityId:"",
         activeName2: 'first',
-        placeNum:"",
-        placeRent:"",
         newRowNum:1,
         newMeetingRoeNum:1,
         rootData:[],
@@ -332,15 +330,24 @@
         successModal:false,
         successMessage:"创建成功！",
         warningModal:false,
-        warningMessage:"信息填写不完整，请填写完整后重新提交！"
+        warningMessage:"信息填写不完整，请填写完整后重新提交！",
+        placeData:{
+          placeNum:"",//工位
+          placeRent:"",//工位租金
+        },
+        officeConfigure:{},//办公配置map
       }
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
-      console.log(this.conmunityId)
+//      this.getIntroduceInfo();
       this.getCommunityListRoom();
       this.init();
       this.getOfficeSelect();
+
+      this.getPaceInfo();
+      this.getMeetingInfo();
+
     },
     computed:{
       filterRootData:function(){
@@ -362,7 +369,7 @@
            return a.floorName - b.floorName
         });
         return this.rootData;
-      }
+      },
     },
     methods: {
       init(){
@@ -386,6 +393,49 @@
       },
       handleClick(){
 
+      },
+      //查询工位信息
+      getPaceInfo(){
+        var that = this;
+        this.$http.post(placeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
+          if(res.data.code == 10000){
+            that.placeData = res.data.entity;
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+      //查询办公室信息
+      getOfficeInfo(){
+        var that = this;
+        this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
+          if(res.data.code == 10000){
+            that.CommunityListOffice = res.data.entity;
+            for(var i =0;i<that.CommunityListOffice.length;i++){
+              if(that.CommunityListOffice[i].officeFurniture){
+                var idArr = that.CommunityListOffice[i].officeFurniture.split(",");
+                var furnitureArr = [];
+                for(var j =0;j<idArr.length;j++){
+                  furnitureArr.push(that.officeConfigure[idArr[j]]);
+                }
+                that.CommunityListOffice[i].officeFurniture = furnitureArr.join(" ");
+              }
+            }
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+      //查询会议室信息
+      getMeetingInfo(){
+        var that = this;
+        this.$http.post(meetingInfo,{communityId:this.communityId}).then(function(res){
+          if(res.data.code == 10000){
+            that.CommunityListMeeting = res.data.entity;
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
       },
       closeWarningModal(){
         this.warningModal = false;
@@ -435,7 +485,7 @@
         this.editFloorModal = false;
         var floorId = this.rootData[this.editActiveindex].floorId;
         this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
-          .then(function (res) {debugger
+          .then(function (res) {
             if(res.data.code == 10004){
               that.warningMessage = "该楼层已存在！";
               that.warningModal = true;
@@ -512,6 +562,7 @@
           console.log(error);
         })
       },
+      //获取社区办公室配置
       getOfficeSelect(){
         var that = this;
         this.$http.post(
@@ -520,42 +571,78 @@
           that.checkBoxArr = res.data.entity;
           for(var i =0;i<that.checkBoxArr.length;i++){
             that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
+            that.officeConfigure[that.checkBoxArr[i].dataId] = that.checkBoxArr[i].dataName;
           }
+          //获取办公配置信息后再查办公室信息
+          that.getOfficeInfo();
         }).catch(function(err){
           console.log(err);
         })
       },
+
+      //查询社区设置信息
+//      getIntroduceInfo(){
+//        var that = this;
+//        this.$http.post(
+//          IntroduceInfo,qs.stringify({communityId:this.communityId})
+//        ).then(function(res){
+//          var communitySettingInfo = res.data.entity;
+//          //获取家电数据
+//          var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
+//          that.checkBoxArr2 = [];
+//          for(var i =0;i<communityListConfig.length;i++){
+//            that.checkBoxArr2.push(communityListConfig[i].systemData);
+//          }
+//          for(var i =0;i<that.checkBoxArr2.length;i++){
+//            that.checkBoxObj[that.checkBoxArr2[i].dataName] = that.checkBoxArr2[i].dataId;
+//          }
+//
+//        }).catch(function(err){
+//          console.log(err);
+//        })
+//      },
+
+
       addCommunityPlace(){
         var that = this;
-        if(this.placeNum === "" || this.placeRent ===""){
+        if(this.placeData.placeNum === "" || this.placeData.placeRent ===""){
           that.warningMessage = "工位信息填写不完整！";
           that.warningModal = true;
           return;
         }
-        var data = {
-          communityId : this.communityId,
-          placeNum: this.placeNum,
-          placeRent:this.placeRent
-        };
-        this.$http.post(Place, qs.stringify(data))
+        that.placeData.communityId = this.communityId;
+        this.$http.post(Place, qs.stringify(this.placeData))
           .then(function (res) {
             that.successMessage = "添加工位成功!";
             that.successModal = true;
             setTimeout(function(){
               that.successModal = false;
             },1000)
-            that.placeNum = "";
-            that.placeRent = "";
           }).catch(function(error){
           console.log(error);
         })
       },
       canCommunityPlace(){
-        this.placeNum = "";
-        this.placeRent = "";
+        this.getPaceInfo();
       },
+      //删除办公室
       deleteOffice(index){
-        this.CommunityListOffice.splice(index,1);
+        var that = this;
+        if(this.CommunityListOffice[index].officeId){
+          this.$http.post(deleteOffice,qs.stringify({officeId:this.CommunityListOffice[index].officeId})).then(function(res){
+            if(res.data.code == 10000){
+              that.CommunityListOffice.splice(index,1);
+              that.successMessage = "删除办公室成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }
+          }).catch(function(err){
+            console.log(err);
+          })
+        }
+       this.CommunityListOffice.splice(index,1);
       },
       addOffice(){
         for(var i=0;i<this.newRowNum;i++){
@@ -581,31 +668,66 @@
             }
           }
         }
-        for(var i =0;i<this.CommunityListOffice.length;i++){
-          if(this.CommunityListOffice[i].officeFurniture){
-            var officeFurniture = this.CommunityListOffice[i].officeFurniture.trim();
+        //复制对象（避免修改原引用）
+        var paramsOffice = [];
+        for(var k =0;k<this.CommunityListOffice.length;k++){
+          var obj = that.deepCopy(this.CommunityListOffice[k]);
+          paramsOffice.push(obj)
+        }
+        for(var i =0;i<paramsOffice.length;i++){
+          if(paramsOffice[i].officeFurniture){
+            var officeFurniture = paramsOffice[i].officeFurniture.trim();
             var FurnitureArr = officeFurniture.split(" ");
             var dataArr = [];
             for(var j =0;j<FurnitureArr.length;j++){
               dataArr.push(this.checkBoxObj[FurnitureArr[j]]+"");
             }
             if(dataArr.length){
-              this.CommunityListOffice[i].officeFurniture = dataArr.join(",");
+              paramsOffice[i].officeFurniture = dataArr.join(",");
             }else{
-              this.CommunityListOffice[i].officeFurniture = "";
+              paramsOffice[i].officeFurniture = "";
             }
           }
         }
-        this.$http.post(Office, {cxkjCommunityListOffice:this.CommunityListOffice})
+        this.$http.post(Office, {cxkjCommunityListOffice:paramsOffice})
           .then(function (res) {
-            that.successInfo("添加办公室成功!");
+            that.successMessage = "添加办公室成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
           }).catch(function(error){
           console.log(error);
         })
       },
-      deleteMeeting(index){
-        this.CommunityListMeeting.splice(index,1);
+      deepCopy(source){
+        var result={};
+        for (var key in source) {
+          result[key] = typeof source[key]==='object' && source[key] != null? this.deepCopy(source[key]): source[key];
+        }
+        return result;
       },
+      //删除会议室
+      deleteMeeting(index){
+        var that = this;
+        if(this.CommunityListMeeting[index].meetingId){
+          this.$http.post(deleteMeeting,{meetingId:this.CommunityListMeeting[index].meetingId}).then(function(res){
+            if(res.data.code == 10000){
+              that.CommunityListMeeting.splice(index,1);
+              that.successMessage = "删除会议室成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }
+          }).catch(function(err){
+            console.log(err);
+          })
+        }else{
+          this.CommunityListMeeting.splice(index,1);
+        }
+      },
+      //编辑会议室
       addMeeting(){
         for(var i=0;i<this.newMeetingRoeNum;i++){
           this.CommunityListMeeting.push({
@@ -628,15 +750,23 @@
             }
           }
         }
+
         this.$http.post(Meeting, {cxkjCommunityListMeeting:this.CommunityListMeeting})
           .then(function (res) {
-            that.successInfo("添加会议室成功!");
+            that.successMessage = "添加会议室成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
           }).catch(function(error){
           console.log(error);
         })
       },
       cancleCommunityMeeting(){
-        this.init();
+        this.getMeetingInfo();
+      },
+      canclCommunityOffice(){
+        this.getOfficeInfo();
       },
       deleteRomm(room,index,rootDataindex){
         var that = this;

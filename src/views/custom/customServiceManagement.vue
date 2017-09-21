@@ -22,8 +22,8 @@
             </div>
             <div class="form-item">
               <b>状态：</b>
-              <Select v-model="roomCommunity" style="width:100px">
-                <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+              <Select v-model="selectStatus" style="width:100px">
+                <Option v-for="item in  status" :value="item.value" :key="item.value">{{ item.lable }}</Option>
               </Select>
             </div>
             <div class="form-item">
@@ -36,7 +36,7 @@
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
                 <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
-                <input type="button" value="搜索" @click="roomSearch()">
+                <input type="button" value="搜索" @click="search()">
               </div>
             </div>
           </div>
@@ -50,22 +50,27 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>投诉时间</td>
-              <td>投诉时间</td>
-              <td>投诉时间</td>
-              <td>投诉时间</td>
-              <td>投诉时间</td>
+            <tr v-for="(complain,index) in complainList">
+              <td>{{complain.complainNum}}</td>
+              <td>{{complain.communityName}}</td>
+              <td>{{complain.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+              <td>{{complain.userName}}</td>
+              <td>{{complain.userPhone}}</td>
               <td>
-                <span>确认</span>
+                <!--投诉状态 0、待确认1、店长处理中2、店长已处理3、客服处理中4、已完结5、已回访-->
+                <span v-if="complain.complainStatus==0">待确认</span>
+                <span v-if="complain.complainStatus==1">店长处理中</span>
+                <span v-if="complain.complainStatus==2">店长已处理</span>
+                <span v-if="complain.complainStatus==3">客服处理中</span>
+                <span v-if="complain.complainStatus==4">已完结</span>
+                <span v-if="complain.complainStatus==5">已回访</span>
               </td>
               <td>
-                <router-link :to="{name:'complainDetail',query:{}}"> 账单详情</router-link>
-                <router-link to="/bill/billDetail"> 查看合同</router-link>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 账单详情</router-link>
               </td>
             </tr>
           </table>
-          <Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
+          <Page :total="complainTotalNum" :current="complainCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
         </div>
       </div>
       <footer-box></footer-box>
@@ -77,7 +82,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity} from '../api.js';
+  import {allCommunity,complainList} from '../api.js';
 
 
   export default {
@@ -88,12 +93,46 @@
     },
     data(){
       return{
-
+        status:[{
+          value:-1,
+          lable:"全部"
+        },{
+          value:0,
+          lable:"待确认"
+        },{
+          value:1,
+          lable:"店长处理中"
+        },{
+          value:2,
+          lable:"店长已处理"
+        },{
+          value:3,
+          lable:"客服处理中"
+        },{
+          value:4,
+          lable:"已完结"
+        },{
+          value:5,
+          lable:"已回访"
+        },
+        ],
+        RoomBillSelects:[{
+          communityId: -1,
+          communityName: '全部'
+        }],
+        complainList:[],
+        complainTotalNum:0,
+        selectStatus:-1,
+        roomCommunity:-1,
+        roomSearchKey:"",
+        roomStartDate:"",
+        roomEndDate:"",
+        complainCurrent:1,
       }
     },
     mounted(){
       this.getCommunityData();
-
+      this.getComplainData({pageNum:1});
     },
     methods:{
       handleClick(tab, event) {
@@ -108,7 +147,42 @@
             }
           })
       },
-
+      getComplainData(data){
+        var that = this;
+        this.$http.get(complainList,{params:data})
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.pageBean;
+              that.complainList = pageBean.page;
+              that.complainTotalNum = pageBean.totalNum;
+            }
+            if(res.data.code == 10001){
+              that.complainList = [];
+              that.complainTotalNum = 0;
+            }
+          })
+      },
+      search(page){
+        var data = {
+          pageNum:page || 1
+        }
+        if(this.roomCommunity != -1){
+          data.communityId = this.roomCommunity;
+        }
+        if(this.selectStatus != -1){
+          data.complainStatus = this.selectStatus;
+        }
+        if(this.roomSearchKey){
+          data.keyWord = this.roomSearchKey;
+        }
+        if(this.roomStartDate){
+          data.beginDate = new Date(this.roomStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.roomEndDate){
+          data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
+        }
+        this.getComplainData(data);
+      }
 
     },
     filters:{

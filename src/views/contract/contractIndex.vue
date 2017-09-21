@@ -63,6 +63,7 @@
                     <span v-else-if="room.contractState == 7" style="color: rgb(255,29,16)">违约</span>
                     <span v-else-if="room.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
                     <span v-else-if="room.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
+                    <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
@@ -130,6 +131,7 @@
                     <span v-else-if="office.contractState == 7" style="color: rgb(255,29,16)">违约</span>
                     <span v-else-if="office.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
                     <span v-else-if="office.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
+                    <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>

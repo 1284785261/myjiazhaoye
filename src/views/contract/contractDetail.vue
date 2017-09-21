@@ -58,6 +58,7 @@
                 <h3 v-else-if="contractDetailData.contractState == 7" style="color: rgb(255,29,16)">违约</h3><!--查看银行账户信息,预览合同-->
                 <h3 v-else-if="contractDetailData.contractState == 8" style="color: rgb(153,153,153)">违约办结</h3><!--预览合同-->
                 <h3 v-else-if="contractDetailData.contractState == 9" style="color: rgb(153,153,153)">到期办结</h3><!--查看退租详情,预览合同-->
+                <h3 v-else-if="contractDetailData.contractState == 10" style="color: rgb(31,187,166)">申请退租</h3><!--申请退租，预览合同-->
               </div>
             </div>
           </div>
@@ -144,7 +145,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2 span-padding">
-                      <td class="td2">押金 :<span>{{contractDetailData.cyclePayType==1?contractDetailData.rentPay*2:contractDetailData.rentPay}}元</span></td>
+                      <td class="td2">押金 :<span>{{contractDetailData.deposit}}元</span></td>
                       <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2">优惠券代扣 :<span>暂无</span></td>
@@ -152,7 +153,50 @@
                     <tr class="tr2">
                       <td class="td2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
                       <td class="td2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
-                      <td class="td2">合计 :<span style="color: red;">{{contractDetailData.firstMoney+contractDetailData.secondPayMoney}}元</span></td>
+                      <td class="td2">合计 :<span style="color: red;">{{contractDetailData.firstPayMoney}}元</span></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr class="tr1" v-if="contractDetailData.contractState == 5 || contractDetailData.contractState == 6 || contractDetailData.contractState == 10">
+                <td class="td1">退租时间:</td>
+                <td class="td1">
+                  <table class="contract-detail-table2">
+                    <tr class="tr2">
+                      <td class="td2">2017-09-21</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr class="tr1" v-if="contractDetailData.contractState == 5 || contractDetailData.contractState == 6 || contractDetailData.contractState == 10">
+                <td class="td1">退租原因:</td>
+                <td class="td1">
+                  <table class="contract-detail-table2">
+                    <tr class="tr2">
+                      <td class="td2">工作调动</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr class="tr1" v-if="contractDetailData.contractState == 8">
+                <td class="td1">办结日期:</td>
+                <td class="td1">
+                  <table class="contract-detail-table2">
+                    <tr class="tr2">
+                      <td class="td2">2017-09-21</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr class="tr1" v-if="contractDetailData.contractState == 8">
+                <td class="td1">违约信息:</td>
+                <td class="td1">
+                  <table class="contract-detail-table2">
+                    <tr class="tr2">
+                      <td class="td2">已支付 :<span>2000元</span></td>
+                      <td class="td2">违约金 :<span>2000元</span></td>
+                      <td class="td2">退款 :<span>2000元</span></td>
+                      <td class="td2">退款日期 :<span>2017-09-21</span></td>
                     </tr>
                   </table>
                 </td>
@@ -173,7 +217,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2"><b>{{contractDetailData.paidMonthCount}}/12月</b></td>
+                      <td class="td2"><b>{{contractDetailData.paidMonthCount}}/{{contractDetailData.stage}}月</b></td>
                     </tr>
                   </table>
                 </td>

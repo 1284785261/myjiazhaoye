@@ -13,17 +13,21 @@
         </div>
         <div id="complain-detail-wrap">
           <div class="order-detail-wrap-head">
-            <img  src="../../../static/images/icon/custom_yihuifang.png" alt="投诉详情-已回访">
-            <!--<img  src="../../../static/images/icon/custom_chulizhong.png" alt="投诉详情-已回访">-->
-            <!--<img  src="../../../static/images/icon/custom_huifang.png" alt="投诉详情-已回访">-->
+            <!--投诉状态0、待确认1、店长处理中2、店长已处理3、客服处理中4、已完结5、已回访-->
+            <img v-if="complainData.complainStatus == 5"  src="../../../static/images/icon/custom_yihuifang.png" alt="投诉详情-已回访">
+            <img v-else-if="complainData.complainStatus == 3 || complainData.complainStatus == 1" src="../../../static/images/icon/custom_chulizhong.png" alt="投诉详情-已回访">
+            <img v-else-if="complainData.complainStatus == 0" src="../../../static/images/icon/custom_huifang.png" alt="投诉详情-已回访">
             <div class="order-detail-wrap-head-content">
               <h3>
-                <span style="padding-right: 10px;">工号:23165468954623156</span>
-                <span class="colorSpan" style="color: #96a5af;">已回访</span>
-                <!--<span class="colorSpan" style="color: #FF6612;">待回访</span>-->
-                <!--<span class="colorSpan" style="color: #3dc4b2;">客服处理中</span>-->
+                <span style="padding-right: 10px;">工号:{{complainData.complainNum}}</span>
+                <span v-if="complainData.complainStatus == 0" class="colorSpan" style="color: #FF6612;">待确认</span>
+                <span v-else-if="complainData.complainStatus == 1" class="colorSpan" style="color: #96a5af;">店长已处理</span>
+                <span v-else-if="complainData.complainStatus == 2" class="colorSpan" style="color: #96a5af;">店长处理中</span>
+                <span v-else-if="complainData.complainStatus == 3" class="colorSpan" style="color: #3dc4b2;">客服处理中</span>
+                <span v-else-if="complainData.complainStatus == 4" class="colorSpan" style="color: #96a5af;">已完结</span>
+                <span v-else-if="complainData.complainStatus == 5" class="colorSpan" style="color: #96a5af;">已回访</span>
               </h3>
-              <p>发起投诉时间:2017-07-07 14:30</p>
+              <p>发起投诉时间:{{complainData.createTime | timefilter("yyyy-MM-dd hh:mm")}}</p>
             </div>
           </div>
           <ul class="order-detail-content">
@@ -32,11 +36,11 @@
               <table >
                 <tr>
                   <td>姓名 :</td>
-                  <td >叶晓琳</td>
+                  <td >{{complainData.userName}}</td>
                 </tr>
                 <tr>
                   <td>已注册手机 :</td>
-                  <td>13570762623</td>
+                  <td>{{complainData.userPhone}}</td>
                 </tr>
                 <tr>
                   <td><b>事情经过 :</b></td>
@@ -44,36 +48,38 @@
                 </tr>
               </table>
             </li>
-            <li>
-              <h3><i class="icon icon-iden"></i>处理记录</h3>
-              <table>
-                <tr>
-                  <td>店长确认接受 :</td>
-                  <td>2017-09-20 17:50</td>
-                </tr>
-              </table>
-            </li>
-            <li>
-              <table>
-                <tr>
-                  <td>店长完成处理 :</td>
-                  <td>2017-09-20 17:50</td>
-                </tr>
-                <tr>
-                  <td><b>处理结果 :</b></td>
-                  <td>确认处理完毕</td>
-                </tr>
-                <tr>
-                  <td><b>反馈 :</b></td>
-                  <td>满意</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>用户满意内容满意满意满意满意满意满意满意满意满意</td>
-                </tr>
-              </table>
-            </li>
-            <li>
+            <template v-for="(item,index) in complainData.recordList">
+              <li>
+                <h3><i class="icon icon-iden"></i>处理记录</h3>
+                <table>
+                  <tr>
+                    <td>店长确认接受 :</td>
+                    <td>{{item.confirmTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+                  </tr>
+                </table>
+              </li>
+              <li>
+                <table>
+                  <tr>
+                    <td>店长完成处理 :</td>
+                    <td>{{item.completeTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>处理结果 :</b></td>
+                    <td>{{item.complainResult}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>反馈 :</b></td>
+                    <td><span v-if="item.userDegree==0">满意</span><span v-if="item.userDegree==1">不满意</span></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>{{item.userFeedback}}</td>
+                  </tr>
+                </table>
+              </li>
+            </template>
+            <li v-if="false">
               <table>
                 <tr>
                   <td>客服回访 :</td>
@@ -99,8 +105,8 @@
             </li>
           </ul>
         </div>
-        <success-modal :success-message="successMessage" v-if="true"></success-modal>
-        <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="testModal"></warning-modal>
+        <success-modal :success-message="successMessage" v-if="false"></success-modal>
+        <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="false"></warning-modal>
       </div>
       <footer-box></footer-box>
     </div>
@@ -113,7 +119,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {roomBillDetail,officeBillDetail} from '../api.js';
+  import {complainDetail} from '../api.js';
 
 
   export default {
@@ -126,15 +132,27 @@
     },
     data(){
       return{
-        warningMessage:"厉害了!",
-        successMessage:"成功了",
+        warningMessage:"",
+        successMessage:"",
         testModal:false,
+        complainId:"",
+        complainData:{},
       }
     },
     mounted(){
-
+      this.complainId = this.$route.query.id;
+      this.getComplainDetail({complainId:this.complainId});
     },
     methods:{
+      getComplainDetail(data){
+        var that = this;
+        this.$http.get(complainDetail,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.complainData = res.data.entity;
+            }
+          })
+      },
       test(){
         this.testModal = true;
       },
