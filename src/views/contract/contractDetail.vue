@@ -150,9 +150,13 @@
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
+                    <tr class="tr2" v-if="contractDetailData.otherCostJson">
+                      <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}x{{item.costAmount}}</td>
+                      <td class="td2" >其他费用总额 :<span>{{contractDetailData.cyclePayOtherCost}}元</span></td>
+                    </tr>
                     <tr class="tr2">
-                      <td class="td2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
-                      <td class="td2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
+                      <td class="td2" v-if="contractDetailData.firstMoneyPayType == 2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
+                      <td class="td2" v-if="contractDetailData.firstMoneyPayType == 2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
                       <td class="td2">合计 :<span style="color: red;">{{contractDetailData.firstPayMoney}}元</span></td>
                     </tr>
                   </table>
@@ -315,7 +319,7 @@
       },
       getContractDetail(data){
         let that = this;
-        this.$http.get(contractDetai,{params:data}).then(function(res){debugger
+        this.$http.get(contractDetai,{params:data}).then(function(res){
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
               var arr = [];
@@ -326,6 +330,9 @@
               }
               if(that.contractDetailData.materials){
                 that.contractDetailData.materials =   JSON.parse(that.contractDetailData.materials);
+              }
+              if(that.contractDetailData.otherCostJson){
+                that.contractDetailData.otherCostJson =   JSON.parse(that.contractDetailData.otherCostJson);
               }
           }
         })
