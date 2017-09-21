@@ -126,7 +126,7 @@
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostComplie, hostParent, hostTitle ,host3} from '../api.js';
+	import { hostComplie, hostParent, hostTitle ,host} from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -142,7 +142,7 @@
 				data: {
 					module: 'community'
 				},
-        host3:'',
+        		host3:'',
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
@@ -181,8 +181,8 @@
 			}
 		},
 		mounted() {
-      this.host3 = host3+'/cxkj-room/apis/system/file/SystemFileUpload100023';
-      this.param = new FormData(); //创建form对象
+      		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
+      		this.param = new FormData(); //创建form对象
 			if(this.$route.query.id){
 				this.communityId = this.$route.query.id;
 				this.befor();

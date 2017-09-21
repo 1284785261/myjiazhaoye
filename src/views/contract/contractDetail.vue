@@ -15,7 +15,7 @@
         <div id="contract-detail-wrap">
           <div class="contract-detail-wrap-head" v-if="!PreViewContract">
             <div class="content-item content-item-img">
-              <img :src="imgPath+contractDetailData.communityWork" alt="公寓图片">
+              <img :src="imgPath+contractDetailData.communityWork" alt="公寓图片" style="height: 120px;width: 160px;">
             </div>
             <div class="content-item content-item-info">
               <h3 style="margin: 0;padding: 0">{{contractDetailData.communityName}}</h3>

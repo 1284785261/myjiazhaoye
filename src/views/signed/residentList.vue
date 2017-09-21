@@ -15,7 +15,7 @@
 		    	<div id="residentList">
 		    		<div class="residentlist">
 		    			<!--@click="daochu"-->
-		    			<a  :href="host3+communityId">导出</a>
+		    			<a  :href="host3">导出</a>
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -63,7 +63,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold,hostdaocu } from '../api.js';
+    import { hostHousehold,hostdaocu,host } from '../api.js';
     import qs from 'qs';
 
     export default {
@@ -84,8 +84,9 @@
 		   	}
     	},
     	mounted(){
-        this.host3 = host3+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='
+        
     		this.communityId = this.$route.query.id;
+    		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='+this.communityId;
     		//console.log(this.communityId);
     		this.datas();
     	},

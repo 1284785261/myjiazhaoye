@@ -194,7 +194,7 @@
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="valu" placeholder="搜索用户"></Input>
 										<input type="button" value="搜索" @click="seek">
-										<a class="exports" :href="host3+communityId">导出</a>
+										<!--<a class="exports" :href="host+communityId">导出</a>-->
 									</div>
 								</div>
 							</div>
@@ -250,7 +250,7 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
-	import { hostAuthor, hostCommint,hostOpen,allCommunity,hostComment } from '../api.js';
+	import { hostAuthor, hostCommint,hostOpen,allCommunity,hostComment,host } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -358,7 +358,7 @@
 		mounted() {
 			 //初始化数据
 			//console.log(111)
-      this.host3 = host3+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
+//    		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
 			this.befor();
 			this.befors();
 			this.classifys();

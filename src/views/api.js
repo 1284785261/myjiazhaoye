@@ -2,7 +2,7 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-export const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://192.168.26.191:8080';
 //const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
@@ -205,6 +205,7 @@ export const hostSigController = host3 + SigController;
 export const hostOfficeList = host3 + OfficeList;
 export const hostSignCompany = host3 + SignCompany;
 export const hostSignOffice = host3 +SignOffice;
+export const host = host3;
 //export default {
 //hosts:function(){
 //		return{
