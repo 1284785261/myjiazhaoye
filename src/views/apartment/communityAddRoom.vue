@@ -255,9 +255,9 @@
       getIntroduceInfo(){
         var that = this;
         this.$http.post(
-          IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId})
+          IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId,communityType:0})
         ).then(function(res){
-          var communitySettingInfo = res.data.entity;
+          var communitySettingInfo = res.data.entity[0];
           //获取家电数据
           var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
           that.checkBoxArr2 = [];

@@ -91,7 +91,7 @@
                         <el-table-column
                           label="操作">
                           <template scope="scope">
-                            <el-button type="text" size="small"><router-link :to="{name:'communityAddRoom',query:{roomId:floorData.cxkjCommunityListRoom[scope.$index].roomId,floorName:floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}">编辑</router-link></el-button>
+                            <el-button type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
                             <el-button type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
                         </el-table-column>
@@ -340,10 +340,10 @@
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
-//      this.getIntroduceInfo();
       this.getCommunityListRoom();
       this.init();
-      this.getOfficeSelect();
+      this.getIntroduceInfo();
+//      this.getOfficeSelect();
 
       this.getPaceInfo();
       this.getMeetingInfo();
@@ -393,6 +393,18 @@
       },
       handleClick(){
 
+      },
+      //编辑房间
+      editRoom(roomId,floorName,communityId,floorId){
+          this.$router.push({
+            name:'communityAddRoom',
+            query:{
+              roomId:roomId,
+              floorName:floorName,
+              communityId:communityId,
+              floorId:floorId
+              }
+             })
       },
       //查询工位信息
       getPaceInfo(){
@@ -462,8 +474,8 @@
         this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
           .then(function (res) {
             if(res.data.code == 10004){
-              that.successMessage = "该楼层已存在!";
-              that.successModal = true;
+              that.warningMessage = res.data.content;
+              that.warningModal = true;
             }else if(res.data.code == 10000){
               that.successMessage = "添加楼层成功!";
               that.successModal = true;
@@ -545,9 +557,14 @@
         this.CommunityListOffice[this.officeSelectIndex].officeFurniture = this.selectListData.join(" ");
       },
       openSelectOfficeModal(index){
-        this.seleteOffieModal = true;
-        this.officeSelectIndex = index;
-        this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
+        if(this.checkBoxObj.length>0){
+          this.seleteOffieModal = true;
+          this.officeSelectIndex = index;
+          this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
+        }else{
+          this.warningMessage = "请先前往社区设置进行办公设置！";
+          this.warningModal = true;
+        }
       },
       getCommunityListRoom(){
         var that = this;
@@ -563,44 +580,48 @@
         })
       },
       //获取社区办公室配置
-      getOfficeSelect(){
+//      getOfficeSelect(){
+//        var that = this;
+//        this.$http.post(
+//          SytemData,qs.stringify({parentId:29})
+//        ).then(function(res){
+//          that.checkBoxArr = res.data.entity;
+//          for(var i =0;i<that.checkBoxArr.length;i++){
+//            that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
+//            that.officeConfigure[that.checkBoxArr[i].dataId] = that.checkBoxArr[i].dataName;
+//          }
+//          //获取办公配置信息后再查办公室信息
+//          that.getOfficeInfo();
+//        }).catch(function(err){
+//          console.log(err);
+//        })
+//      },
+
+      //查询社区设置信息
+      getIntroduceInfo(){
         var that = this;
         this.$http.post(
-          SytemData,qs.stringify({parentId:29})
-        ).then(function(res){
-          that.checkBoxArr = res.data.entity;
+          IntroduceInfo,qs.stringify({communityId:this.communityId,communityType:1})
+        ).then(function(res){debugger
+          var communitySettingInfo = res.data.entity[0];
+          //获取家电数据
+          var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
+          that.checkBoxArr = [];
+          for(var i =0;i<communityListConfig.length;i++){
+            that.checkBoxArr.push(communityListConfig[i].systemData);
+          }
           for(var i =0;i<that.checkBoxArr.length;i++){
             that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
             that.officeConfigure[that.checkBoxArr[i].dataId] = that.checkBoxArr[i].dataName;
           }
+          console.log(that.checkBoxArr)
+          console.log(that.officeConfigure)
           //获取办公配置信息后再查办公室信息
           that.getOfficeInfo();
         }).catch(function(err){
           console.log(err);
         })
       },
-
-      //查询社区设置信息
-//      getIntroduceInfo(){
-//        var that = this;
-//        this.$http.post(
-//          IntroduceInfo,qs.stringify({communityId:this.communityId})
-//        ).then(function(res){
-//          var communitySettingInfo = res.data.entity;
-//          //获取家电数据
-//          var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
-//          that.checkBoxArr2 = [];
-//          for(var i =0;i<communityListConfig.length;i++){
-//            that.checkBoxArr2.push(communityListConfig[i].systemData);
-//          }
-//          for(var i =0;i<that.checkBoxArr2.length;i++){
-//            that.checkBoxObj[that.checkBoxArr2[i].dataName] = that.checkBoxArr2[i].dataId;
-//          }
-//
-//        }).catch(function(err){
-//          console.log(err);
-//        })
-//      },
 
 
       addCommunityPlace(){
@@ -696,6 +717,7 @@
             setTimeout(function(){
               that.successModal = false;
             },1000)
+            that.getOfficeInfo();
           }).catch(function(error){
           console.log(error);
         })
@@ -758,6 +780,7 @@
             setTimeout(function(){
               that.successModal = false;
             },1000)
+            that.getMeetingInfo();
           }).catch(function(error){
           console.log(error);
         })
