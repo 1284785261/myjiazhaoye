@@ -144,6 +144,9 @@ const RoomUser = '/cxkj-room/apis/pcManager/cxkjcontractsign/UserInfo500053'
 //获取签约的信息
 const Controller = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignStart500057'
 
+//公寓个人签约
+const SigController = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignPersonel500054'
+
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -190,6 +193,7 @@ export const hostRooms = host3 + Rooms;
 export const hostController = host3 + Controller;
 export const hostRoomList = host3 + RoomList;
 export const hostRoomUser = host3 + RoomUser;
+export const hostSigController = host3 + SigController;
 //export default {
 //hosts:function(){
 //		return{

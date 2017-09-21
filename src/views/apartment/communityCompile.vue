@@ -86,24 +86,25 @@
 							</td>
 						</tr>
 						<tr>
-							<td>
+							<td valign="top">
 								物业合同：
 							</td>
-							<td>
-								<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf" @change='uploadFile' /></span>
+							<td class="bargain">
+								<!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
+								<!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
+								<el-upload class="upload-demo" action="http://192.168.26.191:8080/cxkj-room/apis/system/file/SystemFileUpload100023" :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success='success' :on-error='error'>
+									<el-button size="small" type="primary">点击上传</el-button>
+									<div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传jpg/png文件</div>
+								</el-upload>
+
 							</td>
-						</tr>
-						<tr>
-								<ul class="unloading" v-if="ches">
-									<li v-for="(item,index) in fileList">
-										<span>已上传： </span><a>{{item[1]}}</a><i class="el-icon-delete" @click='removeItem(item)'></i>
-									</li>
-								</ul>
 						</tr>
 					</table>
 					<div class="operation-box2">
-
-						<Button type="primary" @click="Complie">确定</Button>
+						<el-button type="primary" @click="Complie" v-loading.fullscreen.lock="fullscreenLoading">
+							确定
+						</el-button>
+						<!--<Button type="primary" @click="Complie">确定</Button>-->
 
 						<Button>取消</Button>
 					</div>
@@ -112,6 +113,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -120,17 +123,30 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
-	import { hostComplie, hostParent } from '../api.js';
+	import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
+	import axios from 'axios';
+	import { hostComplie, hostParent, hostTitle } from '../api.js';
 	import qs from 'qs';
 
 	export default {
 		components: {
 			rightHeader,
 			menuBox,
-			footerBox
+			footerBox,
+			successModal,
+			warningModal
 		},
 		data() {
 			return {
+				data: {
+					module: 'community'
+				},
+				successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
+				fullscreenLoading: false,
 				param: null,
 				fileList: [],
 				pdfName: [],
@@ -159,41 +175,110 @@
 				communityLeaseEnd: null, //租期结束时间
 				communityFreeLeaseBegin: null, //免租期开始时间
 				communityFreeLeaseEnd: null, //免租期结束时间
-				communityContractFile: '', //物业合同
-				ches:false
+				communityContract: '', //物业合同
+				communityId:''
 			}
 		},
 		mounted() {
 			this.param = new FormData(); //创建form对象
+			if(this.$route.query.id){
+				this.communityId = this.$route.query.id;
+				this.befor();
+			}
 		},
 		methods: {
-
+			befor(){
+				let vm = this
+				if(this.communityId != ''){
+					axios.post(hostTitle,
+				  	qs.stringify({
+		    			communityId:vm.communityId
+			    	}))
+			    	.then((response)=>{
+			    		console.log(response);
+			    		if(response.status == 200 && response.data.code == 10000) {
+							vm.communityName = response.data.result.community.communityName;
+							vm.province = response.data.result.community.province.areaName;
+							vm.city = response.data.result.community.city.areaName;
+							vm.value = response.data.result.community.district.areaName;
+							vm.communityAddress = response.data.result.community.communityAddress;
+							if(response.data.result.community.communityType == '0'){
+								vm.checkList.push('公寓');
+							}
+							else if(response.data.result.community.communityType == '1'){
+								vm.checkList.push('办公空间');
+							}
+							else if(response.data.result.community.communityType == '0,1'){
+								vm.checkList.push('公寓');
+								vm.checkList.push('办公空间');
+							}
+							vm.communityOpeningDate = response.data.result.community.communityOpeningDate;
+							vm.communityPhone= response.data.result.community.communityPhone;
+							vm.communityContractNum= response.data.result.community.communityPhone;
+							vm.communityLeaseBegin= response.data.result.community.communityLeaseBegin;
+							vm.communityLeaseEnd= response.data.result.community.communityLeaseEnd;
+							vm.communityFreeLeaseBegin= response.data.result.community.communityFreeLeaseBegin;
+							vm.communityFreeLeaseEnd= response.data.result.community.communityFreeLeaseEnd;
+//							vm.fileList = response.data.result.community.communityContract.splice(',');
+			    		}
+			    	})
+			    	.catch((error)=>{
+			    		console.log(error);
+			    	})
+				}
+				
+			},
+			handleRemove(file, fileList) { //删除文件
+				console.log(file,fileList);
+				if(file.response.code == 10000){
+					this.pdfName.remove(file.response.result.virtualPath);
+					//console.log(this.pdfName);
+				}
+			},
+			success(response) { //上传文件成功
+				
+				if(response.code == 10000) {
+//					console.log(this.fileList);
+//					console.log(response);
+					this.pdfName.push(response.result.virtualPath);
+//					console.log(1111111111111);
+//					console.log(this.fileList);
+					//console.log(this.pdfName);
+				}
+			},
+			error(err) { //上传文件失败
+				console.log(err);
+			},
+			handlePreview(file) {
+				console.log(file);
+			},
 			Complie: function() {
 				let vm = this
 				this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == this.value)].areaId;
-				
-//				console.log('vm.fileList.Length')
-//				console.log(vm.fileList.length)
-//				console.log('vm.fileList.Length')
-				for(let i = 0; i < vm.fileList.length; i++) {
-					vm.param.append('communityContractFiles', vm.fileList[i][0],vm.fileList[i][1]);
-				}
-//				console.log('参数')
-//				console.log(vm.communityName)
-//				console.log(vm.areaId)
-//				console.log(vm.parentId)
-//				console.log(vm.areas)
-//				console.log(vm.communityAddress)
+				vm.communityContract = this.pdfName.join(',');
+				//console.log(str);
+				//				console.log('vm.fileList.Length')
+				//				console.log(vm.fileList.length)
+				//				console.log('vm.fileList.Length')
+				//				for(let i = 0; i < vm.fileList.length; i++) {
+				//					vm.param.append('communityContractFiles', vm.fileList[i][0],vm.fileList[i][1]);
+				//				}
+				//				console.log('参数')
+				//				console.log(vm.communityName)
+				//				console.log(vm.areaId)
+				//				console.log(vm.parentId)
+				//				console.log(vm.areas)
+				//				console.log(vm.communityAddress)
 				console.log(vm.communityOpeningDate)
-//				console.log(vm.communityType)
+				//				console.log(vm.communityType)
 				console.log(vm.communityPhone)
 				console.log(vm.communityContractNum)
 				console.log(vm.communityLeaseBegin)
 				console.log(vm.communityLeaseEnd)
 				console.log(vm.communityFreeLeaseBegin)
 				console.log(vm.communityFreeLeaseEnd)
-				console.log(vm.communityContractFile)
-//				console.log('参数')
+				//				console.log(vm.communityContractFiles)
+				//				console.log('参数')
 				this.param.append("communityName", vm.communityName);
 				this.param.append("communityProvince", vm.areaId);
 				this.param.append("communityCity", vm.parentId);
@@ -207,41 +292,50 @@
 				this.param.append("communityLeaseEnd", vm.communityLeaseEnd);
 				this.param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
 				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-				if(vm.parentId== null || vm.areas== null || vm.communityAddress== null || vm.communityOpeningDate== null || vm.communityType== '' || vm.communityPhone== null || vm.communityContractNum== null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.fileList == []){
+				this.param.append('communityContract',vm.communityContract)
+				this.fullscreenLoading = true;
+				if(vm.parentId == null || vm.areas == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
+					this.fullscreenLoading = false;
 					alert('信息填入不完整，请补充完信息');
-				}
-				else{
+				} else {
 					this.$http.post(hostComplie, vm.param).then(res => {
-						console.log(res);
-						if(res.status == 200 && res.data.code == 10000){
-							alert('已添加成功！');
-							vm.$router.push('/apartment/communityManagement');
-						}
-						else{
-							alert('添加失败！请检查错误信息')
-						}
-					})
-					.catch(error => {
-						console.log(error);
-					})
+
+							if(res.status == 200 && res.data.code == 10000) {
+								setTimeout(() => {
+									this.fullscreenLoading = false;
+									alert('已添加成功！');
+									vm.$router.push('/apartment/communityManagement');
+								}, 3000);
+
+							} else {
+								this.fullscreenLoading = false;
+								alert('添加失败！请检查错误信息')
+							}
+						})
+						.catch(error => {
+							console.log(error);
+						})
 				}
 			},
-			uploadFile(e) {
-				let vm = this
-				vm.ches = true;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				this.fileList.push(files);
-				this.pdfName.push(e.currentTarget.files[0].name);
-				//  			console.log(this.pdfName)
-			},
-			removeItem(item) {
-				console.log(this.param)
-				let fileIndex = this.pdfName.findIndex(items => items == item);
-				this.fileList.splice(fileIndex, 1);
-				this.pdfName.splice(fileIndex, 1);
-				console.log(fileIndex)
-			},
+			//			uploadFile(e) {
+			//				let vm = this
+			//				vm.ches = true;
+			//				let file = e.target.files[0];
+			//				let files = [file, file.name];
+			//				this.fileList.push(files);
+			//				this.pdfName.push(e.currentTarget.files[0].name);
+			//				//  			console.log(this.pdfName)
+			//			},
+			//			removeItem(item) {
+			//				console.log(this.param)
+			//				let fileIndex = this.pdfName.findIndex(items => items == item);
+			//				this.fileList.splice(fileIndex, 1);
+			//				this.pdfName.splice(fileIndex, 1);
+			//				if(!this.fileList.length){
+			//					this.ches = false;
+			//				}
+			//				console.log(fileIndex)
+			//			},
 			isActive(value) { //获取市的数据
 
 				this.areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
@@ -298,6 +392,23 @@
 					//console.log(response);
 					this.parent = response.data.result.areaList;
 					//console.log(this.parent);
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+		},
+		datas() {
+			axios.post(hostTitle,
+					qs.stringify({
+						communityId: vm.communityId
+					}))
+				.then((response) => {
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						vm.community = response.data.result.community;
+
+					}
+
 				})
 				.catch((error) => {
 					console.log(error);

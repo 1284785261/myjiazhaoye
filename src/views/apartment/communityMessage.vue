@@ -99,7 +99,7 @@
     	},
     	methods:{
     		Complie:function(){
-    			this.$router.push({path:"/apartment/communityComplie"});
+    			this.$router.push({path:"/apartment/communityComplie",query:{id:this.communityId}});
     		},
     		datas(){
     			let vm = this

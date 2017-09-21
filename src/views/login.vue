@@ -79,7 +79,8 @@ import qs from 'qs';
       		qs.stringify(
       			{
       				userPhone:this.formInline.user,
-      				password:this.formInline.password
+      				password:this.formInline.password,
+      				user_type:2
       			}
       		))
       	.then((res)=>{
@@ -90,7 +91,7 @@ import qs from 'qs';
       				//把token上传到sessionStorage
       			
       		}
-      		else if(parseInt(res.data.code)==10002){ 			
+      		else{ 			
       			that.title = res.data.content;//把错误信息赋给当前的title
       			that.isShow = true;
       			console.log(that.isShow);

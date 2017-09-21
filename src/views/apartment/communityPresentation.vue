@@ -174,11 +174,9 @@
 				uploadList: [],
 				uploadList2: [],
 				uploadList3: [],
-				
 				uploadList4: [],
 				uploadList5: [],
 				uploadList6: [],
-				defaultMsg: '',
 				config: {
 					initialFrameWidth: null,
 					initialFrameHeight: 350
@@ -187,7 +185,8 @@
 				community:null, //当前页面数据
 				url:hostPresent,
 				param:null,
-				imgPath:''
+				imgPath:'',
+				defaultMsg: '',
 			}
 
 		},
@@ -200,18 +199,6 @@
 			this.imgPath = imgPath
 		},
 		methods: {
-			getUEContent() {
-				let vm = this
-				vm.content = this.$refs.ue.getUEContent(); 
-		
-				this.$notify({
-					title: '获取成功，可在控制台查看！',
-					message: vm.content,
-					type: 'success'
-				});
-			
-				//console.log(content)
-			},
 			click(){
 				let vm = this
 //				this.getUEContent()
@@ -226,31 +213,39 @@
 //				console.log(this.filelist3)
 //				console.log(this.uploadList2)
 				//console.log('开始')
+				//vm.content = this.$refs.ue.getUEEditor(); 
+				
+				vm.content = this.$refs.ue.getUEContent(); 
+				
+//				this.$notify({
+//					title: '获取成功，可在控制台查看！',
+//					message: vm.content,
+//					type: 'success'
+//				});
+			
+				console.log(vm.content)
 				this.param.append("communityId",vm.communityId);
 				this.param.append("communityInfo",vm.content);
 				this.param.append("communityFlatHide",vm.uploadList);
 				this.param.append("communityFaceHide",vm.uploadList2);
 				this.param.append("communityWorkHide",vm.uploadList3);
-				console.log(vm.filelist1.length);
-				console.log(11111111111111111);
 				if(vm.filelist1.length){
 					for(let i in vm.filelist1) {
-						console.log(111+'aaa')
 						vm.param.append('communityFlatFiles', vm.filelist1[i]);
 					}
-					console.log(vm.filelist1);
+					//console.log(vm.filelist1);
 				}
 				if(vm.filelist2.length){
 					for(let i in vm.filelist2) {
 						vm.param.append('communityFaceFiles', vm.filelist2[i]);
 					}
-					console.log(vm.filelist2);
+					//console.log(vm.filelist2);
 				}
 				if(vm.filelist3.length){
 					for(let i in vm.filelist3) {
 						vm.param.append('communityWorkFiles', vm.filelist3[i]);
 					}
-					console.log(vm.filelist3);
+					//console.log(vm.filelist3);
 				}
 				
 				
@@ -258,7 +253,7 @@
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						alert('操作成功');
-						vm.$router.push({path:"/apartment/communityManagement"});
+						//vm.$router.push({path:"/apartment/communityManagement"});
 					}
 //					else{
 //						alert('操作失败，请检查信息完整');
@@ -379,6 +374,7 @@
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						vm.community = response.data.result.community;
+						vm.defaultMsg = response.data.result.community.communityInfo;
 						let arr = [];
 						let arr2 = [];
 						let arr3 = [];
@@ -387,23 +383,23 @@
 						arr3 = vm.community.communityWork.split(",");
 						arr = vm.community.communityFlat.split(",");
 						//console.log(arr);
-						console.log(arr);
-						console.log(arr2);
-						console.log(arr3);
+//						console.log(arr);
+//						console.log(arr2);
+//						console.log(arr3);
 						vm.uploadList = [];
 						vm.uploadList2 = [];
 						vm.uploadList3 = [];
-						if(arr != ''){
+						if(arr.length){
 							arr.forEach(function(item){
 							vm.uploadList.push(item);
 							})
 						}
-						if(arr2 != ''){
+						if(arr2.length){
 							arr2.forEach(function(item,index){
 								vm.uploadList2.push(item);
 							})
 						}
-						if(arr3 != ''){
+						if(arr3.length){
 							arr3.forEach(function(item,index){
 								vm.uploadList3.push(item);
 							})

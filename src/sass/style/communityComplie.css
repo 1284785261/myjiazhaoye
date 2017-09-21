@@ -87,7 +87,7 @@
 .message-tis .cop tr .unloading .el-icon-delete:hover{
 	color: #038BE2;
 }
-.message-tis .cop tr td .file{
+/*.message-tis .cop tr td .file{
 	width: 260px;
 	height: 34px;
 	opacity: 0;
@@ -105,10 +105,44 @@
 	color: #cbcbcb;
 	padding-left: 10px;
 }
+.message-tis .cop tr td .md{
+	color: #AA1111;
+	font-size: 12px;
+}
+.message-tis :;cop tr td .md i{
+	margin-left: 20px;
+	margin-right: 10px;
+}
 .message-tis tr td .cas{
 	width: 260px;
 	height: 35px;
 	text-align: left;
+}*/
+.message-tis .cop tr .bargain{
+	position: relative;
+}
+.message-tis .cop tr .bargain button{
+	width: 260px;
+	height: 34px;
+	background: #ffffff;
+	text-align: left;
+	color: #b8b8b8;
+	border-radius: inherit;
+	border: 1px solid #dcdcdc;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.message-tis .cop tr .bargain .el-upload__tip{
+	position: absolute;
+	top: 0px;
+    left: 280px;
+    color: #c33939;
+}
+.message-tis .cop tr .bargain ul{
+	margin-top: 30px;
+	padding-bottom: 10px;
+	width: 400px;
 }
 .message-tis tr td .cass{
 	width: 118px;
@@ -119,6 +153,7 @@
 	left: 379px;
     bottom: 68px;
 }
+
 .ivu-date-picker-editor .ivu-input {
     width: 180px!important;
 }
@@ -127,7 +162,7 @@
 }
 .operation-box2{
 	margin-left: 192px;
-    margin-top: 84px;
+	margin-top: 30px;
 }
 .operation-box2 Button{
 	display: inline-block;
