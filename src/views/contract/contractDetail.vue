@@ -150,8 +150,8 @@
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
-                    <tr class="tr2" v-if="contractDetailData.otherCostJson">
-                      <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}x{{item.costAmount}}</td>
+                    <tr class="tr2 span-padding" v-if="contractDetailData.otherCostJson && contractDetailData.otherCostJson.length">
+                      <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}:{{item.costAmount}}元</td>
                       <td class="td2" >其他费用总额 :<span>{{contractDetailData.cyclePayOtherCost}}元</span></td>
                     </tr>
                     <tr class="tr2">
@@ -209,9 +209,8 @@
                 <td class="td1">物资清单:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
-                    <tr class="tr2" v-for="material in contractDetailData.materials">
-                      <td class="td2">{{material.materialName}} </td>
-                      <td class="td2">x{{material.count}}</td>
+                    <tr class="tr2" >
+                      <td class="td2" v-for="material in contractDetailData.materials">{{material.materialName}}x{{material.count}}</td>
                     </tr>
                   </table>
                 </td>

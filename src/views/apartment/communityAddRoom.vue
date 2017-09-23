@@ -446,9 +446,16 @@
             var roomFurniture = data[i].roomFurniture.trim();
             var furnitureArr = roomFurniture.split(" ");
             var dataArr = [];
+            var materials = [];
             for(var j =0;j<furnitureArr.length;j++){
+              //拼接办公配置数组字符串
+              materials.push({
+                "materialName": FurnitureArr[j],
+                "count":1
+              });
               dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
             }
+            data[i].materials = JSON.stringify(materials);
             if(dataArr.length){
               data[i].roomFurniture = dataArr.join(",");
             }else{
@@ -456,6 +463,7 @@
             }
           }
         }
+
         this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
           that.successMessage = "添加房间成功！";
           that.successModal = true;
@@ -490,9 +498,16 @@
             var roomFurniture = data[i].roomFurniture.trim();
             var furnitureArr = roomFurniture.split(" ");
             var dataArr = [];
+            var materials = [];
             for(var j =0;j<furnitureArr.length;j++){
+              //拼接办公配置数组字符串
+              materials.push({
+                "materialName": furnitureArr[j],
+                "count":1
+              });
               dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
             }
+            data[i].materials = JSON.stringify(materials);
             if(dataArr.length){
               data[i].roomFurniture = dataArr.join(",");
             }else{
@@ -500,6 +515,7 @@
             }
           }
         }
+        console.log(data);
         this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";

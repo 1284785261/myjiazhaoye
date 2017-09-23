@@ -31,7 +31,7 @@
             </div>
           </div>
           <ul class="order-detail-content">
-            <li style="position: relative">
+            <li style="position: relative" :class="{'border-bottom':complainData.complainStatus == 0}">
               <h3><i class="icon icon-iden"></i>用户信息</h3>
               <table >
                 <tr>
@@ -44,13 +44,13 @@
                 </tr>
                 <tr>
                   <td><b>事情经过 :</b></td>
-                  <td><p>sfdgsdfgsdgsdfgsdgdfsgfff</p></td>
+                  <td><p style="max-width: 650px;">sfdgsdfgsdgsdfgsdgdfsgfff</p></td>
                 </tr>
               </table>
             </li>
             <template v-for="(item,index) in complainData.recordList">
               <li>
-                <h3><i class="icon icon-iden"></i>处理记录</h3>
+                <h3 v-if="index==0"><i class="icon icon-iden"></i>处理记录</h3>
                 <table>
                   <tr>
                     <td>店长确认接受 :</td>
@@ -70,7 +70,7 @@
                   </tr>
                   <tr>
                     <td><b>反馈 :</b></td>
-                    <td><span v-if="item.userDegree==0">满意</span><span v-if="item.userDegree==1">不满意</span></td>
+                    <td><span v-if="item.userDegree==0">满意</span><span v-else-if="item.userDegree==1">不满意</span></td>
                   </tr>
                   <tr>
                     <td></td>
@@ -91,7 +91,7 @@
                 </tr>
               </table>
             </li>
-            <li>
+            <li v-if="complainData.complainStatus == 3">
               <table>
                 <tr>
                   <td style="position: relative;top: -60px"><b>客服介入处理 :</b></td>
@@ -104,6 +104,9 @@
               </table>
             </li>
           </ul>
+          <div class="accept-btn" v-if="complainData.complainStatus == 0">
+            <Button type="primary" style="width: 120px;" @click="test()">确认接收</Button>
+          </div>
         </div>
         <success-modal :success-message="successMessage" v-if="false"></success-modal>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="false"></warning-modal>
@@ -215,6 +218,13 @@
       li:last-child{
         border-bottom: none;
       }
+      .border-bottom{
+        border-bottom:1px dashed #ccc!important;
+      }
+    }
+    .accept-btn{
+      margin-left: 180px;
+      margin-top: 20px;
     }
     .order-detail-content{
       h3{

@@ -27,18 +27,21 @@
               </Select>
             </div>
             <div class="form-item">
-              <span>开业日期：</span>
-              <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
-              <span class="inline-block spanBar">-</span>
-              <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
-            </div>
-            <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
                 <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
                 <input type="button" value="搜索" @click="search()">
               </div>
             </div>
+            <div class="form-item">
+              <Button style="height: 36px;width: 120px;" @click="toAddComplain()">添加投诉</Button>
+            </div>
+          </div>
+          <div class="form-item" style="display: block;padding-bottom: 20px;">
+            <span>投诉时间：</span>
+            <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+            <span class="inline-block spanBar">-</span>
+            <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
           </div>
           <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
             <tr>
@@ -66,7 +69,8 @@
                 <span v-if="complain.complainStatus==5">已回访</span>
               </td>
               <td>
-                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 账单详情</router-link>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 查看详情</router-link>
+                <i></i>
               </td>
             </tr>
           </table>
@@ -182,6 +186,9 @@
           data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
         }
         this.getComplainData(data);
+      },
+      toAddComplain(){
+          this.$router.push({name:'addComplain'})
       }
 
     },

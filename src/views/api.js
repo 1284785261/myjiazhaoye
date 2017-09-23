@@ -2,11 +2,11 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+// const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
-const host1 = 'http://192.168.26.135:8091';
+//const host3 = 'http://192.168.26.135:8091';
 
 //http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
 
@@ -276,4 +276,8 @@ export const saveBillPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSave
 //客服管理
 export const complainList =host3+'/cxkj-room/apis/pc/complainCenter/CxkjComplainList300086';
 export const complainDetail =host3+'/cxkj-room/apis/pc/complainCenter/CxkjComplainDetail300087';
+export const addComplain =host3+'/cxkj-room/apis/pc/addComplain/CxkjAddComplain300093';
 
+
+//设备管理
+export const gateLock =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';

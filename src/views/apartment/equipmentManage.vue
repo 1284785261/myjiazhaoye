@@ -937,8 +937,10 @@
 
 	import '../../sass/style/equipment.css';
 	import menuBox from '../../components/menuBox.vue';
-    import rightHeader from '../../components/rightHeader.vue';
-    import footerBox from '../../components/footerBox.vue';
+  import rightHeader from '../../components/rightHeader.vue';
+  import footerBox from '../../components/footerBox.vue';
+  import qs from 'qs';
+  import {gateLock} from '../api.js';
 
     export default {
     	components:{
@@ -980,9 +982,13 @@
 		          value: '选项5',
 		          label: '北京烤鸭'
 		        }],
-		        value8: ''
+		        value8: '',
+          communityId:"",
 		   	}
     	},
+      mounted(){
+    	  this.communityId = this.$route.query.communityId;
+      },
     	methods:{
     		instas:function(){
     			this.isHid = !this.isHid;
@@ -1042,7 +1048,9 @@
         },
     		handleClick(tab, event) {
 		        console.log(tab, event);
-		    }
+		    },
+
+
 
     	},
     	created(){

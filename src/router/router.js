@@ -282,11 +282,17 @@ export default new Router({
       component:resolve =>
         require(['../views/custom/customServiceManagement.vue'],resolve)
     },{
-      path:'/custom/complainDetail',		//客服管理-投诉管理
+      path:'/custom/complainDetail',		//客服管理-投诉详情
       name:'complainDetail',
       component:resolve =>
         require(['../views/custom/complainDetail.vue'],resolve)
+    },{
+      path:'/custom/addComplain',		//客服管理-添加投诉
+      name:'addComplain',
+      component:resolve =>
+        require(['../views/custom/addComplain.vue'],resolve)
     }
+
 
 
   ]

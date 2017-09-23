@@ -700,9 +700,16 @@
             var officeFurniture = paramsOffice[i].officeFurniture.trim();
             var FurnitureArr = officeFurniture.split(" ");
             var dataArr = [];
+            var materials = [];
             for(var j =0;j<FurnitureArr.length;j++){
+              //拼接办公配置数组字符串
+              materials.push({
+                "materialName": FurnitureArr[j],
+                "count":1
+              });
               dataArr.push(this.checkBoxObj[FurnitureArr[j]]+"");
             }
+            paramsOffice[i].materials = JSON.stringify(materials);
             if(dataArr.length){
               paramsOffice[i].officeFurniture = dataArr.join(",");
             }else{
@@ -710,6 +717,8 @@
             }
           }
         }
+        console.log(paramsOffice);
+
         this.$http.post(Office, {cxkjCommunityListOffice:paramsOffice})
           .then(function (res) {
             that.successMessage = "添加办公室成功!";

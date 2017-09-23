@@ -44,9 +44,13 @@
                   <td>{{detailData.meetingPersonNum}}人间</td>
                 </tr>
 
-                <tr v-if="detailData.orderState != 3">
+                <tr v-if="detailData.orderState != 3 && detailType==1">
                   <td>使用时间 :</td>
-                  <td>2017/9/16 - 2017/9/17</td>
+                  <td v-for="(item,index) in detailData.orderDateList">{{item.beginDate | timefilter("yyyy.MM.dd")}}-{{item.endDate | timefilter("yyyy.MM.dd")}}</td>
+                </tr>
+                <tr v-if="detailData.orderState != 3 && detailType==0">
+                  <td>预定时间 :</td>
+                  <td>{{detailData.meetingTimes}}小时</td>
                 </tr>
 
                 <tr v-if="detailType==1">
@@ -59,7 +63,7 @@
                 </tr>
                 <tr v-if="detailData.orderState != 3"s>
                   <td>小计 :</td>
-                  <td style="color: red">{{detailData.placeDays * detailData.placeRent}}元</td>
+                  <td style="color: red">{{detailData.totalMoney}}元</td>
                 </tr>
               </table>
             </li>
@@ -85,7 +89,7 @@
                 </tr>
                 <tr>
                   <td>联系电话 :</td>
-                  <td>{{detailData.userTelephone}}</td>
+                  <td>{{detailData.userPhone}}</td>
                 </tr>
               </table>
             </li>
@@ -115,7 +119,7 @@
               <table>
                 <tr>
                   <td>订单时间 :</td>
-                  <td>{{detailData.createTime | timefilter }}</td>
+                  <td>{{detailData.createTime | timefilter("yyyy-MM-dd hh:mm:ss") }}</td>
                 </tr>
                 <tr>
                   <td>订单编号 :</td>
@@ -123,7 +127,7 @@
                 </tr>
                 <tr v-if="detailData.orderState != 1">
                   <td>支付时间 :</td>
-                  <td>{{detailData.paySuccessTime | timefilter }}</td>
+                  <td>{{detailData.paySuccessTime | timefilter("yyyy-MM-dd hh:mm:ss") }}</td>
                 </tr>
                 <tr v-if="detailData.orderState != 1">
                   <td>支付方式 :
@@ -223,9 +227,9 @@
       }
     },
     filters:{
-      timefilter(value){
+      timefilter(value,format){
         if(value){
-          return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+          return new Date(value).Format(format);
         }
       }
     },
