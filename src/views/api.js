@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-// const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+const host3 = 'http://192.168.26.191:8080';
+//const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -107,13 +107,13 @@ const Manager = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjCommunityManagerMon
 const Workbench = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjCommunityManagerTodayTask200030'
 
 //工作台-发起收款列表
-const Payment = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPaymentTable200035'
+const Payment = '/cxkj-room/apis/pcManager/cxkjcommunityGathering/CxkjCommunityCollectPaymentTable200035'
 
 //工作台-发起收款列表-发起收款
-const Payment2 = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityCollectPayment200036'
+const Payment2 = '/cxkj-room/apis/pcManager/cxkjcommunityGathering/CxkjCommunityCollectPayment200036'
 
 //工作台 - 收款详情
-const Details = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityGatheringDetails200037'
+const Details = '/cxkj-room/apis/pcManager/cxkjcommunityGathering/CxkjCommunityGatheringDetails200037'
 
 //工作台-办公场地状态 -会议室
 const StatusMe = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOfficeSpaceStatusMetting200076'

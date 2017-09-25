@@ -37,7 +37,7 @@
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">公寓租金账单</router-link></li>
               <li><router-link to="/">公寓水电订单</router-link></li>
-              <li><router-link to="/">用户报修</router-link></li>
+              <li><router-link to="/signed/repairs">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
               <li><router-link to="/">退租管理</router-link></li>
               <li><router-link to="/signed/refundrecord">发起退款</router-link></li>
@@ -78,7 +78,7 @@
               <li><router-link to="/">直播管理</router-link></li>
               <li><router-link to="/">办公租金账单</router-link></li>
               <li><router-link to="/">办公订单</router-link></li>
-              <li><router-link to="/">用户报修</router-link></li>
+              <li><router-link to="/signed/repairs">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
               <li><router-link to="/">退租管理</router-link></li>
               <li><router-link to="/signed/refundrecord">发起退款</router-link></li>

@@ -1,0 +1,81 @@
+#activitys{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#activitys .activitys1{
+	height: 80px;
+	width: 100%;
+	position: relative;
+}
+#activitys .activitys1 .refund{
+	
+	width: 138px;
+	height: 34px;
+	display: inline-block;
+	text-align: center;
+	line-height: 34px;
+	border-radius: 5px;
+	border: 1px solid #038BE2;
+	background: #fff;
+	color: #038BE2;
+	float: right;
+	margin-right: 20px;
+	margin-top: 22px;
+}
+
+.activitys1 .el-select{
+	width: 118px;
+	outline: none;
+}
+.activitys1 .el-select .el-input .el-input__icon{
+	border: 1px solid #DCDCDC;
+	transition:auto;
+	
+}
+
+.activitys1 .el-select .el-input__inner{
+	border-radius: inherit;
+	width: 118px;
+}
+#housesubscrib .scherm{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+}
+
+#activitys table{
+	width: 100%;
+	min-height: 100px;
+	border-collapse: collapse;
+}
+#activitys table thead td{
+	background: #f8f8f8;
+	font-weight: bold;
+	height: 48px;
+}
+#activitys table td{
+	color: #000;
+	height: 68px;
+	border: 1px solid #DCDCDC;
+	text-align: center;
+}
+#activitys .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#activitys .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#activitys .el-pagination button{
+	border: 1px solid #DCDCDC;
+}

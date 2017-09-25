@@ -129,7 +129,7 @@
 		        pageNum:1,
 		        communityId:null,
 		        Datas:null,
-		        totalNum:null,
+		        totalNum:1,
 		        isHide:false,
 		        phone:null,
 		        money:null,
@@ -174,12 +174,24 @@
 		    handleCurrentChange(val) {
 				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
+				this.datas();
 			},
 			datas(){
+				if(this.communityLeaseBegin != null){
+					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+				}
+				if(this.communityLeaseEnd != null){
+					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+				}
 				axios.post(hostPayment,  //请求收款数据列表
 					qs.stringify({
 						pageNum:this.pageNum,
-						communityId:this.communityId
+						pageSize:5,
+						communityId:this.communityId,
+						gatheringDate:this.communityLeaseBegin,
+						gatheringEndDate:this.communityLeaseEnd,
+						gatheringState:this.gatheringState,
+						userNamePhone:this.values
 					})
 				)
 				.then((response)=>{       
@@ -204,10 +216,15 @@
 					})
 				).then((response)=>{
 					//console.log(11111);
-					//console.log(response);
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						this.isHide = !this.isHide;
+						alert('发起收款成功');
+						this.datas();
+					}else{
+						alert(response.data.content);
+					}
 					
-					this.isHide = !this.isHide;
-					alert('发起收款成功');
 				})
 				.catch((error)=>{
 					console.log(error);
@@ -216,7 +233,7 @@
 			states(){
 				axios.post(hostWay,
 					qs.stringify({
-						parentId:51
+						parentId:51        //查询支付状态字典
 					})
 				).then((response)=>{
 					console.log(response);
@@ -240,19 +257,24 @@
 				this.Datas = null;
 				this.totalNum = null;
 				let vm = this;
+				this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+				this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
 				axios.post(hostPayment,
 					qs.stringify({
-						gatheringState:this.communityLeaseBegin,
+						gatheringDate:this.communityLeaseBegin,
 						gatheringEndDate:this.communityLeaseEnd,
 						gatheringState:this.gatheringState,
-						userNameLike:this.values,
-						userPhoneLike:this.values
+						userNamePhone:this.values
 					})
 				).then((response)=>{
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10004){
+						alert(response.data.content);
 						vm.Datas = response.data.entity.page;
 						vm.totalNum = response.data.entity.totalNum;
+					}
+					else{
+						alert(response.data.content);
 					}
 				}).catch((error)=>{
 					console.log(error);

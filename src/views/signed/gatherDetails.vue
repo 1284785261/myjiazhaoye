@@ -40,19 +40,22 @@
 		    		<table class="list2">
 		    			<tr>
 		    				<td>发起时间：</td>
-		    				<td><!--{{Datas.gatheringDate | gatheringDate}}--></td>
+		    				<td>{{title.createTime | gatheringDate}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付成功时间：</td>
-		    				<td><!--{{Datas.payDate | payDate}}--></td>
+		    				<td v-if="title.payDate != null">{{title.payDate | payDate}}</td>
+		    				<td v-else>无</td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付方式：</td>
-		    				<td>{{title.payType | payType}}</td>
+		    				<td v-if="title.payType != null">{{title.payType | payType}}</td>
+		    				<td v-else>无</td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付交易号：</td>
-		    				<td>{{title.payNo}}</td>
+		    				<td v-if="title.payNo != null">{{title.payNo}}</td>
+		    				<td v-else>无</td>
 		    			</tr>
 		    		</table>
 		    	</div> 

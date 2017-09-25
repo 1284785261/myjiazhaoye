@@ -16,7 +16,7 @@
 		        </div>
 		        <div class="message-tis">
 		        	<div class="uploading">
-                    	<a class="upload" href="javascript:void(0);">
+                    	<a class="upload" href="javascript:void(0);"  v-loading.body="loading">
                     		<input type="file" class="upfile" @change="loadfile" accept="image/png,image/jpg">
                     	
                     		<img :src=imgPath1 />
@@ -25,7 +25,15 @@
                     		<span class="jiahao3" v-if="chen">上传照片</span>
                     	</a>
                		</div>
-
+					<!--<el-upload
+					  class="avatar-uploader"
+					  :action="host3"
+					  :show-file-list="false"
+					  :on-success="handleAvatarSuccess"
+					  :before-upload="beforeAvatarUpload">
+					  <img v-if="imgPath1" :src="imgPath1" class="avatar">
+					  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					</el-upload>-->
 		        	<ul class="fromss">
 		        		<li>
 		        			<span>用户姓名：</span><span>{{user.userName}}</span>
@@ -65,8 +73,9 @@
     import footerBox from '../../components/footerBox.vue';
     import api from '../api.js';
     import axios from 'axios';
-    import { hostAuthor,imgPath,hostportrait } from '../api.js';
+    import { hostAuthor,imgPath,hostportrait,host } from '../api.js';
     import '../../sass/style/communityPersonal.css';
+    import qs from 'qs'
     
     
     
@@ -78,13 +87,20 @@
     	},
     	data(){
     		return{
-    			user:null,  //用户信息
+    			user:{},  //用户信息
     			imgPath1:null,
     			chen:true,
-    			filelist:[]
+    			defaultList: [],
+                imgName: '',
+                visible: false,
+                uploadList: [],
+                host3:'',
+                imageUrl: '',
+                loading:false
     		}
     	},
     	mounted(){
+    		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
     		this.param = new FormData();
     		let vm = this
     		vm.user = null;
@@ -106,6 +122,8 @@
     		.catch((error)=>{
     			console.log(error);
     		})
+    		
+    		 this.uploadList = this.$refs.upload.fileList;
     	},
     	methods:{
     		loadfile(e){
@@ -115,13 +133,28 @@
     			let files = [file,file.name];
     			this.filelist.push(files);
     			vm.chen = false;
-    			let windowURL = window.URL || window.webkitURL;
-    			this.imgPath1 = windowURL.createObjectURL(e.target.files[0]);
-    			this.param.append('headPicFile',this.filelist[0][0]);
-    			this.param.append('id',this.user.id);
-    			this.$http.post(hostportrait,this.param).then(res => {
-    				console.log(res);
+    			
+//  			let windowURL = window.URL || window.webkitURL;
+//  			this.imgPath1 = windowURL.createObjectURL(e.target.files[0]);
+    			this.param.append('file',file);
+    			this.param.append('module','user');
+    			this.$http.post(vm.host3,vm.param).then(res =>{
+    				vm.loading = true
+    				let imgUser = res.data.result.virtualPath
+    				debugger
+    				vm.userImg(imgUser)
+    			}).catch(err=>{
+    				console.log(err)
+    			})
+    		},
+    		userImg(imgUser){
+    			let vm = this;
+    			this.$http.post(hostportrait,qs.stringify({
+    				headPic:imgUser
+    			})).then(res => {
+    				debugger
     				if(res.status == 200 && res.data.code == 10000){
+    					vm.loading = false
     					alert('上传头像成功');
     				}
     				else{
@@ -134,7 +167,23 @@
     		},
     		emss(){
     			this.$router.push('/loginPassword');
-    		}
+    		},
+    		handleAvatarSuccess(res, file) {
+    			console.log(res);
+		        this.imageUrl = URL.createObjectURL(file.raw);
+		    },
+		    beforeAvatarUpload(file) {
+		        const isJPG = file.type === 'image/jpeg';
+		        const isLt2M = file.size / 1024 / 1024 < 2;
+		
+		        if (!isJPG) {
+		          this.$message.error('上传头像图片只能是 JPG 格式!');
+		        }
+		        if (!isLt2M) {
+		          this.$message.error('上传头像图片大小不能超过 2MB!');
+		        }
+		        return isJPG && isLt2M;
+		    }
     	}
     	
     }

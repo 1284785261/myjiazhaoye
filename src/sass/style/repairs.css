@@ -1,4 +1,4 @@
-#refundrecord{
+#repairs{
 	width: 100%;
 	min-height: 1000px;
 	background: #fff;
@@ -6,27 +6,27 @@
 	box-shadow: 0 3px 1px #ccc;
 	position: relative;
 }
-#refundrecord .refundrecord1{
+#repairs .repairs1{
 	height: 80px;
 	width: 100%;
 	position: relative;
 }
-#refundrecord .refundrecord1 .bsc{
+#repairs .repairs1 .bsc{
 	margin-left: 20px;
 	font-size: 12px;
 	display: inline-block;
 	margin-top: 24px;
 }
-#refundrecord .refundrecord1 .mvs{
+#repairs .repairs1 .mvs{
 	width: 130px;
 }
-#refundrecord .refundrecord1 .dev{
+#repairs .repairs1 .dev{
 	width: 130px;
 }
-#refundrecord .refundrecord1 .spanBar{
+#repairs .repairs1 .spanBar{
 	margin: 0 10px;
 }
-#refundrecord .refundrecord1 .mv{
+#repairs .repairs1 .mv{
 	width: 208px;
     height: 36px;
     border-radius: 0;
@@ -36,17 +36,17 @@
     border: 1px solid #DCDCDC;
     border-right: none;
 }
-#refundrecord .refundrecord1 .el-icon-search{
+#repairs .repairs1 .el-icon-search{
 	position: absolute;
 	top: 26px;
-    left: 772px;
+    left: 792px;
     color: #666;
 }
-#refundrecord .refundrecord1 .ivu-tabs-tab-active{
+#repairs .repairs1 .ivu-tabs-tab-active{
     background-color: #038be2;
     color:#fff;
 }
-#refundrecord .refundrecord1 .refund{
+#repairs .repairs1 .refund{
 	width: 138px;
 	height: 38px;
 	display: inline-block;
@@ -58,7 +58,7 @@
 	color: #666;
 	margin-left: 20px;
 }
-#refundrecord .refundrecord1 .sa{
+#repairs .repairs1 .sa{
 	  width: 70px;
       text-align: center;
       height: 36px;
@@ -72,19 +72,19 @@
       left: 974px;
       top: 15px;
 }
-.refundrecord1 .el-select{
-	width: 118px;
+.repairs1 .el-select{
+	width: 120px;
 	outline: none;
 }
-.refundrecord1 .el-select .el-input .el-input__icon{
+.repairs1 .el-select .el-input .el-input__icon{
 	border: 1px solid #DCDCDC;
 	transition:auto;
 	
 }
 
-.refundrecord1 .el-select .el-input__inner{
+.repairs1 .el-select .el-input__inner{
 	border-radius: inherit;
-	width: 118px;
+	width: 120px;
 }
 #housesubscrib .scherm{
 	width: 100%;
@@ -97,29 +97,29 @@
 	opacity: 0.5;
 }
 
-#refundrecord table{
+#repairs table{
 	width: 100%;
 	min-height: 100px;
 	border-collapse: collapse;
 }
-#refundrecord table thead td{
+#repairs table thead td{
 	background: #f8f8f8;
 	font-weight: bold;
 }
-#refundrecord table td{
+#repairs table td{
 	color: #000;
 	height: 48px;
 	border: 1px solid #DCDCDC;
 	text-align: center;
 }
-#refundrecord .el-pagination{
+#repairs .el-pagination{
 	text-align: center;
 	margin-top: 40px;
 }
-#refundrecord .el-pagination .el-pager .number{
+#repairs .el-pagination .el-pager .number{
 	margin: 0 5px;
 	border: 1px solid #DCDCDC;
 }
-#refundrecord .el-pagination button{
+#repairs .el-pagination button{
 	border: 1px solid #DCDCDC;
 }

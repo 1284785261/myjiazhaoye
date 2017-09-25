@@ -1,0 +1,103 @@
+#repairsdetails{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#repairsdetails .repairsdetails1{
+	height: 114px;
+	width: 100%;
+	background: #f7fbff;
+	border-bottom: 1px solid #DCDCDC;
+	position: relative;
+}
+#repairsdetails .repairsdetails1 i{
+	font-size: 24px;
+	color: #038be2;
+	margin-left: 50px;
+	margin-right: 15px;
+	margin-top: 26px;
+}
+#repairsdetails .repairsdetails1 .mv{
+	font-size: 16px;
+	color: #038be2;
+	font-weight: bold;
+}
+#repairsdetails .repairsdetails1 .ms{
+	font-size: 16px;
+	color: #ff6612;
+	font-weight: bold;
+	position: absolute;
+	right: 20px;
+	top: 26px;
+}
+#repairsdetails .repairsdetails1 ul{
+	margin-left: 85px;
+	margin-top: 24px;
+}
+#repairsdetails .repairsdetails1 ul li{
+	float: left;
+	margin-right: 110px;
+}
+#repairsdetails div .refund{
+	width: 140px;
+	height: 40px;
+	display: block;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 5px;
+	background: #038BE2;
+	color: white;
+	margin-left: 40%;
+	margin-top: 50px;
+}
+#repairsdetails table{
+	width: 92%;
+	margin-left: 3.5%;
+	margin-top: 20px;
+}
+#repairsdetails table tr td{
+	height: 80px;
+	border-bottom: 1px dashed #DCDCDC;
+}
+#repairsdetails table tr td:nth-child(1){
+	width: 224px;
+}
+#repairsdetails table tr td:nth-child(2){
+	width: 475px;
+}
+#repairsdetails table tr td:nth-child(2) i{
+	font-size: 14px;
+	color: #4fcab9;
+	margin-left: 20px;
+}
+#repairsdetails table tr td:nth-child(1) i{
+	font-size: 24px;
+	color: #038be2;
+	margin-right: 15px;
+	float: left;
+}
+#repairsdetails table tr td:nth-child(1) span{
+	font-size: 16px;
+	color: #038be2;
+	font-weight: bold;
+	float: left;
+}
+#repairsdetails .mts{
+	margin-left: 200px;
+	margin-top: 30px;
+}
+#repairsdetails .mts textarea{
+	width: 540px;
+	height: 208px;
+}
+#repairsdetails .mts span{
+	vertical-align: top;
+	font-weight: bold;
+	color: #000;
+}
+#repairsdetails .mts a{
+	margin-left: 254px;
+}

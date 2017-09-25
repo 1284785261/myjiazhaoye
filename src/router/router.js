@@ -306,6 +306,31 @@ export default new Router({
       name:'refunddetails',
       component:resolve =>
         require(['../views/signed/refunddetails.vue'],resolve)
+    },{
+      path:'/activity/activitys',		//活动管理
+      name:'activitys',
+      component:resolve =>
+        require(['../views/activity/activitys.vue'],resolve)
+    },{
+      path:'/activity/addactivity',		//活动管理-新增活动
+      name:'addactivity',
+      component:resolve =>
+        require(['../views/activity/addactivity.vue'],resolve)
+    },{
+      path:'/activity/lookactivity',		//活动管理-查看活动
+      name:'lookactivity',
+      component:resolve =>
+        require(['../views/activity/lookactivity.vue'],resolve)
+    },{
+      path:'/signed/repairs',		//工作台-发起报修
+      name:'repairs',
+      component:resolve =>
+        require(['../views/signed/repairs.vue'],resolve)
+    },{
+      path:'/signed/repairsdetails',		//工作台-发起报修
+      name:'repairsdetails',
+      component:resolve =>
+        require(['../views/signed/repairsdetails.vue'],resolve)
     },
 
 
