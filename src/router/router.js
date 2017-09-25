@@ -291,7 +291,22 @@ export default new Router({
       name:'addComplain',
       component:resolve =>
         require(['../views/custom/addComplain.vue'],resolve)
-    }
+    },{
+      path:'/signed/openrefund',		//工作台-发起退款
+      name:'openrefund',
+      component:resolve =>
+        require(['../views/signed/openrefund.vue'],resolve)
+    },{
+      path:'/signed/refundrecord',		//工作台-退款记录
+      name:'refundrecord',
+      component:resolve =>
+        require(['../views/signed/refundrecord.vue'],resolve)
+    },{
+      path:'/signed/refunddetails',		//工作台-退款记录详情
+      name:'refunddetails',
+      component:resolve =>
+        require(['../views/signed/refunddetails.vue'],resolve)
+    },
 
 
 

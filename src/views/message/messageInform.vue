@@ -90,7 +90,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>消息内容：</td>
+					<td style="vertical-align: top;">消息内容：</td>
 					<td>
 						<textarea placeholder="请输入消息内容" v-model="titl1">
 							
@@ -168,7 +168,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title = response.data.pageBean.page;
 							vm.totalNum = response.data.pageBean.totalNum;

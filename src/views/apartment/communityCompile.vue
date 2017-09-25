@@ -35,6 +35,7 @@
 							</td>
 						</tr>
 						<tr>
+							<td></td>
 							<td class="xiangxi">
 								<el-input v-model="communityAddress" placeholder="请填写详细地址"></el-input>
 							</td>
@@ -258,19 +259,7 @@
 				let vm = this
 				this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == this.value)].areaId;
 				vm.communityContract = this.pdfName.join(',');
-				//console.log(str);
-				//				console.log('vm.fileList.Length')
-				//				console.log(vm.fileList.length)
-				//				console.log('vm.fileList.Length')
-				//				for(let i = 0; i < vm.fileList.length; i++) {
-				//					vm.param.append('communityContractFiles', vm.fileList[i][0],vm.fileList[i][1]);
-				//				}
-				//				console.log('参数')
-				//				console.log(vm.communityName)
-				//				console.log(vm.areaId)
-				//				console.log(vm.parentId)
-				//				console.log(vm.areas)
-				//				console.log(vm.communityAddress)
+
 				console.log(vm.communityOpeningDate)
 				//				console.log(vm.communityType)
 				console.log(vm.communityPhone)
@@ -281,6 +270,11 @@
 				console.log(vm.communityFreeLeaseEnd)
 				//				console.log(vm.communityContractFiles)
 				//				console.log('参数')
+				this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
+				this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+				this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+				this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
+				this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
 				this.param.append("communityName", vm.communityName);
 				this.param.append("communityProvince", vm.areaId);
 				this.param.append("communityCity", vm.parentId);

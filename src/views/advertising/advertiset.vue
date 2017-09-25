@@ -97,9 +97,7 @@
 		    		})
 		    	)  //获取所有banner数据
 		    	.then((response)=>{
-		    		console.log("response");
 		    		console.log(response);
-		    		console.log("response");
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.pageBean.page;
 			    		this.totalNum = response.data.pageBean.totalNum;
@@ -113,7 +111,6 @@
 		    	})
 		    },
 		    deletes(id){
-		    	console.log(typeof(id));
 		    	axios.post(hostDelete,   //删除广告
 		    	qs.stringify({
 		    		adIds:id
@@ -133,7 +130,6 @@
 		    		console.log(error);
 		    	})
 		    	
-		    	//this.datas();
 		    }
     	
     	},

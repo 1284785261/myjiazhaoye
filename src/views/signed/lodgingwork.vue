@@ -185,7 +185,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td>上传证明:</td>
+								<td style="vertical-align: top;">上传证明:</td>
 								<td class="boxs">
 									<div class="ivu-main-img">
 										<div class="item-img">
@@ -193,19 +193,54 @@
 												<div>
 													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
 													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传经办人身份证</span>
+													<span class="titew">上传法人身份证</span>
 												</div>
 											</div>
 											<div class="uplodas">
 												<div>
 													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
 													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传委托书</span>
+													<span class="titew">上传委托人身份证</span>
 												</div>
 											</div>
 											<div class="uplodas">
 												<div>
 													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传委托书</span>
+												</div>
+											</div>
+											<div class="uplodas">
+												<div>
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传服务协议</span>
+												</div>
+											</div>
+											<div class="uplodas">
+												<div>
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile5" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传服务守则</span>
+												</div>
+											</div>
+											<div class="uplodas">
+												<div>
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile6" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传工商证明</span>
+												</div>
+											</div>
+											<div class="uplodas">
+												<div>
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile7" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传免责声明</span>
+												</div>
+											</div>
+											<div class="uplodas">
+												<div>
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile8" />
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传合同</span>
 												</div>
@@ -232,6 +267,46 @@
 													<img :src="item">
 													<div class="demo-upload-list-cover">
 														<Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
+													</div>
+												</template>
+											</div>
+											<div class="demo-upload-list" v-for="item in uploadList4">
+												<template>
+													<img :src="item">
+													<div class="demo-upload-list-cover">
+														<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
+													</div>
+												</template>
+											</div>
+											<div class="demo-upload-list" v-for="item in uploadList5">
+												<template>
+													<img :src="item">
+													<div class="demo-upload-list-cover">
+														<Icon type="ios-trash-outline" @click.native="handleRemove5(item)"></Icon>
+													</div>
+												</template>
+											</div>
+											<div class="demo-upload-list" v-for="item in uploadList6">
+												<template>
+													<img :src="item">
+													<div class="demo-upload-list-cover">
+														<Icon type="ios-trash-outline" @click.native="handleRemove6(item)"></Icon>
+													</div>
+												</template>
+											</div>
+											<div class="demo-upload-list" v-for="item in uploadList7">
+												<template>
+													<img :src="item">
+													<div class="demo-upload-list-cover">
+														<Icon type="ios-trash-outline" @click.native="handleRemove7(item)"></Icon>
+													</div>
+												</template>
+											</div>
+											<div class="demo-upload-list" v-for="item in uploadList8">
+												<template>
+													<img :src="item">
+													<div class="demo-upload-list-cover">
+														<Icon type="ios-trash-outline" @click.native="handleRemove8(item)"></Icon>
 													</div>
 												</template>
 											</div>
@@ -374,11 +449,21 @@
 				uploadList: [],
 				uploadList2: [],
 				uploadList3: [],
+				uploadList4: [],
+				uploadList5: [],
+				uploadList6: [],
+				uploadList7: [],
+				uploadList8: [],
 				finished: false,
 				imgName: '',
 				filelist1: [],
 				filelist2: [],
 				filelist3: [],
+				filelist4: [],
+				filelist5: [],
+				filelist6: [],
+				filelist7: [],
+				filelist8: [],
 				dat: null,
 				param: null,
 				cyclePayType: '',
@@ -665,6 +750,31 @@
 				this.uploadList3.splice(fileIndex, 1);
 				this.filelist3.splice(fileIndex, 1);
 			},
+			handleRemove4(item) {
+				let fileIndex = this.uploadList4.findIndex(items => items == item);
+				this.uploadList4.splice(fileIndex, 1);
+				this.filelist4.splice(fileIndex, 1);
+			},
+			handleRemove5(item) {
+				let fileIndex = this.uploadList5.findIndex(items => items == item);
+				this.uploadList5.splice(fileIndex, 1);
+				this.filelist5.splice(fileIndex, 1);
+			},
+			handleRemove6(item) {
+				let fileIndex = this.uploadList6.findIndex(items => items == item);
+				this.uploadList6.splice(fileIndex, 1);
+				this.filelist6.splice(fileIndex, 1);
+			},
+			handleRemove7(item) {
+				let fileIndex = this.uploadList7.findIndex(items => items == item);
+				this.uploadList7.splice(fileIndex, 1);
+				this.filelist7.splice(fileIndex, 1);
+			},
+			handleRemove8(item) {
+				let fileIndex = this.uploadList8.findIndex(items => items == item);
+				this.uploadList8.splice(fileIndex, 1);
+				this.filelist8.splice(fileIndex, 1);
+			},
 			uploadfile(e) {
 				let vm = this;
 				let file = e.target.files[0];
@@ -700,6 +810,71 @@
 				if(vm.uploadList3.length < 1) {
 					this.filelist3.push(file);
 					vm.uploadList3.push(windowURL.createObjectURL(e.target.files[0]));
+				} else {
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile4(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+
+				if(vm.uploadList4.length < 1) {
+					this.filelist4.push(file);
+					vm.uploadList4.push(windowURL.createObjectURL(e.target.files[0]));
+				} else {
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile5(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+
+				if(vm.uploadList5.length < 1) {
+					this.filelist5.push(file);
+					vm.uploadList5.push(windowURL.createObjectURL(e.target.files[0]));
+				} else {
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile6(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+
+				if(vm.uploadList6.length < 1) {
+					this.filelist6.push(file);
+					vm.uploadList6.push(windowURL.createObjectURL(e.target.files[0]));
+				} else {
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile7(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+
+				if(vm.uploadList7.length < 1) {
+					this.filelist7.push(file);
+					vm.uploadList7.push(windowURL.createObjectURL(e.target.files[0]));
+				} else {
+					alert('最多可以上传1张图片');
+				}
+			},
+			uploadfile8(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				let files = [file, file.name];
+				let windowURL = window.URL || window.webkitURL;
+
+				if(vm.uploadList8.length < 1) {
+					this.filelist8.push(file);
+					vm.uploadList8.push(windowURL.createObjectURL(e.target.files[0]));
 				} else {
 					alert('最多可以上传1张图片');
 				}
@@ -759,19 +934,49 @@
 				if(this.filelist1.length){
 					for(let i = 0;i<this.filelist1.length;i++){
 						this.param.append('credentialsImagesArray',this.filelist1[i]);
-						this.param.append('credentialsTitle','经办人身份证');
+						this.param.append('credentialsTitle','法人身份证');
 					}
 				}
 				if(this.filelist2.length){
 					for(let i = 0;i<this.filelist2.length;i++){
 						this.param.append('credentialsImagesArray',this.filelist2[i]);
-						this.param.append('credentialsTitle','委托书照片');
+						this.param.append('credentialsTitle','委托人身份证');
 					}
 				}
 				if(this.filelist3.length){
 					for(let i = 0;i<this.filelist3.length;i++){
 						this.param.append('credentialsImagesArray',this.filelist3[i]);
-						this.param.append('credentialsTitle','合同照片');
+						this.param.append('credentialsTitle','委托书');
+					}
+				}
+				if(this.filelist4.length){
+					for(let i = 0;i<this.filelist4.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist4[i]);
+						this.param.append('credentialsTitle','服务协议');
+					}
+				}
+				if(this.filelist5.length){
+					for(let i = 0;i<this.filelist5.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist5[i]);
+						this.param.append('credentialsTitle','服务守则');
+					}
+				}
+				if(this.filelist6.length){
+					for(let i = 0;i<this.filelist6.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist6[i]);
+						this.param.append('credentialsTitle','工商证明');
+					}
+				}
+				if(this.filelist7.length){
+					for(let i = 0;i<this.filelist7.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist7[i]);
+						this.param.append('credentialsTitle','免责声明');
+					}
+				}
+				if(this.filelist8.length){
+					for(let i = 0;i<this.filelist8.length;i++){
+						this.param.append('credentialsImagesArray',this.filelist8[i]);
+						this.param.append('credentialsTitle','合同');
 					}
 				}
 				//furniture

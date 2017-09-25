@@ -147,7 +147,6 @@
 .instas table tr td .el-select .el-input .el-input__icon{
 	border: 1px solid #DCDCDC;
 	transition:auto;
-	
 }
 
 .instas table tr td .el-select .el-input__inner{
@@ -161,6 +160,7 @@
 	width: 320px;
 	height: 120px;
 	border: none;
+	resize: none;
 	border: 1px solid #DCDCDC;
 }
 .instas tr td input{

@@ -1197,7 +1197,10 @@
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				
+				console.log(this.housetderta.firstmoneys);
+				console.log(this.onemoney);
+				console.log(this.housetderta.twomoney);
+				console.log(1111111111111);
 //				console.log(this.credentialsImagesArray);
 //				console.log(this.credentialsTitle);
 				this.param.append('communityId',this.communityId);

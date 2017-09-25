@@ -16,43 +16,43 @@
 		    		<table>
 		    			<tr>
 		    				<td>收款单号：</td>
-		    				<td>{{Datas.gatheringNo}}<span>{{Datas.gatheringState | State}}</span>
+		    				<td>{{title.gatheringNo}}<span>{{title.gatheringState | State}}</span>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>收款对象：</td>
-		    				<td>{{Datas.userName}}</td>
+		    				<td>{{title.userName}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户注册手机号：</td>
-		    				<td>{{Datas.userPhone}}</td>
+		    				<td>{{title.userPhone}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>收款金额：</td>
-		    				<td>{{Datas.gatheringMoney | Money}}</td>
+		    				<td>{{title.gatheringMoney | Money}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>收款备注：</td>
-		    				<td>{{Datas.gatheringInfo}}</td>
+		    				<td>{{title.gatheringInfo}}</td>
 		    			</tr>
 		    		</table>
 		    		<p></p>
 		    		<table class="list2">
 		    			<tr>
 		    				<td>发起时间：</td>
-		    				<td>{{Datas.gatheringDate | gatheringDate}}</td>
+		    				<td><!--{{Datas.gatheringDate | gatheringDate}}--></td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付成功时间：</td>
-		    				<td>{{Datas.payDate | payDate}}</td>
+		    				<td><!--{{Datas.payDate | payDate}}--></td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付方式：</td>
-		    				<td>{{Datas.payType | payType}}</td>
+		    				<td>{{title.payType | payType}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>支付交易号：</td>
-		    				<td>{{Datas.payNo}}</td>
+		    				<td>{{title.payNo}}</td>
 		    			</tr>
 		    		</table>
 		    	</div> 
@@ -84,7 +84,7 @@
     	data(){
     		return{
 		        gatheringId:null,
-		    	Datas:null
+		    	title:null
     		}
     	},
     	mounted(){
@@ -144,14 +144,17 @@
     	},
     	methods:{
 		    datas(){
+		    	let vm = this
 		    	axios.post(hostDetails,
 		    		qs.stringify({
 		    			gatheringId:this.gatheringId
 		    		})
 		    	).then((response)=>{
 		    		console.log(response);
-		    		if(response.status == 200 && response.data.code == 10000){
-		    			this.Datas = response.data.entity;
+		    		if(response.status == 200 && response.data.code == 10004){
+		    			
+		    			vm.title = response.data.entity;
+		    			console.log(vm.title);
 		    		}
 		    		
 		    	})

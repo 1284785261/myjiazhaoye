@@ -1,0 +1,125 @@
+#refundrecord{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#refundrecord .refundrecord1{
+	height: 80px;
+	width: 100%;
+	position: relative;
+}
+#refundrecord .refundrecord1 .bsc{
+	margin-left: 20px;
+	font-size: 12px;
+	display: inline-block;
+	margin-top: 24px;
+}
+#refundrecord .refundrecord1 .mvs{
+	width: 130px;
+}
+#refundrecord .refundrecord1 .dev{
+	width: 160px;
+}
+#refundrecord .refundrecord1 .spanBar{
+	margin: 0 10px;
+}
+#refundrecord .refundrecord1 .mv{
+	width: 208px;
+    height: 36px;
+    border-radius: 0;
+    padding-left: 20px;
+    border: none;
+    margin-left: 40px;
+    border: 1px solid #DCDCDC;
+    border-right: none;
+}
+#refundrecord .refundrecord1 .el-icon-search{
+	position: absolute;
+	top: 26px;
+    left: 832px;
+    color: #666;
+}
+#refundrecord .refundrecord1 .ivu-tabs-tab-active{
+    background-color: #038be2;
+    color:#fff;
+}
+#refundrecord .refundrecord1 .refund{
+	width: 138px;
+	height: 38px;
+	display: inline-block;
+	text-align: center;
+	line-height: 38px;
+	border-radius: 5px;
+	border: 1px solid #DCDCDC;
+	background: #f8f8f8;
+	color: #666;
+	margin-left: 20px;
+}
+#refundrecord .refundrecord1 .sa{
+	  width: 70px;
+      text-align: center;
+      height: 36px;
+      line-height: 36px;
+      background-color: #038be2;
+      color:#fff;
+      border:none;
+      display: inline-block;
+      cursor: pointer;
+      position: absolute;
+      left: 1035px;
+      top: 15px;
+}
+.refundrecord1 .el-select{
+	width: 118px;
+	outline: none;
+}
+.refundrecord1 .el-select .el-input .el-input__icon{
+	border: 1px solid #DCDCDC;
+	transition:auto;
+	
+}
+
+.refundrecord1 .el-select .el-input__inner{
+	border-radius: inherit;
+	width: 118px;
+}
+#housesubscrib .scherm{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+}
+
+#refundrecord table{
+	width: 100%;
+	min-height: 100px;
+	border-collapse: collapse;
+}
+#refundrecord table thead td{
+	background: #f8f8f8;
+	font-weight: bold;
+}
+#refundrecord table td{
+	color: #000;
+	height: 48px;
+	border: 1px solid #DCDCDC;
+	text-align: center;
+}
+#refundrecord .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+#refundrecord .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+#refundrecord .el-pagination button{
+	border: 1px solid #DCDCDC;
+}

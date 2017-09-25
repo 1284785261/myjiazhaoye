@@ -40,7 +40,7 @@
               <li><router-link to="/">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
               <li><router-link to="/">退租管理</router-link></li>
-              <li><router-link to="/">发起退款</router-link></li>
+              <li><router-link to="/signed/refundrecord">发起退款</router-link></li>
               <li><router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
             </ul>
@@ -81,7 +81,7 @@
               <li><router-link to="/">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
               <li><router-link to="/">退租管理</router-link></li>
-              <li><router-link to="/">发起退款</router-link></li>
+              <li><router-link to="/signed/refundrecord">发起退款</router-link></li>
               <li><router-link to="/">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
             </ul>

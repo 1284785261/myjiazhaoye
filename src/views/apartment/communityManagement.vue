@@ -289,7 +289,8 @@
 				createtimes:null,
 				commentDate:null,
 				communityId:null,
-				param:'',
+				chack:false,
+				chack2:false
 			}
 		},
 		filters: { //过滤器
@@ -363,7 +364,6 @@
 			this.befors();
 			this.classifys();
 			this.comment();
-			this.param = new FormData();
 		},
 		methods: {
 			classifys(){
@@ -408,30 +408,20 @@
 				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
-//				let start = new Date(vm.start).getTime()
-//				let over = new Date(vm.over).getTime()
-////				console.log(start);
-//				console.log(over);
-//				debugger
-				this.param.append("pageNum", pageNum);
-				this.param.append("pageSize", pageSize);
-				this.param.append("communityOpeningDate", vm.start);
-				this.param.append("communityNewOpeningDate", vm.over);
-				this.param.append("communityLikeName", vm.vague);
-//				this.param.append("pageNum", pageNum);
-//				this.param.append("pageNum", pageNum);
-//	qs.stringify({
-//							pageNum: pageNum,
-//							pageSize: pageSize,
-//							communityOpeningDate: vm.start,
-//							communityNewOpeningDate: vm.over,
-//							communityLikeName:vm.vague
-//						}
+				this.start = new Date(this.start).Format('yyyy-MM-dd');
+				this.over = new Date(this.over).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
-					vm.param).then((response) => {
-						//console.log(response);
+					qs.stringify({
+							pageNum: pageNum,
+							pageSize: pageSize,
+							communityOpeningDate: vm.start,
+							communityNewOpeningDate: vm.over,
+							communityLikeName:vm.vague
+					})).then((response) => {
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							alert('搜索成功');
+							vm.chack = true;
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
@@ -444,31 +434,60 @@
 			befors() {
 				let vm = this
 				//console.log(1111)
-				let pageNum2 = vm.pageNum2 || 1;
+				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 				axios.post(hostCommint, //请求已关闭社区数据列表
-						qs.stringify({
-							pageNum2: pageNum2,
-							pageSize: pageSize,
-							communityIsClose:1
-						})
-					).then((response) => {
-						//console.log(response);
-						if(response.status == 200 && response.data.code == 10000){
-							vm.commint2 = response.data.result.communityData.page;
-							vm.totalNum2 = response.data.result.communityData.totalNum;
-						}
-						//console.log(this.commint);
+					qs.stringify({
+						pageNum: pageNum,
+						pageSize: pageSize,
+						communityIsClose:1
 					})
-					.catch((error) => {
-						console.log(error);
+				).then((response) => {
+					//console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						vm.commint2 = response.data.result.communityData.page;
+						vm.totalNum2 = response.data.result.communityData.totalNum;
+					}
+					//console.log(this.commint);
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+			},
+			bitch(){      //条件查询分页
+				let vm = this
+				//console.log(1111)
+				let pageNum = vm.pageNum || 1;
+				let pageSize = vm.pageSize || 3;
+				this.start = new Date(this.start).Format('yyyy-MM-dd');
+				this.over = new Date(this.over).Format('yyyy-MM-dd');
+				axios.post(hostCommint, 
+					qs.stringify({
+						pageNum: pageNum,
+						pageSize: pageSize,
+						communityOpeningDate: vm.start,
+						communityNewOpeningDate: vm.over,
 					})
+				).then((response) => {
+					//console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						vm.commint = response.data.result.communityData.page;
+						vm.totalNum = response.data.result.communityData.totalNum;
+					}
+					//console.log(this.commint);
+				})
+				.catch((error) => {
+					console.log(error);
+				})
 			},
 			btusy(){  //已关闭社区页面模糊查询
 				let vm = this
 				vm.commint2 = [];
-				let pageNum = vm.pageNum || 1;
+				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
+				
+				this.start = new Date(this.start).Format('yyyy-MM-dd');
+				this.over = new Date(this.over).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
 						qs.stringify({
 							pageNum: pageNum,
@@ -482,6 +501,7 @@
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							alert('搜索成功');
+							vm.chack2 = true;
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
@@ -490,6 +510,33 @@
 					.catch((error) => {
 						console.log(error);
 					})
+			},
+			bitch2(){      //查询分页-已关闭页面
+				let vm = this
+				//console.log(1111)
+				let pageNum = vm.pageNum2 || 1;
+				let pageSize = vm.pageSize || 3;
+				this.start = new Date(this.start).Format('yyyy-MM-dd');
+				this.over = new Date(this.over).Format('yyyy-MM-dd');
+				axios.post(hostCommint, 
+					qs.stringify({
+						pageNum: pageNum,
+						pageSize: pageSize,
+						communityIsClose:1,
+						communityOpeningDate: vm.start,
+						communityNewOpeningDate: vm.over
+					})
+				).then((response) => {
+					//console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
+						vm.commint2 = response.data.result.communityData.page;
+						vm.totalNum2 = response.data.result.communityData.totalNum;
+					}
+					//console.log(this.commint);
+				})
+				.catch((error) => {
+					console.log(error);
+				})
 			},
 			hub(val) {   //关闭社区按钮事件
 				this.isShow = !this.isShow;
@@ -541,12 +588,25 @@
 			handleCurrentChange(val) { //分页事件
 				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
-				this.befor();
+				if(this.chack == true){
+					this.bitch();
+				}
+				else{
+					this.befor();
+				}
+				
 			},
 			handleCurrentChange2(val) {
 				//console.log(`当前页: ${val}`);
 				this.pageNum2 = val;
-				this.befors();
+				
+				if(this.chack2 == true){
+					this.bitch2();
+				}
+				else{
+					this.befors();
+				}
+				
 			},
 			handleCurrentChange3(val){
 				this.pageNum3 = val;

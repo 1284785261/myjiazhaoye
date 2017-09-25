@@ -114,7 +114,7 @@
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
 							</div>
-							<div class="uplodas">
+							<div class="uplodas" >
 								<div>
 								<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3"/>	
 								<Icon type="camera" class="icons"></Icon>
@@ -132,9 +132,9 @@
 					<div class="components-container">
 
 						<div class="info"></div>
-						<div class="editor-container">
+						<div class="editor-container" v-if="defaultMsg">
 							
-							<UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
+							<UE :defaultMsg='defaultMsg' :config=config ref="ue"></UE>
 						</div>
 					</div>
 					<button class="confirm" @click="click">确定</button>
@@ -186,7 +186,8 @@
 				url:hostPresent,
 				param:null,
 				imgPath:'',
-				defaultMsg: '',
+				defaultMsg:'',
+
 			}
 
 		},
@@ -372,9 +373,21 @@
 				}))
 				.then((response)=>{
 					console.log(response);
+
 					if(response.status == 200 && response.data.code == 10000){
+//					  console.log(111)
+//					  console.log(response.data.result.community.communityInfo)
+//                      console.log(111)
 						vm.community = response.data.result.community;
-						vm.defaultMsg = response.data.result.community.communityInfo;
+					  if(response.data.result.community.communityInfo){
+
+                        vm.defaultMsg=response.data.result.community.communityInfo
+                        console.log(vm.defaultMsg)
+//                        vm.defaultMsg = response.data.result.community.communityInfo;
+                      }else {
+                       vm.defaultMsg='请输入社区介绍'
+                      }
+
 						let arr = [];
 						let arr2 = [];
 						let arr3 = [];
@@ -383,23 +396,23 @@
 						arr3 = vm.community.communityWork.split(",");
 						arr = vm.community.communityFlat.split(",");
 						//console.log(arr);
-//						console.log(arr);
-//						console.log(arr2);
-//						console.log(arr3);
+						console.log(arr);
+						console.log(arr2);
+						console.log(arr3);
 						vm.uploadList = [];
 						vm.uploadList2 = [];
 						vm.uploadList3 = [];
-						if(arr.length){
+						if(arr.length  && arr[0] != ""){
 							arr.forEach(function(item){
 							vm.uploadList.push(item);
 							})
 						}
-						if(arr2.length){
+						if(arr2.length && arr2[0] != ""){
 							arr2.forEach(function(item,index){
 								vm.uploadList2.push(item);
 							})
 						}
-						if(arr3.length){
+						if(arr3.length && arr3[0] != ""){
 							arr3.forEach(function(item,index){
 								vm.uploadList3.push(item);
 							})

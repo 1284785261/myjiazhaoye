@@ -123,6 +123,7 @@
     			currentPage3:1,
     			options: [],
 		        values:null,
+		        value:'',
 		        communityLeaseBegin:null,
 		        communityLeaseEnd:null,
 		        pageNum:1,

@@ -1,0 +1,38 @@
+#refunddetails{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#refunddetails div{
+	width: 90%;
+	border-bottom: 1px dashed #DCDCDC;
+	margin-left: 5%;
+	margin-top: 30px;
+}
+#refunddetails div table{
+	font-size: 12px;
+	margin-left: 60px;
+	margin-bottom: 10px;
+	color: #000;
+}
+#refunddetails div table tr td:nth-child(1){
+	text-align: right;
+	color: #666666;
+	line-height: 32px;
+	padding-right: 10px;
+}
+#refunddetails div table .yh td{
+	font-weight: bold;
+	color: #000!important;
+}
+#refunddetails div table tr td span{
+	margin-left: 30px;
+	color: #ff1d10;
+	font-weight: bold;
+}
+#refunddetails div:nth-child(3) table tr td:nth-child(1){
+	padding-left: 13px;
+}
