@@ -20,27 +20,31 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>订单类型 :</span>
-                    <span>新签公寓合同</span>
+                    <span v-if="invoiceDetailData.orderType == 0">公寓合同</span>
+                    <span v-else-if="invoiceDetailData.orderType == 1">办公租金账单</span>
+                    <span v-else-if="invoiceDetailData.orderType == 2">水电账单</span>
+                    <span v-else-if="invoiceDetailData.orderType == 3">工位订单</span>
+                    <span v-else-if="invoiceDetailData.orderType == 4">会议室订单</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>所属社区 :</span>
-                    <span>佳兆业航运WEWA空间</span>
+                    <span>{{invoiceDetailData.communityName}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>房间信息 :</span>
-                    <span>19号小区24栋5楼601号</span>
+                    <span>{{invoiceDetailData.roomInfo}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>申请时间 :</span>
-                    <span>2017-08-30</span>
+                    <span>{{invoiceDetailData.createTime | timefilter("yyyy-MM-dd")}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>申请人 :</span>
-                    <span>留存街</span>
+                    <span>{{invoiceDetailData.userName}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>申请电话 :</span>
-                    <span>13570276266</span>
+                    <span>{{invoiceDetailData.userPhone}}</span>
                   </div>
                 </div>
               </li>
@@ -49,27 +53,31 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>发票状态 :</span>
-                    <span style="font-weight: 700;color: black;">已寄出</span>
+                    <span style="font-weight: 700;color: black;" v-if="invoiceDetailData.invoiceState == 0">待开票</span>
+                    <span style="font-weight: 700;color: black;" v-else-if="invoiceDetailData.invoiceState == 1">已开票</span>
+                    <span style="font-weight: 700;color: black;" v-else-if="invoiceDetailData.invoiceState == 2">已寄出</span>
+                    <span style="font-weight: 700;color: black;" v-else-if="invoiceDetailData.invoiceState == 3">已收件</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>发票抬头 :</span>
-                    <span>佳兆业航运WEWA空间</span>
+                    <span>{{invoiceDetailData.invoiceHeader}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>纳税人识别码 :</span>
-                    <span>JHGJH545654651545</span>
+                    <span>{{invoiceDetailData.invoiceCode}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>发票类型 :</span>
-                    <span>2017-08-30</span>
+                    <span v-if="invoiceDetailData.invoiceType == 0">增值税发票</span>
+                    <span v-else-if="invoiceDetailData.invoiceType == 1">普通发票</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>发票金额 :</span>
-                    <span>留存街</span>
+                    <span style="color: red;font-weight: 700;">{{invoiceDetailData.invoiceMoney}}元</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>发票内容 :</span>
-                    <span>13570276266</span>
+                    <span>{{invoiceDetailData.invoiceContent}}</span>
                   </div>
                 </div>
               </li>
@@ -78,11 +86,11 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>开票人 :</span>
-                    <span>李杨</span>
+                    <span>{{invoiceDetailData.passName}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>开票时间 :</span>
-                    <span>2017-08-30</span>
+                    <span>{{invoiceDetailData.passTime}}</span>
                   </div>
                 </div>
               </li>
@@ -91,19 +99,19 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>快递公司 :</span>
-                    <span>顺丰快递</span>
+                    <span>{{invoiceDetailData.expressCompany}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>快递单号 :</span>
-                    <span>6544687321321332</span>
+                    <span>{{invoiceDetailData.expressNo}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>付款方式 :</span>
-                    <span>货到付款</span>
+                    <span>{{invoiceDetailData.expressPayType}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>寄出时间 :</span>
-                    <span>2017-08-30</span>
+                    <span>{{invoiceDetailData.sendTime | timefilter("yyyy-MM-dd")}}</span>
                   </div>
                 </div>
               </li>
@@ -112,15 +120,15 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>收件人 :</span>
-                    <span>新签公寓合同</span>
+                    <span>{{invoiceDetailData.consignee}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>联系电话 :</span>
-                    <span>13570276266</span>
+                    <span>{{invoiceDetailData.phone}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>收件人地址 :</span>
-                    <span>深圳市南山区香蜜湖19号小区24栋5楼601号</span>
+                    <span>{{invoiceDetailData.address}}</span>
                   </div>
                 </div>
               </li>
@@ -138,7 +146,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {} from '../api.js';
+  import {invoiceDetail} from '../api.js';
 
 
   export default {
@@ -149,14 +157,31 @@
     },
     data(){
       return{
+        invoiceDetailData:{},
       }
     },
     mounted(){
-      this.userId = this.$route.query.id;
+      this.invoiceId = this.$route.query.invoiceId;
+      this.getInvoiceDetail({invoiceId:this.invoiceId})
     },
     methods:{
-
-    }
+      getInvoiceDetail(data){
+        var that = this;
+        this.$http.post(invoiceDetail,qs.stringify(data))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.invoiceDetailData = res.data.result.invoice;
+            }
+          })
+      }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 

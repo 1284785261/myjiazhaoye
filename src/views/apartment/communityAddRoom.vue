@@ -440,7 +440,7 @@
               return;
             }
           }
-        }
+        }debugger
         for(var i =0;i<data.length;i++){
           if(data[i].roomFurniture){
             var roomFurniture = data[i].roomFurniture.trim();
@@ -450,7 +450,7 @@
             for(var j =0;j<furnitureArr.length;j++){
               //拼接办公配置数组字符串
               materials.push({
-                "materialName": FurnitureArr[j],
+                "materialName": furnitureArr[j],
                 "count":1
               });
               dataArr.push(this.checkBoxObj[furnitureArr[j]]+"");
@@ -515,7 +515,6 @@
             }
           }
         }
-        console.log(data);
         this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";

@@ -16,37 +16,37 @@
           <div class="refund-detail-content-wrap">
             <ul>
               <li>
-                <h3>所属社区 : <span>佳兆业航运WEWA空间</span></h3>
+                <h3>所属社区 : <span>{{reRenfundDetail.communityName}}</span></h3>
                 <div class="refund-status">
-                  <h3 style="color: rgb(255,102,18)">待审核</h3>
-                  <h3 style="color: rgb(255,102,18)">待退款</h3>
-                  <h3 style="color: rgb(255,102,18)">已退款</h3>
+                  <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==0">待审核</h3>
+                  <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==1">待退款</h3>
+                  <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==2">已退款</h3>
                 </div>
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>退款单号 :</span>
-                    <span>654621313256456132</span>
+                    <span>{{reRenfundDetail.refundSn}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>退款对象 :</span>
-                    <span>佳兆业航运WEWA空间</span>
+                    <span>{{reRenfundDetail.userName}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>用户注册手机号 :</span>
-                    <span>13570276266</span>
+                    <span>{{reRenfundDetail.userPhone}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>退款金额 :</span>
-                    <span style="color: red;">300.00元</span>
+                    <span style="color: red;">{{reRenfundDetail.refundMoney}}元</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>退款备注 :</span>
-                    <span>退款结余</span>
+                    <span>{{reRenfundDetail.refundInfo}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>负责管家 :</span>
-                    <span>张昆明</span>
-                    <span>13570276266</span>
+                    <span>{{reRenfundDetail.managerName}}</span>
+                    <span>{{reRenfundDetail.managerPhone}}</span>
                   </div>
                 </div>
               </li>
@@ -55,15 +55,15 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>账户名 :</span>
-                    <span>叶晓婷</span>
+                    <span>{{reRenfundDetail.name}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>开户行 :</span>
-                    <span>中国建设银行深圳国贸支行</span>
+                    <span>{{reRenfundDetail.bankName}}</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>账户 :</span>
-                    <span>JHGJH545654651545</span>
+                    <span>{{reRenfundDetail.account}}</span>
                   </div>
                 </div>
               </li>
@@ -71,26 +71,38 @@
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
                     <span>发起时间 :</span>
-                    <span>2017-08-30 12:30</span>
+                    <span>{{reRenfundDetail.createTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
                   </div>
-                  <div class="invoice-detail-info-item">
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==1 || reRenfundDetail.refundStatus==2">
                     <span>审核通过时间 :</span>
-                    <span>2017-08-30 12:30</span>
+                    <span>{{reRenfundDetail.passTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
                   </div>
-                  <div class="invoice-detail-info-item">
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==1 || reRenfundDetail.refundStatus==2">
                     <span>审核人 :</span>
-                    <span>2017-08-30 12:30</span>
+                    <span>{{reRenfundDetail.passName}}</span>
+                    <span>{{reRenfundDetail.passDepartmentName}}</span>
+                    <span>{{reRenfundDetail.passPositionName}}</span>
+                  </div>
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==2">
+                    <span>确认退款时间 :</span>
+                    <span>{{reRenfundDetail.refundTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
+                  </div>
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==2">
+                    <span>退款人 :</span>
+                    <span>{{reRenfundDetail.refundName}}</span>
+                    <span>{{reRenfundDetail.refundDepartmentName}}</span>
+                    <span>{{reRenfundDetail.refundPositionName}}</span>
                   </div>
                 </div>
               </li>
             </ul>
-            <div style="text-align: center;">
+            <div style="text-align: center;" v-if="reRenfundDetail.refundStatus==1">
               <p>审核不通过原因 : <span style="color: red;">退款对象跟银行账户不符</span></p>
             </div>
-            <div style="text-align: center;margin-top: 70px;">
+            <div style="text-align: center;margin-top: 70px;" v-if="reRenfundDetail.refundStatus==1">
               <Button type="primary" style="width:120px;height: 36px;" @click="sureRefund()">确认退款</Button>
             </div>
-            <div class="refund-examine-wrap">
+            <div class="refund-examine-wrap" v-if="reRenfundDetail.refundStatus==0">
               <div class="refund-examine-content">
                 <div class="refund-examine-content-item1 padingBottom">
                   <span class="span-width">审批操作 :</span>
@@ -119,14 +131,15 @@
       <div class="modal-img-wrap">
         <img src="../../../static/images/icon/refund01_03.png">
       </div>
-      <p>确定将<span>300.00元</span>退还给用户吗?</p>
+      <p>确定将<span>{{reRenfundDetail.refundMoney}}元</span>退还给用户吗?</p>
       <div class="modal-btn">
-        <Button type="primary" @click="closeRefundModal()">确定</Button>
+        <Button type="primary" @click="refundMoneyToUser()">确定</Button>
         <Button  @click="closeRefundModal()">取消</Button>
       </div>
     </div>
 
-
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 
   </div>
 </template>
@@ -135,33 +148,77 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
-  import {} from '../api.js';
+  import {refundDetail,refundMoneyToUser} from '../api.js';
 
 
   export default {
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      warningModal,
+      successModal
     },
     data(){
       return{
         animal:0,
         refundModal:false,
+        refundId:"",
+        reRenfundDetail:{},
+        successModal:false,
+        successMessage:"退款成功！",
+        warningModal:false,
+        warningMessage:"房间信息填写不完整，请填写完整后重新提交！",
       }
     },
     mounted(){
-      this.userId = this.$route.query.id;
+      this.refundId = this.$route.query.refundId;
+      this.getRefundDetail({refundId:this.refundId});
     },
     methods:{
+      getRefundDetail(data){
+        var that = this;
+        this.$http.post(refundDetail,qs.stringify(data))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.reRenfundDetail = res.data.result;
+            }
+          })
+      },
+      refundMoneyToUser(){
+        var that = this;
+        this.$http.post(refundMoneyToUser,qs.stringify({refundId:this.reRenfundDetail.refundId}))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.refundModal = false;
+              that.successModal = true;
+              setTimeout(function(){
+                that.getRefundDetail({refundId:this.refundId});
+                that.successModal = false;
+              },1000);
+            }
+          })
+      },
       closeRefundModal(){
         this.refundModal = false;
       },
       sureRefund(){
         this.refundModal = true;
+      },
+      closeWarningModal(){
+          this.warningModal = false;
       }
-    }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 

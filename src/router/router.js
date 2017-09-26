@@ -331,7 +331,17 @@ export default new Router({
       name:'repairsdetails',
       component:resolve =>
         require(['../views/signed/repairsdetails.vue'],resolve)
-    },
+    },{
+      path:'/corporate/corporateServices',		//企业服务-首页
+      name:'corporateServices',
+      component:resolve =>
+        require(['../views/corporate/corporateServices.vue'],resolve)
+    },{
+      path:'/corporate/addCorporate',		//企业服务-增加企业
+      name:'addCorporate',
+      component:resolve =>
+        require(['../views/corporate/addCorporate.vue'],resolve)
+    }
 
 
 

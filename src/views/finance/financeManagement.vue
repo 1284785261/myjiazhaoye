@@ -30,13 +30,13 @@
                 <div class="form-item">
                   <span>交易对象:</span>
                   <div style="display: inline-block">
-                    <Input v-model="value1" size="large" placeholder="请输入交易对象"></Input>
+                    <Input  size="large" placeholder="请输入交易对象"></Input>
                   </div>
                 </div>
                 <div class="form-item">
                   <span>交易方式:</span>
                   <div style="display: inline-block">
-                    <Input v-model="value1" size="large" placeholder="请输入交易方式"></Input>
+                    <Input  size="large" placeholder="请输入交易方式"></Input>
                   </div>
                 </div>
               </div>
@@ -94,7 +94,7 @@
                   <td>￥</td>
                 </tr>
               </table>
-              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
+              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total ></Page>
             </Tab-pane>
 
             <Tab-pane label="发票管理">
@@ -109,18 +109,18 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <span>申请时间：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="billInvoiceStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="billInvoiceEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <span>收件人:</span>
                   <div style="display: inline-block">
-                    <Input v-model="value1" size="large" placeholder="请输入交易对象"></Input>
+                    <Input v-model="billInvoiSearchKey" size="large" placeholder="请输入收件人"></Input>
                   </div>
                 </div>
                 <div class="form-item">
-                  <Button style="width:120px;height: 36px;">查询</Button>
+                  <Button style="width:120px;height: 36px;" @click="billInvoiceSearch()">查询</Button>
                   <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
                 </div>
               </div>
@@ -137,50 +137,66 @@
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
-                <tr v-for="">
-                  <td>2017-06-27</td>
-                  <td>佳兆业社区</td>
-                  <td>租金账单</td>
-                  <td>19号小区</td>
-                  <td>张明华</td>
-                  <td>张明华</td>
-                  <td>增值发票</td>
-                  <td>3000.00</td>
-                  <td>代开发牌哦</td>
+                <tr v-for="item in billInvoiceList">
+                  <td>{{item.createTime | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{item.communityName}}</td>
                   <td>
-                    <router-link :to="{name:'invoiceDetail'}">查看详情</router-link>
+                    <span v-if="item.orderType == 0">公寓租金账单</span>
+                    <span v-if="item.orderType == 1">办公租金账单</span>
+                    <span v-if="item.orderType == 2">水电账单</span>
+                    <span v-if="item.orderType == 3">工位订单</span>
+                    <span v-if="item.orderType == 4">会议室订单</span>
+                  </td>
+                  <td>{{item.roomInfo}}</td>
+                  <td>{{item.consignee}}</td>
+                  <td>{{item.invoiceHeader}}</td>
+                  <td>
+                    <span v-if="item.invoiceType == 0">增值发票</span>
+                    <span v-if="item.invoiceType == 1">普通发票</span>
+                  </td>
+                  <td>{{item.invoiceMoney}}</td>
+                  <td>
+                    <span v-if="item.invoiceState == 0">待开票</span>
+                    <span v-if="item.invoiceState == 1">已开票</span>
+                    <span v-if="item.invoiceState == 2">已寄出</span>
+                    <span v-if="item.invoiceState == 3">已收件</span>
+                  </td>
+                  <td>
+                    <a  @click="openBill(item.invoiceId)" v-if="item.invoiceState == 0">开发票</a>
+                    <a v-if="item.invoiceState == 1" @click="sendBill(item.invoiceId)">寄出</a>
+                    <router-link :to="{name:'invoiceDetail',query:{invoiceId:item.invoiceId}}" v-if="item.invoiceState == 2 || item.invoiceState == 3">查看详情</router-link>
                   </td>
                 </tr>
               </table>
-              <Page :total="officeTotalNum" :current="officeContractCurrent" :page-size="10" show-elevator show-total @on-change="officeSearch"></Page>
+              <Page :total="billInvoiceTotalNum" :current="billInvoiceCurrent" :page-size="10" show-elevator show-total @on-change="billInvoiceSearch"></Page>
             </Tab-pane>
 
             <Tab-pane label="退款处理">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="propertyCommunity" style="width:200px">
+                  <Select v-model="refundHandCommunity" style="width:200px">
                     <Option v-for="community in  propertyContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item select-status">
                   <b>状态：</b>
-                  <Select v-model="propertyCommunity" style="width:200px">
-                    <Option v-for="community in  propertyContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  <Select v-model="refundStatus" style="width:200px">
+                    <Option v-for="item in  refundStatusList" :value="item.status" :key="item.status">{{ item.statusName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
                   <div class="form-search" style="margin-left: 0;">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="propertySearchKey" placeholder="搜索退款对象姓名或手机"></Input>
-                    <input type="button" value="搜索" @click="propertySearch()">
+                    <Input v-model="refundHandSearchKey" placeholder="搜索退款对象姓名或手机"></Input>
+                    <input type="button" value="搜索" @click="refundHandSearch()">
                   </div>
                 </div>
                 <div class="form-item" style="display: block;margin-top: 20px;">
-                  <span>签约时间：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="propertyStartDate"></Date-picker>
+                  <span>发起时间：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="refundHandStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="propertyEndDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
                 </div>
               </div>
               <table class="table ivu-table">
@@ -193,23 +209,29 @@
                   <th>发起时间</th>
                   <th>负责管家</th>
                   <th>状态</th>
-                  <th >操作</th>
+                  <th style="width: 160px;">操作</th>
                 </tr>
-                <tr v-for="">
-                  <td>33213215665465</td>
-                  <td>佳兆业受委屈</td>
-                  <td>张黎明</td>
-                  <td>13570276266</td>
-                  <td>3000.00</td>
-                  <td>2017-06-27 10:05</td>
-                  <td>张黎明</td>
-                  <td>待审核</td>
+                <tr v-for="item in refundHandleList">
+                  <td>{{item.refundSn}}</td>
+                  <td>{{item.communityName}}</td>
+                  <td>{{item.userName}}</td>
+                  <td>{{item.userPhone}}</td>
+                  <td>{{item.refundMoney}}</td>
+                  <td>{{item.createTime | timefilter("yyyy-MM-dd") }}</td>
+                  <td>{{item.managerName}}</td>
                   <td>
-                    <router-link :to="{name:'refundDetail'}">退款详情</router-link>
+                    <span v-if="item.refundStatus == 0">待审核</span>
+                    <span v-if="item.refundStatus == 1">待退款</span>
+                    <span v-if="item.refundStatus == 2">已退款</span>
+                  </td>
+                  <td>
+                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}">查看详情</router-link>
+                    <router-link :to="{name:'refundDetail'}" v-if="item.refundStatus == 0">审核</router-link>
+                    <router-link :to="{name:'refundDetail'}" v-if="item.refundStatus == 1">退款</router-link>
                   </td>
                 </tr>
               </table>
-              <Page :total="propertyTotalNum" :current="propertyContractCurrent" :page-size="10" show-elevator show-total @on-change="propertySearch"></Page>
+              <Page :total="refundHandTotalNum" :current="refundHandCurrent" :page-size="10" show-elevator show-total @on-change="refundHandSearch"></Page>
             </Tab-pane>
           </Tabs>
         </div>
@@ -217,8 +239,8 @@
       <footer-box></footer-box>
     </div>
 
-    <div class="finance-index-modal" v-if="false" @click="closeBillModal()"></div>
-    <div class="finance-bill-modal-content" v-if="false">
+    <div class="finance-index-modal" v-if="sendBillModal" @click="closeSendBillModal()"></div>
+    <div class="finance-bill-modal-content" v-if="sendBillModal">
       <div class="finance-bill-modal-content-title">
         <span>寄出发票</span>
       </div>
@@ -226,28 +248,28 @@
         <table>
           <tr>
             <td>快递公司 :</td>
-            <td>顺丰物流</td>
+            <td>{{sendBillDetail.expressCompany}}</td>
           </tr>
           <tr>
             <td>付款方式 :</td>
-            <td>支付宝</td>
+            <td>到付</td>
           </tr>
           <tr>
             <td>运单号 :</td>
-            <td><Input  placeholder="请输入交易方式"></Input></td>
+            <td><Input  placeholder="请输入交易方式" v-model="expressNo"></Input></td>
           </tr>
         </table>
       </div>
       <div class="modal-btn">
-        <Button type="primary" @click="setWhileMember()">确认寄出</Button>
+        <Button type="primary" @click="sendBillToUser()">确认寄出</Button>
       </div>
-      <div class="modal-close-btn" @click="closeBillModal()">
+      <div class="modal-close-btn" @click="closeSendBillModal()">
         <Icon type="ios-close-empty"></Icon>
       </div>
     </div>
 
-    <div v-if="false" class="finance-index-modal"  @click="closeBillModal()"></div>
-    <div v-if="false" class="finance-bill-modal-content" id="open-bill-modal">
+    <div v-if="openBillMoal" class="finance-index-modal"  @click="closeBillModal()"></div>
+    <div v-if="openBillMoal" class="finance-bill-modal-content" id="open-bill-modal">
       <div class="finance-bill-modal-content-title">
         <span>开发票</span>
       </div>
@@ -255,38 +277,38 @@
         <table>
           <tr>
             <td>发票金额 :</td>
-            <td style="color: red;">630.50元</td>
+            <td style="color: red;">{{invoiceDetailData.invoiceMoney}}元</td>
           </tr>
           <tr>
             <td>发票抬头 :</td>
-            <td>个人</td>
+            <td>{{invoiceDetailData.invoiceHeader}}</td>
           </tr>
-          <tr>
+          <tr v-if="invoiceDetailData.invoiceCode">
             <td>纳税人识别码 :</td>
-            <td>6546574968FSDGSD98798</td>
+            <td>{{invoiceDetailData.invoiceCode}}</td>
           </tr>
           <tr >
             <td style="padding-bottom: 15px;">发票内容 :</td>
-            <td style="padding-bottom: 15px;">房租</td>
+            <td style="padding-bottom: 15px;">{{invoiceDetailData.invoiceContent}}</td>
           </tr>
           <tr style="position: relative">
             <div style="width: 460px;border-bottom: 1px dashed #ccc;position: absolute;left: 20px;"></div>
           </tr>
           <tr>
             <td style="padding-top: 15px;">收件人 :</td>
-            <td style="padding-top: 15px;">周鹏</td>
+            <td style="padding-top: 15px;">{{invoiceDetailData.consignee}}</td>
           </tr>
           <tr>
             <td>联系电话 :</td>
-            <td>13570276266</td>
+            <td>{{invoiceDetailData.phone}}</td>
           </tr>
           <tr>
             <td >收件地址 :</td>
-            <td >深圳市南山区科技园科学院B栋501</td>
+            <td >{{invoiceDetailData.address}}</td>
           </tr>
         </table>
         <div class="modal-btn">
-          <Button type="primary" @click="setWhileMember()">确认寄出</Button>
+          <Button type="primary" @click="sureOpenBill()">确认开票</Button>
         </div>
       </div>
       <div class="modal-close-btn" @click="closeBillModal()">
@@ -304,7 +326,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract} from '../api.js';
+  import qs from 'qs';
+  import {allCommunity,billInvoice,refundHandle,invoiceDetail,sendbillInvoice,invoiceDetailSend} from '../api.js';
 
   export default {
     components:{
@@ -319,9 +342,21 @@
           communityName: '全部'
         }],//下拉选
         roomCommunity:-1,//当前选中
-        roomContractList:[],//公寓合同数据
-        roomTotalNum:0,//公寓合同总条数
-        roomContractCurrent:1,//公寓合同当前页
+        roomTotalNum:"",
+
+        billInvoiceList:[],
+        billInvoiceStartDate:"",
+        billInvoiceEndDate:"",
+        billInvoiSearchKey:"",
+        billInvoiceCurrent:1,
+        openBillMoal:false,
+        sendBillModal:false,
+        invoiceDetailData:{},
+        sendBillDetail:{},
+        ativeInvoiceId:"",
+        expressNo:"",
+
+
         roomStartDate:"",//公寓签约开始时间
         roomEndDate:"",//公寓签约结束时间
         roomSearchKey:"",//公寓搜索关键字
@@ -344,24 +379,40 @@
           communityId: -1,
           communityName: '全部'
         }],
-        propertyContractList:[],
-        propertyCommunity:-1,//物业当前选中社区
-        propertyTotalNum:0,//物业合同总条数
-        propertyContractCurrent:1,//物业合同当前页
-        propertyStartDate:"",//物业签约开始时间
-        propertyEndDate:"",//物业签约结束时间
-        propertySearchKey:"",//物业搜索关键字
+        refundStatusList:[{
+          status:-1,
+          statusName:"全部"
+        },{
+          status:0,
+          statusName:"待审核"
+        },{
+          status:1,
+          statusName:"待退款"
+        },{
+          status:2,
+          statusName:"已退款"
+        },{
+          status:3,
+          statusName:"审核不通过"
+        }],
+        refundHandleList:[],
+        refundHandCommunity:-1,//物业当前选中社区
+        refundHandTotalNum:0,//物业合同总条数
+        refundHandCurrent:1,//物业合同当前页
+        refundHandStartDate:"",//物业签约开始时间
+        refundHandEndDate:"",//物业签约结束时间
+        refundHandSearchKey:"",//物业搜索关键字
+        refundStatus:-1,
       }
     },
     mounted(){
       this.getCommunityData();
-      this.getRoomContract({pageNum:1});
-      this.getOfficeContract({pageNum:1});
-      //this.getPropertyContract({pageNum:1});
+      this.getBillInvoice({pageNum:1});
+      this.getrefundHandle({pageNum:1});
     },
     methods: {
       closeBillModal(){
-
+        this.openBillMoal = false;
       },
       getCommunityData(){
         var that = this;
@@ -374,39 +425,90 @@
             }
           })
       },
-      getRoomContract(data){
+      getBillInvoice(data){
         var that = this;
-        this.$http.get(roomContract,{params:data})
-          .then(function(res){debugger
+        this.$http.get(billInvoice,{params:data})
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.roomContractList = pageBean.page;
-              that.roomTotalNum = pageBean.totalNum;
+              var pageBean = res.data.result;
+              that.billInvoiceList = pageBean.invoiceList;
+              that.billInvoiceTotalNum = pageBean.totalNum;
             }
             if(res.data.code == 10008){
-              that.roomContractList = [];
+              that.billInvoiceList = [];
               that.roomTotalNum = 0;
             }
           })
       },
-      roomSearch(page){
+      billInvoiceSearch(page){
         var data = {
           pageNum:page || 1
         }
-        if(this.roomCommunity != -1){
-          data.communityId = this.roomCommunity;
+        if(this.billInvoiSearchKey){
+          data.keyWord = this.billInvoiSearchKey;
         }
-        if(this.roomSearchKey){
-          data.keyWord = this.roomSearchKey;
+        if(this.billInvoiceStartDate){
+          data.beginDate = new Date(this.billInvoiceStartDate).Format("yyyy-MM-dd");
         }
-        if(this.roomStartDate){
-          data.beginDate = new Date(this.roomStartDate).Format("yyyy-MM-dd");
+        if(this.billInvoiceEndDate){
+          data.endDate = new Date(this.billInvoiceEndDate).Format("yyyy-MM-dd");
         }
-        if(this.roomEndDate){
-          data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
-        }
-        this.getRoomContract(data);
+        this.getBillInvoice(data);
       },
+      openBill(invoiceId){
+        this.openBillMoal =true;
+        this.ativeInvoiceId = invoiceId;
+        this.getInvoiceDetail({invoiceId:invoiceId});
+      },
+      getInvoiceDetail(data){
+        var that = this;
+        this.$http.post(invoiceDetail,qs.stringify(data)).then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.invoiceDetailData = res.data.result.invoice;
+            }
+          })
+      },
+      //确定开发票
+      sureOpenBill(){
+        var that = this;
+        this.$http.post(sendbillInvoice,qs.stringify({invoiceId:this.ativeInvoiceId})).then(function(res){
+          if(res.data.code == 10000){
+            that.getBillInvoice({pagaNum:1});
+            that.openBillMoal =false;
+          }
+        })
+      },
+      //打开寄发票窗口
+      sendBill(invoiceId){
+        var that = this;
+        this.sendBillModal = true;
+        this.ativeInvoiceId = invoiceId;
+        this.$http.post(invoiceDetail,qs.stringify({invoiceId:invoiceId})).then(function(res){
+          if(res.status == 200 && res.data.code == 10000){
+            that.sendBillDetail = res.data.result.invoice;
+          }
+        })
+      },
+      closeSendBillModal(){
+        this.sendBillModal = false;
+      },
+      //确定寄出发票
+      sendBillToUser(){
+        var that = this;
+        var data = {
+          invoiceId:this.ativeInvoiceId,
+          expressCompany:this.sendBillDetail.expressCompany,
+          expressNo:this.expressNo,
+          expressPayType:this.sendBillDetail.expressPayType
+        }
+        this.$http.post(invoiceDetailSend,qs.stringify(data)).then(function(res){debugger
+          if(res.data.code == 10000){
+            that.getBillInvoice({pagaNum:1});
+            that.sendBillModal = false;
+          }
+        })
+      },
+
 
       getOfficeContract(data){
         var that = this;
@@ -440,43 +542,45 @@
         if(this.officeEndDate){
           data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
         }
-        this.getOfficeContract(data);debugger
+        this.getOfficeContract(data);
       },
 
-      getPropertyContract(data){
+      getrefundHandle(data){
         var that = this;
-        this.$http.get(propertyContract,{params:data})
+        this.$http.get(refundHandle,{params:data})
           .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.propertyContractList = pageBean.page;
-              that.propertyTotalNum = pageBean.totalNum;
+              var pageBean = res.data.result;
+              that.refundHandleList = pageBean.refundList;
+              that.refundHandTotalNum = pageBean.totalNum;
             }
-            console.log(pageBean.page)
             if(res.data.code == 10008){
-              that.propertyContractList = [];
-              that.propertyTotalNum = 0;
+              that.refundHandleList = [];
+              that.refundHandTotalNum = 0;
             }
           })
       },
 
-      propertySearch(page){
+      refundHandSearch(page){
         var data = {
           pageNum:page || 1
         }
-        if(this.propertyCommunity != -1){
-          data.communityId = this.propertyCommunity;
+        if(this.refundHandCommunity != -1){
+          data.communityId = this.refundHandCommunity;
         }
-        if(this.propertySearchKey){
-          data.keyWord = this.propertySearchKey;
+        if(this.refundHandSearchKey){
+          data.keyWord = this.refundHandSearchKey;
         }
-        if(this.propertyStartDate){
-          data.beginDate = new Date(this.propertyStartDate).Format("yyyy-MM-dd");
+        if(this.refundHandStartDate){
+          data.beginDate = new Date(this.refundHandStartDate).Format("yyyy-MM-dd");
         }
-        if(this.propertyEndDate){
-          data.endDate = new Date(this.propertyEndDate).Format("yyyy-MM-dd");
+        if(this.refundHandEndDate){
+          data.endDate = new Date(this.refundHandEndDate).Format("yyyy-MM-dd");
         }
-        this.getPropertyContract(data);debugger
+        if(this.refundStatus != -1){
+            data.refundStatus = this.refundStatus;
+        }
+        this.getrefundHandle(data);
       },
 
     },
@@ -548,8 +652,10 @@
       }
     }
     .form-search-criteria{
+      padding: 5px 0 21px 20px;
       .form-item{
         margin-right: 60px;
+        margin-top: 15px;
       }
       .select-status{
         .ivu-select{

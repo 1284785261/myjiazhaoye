@@ -37,7 +37,7 @@
               <Button style="height: 36px;width: 120px;" @click="toAddComplain()">添加投诉</Button>
             </div>
           </div>
-          <div class="form-item" style="display: block;padding-bottom: 20px;">
+          <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
             <span>投诉时间：</span>
             <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
             <span class="inline-block spanBar">-</span>
@@ -160,7 +160,7 @@
               that.complainList = pageBean.page;
               that.complainTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10001){
+            if(res.data.code == 10008){
               that.complainList = [];
               that.complainTotalNum = 0;
             }
