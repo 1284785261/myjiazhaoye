@@ -28,7 +28,7 @@
 									<el-option v-for="item in parents" :key="item.areaName" :label="item.areaName" :value="item.areaName">
 									</el-option>
 								</el-select>
-								<el-select v-model="value" placeholder="请选择区">
+								<el-select v-model="valuem" placeholder="请选择区" @change='isActive3(valuem)'>
 									<el-option v-for="item in countyList" :key="item.areaName" :label="item.areaName" :value="item.areaName">
 									</el-option>
 								</el-select><br>
@@ -86,14 +86,14 @@
 								<Date-picker type="date" placeholder="请选择日期" v-model="communityFreeLeaseEnd"></Date-picker>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="fileList3.length">
 							<td valign="top">
 								<span class="btxs">*</span>物业合同：
 							</td>
 							<td class="bargain">
 								<!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
 								<!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-								<el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :on-success='success' :on-error='error'>
+								<el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' >
 									<el-button size="small" type="primary">点击上传</el-button>
 									<div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传jpg/png文件</div>
 								</el-upload>
@@ -102,11 +102,11 @@
 						</tr>
 					</table>
 					<div class="operation-box2">
-						<el-button type="primary" @click="Complie" v-loading.fullscreen.lock="fullscreenLoading">
+						<!--<el-button type="primary" @click="Complie" v-loading.fullscreen.lock="fullscreenLoading">
 							确定
-						</el-button>
-						<!--<Button type="primary" @click="Complie">确定</Button>-->
-
+						</el-button>-->
+						<Button type="primary" @click="Complie" v-if="communityId == '' ">确定</Button>
+						<Button type="primary" @click="Complie2" v-else>确定</Button>
 						<Button>取消</Button>
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostComplie, hostParent, hostTitle ,host} from '../api.js';
+	import { hostComplie, hostParent, hostTitle ,host,imgPath,hostaddComplie} from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -150,14 +150,14 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				fullscreenLoading: false,
 				param: null,
-				fileList: [],
+				param2: null,
 				pdfName: [],
 				province: '', //省
 				city: '', //市
-				value: '', //区
-				areaId: null, //省ID
-				parentId: null, //市ID,
-				areas: null, //区ID
+				valuem: '', //区
+				areaId: '', //省ID
+				parentId: '', //市ID,
+				areas: '', //区ID
 				input: '',
 				checked: true,
 				file: null,
@@ -178,16 +178,19 @@
 				communityFreeLeaseBegin: null, //免租期开始时间
 				communityFreeLeaseEnd: null, //免租期结束时间
 				communityContract: '', //物业合同
-				communityId:''
+				communityId:'',
+              	fileList3: []
 			}
 		},
 		mounted() {
       		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
       		this.param = new FormData(); //创建form对象
+ 			this.param2 = new FormData(); //创建form对象
 			if(this.$route.query.id){
 				this.communityId = this.$route.query.id;
 				this.befor();
 			}
+			
 		},
 		methods: {
 			befor(){
@@ -202,18 +205,35 @@
 			    		if(response.status == 200 && response.data.code == 10000) {
 							vm.communityName = response.data.result.community.communityName;
 							vm.province = response.data.result.community.province.areaName;
+							vm.areaId = response.data.result.community.province.areaId;
 							vm.city = response.data.result.community.city.areaName;
-							vm.value = response.data.result.community.district.areaName;
+							vm.parentId = response.data.result.community.city.areaId;
+							this.httpPost(this.parentId, 2);
+							vm.valuem = response.data.result.community.district.areaName;
+							vm.areas = response.data.result.community.district.areaId;
 							vm.communityAddress = response.data.result.community.communityAddress;
+							this.pdfName = response.data.result.community.communityContract.split(',');
+							let imgUrl=response.data.result.community.communityContract.split(",");
+							for(let k = 0; k < imgUrl.length; k++){
+                              let item= {}
+                              let len= imgUrl[k].split("/");
+                              item.name=len[len.length-1]
+                              item.url =imgPath+imgUrl[k]
+                              item.status = 'finished'
+                              vm.fileList3.push(item)
+                           }
 							if(response.data.result.community.communityType == '0'){
 								vm.checkList.push('公寓');
+								vm.communityType = '0';
 							}
 							else if(response.data.result.community.communityType == '1'){
 								vm.checkList.push('办公空间');
+								vm.communityType = '1';
 							}
 							else if(response.data.result.community.communityType == '0,1'){
 								vm.checkList.push('公寓');
 								vm.checkList.push('办公空间');
+								vm.communityType = '0,1';
 							}
 							vm.communityOpeningDate = response.data.result.community.communityOpeningDate;
 							vm.communityPhone= response.data.result.community.communityPhone;
@@ -222,32 +242,26 @@
 							vm.communityLeaseEnd= response.data.result.community.communityLeaseEnd;
 							vm.communityFreeLeaseBegin= response.data.result.community.communityFreeLeaseBegin;
 							vm.communityFreeLeaseEnd= response.data.result.community.communityFreeLeaseEnd;
-//							vm.fileList = response.data.result.community.communityContract.splice(',');
 			    		}
 			    	})
 			    	.catch((error)=>{
 			    		console.log(error);
 			    	})
 				}
-
 			},
-			handleRemove(file, fileList) { //删除文件
-				console.log(file,fileList);
+			handleRemove(file, fileList3) { //删除文件
+				//console.log(file,fileList);
 				if(file.response.code == 10000){
 					this.pdfName.remove(file.response.result.virtualPath);
 					//console.log(this.pdfName);
 				}
 			},
 			success(response) { //上传文件成功
-
 				if(response.code == 10000) {
-//					console.log(this.fileList);
-//					console.log(response);
 					this.pdfName.push(response.result.virtualPath);
-//					console.log(1111111111111);
-//					console.log(this.fileList);
-					//console.log(this.pdfName);
+					console.log(this.pdfName);
 				}
+				
 			},
 			error(err) { //上传文件失败
 				console.log(err);
@@ -255,21 +269,24 @@
 			handlePreview(file) {
 				console.log(file);
 			},
-			Complie: function() {
+			Complie() {
 				let vm = this
-				this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == this.value)].areaId;
+				console.log(this.pdfName);
 				vm.communityContract = this.pdfName.join(',');
 
-				console.log(vm.communityOpeningDate)
-				//				console.log(vm.communityType)
-				console.log(vm.communityPhone)
-				console.log(vm.communityContractNum)
-				console.log(vm.communityLeaseBegin)
-				console.log(vm.communityLeaseEnd)
-				console.log(vm.communityFreeLeaseBegin)
-				console.log(vm.communityFreeLeaseEnd)
-				//				console.log(vm.communityContractFiles)
-				//				console.log('参数')
+				console.log(vm.communityContract);
+//				console.log(vm.communityOpeningDate)
+//				console.log(vm.communityPhone)
+//				console.log(vm.communityContractNum)
+//				console.log(vm.communityLeaseBegin)
+//				console.log(vm.communityLeaseEnd)
+//				console.log(vm.communityFreeLeaseBegin)
+//				console.log(vm.communityFreeLeaseEnd)
+				console.log(vm.areaId)
+				console.log(vm.communityAddress)
+				console.log(vm.communityType)
+				console.log(vm.parentId)
+				console.log(vm.areas)
 				this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
 				this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
 				this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
@@ -290,7 +307,7 @@
 				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
 				this.param.append('communityContract',vm.communityContract)
 				this.fullscreenLoading = true;
-				if(vm.parentId == null || vm.areas == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
+				if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
 					this.fullscreenLoading = false;
 					alert('信息填入不完整，请补充完信息');
 				} else {
@@ -313,33 +330,85 @@
 						})
 				}
 			},
-			//			uploadFile(e) {
-			//				let vm = this
-			//				vm.ches = true;
-			//				let file = e.target.files[0];
-			//				let files = [file, file.name];
-			//				this.fileList.push(files);
-			//				this.pdfName.push(e.currentTarget.files[0].name);
-			//				//  			console.log(this.pdfName)
-			//			},
-			//			removeItem(item) {
-			//				console.log(this.param)
-			//				let fileIndex = this.pdfName.findIndex(items => items == item);
-			//				this.fileList.splice(fileIndex, 1);
-			//				this.pdfName.splice(fileIndex, 1);
-			//				if(!this.fileList.length){
-			//					this.ches = false;
-			//				}
-			//				console.log(fileIndex)
-			//			},
+			Complie2() {
+				let vm = this
+				//console.log(this.pdfName);
+				if(vm.communityId != ''){
+					vm.communityContract = this.pdfName.join(',');
+					console.log(vm.communityName);
+					console.log(vm.communityContract);
+					console.log(vm.communityAddress)
+					console.log(vm.communityType)
+					console.log(vm.areaId)
+					console.log(vm.parentId)
+					console.log(vm.areas)
+					console.log(vm.communityContractNum);
+					console.log(vm.communityOpeningDate);
+					console.log(vm.communityPhone);
+					console.log(vm.communityLeaseBegin);
+					console.log(vm.communityLeaseEnd);
+					console.log(vm.communityFreeLeaseBegin);
+					console.log(vm.communityFreeLeaseEnd);
+					this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
+					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+					this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
+					this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
+					this.param2.append("communityId",vm.communityId);
+					this.param2.append("communityName", vm.communityName);
+					this.param2.append("communityProvince", vm.areaId);
+					this.param2.append("communityCity", vm.parentId);
+					this.param2.append("communityDistrict", vm.areas);
+					this.param2.append("communityAddress", vm.communityAddress);
+					this.param2.append("communityOpeningDate", vm.communityOpeningDate);
+					this.param2.append("communityType", vm.communityType);
+					this.param2.append("communityPhone", vm.communityPhone);
+					this.param2.append("communityContractNum", vm.communityContractNum);
+					this.param2.append("communityLeaseBegin", vm.communityLeaseBegin);
+					this.param2.append("communityLeaseEnd", vm.communityLeaseEnd);
+					this.param2.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
+					this.param2.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
+					this.param2.append('communityContract',vm.communityContract)
+					this.fullscreenLoading = true;
+					if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
+						this.fullscreenLoading = false;
+						alert('修改信息不完整，请补充完信息');
+					} else {
+					this.$http.post(hostaddComplie, vm.param2).then(res => {
+							console.log(res.data)
+							debugger
+							if(res.status == 200 && res.data.code == 10000) {
+								setTimeout(() => {
+									this.fullscreenLoading = false;
+									alert('修改成功！');
+									vm.$router.push('/apartment/communityManagement');
+								}, 3000);
+	
+							} else {
+								this.fullscreenLoading = false;
+								alert('修改失败！请检查错误信息')
+							}
+						})
+						.catch(error => {
+							console.log(error);
+						})
+					}
+				}
+				
+			},
 			isActive(value) { //获取市的数据
-
 				this.areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
 				this.httpPost(this.areaId, 1);
 			},
 			isActive2(value) { //获取区的数据
 				this.parentId = this.parents[this.parents.findIndex(item => item.areaName == value)].areaId;
 				this.httpPost(this.parentId, 2);
+			},
+			isActive3(value) { 
+				console.log(value);
+				console.log(this.countyList);
+				this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == value)].areaId;
+				
 			},
 			httpPost(id, num) { //获取省市区数据的方法调用
 				let Id = parseInt(id);
@@ -350,10 +419,11 @@
 						})).then((response) => {
 						if(num == 1) {
 							vm.parents = response.data.result.areaList;
-							//console.log(vm.parents);
-						} else if(num == 2) {
+							console.log(vm.parents);
+						}
+						else if(num == 2) {
 							vm.countyList = response.data.result.areaList;
-							//console.log(vm.countyList);
+							console.log(vm.countyList);
 						}
 					})
 					.catch((error) => {
@@ -364,7 +434,7 @@
 			},
 			types(mw) {
 				console.log(mw);
-				this.communityType = null;
+				this.communityType = '';
 				for(var i = 0; i < mw.length; i++) {
 					if(mw[i] == "公寓" && mw.length == 1) {
 						this.communityType = '0';
@@ -399,7 +469,7 @@
 						communityId: vm.communityId
 					}))
 				.then((response) => {
-					console.log(response);
+					//console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						vm.community = response.data.result.community;
 

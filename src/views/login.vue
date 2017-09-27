@@ -35,7 +35,7 @@
 
           </Form-item>
           <Form-item class="ivu-form-bottom">
-              <router-link to="/">忘记密码？</router-link>
+              <router-link to="/password">忘记密码？</router-link>
           </Form-item>
         </Form>
       </div>

@@ -46,7 +46,7 @@
 		        			<td>{{ freelease }}</td>
 		        		</tr>
 		        		<tr>
-		        			<td>物业合同：{{contract}}</td>
+		        			<td style="vertical-align: top;">物业合同：{{contract}}</td>
 		        			<td style="width: 500px;">
 		        				<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess">{{ item }}</a><br/>
 		        			</td>

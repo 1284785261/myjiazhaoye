@@ -16,7 +16,7 @@
           </Dropdown-menu>
         </Dropdown>
         <Dropdown trigger="click">
-          <a href="javascript:void(0)"><img src="/static/images/temp/userHead.png">{{userID}} <Icon type="arrow-down-b"></Icon></a>
+          <a href="javascript:void(0)"><img :src=imgPath1 >{{userID}} <Icon type="arrow-down-b"></Icon></a>
           <Dropdown-menu slot="list">
             <Dropdown-item  v-for="userBar in userBars"><router-link :to=userBar.path><i :class="userBar.icon"></i>{{userBar.userContent}}</router-link></Dropdown-item>
           </Dropdown-menu>
@@ -26,11 +26,15 @@
 </template>
 
 <script>
+	import axios from 'axios';
+    import { hostAuthor,imgPath } from '../views/api.js';
+    import qs from 'qs'
+    
 export default {
   data () {
     return {
         userID:"会飞的鱼~",
-       userBars:[{
+        userBars:[{
           icon:"iconfont icon-gerenxinxi1",
           userContent:"个人信息",
           path:"/apartment/communityPersonal"
@@ -41,9 +45,32 @@ export default {
         },{
           icon:"iconfont icon-zhuxiao",
           userContent:"注销",
-          path:"/apartment/communityPersonal"
-        }]
+          path:"/"
+        }],
+        imgPath1:''
     }
+  },
+  mounted(){
+  	this.datas();
+  },
+  methods:{
+  	datas(){
+  		let vm = this;
+  		this.$http.get(hostAuthor)
+		.then((response)=>{
+			//console.log(response);
+			if(response.status == 200 && response.data.code == 10000){
+    			vm.user = response.data.entity;
+    			if(response.data.entity.headPic != null){
+    				vm.imgPath1 = imgPath + response.data.entity.headPic;
+    				vm.userID = response.data.entity.userAliase;
+    			}
+			}
+		})
+		.catch((error)=>{
+			console.log(error);
+		})
+  	}
   }
 }
 </script>

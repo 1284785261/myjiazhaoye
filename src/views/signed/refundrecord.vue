@@ -98,7 +98,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import { hostRefund } from '../api.js';
     import qs from 'qs';
     
     export default {
@@ -111,9 +111,6 @@
     		return{
 				currentPage3: 1,
 				radio: '1',
-				ishide:false,
-				ishide2:false,
-				ishide3:false,
 				options8: [{
 		          value: '选项1',
 		          label: '黄金糕'
@@ -130,29 +127,28 @@
 		          value: '选项5',
 		          label: '北京烤鸭'
 		        }],
-		        value: ''
+		        value: '',
+		        communityId:''
 			}
     	},
     	mounted(){
-
+			this.communityId = this.$route.query.communityId;
     	},
     	filters:{
    
     	},
     	methods:{
-			adddian(){
-				this.ishide = ! this.ishide;
-				this.ishide2 = ! this.ishide2;
-			},
-			adddian2(){
-				this.ishide = ! this.ishide;
-				this.ishide3 = ! this.ishide3;
-			}
-    	},
-    	created(){
     		
-			
-    	}
+    		datas(){
+    			let pageNum = pageNum | 1;
+    			axios.post(hostRefund,
+    				qs.stringify({
+    					communityId:this.communityId,
+    				})
+    			)
+    		}
+    	},
+    
     }
 </script>
 

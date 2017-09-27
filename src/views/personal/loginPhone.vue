@@ -181,18 +181,11 @@
     					vm.title2 = '原手机'+ response.data.content;
     					vm.oldphone = true;
     				}
-    				else if(code == 10003){
-    					vm.ins2 = true;
-    					vm.title2 ='原手机'+ response.data.content;
-    				}
-    				else if(code == 10001){
-    					vm.ins2 = true;
-    					vm.title2 ='原手机'+ response.data.content;
-    				}
     				else{
     					vm.ins2 = true;
-    					vm.title2 ='原手机验证不通过';
+    					vm.title2 ='原手机还未进行验证';
     				}
+    				
     			})
     			.catch((error)=>{
     				console.log(error);

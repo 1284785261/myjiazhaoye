@@ -18,7 +18,7 @@
         <li><router-link :to="{ name: 'advertiset' , params: { id: 123 }}"><i class="iconfont icon-guanggao"></i>广告设置</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-guanggao"></i>佳里人</router-link></li>
         <li><router-link :to="{ name: 'customServiceManagement' , params: { id: 123 }}"><i class="iconfont icon-kefu"></i>客服管理</router-link></li>
-        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-guanli"></i>系统管理</router-link></li>
+        <li><router-link :to="{ name: 'systems' , params: { id: 123 }}"><i class="iconfont icon-guanli"></i>系统管理</router-link></li>
         <li><router-link :to="{ name: 'activitys' , params: { id: 123 }}"><i class="iconfont icon-huodong"></i>活动管理</router-link></li>
       </ul>
     </div>

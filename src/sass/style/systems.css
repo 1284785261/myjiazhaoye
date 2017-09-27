@@ -1,0 +1,92 @@
+.systems{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+.mps .el-tabs .el-tabs__header{
+	border-bottom: 1px solid #038BE2;
+	margin-bottom: 0;
+}
+.mps .el-tabs .el-tabs__item{
+	width: 140px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	margin-right: 10px;
+	background: #f8f8f8;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border: 1px solid #dcdcdc;
+	color: #666;
+	font-size: 18px;
+	border-bottom: 1px solid #038BE2;
+}
+.mps .el-tabs .el-tabs__header .is-active{
+	background: #038BE2;
+	color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: none;
+}
+.systems div{
+	text-align: right;
+	padding-right: 20px;
+}
+.systems div a{
+	width: 118px;
+	height: 34px;
+	display: inline-block;
+	border: 1px solid #dcdcdc;
+	font-size: 12px;
+	color: #666;
+	background: #f8f8f8;
+	text-align: center;
+	line-height: 34px;
+	border-radius: 5px;
+	margin: 20px 10px;
+}
+.systems div a:hover{
+	border: 1px solid #038BE2;
+	color: #038BE2;
+	background: white;
+	transition: all 0.5s;
+}
+.systems .el-pagination{
+	text-align: center;
+	margin-top: 40px;
+}
+.systems .el-pagination .el-pager .number{
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+.systems .el-pagination button{
+	border: 1px solid #DCDCDC;
+}
+.systems table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.systems table thead td{
+	height: 48px;
+	background: #f8f8f8;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+}
+.systems table tr td{
+	height: 48px;
+	color: #000000;
+	text-align: center;
+}
+.systems table td{
+	border: 1px solid #DCDCDC;
+}
+.systems table input{
+	outline:none;
+}
+.systems table tr td a {
+	margin: 10px;
+}

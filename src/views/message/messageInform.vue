@@ -125,7 +125,7 @@
     	data(){
     		return{
     			isHide:false,
-    			currentPage3: 5,
+    			currentPage3: 1,
     			activeName2: 'first',
     			options: [],
 		        value8: '',
@@ -148,11 +148,9 @@
     	methods:{
     		
 		    handleCurrentChange(val) {
-		        //console.log(`当前页: ${val}`);
 		        this.pageNum =val;
 		    },
 		    handleCurrentChange2(val) {
-		        //console.log(`当前页: ${val}`);
 		        this.pageNum2 =val;
 		    },
 		    instas:function(){

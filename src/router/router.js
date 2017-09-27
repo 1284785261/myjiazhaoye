@@ -341,7 +341,17 @@ export default new Router({
       name:'addCorporate',
       component:resolve =>
         require(['../views/corporate/addCorporate.vue'],resolve)
-    }
+    },{
+      path:'/system/systems',		//系统管理
+      name:'systems',
+      component:resolve =>
+        require(['../views/system/systems.vue'],resolve)
+    },{
+      path:'/password',		//忘记密码
+      name:'password',
+      component:resolve =>
+        require(['../views/password.vue'],resolve)
+    },
 
 
 

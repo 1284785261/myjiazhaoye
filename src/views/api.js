@@ -155,6 +155,9 @@ const OfficeList = '/cxkj-room/apis/pcManager/cxkjcontractsign/RentOfficeList500
 
 //联合办公签约
 const SignOffice = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignOffice500056'
+
+//发起退款记录
+const  Refund = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundList500060'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -205,6 +208,7 @@ export const hostSigController = host3 + SigController;
 export const hostOfficeList = host3 + OfficeList;
 export const hostSignCompany = host3 + SignCompany;
 export const hostSignOffice = host3 +SignOffice;
+export const hostRefund = host3 + Refund;
 export const host = host3;
 //export default {
 //hosts:function(){

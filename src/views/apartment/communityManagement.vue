@@ -63,16 +63,19 @@
 									</td>
 									<td>
 										<dl>
-											<dd>店长：<span> <!--{{item.shopkeeper.userName}}--></span></dd>
-											<dd>店长联系电话：<span> <!--{{item.shopkeeper.userPhone}}--></span></dd>
+											<dd v-if="item.shopkeeper != null">店长：<span> {{item.shopkeeper.userName}}</span></dd>
+											<dd v-else>店长：<span> <!--{{item.shopkeeper.userName}}--></span></dd>
+											<dd v-if="item.shopkeeper != null">店长联系电话：<span> {{item.shopkeeper.userPhone}}</span></dd>
+											<dd v-else>店长联系电话：：<span> <!--{{item.shopkeeper.userName}}--></span></dd>
 											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
 											<dd>员工：<span>{{item.employee}}</span></dd>
 										</dl>
 									</td>
 									<td>
 										<dl>
-											<dd>付款方式：<span>  押二付一 ，押一付一</span></dd>
-											<dd>服务费：<span>  {{item.serviceCost}}元/月</span></dd>
+											<dd>付款方式：<span>  {{item.payment}}</span></dd>
+											<dd v-if="item.serviceCost != null">服务费：<span>  {{item.serviceCost}}元/月</span></dd>
+											<dd v-else>服务费：<span>  0元/月</span></dd>
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
 											<dd>维修项：<span> {{item.maintain | Fors(item.maintain)}}</span></dd>
 										</dl>
@@ -143,7 +146,7 @@
 									<td>
 										<dl>
 										<dd>店长：<span><!--{{item.shopkeeper.userName}}--></span></dd>
-                    <dd>店长联系电话：<span><!--{{item.shopkeeper.userPhone}}--></span></dd>
+                    					<dd>店长联系电话：<span><!--{{item.shopkeeper.userPhone}}--></span></dd>
 											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
 											<dd>员工：<span>{{item.employee}}</span></dd>
 										</dl>
@@ -392,7 +395,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;

@@ -71,7 +71,6 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    import api from '../api.js';
     import axios from 'axios';
     import { hostAuthor,imgPath,hostportrait,host } from '../api.js';
     import '../../sass/style/communityPersonal.css';
@@ -102,30 +101,32 @@
     	mounted(){
     		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
     		this.param = new FormData();
-    		let vm = this
-    		vm.user = null;
-    		this.$http.get(hostAuthor)
-    		.then((response)=>{
-    			console.log(response);
-    			if(response.status == 200 && response.data.code == 10000){
-	    			vm.user = response.data.entity;
-	    			sessionStorage.setItem("phone",this.user.userPhone);
-	    			if(response.data.entity.headPic != null){
-	    				vm.imgPath1 = imgPath + response.data.entity.headPic;
-	    				vm.chen=false;
-	    			}
-	    			else{
-	    				vm.chen=true;
-	    			}
-    			}
-    		})
-    		.catch((error)=>{
-    			console.log(error);
-    		})
+    		this.datas();
     		
-    		 this.uploadList = this.$refs.upload.fileList;
     	},
     	methods:{
+    		datas(){
+	    		let vm = this
+	    		vm.user = null;
+	    		this.$http.get(hostAuthor)
+	    		.then((response)=>{
+	    			//console.log(response);
+	    			if(response.status == 200 && response.data.code == 10000){
+		    			vm.user = response.data.entity;
+		    			sessionStorage.setItem("phone",this.user.userPhone);
+		    			if(response.data.entity.headPic != null){
+		    				vm.imgPath1 = imgPath + response.data.entity.headPic;
+		    				vm.chen=false;
+		    			}
+		    			else{
+		    				vm.chen=true;
+		    			}
+	    			}
+	    		})
+	    		.catch((error)=>{
+	    			console.log(error);
+	    		})
+    		},
     		loadfile(e){
     			let vm = this
     			vm.filelist = [];
@@ -156,6 +157,7 @@
     				if(res.status == 200 && res.data.code == 10000){
     					vm.loading = false
     					alert('上传头像成功');
+    					location.reload();   
     				}
     				else{
     					alert('上传头像失败');
@@ -167,23 +169,7 @@
     		},
     		emss(){
     			this.$router.push('/loginPassword');
-    		},
-    		handleAvatarSuccess(res, file) {
-    			console.log(res);
-		        this.imageUrl = URL.createObjectURL(file.raw);
-		    },
-		    beforeAvatarUpload(file) {
-		        const isJPG = file.type === 'image/jpeg';
-		        const isLt2M = file.size / 1024 / 1024 < 2;
-		
-		        if (!isJPG) {
-		          this.$message.error('上传头像图片只能是 JPG 格式!');
-		        }
-		        if (!isLt2M) {
-		          this.$message.error('上传头像图片大小不能超过 2MB!');
-		        }
-		        return isJPG && isLt2M;
-		    }
+    		}
     	}
     	
     }
