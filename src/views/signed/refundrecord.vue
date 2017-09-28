@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="refundrecord">
 		    		<div class="refundrecord1">
-		    			<router-link to="/signed/openrefund" class="refund">发起退款</router-link>
+		    			<router-link :to="{path:'/signed/openrefund',query:{id:communityId}}" class="refund">发起退款</router-link>
 		    			<span class="bsc">状态：</span>
 		    			<el-select v-model="value" placeholder="请选择">
 						    <el-option
@@ -44,35 +44,15 @@
 		    				<td>操作</td>
 		    				
 		    			</thead>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td style="color: red;">111111</td>
-		    				<td>111111</td>
+		    			<tr v-for="item in data">
+		    				<td>{{item.refundId}}</td>
+		    				<td>{{item.createTime | time}}</td>
+		    				<td>{{item.userName}}</td>
+		    				<td>{{item.userPhone}}</td>
+		    				<td style="color: red;">{{item.refundMoney | Money}}</td>
+		    				<td>{{item.refundStatus | Status}}</td>
 		    				<td>未分配</td>
-		    				<td><router-link to="/signed/refunddetails">查看详情</router-link></td>
-		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td><a>查看详情</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td><a>查看详情</a></td>
+		    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:item.refundId}}">查看详情</router-link></td>
 		    			</tr>
 		    		</table>
 		    		<el-pagination
@@ -80,7 +60,7 @@
 				      :current-page.sync="currentPage3"
 				      :page-size="5"
 				      layout="prev, pager, next,total,jumper"
-				      :total="20">
+				      :total=totalNum>
 				    
 				    </el-pagination>
 		    	</div>
@@ -128,24 +108,60 @@
 		          label: '北京烤鸭'
 		        }],
 		        value: '',
-		        communityId:''
+		        communityId:'',
+		        pageNum:1,
+		        data:null,
+		        totalNum:'1'
 			}
     	},
     	mounted(){
 			this.communityId = this.$route.query.communityId;
+			this.datas();
     	},
     	filters:{
-   
+   			time(val){
+   				return  new Date(val).Format('yyyy-MM-dd');
+   			},
+   			Money(val){
+   				return val+'.00';
+   			},
+   			Status(val){
+   				if(val == 0){
+   					return '待审核';
+   				}
+   				else if(val == 1){
+   					return '待退款';
+   				}
+   				else if(val == 2){
+   					return '已退款';
+   				}
+   			}
     	},
     	methods:{
-    		
+    		handleCurrentChange(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.datas();
+			},
     		datas(){
-    			let pageNum = pageNum | 1;
+    			let pageNum = this.pageNum | 1;
     			axios.post(hostRefund,
     				qs.stringify({
     					communityId:this.communityId,
+    					pageNum:pageNum,
+    					pageSize:8
     				})
     			)
+    			.then((response)=>{
+    				console.log(response);
+    				if(response.data.code == 10000 && response.status == 200){
+    					this.data = response.data.result.refundList;
+    					this.totalNum = response.data.result.totalNum;
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
     		}
     	},
     

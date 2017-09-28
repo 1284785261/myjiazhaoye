@@ -66,7 +66,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import { hostRefunddetal } from '../api.js';
     import qs from 'qs';
     
     export default {

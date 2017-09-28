@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-//const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+const host3 = 'http://192.168.26.191:8080';
+//const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -158,6 +158,12 @@ const SignOffice = '/cxkj-room/apis/pcManager/cxkjcontractsign/SignOffice500056'
 
 //发起退款记录
 const  Refund = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundList500060'
+
+//发起退款
+const  Refunds = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefund500059'
+
+//退款详情
+const Refunddetal = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetail500061'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -209,6 +215,8 @@ export const hostOfficeList = host3 + OfficeList;
 export const hostSignCompany = host3 + SignCompany;
 export const hostSignOffice = host3 +SignOffice;
 export const hostRefund = host3 + Refund;
+export const hostRefunds = host3 + Refunds;
+export const hostRefunddetal = host3 + Refunddetal;
 export const host = host3;
 //export default {
 //hosts:function(){
