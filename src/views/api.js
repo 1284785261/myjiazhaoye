@@ -21,6 +21,9 @@ const Commint = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001';
 //添加社区
 const Complie ='/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityAdd200002';
 
+//编辑社区
+const addComplie = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySearch200054'
+
 //关闭或开放社区
 const Open = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityShutdown200012';
 
@@ -180,6 +183,9 @@ const OffDepartment = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCom
 
 //部门管理-批量删除
 const DeleteDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityDeleteDepartment200108'
+
+//部门管理-返回上级
+const SuperiorDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityReturnToSuperiorDepartment200109'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -232,6 +238,7 @@ export const hostSignCompany = host3 + SignCompany;
 export const hostSignOffice = host3 +SignOffice;
 export const hostRefund = host3 + Refund;
 export const hostRefunds = host3 + Refunds;
+export const hostaddComplie = host3 + addComplie;
 export const hostRefunddetal = host3 + Refunddetal;
 export const hostDepartment = host3 + Department;
 export const hostDepartments = host3 + Departments;
@@ -239,6 +246,7 @@ export const hostaddDepart = host3 +addDepart;
 export const hostEditDepar = host3 + EditDepart;
 export const hostOffDepartment = host3 + OffDepartment;
 export const hostDeleteDepart = host3 + DeleteDepart;
+export const hostSuperiorDepart = host3 + SuperiorDepart;
 export const host = host3;
 //export default {
 //hosts:function(){

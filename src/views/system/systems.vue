@@ -78,7 +78,7 @@
 								<a @click="details">批量删除</a>
 								<a @click="opens">批量开放</a>
 								<a @click ='closes'>批量关闭</a>
-								<a>返回上级</a>
+								<a @click="returns">返回上级</a>
 							</div>
 							<table>
 								<thead>
@@ -86,6 +86,7 @@
 										<Checkbox v-model="single" @click.prevent.native="handleCheckAll"></Checkbox>
 									</td>
 									<td>部门</td>
+									<td>上级部门</td>
 									<td>子集数</td>
 									<td>创建人</td>
 									<td>创建日期</td>
@@ -97,12 +98,14 @@
 										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange(item.sing,index)"></Checkbox>
 									</td>
 									<td>{{item.departmentName}}</td>
+									<td v-if="item.parentDepartmentName != null">{{item.parentDepartmentName}}</td>
+									<td v-else>根节点</td>
 									<td>{{item.childNum}}</td>
 									<td>{{item.departmentCreateName}}</td>
 									<td>{{item.createtime | time}}</td>
 									<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
 									<td>
-										<a>进入子部门</a>
+										<a @click="bub(item)">进入子部门</a>
 										<a @click="amend(item)">编辑</a>
 										<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
 										<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
@@ -283,7 +286,7 @@
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostDepartment, hostaddDepart, hostEditDepar, hostOffDepartment,hostDeleteDepart } from '../api.js';
+	import { hostDepartment, hostaddDepart, hostEditDepar, hostOffDepartment,hostDeleteDepart,hostDepartments,hostSuperiorDepart } from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -315,28 +318,14 @@
 				isShow2:false,
 				isShow3:false,
 				isShowadd: false,
-				options: [{
-					value: '选项1',
-					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
+				options: [],
 				value: '',
 				parentId: 0,
 				test: '',
 				test2: '',
 				amends: false,
 				id: '',
+				id2:null,
 				closr: {},
 				departmentList: [], //关闭列表
 
@@ -428,17 +417,83 @@
 				})
 			},
 			addsection() {
-				this.isHide = true;
+				this.isHide = true;             //请求上级部门
 				this.isShowadd = true;
 			},
 			closeWarningModal() {
 				this.warningModal = false;
 			},
+			bub(item){
+				this.id2 = item.departmentId;
+				console.log(this.id2);
+				let pageNum = this.pageNum | 1; //获取子部门的列表信息
+				let pageSize = this.pageSize | 10;
+				axios.post(hostDepartment,
+					qs.stringify({
+						pageNum: pageNum,
+						pageSize: pageSize,
+						parentId: this.id2
+					})
+				).then((response) => {
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						this.data = response.data.entity.page;
+						this.totalNum = response.data.entity.totalNum;
+						for(let i = 0; i < this.data.length; i++) {
+							this.$set(this.data[i], "sing", false);
+						}
+						this.successMessage = '进入子部门成功'
+						this.successModal = true;
+						setTimeout(() => {
+							this.successModal = false;
+							this.test = ''
+						}, 1000);
+					}
+					else{
+						this.warningMessage = response.data.content,
+						this.warningModal = true;
+					}
+				}).catch((error) => {
+					console.log(error);
+				})
+			},
+			returns(){
+				let id = this.id2;         //返回上级
+				console.log(id);
+				axios.post(hostSuperiorDepart,
+					qs.stringify({
+						parentId:this.id2
+					})
+				).then((response) => {
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						this.data = response.data.entity.page;
+						this.totalNum = response.data.entity.totalNum;
+						this.id2 = this.data[0].parentId;
+						for(let i = 0; i < this.data.length; i++) {
+							this.$set(this.data[i], "sing", false);
+						}
+//						this.successMessage = '进入子部门成功'
+//						this.successModal = true;
+//						setTimeout(() => {
+//							this.successModal = false;
+//							this.test = ''
+//						}, 1000);
+					}
+					else{
+						this.warningMessage = response.data.content,
+						this.warningModal = true;
+					}
+				}).catch((error) => {
+					console.log(error);
+				})
+			},
 			adds() {
+				let id = this.id2 | 0;
 				axios.post(hostaddDepart, //添加部门
 						qs.stringify({
 							departmentName: this.test,
-							parentId: 0
+							parentId:id
 						})
 					)
 					.then((response) => {
@@ -457,7 +512,7 @@
 							this.isHide = false;
 							this.isShowadd = false;
 							this.warningMessage = '添加部门失败，请检查是否重复',
-								this.warningModal = true;
+							this.warningModal = true;
 						}
 					})
 					.catch((error) => {

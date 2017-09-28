@@ -86,7 +86,7 @@
 								<Date-picker type="date" placeholder="请选择日期" v-model="communityFreeLeaseEnd"></Date-picker>
 							</td>
 						</tr>
-						<tr v-if="fileList3.length">
+						<tr>
 							<td valign="top">
 								<span class="btxs">*</span>物业合同：
 							</td>
