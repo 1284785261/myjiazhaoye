@@ -14,7 +14,7 @@
         </div>
         <div id="corporate-service-list">
           <div class="corporate-service-content">
-            <div class="add-corporate-btn"><span>+</span>新增企业</div>
+            <div class="add-corporate-btn" @click="goToAddCorporate()"><span>+</span>新增企业</div>
             <table class="corporate-service-table"  cellspacing="0" width="100%">
               <tr class="table-heaher">
                 <th>企业信息</th>
@@ -42,7 +42,7 @@
                 <td>罗湖区</td>
                 <td>
                   <Button style="width: 80px;height: 30px" @click="goToAddCorporate()">编辑</Button>
-                  <Button style="width: 80px;height: 30px">查看详情</Button>
+                  <Button style="width: 80px;height: 30px" @click="goToADetail()">查看详情</Button>
                 </td>
               </tr>
               <tr class="active">
@@ -163,7 +163,10 @@
     },
     methods:{
       goToAddCorporate(){
-          this.$router.push({name:"addCorporate"})
+        this.$router.push({name:"addCorporate"})
+      },
+      goToADetail(){
+        this.$router.push({name:"corporateDetail"})
       },
       search(){
 

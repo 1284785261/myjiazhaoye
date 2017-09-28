@@ -37,7 +37,7 @@
                   </div>
                   <table class="member-information-table">
                     <tr>
-                      <td><span>会员名称 :</span><span style="font-weight: 700">{{userData.userName}}</span></td>
+                      <td><span>会员名称 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
                       <td><span>会员性别 :</span><span v-if="userData.gender == 1">男</span><span v-if="userData.gender == 2">女</span></td>
                     </tr>
                     <tr>
@@ -51,19 +51,13 @@
                   </table>
                 </div>
               </li>
-              <li v-if="true">
+              <li v-if="userData.cxkjContractSignList">
                 <h3><i class="icon icon-iden"></i>个人记录</h3>
                 <ul class="time-step-list">
-                  <li>
+                  <li v-for="item in userData.cxkjContractSignList">
                     <span class="step-icon"></span>
-                    <span class="step-time">2016-05-30</span>
-                    <span class="step-content">入住19号小区24栋6楼6号</span>
-                    <div class="time-line"></div>
-                  </li>
-                  <li>
-                    <span class="step-icon"></span>
-                    <span class="step-time">2017-05-30</span>
-                    <span class="step-content">合同期满，退房</span>
+                    <span class="step-time">{{item.beginDate | timefilter("yyyy-MM-dd")}}</span>
+                    <span class="step-content">预定了{{item.cxkjCommunityRoom.floorId}}层{{item.cxkjCommunityRoom.roomNum}}</span>
                     <div class="time-line"></div>
                   </li>
                 </ul>
@@ -133,7 +127,14 @@
         }
         return isJPG && isLt2M;
       }
-    }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 

@@ -91,7 +91,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,billPayment,statisticsInfoOfUser,saveBillPayment} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment} from '../api.js';
 
 
   export default {
@@ -143,7 +143,7 @@
       },
       getbillPayment(data){
         var that = this;
-        this.$http.get(billPayment,{params:data})
+        this.$http.get(unsentWaterEnergyBillList,{params:data})
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
@@ -175,6 +175,7 @@
           this.$set(this.billPaymentList[index],"isEdit",!isEdit);
           this.$set(this.billPaymentList[index],"content","修改账单");
           var obj = this.billPaymentList[index];
+          console.log(obj)
           var params = {
             roomId:obj.roomId,
             waterData:obj.waterData,
@@ -183,7 +184,7 @@
             energySize:obj.energySize,
             serviceCost:obj.serviceCost
           };
-          this.saveBillPayment(params);
+//          this.saveBillPayment(params);
         }
 
       },

@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -325,3 +325,6 @@ export const invoiceDetail =host3+'/cxkj-room/apis/pcManager/cxkjbillInvoice/Cxk
 export const refundHandle =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundHandleList500058';//退款处理
 export const refundDetail =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetail500061';//退款详情
 export const refundMoneyToUser =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetailRefund500063';//确认退款
+
+
+export const unsentWaterEnergyBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetUnsentWaterEnergyBillList300101';//未发送给客户的水电账单列表

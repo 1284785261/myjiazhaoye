@@ -351,7 +351,13 @@ export default new Router({
       name:'password',
       component:resolve =>
         require(['../views/password.vue'],resolve)
+    },{
+      path:'/corporate/corporateDetail',		//企业详情
+      name:'corporateDetail',
+      component:resolve =>
+        require(['../views/corporate/corporateDetail.vue'],resolve)
     },
+
 
 
 

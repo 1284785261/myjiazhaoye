@@ -44,7 +44,7 @@
                   <th>操作{{memberCurrent}}</th>
                 </tr>
                 <tr v-for="(item,index) in  memberList">
-                  <td>{{item.userName}}</td>
+                  <td>{{item.userName || item.userAliase}}</td>
                   <td>{{item.userPhone}}</td>
                   <td>
                     <span v-if="item.gender==1">男</span>
@@ -102,7 +102,7 @@
                   <td style="width:80px;">
                     <div @click="checkAllSelect(index,item.isChecked)"><Checkbox label="item.isChecked" v-model="item.isChecked"></Checkbox></div>
                   </td>
-                  <td>{{item.userName}}</td>
+                  <td>{{item.userName || item.userAliase}}</td>
                   <td>{{item.userPhone}}</td>
                   <td>
                     <span v-if="item.gender==1">男</span>
@@ -201,6 +201,9 @@
         checkAllStatus:false,
         blackMemberCurrent:1,
 
+        whilePage:1,
+        blackPage:1
+
       }
     },
     mounted(){
@@ -234,6 +237,9 @@
         var params = {
           pageNum:page || 1,
         }
+        if(page){
+          this.whilePage = page;
+        }
         if(this.memberName){
           params.userNameLike = this.memberName;
         }
@@ -266,6 +272,9 @@
         var params = {
           pageNum:page || 1,
           userBlacklist : 1
+        };
+        if(page){
+            this.blackPage = page;
         }
         if(this.blackMemberName){
           params.userNameLike = this.blackMemberName;
@@ -285,7 +294,7 @@
       },
       //设置为黑名单
       setBliakMember(){
-          var vm = this;
+        var vm = this;
         this.blackModal = false;
         var params = {
           userId:this.memberId,
@@ -294,7 +303,9 @@
         this.remarks = "";
         this.$http.post(editBlacklist,qs.stringify(params))
           .then(function(res){
-            vm.init()
+            //vm.init()
+            vm.pageSearch(vm.whilePage);
+            vm.blackPageSearch(vm.blackPage)
           })
       },
       closeWhileModal(){
@@ -314,7 +325,9 @@
         }]
         this.$http.post(editWhilelist,{cxkjCenterBlacklist:params})
           .then(function(res){
-            vm.init()
+//            vm.init()
+            vm.pageSearch(vm.whilePage);
+            vm.blackPageSearch(vm.blackPage)
           })
       },
       //批量设置白名单
