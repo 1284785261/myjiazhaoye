@@ -8,15 +8,13 @@ const host3 = 'http://192.168.26.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
 
-//http://115.29.138.230:8080/apis/user/CxkjCenterLogin100002
 
 //用户登录接口
-//const login = '/apis/user/CxkjCenterLogin100002';
 const login='/cxkj-center/apis/user/CxkjCenterLogin100002';
 
 //管家个人信息接口
 const Author = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformation200021';
-//http://115.29.138.230:8080/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityPersonalInformation200021
+
 //社区管理接口
 const Commint = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunity200001';
 
@@ -164,6 +162,24 @@ const  Refunds = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRef
 
 //退款详情
 const Refunddetal = '/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetail500061'
+
+//部门管理
+const Department = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityDepartment200104'
+
+//部门管理-获取上级信息
+const Departments = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunitySuperiorDepartment200105'
+
+//部门管理-新增部门
+const addDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityAddDepartment200106'
+
+//部门管理-编辑部门
+const EditDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityEditDepartment200110'
+
+//部门管理-开放或者关闭
+const OffDepartment = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityTurnOffDepartment200107'
+
+//部门管理-批量删除
+const DeleteDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityDeleteDepartment200108'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -217,6 +233,12 @@ export const hostSignOffice = host3 +SignOffice;
 export const hostRefund = host3 + Refund;
 export const hostRefunds = host3 + Refunds;
 export const hostRefunddetal = host3 + Refunddetal;
+export const hostDepartment = host3 + Department;
+export const hostDepartments = host3 + Departments;
+export const hostaddDepart = host3 +addDepart;
+export const hostEditDepar = host3 + EditDepart;
+export const hostOffDepartment = host3 + OffDepartment;
+export const hostDeleteDepart = host3 + DeleteDepart;
 export const host = host3;
 //export default {
 //hosts:function(){

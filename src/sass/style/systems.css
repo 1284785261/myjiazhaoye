@@ -1,4 +1,4 @@
-.systems{
+.systems {
 	width: 100%;
 	min-height: 1000px;
 	background: #fff;
@@ -6,11 +6,13 @@
 	box-shadow: 0 3px 1px #ccc;
 	position: relative;
 }
-.mps .el-tabs .el-tabs__header{
+
+.mps .el-tabs .el-tabs__header {
 	border-bottom: 1px solid #038BE2;
 	margin-bottom: 0;
 }
-.mps .el-tabs .el-tabs__item{
+
+.mps .el-tabs .el-tabs__item {
 	width: 140px;
 	height: 50px;
 	text-align: center;
@@ -24,18 +26,21 @@
 	font-size: 18px;
 	border-bottom: 1px solid #038BE2;
 }
-.mps .el-tabs .el-tabs__header .is-active{
+
+.mps .el-tabs .el-tabs__header .is-active {
 	background: #038BE2;
 	color: white;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom: none;
 }
-.systems div{
+
+.systems div {
 	text-align: right;
 	padding-right: 20px;
 }
-.systems div a{
+
+.systems div a {
 	width: 118px;
 	height: 34px;
 	display: inline-block;
@@ -48,45 +53,193 @@
 	border-radius: 5px;
 	margin: 20px 10px;
 }
-.systems div a:hover{
+
+.systems div a:hover {
 	border: 1px solid #038BE2;
 	color: #038BE2;
 	background: white;
 	transition: all 0.5s;
 }
-.systems .el-pagination{
+
+.systems .el-pagination {
 	text-align: center;
 	margin-top: 40px;
 }
-.systems .el-pagination .el-pager .number{
+
+.systems .el-pagination .el-pager .number {
 	margin: 0 5px;
 	border: 1px solid #DCDCDC;
 }
-.systems .el-pagination button{
+
+.systems .el-pagination button {
 	border: 1px solid #DCDCDC;
 }
-.systems table{
+
+.systems table {
 	width: 100%;
 	border-collapse: collapse;
 }
-.systems table thead td{
+
+.systems table thead td {
 	height: 48px;
 	background: #f8f8f8;
 	color: #000000;
 	font-weight: bold;
 	text-align: center;
 }
-.systems table tr td{
+
+.systems table tr td {
 	height: 48px;
 	color: #000000;
 	text-align: center;
 }
-.systems table td{
+
+.systems table td {
 	border: 1px solid #DCDCDC;
 }
-.systems table input{
-	outline:none;
+
+.systems table input {
+	outline: none;
 }
+
 .systems table tr td a {
 	margin: 10px;
+}
+
+.systems table tr .acts {
+	color: #ff6612;
+}
+
+#housesubscrib .scherm {
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.5;
+}
+
+#housesubscrib .lose {
+	z-index: 1000;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 280px;
+	height: 180px;
+	border-radius: 10px;
+	background: #fff;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+#housesubscrib .lose span {
+	display: block;
+	font-size: 12px;
+	margin-top: 42px;
+	margin-bottom: 18px;
+}
+
+#housesubscrib .lose span i {
+	font-style: normal;
+	font-size: 10px;
+	margin: 0 5px;
+	color: #038be2;
+}
+
+#housesubscrib .lose p {
+	font-size: 12px;
+	font-weight: bold;
+	margin-bottom: 35px;
+}
+
+#housesubscrib .lose a {
+	display: inline-block;
+	width: 90px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+	border-radius: 5px;
+}
+
+#housesubscrib .lose a:nth-child(3) {
+	background: #038be2;
+	color: white;
+	margin-right: 20px;
+}
+
+#housesubscrib .lose a:nth-child(4) {
+	background: #f8f8f8;
+	color: #666;
+	border: 1px solid #dcdcdc;
+}
+#housesubscrib .addsection{
+	width: 500px;
+	height: 320px;
+	background: #fff;
+	z-index: 101;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	border-radius: 5px;
+	text-align: center;
+}
+#housesubscrib .addsection .el-icon-circle-close{
+	position: absolute;
+    right: -41px;
+    top: -41px;
+    font-size: 36px;
+    color: #3d3d3d;
+    cursor: pointer;    
+}
+#housesubscrib .addsection p{
+	width: 100%;
+	height: 60px;
+	background: #038BE2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+}
+#housesubscrib .addsection table{
+	margin-left: 130px;
+	margin-top: 40px;
+}
+.addsection table tr{
+	height: 50px;
+}
+#housesubscrib .addsection table tr td:nth-child(1){
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+}
+#housesubscrib .addsection table tr td:nth-child(2){
+	text-align: left;
+}
+#housesubscrib .addsection table tr td input{
+	width: 198px;
+	height: 34px;
+	border-radius: inherit;
+	border: 1px solid #dcdcdc;
+	color: #b8b8b8;
+	padding-left: 10px;
+}
+#housesubscrib .addsection .tjss{
+	width: 140px;
+	height: 36px;
+	display: block;
+	text-align: center;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin-left: 180px;
+	margin-top: 40px;
+	cursor: pointer;
 }
