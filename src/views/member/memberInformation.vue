@@ -57,7 +57,8 @@
                   <li v-for="item in userData.cxkjContractSignList">
                     <span class="step-icon"></span>
                     <span class="step-time">{{item.beginDate | timefilter("yyyy-MM-dd")}}</span>
-                    <span class="step-content">预定了{{item.cxkjCommunity?item.cxkjCommunity.communityName:""}}{{item.cxkjCommunityRoom.floorId}}层{{item.cxkjCommunityRoom.roomNum}}</span>
+                    <span class="step-content" v-if="item.cxkjCommunityRoom != null">预定了{{item.cxkjCommunity?item.cxkjCommunity.communityName:""}}{{item.cxkjCommunityRoom.floorId}}层{{item.cxkjCommunityRoom.roomNum}}公寓</span>
+                    <span class="step-content" v-else-if="item.cxkjCommunityOffice!= null">预定了{{item.cxkjCommunity?item.cxkjCommunity.communityName:""}}{{item.cxkjCommunityOffice.officeHouseNum}}办公室</span>
                     <div class="time-line"></div>
                   </li>
                 </ul>

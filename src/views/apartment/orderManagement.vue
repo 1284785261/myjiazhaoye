@@ -108,7 +108,12 @@
                   <td>{{office.createTime | timefilter}}</td>
                   <td>{{office.communityName}}</td>
                   <td><span v-if="office.meetingPersonNum">{{office.meetingPersonNum}}人间 </span>{{office.meetingHouseNum}}</td>
-                  <td>2017.03.02 14:00-18:00</td>
+                  <td>
+                    <span>{{office.meetingDate | timefilter2}}</span>
+                    <span>{{office.orderTimeList[0].beginHour}}:00</span>
+                    <span v-if="office.orderTimeList[0].beginHour == office.orderTimeList[office.orderTimeList.length-1].endHour">- {{office.orderTimeList[0].beginHour+1}}:00</span>
+                    <span v-if="office.orderTimeList[0].beginHour != office.orderTimeList[office.orderTimeList.length-1].endHour">- {{office.orderTimeList[office.orderTimeList.length-1].endHour+1}}:00</span>
+                  </td>
                   <td>{{office.userName}}</td>
                   <td>{{office.userTelephone}}</td>
                   <td>{{office.totalMoney}}</td>
@@ -191,7 +196,7 @@
       getOfficeOrder(data){
         var that = this;
         this.$http.get(allOrder,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
                 var pageBean = res.data.pageBean;
                 that.officeOrderList = pageBean.page;
@@ -275,6 +280,11 @@
         timefilter(value){
           if(value){
             return new Date(value).Format("yyyy-MM-dd hh:mm")
+          }
+        },
+        timefilter2(value){
+          if(value){
+            return new Date(value).Format("yyyy-MM-dd")
           }
         }
     }
