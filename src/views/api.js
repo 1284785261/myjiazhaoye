@@ -186,6 +186,24 @@ const DeleteDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjComm
 
 //部门管理-返回上级
 const SuperiorDepart = '/cxkj-room/apis/pcManager/cxkjcommunityDepartment/CxkjCommunityReturnToSuperiorDepartment200109'
+
+//员工管理
+const Management = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityEmployeeManagement200124'
+
+//所有职位信息
+const AllPosition = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityAllPositionManagement200123'
+
+//员工管理-新增员工
+const Employee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityAddEmployeeManagement200125'
+
+//员工管理-开启关闭
+const offEmployee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityTurnOffEmployeeManagement200126'
+
+//员工管理-批量删除
+const DeleteEmployee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityDeleteEmployeeManagement200127'
+
+//员工管理-编辑员工
+const EditEmployee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityEditEmployeeManagement200128'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -247,6 +265,12 @@ export const hostEditDepar = host3 + EditDepart;
 export const hostOffDepartment = host3 + OffDepartment;
 export const hostDeleteDepart = host3 + DeleteDepart;
 export const hostSuperiorDepart = host3 + SuperiorDepart;
+export const hostManagement = host3 + Management;
+export const hostAllPosition = host3 + AllPosition;
+export const hostEmployee = host3 + Employee;
+export const hostoffEmployee = host3 + offEmployee;
+export const hostDeleteEmployee = host3 + DeleteEmployee;
+export const hostEditEmployee = host3 + EditEmployee;
 export const host = host3;
 //export default {
 //hosts:function(){

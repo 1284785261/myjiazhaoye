@@ -50,7 +50,7 @@
 }
 .workstate1 .el-icon-caret-right{
 	position: absolute;
-	right: 390px;
+	right: 220px;
 	top: 23px;
 	z-index: 100;
 	cursor: pointer;
@@ -177,7 +177,7 @@
 }
 .workstate2 .el-icon-caret-right{
 	position: absolute;
-	right: 390px;
+	right: 220px;
 	top: 23px;
 	z-index: 100;
 	cursor: pointer;

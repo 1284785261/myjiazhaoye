@@ -34,6 +34,10 @@
 	border-top-right-radius: 10px;
 	border-bottom: none;
 }
+.systems .equip{
+	width: 100%;
+	margin-top: 40px;
+}
 
 .systems div {
 	text-align: right;
@@ -177,7 +181,7 @@
 }
 #housesubscrib .addsection{
 	width: 500px;
-	height: 320px;
+	min-height: 320px;
 	background: #fff;
 	z-index: 101;
 	position: fixed;
@@ -241,5 +245,6 @@
 	border-radius: 5px;
 	margin-left: 180px;
 	margin-top: 40px;
+	margin-bottom: 40px;
 	cursor: pointer;
 }
