@@ -57,7 +57,7 @@
                   <li v-for="item in userData.cxkjContractSignList">
                     <span class="step-icon"></span>
                     <span class="step-time">{{item.beginDate | timefilter("yyyy-MM-dd")}}</span>
-                    <span class="step-content">预定了{{item.cxkjCommunityRoom.floorId}}层{{item.cxkjCommunityRoom.roomNum}}</span>
+                    <span class="step-content">预定了{{item.cxkjCommunity?item.cxkjCommunity.communityName:""}}{{item.cxkjCommunityRoom.floorId}}层{{item.cxkjCommunityRoom.roomNum}}</span>
                     <div class="time-line"></div>
                   </li>
                 </ul>

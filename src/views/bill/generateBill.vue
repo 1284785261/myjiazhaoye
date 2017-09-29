@@ -32,7 +32,6 @@
             <tr class="tr1">
               <th class="th1">房间</th>
               <th class="th1">水电费情况</th>
-              <th class="th1">服务费/元</th>
               <th class="th1">合计应收/元</th>
               <th class="th1">租客/联系人</th>
               <th class="th1">联系电话</th>
@@ -44,32 +43,34 @@
                 <table class="table2">
                   <tr class="tr2">
                     <template v-if="!item.isEdit">
-                      <td class="td2">读数 :<span>{{item.waterData}}</span></td>
-                      <td class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
+                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">读数 :<span>{{item.waterData}}</span></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">用水量 :<span>{{item.waterSize}}m³</span></td>
                       <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2">读数 :<input type="text" v-model="item.waterData"/></td>
-                      <td class="td2">用水量 :<input type="text" v-model="item.waterSize"/>m³</td>
+                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<input type="text" v-model="item.count"/></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">读数 :<input type="text" v-model="item.waterData"/></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">用水量 :<input type="text" v-model="item.waterSize"/>m³</td>
                       <td class="td2">水费 :<input type="text" v-model="item.waterCost"/>元</td>
                     </template>
                   </tr>
                   <tr class="tr2">
                     <template v-if="!item.isEdit">
-                      <td class="td2">读数 :<span>{{item.energyData}}</span></td>
-                      <td class="td2">用电量 :<span>{{item.energySize}}度</span></td>
+                      <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">读数 :<span>{{item.energyData}}</span></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">用电量 :<span>{{item.energySize}}度</span></td>
                       <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2">读数 :<input type="text" v-model="item.energyData"></td>
-                      <td class="td2">用电量 :<input type="text"  v-model="item.energySize"/>度</td>
+                      <td class="td2" v-if="item.electricChargeModel == 2">读数 :<input type="text" v-model="item.count"></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">读数 :<input type="text" v-model="item.energyData"></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">用电量 :<input type="text"  v-model="item.energySize"/>度</td>
                       <td class="td2">电费 :<input type="text"  v-model="item.energyCost"/>元</td>
                     </template>
                   </tr>
                 </table>
               </td>
-              <td class="td1"  v-if="!item.isEdit">{{item.serviceCost}}</td>
-              <td class="td1" v-else><input type="text" style="height: 30px;width:70px;" v-model="item.serviceCost"></td>
               <td class="td1">{{item.totalMoney}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
@@ -91,7 +92,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment,editUsedWaterEnergy} from '../api.js';
 
 
   export default {
@@ -111,6 +112,7 @@
         billPaymentList:[],
         billTotalNum:0,
         billCurrent:1,
+        activePage:1
       }
     },
     mounted(){
@@ -144,7 +146,7 @@
       getbillPayment(data){
         var that = this;
         this.$http.get(unsentWaterEnergyBillList,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.billPaymentList = pageBean.page;
@@ -165,6 +167,9 @@
           communityId : this.billCommunity,
           pageNum:page || 1
         }
+        if(page){
+          this.activePage = page;
+        }
         this.getbillPayment(params);
       },
       editBill(index,isEdit){
@@ -177,23 +182,31 @@
           var obj = this.billPaymentList[index];
           console.log(obj)
           var params = {
-            roomId:obj.roomId,
-            waterData:obj.waterData,
-            waterSize:obj.waterSize,
-            energyData:obj.energyData,
-            energySize:obj.energySize,
-            serviceCost:obj.serviceCost
+            waterElectricityBill:obj.waterElectricityBill,
+            energyCost:obj.energyCost,
+            waterCost:obj.waterCost,
+            totalMoney:parseInt(obj.energyCost)+parseInt(obj.waterCost)
           };
-//          this.saveBillPayment(params);
+          if(obj.waterChargeModel == 1){
+            params.waterData=obj.waterData;
+            params.waterSize=obj.waterSize;
+          }
+          if(obj.electricChargeModel == 1){
+            params.energyData=obj.energyData;
+            params.energySize=obj.energySize;
+          }
+          if(obj.electricChargeModel == 2 || obj.waterChargeModel == 2){
+            params.count = obj.count;
+          }
+          this.saveBillPayment(params);
         }
 
       },
       saveBillPayment(params){
         var that = this;
-        this.$http.post(saveBillPayment,qs.stringify(params))
-          .then(function(res){debugger
-            if(res.status == 200 && res.data.code == 10000){
-            }
+        this.$http.post(editUsedWaterEnergy,qs.stringify(params))
+          .then(function(res){
+            that.pageSearch(that.activePage);
           })
       },
     },

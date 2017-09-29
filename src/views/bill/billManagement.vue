@@ -64,21 +64,12 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:room.billId,type:0}}"> 账单详情</router-link>
-                    <router-link to="/bill/billDetail"> 查看合同</router-link>
+                    <!--<router-link to="/bill/billDetail"> 查看合同</router-link>-->
                   </td>
                 </tr>
               </table>
               <Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
             </el-tab-pane>
-
-
-
-
-
-
-
-
-
 
 
             <el-tab-pane label="办公室租金账单" name="second">
@@ -131,7 +122,7 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:item.billId,type:1}}"> 账单详情</router-link>
-                    <router-link to="/bill/billDetail"> 查看合同</router-link>
+                    <!--<router-link to="/bill/billDetail"> 查看合同</router-link>-->
                   </td>
                 </tr>
               </table>

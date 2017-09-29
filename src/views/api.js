@@ -336,3 +336,4 @@ export const refundMoneyToUser =host3+'/cxkj-room/apis/pcManager/cxkjcommunityre
 
 
 export const unsentWaterEnergyBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetUnsentWaterEnergyBillList300101';//未发送给客户的水电账单列表
+export const editUsedWaterEnergy =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjEditUsedWaterEnergy300094';//编辑水电账单

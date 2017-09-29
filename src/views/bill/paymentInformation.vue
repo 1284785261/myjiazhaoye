@@ -44,7 +44,7 @@
             <tr class="tr1">
               <th class="th1">房间</th>
               <th class="th1">水电费情况</th>
-              <th class="th1">服务费/元</th>
+              <!--<th class="th1">服务费/元</th>-->
               <th class="th1">合计应收/元</th>
               <th class="th1">租客/联系人</th>
               <th class="th1">联系电话</th>
@@ -66,7 +66,7 @@
                   </tr>
                 </table>
               </td>
-              <td class="td1">{{item.serviceCost}}</td>
+              <!--<td class="td1">{{item.serviceCost}}</td>-->
               <td class="td1">{{item.totalMoney}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
               <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>

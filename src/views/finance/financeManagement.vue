@@ -396,13 +396,14 @@
           statusName:"审核不通过"
         }],
         refundHandleList:[],
-        refundHandCommunity:-1,//物业当前选中社区
-        refundHandTotalNum:0,//物业合同总条数
-        refundHandCurrent:1,//物业合同当前页
-        refundHandStartDate:"",//物业签约开始时间
-        refundHandEndDate:"",//物业签约结束时间
-        refundHandSearchKey:"",//物业搜索关键字
+        refundHandCommunity:-1,
+        refundHandTotalNum:0,
+        refundHandCurrent:1,
+        refundHandStartDate:"",
+        refundHandEndDate:"",
+        refundHandSearchKey:"",
         refundStatus:-1,
+        activeBillPage:1,
       }
     },
     mounted(){
@@ -444,6 +445,9 @@
         var data = {
           pageNum:page || 1
         }
+        if(page){
+            this.activeBillPage = page;
+        }
         if(this.billInvoiSearchKey){
           data.keyWord = this.billInvoiSearchKey;
         }
@@ -473,7 +477,7 @@
         var that = this;
         this.$http.post(sendbillInvoice,qs.stringify({invoiceId:this.ativeInvoiceId})).then(function(res){
           if(res.data.code == 10000){
-            that.getBillInvoice({pagaNum:1});
+            that.getBillInvoice({pagaNum:that.activeBillPage});
             that.openBillMoal =false;
           }
         })
@@ -503,7 +507,7 @@
         }
         this.$http.post(invoiceDetailSend,qs.stringify(data)).then(function(res){debugger
           if(res.data.code == 10000){
-            that.getBillInvoice({pagaNum:1});
+            that.getBillInvoice({pagaNum:that.activeBillPage});
             that.sendBillModal = false;
           }
         })

@@ -432,7 +432,7 @@
               if(this.cxkjCommunityListRoom[0].electricType == 2 &&　key == "roomElectric"){//如果按人计算，电表可以为空
                   continue;
               }
-              if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
+              if(this.cxkjCommunityListRoom[0].waterType == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
                 continue;
               }
               that.warningModal = true;
@@ -440,7 +440,7 @@
               return;
             }
           }
-        }debugger
+        }
         for(var i =0;i<data.length;i++){
           if(data[i].roomFurniture){
             var roomFurniture = data[i].roomFurniture.trim();

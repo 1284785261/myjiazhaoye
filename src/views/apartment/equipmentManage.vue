@@ -65,307 +65,6 @@
                     </tr>
                   </table>
                 </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="equipment1">
-                  <div class="house_xq">
-                    <img src="../../../static/images/temp/logo2_03.png">
-                    <a href="#" class="ceng">1层</a>
-                  </div>
-                  <table>
-                    <thead>
-                    <td>房间</td>
-                    <td>门锁类型</td>
-                    <td>门锁序列号</td>
-                    <td>网关名称</td>
-                    <td>密码</td>
-                    <td>供应商</td>
-                    <td>添加时间</td>
-                    <td>门锁状态</td>
-                    <td width="15%">操作</td>
-                    </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
-                      <td>
-                        <div>
-                          <a @click="instas3()">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-
 
 					    </el-tab-pane>
 					    <el-tab-pane label="电表" name="second">
@@ -450,9 +149,9 @@
                       <td>在线</td>
                       <td>
                         <div>
-                          <a>修改</a>
+                          <a @click="updateWater()">修改</a>
                           <a @click="closeshui1()">关闭</a>
-                          <a>抄表记录</a>
+                          <router-link to="/apartment/meterReading">抄表记录</router-link>
                         </div>
                       </td>
                     </tr>
@@ -526,7 +225,7 @@
 
 
     <!--添加门锁-->
-		<div class="instas4" v-show="false">
+		<div class="instas4" v-show="isHide3">
 			<i class="el-icon-circle-close" @click="instas4()"></i>
 			<p>添加门锁</p>
 			<table>
@@ -794,8 +493,8 @@
       <a @click="adddian()" class="tjss">确定</a>
     </div>
     <!--修改水表配置-->
-    <div class="instas8 instas4" v-show="false">
-      <i class="el-icon-circle-close" @click="adddian2()"></i>
+    <div class="instas8 instas4" v-show="isHide13">
+      <i class="el-icon-circle-close" @click="closeUpdateWater()"></i>
       <p>修改水表配置</p>
       <table>
         <tr>
@@ -822,7 +521,7 @@
           </td>
         </tr>
       </table>
-      <a @click="adddian2()" class="tjss">确定</a>
+      <a @click="closeUpdateWater()" class="tjss">确定</a>
     </div>
 
 
@@ -964,6 +663,7 @@
     			isHide10:false,
           isHide11:false,
           isHide12:false,
+          isHide13:false,
     			activeName2: 'first',
           value5:"",
     			options: [{
@@ -1045,6 +745,14 @@
         instas16(){
           this.isHid = !this.isHid;
           this.isHide12 = !this.isHide12;
+        },
+        updateWater(){
+          this.isHid = !this.isHid;
+          this.isHide13 = !this.isHide13;
+        },
+        closeUpdateWater(){
+          this.isHid = !this.isHid;
+          this.isHide13 = !this.isHide13;
         },
     		handleClick(tab, event) {
 		        console.log(tab, event);
