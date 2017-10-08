@@ -8,7 +8,7 @@
 					<span>您现在的位置： </span>
 					<router-link class="active" to="/apartment/workbench">系统管理</router-link>
 				</div>
-				<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+				<el-tabs v-model="activeName2" type="card">
 					<el-tab-pane label="员工管理" name="first">
 						<div class="systems">
 							<div>
@@ -111,16 +111,17 @@
 									<td>员工数</td>
 									<td>操作</td>
 								</thead>
-								<tr>
-									<td>到家哦大家都</td>
-									<td>到家哦大家都</td>
-									<td>到家哦大家都</td>
-									<td>到家哦大家都</td>
-									<td>到家哦大家都</td>
-									<td><a>委派人员</a></td>
+								<tr v-for="item in users">
+									<td>{{item.communityName}}</td>
+									<td v-if="item.province == item.city">{{item.province}}{{item.district}}{{item.address}}</td>
+									<td v-else>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
+									<td>{{item.userName}}</td>
+									<td>{{item.userPhone}}</td>
+									<td>{{item.employeeNum}}</td>
+									<td><router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId}}">委派人员</router-link></td>
 								</tr>
 							</table>
-							<el-pagination @current-change="handleCurrentChange" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
+							<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum3>
 							</el-pagination>
 						</div>
 					</el-tab-pane>
@@ -222,7 +223,7 @@
 									</td>
 								</tr>
 							</table>
-							<el-pagination @current-change="handleCurrentChange" :current-page="currentPage1" :page-size="3" layout=" prev, pager, next, total,jumper" :total='20'>
+							<el-pagination @current-change="handleCurrentChange" :current-page="currentPage1" :page-size=pageSize3 layout=" prev, pager, next, total,jumper" :total='20'>
 							</el-pagination>
 						</div>
 					</el-tab-pane>
@@ -349,6 +350,7 @@
 	import axios from 'axios';
 	import { hostDepartment, hostaddDepart, hostEditDepar, hostOffDepartment, hostDeleteDepart, hostDepartments, hostSuperiorDepart } from '../api.js'; //部门接口
 	import { hostManagement, hostAllPosition, hostEmployee, hostoffEmployee, hostDeleteEmployee, hostEditEmployee } from '../api.js'; //员工接口
+	import { hostUserRelation } from '../api.js';     //社区人员配备
 	import qs from 'qs';
 
 	export default {
@@ -377,10 +379,14 @@
 				pageSize: 10,
 				pageNum2: '1',
 				pageSize2: 10,
+				pageNum3: '1',
+				pageSize3: 10,
 				data: null, //部门的数据展示
 				data2: null, //员工的数据展示
+				users:null,   //社区人员配备
 				totalNum: 0,
 				totalNum2: 0,
+				totalNum3: 0,
 				isHide: false,
 				isShow: false,
 				isShow1: false,
@@ -419,6 +425,7 @@
 		mounted() {
 			this.datat();
 			this.datas();
+			this.Users();
 		},
 		filters: {
 			Status(val) {
@@ -440,9 +447,6 @@
 			}
 		},
 		methods: {
-			handleClick(tab, event) {
-				console.log(tab, event);
-			},
 			handleCheckAll() { //部门全选
 				this.single = !this.single;
 				if(this.single == true) {
@@ -593,13 +597,37 @@
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;
+			this.datas();
 		},
 		handleCurrentChange1(val) {
 			this.pageNum2 = val;
+			this.datat();
+		},
+		handleCurrentChange2(val){
+			this.pageNum3 = val;
+			this.Users();
 		},
 		details() {
 			this.isHide = true;
 			this.isShow2 = true;
+		},
+		Users(){
+			let pageNum = this.pageNum3 | 1; //获取社区人员配备的列表信息
+			let pageSize = this.pageSize3 | 10;
+			axios.post(hostUserRelation,
+				qs.stringify({
+					pageNum: pageNum,
+					pageSize: pageSize
+				})
+			).then((response) => {
+				console.log(response);
+				if(response.status == 200 && response.data.code == 10000) {
+					this.users = response.data.entity.page;
+					this.totalNum3 = response.data.entity.totalNum;
+				}
+			}).catch((error) => {
+				console.log(error);
+			})
 		},
 		datat() {
 			let pageNum = this.pageNum2 | 1; //获取员工的列表信息
@@ -610,7 +638,7 @@
 					pageSize: pageSize
 				})
 			).then((response) => {
-				console.log(response);
+				//console.log(response);
 				if(response.status == 200 && response.data.code == 10000) {
 					this.data2 = response.data.entity.page;
 					this.totalNum2 = response.data.entity.totalNum;
@@ -623,7 +651,7 @@
 			})
 			
 			axios.post(hostDepartments).then((response) => {
-				console.log(response);
+				//console.log(response);
 				if(response.status == 200 && response.data.code == 10000) {
 					this.options = response.data.entity;
 				}
@@ -631,7 +659,7 @@
 				console.log(error);
 			})
 			axios.post(hostAllPosition).then((response) => {
-				console.log(response);
+				//console.log(response);
 				if(response.status == 200 && response.data.code == 10000) {
 					this.options1 = response.data.entity;
 				}

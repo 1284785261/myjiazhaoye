@@ -204,6 +204,15 @@ const DeleteEmployee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjComm
 
 //员工管理-编辑员工
 const EditEmployee = '/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityEditEmployeeManagement200128'
+
+//社区人员配备
+const UserRelation = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommunityUserRelation200129'
+
+//社区人员配备-员工信息
+const EmpRelation = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommunityEmployeeRelation200130'
+
+//社区人员配备-配置信息
+const MaintainRe = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommunityMaintainRelation200131'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -271,6 +280,9 @@ export const hostEmployee = host3 + Employee;
 export const hostoffEmployee = host3 + offEmployee;
 export const hostDeleteEmployee = host3 + DeleteEmployee;
 export const hostEditEmployee = host3 + EditEmployee;
+export const hostUserRelation = host3 + UserRelation;
+export const hostEmpRelation = host3 + EmpRelation;
+export const hostMaintainRe = host3 + MaintainRe;
 export const host = host3;
 //export default {
 //hosts:function(){

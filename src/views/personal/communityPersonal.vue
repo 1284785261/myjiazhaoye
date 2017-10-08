@@ -94,8 +94,10 @@
                 visible: false,
                 uploadList: [],
                 host3:'',
+                filelist:[],
                 imageUrl: '',
-                loading:false
+                loading:false,
+                param:{}
     		}
     	},
     	mounted(){
@@ -142,7 +144,6 @@
     			this.$http.post(vm.host3,vm.param).then(res =>{
     				vm.loading = true
     				let imgUser = res.data.result.virtualPath
-    				debugger
     				vm.userImg(imgUser)
     			}).catch(err=>{
     				console.log(err)
@@ -153,7 +154,6 @@
     			this.$http.post(hostportrait,qs.stringify({
     				headPic:imgUser
     			})).then(res => {
-    				debugger
     				if(res.status == 200 && res.data.code == 10000){
     					vm.loading = false
     					alert('上传头像成功');

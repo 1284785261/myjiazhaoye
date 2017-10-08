@@ -356,6 +356,11 @@ export default new Router({
       name:'corporateDetail',
       component:resolve =>
         require(['../views/corporate/corporateDetail.vue'],resolve)
+    },{
+      path:'/system/staffdeploy',		//系统管理-人员配备
+      name:'staffdeploy',
+      component:resolve =>
+        require(['../views/system/staffdeploy.vue'],resolve)
     },
 
 
