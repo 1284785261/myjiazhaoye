@@ -135,8 +135,10 @@
 }
 #staffdeploy ul{
 	width: 880px;
-	height: 162px;
+	min-height: 97px;
 	margin-left: 140px;
+	overflow: hidden;
+	padding-bottom: 60px;
 }
 #staffdeploy ul li{
 	float: left;
@@ -144,6 +146,9 @@
 	margin-right: 66px;
 	text-align: right;
 }
+.clear{ 
+	clear:both;
+} 
 #staffdeploy ul li span{
 	color: #000;
 	font-weight: bold;

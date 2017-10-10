@@ -213,6 +213,42 @@ const EmpRelation = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommuni
 
 //社区人员配备-配置信息
 const MaintainRe = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommunityMaintainRelation200131'
+
+//社区人员配备-人员配备
+const AddUserRelation = '/cxkj-room/apis/pcManager/cxkjcommunityRelation/CxkjCommunityAddUserRelation200132'
+
+//职位管理数据
+const PositionManage = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityPositionManagement200117'
+
+//职位管理-权限分类
+const PowerPosit = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityPowerPosition200120'
+
+//职位管理-职位分类
+const PositionMan = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityAllPositionManagement200123'
+
+//职位管理-增加职位
+const AddPosition = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityAddPositionManagement200119'
+
+//职位管理-编辑职位
+const EditPosition = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityEditPositionManagement200122'
+
+//职位管理-关闭开启职位
+const OffPosition = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityTurnOffPositionManagement200118'
+
+//职位管理-删除职位
+const DeletePosition = '/cxkj-room/apis/pcManager/cxkjcommunityPosition/CxkjCommunityDeletePositionManagement200121'
+
+//权限管理-权限数据
+const CommunityMan = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityManagement200111'
+
+//权限管理-新增数据
+const AddCommunityMan = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityAddManagement200112'
+
+//权限管理-删除数据
+const delCommunityMan = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityDeleteManagement200114'
+
+//权限管理-开放关闭数据
+const OffManagement = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityTurnOffManagement200113'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -283,6 +319,18 @@ export const hostEditEmployee = host3 + EditEmployee;
 export const hostUserRelation = host3 + UserRelation;
 export const hostEmpRelation = host3 + EmpRelation;
 export const hostMaintainRe = host3 + MaintainRe;
+export const hostAddUserRelation = host3 + AddUserRelation;
+export const hostPositionManage = host3 + PositionManage;
+export const hostPowerPosit = host3 + PowerPosit;
+export const hostPositionMan = host3 + PositionMan;
+export const hostAddPosition = host3 + AddPosition;
+export const hostEditPosition = host3 + EditPosition;
+export const hostOffPosition = host3 + OffPosition;
+export const hostDeletePosition = host3 + DeletePosition;
+export const hostCommunityMan = host3 + CommunityMan;
+export const hostAddCommunityMan = host3 + AddCommunityMan;
+export const hostdelCommunityMan = host3 + delCommunityMan;
+export const hostOffManagement = host3 + OffManagement;
 export const host = host3;
 //export default {
 //hosts:function(){

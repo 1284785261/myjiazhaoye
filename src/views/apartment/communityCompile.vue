@@ -396,6 +396,9 @@
 				}
 				
 			},
+			closeWarningModal() {
+				this.warningModal = false;
+			},
 			isActive(value) { //获取市的数据
 				this.areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
 				this.httpPost(this.areaId, 1);

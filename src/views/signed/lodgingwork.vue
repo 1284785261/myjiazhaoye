@@ -189,126 +189,20 @@
 								<td class="boxs">
 									<div class="ivu-main-img">
 										<div class="item-img">
-											<div class="uplodas">
-												<div>
+											<div class="uplodas" v-for="(item,index) in labelList" >
+												<div  v-if="!imgList[index]" @click="indexs = index">
 													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
 													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传法人身份证</span>
+													<span class="titew">上传{{item}}</span>
 												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传委托人身份证</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传委托书</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传服务协议</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile5" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传服务守则</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile6" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传工商证明</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile7" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传免责声明</span>
-												</div>
-											</div>
-											<div class="uplodas">
-												<div>
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile8" />
-													<Icon type="camera" class="icons"></Icon>
-													<span class="titew">上传合同</span>
-												</div>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-													</div>
-												</template>
-											</div>
-
-											<div class="demo-upload-list" v-for="item in uploadList2">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove2(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList3">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList4">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList5">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove5(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList6">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove6(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList7">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove7(item)"></Icon>
-													</div>
-												</template>
-											</div>
-											<div class="demo-upload-list" v-for="item in uploadList8">
-												<template>
-													<img :src="item">
-													<div class="demo-upload-list-cover">
-														<Icon type="ios-trash-outline" @click.native="handleRemove8(item)"></Icon>
-													</div>
-												</template>
+                                                <div class="demo-upload-list" v-if="imgList[index]" v-loading.body="loadList[index]">
+                                                    <template >
+                                                        <img :src="imgList[index]">
+                                                        <div class="demo-upload-list-cover">
+                                                            <Icon type="ios-trash-outline" @click.native="handleRemove(index)"></Icon>
+                                                        </div>
+                                                    </template>
+                                                </div>
 											</div>
 										</div>
 									</div>
@@ -362,7 +256,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostOfficeList, hostSignOffice, hostRoomUser, hostWay, hostController } from '../api.js';
+	import { hostOfficeList, hostSignOffice, hostRoomUser, hostWay, hostController,host,imgPath } from '../api.js';
 
 	export default {
 		components: {
@@ -485,11 +379,25 @@
 				companyInfo: '', //公司信息
 				companylegalPerson: '',
 				dialogImageUrl: '',
-				dialogVisible: false
-
+				dialogVisible: false,
+                labelList:['法人身份证','委托人身份证','委托书','服务协议','服务守则','工商证明','免责申明','合同'],
+                imgShow:[],
+                loadList:[],
+              indexs:'',
+              host3:'',
+              imgList:[],
+              imgPath:'',
+              fileList:[],
 			}
 		},
 		mounted() {
+		    for(let k in this.labelList){
+//		      this.$set(this.imgShow,k,false)
+		      this.$set(this.loadList,k,false)
+		      this.$set(this.imgList,k,0)
+            }
+            this.imgPath = imgPath
+            this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
 			this.datas();
@@ -736,148 +644,32 @@
 				}
 			},
 			handleRemove(item) {
-				let fileIndex = this.uploadList.findIndex(items => items == item);
-				this.uploadList.splice(fileIndex, 1);
-				this.filelist1.splice(fileIndex, 1);
-			},
-			handleRemove2(item) {
-				let fileIndex = this.uploadList2.findIndex(items => items == item);
-				this.uploadList2.splice(fileIndex, 1);
-				this.filelist2.splice(fileIndex, 1);
-			},
-			handleRemove3(item) {
-				let fileIndex = this.uploadList3.findIndex(items => items == item);
-				this.uploadList3.splice(fileIndex, 1);
-				this.filelist3.splice(fileIndex, 1);
-			},
-			handleRemove4(item) {
-				let fileIndex = this.uploadList4.findIndex(items => items == item);
-				this.uploadList4.splice(fileIndex, 1);
-				this.filelist4.splice(fileIndex, 1);
-			},
-			handleRemove5(item) {
-				let fileIndex = this.uploadList5.findIndex(items => items == item);
-				this.uploadList5.splice(fileIndex, 1);
-				this.filelist5.splice(fileIndex, 1);
-			},
-			handleRemove6(item) {
-				let fileIndex = this.uploadList6.findIndex(items => items == item);
-				this.uploadList6.splice(fileIndex, 1);
-				this.filelist6.splice(fileIndex, 1);
-			},
-			handleRemove7(item) {
-				let fileIndex = this.uploadList7.findIndex(items => items == item);
-				this.uploadList7.splice(fileIndex, 1);
-				this.filelist7.splice(fileIndex, 1);
-			},
-			handleRemove8(item) {
-				let fileIndex = this.uploadList8.findIndex(items => items == item);
-				this.uploadList8.splice(fileIndex, 1);
-				this.filelist8.splice(fileIndex, 1);
+              vm.$set(vm.imgList,vm.indexs,0)
+              vm.fileList.splice(vm.indexs, 1);
 			},
 			uploadfile(e) {
 				let vm = this;
 				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList.length < 1) {
-					this.filelist1.push(file);
-					vm.uploadList.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile2(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList2.length < 1) {
-					this.filelist2.push(file);
-					vm.uploadList2.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile3(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList3.length < 1) {
-					this.filelist3.push(file);
-					vm.uploadList3.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile4(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList4.length < 1) {
-					this.filelist4.push(file);
-					vm.uploadList4.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile5(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList5.length < 1) {
-					this.filelist5.push(file);
-					vm.uploadList5.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile6(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList6.length < 1) {
-					this.filelist6.push(file);
-					vm.uploadList6.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile7(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList7.length < 1) {
-					this.filelist7.push(file);
-					vm.uploadList7.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
-			},
-			uploadfile8(e) {
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-
-				if(vm.uploadList8.length < 1) {
-					this.filelist8.push(file);
-					vm.uploadList8.push(windowURL.createObjectURL(e.target.files[0]));
-				} else {
-					alert('最多可以上传1张图片');
-				}
+				let office ='office'
+				if(!file){
+				  return
+                }
+              vm.$set(vm.loadList,vm.indexs,true)
+              let param = new FormData();
+              param.append('file', file)
+              param.append('module', office)
+              vm.$http.post(vm.host3, param)
+                .then(res => {
+                  if (parseInt(res.data.code) == 10000) {
+                    vm.$set(vm.imgList,vm.indexs,vm.imgPath+res.data.result.virtualPath)
+                    setTimeout(function(){
+                      vm.$set(vm.loadList,vm.indexs,false)
+                    },500)
+                    vm.fileList.push({'filePath':'res.data.result.virtualPath','fileTitle':vm.labelList[vm.indexs]})
+                  }
+                }).catch(err => {
+                alert(err)
+              })
 			},
 			ones(val) {
 				//console.log(val);
@@ -916,7 +708,6 @@
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != ''){
 						arr.push({"costName":this.tableRepairs[i].inputValue,"costAmount":this.tableRepairs[i].date});
 					}
-					//console.log(arr);
 				}
 				this.otherCostJson = JSON.stringify(arr);
 				
@@ -931,61 +722,15 @@
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				if(this.filelist1.length){
-					for(let i = 0;i<this.filelist1.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist1[i]);
-						this.param.append('credentialsTitle','法人身份证');
-					}
-				}
-				if(this.filelist2.length){
-					for(let i = 0;i<this.filelist2.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist2[i]);
-						this.param.append('credentialsTitle','委托人身份证');
-					}
-				}
-				if(this.filelist3.length){
-					for(let i = 0;i<this.filelist3.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist3[i]);
-						this.param.append('credentialsTitle','委托书');
-					}
-				}
-				if(this.filelist4.length){
-					for(let i = 0;i<this.filelist4.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist4[i]);
-						this.param.append('credentialsTitle','服务协议');
-					}
-				}
-				if(this.filelist5.length){
-					for(let i = 0;i<this.filelist5.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist5[i]);
-						this.param.append('credentialsTitle','服务守则');
-					}
-				}
-				if(this.filelist6.length){
-					for(let i = 0;i<this.filelist6.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist6[i]);
-						this.param.append('credentialsTitle','工商证明');
-					}
-				}
-				if(this.filelist7.length){
-					for(let i = 0;i<this.filelist7.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist7[i]);
-						this.param.append('credentialsTitle','免责声明');
-					}
-				}
-				if(this.filelist8.length){
-					for(let i = 0;i<this.filelist8.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist8[i]);
-						this.param.append('credentialsTitle','合同');
-					}
-				}
-				//furniture
+				if(this.fileList.length!=8){
+                  this.successModal = true;
+                  this.successMessage = '证明未上传完整';
+                  return
+                }
+                this.param.append('credentialsImages',JSON.stringify(vm.fileList));
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				
-//				console.log(this.credentialsImagesArray);
-//				console.log(this.credentialsTitle);
 				this.param.append('communityId',this.communityId);
 				this.param.append('contractNumber',this.contract);
 				this.param.append('buildingId',this.housetderta.roomId);
@@ -1020,8 +765,6 @@
 				}
 				this.param.append('companyInfo',this.companyInfo);
 				this.param.append('companylegalPerson',this.companylegalPerson);
-				console.log(this.param);
-
 		        axios.post(hostSignOffice,this.param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);

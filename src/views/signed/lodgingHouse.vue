@@ -240,36 +240,39 @@
 										<div class="ivu-main-img">
 											<div class="item-img">
 												<div class="uplodas">
-													<div>
+													<div  v-if="!uploadList[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传身份证照片</span>
 													</div>
-												</div>
+                                                    <div class="demo-upload-list" v-if="uploadList[0]"  v-loading.body="loadList[0]">
+                                                        <template>
+
+                                                            <img :src="imgPath+uploadList[0]" v-if="uploadList[0]">
+                                                            <div class="demo-upload-list-cover">
+                                                                <Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
 												<div class="uplodas">
-													<div>
+													<div v-if="!uploadList2[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传合同照片/扫描件</span>
 													</div>
+                                                    <div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[1]">
+                                                        <template>
+                                                            <img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
+                                                            <div class="demo-upload-list-cover">
+                                                                <Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
+                                                            </div>
+                                                        </template>
+                                                    </div>
 												</div>
-												<div class="demo-upload-list" v-for="item in uploadList">
-											        <template>
-											            <img :src="item">
-											            <div class="demo-upload-list-cover">
-											                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-											            </div>
-											        </template>
-											    </div> 
+
 											    
-												<div class="demo-upload-list" v-for="item in uploadList2">
-											        <template>
-											            <img :src="item">
-											            <div class="demo-upload-list-cover">
-											                <Icon type="ios-trash-outline" @click.native="handleRemove2(item)"></Icon>
-											            </div>
-											        </template>
-											    </div>
+
 											</div>
 										</div>
 									</td>
@@ -531,51 +534,50 @@
 										<div class="ivu-main-img">
 											<div class="item-img">
 												<div class="uplodas">
-													<div>
+													<div v-if="!uploadList1[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传经办人身份证</span>
 													</div>
-												</div>
+                                                    <div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
+                                                        <template>
+                                                            <img :src="imgPath+uploadList[0]">
+                                                            <div class="demo-upload-list-cover">
+                                                                <Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
 												<div class="uplodas">
-													<div>
+													<div v-if="!uploadList2[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传委托书</span>
 													</div>
+                                                    <div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[1]">
+                                                        <template>
+                                                            <img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
+                                                            <div class="demo-upload-list-cover">
+                                                                <Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
+                                                            </div>
+                                                        </template>
+                                                    </div>
 												</div>
 												<div class="uplodas">
-													<div>
+													<div v-if="!uploadList3[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传合同</span>
 													</div>
+                                                    <div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[2]">
+                                                        <template>
+                                                            <img :src="imgPath+uploadList3[0]" v-if="uploadList3[0]">
+                                                            <div class="demo-upload-list-cover">
+                                                                <Icon type="ios-trash-outline" @click.native="handleRemove3()"></Icon>
+                                                            </div>
+                                                        </template>
+                                                    </div>
 												</div>
-												<div class="demo-upload-list" v-for="item in uploadList">
-											        <template>
-											            <img :src="item">
-											            <div class="demo-upload-list-cover">
-											                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-											            </div>
-											        </template>
-											    </div> 
-											    
-												<div class="demo-upload-list" v-for="item in uploadList2">
-											        <template>
-											            <img :src="item">
-											            <div class="demo-upload-list-cover">
-											                <Icon type="ios-trash-outline" @click.native="handleRemove2(item)"></Icon>
-											            </div>
-											        </template>
-											    </div>
-											    <div class="demo-upload-list" v-for="item in uploadList3">
-											        <template>
-											            <img :src="item">
-											            <div class="demo-upload-list-cover">
-											                <Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
-											            </div>
-											        </template>
-											    </div>
 											</div>
 										</div>
 									</td>
@@ -643,7 +645,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostController,hostRoomList,hostRoomUser,hostWay,imgPath,hostSigController,hostSignCompany } from '../api.js';
+	import { hostController,hostRoomList,hostRoomUser,hostWay,imgPath,hostSigController,hostSignCompany ,host} from '../api.js';
 	
 	export default {
 		components: {
@@ -727,9 +729,9 @@
 				contract:'', //合同
 				serve:null,  //服务费
 				discount:null,   //折扣
-				uploadList: [],
-				uploadList2:[],
-				uploadList3:[],
+				uploadList: [0],
+				uploadList2:[0],
+				uploadList3:[0],
 				finished:false,
 				imgName:'',
 				filelist1:[],
@@ -759,14 +761,22 @@
 				options4:[],
 				furniture:'',
 				companyInfo:'',    //公司信息
-				companylegalPerson:''
+				companylegalPerson:'',
+                host3:'',
+              imgPath:'',
+              loadList:[]
 			}
 		},
 		mounted(){
+		  for(let i =0; i<3;i++){
+            this.$set(this.loadList,i,false)
+          }
+		  this.imgPath =imgPath
+          this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
 			this.datas();
-			this.param = new FormData();
+
 		},
 		computed:{
 			firstmoney:function(){
@@ -1073,62 +1083,108 @@
 					}
 				}
 			},
-            handleRemove(item) {
-               let fileIndex = this.uploadList.findIndex(items => items == item);
-               this.uploadList.splice(fileIndex,1);
-               this.filelist1.splice(fileIndex,1);
+            handleRemove() {
+              this.uploadList = []
+              this.uploadList[0] = 0
             },
-            handleRemove2(item) {
-               let fileIndex = this.uploadList2.findIndex(items => items == item);
-               this.uploadList2.splice(fileIndex,1);
-               this.filelist2.splice(fileIndex,1);
+            handleRemove2() {
+              this.uploadList2 = []
+              this.uploadList2[0] = 0
             },
-            handleRemove3(item) {
-               let fileIndex = this.uploadList3.findIndex(items => items == item);
-               this.uploadList3.splice(fileIndex,1);
-               this.filelist3.splice(fileIndex,1);
+            handleRemove3() {
+              this.uploadList3 = []
+              this.uploadList3[0] = 0
             },
 			uploadfile(e){
 				let vm = this;
 				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-				
-				if(vm.uploadList.length<1){
-					this.filelist1.push(file);
-					vm.uploadList.push(windowURL.createObjectURL(e.target.files[0]));
-				}
-				else{
-					alert('最多可以上传1张图片');
-				}
+				if(!file){
+				  return
+                }
+               vm.$set(vm.loadList,0,true)
+              let param = new FormData();
+              param.append('file', file)
+              param.append('module', 'user')
+              vm.$http.post(vm.host3, param)
+                .then(res => {
+                  if (parseInt(res.data.code) == 10000) {
+                    setTimeout(function(){
+                      vm.$set(vm.loadList,0,false)
+                    },500)
+                    if(vm.uploadList.length<2){
+//                      this.filelist1.push(file);
+                      vm.uploadList[0]=res.data.result.virtualPath;
+                      vm.uploadList.push('身份证');
+                    }
+                    else{
+                      alert('最多可以上传1张图片');
+                      return
+                    }
+                  }
+                }).catch(err => {
+                alert(err)
+              })
 			},
 			uploadfile2(e){
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-				
-				if(vm.uploadList2.length<1){
-					this.filelist2.push(file);
-					vm.uploadList2.push(windowURL.createObjectURL(e.target.files[0]));
-				}
-				else{
-					alert('最多可以上传1张图片');
-				}
+              let vm = this;
+              let file = e.target.files[0];
+              if(!file){
+                return
+              }
+              vm.$set(vm.loadList,1,true)
+              let param = new FormData();
+              param.append('file', file)
+              param.append('module', 'user')
+              vm.$http.post(vm.host3, param)
+                .then(res => {
+                  if (parseInt(res.data.code) == 10000) {
+                    setTimeout(function(){
+                      vm.$set(vm.loadList,1,false)
+                    },2000)
+
+                    if(vm.uploadList2.length<2){
+//                      this.filelist1.push(file);
+                      vm.uploadList2[0]=res.data.result.virtualPath;
+                      vm.uploadList2.push('合同证明');
+                    }
+                    else{
+                      alert('最多可以上传1张图片');
+                      return
+                    }
+                  }
+                }).catch(err => {
+                alert(err)
+              })
 			},
 			uploadfile3(e){
-				let vm = this;
-				let file = e.target.files[0];
-				let files = [file, file.name];
-				let windowURL = window.URL || window.webkitURL;
-				
-				if(vm.uploadList3.length<1){
-					this.filelist3.push(file);
-					vm.uploadList3.push(windowURL.createObjectURL(e.target.files[0]));
-				}
-				else{
-					alert('最多可以上传1张图片');
-				}
+              let vm = this;
+              let file = e.target.files[0];
+              if(!file){
+                return
+              }
+              vm.$set(vm.loadList,2,true)
+              let param = new FormData();
+              param.append('file', file)
+              param.append('module', 'user')
+              vm.$http.post(vm.host3, param)
+                .then(res => {
+                  if (parseInt(res.data.code) == 10000) {
+                    setTimeout(function(){
+                      vm.$set(vm.loadList,2,false)
+                    },2000)
+                    if(vm.uploadList3.length<2){
+//                      this.filelist1.push(file);
+                      vm.uploadList3[0]=res.data.result.virtualPath;
+                      vm.uploadList3.push('委托书');
+                    }
+                    else{
+                      alert('最多可以上传1张图片');
+                      return
+                    }
+                  }
+                }).catch(err => {
+                alert(err)
+              })
 			},
 			ones(val){
 				//console.log(val);
@@ -1176,81 +1232,85 @@
 						arr2.push({"materialName":this.tableRepairs2[i].inputValue,"count":this.tableRepairs2[i].date});
 					}
 				}
+
+                /**********整合照片**********/
+                let fileList = []
+              if(this.uploadList.length){
+                fileList.push({"filePath":this.uploadList[0],"fileTitle":this.uploadList[1]});
+              }
+              if(this.uploadList2.length){
+                fileList.push({"filePath":this.uploadList2[0],"fileTitle":this.uploadList2[1]});
+              }
+//              if(this.uploadList3.length){
+//                fileList.push({"filePath":this.uploadList3[0],"fileTitle":this.uploadList3[1]});
+//              }
+              /**********整合照片**********/
 				let arr3 = [];
 				this.materials = JSON.stringify(arr2);
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				if(this.filelist1.length){
-					for(let i = 0;i<this.filelist1.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist1[i]);
-						this.param.append('credentialsTitle','身份证');
-					}
-				}
-				if(this.filelist2.length){
-					for(let i = 0;i<this.filelist2.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist2[i]);
-						this.param.append('credentialsTitle','合同照片');
-					}
-				}
-				//furniture
-				this.furniture = JSON.stringify(arr3);
+                let param = new FormData();
+				this.furniture = JSON.stringify(arr3);//物资
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				console.log(this.housetderta.firstmoneys);
-				console.log(this.onemoney);
-				console.log(this.housetderta.twomoney);
-				console.log(1111111111111);
-//				console.log(this.credentialsImagesArray);
-//				console.log(this.credentialsTitle);
-				this.param.append('communityId',this.communityId);
-				this.param.append('contractNumber',this.contract);
-				this.param.append('buildingId',this.housetderta.roomId);
-				this.param.append('buildingVersion',this.housetderta.version);
-				this.param.append('housetypeId',this.housetderta.housetypeId);
-				this.param.append('customerType',1);
-				this.param.append('beginDate',this.onhrie);
-				this.param.append('endDate',this.expire);
-				this.param.append('cyclePayType',this.cyclePayType);
-				this.param.append('cyclePayMoney',this.housetderta.roomRent);
-				this.param.append('cyclePayDiscount',this.discount);
-				this.param.append('serviceCost',this.serve);
-				this.param.append('firstMoneyPayType',this.radio3);
-				this.param.append('firstPayMoney',this.housetderta.firstmoneys);
-				this.param.append('firstMoney',this.onemoney);
-				this.param.append('secondPayMoney',this.housetderta.twomoney);
-				this.param.append('secondPayDate',this.dat);
-				this.param.append('waterChargeModel',this.housetderta.waterType);
-				this.param.append('electricChargeModel',this.housetderta.electricType);
-				this.param.append('isPaper',this.radio4);
-				this.param.append('user.id',this.user.id);
-				this.param.append('user.version',this.user.version);
-				this.param.append('user.userPhone',this.user.userPhone);
-				this.param.append('user.userName',this.user.userName);
-				this.param.append('user.gender',this.user.gender);
-				this.param.append('user.certificateId',this.user.certificateId);
-				this.param.append('user.userCertificate',this.user.userCertificate);
+              console.log('参数');
+//				console.log(this.communityId+'this.communityId');
+//				console.log(this.contract+'this.contract');
+//				console.log(this.housetderta.roomId+'this.housetderta.roomId');
+//				console.log(this.housetderta.roomId+'this.housetderta.roomId');
+				console.log(JSON.stringify(fileList));
+              console.log('参数');
+				param.append('communityId',this.communityId);
+				param.append('contractNumber',this.contract);
+				param.append('buildingId',this.housetderta.roomId);
+				param.append('buildingVersion',this.housetderta.version);
+				param.append('housetypeId',this.housetderta.housetypeId);
+				param.append('customerType',1);
+				param.append('beginDate',this.onhrie);
+				param.append('endDate',this.expire);
+				param.append('cyclePayType',this.cyclePayType);
+				param.append('cyclePayMoney',this.housetderta.roomRent);
+				param.append('cyclePayDiscount',this.discount);
+				param.append('serviceCost',this.serve);
+				param.append('firstMoneyPayType',this.radio3);
+				param.append('firstPayMoney',this.housetderta.firstmoneys);
+				param.append('firstMoney',this.onemoney);
+				param.append('secondPayMoney',this.housetderta.twomoney);
+				param.append('secondPayDate',this.dat);
+				param.append('waterChargeModel',this.housetderta.waterType);
+				param.append('electricChargeModel',this.housetderta.electricType);
+				param.append('isPaper',this.radio4);
+				param.append('user.id',this.user.id);
+				param.append('user.version',this.user.version);
+				param.append('user.userPhone',this.user.userPhone);
+				param.append('user.userName',this.user.userName);
+				param.append('user.gender',this.user.gender);
+				param.append('user.certificateId',this.user.certificateId);
+				param.append('user.userCertificate',this.user.userCertificate);
+				param.append('credentialsImages',JSON.stringify(fileList));
+
 				console.log(this.user);
 				if(this.hints.company != ''){
-					this.param.append('intermediaryCompany',this.hints.company);
+					param.append('intermediaryCompany',this.hints.company);
 				}
 				if(this.hints.man != ''){
-					this.param.append('intermediaryName',this.hints.man);
+					param.append('intermediaryName',this.hints.man);
 				}
 				if(this.hints.cost != ''){
-					this.param.append('intermediaryMoney',this.hints.cost);
+					param.append('intermediaryMoney',this.hints.cost);
 				}
-				this.param.append('materials',this.materials);
-				this.param.append('furniture',this.furniture);
+				param.append('materials',this.materials);
+                param.append('furniture',this.furniture);
 				if(this.otherCostJson){
-					this.param.append('otherCostJson',this.otherCostJson);
+					param.append('otherCostJson',this.otherCostJson);
 				}
 				if(this.ieList.length){
-					this.param.append('ieList',this.ieList);
+					param.append('ieList',this.ieList);
 				}
 				console.log(this.param);
-
-		        axios.post(hostSigController,this.param).then(res =>{
+              debugger
+		        axios.post(hostSigController,param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);
 						vm.successModal = true;
@@ -1290,81 +1350,92 @@
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				if(this.filelist1.length){
-					for(let i = 0;i<this.filelist1.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist1[i]);
-						this.param.append('credentialsTitle','经办人身份证');
-					}
-				}
-				if(this.filelist2.length){
-					for(let i = 0;i<this.filelist2.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist2[i]);
-						this.param.append('credentialsTitle','委托书照片');
-					}
-				}
-				if(this.filelist3.length){
-					for(let i = 0;i<this.filelist3.length;i++){
-						this.param.append('credentialsImagesArray',this.filelist3[i]);
-						this.param.append('credentialsTitle','合同照片');
-					}
-				}
+//				if(this.filelist1.length){
+//					for(let i = 0;i<this.filelist1.length;i++){
+//						this.param.append('credentialsImagesArray',this.filelist1[i]);
+//						this.param.append('credentialsTitle','经办人身份证');
+//					}
+//				}
+//				if(this.filelist2.length){
+//					for(let i = 0;i<this.filelist2.length;i++){
+//						this.param.append('credentialsImagesArray',this.filelist2[i]);
+//						this.param.append('credentialsTitle','委托书照片');
+//					}
+//				}
+//				if(this.filelist3.length){
+//					for(let i = 0;i<this.filelist3.length;i++){
+//						this.param.append('credentialsImagesArray',this.filelist3[i]);
+//						this.param.append('credentialsTitle','合同照片');
+//					}
+//				}
+              let fileList = []
+              if(this.uploadList.length){
+                fileList.push({"filePath":this.uploadList[0],"fileTitle":this.uploadList[1]});
+              }
+              if(this.uploadList2.length){
+                fileList.push({"filePath":this.uploadList2[0],"fileTitle":this.uploadList2[1]});
+              }
+              if(this.uploadList3.length){
+                fileList.push({"filePath":this.uploadList3[0],"fileTitle":this.uploadList3[1]});
+              }
 				//furniture
+              let param = new FormData();
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				
+              param.append('credentialsImages',JSON.stringify(fileList));
 //				console.log(this.credentialsImagesArray);
 //				console.log(this.credentialsTitle);
-				this.param.append('communityId',this.communityId);
-				this.param.append('contractNumber',this.contract);
-				this.param.append('buildingId',this.housetderta.roomId);
-				this.param.append('buildingVersion',this.housetderta.version);
-				this.param.append('housetypeId',this.housetderta.housetypeId);
-				this.param.append('customerType',2);
-				this.param.append('beginDate',this.onhrie);
-				this.param.append('endDate',this.expire);
-				this.param.append('cyclePayType',this.cyclePayType);
-				this.param.append('cyclePayMoney',this.housetderta.roomRent);
-				this.param.append('cyclePayDiscount',this.discount);
-				this.param.append('serviceCost',this.serve);
-				this.param.append('firstMoneyPayType',this.radio3);
-				this.param.append('firstPayMoney',this.housetderta.firstmoneys);
-				this.param.append('firstMoney',this.onemoney);
-				this.param.append('secondPayMoney',this.housetderta.twomoney);
-				this.param.append('secondPayDate',this.dat);
-				this.param.append('waterChargeModel',this.housetderta.waterType);
-				this.param.append('electricChargeModel',this.housetderta.electricType);
-				this.param.append('isPaper',this.radio4);
-				this.param.append('user.id',this.user.id);
-				this.param.append('user.version',this.user.version);
-				this.param.append('user.userPhone',this.user.userPhone);
-				this.param.append('user.userName',this.user.userName);
-				this.param.append('user.gender',this.user.gender);
-				this.param.append('user.certificateId',this.user.certificateId);
-				this.param.append('user.userCertificate',this.user.userCertificate);
+				param.append('communityId',this.communityId);
+				param.append('contractNumber',this.contract);
+				param.append('buildingId',this.housetderta.roomId);
+				param.append('buildingVersion',this.housetderta.version);
+				param.append('housetypeId',this.housetderta.housetypeId);
+				param.append('customerType',2);
+				param.append('beginDate',this.onhrie);
+				param.append('endDate',this.expire);
+				param.append('cyclePayType',this.cyclePayType);
+				param.append('cyclePayMoney',this.housetderta.roomRent);
+				param.append('cyclePayDiscount',this.discount);
+				param.append('serviceCost',this.serve);
+				param.append('firstMoneyPayType',this.radio3);
+				param.append('firstPayMoney',this.housetderta.firstmoneys);
+				param.append('firstMoney',this.onemoney);
+				param.append('secondPayMoney',this.housetderta.twomoney);
+				param.append('secondPayDate',this.dat);
+				param.append('waterChargeModel',this.housetderta.waterType);
+				param.append('electricChargeModel',this.housetderta.electricType);
+				param.append('isPaper',this.radio4);
+				param.append('user.id',this.user.id);
+				param.append('user.version',this.user.version);
+				param.append('user.userPhone',this.user.userPhone);
+				param.append('user.userName',this.user.userName);
+				param.append('user.gender',this.user.gender);
+				param.append('user.certificateId',this.user.certificateId);
+				param.append('user.userCertificate',this.user.userCertificate);
 				console.log(this.user);
 				if(this.hints.company != ''){
-					this.param.append('intermediaryCompany',this.hints.company);
+					param.append('intermediaryCompany',this.hints.company);
 				}
 				if(this.hints.man != ''){
-					this.param.append('intermediaryName',this.hints.man);
+					param.append('intermediaryName',this.hints.man);
 				}
 				if(this.hints.cost != ''){
-					this.param.append('intermediaryMoney',this.hints.cost);
+					param.append('intermediaryMoney',this.hints.cost);
 				}
-				this.param.append('materials',this.materials);
-				this.param.append('furniture',this.furniture);
+				param.append('materials',this.materials);
+				param.append('furniture',this.furniture);
 				if(this.otherCostJson){
-					this.param.append('otherCostJson',this.otherCostJson);
+					param.append('otherCostJson',this.otherCostJson);
 				}
 				if(this.ieList.length){
-					this.param.append('ieList',this.ieList);
+					param.append('ieList',this.ieList);
 				}
-				this.param.append('companyInfo',this.companyInfo);
-				this.param.append('companylegalPerson',this.companylegalPerson);
-				console.log(this.param);
+				param.append('companyInfo',this.companyInfo);
+				param.append('companylegalPerson',this.companylegalPerson);
+				console.log(param);
 
-		        axios.post(hostSignCompany,this.param).then(res =>{
+		        axios.post(hostSignCompany,param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);
 						vm.successModal = true;
