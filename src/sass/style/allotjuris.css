@@ -1,0 +1,116 @@
+.allotjuris {
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+
+.mps .el-tabs .el-tabs__header {
+	border-bottom: 1px solid #038BE2;
+	margin-bottom: 0;
+}
+
+.mps .el-tabs .el-tabs__item {
+	width: 140px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	margin-right: 10px;
+	background: #f8f8f8;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border: 1px solid #dcdcdc;
+	color: #666;
+	font-size: 18px;
+	border-bottom: 1px solid #038BE2;
+}
+
+.mps .el-tabs .el-tabs__header .is-active {
+	background: #038BE2;
+	color: white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom: none;
+}
+.allotjuris .allotjur{
+	height: 68px;
+	border-bottom: 2px dashed #DCDCDC;
+	position: relative;
+}
+.allotjuris .allotjur img {
+	height: 18px;
+	width: 4px;
+	position: absolute;
+	left: 36px;
+	top: 25px;
+}
+.allotjuris .allotjur span {
+	font-size: 16px;
+	color: #038BE2;
+	margin-left: 50px;
+	line-height: 68px;
+	font-weight: bold;
+}
+.allotjuris .allotjur2{
+	height: 96px;
+	position: relative;
+}
+.allotjuris .allotjur2 span{
+	line-height: 96px;
+	margin-left: 50px;
+	margin-right: 10px;
+	color: #000;
+	font-weight: bold;
+	font-size: 12px;
+}
+.allotjuris .allotjur2 input{
+	width: 238px;
+	height: 34px;
+	padding-left: 10px;
+}
+.allotjuris table{
+	width: 100%;
+	border-collapse:collapse;
+}
+.allotjuris table td{
+	font-size: 12px;
+	color: #000;
+	font-weight: bold;
+	border: 1px solid #DCDCDC;
+}
+.allotjuris table td .ivu-checkbox-wrapper{
+	display: block;
+}
+.allotjuris table td:nth-child(1){
+	width: 206px;
+	height: 164px;
+	vertical-align: top;
+	background: #f8f8f8;
+}
+.allotjuris table td:nth-child(1) .ivu-checkbox-wrapper{
+	margin-left: 37px;
+	margin-top: 20px;
+}
+.allotjuris table td:nth-child(2) .ivu-checkbox-wrapper{
+	margin-left: 30px;
+	line-height: 36px;
+}
+.allotjuris table td:nth-child(2) span{
+	margin-left: 13px;
+}
+.allotjuris .tjss{
+	width: 140px;
+	height: 36px;
+	display: block;
+	text-align: center;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin-left: 150px;
+	margin-top: 80px;
+	cursor: pointer;
+}

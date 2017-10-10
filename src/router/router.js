@@ -361,6 +361,11 @@ export default new Router({
       name:'staffdeploy',
       component:resolve =>
         require(['../views/system/staffdeploy.vue'],resolve)
+    },{
+      path:'/system/allotjuris',		//系统管理-权限配置
+      name:'allotjuris',
+      component:resolve =>
+        require(['../views/system/allotjuris.vue'],resolve)
     },
 
 

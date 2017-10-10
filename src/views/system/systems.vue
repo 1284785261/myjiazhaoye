@@ -195,7 +195,7 @@
 									<td>{{item.createtime | time}}</td>
 									<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
 									<td>
-										<a>分配权限</a>
+										<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}">分配权限</router-link>
 									</td>
 								</tr>
 							</table>
@@ -449,6 +449,7 @@
 				isShow6: false,
 				isShow7: false,
 				isShow8:false,
+				isShow9:false,
 				isShows: false,
 				isShowadd: false,
 				addcommuni:false,
@@ -982,6 +983,7 @@
 			addCommunity() {
 				this.isHide = true;
 				this.addcommuni = true;
+				this.test3 = '';
 			},
 			addstaff() { //员工新增
 				this.isHide = true;

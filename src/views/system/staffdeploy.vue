@@ -257,7 +257,7 @@
 							this.datas();
 							this.ulsConfer[i].id = response.data.entity.cxkjCommunityUserRelationRepair[i].userId;
 							this.ulsConfer[i].title = response.data.entity.cxkjCommunityUserRelationRepair[i].dataName;
-							this.ulsConfer[i].repairDataId = response.data.entity.cxkjCommunityUserRelationRepair[i].repairDataId;
+							this.ulsConfer[i].repairDataId = response.data.entity.cxkjCommunityUserRelationRepair[i].communityMaintainId;
 							this.ulsConfer[i].type = response.data.entity.cxkjCommunityUserRelationRepair[i].type;
 							if(response.data.entity.cxkjCommunityUserRelationRepair[i].userName != null && response.data.entity.cxkjCommunityUserRelationRepair[i].userPhone != null){
 								this.ulsConfer[i].value3 = response.data.entity.cxkjCommunityUserRelationRepair[i].userName + ' ' +  response.data.entity.cxkjCommunityUserRelationRepair[i].userPhone;

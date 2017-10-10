@@ -67,6 +67,7 @@
 	height: 68px;
 	border: 1px solid #DCDCDC;
 	text-align: center;
+	font-size: 12px;
 }
 #activitys .el-pagination{
 	text-align: center;
@@ -78,4 +79,13 @@
 }
 #activitys .el-pagination button{
 	border: 1px solid #DCDCDC;
+}
+#activitys table tr .ats{
+	color: #1fbba6;
+}
+#activitys table tr .ats2{
+	color: #ff1d10;
+}
+#activitys table tr .ats3{
+	color: #999999;
 }

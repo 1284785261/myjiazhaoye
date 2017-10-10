@@ -249,6 +249,18 @@ const delCommunityMan = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommun
 
 //权限管理-开放关闭数据
 const OffManagement = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityTurnOffManagement200113'
+
+//权限管理-分配权限
+const Allocation = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityAllocationManagement200115'
+
+//权限管理-添加权限
+const AddToManagement = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityAddToManagement200116'
+
+//活动管理
+const Activity = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivity200092'
+
+//活动管理-详情
+const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityInfo200094'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -331,6 +343,10 @@ export const hostCommunityMan = host3 + CommunityMan;
 export const hostAddCommunityMan = host3 + AddCommunityMan;
 export const hostdelCommunityMan = host3 + delCommunityMan;
 export const hostOffManagement = host3 + OffManagement;
+export const hostAllocation = host3 + Allocation;
+export const hostAddToManagement = host3 + AddToManagement;
+export const hostActivity = host3 + Activity;
+export const hostActivityInfo = host3 + ActivityInfo;
 export const host = host3;
 //export default {
 //hosts:function(){
