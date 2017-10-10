@@ -62,7 +62,7 @@
 		    					<span v-else></span>
 		    				</li>
 		    				<li>
-		    					<span>租期：{{Datas.cxkjOfficeOrder.cxkjOfficeOrderDetails.beginDate | beginDate}}--{{Datas.cxkjOfficeOrder.cxkjOfficeOrderDetails.endDate | endDate}}</span>
+		    					<span v-if="Datas.cxkjOfficeOrder">租期：{{Datas.cxkjOfficeOrder.cxkjOfficeOrderDetails.beginDate | beginDate}}--{{Datas.cxkjOfficeOrder.cxkjOfficeOrderDetails.endDate | endDate}}</span>
 		    				</li>
 		    			</ul>
 		    		</div>
@@ -76,7 +76,7 @@
 											  text-color="#ff9900"
 											  text-template="{value}">
 											</el-rate>
-		    						
+
 		    						</span>
 		    				</li>
 		    				<li>
@@ -84,13 +84,13 @@
 		    				</li>
 		    			</ul>
 		    		</div>
-		    	</div> 
-		        
-		    
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -102,7 +102,7 @@
     import axios from 'axios';
     import { hostCommentInfo } from '../api.js';
     import qs from 'qs';
-    
+
     export default{
     	components:{
     		rightHeader,
@@ -202,10 +202,10 @@
 						commentId:this.communityId
 					})
 				).then((response)=>{
-					console.log(response);
 					if(response.status == 200 && response.data.code){
-						
+
 						this.Datas = response.data.entity;
+						console.log(Datas)
 						this.score = this.Datas.score;
 						if(this.Datas.cxkjCommunity.province.areaName == this.Datas.cxkjCommunity.city.areaName){
 							this.communityAddress = this.Datas.cxkjCommunity.province.areaName + this.Datas.cxkjCommunity.district.areaName + this.Datas.cxkjCommunity.communityAddress;
@@ -225,5 +225,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>

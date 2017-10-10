@@ -21,6 +21,7 @@
                   <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==0">待审核</h3>
                   <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==1">待退款</h3>
                   <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==2">已退款</h3>
+                  <h3 style="color: rgb(255,102,18)" v-if="reRenfundDetail.refundStatus==3">审核不通过</h3>
                 </div>
                 <div class="invoice-detail-info">
                   <div class="invoice-detail-info-item">
@@ -77,7 +78,11 @@
                     <span>审核通过时间 :</span>
                     <span>{{reRenfundDetail.passTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
                   </div>
-                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==1 || reRenfundDetail.refundStatus==2">
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==3">
+                    <span>审核不通过时间 :</span>
+                    <span>{{reRenfundDetail.passTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
+                  </div>
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus!==0">
                     <span>审核人 :</span>
                     <span>{{reRenfundDetail.passName}}</span>
                     <span>{{reRenfundDetail.passDepartmentName}}</span>
@@ -96,8 +101,8 @@
                 </div>
               </li>
             </ul>
-            <div style="text-align: center;" v-if="reRenfundDetail.refundStatus==1">
-              <p>审核不通过原因 : <span style="color: red;">退款对象跟银行账户不符</span></p>
+            <div style="text-align: center;" v-if="reRenfundDetail.refundStatus==3">
+              <p>审核不通过原因 : <span style="color: red;">{{reRenfundDetail.refundRemark}}</span></p>
             </div>
             <div style="text-align: center;margin-top: 70px;" v-if="reRenfundDetail.refundStatus==1">
               <Button type="primary" style="width:120px;height: 36px;" @click="sureRefund()">确认退款</Button>
@@ -106,17 +111,17 @@
               <div class="refund-examine-content">
                 <div class="refund-examine-content-item1 padingBottom">
                   <span class="span-width">审批操作 :</span>
-                  <RadioGroup v-model="animal">
+                  <RadioGroup v-model="judgeCode">
                     <Radio label="0">通过</Radio>
                     <Radio label="1">不通过</Radio>
                   </RadioGroup>
                 </div>
                 <div class="refund-examine-content-item1">
                   <span class="span-width positionTop">不通过原因 :</span>
-                  <textarea name="remarks" style="width:380px;height: 120px;resize: none;padding: 5px;" placeholder="请输入不通过原因" ></textarea>
+                  <textarea name="remarks" style="width:380px;height: 120px;resize: none;padding: 5px;" placeholder="请输入不通过原因" v-model="refundInfo"></textarea>
                 </div>
                 <div style="text-align: center;margin-top: 30px;">
-                  <Button type="primary" style="width:120px;height: 36px;">确定</Button>
+                  <Button type="primary" style="width:120px;height: 36px;" @click="judge">确定</Button>
                 </div>
               </div>
             </div>
@@ -151,7 +156,7 @@
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
-  import {refundDetail,refundMoneyToUser} from '../api.js';
+  import {refundDetail,refundMoneyToUser,judgePass,judgeNoPass} from '../api.js';
 
 
   export default {
@@ -164,7 +169,7 @@
     },
     data(){
       return{
-        animal:0,
+        judgeCode:0,
         refundModal:false,
         refundId:"",
         reRenfundDetail:{},
@@ -172,6 +177,7 @@
         successMessage:"退款成功！",
         warningModal:false,
         warningMessage:"房间信息填写不完整，请填写完整后重新提交！",
+        refundInfo:"",
       }
     },
     mounted(){
@@ -209,7 +215,33 @@
         this.refundModal = true;
       },
       closeWarningModal(){
-          this.warningModal = false;
+        this.warningModal = false;
+      },
+      judge(){
+        if(this.judgeCode == 0){
+          this.judgeToPass();
+        }else{
+          this.judgeToNoPass();
+        }
+      },
+      judgeToPass(){
+        var that = this;
+        this.$http.post(judgePass,qs.stringify({refundId:this.reRenfundDetail.refundId}))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.getRefundDetail({refundId:that.refundId});
+            }
+          })
+      },
+      judgeToNoPass(){
+        var that = this;
+        this.$http.post(judgeNoPass,qs.stringify({refundId:this.reRenfundDetail.refundId,refundInfo:this.refundInfo}))
+          .then(function(res){
+            that.refundInfo = "";
+            if(res.status == 200 && res.data.code == 10000){
+              that.getRefundDetail({refundId:that.refundId});
+            }
+          })
       }
     },
     filters:{

@@ -63,7 +63,7 @@
                 </tr>
                 <tr v-if="detailData.orderState != 3"s>
                   <td>小计 :</td>
-                  <td v-if="detailType==1" style="color: red">{{detailData.count*detailData.placeRent}}元</td>
+                  <td v-if="detailType==1" style="color: red">{{detailData.rentSubtotal || detailData.count*detailData.placeRent}}元</td>
                   <td v-if="detailType==0" style="color: red">{{detailData.meetingTimes*detailData.meetingRent}}元</td>
                 </tr>
               </table>

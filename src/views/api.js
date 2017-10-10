@@ -7,7 +7,7 @@ const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
-
+//const host3 = 'http://192.168.20.114:8081';//周昭滨
 
 //用户登录接口
 const login='/cxkj-center/apis/user/CxkjCenterLogin100002';
@@ -413,11 +413,13 @@ export const billInvoice =host3+'/cxkj-room/apis/pcManager/cxkjbillInvoice/CxkjB
 export const sendbillInvoice =host3+'/cxkj-room/apis/pcManager/cxkjbillInvoice/CxkjBillInvoiceDetailPass500067';//开发票
 export const invoiceDetailSend =host3+'/cxkj-room/apis/pcManager/cxkjbillInvoice/CxkjBillInvoiceDetailSend500068';//寄出发票
 export const invoiceDetail =host3+'/cxkj-room/apis/pcManager/cxkjbillInvoice/CxkjBillInvoiceDetail500065';//发票详情
+export const financeList =host3+'/cxkj-room/apis/pcManager/cxkjcommunityfinance/CxkjCommunityFinanceList500095';//财务管理
 
 export const refundHandle =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundHandleList500058';//退款处理
 export const refundDetail =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetail500061';//退款详情
 export const refundMoneyToUser =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetailRefund500063';//确认退款
-
+export const judgePass =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetailPass500062'//审核通过
+export const judgeNoPass =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/CxkjCommunityRefundDetailReject500096'//审核不通过
 
 export const unsentWaterEnergyBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetUnsentWaterEnergyBillList300101';//未发送给客户的水电账单列表
 export const editUsedWaterEnergy =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjEditUsedWaterEnergy300094';//编辑水电账单

@@ -195,8 +195,8 @@
 							<div class="form-search-criteria">
 								<div class="form-item">
 									<b>社区：</b>
-									<Select v-model="model1" style="width:200px" @on-change="tems(model1)">
-										<Option v-for="community in  communitys" :value="community.communityName" :key="community.communityName">{{ community.communityName }}</Option>
+									<Select v-model="model1" style="width:200px">
+										<Option v-for="community in  communitys" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
 									</Select>
 								</div>
 								<div class="form-item">
@@ -208,8 +208,8 @@
 								<div class="form-item">
 									<div class="form-search" style="margin-left: 0;">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="valu" placeholder="搜索用户"></Input>
-										<input type="button" value="搜索" @click="seek">
+										<Input v-model="searchKey" placeholder="搜索用户"></Input>
+										<input type="button" value="搜索" @click="handleCurrentChange3()">
 										<!--<a class="exports" :href="host+communityId">导出</a>-->
 									</div>
 								</div>
@@ -279,8 +279,11 @@
 		data() {
 			return {
 				currentPage1: 1,
-				communitys: [],   //社区介绍社区分类
-				model1: '',
+				communitys: [{
+          communityId: -1,
+          communityName: '全部'
+        }],   //社区介绍社区分类
+				model1: -1,
 				isShow: false,
 				tableEvaluates: [],
         host3:'',
@@ -306,7 +309,8 @@
 				commentDate:null,
 				communityId:null,
 				chack:false,
-				chack2:false
+				chack2:false,
+        searchKey:"",
 			}
 		},
 		filters: { //过滤器
@@ -369,7 +373,12 @@
 					return Y + M + D +'   '+ H + mm + ss;
 				}
 				return null;
-			}
+			},
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
 		},
 
 		mounted() {
@@ -379,7 +388,7 @@
 			this.befor();
 			this.befors();
 			this.classifys();
-			this.comment();
+			this.comment({pageNum:1});
 		},
 		methods: {
 			classifys(){
@@ -387,8 +396,7 @@
 					//console.log(111);
 	  	 			//console.log(response);
 	  	 			if(response.status == 200 && response.data.code == 10000){
-	  	 				this.communitys = response.data.entity;
-		  	 			this.model1 =this.communitys[0].communityName;
+	  	 				this.communitys = this.communitys.concat(response.data.entity);
 	  	 			}
 
 		  	 	})
@@ -477,7 +485,7 @@
 				let pageSize = vm.pageSize || 3;
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
 				this.over = new Date(this.over).Format('yyyy-MM-dd');
-				axios.post(hostCommint, 
+				axios.post(hostCommint,
 					qs.stringify({
 						pageNum: pageNum,
 						pageSize: pageSize,
@@ -501,7 +509,7 @@
 				vm.commint2 = [];
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
-				
+
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
 				this.over = new Date(this.over).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
@@ -534,7 +542,7 @@
 				let pageSize = vm.pageSize || 3;
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
 				this.over = new Date(this.over).Format('yyyy-MM-dd');
-				axios.post(hostCommint, 
+				axios.post(hostCommint,
 					qs.stringify({
 						pageNum: pageNum,
 						pageSize: pageSize,
@@ -610,65 +618,74 @@
 				else{
 					this.befor();
 				}
-				
+
 			},
 			handleCurrentChange2(val) {
 				//console.log(`当前页: ${val}`);
 				this.pageNum2 = val;
-				
+
 				if(this.chack2 == true){
 					this.bitch2();
 				}
 				else{
 					this.befors();
 				}
-				
+
 			},
-			handleCurrentChange3(val){
-				this.pageNum3 = val;
+			handleCurrentChange3(page){
+				var data = {
+          pageNum:page || 1
+        };
+				if(this.model1 !== -1){
+				    data.communityId = this.model1;
+        }
+        if(this.createtimes){
+          data.createtime = new Date(this.createtimes).Format("yyyy-MM-dd");
+        }
+        if(this.commentDate){
+          data.commentDate = new Date(this.commentDate).Format("yyyy-MM-dd");
+        }
+        if(this.searchKey){
+          data.userNamePhone = this.searchKey;
+        }
+				this.comment(data);debugger
 			},
-			comment(){
+			comment(data){
 				let vm= this
 				axios.post(hostComment,
-					qs.stringify({
-						pageNum:vm.pageNum
-					})
-				).then((response)=>{
-					console.log(response);
+					qs.stringify(data)
+				).then((response)=>{debugger
 					if(response.status == 200 && response.data.code == 10000){
 						vm.tableEvaluates = response.data.entity.page;
 						vm.totalNum3 = response.data.entity.totalNum;
-					}
+					}else{
+            vm.tableEvaluates = [];
+            vm.totalNum3 = 0;
+          }
 				}).catch((error)=>{
 					console.log(error);
 				})
 			},
-			tems(val){
-				console.log(val);
-				let Index =this.communitys[this.communitys.findIndex(item => item.communityName == val)].communityId;
-		 		console.log(Index);
-		 		this.communityId = Index;
-			},
-			seek(){
-				let vm = this
-				axios.post(hostComment,
-					qs.stringify({
-						createtime:this.createtime,
-						commentDate:this.commentDate,
-						userNameLike:this.valu,
-						communityId:this.communityId,
-					})
-				).then((response)=>{
-					console.log(response);
-					if(response.status == 200 && response.data.code == 10000){
-						alert('搜索成功');
-						vm.tableEvaluates = response.data.entity.page;
-						vm.totalNum3 = response.data.entity.totalNum;
-					}
-				}).catch((error)=>{
-					console.log(error);
-				})
-			}
+//			seek(){
+//				let vm = this
+//				axios.post(hostComment,
+//					qs.stringify({
+//						createtime:this.createtime,
+//						commentDate:this.commentDate,
+//						userNameLike:this.valu,
+//						communityId:this.communityId,
+//					})
+//				).then((response)=>{
+//					console.log(response);
+//					if(response.status == 200 && response.data.code == 10000){
+//						alert('搜索成功');
+//						vm.tableEvaluates = response.data.entity.page;
+//						vm.totalNum3 = response.data.entity.totalNum;
+//					}
+//				}).catch((error)=>{
+//					console.log(error);
+//				})
+//			}
 		},
 
 	}

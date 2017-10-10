@@ -23,32 +23,34 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <span>交易日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="financeStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择日期" v-model="financeEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <span>交易对象:</span>
                   <div style="display: inline-block">
-                    <Input  size="large" placeholder="请输入交易对象"></Input>
+                    <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey"></Input>
                   </div>
                 </div>
                 <div class="form-item">
                   <span>交易方式:</span>
                   <div style="display: inline-block">
-                    <Input  size="large" placeholder="请输入交易方式"></Input>
+                    <Select v-model="payType" style="width:200px">
+                      <Option v-for="item in  payTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
+                    </Select>
                   </div>
                 </div>
               </div>
               <div class="form-search-criteria" style="padding-top: 0">
                 <div class="form-item">
                   <span>资金流向:</span>
-                  <Select v-model="roomCommunity" style="width:200px">
-                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  <Select v-model="financeType" style="width:200px">
+                    <Option v-for="item in  financeTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
-                  <Button style="width:120px;height: 36px;">查询</Button>
+                  <Button style="width:120px;height: 36px;" @click="financeSearch()">查询</Button>
                   <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
                 </div>
               </div>
@@ -56,15 +58,15 @@
                 <ul>
                   <li>
                     <p>收入金额</p>
-                    <h1>￥6545654.50</h1>
+                    <h1>￥{{pageBean.inMoney}}</h1>
                   </li>
                   <li>
                     <p>支出金额</p>
-                    <h1 style="color: red;">￥6545654.50</h1>
+                    <h1 style="color: red;">￥{{pageBean.outMoney}}</h1>
                   </li>
                   <li>
                     <p>利润</p>
-                    <h1 style="color: #1fbba6">￥6545654.50</h1>
+                    <h1 style="color: #1fbba6">￥{{pageBean.inMoney-pageBean.outMoney}}</h1>
                   </li>
                 </ul>
               </div>
@@ -81,20 +83,40 @@
                   <th>费用金额/元</th>
                   <th>币种</th>
                 </tr>
-                <tr v-for="">
-                  <td>2017-06-12</td>
-                  <td>12332132</td>
-                  <td>佳兆业社区</td>
-                  <td>订单内容</td>
-                  <td>租金</td>
-                  <td>张敏华</td>
-                  <td>支付宝</td>
-                  <td>收入</td>
-                  <td>3000.00</td>
-                  <td>￥</td>
+                <tr v-for="item in financeList">
+                  <td>{{item.payDate | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{item.payNo}}</td>
+                  <td>{{item.communityName}}</td>
+                  <td>{{item.financeInfo}}</td>
+                  <td>
+                    <span v-if="item.costType == 0">退款</span>
+                    <span v-if="item.costType == 1">公寓租金</span>
+                    <span v-if="item.costType == 2">办公租金</span>
+                    <span v-if="item.costType == 3">会议室定金</span>
+                    <span v-if="item.costType == 4">工位定金</span>
+                    <span v-if="item.costType == 5">水电账单</span>
+                    <span v-if="item.costType == 6">其它</span>
+                  </td>
+                  <td>{{item.userName}}</td>
+                  <td>
+                    <span v-if="item.payType == 1">支付宝</span>
+                    <span v-if="item.payType == 2">微信</span>
+                    <span v-if="item.payType == 3">银联</span>
+                    <span v-if="item.payType == 4">其他方式</span>
+                  </td>
+                  <td>
+                    <span v-if="item.financeType == 0">支出</span>
+                    <span v-if="item.financeType == 1">收入</span>
+                  </td>
+                  <td>{{item.financeMoney}}</td>
+                  <td>
+                    <span v-if="item.currency == 0">人民币</span>
+                    <span v-if="item.currency == 2">港币</span>
+                    <span v-if="item.currency == 3">美元</span>
+                  </td>
                 </tr>
               </table>
-              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total ></Page>
+              <Page :total="financeTotalNum"  :page-size="10" show-elevator show-total @on-change="financeSearch"></Page>
             </Tab-pane>
 
             <Tab-pane label="发票管理">
@@ -211,7 +233,7 @@
                   <th>状态</th>
                   <th style="width: 160px;">操作</th>
                 </tr>
-                <tr v-for="item in refundHandleList">
+                <tr v-for="(item,index) in refundHandleList">
                   <td>{{item.refundSn}}</td>
                   <td>{{item.communityName}}</td>
                   <td>{{item.userName}}</td>
@@ -220,14 +242,15 @@
                   <td>{{item.createTime | timefilter("yyyy-MM-dd") }}</td>
                   <td>{{item.managerName}}</td>
                   <td>
-                    <span v-if="item.refundStatus == 0">待审核</span>
-                    <span v-if="item.refundStatus == 1">待退款</span>
+                    <span v-if="item.refundStatus == 0" style="color: rgb(255,102,18)">待审核</span>
+                    <span v-if="item.refundStatus == 1" style="color: black;">待退款</span>
                     <span v-if="item.refundStatus == 2">已退款</span>
+                    <span v-if="item.refundStatus == 3">审核不通过</span>
                   </td>
                   <td>
                     <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}">查看详情</router-link>
-                    <router-link :to="{name:'refundDetail'}" v-if="item.refundStatus == 0">审核</router-link>
-                    <router-link :to="{name:'refundDetail'}" v-if="item.refundStatus == 1">退款</router-link>
+                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}" v-if="item.refundStatus == 0">审核</router-link>
+                    <a v-if="item.refundStatus == 1" @click="sureRefund(index,item.refundId)">退款</a>
                   </td>
                 </tr>
               </table>
@@ -316,6 +339,18 @@
       </div>
     </div>
 
+    <div class="refund-detail-modal" v-if="refundModal" @click="closeRefundModal()"></div>
+    <div class="refund-detail-modal-content" v-if="refundModal">
+      <div class="modal-img-wrap">
+        <img src="../../../static/images/icon/refund01_03.png">
+      </div>
+      <p>确定将<span>{{refundMoney}}元</span>退还给用户吗?</p>
+      <div class="modal-btn">
+        <Button type="primary" @click="refundMoneyToUser()">确定</Button>
+        <Button  @click="closeRefundModal()">取消</Button>
+      </div>
+    </div>
+
   </div>
 
 </template>
@@ -327,7 +362,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,billInvoice,refundHandle,invoiceDetail,sendbillInvoice,invoiceDetailSend} from '../api.js';
+  import {allCommunity,billInvoice,refundHandle,invoiceDetail,sendbillInvoice,invoiceDetailSend,refundMoneyToUser,financeList,SytemData} from '../api.js';
 
   export default {
     components:{
@@ -337,18 +372,49 @@
     },
     data () {
       return {
-        RoomContractSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],//下拉选
-        roomCommunity:-1,//当前选中
-        roomTotalNum:"",
+        financeType:-1,
+        financeTypeSelect:[{
+          value:-1,
+          lable:"全部"
+        },{
+          value:0,
+          lable:"支出"
+        },{
+          value:1,
+          lable:"收入"
+        }],
+        financeStartDate:"",
+        financeEndDate:"",
+        financeSearchKey:"",
+        payTypeSelect:[{
+          value:-1,
+          lable:"全部"
+        },{
+          value:1,
+          lable:"支付宝"
+        },{
+          value:2,
+          lable:"微信"
+        },{
+          value:3,
+          lable:"银联"
+        },{
+          value:4,
+          lable:"其它方式"
+        }],
+        payType:-1,
+        financeList:[],
+        financeTotalNum:0,
+        pageBean:{},
+
+
 
         billInvoiceList:[],
         billInvoiceStartDate:"",
         billInvoiceEndDate:"",
         billInvoiSearchKey:"",
         billInvoiceCurrent:1,
+        billInvoiceTotalNum:0,
         openBillMoal:false,
         sendBillModal:false,
         invoiceDetailData:{},
@@ -356,23 +422,6 @@
         ativeInvoiceId:"",
         expressNo:"",
 
-
-        roomStartDate:"",//公寓签约开始时间
-        roomEndDate:"",//公寓签约结束时间
-        roomSearchKey:"",//公寓搜索关键字
-
-
-        officeContractSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],
-        officeContractList:[],
-        officeCommunity:-1,//联合办公当前选中社区
-        officeTotalNum:0,//联合办公合同总条数
-        officeContractCurrent:1,//联合办公合同当前页
-        officeStartDate:"",//联合办公签约开始时间
-        officeEndDate:"",//联合办公签约结束时间
-        officeSearchKey:"",//联合办公搜索关键字
 
 
         propertyContractSelects:[{
@@ -404,12 +453,18 @@
         refundHandSearchKey:"",
         refundStatus:-1,
         activeBillPage:1,
+        refundModal:false,
+        refundMoney:"",
+        refundId:"",
+        refundActivePage:1,
       }
     },
     mounted(){
       this.getCommunityData();
       this.getBillInvoice({pageNum:1});
       this.getrefundHandle({pageNum:1});
+      this.getFinanceList({pageNum:1});
+      this.getOfficeSelect();
     },
     methods: {
       closeBillModal(){
@@ -420,12 +475,50 @@
         this.$http.get(allCommunity)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              that.RoomContractSelects = that.RoomContractSelects.concat(res.data.entity);
-              that.officeContractSelects = that.officeContractSelects.concat(res.data.entity);
               that.propertyContractSelects = that.propertyContractSelects.concat(res.data.entity);
             }
           })
       },
+      getFinanceList(data){
+        var that = this;
+        this.$http.get(financeList,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.pageBean = res.data.result;
+              that.financeList = that.pageBean.financeList;
+              that.financeTotalNum = that.pageBean.totalNum;
+            }
+            if(res.data.code == 10008){
+              that.financeList = [];
+              that.financeTotalNum = 0;
+            }
+          })
+      },
+      financeSearch(page){
+        var data = {
+          pageNum:page || 1,
+        };
+        if(this.financeType != -1){
+          data.financeType = this.financeType;
+        }
+        if(this.payType != -1){
+          data.payType = this.payType;
+        }
+        if(this.financeSearchKey){
+          data.keyWord = this.financeSearchKey;
+        }
+        if(this.financeStartDate){
+          data.startDate =  new Date(this.financeStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.financeEndDate){
+          data.endDate =  new Date(this.financeEndDate).Format("yyyy-MM-dd");
+        }
+        this.getFinanceList(data);debugger
+      },
+
+
+
+
       getBillInvoice(data){
         var that = this;
         this.$http.get(billInvoice,{params:data})
@@ -437,7 +530,7 @@
             }
             if(res.data.code == 10008){
               that.billInvoiceList = [];
-              that.roomTotalNum = 0;
+              that.billInvoiceTotalNum = 0;
             }
           })
       },
@@ -493,8 +586,23 @@
           }
         })
       },
+      sureRefund(index,refundId){
+        this.refundId = refundId;
+        this.refundMoney = this.refundHandleList[index].refundMoney;
+        this.refundModal = true;
+      },
       closeSendBillModal(){
         this.sendBillModal = false;
+      },
+      refundMoneyToUser(){
+        var that = this;
+        this.$http.post(refundMoneyToUser,qs.stringify({refundId:this.refundId}))
+          .then(function(res){
+            that.refundModal = false;
+            if(res.status == 200 && res.data.code == 10000){
+              that.refundHandSearch(that.refundActivePage)
+            }
+          })
       },
       //确定寄出发票
       sendBillToUser(){
@@ -505,49 +613,51 @@
           expressNo:this.expressNo,
           expressPayType:this.sendBillDetail.expressPayType
         }
-        this.$http.post(invoiceDetailSend,qs.stringify(data)).then(function(res){debugger
+        this.$http.post(invoiceDetailSend,qs.stringify(data)).then(function(res){
           if(res.data.code == 10000){
             that.getBillInvoice({pagaNum:that.activeBillPage});
             that.sendBillModal = false;
           }
         })
       },
-
-
-      getOfficeContract(data){
-        var that = this;
-        this.$http.get(officeContract,{params:data})
-          .then(function(res){debugger
-            if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.officeContractList = pageBean.page;
-              that.officeTotalNum = pageBean.totalNum;
-            }
-            if(res.data.code == 10008){
-              that.officeContractList = [];
-              that.officeTotalNum = 0;
-            }
-          })
+      closeRefundModal(){
+        this.refundModal = false;
       },
 
-      officeSearch(page){
-        var data = {
-          pageNum:page || 1
-        }
-        if(this.officeCommunity != -1){
-          data.communityId = this.officeCommunity;
-        }
-        if(this.officeSearchKey){
-          data.keyWord = this.officeSearchKey;
-        }
-        if(this.officeStartDate){
-          data.beginDate = new Date(this.officeStartDate).Format("yyyy-MM-dd");
-        }
-        if(this.officeEndDate){
-          data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
-        }
-        this.getOfficeContract(data);
-      },
+//      getOfficeContract(data){
+//        var that = this;
+//        this.$http.get(officeContract,{params:data})
+//          .then(function(res){debugger
+//            if(res.status == 200 && res.data.code == 10000){
+//              var pageBean = res.data.pageBean;
+//              that.officeContractList = pageBean.page;
+//              that.officeTotalNum = pageBean.totalNum;
+//            }
+//            if(res.data.code == 10008){
+//              that.officeContractList = [];
+//              that.officeTotalNum = 0;
+//            }
+//          })
+//      },
+
+//      officeSearch(page){
+//        var data = {
+//          pageNum:page || 1
+//        }
+//        if(this.officeCommunity != -1){
+//          data.communityId = this.officeCommunity;
+//        }
+//        if(this.officeSearchKey){
+//          data.keyWord = this.officeSearchKey;
+//        }
+//        if(this.officeStartDate){
+//          data.beginDate = new Date(this.officeStartDate).Format("yyyy-MM-dd");
+//        }
+//        if(this.officeEndDate){
+//          data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
+//        }
+//        this.getOfficeContract(data);
+//      },
 
       getrefundHandle(data){
         var that = this;
@@ -568,6 +678,9 @@
       refundHandSearch(page){
         var data = {
           pageNum:page || 1
+        }
+        if(page){
+          this.refundActivePage = page;
         }
         if(this.refundHandCommunity != -1){
           data.communityId = this.refundHandCommunity;
@@ -830,6 +943,58 @@
       i{
         position: relative;
         top: -8px;
+      }
+    }
+  }
+
+  .refund-detail-modal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .refund-detail-modal-content{
+    width:280px;
+    height:180px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-img-wrap{
+      height: 80px;
+      width: 100%;
+      text-align: center;
+      img{
+        width: 36px;
+        height: 34px;
+        margin-top: 30px;
+      }
+    }
+    p{
+      text-align: center;
+      span{
+        color: red;
+        font-weight: 700;
+        padding: 0 10px;
+      }
+    }
+    .modal-btn{
+      text-align: center;
+      button{
+        width: 90px;
+        height: 30px;
+        margin-top: 20px;
       }
     }
   }
