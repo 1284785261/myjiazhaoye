@@ -33,7 +33,7 @@
                   </div>
                 </div>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="roomTotalNum > 0">
                 <tr>
                   <th >合同编号</th>
                   <th>签约日期</th>
@@ -70,7 +70,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
+              <div class="blank-background-img" v-if="roomTotalNum == 0">
+                <img src="../../../static/images/blank/contract_space.png" >
+                <h2>暂无合同内容~</h2>
+              </div>
+              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
 
             </Tab-pane>
 
@@ -96,7 +100,7 @@
                   </div>
                 </div>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="officeTotalNum > 0">
                 <tr>
                   <th>合同编号</th>
                   <th>签约日期</th>
@@ -138,7 +142,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="officeTotalNum" :current="officeContractCurrent" :page-size="10" show-elevator show-total @on-change="officeSearch"></Page>
+              <div class="blank-background-img" v-if="officeTotalNum == 0">
+                <img src="../../../static/images/blank/contract_space.png" >
+                <h2>暂无合同内容~</h2>
+              </div>
+              <Page :total="officeTotalNum" :current="officeContractCurrent" :page-size="10" show-elevator show-total @on-change="officeSearch" v-if="officeTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="物业合同">
@@ -163,7 +171,7 @@
                   </div>
                 </div>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="propertyTotalNum > 0">
                 <tr>
                   <th width="50px;">合同编号</th>
                   <th>签约日期</th>
@@ -195,7 +203,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="propertyTotalNum" :current="propertyContractCurrent" :page-size="10" show-elevator show-total @on-change="propertySearch"></Page>
+              <div class="blank-background-img" v-if="propertyTotalNum == 0">
+                <img src="../../../static/images/blank/contract_space.png" >
+                <h2>暂无合同内容~</h2>
+              </div>
+              <Page :total="propertyTotalNum" :current="propertyContractCurrent" :page-size="10" show-elevator show-total @on-change="propertySearch" v-if="propertyTotalNum > 0"></Page>
             </Tab-pane>
 
           </Tabs>
@@ -360,10 +372,9 @@ export default {
             that.propertyContractList = pageBean.page;
             that.propertyTotalNum = pageBean.totalNum;
           }
-          console.log(pageBean.page)
           if(res.data.code == 10008){
             that.propertyContractList = [];
-            that.propertyTotalNum = 0;
+            that.propertyTotalNum = 0;debugger
           }
         })
     },
@@ -384,7 +395,7 @@ export default {
       if(this.propertyEndDate){
         data.endDate = new Date(this.propertyEndDate).Format("yyyy-MM-dd");
       }
-      this.getPropertyContract(data);debugger
+      this.getPropertyContract(data);
     },
 
   },
@@ -438,6 +449,15 @@ export default {
     }
     .ivu-tabs-bar{
       background-color: rgb(240,240,240);
+    }
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
     }
   }
 

@@ -43,7 +43,7 @@
             <span class="inline-block spanBar">-</span>
             <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
           </div>
-          <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+          <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="complainTotalNum > 0">
             <tr>
               <th>工单号</th>
               <th>所属社区</th>
@@ -74,7 +74,11 @@
               </td>
             </tr>
           </table>
-          <Page :total="complainTotalNum" :current="complainCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
+          <div class="blank-background-img" v-if="complainTotalNum == 0">
+            <img src="../../../static/images/blank/custom_space.png" >
+            <h2>暂无投诉内容~</h2>
+          </div>
+          <Page :total="complainTotalNum" :current="complainCurrent" :page-size="10" show-elevator show-total @on-change="search" v-if="complainTotalNum > 0"></Page>
         </div>
       </div>
       <footer-box></footer-box>
@@ -216,6 +220,15 @@
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
 
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
     .form-search-criteria{
       position: relative;
       padding: 0 0 21px 20px;

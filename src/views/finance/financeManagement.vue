@@ -70,7 +70,7 @@
                   </li>
                 </ul>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="financeTotalNum > 0">
                 <tr>
                   <th >交易日期</th>
                   <th>流水号</th>
@@ -116,7 +116,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="financeTotalNum"  :page-size="10" show-elevator show-total @on-change="financeSearch"></Page>
+              <div class="blank-background-img" v-if="financeTotalNum == 0">
+                <img src="../../../static/images/blank/order_space.png" >
+                <h2>暂无内容~</h2>
+              </div>
+              <Page :total="financeTotalNum"  :page-size="10" show-elevator show-total @on-change="financeSearch" v-if="financeTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="发票管理">
@@ -146,7 +150,7 @@
                   <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
                 </div>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="billInvoiceTotalNum > 0">
                 <tr>
                   <th>申请时间</th>
                   <th>所属社区</th>
@@ -190,7 +194,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="billInvoiceTotalNum" :current="billInvoiceCurrent" :page-size="10" show-elevator show-total @on-change="billInvoiceSearch"></Page>
+              <div class="blank-background-img" v-if="billInvoiceTotalNum == 0">
+                <img src="../../../static/images/blank/order_space.png" >
+                <h2>暂无发票内容~</h2>
+              </div>
+              <Page :total="billInvoiceTotalNum" :current="billInvoiceCurrent" :page-size="10" show-elevator show-total @on-change="billInvoiceSearch" v-if="billInvoiceTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="退款处理">
@@ -221,7 +229,7 @@
                   <Date-picker type="date" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
                 </div>
               </div>
-              <table class="table ivu-table">
+              <table class="table ivu-table" v-if="refundHandTotalNum > 0">
                 <tr>
                   <th width="50px;">退款单号</th>
                   <th>所属社区</th>
@@ -254,7 +262,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="refundHandTotalNum" :current="refundHandCurrent" :page-size="10" show-elevator show-total @on-change="refundHandSearch"></Page>
+              <div class="blank-background-img" v-if="refundHandTotalNum == 0">
+                <img src="../../../static/images/blank/order_space.png" >
+                <h2>暂无退款内容~</h2>
+              </div>
+              <Page :total="refundHandTotalNum" :current="refundHandCurrent" :page-size="10" show-elevator show-total @on-change="refundHandSearch" v-if="refundHandTotalNum > 0"></Page>
             </Tab-pane>
           </Tabs>
         </div>
@@ -726,6 +738,15 @@
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
     .ivu-tabs-card{
       box-shadow:none;
     }

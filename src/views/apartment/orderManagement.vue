@@ -36,7 +36,7 @@
                   </div>
                 </div>
               </div>
-              <table class="orderManagement-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="orderManagement-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="stationTotalNum > 0">
                 <tr>
                   <th>订单时间</th>
                   <th>所属社区</th>
@@ -67,7 +67,11 @@
                   <td><router-link :to="{name:'orderDetail',query:{id:station.officeOrderId,type:station.type}}">查看详情</router-link></td>
                 </tr>
               </table>
-              <Page :total="stationTotalNum" :current="stationCurrent" :page-size="10" show-elevator show-total @on-change="searchStation"></Page>
+              <div class="blank-background-img" v-if="stationTotalNum == 0">
+                <img src="../../../static/images/blank/order_space.png" >
+                <h2>暂无订单内容~</h2>
+              </div>
+              <Page :total="stationTotalNum" :current="stationCurrent" :page-size="10" show-elevator show-total @on-change="searchStation" v-if="stationTotalNum > 0"></Page>
             </el-tab-pane>
 
             <el-tab-pane label="会议室订单" name="second">
@@ -92,7 +96,7 @@
                   </div>
                 </div>
               </div>
-              <table class="meeting-order-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="meeting-order-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="officeTotalNum > 0">
                 <tr>
                   <th>账单时间</th>
                   <th>所属社区</th>
@@ -125,9 +129,12 @@
                   </td>
                   <td><router-link :to="{name:'orderDetail',query:{id:office.officeOrderId,type:office.type}}">查看详情</router-link></td>
                 </tr>
-
               </table>
-              <Page :total="officeTotalNum" :current="officeCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
+              <div class="blank-background-img" v-if="officeTotalNum == 0">
+                <img src="../../../static/images/blank/order_space.png" >
+                <h2>暂无订单内容~</h2>
+              </div>
+              <Page :total="officeTotalNum" :current="officeCurrent" :page-size="10" show-elevator show-total @on-change="search" v-if="officeTotalNum > 0"></Page>
             </el-tab-pane>
           </el-tabs>
 
@@ -295,4 +302,17 @@
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import  '../../sass/page/orderManagement.scss';
+
+  #order-management-wrap{
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
+  }
+
 </style>

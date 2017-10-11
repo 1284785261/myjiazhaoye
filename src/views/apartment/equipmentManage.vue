@@ -15,52 +15,46 @@
 		    	<div id="equipmentMan">
 		    		<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
 					    <el-tab-pane label="智能门锁" name="first">
-                <div class="equipment1">
-                  <div class="house_xq">
+                <div class="equipment1" v-for="(doorLock,index) in doorLockList">
+                  <div class="house_xq" @click="hideTable(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
-                      <a href="#" class="ceng">1层</a>
+                      <a class="ceng">{{doorLock.floorName}}层</a>
                   </div>
-                  <table>
+                  <table v-if="doorLock.showTable">
                     <thead>
                       <td>房间</td>
                       <td>门锁类型</td>
                       <td>门锁序列号</td>
-                      <td>网关名称</td>
                       <td>密码</td>
                       <td>供应商</td>
                       <td>添加时间</td>
                       <td>门锁状态</td>
                       <td width="15%">操作</td>
                     </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>智能密码锁</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>123456</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>在线</td>
+                    <tr v-for="(item,index) in doorLock.roomLock">
+                      <td>{{item.roomId}}</td>
+                      <td>
+                        <span v-if="item.lockType == 1">智能门锁</span>
+                        <span v-if="item.lockType == 2">RFID锁</span>
+                      </td>
+                      <td>{{item.sn}}</td>
+                      <td>{{item.password}}</td>
+                      <td>{{item.supplierDataName}}</td>
+                      <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
+                      <td>
+                        <span v-if="item.lockStatus == 1">在线</span>
+                        <span v-else-if="item.lockStatus == 2">离线</span>
+                        <span v-else-if="item.lockStatus == 3">冻结</span>
+                        <span v-else="item.lockStatus == 3">未配置</span>
+                      </td>
                       <td>
                         <div>
-                          <a @click="instas3()">获取临时密码</a>
+                          <a @click="getTemporaryPwd(item.roomLockId)">获取临时密码</a>
                           <a @click="instas5()">修改</a>
                           <router-link to="/apartment/doorRecord">开门记录</router-link>
                           <a @click="instas()">冻结</a>
+                          <a @click="instas4()">添加门锁</a>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>未配置</td>
-                      <td>
-                        <a @click="instas4()">添加门锁</a>
                       </td>
                     </tr>
                   </table>
@@ -158,39 +152,39 @@
 							  	</table>
 					    	</div>
 					    </el-tab-pane>
-					    <el-tab-pane label="网关管理" name="fourth">
-					    	<div class="equipment1 equipment2">
-					    		<div class="house_xq">
-							  			<img src="../../../static/images/temp/logo2_03.png">
-							  			<a href="#" class="ceng">1层</a>
-							  			<a class="tianjia" @click="instas10()"> + 添加网关</a>
-							  	</div>
-							  	<table>
-							  		<thead>
-							  			<td>序号</td>
-							  			<td>网关类型</td>
-							  			<td>网关名称</td>
-							  			<td>供应商</td>
-							  			<td>序列号</td>
-							  			<td>已连接设备</td>
-							  			<td>添加时间</td>
-							  			<td>状态</td>
-							  			<td>操作</td>
-							  		</thead>
-							  		<tr>
-							  			<td>101</td>
-							  			<td>1341648946168</td>
-							  			<td>1楼门锁网关A</td>
-							  			<td>云丁</td>
-							  			<td>2017.15.05</td>
-							  			<td>2017.15.05</td>
-							  			<td>121213</td>
-							  			<td>在线</td>
-							  			<td><a @click="instas11()">修改</a></td>
-							  		</tr>
-							  	</table>
-					    	</div>
-					    </el-tab-pane>
+					    <!--<el-tab-pane label="网关管理" name="fourth">-->
+					    	<!--<div class="equipment1 equipment2">-->
+					    		<!--<div class="house_xq">-->
+							  			<!--<img src="../../../static/images/temp/logo2_03.png">-->
+							  			<!--<a href="#" class="ceng">1层</a>-->
+							  			<!--<a class="tianjia" @click="instas10()"> + 添加网关</a>-->
+							  	<!--</div>-->
+							  	<!--<table>-->
+							  		<!--<thead>-->
+							  			<!--<td>序号</td>-->
+							  			<!--<td>网关类型</td>-->
+							  			<!--<td>网关名称</td>-->
+							  			<!--<td>供应商</td>-->
+							  			<!--<td>序列号</td>-->
+							  			<!--<td>已连接设备</td>-->
+							  			<!--<td>添加时间</td>-->
+							  			<!--<td>状态</td>-->
+							  			<!--<td>操作</td>-->
+							  		<!--</thead>-->
+							  		<!--<tr>-->
+							  			<!--<td>101</td>-->
+							  			<!--<td>1341648946168</td>-->
+							  			<!--<td>1楼门锁网关A</td>-->
+							  			<!--<td>云丁</td>-->
+							  			<!--<td>2017.15.05</td>-->
+							  			<!--<td>2017.15.05</td>-->
+							  			<!--<td>121213</td>-->
+							  			<!--<td>在线</td>-->
+							  			<!--<td><a @click="instas11()">修改</a></td>-->
+							  		<!--</tr>-->
+							  	<!--</table>-->
+					    	<!--</div>-->
+					    <!--</el-tab-pane>-->
 					</el-tabs>
 		    	</div>
 
@@ -213,13 +207,13 @@
 				<a>确定</a><a @click="instas()">取消</a>
 		</div>
     <!--获取临时密码-->
-		<div class="instas3" v-show="isHide2">
+		<div class="instas3" v-show="temporaryPwd">
 				<i class="el-icon-circle-close" @click="instas3()"></i>
 				<p>获取临时密码</p>
 				<span>临时密码发送至：</span>
-				<input type="text" placeholder="请输入手机号码"/>
+				<input type="text" placeholder="请输入手机号码" v-model="phone"/>
 				<p><i class="el-icon-warning"></i>临时密码有效时间为2个小时</p>
-				<a @click="instas3()">确定</a>
+				<a @click="sendMessege()">确定</a>
 		</div>
 
 
@@ -236,12 +230,12 @@
 				<tr>
 					<td>供应商：</td>
 					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
+						<el-select v-model="doorLockSupplier" filterable placeholder="请输入或选择">
 						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      v-for="item in suppliers"
+						      :key="item.dataId"
+						      :label="item.dataName"
+						      :value="item.dataId">
 						    </el-option>
 						</el-select>
 					</td>
@@ -249,9 +243,9 @@
 				<tr>
 					<td>门锁类型：</td>
 					<td>
-						<el-select v-model="value5" placeholder="请选择">
+						<el-select v-model="doorLockType" placeholder="请选择">
 						    <el-option
-						      v-for="item in options"
+						      v-for="item in lockTypes"
 						      :key="item.value"
 						      :label="item.label"
 						      :value="item.value">
@@ -262,26 +256,13 @@
 				<tr>
 					<td>序列号：</td>
 					<td>
-						<input type="text" placeholder="请输入序列号" />
-					</td>
-				</tr>
-				<tr>
-					<td>网关：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
+						<input type="text" placeholder="请输入序列号" v-model="doorLockSn"/>
 					</td>
 				</tr>
 				<tr>
 					<td>密码：</td>
 					<td>
-						<input type="text" placeholder="请输入6位密码" />
+						<input type="text" placeholder="请输入6位密码" v-model="doorLockPwd"/>
 					</td>
 				</tr>
 			</table>
@@ -303,10 +284,10 @@
 					<td>
 						<el-select v-model="value8" filterable placeholder="请输入或选择">
 						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      v-for="item in suppliers"
+						      :key="item.dataId"
+						      :label="item.dataName"
+						      :value="item.dataId">
 						    </el-option>
 						</el-select>
 					</td>
@@ -639,7 +620,7 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {gateLock} from '../api.js';
+  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock} from '../api.js';
 
     export default {
     	components:{
@@ -652,7 +633,7 @@
     			isHid:false,
     			isHid2:false,
     			isHide:false,
-    			isHide2:false,
+    			temporaryPwd:false,
     			isHide3:false,
     			isHide4:false,
     			isHide5:false,
@@ -667,11 +648,11 @@
     			activeName2: 'first',
           value5:"",
     			options: [{
-		          value: '选项1',
-		          label: '黄金糕'
+		          value: '1',
+		          label: '智能门锁'
 		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
+		          value: '2',
+		          label: 'RFID锁'
 		        }, {
 		          value: '选项3',
 		          label: '蚵仔煎'
@@ -682,21 +663,87 @@
 		          value: '选项5',
 		          label: '北京烤鸭'
 		        }],
-		        value8: '',
+          lockTypes:[{
+              value: '1',
+              label: '智能门锁'
+            },{
+              value: '2',
+              label: 'RFID锁'
+            }
+          ],
+          suppliers:[],
+          value8: '',
+
+
           communityId:"",
+          doorLockList:[],
+          password:"",
+          phone:"",
+          doorLockSupplier:62,
+          doorLockType:1,
+          doorLockSn:"",
+          doorLockPwd:"",
 		   	}
     	},
       mounted(){
     	  this.communityId = this.$route.query.communityId;
+    	  this.getIntelligenceLock();
+    	  this.getSupplier();
       },
     	methods:{
+        //获取智能门锁列表
+        getIntelligenceLock(){
+          var that = this;
+          this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var rootData = res.data.entity;
+              that.doorLockList = rootData.page;
+              for(var i =0;i<that.doorLockList.length;i++){
+                that.$set(that.doorLockList[i],"showTable",true);
+              }
+            }
+          })
+        },
+        hideTable(index){
+          this.$set(this.doorLockList[index],"showTable",!this.doorLockList[index].showTable);
+        },
+      //获取供应商数据
+      getSupplier(){
+        var that = this;
+        this.$http.post(
+          SytemData,qs.stringify({parentId:61})
+        ).then(function(res){
+          that.suppliers = res.data.entity;
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
+        getTemporaryPwd(roomLockId){
+          var that = this;
+          that.instas3();
+          this.$http.post(temporaryPwd,qs.stringify({roomLockId:roomLockId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.password = res.data.entity.password;
+            }
+          })
+        },
+        sendMessege(){
+          var that = this;
+          this.$http.post(sendMessege,qs.stringify({phone:this.phone,messageType:this.password})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+
+            }
+          })
+        },
+
+
     		instas:function(){
     			this.isHid = !this.isHid;
     			this.isHide = !this.isHide;
     		},
     		instas3:function(){
     			this.isHid = !this.isHid;
-    			this.isHide2 = !this.isHide2;
+    			this.temporaryPwd = !this.temporaryPwd;
     		},
     		instas4:function(){
     			this.isHid = !this.isHid;
@@ -761,6 +808,13 @@
 
 
     	},
+      filters:{
+        timefilter(value,format){
+          if(value){
+            return new Date(value).Format(format)
+          }
+        }
+      },
     	created(){
 
 

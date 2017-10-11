@@ -439,3 +439,10 @@ export const judgeNoPass =host3+'/cxkj-room/apis/pcManager/cxkjcommunityrefund/C
 
 export const unsentWaterEnergyBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetUnsentWaterEnergyBillList300101';//未发送给客户的水电账单列表
 export const editUsedWaterEnergy =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjEditUsedWaterEnergy300094';//编辑水电账单
+
+//设备管理
+export const shutdown =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationTable200138';//智能门锁
+export const temporaryPwd =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationPassword200139';//临时密码
+export const sendMessege =host3+'/cxkj-center/apis/verify/CxkjCenterSendcode';//发送短信
+
+

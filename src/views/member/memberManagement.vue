@@ -33,7 +33,7 @@
                   <Button style="width: 120px;height: 35px;" @click="pageSearch()">查询</Button>
                 </div>
               </div>
-              <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="memberTotalNum > 0">
                 <tr>
                   <th>会员名称</th>
                   <th>会员手机号</th>
@@ -62,7 +62,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="memberTotalNum" :current="memberCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
+              <div class="blank-background-img" v-if="memberTotalNum == 0">
+                <img src="../../../static/images/blank/member_space.png" >
+                <h2>暂无会员信息~</h2>
+              </div>
+              <Page :total="memberTotalNum" :current="memberCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch" v-if="memberTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="黑名单管理">
@@ -87,7 +91,7 @@
                   <Button style="width: 120px;height: 35px;" @click="blackPageSearch()">查询</Button>
                 </div>
               </div>
-              <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="blackMemberTotalNum > 0">
                 <tr>
                   <th style="width:80px;">选择</th>
                   <th>会员名称</th>
@@ -119,11 +123,15 @@
                   </td>
                 </tr>
               </table>
-              <div class="all-select-wrap">
+              <div class="all-select-wrap" v-if="blackMemberTotalNum > 0">
                 <div @click="selectAll" style="display: inline-block"><Checkbox label="全选" v-model="checkAllStatus">全选</Checkbox></div>
                 <Button style="width: 120px;height: 30px;" :disabled="checkBtnStatus"  @click="setAllWhile()">批量设为白名单</Button>
               </div>
-              <Page :total="blackMemberTotalNum"  :current="blackMemberCurrent"  :page-size="10" show-elevator show-total @on-change="blackPageSearch"></Page>
+              <div class="blank-background-img" v-if="blackMemberTotalNum == 0">
+                <img src="../../../static/images/blank/black_member_space.png" >
+                <h2>暂无黑名单信息~</h2>
+              </div>
+              <Page :total="blackMemberTotalNum"  :current="blackMemberCurrent"  :page-size="10" show-elevator show-total @on-change="blackPageSearch" v-if="blackMemberTotalNum > 0"></Page>
             </Tab-pane>
           </Tabs>
         </div>
@@ -413,6 +421,15 @@
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
     .ivu-tabs-card{
       box-shadow:none;
     }

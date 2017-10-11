@@ -36,7 +36,7 @@
                   </div>
                 </div>
               </div>
-              <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
                 <tr>
                   <th>账单日期</th>
                   <th>所属社区</th>
@@ -68,7 +68,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch"></Page>
+              <div class="blank-background-img" v-if="roomTotalNum == 0">
+                <img src="../../../static/images/blank/bill_space.png" >
+                <h2>暂无账单内容~</h2>
+              </div>
+              <Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
             </el-tab-pane>
 
 
@@ -94,7 +98,7 @@
                   </div>
                 </div>
               </div>
-              <table class="office-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="office-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="officeTotalNum > 0">
                 <tr>
                   <th>账单时间</th>
                   <th>所属社区</th>
@@ -126,7 +130,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="officeTotalNum" :page-size="10" show-elevator show-total @on-change="officeSearch"></Page>
+              <div class="blank-background-img" v-if="officeTotalNum == 0">
+                <img src="../../../static/images/blank/bill_space.png" >
+                <h2>暂无账单内容~</h2>
+              </div>
+              <Page :total="officeTotalNum" :page-size="10" show-elevator show-total @on-change="officeSearch" v-if="officeTotalNum > 0"></Page>
             </el-tab-pane>
 
             <el-tab-pane label="水电账单" name="third">
@@ -151,7 +159,7 @@
                 </div>
               </div>
 
-              <table class="water-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="water-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="waterEnergyTotalNum > 0">
                 <tr>
                   <th>出账社区</th>
                   <th>所属社区</th>
@@ -179,7 +187,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="waterEnergyTotalNum" :page-size="10" show-elevator show-total @on-change="waterEnergySearch"></Page>
+              <div class="blank-background-img" v-if="waterEnergyTotalNum == 0">
+                <img src="../../../static/images/blank/bill_space.png" >
+                <h2>暂无账单内容~</h2>
+              </div>
+              <Page :total="waterEnergyTotalNum" :page-size="10" show-elevator show-total @on-change="waterEnergySearch" v-if="waterEnergyTotalNum > 0"></Page>
             </el-tab-pane>
           </el-tabs>
 
@@ -368,7 +380,7 @@
       getWaterEnergyBill(data){
         var that = this;
         this.$http.get(waterEnergyBill,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.waterEnergyBillList = pageBean.page;
@@ -438,6 +450,15 @@
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
     .el-tabs__header{
       border-bottom: 1px solid #038be2;
       .el-tabs__nav{
