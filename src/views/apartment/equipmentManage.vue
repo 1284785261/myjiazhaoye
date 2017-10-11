@@ -25,35 +25,33 @@
                       <td>房间</td>
                       <td>门锁类型</td>
                       <td>门锁序列号</td>
-                      <td>密码</td>
                       <td>供应商</td>
                       <td>添加时间</td>
                       <td>门锁状态</td>
                       <td width="15%">操作</td>
                     </thead>
                     <tr v-for="(item,index) in doorLock.roomLock">
-                      <td>{{item.roomId}}</td>
+                      <td>{{item.roomNum}}</td>
                       <td>
                         <span v-if="item.lockType == 1">智能门锁</span>
                         <span v-if="item.lockType == 2">RFID锁</span>
                       </td>
                       <td>{{item.sn}}</td>
-                      <td>{{item.password}}</td>
                       <td>{{item.supplierDataName}}</td>
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
                       <td>
                         <span v-if="item.lockStatus == 1">在线</span>
                         <span v-else-if="item.lockStatus == 2">离线</span>
                         <span v-else-if="item.lockStatus == 3">冻结</span>
-                        <span v-else="item.lockStatus == 3">未配置</span>
+                        <span v-else>未配置</span>
                       </td>
                       <td>
                         <div>
                           <a @click="getTemporaryPwd(item.roomLockId)">获取临时密码</a>
-                          <a @click="instas5()">修改</a>
+                          <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus">修改</a>
                           <router-link to="/apartment/doorRecord">开门记录</router-link>
                           <a @click="instas()">冻结</a>
-                          <a @click="instas4()">添加门锁</a>
+                          <a @click="addDoorLockTo(doorLock.floorName,item.roomNum,item.roomId)" v-if="item.lockStatus !=1 && item.lockStatus !=2 && item.lockStatus !=3">添加门锁</a>
                         </div>
                       </td>
                     </tr>
@@ -219,13 +217,13 @@
 
 
     <!--添加门锁-->
-		<div class="instas4" v-show="isHide3">
+		<div class="instas4" v-show="addDoorLockFlag">
 			<i class="el-icon-circle-close" @click="instas4()"></i>
 			<p>添加门锁</p>
 			<table>
 				<tr>
 					<td>房间：</td>
-					<td>1层 103</td>
+					<td>{{floorName}}层 {{roomNum}}</td>
 				</tr>
 				<tr>
 					<td>供应商：</td>
@@ -244,12 +242,7 @@
 					<td>门锁类型：</td>
 					<td>
 						<el-select v-model="doorLockType" placeholder="请选择">
-						    <el-option
-						      v-for="item in lockTypes"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
+						    <el-option v-for="item in lockTypes" :key="item.id" :label="item.name" :value="item.id"></el-option>
 						</el-select>
 					</td>
 				</tr>
@@ -266,7 +259,8 @@
 					</td>
 				</tr>
 			</table>
-			<a class="tjss">提交</a>
+      <span style="color: red;" v-if="erorrInfo">密码必须为6位数字组成</span>
+			<a class="tjss" @click="addDoorLockSure()">提交</a>
 		</div>
     <!--修改门锁配置-->
 		<div class="instas5" v-show="isHide4">
@@ -275,14 +269,14 @@
 			<table>
 				<tr>
 					<td>房间：</td>
-					<td>1层 103
-						<a @click="instas6()">解除门锁</a>
+					<td>{{updateFloorName}}层 {{activeDoorLock.roomNum}}
+						<a @click="deleteDoorLock()">解除门锁</a>
 					</td>
 				</tr>
 				<tr>
 					<td>供应商：</td>
 					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
+						<el-select v-model="activeDoorLock.supplierDataId" filterable placeholder="请输入或选择">
 						    <el-option
 						      v-for="item in suppliers"
 						      :key="item.dataId"
@@ -295,43 +289,25 @@
 				<tr>
 					<td>门锁类型：</td>
 					<td>
-						<el-select v-model="value5" placeholder="请选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
+						<el-select v-model="activeDoorLock.lockType" placeholder="请选择">
+              <el-option v-for="item in lockTypes" :key="item.id" :label="item.name" :value="item.id"></el-option>
 						</el-select>
 					</td>
 				</tr>
 				<tr>
 					<td>序列号：</td>
 					<td>
-						<input type="text" placeholder="请输入序列号" />
-					</td>
-				</tr>
-				<tr>
-					<td>网关：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
+						<input type="text" placeholder="请输入序列号" v-model="activeDoorLock.sn"/>
 					</td>
 				</tr>
 				<tr>
 					<td>密码：</td>
 					<td>
-						<input type="text" placeholder="请输入6位密码" />
+						<input type="text" placeholder="请输入6位密码" v-model="newPassword"/>
 					</td>
 				</tr>
 			</table>
-			<a class="tja">提交</a>
+			<a class="tja" @click="sureUpdateDoorLock()">提交</a>
 		</div>
     <!--解除门锁-->
 		<div class="instas6 instas2" v-show="isHide5">
@@ -508,107 +484,107 @@
 
 
     <!--添加网关-->
-		<div class="instas10 instas4" v-show="isHide9">
-			<i class="el-icon-circle-close" @click="instas10()"></i>
-			<p>添加网关</p>
-			<table>
-				<tr>
-					<td>楼层：</td>
-					<td>1层</td>
-				</tr>
-				<tr>
-					<td>网关名称：</td>
-					<td>
-						<input type="text" placeholder="请输入网关名称" />
-					</td>
-				</tr>
+		<!--<div class="instas10 instas4" v-show="isHide9">-->
+			<!--<i class="el-icon-circle-close" @click="instas10()"></i>-->
+			<!--<p>添加网关</p>-->
+			<!--<table>-->
+				<!--<tr>-->
+					<!--<td>楼层：</td>-->
+					<!--<td>1层</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>网关名称：</td>-->
+					<!--<td>-->
+						<!--<input type="text" placeholder="请输入网关名称" />-->
+					<!--</td>-->
+				<!--</tr>-->
 
-				<tr>
-					<td>供应商：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
-				</tr>
-				<tr>
-					<td>网关类型：</td>
-					<td>
-						<el-select v-model="value5" placeholder="请选择网关类型">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
-				</tr>
-				<tr>
-					<td>序列号：</td>
-					<td>
-						<input type="text" placeholder="请输入序列号" />
-					</td>
-				</tr>
-			</table>
-			<a @click="instas10()" class="tjss">确定</a>
-		</div>
+				<!--<tr>-->
+					<!--<td>供应商：</td>-->
+					<!--<td>-->
+						<!--<el-select v-model="value8" filterable placeholder="请输入或选择">-->
+						    <!--<el-option-->
+						      <!--v-for="item in options"-->
+						      <!--:key="item.value"-->
+						      <!--:label="item.label"-->
+						      <!--:value="item.value">-->
+						    <!--</el-option>-->
+						<!--</el-select>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>网关类型：</td>-->
+					<!--<td>-->
+						<!--<el-select v-model="value5" placeholder="请选择网关类型">-->
+						    <!--<el-option-->
+						      <!--v-for="item in options"-->
+						      <!--:key="item.value"-->
+						      <!--:label="item.label"-->
+						      <!--:value="item.value">-->
+						    <!--</el-option>-->
+						<!--</el-select>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>序列号：</td>-->
+					<!--<td>-->
+						<!--<input type="text" placeholder="请输入序列号" />-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<a @click="instas10()" class="tjss">确定</a>-->
+		<!--</div>-->
     <!--添加网关配置-->
-		<div class="instas11 instas4" v-show="isHide10">
-			<i class="el-icon-circle-close" @click="instas11()"></i>
-			<p>添加网关配置</p>
-			<table>
-				<tr>
-					<td>楼层：</td>
-					<td>1层<a>解除网关</a></td>
-				</tr>
-				<tr>
-					<td>网关名称：</td>
-					<td>
-						<input type="text" placeholder="请输入网关名称" />
-					</td>
-				</tr>
+		<!--<div class="instas11 instas4" v-show="isHide10">-->
+			<!--<i class="el-icon-circle-close" @click="instas11()"></i>-->
+			<!--<p>添加网关配置</p>-->
+			<!--<table>-->
+				<!--<tr>-->
+					<!--<td>楼层：</td>-->
+					<!--<td>1层<a>解除网关</a></td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>网关名称：</td>-->
+					<!--<td>-->
+						<!--<input type="text" placeholder="请输入网关名称" />-->
+					<!--</td>-->
+				<!--</tr>-->
 
-				<tr>
-					<td>供应商：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
-				</tr>
-				<tr>
-					<td>网关类型：</td>
-					<td>
-						<el-select v-model="value5" placeholder="请选择网关类型">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
-				</tr>
-				<tr>
-					<td>序列号：</td>
-					<td>
-						<input type="text" placeholder="请输入序列号" />
-					</td>
-				</tr>
-			</table>
-			<a @click="instas11()" class="tjss">确定</a>
-		</div>
+				<!--<tr>-->
+					<!--<td>供应商：</td>-->
+					<!--<td>-->
+						<!--<el-select v-model="value8" filterable placeholder="请输入或选择">-->
+						    <!--<el-option-->
+						      <!--v-for="item in options"-->
+						      <!--:key="item.value"-->
+						      <!--:label="item.label"-->
+						      <!--:value="item.value">-->
+						    <!--</el-option>-->
+						<!--</el-select>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>网关类型：</td>-->
+					<!--<td>-->
+						<!--<el-select v-model="value5" placeholder="请选择网关类型">-->
+						    <!--<el-option-->
+						      <!--v-for="item in options"-->
+						      <!--:key="item.value"-->
+						      <!--:label="item.label"-->
+						      <!--:value="item.value">-->
+						    <!--</el-option>-->
+						<!--</el-select>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td>序列号：</td>-->
+					<!--<td>-->
+						<!--<input type="text" placeholder="请输入序列号" />-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<a @click="instas11()" class="tjss">确定</a>-->
+		<!--</div>-->
 
 	</div>
 </template>
@@ -620,7 +596,7 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock} from '../api.js';
+  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL} from '../api.js';
 
     export default {
     	components:{
@@ -634,7 +610,7 @@
     			isHid2:false,
     			isHide:false,
     			temporaryPwd:false,
-    			isHide3:false,
+    			addDoorLockFlag:false,
     			isHide4:false,
     			isHide5:false,
     			isHide6:false,
@@ -664,11 +640,11 @@
 		          label: '北京烤鸭'
 		        }],
           lockTypes:[{
-              value: '1',
-              label: '智能门锁'
+              id: 1,
+              name: '智能门锁'
             },{
-              value: '2',
-              label: 'RFID锁'
+              id: 2,
+              name: 'RFID锁'
             }
           ],
           suppliers:[],
@@ -679,10 +655,17 @@
           doorLockList:[],
           password:"",
           phone:"",
-          doorLockSupplier:62,
+          doorLockSupplier:null,
           doorLockType:1,
           doorLockSn:"",
           doorLockPwd:"",
+          activeRoomId:"",
+          floorName:"",
+          roomNum:"",
+          activeDoorLock:{},
+          updateFloorName:"",
+          newPassword:null,
+          erorrInfo:false,
 		   	}
     	},
       mounted(){
@@ -707,17 +690,18 @@
         hideTable(index){
           this.$set(this.doorLockList[index],"showTable",!this.doorLockList[index].showTable);
         },
-      //获取供应商数据
-      getSupplier(){
-        var that = this;
-        this.$http.post(
-          SytemData,qs.stringify({parentId:61})
-        ).then(function(res){
-          that.suppliers = res.data.entity;
-        }).catch(function(err){
-          console.log(err);
-        })
-      },
+        //获取供应商数据
+        getSupplier(){
+          var that = this;
+          this.$http.post(
+            SytemData,qs.stringify({parentId:61})
+          ).then(function(res){
+            that.suppliers = res.data.entity;
+            that.doorLockSupplier = that.suppliers[0].dataId;
+          }).catch(function(err){
+            console.log(err);
+          })
+        },
         getTemporaryPwd(roomLockId){
           var that = this;
           that.instas3();
@@ -735,6 +719,81 @@
             }
           })
         },
+        //打开添加门锁对话框
+        addDoorLockTo(floorName,roomNum,roomId){
+          this.isHid = !this.isHid;
+          this.addDoorLockFlag = !this.addDoorLockFlag;
+
+          this.floorName = floorName;
+          this.roomNum = roomNum;
+          this.activeRoomId = roomId;
+        },
+        //提交添加门锁
+        addDoorLockSure(){
+          var that = this;
+          var match = /^[0-9]{6}$/;
+          if(!match.test(this.doorLockPwd)){
+            this.erorrInfo = true;
+            return;
+          }else{
+            this.erorrInfo = false;
+          }
+          var data = {
+            roomId:this.activeRoomId,
+            supplierDataId:this.doorLockSupplier,
+            lockType:this.doorLockType,
+            sn:this.doorLockSn,
+            password:this.doorLockPwd
+          };
+          this.$http.post(addDoorLock,qs.stringify(data)).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.addDoorLockFlag = !that.addDoorLockFlag;
+              that.getIntelligenceLock();
+            }
+          })
+        },
+        //打开修改门锁对话框
+        updateDoorLock(item,floorName){
+          this.isHid = !this.isHid;
+          this.isHide4 = !this.isHide4;
+
+          this.activeDoorLock = item;
+          this.updateFloorName = floorName;
+        },
+        //确认修改门锁配置
+        sureUpdateDoorLock(){
+          var that = this;
+          var data = {
+            roomLockId:this.activeDoorLock.roomLockId,
+            supplierDataId:this.activeDoorLock.supplierDataId,
+            lockType:this.activeDoorLock.lockType,
+            sn:this.activeDoorLock.sn
+          };
+          if(this.newPassword){
+            data.password = this.newPassword || "";
+          }
+          this.$http.post(updateDL,qs.stringify(data)).then(function(res){
+            that.newPassword = "";
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.isHide4 = !that.isHide4;
+              that.getIntelligenceLock();
+            }
+          })
+        },
+        deleteDoorLock(){
+          var that = this;
+          this.$http.post(deleteDL,qs.stringify({roomLockId:this.activeDoorLock.roomLockId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.isHide4 = !that.isHide4;
+              that.getIntelligenceLock();
+            }
+          })
+        },
+
+
 
 
     		instas:function(){
@@ -747,7 +806,7 @@
     		},
     		instas4:function(){
     			this.isHid = !this.isHid;
-    			this.isHide3 = !this.isHide3;
+    			this.addDoorLockFlag = !this.addDoorLockFlag;
     		},
     		instas5:function(){
     			this.isHid = !this.isHid;
