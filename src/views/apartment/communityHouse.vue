@@ -208,17 +208,17 @@
       <div class="add-floor-table">
           <table>
             <tr>
-              <td>楼层 :</td>
+              <td><span class="required">*</span>楼层 :</td>
               <td><Input v-model="floorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
             </tr>
             <tr>
-              <td>房间数量 :</td>
+              <td><span class="required">*</span>房间数量 :</td>
               <td><Input v-model="roomSize" placeholder="请填写整数" style="width: 225px;height: 36px"></Input> 间</td>
             </tr>
           </table>
       </div>
       <div class="modal-btn">
-        <Button type="primary" @click="createNewFloor()">确定</Button>
+        <Button type="primary" @click="createNewFloor()" :disabled="!(floorNum && roomSize)">确定</Button>
       </div>
       <div class="modal-close-btn" @click="closeFloorModal()">
         <Icon type="ios-close-empty"></Icon>
@@ -228,7 +228,7 @@
     <div class="community-house-modal" v-if="editFloorModal" @click="closeFloorModal()"></div>
     <div class="community-house-modal-content" v-if="editFloorModal">
       <div class="community-house-modal-content-title">
-        <span>添加楼层</span>
+        <span>修改楼层信息</span>
       </div>
       <div class="add-floor-table">
         <table>
@@ -239,7 +239,7 @@
         </table>
       </div>
       <div class="modal-btn">
-        <Button type="primary" @click="editNewFloor()">确定</Button>
+        <Button type="primary" @click="editNewFloor()" :disabled="!editfloorNum">确定</Button>
       </div>
       <div class="modal-close-btn" @click="closeFloorModal()">
         <Icon type="ios-close-empty"></Icon>
@@ -1078,5 +1078,8 @@
         color: #999;
       }
     }
+  }
+  .required{
+    color: red;
   }
 </style>

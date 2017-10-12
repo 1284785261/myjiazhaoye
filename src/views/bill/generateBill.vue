@@ -28,7 +28,7 @@
               <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else>生成账单并发送给租客</span></Button>
             </div>
           </div>
-          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
             <tr class="tr1">
               <th class="th1">房间</th>
               <th class="th1">水电费情况</th>
@@ -76,9 +76,12 @@
               <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
               <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
-
           </table>
-          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
+          <div class="blank-background-img" v-if="billTotalNum == 0">
+            <img src="../../../static/images/blank/bill_space.png" >
+            <h2>暂无账单内容~</h2>
+          </div>
+          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch" v-if="billTotalNum > 0"></Page>
         </div>
 
       </div>
@@ -243,7 +246,15 @@
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
-
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
+      }
+    }
     .form-search-criteria{
       position: relative;
       padding: 21px 0 21px 20px;
