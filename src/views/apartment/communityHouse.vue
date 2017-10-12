@@ -83,16 +83,18 @@
                         <el-table-column
                           label="状态">
                           <template scope="scope">
-                            <span v-if="scope.row.state == 0" style="color: rgb(46,192,172);">配置中</span>
-                            <span v-else-if="scope.row.state == 1" style="color: rgb(255,102,18);">待出租</span>
-                            <span v-else-if="scope.row.state == 2" >已出租</span>
+                            <span v-if="scope.row.roomStatus == 0" style="color: rgb(46,192,172);">配置中</span>
+                            <span v-else-if="scope.row.roomStatus == 1" style="color: rgb(255,102,18);">待出租</span>
+                            <span v-else-if="scope.row.roomStatus == 2" >已出租</span>
                           </template>
                         </el-table-column>
                         <el-table-column
                           label="操作">
                           <template scope="scope">
-                            <el-button type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
-                            <el-button type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
+                            <span v-if="scope.row.roomStatus == 2" style="color: #ccc;">编辑</span>
+                            <span v-if="scope.row.roomStatus == 2" style="color: #ccc;">删除</span>
+                            <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
+                            <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
                         </el-table-column>
                       </template>
@@ -569,7 +571,7 @@
       getCommunityListRoom(){
         var that = this;
         this.$http.post(Apartment, {"communityId": this.communityId})
-          .then(function (res) {
+          .then(function (res) {debugger
             if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
               that.rootData = res.data.entity;
             }else{

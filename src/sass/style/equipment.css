@@ -26,7 +26,7 @@
 }
 #equipmentMan .el-tabs .el-tabs__header .el-tabs__nav{
 	margin-left: 20px;
-	
+
 }
 .equipment1{
 	border-bottom: 20px solid #f0f0f0;
@@ -68,7 +68,7 @@
 .equipment1 table td{
 	border: 1px solid #DCDCDC;
 	height: 68px;
-	font-size: 12px;
+	font-size: 14px;
 	text-align: center;
 }
 
@@ -88,7 +88,7 @@
 	line-height: 68px;
 }
 .equipment2 table tr td div{
-	text-align: center;	
+	text-align: center;
 }
 .scherm{
 	width: 100%;
@@ -120,7 +120,7 @@
 	margin-bottom: 10px;
 }
 .instas2 p{
-	font-size: 12px;
+	font-size: 14px;
 	color: #000;
 	line-height: 20px;
 }
@@ -169,7 +169,7 @@
     top: -41px;
     font-size: 36px;
     color: #3d3d3d;
-    cursor: pointer;    
+    cursor: pointer;
 }
 .instas3 p:nth-child(2){
 	width: 100%;
@@ -181,26 +181,26 @@
 	color: white;
 	text-align: center;
 	line-height: 60px;
-	
+
 }
 .instas3 span{
 	display: inline-block;
 	margin-top: 50px;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 }
 .instas3 input{
 	width: 218px;
 	height: 34px;
 	padding-left: 5px;
-	font-size: 12px;
+	font-size: 14px;
 	margin-left: 10px;
 }
 .instas3 p:nth-child(5){
 	margin-top: 20px;
 	color: #ff6612;
 	margin-left:70px;
-	font-size: 12px;
+	font-size: 14px;
 }
 .instas3 p:nth-child(5) i{
 	margin-right: 10px;
@@ -233,7 +233,7 @@
 	color: #038BE2;
 	margin-right: 20px;
 	margin-top: 15px;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 }
 .instas4,.instas5{
@@ -254,7 +254,7 @@
     top: -41px;
     font-size: 36px;
     color: #3d3d3d;
-    cursor: pointer;    
+    cursor: pointer;
 }
 .instas4 p{
 	width: 100%;
@@ -277,7 +277,7 @@
 .instas4 table tr td:nth-child(1){
 	text-align: right;
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 14px;
 }
 .instas4 table tr td:nth-child(2){
 	text-align: left;
@@ -316,7 +316,7 @@
     top: -41px;
     font-size: 36px;
     color: #3d3d3d;
-    cursor: pointer;    
+    cursor: pointer;
 }
 .instas5 p{
 	width: 100%;
@@ -339,7 +339,7 @@
 .instas5 table tr td:nth-child(1){
 	text-align: right;
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 14px;
 }
 .instas5 table tr td:nth-child(2){
 	text-align: left;

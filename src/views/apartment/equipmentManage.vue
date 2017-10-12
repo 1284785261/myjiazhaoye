@@ -40,17 +40,18 @@
                       <td>{{item.supplierDataName}}</td>
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
                       <td>
-                        <span v-if="item.lockStatus == 1">在线</span>
-                        <span v-else-if="item.lockStatus == 2">离线</span>
-                        <span v-else-if="item.lockStatus == 3">冻结</span>
-                        <span v-else>未配置</span>
+                        <span v-if="item.lockStatus == 1" style="color: #3dc4b2;">在线</span>
+                        <span v-else-if="item.lockStatus == 2" style="color: #ccc;">离线</span>
+                        <span v-else-if="item.lockStatus == 3" style="color: red;">冻结</span>
+                        <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
                       <td>
                         <div>
-                          <a @click="getTemporaryPwd(item.roomLockId)">获取临时密码</a>
+                          <a @click="getTemporaryPwd(item.roomLockId)" v-if="item.lockStatus == 1">获取临时密码</a>
                           <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus">修改</a>
-                          <router-link to="/apartment/doorRecord">开门记录</router-link>
-                          <a @click="instas()">冻结</a>
+                          <router-link to="/apartment/doorRecord" v-if="item.lockStatus">开门记录</router-link>
+                          <a @click="freezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus && item.lockStatus !=3">冻结</a>
+                          <a @click="unfreezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus == 3">解冻</a>
                           <a @click="addDoorLockTo(doorLock.floorName,item.roomNum,item.roomId)" v-if="item.lockStatus !=1 && item.lockStatus !=2 && item.lockStatus !=3">添加门锁</a>
                         </div>
                       </td>
@@ -192,18 +193,12 @@
 		</div>
 
 
-		<div class="scherm" v-show="isHid">
+		<div class="scherm" v-show="isHid" @click="closeModal()">
 		</div>
 		<div class="scherm scherm2" v-show="isHid2">
 		</div>
 
-    <!--冻结门锁-->
-		<div class="instas2" v-show="isHide">
-				<i class="ivu-icon ivu-icon-ios-locked-outline"></i>
-				<p>你确定要<i>冻结</i></p>
-				<p>房间<b>1层 103</b>的门锁吗?</p>
-				<a>确定</a><a @click="instas()">取消</a>
-		</div>
+
     <!--获取临时密码-->
 		<div class="instas3" v-show="temporaryPwd">
 				<i class="el-icon-circle-close" @click="instas3()"></i>
@@ -317,18 +312,18 @@
 			<a>确定</a><a @click="instas6()">取消</a>
 		</div>
     <!--冻结门锁-->
-    <div class="instas6 instas2" v-show="false">
-      <Icon type="ios-locked-outline"></Icon>
-      <p>你确定要<i>解冻</i></p>
-      <p>房间<b>1层 103</b>的门锁吗?</p>
-      <a>确定</a><a @click="instas6()">取消</a>
+    <div class="instas2" v-show="freezeUpDoorLock">
+      <i class="ivu-icon ivu-icon-ios-locked-outline"></i>
+      <p>你确定要<i>冻结</i></p>
+      <p>房间<b>{{floorName}}层 {{roomNum}}</b>的门锁吗?</p>
+      <a @click="sureFreezeUp()">确定</a><a @click="closeFreezeUp()">取消</a>
     </div>
     <!--解冻门锁-->
-    <div class="instas6 instas2" v-show="false">
+    <div class="instas6 instas2" v-show="unFreezeUpDoorLock">
       <Icon type="ios-unlocked-outline"></Icon>
       <p>你确定要<i>解冻</i></p>
-      <p>房间<b>1层 103</b>的门锁吗?</p>
-      <a>确定</a><a @click="instas6()">取消</a>
+      <p>房间<b>{{floorName}}层 {{roomNum}}</b>的门锁吗?</p>
+      <a @click="sureUnFreezeUp()">确定</a><a @click="instas6()">取消</a>
     </div>
 
 
@@ -596,7 +591,7 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL} from '../api.js';
+  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL} from '../api.js';
 
     export default {
     	components:{
@@ -666,6 +661,9 @@
           updateFloorName:"",
           newPassword:null,
           erorrInfo:false,
+          freezeUpDoorLock:false,
+          unFreezeUpDoorLock:false,
+          activeRoomLockId:null,
 		   	}
     	},
       mounted(){
@@ -677,7 +675,7 @@
         //获取智能门锁列表
         getIntelligenceLock(){
           var that = this;
-          this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+          this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
               that.doorLockList = rootData.page;
@@ -792,8 +790,50 @@
             }
           })
         },
-
-
+        //打开冻结门锁
+        freezeUp(floorName,roomNum,roomLockId){
+          this.isHid = !this.isHid;
+          this.freezeUpDoorLock = !this.freezeUpDoorLock;
+          this.activeRoomLockId = roomLockId;
+          this.floorName = floorName;
+          this.roomNum = roomNum;
+        },
+        //确定冻结门锁
+        sureFreezeUp(){
+          var that = this;
+          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.freezeUpDoorLock = !that.freezeUpDoorLock;
+              that.getIntelligenceLock();
+            }
+          })
+        },
+        //取消
+        closeFreezeUp(){
+          var that = this;
+          that.isHid = !that.isHid;
+          that.freezeUpDoorLock = !that.freezeUpDoorLock;
+        },
+        //打开解冻门锁对话框
+        unfreezeUp(floorName,roomNum,roomLockId){
+          this.isHid = !this.isHid;
+          this.unFreezeUpDoorLock = !this.unFreezeUpDoorLock;
+          this.activeRoomLockId = roomLockId;
+          this.floorName = floorName;
+          this.roomNum = roomNum;
+        },
+        //确定解冻门锁
+        sureUnFreezeUp(){
+          var that = this;
+          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.unFreezeUpDoorLock = !that.unFreezeUpDoorLock;
+              that.getIntelligenceLock();
+            }
+          })
+        },
 
 
     		instas:function(){
@@ -865,7 +905,14 @@
 		    },
 
 
-
+        closeModal(){
+          this.isHid = false;
+          this.temporaryPwd = false;
+          this.addDoorLockFlag = false;
+          this.isHide4 = false;
+          this.freezeUpDoorLock = false;
+          this.unFreezeUpDoorLock = false;
+        }
     	},
       filters:{
         timefilter(value,format){
@@ -875,7 +922,6 @@
         }
       },
     	created(){
-
 
     	}
     }

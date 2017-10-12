@@ -459,5 +459,6 @@ export const sendMessege =host3+'/cxkj-center/apis/verify/CxkjCenterSendcode';//
 export const addDoorLock =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationAdd200140';//添加门锁
 export const updateDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUpdate200141';//修改门锁配置
 export const deleteDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationDelete200142';//解除门锁
+export const unLockDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
 
 
