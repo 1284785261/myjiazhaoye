@@ -230,7 +230,11 @@
       deepCopy(source){
         var result={};
         for (var key in source) {
-          result[key] = typeof source[key]==='object'? deepCoyp(source[key]): source[key];
+          if(key == "housetypeId"){
+            result[key] = null;
+          }else{
+            result[key] = typeof source[key]==='object'? deepCoyp(source[key]): source[key];
+          }
         }
         return result;
       },
@@ -244,10 +248,10 @@
                   return;
                 }
             }
-        }
+        }debugger
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
-        ).then(function(res){
+        ).then(function(res){debugger
             that.successMessage = "编辑户型成功!";
             that.successModal = true;
             setTimeout(function(){

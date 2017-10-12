@@ -464,13 +464,18 @@
           }
         }
 
-        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
-          that.successMessage = "添加房间成功！";
-          that.successModal = true;
-          setTimeout(function(){
-            that.successModal = false;
-            history.go(-1);
-          },1000)
+        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
+          if(res.status == 200 && res.data.code === 10000){
+            that.successMessage = "添加房间成功！";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+              history.go(-1);
+            },1000)
+          }else if(res.data.code === 10004){
+            that.warningModal = true;
+            that.warningMessage =res.data.entity +  "房间号已经存在";
+          }
         }).catch(function(err){
           console.log(err);
         })
@@ -515,7 +520,7 @@
             }
           }
         }
-        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
+        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";
               that.successModal = true;
@@ -523,6 +528,9 @@
                 that.successModal = false;
                 history.go(-1);
               },1000)
+            }else if(res.data.code === 10004){
+              that.warningModal = true;
+              that.warningMessage =res.data.entity +  "房间号已经存在";
             }
         }).catch(function(err){
           console.log(err);

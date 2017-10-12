@@ -54,7 +54,7 @@
                   <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
                 </div>
               </div>
-              <div class="big-content-wrap">
+              <div class="big-content-wrap" v-if="financeTotalNum > 0">
                 <ul>
                   <li>
                     <p>收入金额</p>

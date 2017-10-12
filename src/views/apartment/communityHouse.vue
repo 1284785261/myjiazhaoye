@@ -11,11 +11,11 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>社区资源</h3>
-          <span>佳兆业航运WEWA空间</span>
+          <span>{{communityName}}</span>
         </div>
-        <div class="message-tis">
+        <div class="message-tis community-house-wrap">
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-            <el-tab-pane label="公寓(1000)" name="first">
+            <el-tab-pane :label="'公寓('+CommunityRoomCount+')'" name="first">
               <div class="house_hu">
                 <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux">管理户型</router-link>
                 <a href="javascript:;" class="adds" @click="openFloorModal()">添加楼层</a>
@@ -101,6 +101,10 @@
                     </el-table>
                   </div>
                 </div>
+              </div>
+              <div class="blank-background-img" v-if="CommunityRoomCount == 0">
+                <img src="../../../static/images/blank/house_space.png" >
+                <h2>暂无公寓内容~</h2>
               </div>
             </el-tab-pane>
             <el-tab-pane label="开放工位" name="second">
@@ -296,7 +300,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor,placeInfo,officeInfo,deleteOffice,meetingInfo,deleteMeeting,IntroduceInfo} from '../api.js';
+  import {api,RoomAdd,Apartment,Place,Office,ShutdownRoom,Meeting,SytemData,deleteFloor,copyFloor,editFloor,placeInfo,officeInfo,deleteOffice,meetingInfo,deleteMeeting,IntroduceInfo,hostTitle} from '../api.js';
   import qs from 'qs'
 
   export default{
@@ -310,10 +314,12 @@
     data(){
       return {
         communityId:"",
+        communityName:"",
         activeName2: 'first',
         newRowNum:1,
         newMeetingRoeNum:1,
         rootData:[],
+        CommunityRoomCount:0,
         CommunityListOffice:[],
         officeSelectIndex:0,
         CommunityListMeeting:[],
@@ -342,6 +348,7 @@
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
+      this.getCommunityInfo();
       this.getCommunityListRoom();
       this.init();
       this.getIntroduceInfo();
@@ -353,8 +360,10 @@
     },
     computed:{
       filterRootData:function(){
+        var count = 0;
         if(this.rootData.length>0){
           for(var i =0;i<this.rootData.length;i++){
+            count += this.rootData[i].cxkjCommunityListRoom.length;
             for(var j = 0;j<this.rootData[i].cxkjCommunityListRoom.length;j++){
               this.$set(this.rootData[i],"showTable",true);
               var room = this.rootData[i].cxkjCommunityListRoom[j];
@@ -367,6 +376,7 @@
             }
           }
         }
+        this.CommunityRoomCount = count;
         this.rootData.sort(function(a,b){
            return a.floorName - b.floorName
         });
@@ -395,6 +405,17 @@
       },
       handleClick(){
 
+      },
+      //获取社区信息
+      getCommunityInfo(){
+        var that = this;
+        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
+          if(res.data.code == 10000){
+            that.communityName = res.data.result.community.communityName;
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
       },
       //编辑房间
       editRoom(roomId,floorName,communityId,floorId){
@@ -1044,6 +1065,17 @@
         width: 90px;
         height: 30px;
         margin-top: 20px;
+      }
+    }
+  }
+  .community-house-wrap{
+    .blank-background-img{
+      text-align: center;
+      img{
+        padding-top: 150px;
+      }
+      h2{
+        color: #999;
       }
     }
   }
