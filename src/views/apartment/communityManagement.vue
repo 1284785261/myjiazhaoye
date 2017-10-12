@@ -818,8 +818,8 @@
 	
 	.message-ti .block {
 		position: absolute;
-		bottom: 20%;
 		left: 50%;
+		margin-top: 120px;
 		transform: translate(-50%, -50%);
 	}
 	
