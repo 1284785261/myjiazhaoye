@@ -84,7 +84,7 @@
 	border: none;
 	border: 1px solid #DCDCDC;
 }
-#lodgingHouse .loadin2 a{
+#lodgingHouse .loadin2 .addv{
 	display: block;
 	margin-left: 154px;
 	margin-top: 30px;
@@ -93,6 +93,16 @@
 	text-align: center;
 	line-height: 36px;
 	border: 1px solid #038be2;
+	border-radius: 5px;
+	font-weight: bold;
+}
+#lodgingHouse .loadin2 table tr td .dels{
+	display: inline-block;
+	margin-left: 220px;
+	text-align: center;
+	width: 60px;
+	height: 36px;
+	line-height: 36px;
 	border-radius: 5px;
 	font-weight: bold;
 }

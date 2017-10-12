@@ -1,5 +1,5 @@
 <template>
-	<div id="housesubscrib">
+	<div id="housesub">
 		<menu-box></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -31,30 +31,38 @@
 
 						</thead>
 						<tr v-for="(item,index) in Userlist">
-							<td>{{item.activityId}}</td>
+							<td>{{index+1}}</td>
 							<td>{{item.activityNum}}</td>
 							<td>{{item.beginDate | time}}</td>
 							<td>{{item.activityTheme}}</td>
 							<td>{{item.activityContent}}</td>
 							<td>{{item.endRule | endRule}}</td>
 							<td>{{item.user.userName}}</td>
-							<td v-if="item.createTime">{{item.createTime | time}}</td>
+							<td v-if="item.user.createtime">{{item.user.createtime | time}}</td>
 							<td v-else>--</td>
 							<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
 							<td>
 								<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link>
-								<a>作废</a>
+								<a @click="zuofei(item)" v-if="item.activityStatus != 3">作废</a>
 							</td>
 						</tr>
 					</table>
 					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize2 layout="prev, pager, next,total,jumper" :total=totalNum>
-
 					</el-pagination>
 				</div>
 			</div>
 			<footer-box></footer-box>
 		</div>
-
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
+		<div class="lose" v-show="isShow1">
+			<span>确认<i>作废</i>以下活动吗？</span>
+			<p></p>
+			<a @click="qsm1">确定</a>
+			<a @click="qb1">取消</a>
+		</div>
+		<div class="scherm" v-show="isHide">
+		</div>
 	</div>
 </template>
 
@@ -63,18 +71,26 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
+	import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostActivity } from '../api.js';
+	import { hostActivity,hostActivityModify } from '../api.js';
 	import qs from 'qs';
 
 	export default {
 		components: {
 			rightHeader,
 			menuBox,
-			footerBox
+			footerBox,
+			successModal,
+			warningModal
 		},
 		data() {
 			return {
+				successModal: false,
+				warningModal: false,
+				successMessage: '添加部门成功',
+				warningMessage: '添加部门失败，请检查是否重复',
 				currentPage3: 1,
 				radio: '1',
 				ishide: false,
@@ -100,7 +116,10 @@
 				pageSize2: 10,
 				totalNum: 0,
 				pageNum: '1',
-				Userlist: null
+				Userlist: null,
+				isHide:false,
+				isShow1:false,
+				activityId:''
 			}
 		},
 		mounted() {
@@ -113,7 +132,10 @@
 				}
 			},
 			Status(val){
-				if(val == '1'){
+				if(val == '0'){
+					return '即将开始';
+				}
+				else if(val == '1'){
 					return '有效';
 				}
 				else if(val == '2'){
@@ -124,27 +146,25 @@
 				}
 			},
 			endRule(val){
-				if(val == '0'){
-					return '到期结束'
+				if(val){
+					let arr=[];
+					arr = val.split(",");
+					for(let i = 0 ;i<arr.length;i++){
+						if(arr[i] == '0' && arr.length ==1){
+							return '到期结束'
+						}
+						else if(arr[i] == '1' && arr.length ==1){
+							return '送完即止'
+						}
+						else if(arr[0] == '2' && arr.length ==1){
+							return '长期有效'
+						}
+						else if(arr[i] == '0' || arr[i] == '1'){
+							return '到期结束 + 送完即止'
+						}
+					}
 				}
-				else if(val == '1'){
-					return '送完即止'
-				}
-				else if(val == '2'){
-					return '长期有效'
-				}
-				else if(val == '0,1'){
-					return '到期结束+送完即止'
-				}
-				else if(val == '0,2'){
-					return '到期结束+长期有效'
-				}
-				else if(val == '1,2'){
-					return '送完即止+长期有效'
-				}
-				else if(val == '0,1,2'){
-					return '到期结束+送完即止+长期有效'
-				}
+				
 			}
 		},
 		methods: {
@@ -175,6 +195,48 @@
 					}
 				}).catch((err) => {
 					console.log(err);
+				})
+			},
+			closeWarningModal() {
+				this.warningModal = false;
+			},
+			zuofei(item){
+				this.isHide = true;
+				this.isShow1 = true;
+				console.log(item);
+				this.activityId = item.activityId;
+			},
+			qb1(){
+				this.isHide = false;
+				this.isShow1 = false;
+			},
+			qsm1(){
+				//hostActivityModify
+				this.isHide = false;
+				this.isShow1 = false;
+				axios.post(hostActivityModify,
+					qs.stringify({
+						activityId:this.activityId,
+						activityStatus:3
+					})
+				).then((res)=>{
+					console.log(res);
+					if(res.status == 200 &&res.data.code == 10000){
+						this.successMessage = '操作成功'
+						this.successModal = true;
+						setTimeout(() => {
+							this.successModal = false;
+							this.datas();
+						}, 1000);
+					}
+					else{
+						this.warningMessage = response.data.content;
+						this.warningModal = true;
+					}
+				}).catch((err)=>{
+					console.log(err);
+					this.warningMessage = '操作失败，服务器异常';
+					this.warningModal = true;
 				})
 			}
 		},

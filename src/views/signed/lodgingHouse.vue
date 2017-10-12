@@ -114,11 +114,11 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber">
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber"><a class="dels" @click="dels(userInfos,index)">删除</a>
 									</td>
 								</tr>
 							</table>
-							<a @click="adduser"> + 添加合租人</a>
+							<a @click="adduser" class="addv"> + 添加合租人</a>
 						</div>
 						<div class="ivu-floor loadin3">
 							<p>租期信息:</p>
@@ -190,7 +190,7 @@
 							<table>
 								<tr>
 									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}元</td>
+									<td style="color: red;">{{firstmoney}}</td>
 								</tr>
 								<tr>
 									<td>首款支付方式:</td>
@@ -394,11 +394,11 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber">
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber"><a class="dels" @click="dels(userInfos,index)">删除</a>
 									</td>
 								</tr>
 							</table>
-							<a @click="adduser"> + 添加合租人</a>
+							<a @click="adduser" class="addv"> + 添加合租人</a>
 						</div>
 						<div class="ivu-floor loadinv">
 							<p>公司信息:</p>
@@ -482,7 +482,7 @@
 							<table>
 								<tr>
 									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}元</td>
+									<td style="color: red;">{{firstmoney}}</td>
 								</tr>
 								<tr>
 									<td>首款支付方式:</td>
@@ -534,7 +534,7 @@
 										<div class="ivu-main-img">
 											<div class="item-img">
 												<div class="uplodas">
-													<div v-if="!uploadList1[0]">
+													<div v-if="!uploadList[0]">
 													<input type="file"  accept="image/png,image/jpg" name="file" class="file" @change="uploadfile"/>	
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传经办人身份证</span>
@@ -788,7 +788,7 @@
 							q+=parseInt(this.tableRepairs[i].date);
 						}
 					}
-						return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2);
+						return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2) +'元';
 				}
 				else if(this.value2 == '押一付一'){
 					let q=0;
@@ -797,7 +797,7 @@
 							q+=parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return (vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2);
+					return (vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2)  +'元';
 				}
 				else if(this.value2 == '季付'){
 					let q=0;
@@ -806,7 +806,7 @@
 							q+=parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2);
+					return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2)  +'元';
 				}
 				else if(this.value2 == '年付'){
 					let q=0;
@@ -815,7 +815,7 @@
 							q+=parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return (vm.housetderta.roomRent * vm.discount * 12 / 100 +parseInt(vm.serve)+parseInt(q)).toFixed(2);
+					return (vm.housetderta.roomRent * vm.discount * 12 / 100 +parseInt(vm.serve)+parseInt(q)).toFixed(2)  +'元';
 				}
 			},
 			twomoney:function(){
@@ -1204,6 +1204,11 @@
 					return false;
 				}
 				
+			},
+			dels(info,index){
+				console.log(info);
+				console.log(index);
+				this.ieList.splice(index,1);
 			},
 			alway(fires,val){
 				let vm = this

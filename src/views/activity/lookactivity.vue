@@ -16,7 +16,7 @@
 		    		<table class="looks">
 		    			<tr>
 		    				<td>活动ID：</td>
-		    				<td>{{Userlist.activityId}}</td>
+		    				<td>{{Userlist.activityNum}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>活动主题：</td>
@@ -36,7 +36,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>结束时间：</td>
-		    				<td>{{Userlist.endRule | Status}}</td>
+		    				<td>{{Userlist.endDate | time}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>总金额：</td>
@@ -44,7 +44,8 @@
 		    			</tr>
 		    			<tr>
 		    				<td>优惠券有效期：</td>
-		    				<td>{{Userlist.validityDate | time}}</td>
+		    				<td v-if="Userlist.validityDate != null">{{Userlist.validityDate | time}}</td>
+		    				<td v-else>无期限</td>
 		    			</tr>
 		    		</table>
 		    		<p></p>
