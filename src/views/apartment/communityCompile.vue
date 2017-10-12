@@ -105,8 +105,8 @@
 						<!--<el-button type="primary" @click="Complie" v-loading.fullscreen.lock="fullscreenLoading">
 							确定
 						</el-button>-->
-						<Button type="primary" @click="Complie" v-if="communityId == '' ">确定</Button>
-						<Button type="primary" @click="Complie2" v-else>确定</Button>
+						<Button type="primary" @click="Complie" v-if="communityId == '' " :disabled="disabled">确定</Button>
+						<Button type="primary" @click="Complie2" v-else :disabled="disabled2">确定</Button>
 						<Button>取消</Button>
 					</div>
 				</div>
@@ -179,7 +179,9 @@
 				communityFreeLeaseEnd: null, //免租期结束时间
 				communityContract: '', //物业合同
 				communityId:'',
-              	fileList3: []
+              	fileList3: [],
+              	disabled:false,
+              	disabled2:false
 			}
 		},
 		mounted() {
@@ -273,7 +275,7 @@
 				let vm = this
 				console.log(this.pdfName);
 				vm.communityContract = this.pdfName.join(',');
-
+				vm.disabled = false;
 				console.log(vm.communityContract);
 //				console.log(vm.communityOpeningDate)
 //				console.log(vm.communityPhone)
@@ -309,29 +311,37 @@
 				this.fullscreenLoading = true;
 				if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
 					this.fullscreenLoading = false;
-					alert('信息填入不完整，请补充完信息');
+					this.warningMessage = '信息填入不完整，请补充完信息';
+					this.warningModal = true;
 				} else {
 					this.$http.post(hostComplie, vm.param).then(res => {
 
 							if(res.status == 200 && res.data.code == 10000) {
+								this.successMessage = '添加成功';
+								this.successModal = true;
 								setTimeout(() => {
+									this.successModal = false;
 									this.fullscreenLoading = false;
-									alert('已添加成功！');
+									vm.disabled = true;
 									vm.$router.push('/apartment/communityManagement');
-								}, 3000);
+								}, 2000);
 
 							} else {
 								this.fullscreenLoading = false;
-								alert('添加失败！请检查错误信息')
+								this.warningMessage = res.data.content;
+								this.warningModal = true;
 							}
 						})
 						.catch(error => {
 							console.log(error);
+							this.warningMessage = '添加失败,服务器出现异常';
+							this.warningModal = true;
 						})
 				}
 			},
 			Complie2() {
 				let vm = this
+				vm.disabled2 = false;
 				//console.log(this.pdfName);
 				if(vm.communityId != ''){
 					vm.communityContract = this.pdfName.join(',');
@@ -372,25 +382,31 @@
 					this.fullscreenLoading = true;
 					if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
 						this.fullscreenLoading = false;
-						alert('修改信息不完整，请补充完信息');
+						this.warningMessage = '修改信息不完整，请补充完信息';
+						this.warningModal = true;
 					} else {
 					this.$http.post(hostaddComplie, vm.param2).then(res => {
 							console.log(res.data)
-							debugger
 							if(res.status == 200 && res.data.code == 10000) {
+								this.successMessage = '修改成功';
+								this.successModal = true;
 								setTimeout(() => {
 									this.fullscreenLoading = false;
-									alert('修改成功！');
+									this.successModal = false;
+									vm.disabled2 = true;
 									vm.$router.push('/apartment/communityManagement');
 								}, 3000);
 	
 							} else {
 								this.fullscreenLoading = false;
-								alert('修改失败！请检查错误信息')
+								this.warningMessage = res.data.content;
+								this.warningModal = true;
 							}
 						})
 						.catch(error => {
 							console.log(error);
+							this.warningMessage = '修改失败,服务器出现异常';
+							this.warningModal = true;
 						})
 					}
 				}

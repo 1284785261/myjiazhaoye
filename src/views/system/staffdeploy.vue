@@ -357,7 +357,8 @@
 				console.log(this.cxkjCommunityUserRelationList);
 				axios.post(hostAddUserRelation,
 					{
-						cxkjCommunityUserRelationList:this.cxkjCommunityUserRelationList
+						cxkjCommunityUserRelationList:this.cxkjCommunityUserRelationList,
+						communityId:this.communityId
 					}
 				).then((res)=>{
 					console.log(res);

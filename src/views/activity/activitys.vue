@@ -16,7 +16,7 @@
 					<div class="activitys1">
 						<router-link to="/activity/addactivity" class="refund"> + 新增活动</router-link>
 					</div>
-					<table>
+					<table v-if="Userlist != null">
 						<thead>
 							<td>序号</td>
 							<td>活动ID</td>
@@ -100,7 +100,7 @@
 				pageSize2: 10,
 				totalNum: 0,
 				pageNum: '1',
-				Userlist: {}
+				Userlist: null
 			}
 		},
 		mounted() {

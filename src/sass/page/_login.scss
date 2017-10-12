@@ -101,10 +101,13 @@
     }
     .ivu-form-bottom{
       .ivu-form-item-content{
+        text-align: right;
         &>a{
           font-size: 14px;
           color:#666;
-          margin-right: 75px;
+        }
+        &>a:hover{
+            color: red;
         }
         em{
           color:#666;

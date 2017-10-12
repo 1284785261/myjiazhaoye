@@ -26,6 +26,7 @@
 	border: none;
 	border: 1px solid #dcdcdc;
 	color: #c1b0be;
+	padding-left: 10px;
 }
 .message-tis .cop tr td .el-select{
 	width: 142px;
@@ -55,6 +56,7 @@
 	height: 35px;
 	border: none;
 	border: 1px solid #dcdcdc;
+	padding-left: 10px;
 }
 .message-tis .cop tr .unloading{
 	position: absolute;

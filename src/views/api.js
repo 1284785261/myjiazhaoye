@@ -261,6 +261,15 @@ const Activity = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivity
 
 //活动管理-详情
 const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityInfo200094'
+
+//活动管理-活动范围
+const ActivityArea = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityArea200095'
+
+//活动管理-新增活动
+const ActivityAdd = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityAdd200093'
+
+//活动管理-活动编号随机码
+const RangeRandom = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityRangeRandom200096'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -347,6 +356,9 @@ export const hostAllocation = host3 + Allocation;
 export const hostAddToManagement = host3 + AddToManagement;
 export const hostActivity = host3 + Activity;
 export const hostActivityInfo = host3 + ActivityInfo;
+export const hostActivityArea = host3 + ActivityArea;
+export const hostActivityAdd = host3 + ActivityAdd;
+export const hostRangeRandom = host3 + RangeRandom;
 export const host = host3;
 //export default {
 //hosts:function(){

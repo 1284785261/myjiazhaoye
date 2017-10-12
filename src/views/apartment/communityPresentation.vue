@@ -173,12 +173,14 @@
 							<UE :defaultMsg='defaultMsg' :config=config ref="ue"></UE>
 						</div>
 					</div>
-					<button class="confirm" @click="click">确定</button>
-					<button class="call">取消</button>
+					<button class="confirm" @click="click" :disabled="disabled">确定</button>
+					<button class="call" @click="goBack">取消</button>
 				</div>
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 <script>
@@ -187,6 +189,8 @@
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
 	import footerBox from '../../components/footerBox.vue';
+	import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
 	import UE from '../../components/uedit.vue';
 	import axios from 'axios';
 	import {hostPresent,imgPath,hostTitle,host} from '../api.js';
@@ -196,7 +200,9 @@
 			rightHeader,
 			menuBox,
 			footerBox,
-			UE
+			UE,
+			successModal,
+			warningModal
 		},
 		data() {
 			return {
@@ -204,6 +210,10 @@
 					module: 'introduce'
 				},
 				host3:'',
+				successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
 				content:'',
 				filelist1:[],
 				filelist2:[],
@@ -224,13 +234,12 @@
 				communityId:null, //社区ID
 				community:null, //当前页面数据
 				url:hostPresent,
-				param:null,
 				imgPath:'',
 				defaultMsg:'',
 				defaultList: [],
 				defaultList2: [],
 				defaultList3: [],
-
+				disabled:false
 			}
 
 		},
@@ -241,51 +250,58 @@
 			this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.id;
 			this.present();	
-			this.param = new FormData();
 			this.imgPath = imgPath
 		},
 		methods: {
 			click(){
 				let vm = this
-
+				vm.disabled = false;
 				vm.content = this.$refs.ue.getUEContent(); 
-				
+				let param = new FormData();
 //				this.$notify({
 //					title: '获取成功，可在控制台查看！',
 //					message: vm.content,
 //					type: 'success'
 //				});
-			
 				console.log(vm.content)
-				this.param.append("communityId",vm.communityId);
-				this.param.append("communityInfo",vm.content);
-//				this.param.append("communityFlatHide",vm.uploadList);
-//				this.param.append("communityFaceHide",vm.uploadList2);
-//				this.param.append("communityWorkHide",vm.uploadList3);
+				param.append("communityId",vm.communityId);
+				param.append("communityInfo",vm.content);
 				console.log(100);
 				console.log(this.filelist1.join(','));
 				console.log(this.filelist2.join(','));
 				console.log(this.filelist3.join(','));
-				vm.param.append('communityFlat', this.filelist1.join(','));
-				vm.param.append('communityFace', this.filelist2.join(','));
-				vm.param.append('communityWork', this.filelist3.join(','));
-				this.$http.post( hostPresent, vm.param).then((response) =>{
+				param.append('communityFlat', this.filelist1.join(','));
+				param.append('communityFace', this.filelist2.join(','));
+				param.append('communityWork', this.filelist3.join(','));
+				this.$http.post( hostPresent, param).then((response) =>{
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
-						alert('操作成功');
+						this.successMessage = '操作成功';
+						this.successModal = true;
+						setTimeout(() => {
+							this.successModal = false;
+							vm.disabled = true;
+							vm.$router.push('/apartment/communityManagement');
+						}, 2000);
 						//vm.$router.push({path:"/apartment/communityManagement"});
 					}
-//					else{
-//						alert('操作失败，请检查信息完整');
-//					}
+					else{
+						this.warningMessage = response.data.content;
+						this.warningModal = true;
+					}
 				})
 				.catch((error) =>{
 					console.log(error);
+					this.warningMessage = '操作失败,服务器出现异常';
+					this.warningModal = true;
 				})
 			},
 			handleView1(name) {
 				this.imgName = name.url;
 				this.visible = true;
+			},
+			goBack(){
+				this.$router.push('/apartment/communityManagement');
 			},
             handleSuccess (res, file) {
             	//console.log(res);
@@ -298,6 +314,9 @@
             	console.log(this.uploadList);
             	//console.log(this.filelist1);
             },
+            closeWarningModal() {
+				this.warningModal = false;
+			},
             handleFormatError (file) {
                 this.$Notice.warning({
                     title: '文件格式不正确',
@@ -383,7 +402,7 @@
                 });
             },
             handleBeforeUpload3 () {
-                const check = this.uploadList3.length+this.uploadList6.length < 5;
+                const check = this.uploadList3.length + this.uploadList6.length < 5;
                 if (!check) {
                     this.$Notice.warning({
                         title: '最多只能上传 5 张图片。'
@@ -603,18 +622,20 @@
 		text-align: center;
 		margin-left: 500px;
 		margin-right: 30px;
+		cursor: pointer;
 	}
 	
 	.call {
 		width: 140px;
 		height: 40px;
 		border: none;
-		border: 1px solid #666;
+		border: 1px solid #dcdcdc;
 		border-radius: 5px;
 		background: #f8f8f8;
 		color: #666666;
 		line-height: 40px;
 		text-align: center;
+		cursor: pointer;
 	}
 	
 	#right-content {
@@ -654,136 +675,3 @@
 	
 	
 </style>
-
-<!--<template>
-	<div>	
-    <div class="demo-upload-list" v-for="item in uploadList">
-        <template v-if="item.status === 'finished'">
-            <img :src="item.url">
-            <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-            </div>
-        </template>
-        <template v-else>
-            <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-        </template>
-    </div>
-    <Upload
-        ref="upload"
-        :show-upload-list="false"
-        :default-file-list="defaultList"
-        :on-success="handleSuccess"
-        :format="['jpg','jpeg','png']"
-        :max-size="2048"
-        :on-format-error="handleFormatError"
-        :on-exceeded-size="handleMaxSize"
-        :before-upload="handleBeforeUpload"
-        multiple
-        type="drag"
-        :action="host + '/cxkj-room/apis/system/file/SystemFileUpload100023'"
-        style="display: inline-block;width:58px;">
-        <div style="width: 58px;height:58px;line-height: 58px;">
-            <Icon type="camera" size="20"></Icon>
-        </div>
-    </Upload>
-    <Modal title="查看图片" v-model="visible">
-        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-    </Modal>
-    </div>
-</template>
-<script>
-    export default {
-        data () {
-            return {
-                defaultList: [
-          
-                ],
-                imgName: '',
-                visible: false,
-                uploadList: [],
-                host:'http://120.78.16.234:8060'
-            }
-        },
-        methods: {
-            handleView (name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove (file) {
-                // 从 upload 实例删除数据
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
-                // 因为上传过程为实例，这里模拟添加 url
-                console.log(res)
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-                console.log(this.uploadList);
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: '文件格式不正确',
-                    desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: '超出文件大小限制',
-                    desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
-                });
-            },
-            handleBeforeUpload () {
-                const check = this.uploadList.length < 5;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: '最多只能上传 5 张图片。'
-                    });
-                }
-                return check;
-            }
-        },
-        mounted () {
-            this.uploadList = this.$refs.upload.fileList;
-        }
-    }
-</script>
-<style>
-    .demo-upload-list{
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        line-height: 60px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        margin: 0 2px;
-    }
-</style>-->

@@ -30,6 +30,7 @@
 	margin-left: 20px;
 }
 #addactivity table{
+	position: relative;
 	margin-left: 85px;
 	margin-top: 30px;
 }
@@ -55,9 +56,10 @@
 	padding-left: 10px;
 	border: 1px solid #DCDCDC;
 	font-size: 12px;
+	line-height: 24px;
 }
 #addactivity .el-select{
-	width: 198px;
+	width: 198px!important;
 	height: 34px;
 	outline: none;
 }
@@ -70,4 +72,12 @@
 #addactivity .el-select .el-input__inner{
 	border-radius: inherit;
 	width: 198px;
+}
+#addactivity .radio .el-checkbox__inner{
+	border-radius: 50%;
+}
+#addactivity .radio2{
+	position: absolute;
+	left: 314px;
+    bottom: 16px;
 }

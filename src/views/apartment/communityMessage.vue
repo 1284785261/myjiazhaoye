@@ -48,7 +48,9 @@
 		        		<tr>
 		        			<td style="vertical-align: top;">物业合同：{{contract}}</td>
 		        			<td style="width: 500px;">
-		        				<a v-for="item in contart"><img src="../../../static/images/temp/message.png" class="mess">{{ item }}</a><br/>
+		        				
+		        				<a v-for="(item,index) in contart" @click="getXML(imgPath + mv[index])"><img src="../../../static/images/temp/message.png" class="mess"> {{item}}</a><br/>
+		        				
 		        			</td>
 		        		</tr>
 		        	</table>
@@ -90,10 +92,13 @@
     			Datas:null,
     			site:null,
     			contart:[],
-    			Name:null
+    			Name:null,
+    			imgPath:'',
+    			mv:[]
     		}
     	},
     	mounted(){
+    		this.imgPath = imgPath
     		this.communityId = this.$route.query.id;
     		this.datas();
     	},
@@ -123,7 +128,10 @@
     			.catch((error) => {
     				console.log(error);
     			})
-    		}
+    		},
+    		getXML(item){
+		        window.open(item,"","width=600,height=600");
+		    }
     	},
     	filters:{
     		Open(data){
@@ -175,11 +183,11 @@
 				return Y + M + D +' - '+ U + V + W;
     		},
     		contract:function(){
-    			let mv = this.Datas.communityContract.split(',');
+    			this.mv = this.Datas.communityContract.split(',');
     			console.log(111111111);
-    			console.log(mv);
-				for(let i=0;i < mv.length; i++){
-					this.contart.push(mv[i].substring(mv[i].lastIndexOf("/")+1,mv[i].length));
+//  			console.log(mv);
+				for(let i=0;i < this.mv.length; i++){
+					this.contart.push(this.mv[i].substring(this.mv[i].lastIndexOf("/")+1,this.mv[i].length));
 					
 				}
     			console.log(this.contart);

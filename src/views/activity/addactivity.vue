@@ -17,31 +17,30 @@
 		    			<tr>
 		    				<td>活动范围：</td>
 		    				<td>
-		    					<el-select v-model="value" placeholder="请选择范围">
+		    					<el-select v-model="value" placeholder="请选择范围" @change="actives(value)">
 								    <el-option
 								      v-for="item in options"
-								      :key="item.value"
-								      :label="item.label"
-								      :value="item.value">
+								      :key="item.areaName"
+								      :value="item.areaName">
 								    </el-option>
 								</el-select>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>活动ID：</td>
-		    				<td><input type="text" placeholder="根据针对范围直接生成" class="mt"/></td>
+		    				<td><input type="text" placeholder="根据针对范围直接生成" class="mt" v-model="Activity.activityNum"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>活动主题：</td>
-		    				<td><input type="text" placeholder="请输入活动主题" class="mt"/></td>
+		    				<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>开始时间：</td>
-		    				<td><Date-picker type="date" placeholder="请选择开始时间" v-model="communityLeaseBegin"></Date-picker></td>
+		    				<td><Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate"></Date-picker></td>
 		    			</tr>
 		    			<tr>
 		    				<td style="vertical-align: top;">活动介绍：</td>
-		    				<td><textarea placeholder="请输入活动内容"></textarea></td>
+		    				<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent"></textarea></td>
 		    			</tr>
 		    			<tr>
 		    				<td>活动规则：</td>
@@ -49,33 +48,36 @@
 		    					<el-checkbox-group v-model="checkList">
 								    <el-checkbox label="到期结束"></el-checkbox>
 								    <el-checkbox label="送完为止"></el-checkbox>
-								    <el-radio class="radio" v-model="radio1" label="1" style="margin-left: 40px;">无期限</el-radio>
+								    <el-checkbox class="radio" style="margin-left: 40px;">无期限</el-checkbox>
 							    </el-checkbox-group>
-							    
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>结束日期：</td>
-		    				<td><Date-picker type="date" placeholder="请选择结束日期" v-model="communityLeaseBegin"></Date-picker></td>
+		    				<td><Date-picker type="date" placeholder="请选择结束日期" v-model="Activity.endDate"></Date-picker></td>
 		    			</tr>
 		    			<tr>
 		    				<td>总金额：</td>
-		    				<td><input type="text" placeholder="请输入总金额" class="mt"/></td>
+		    				<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>优惠券有效期：</td>
 		    				<td>
-		    					<Date-picker type="date" placeholder="请选择优惠券有效期" v-model="communityLeaseBegin"></Date-picker>
-		    					<el-radio class="radio" v-model="radio2" label="1">无期限</el-radio>
+		    					<Date-picker type="date" placeholder="请选择优惠券有效期" v-model="Activity.validityDate"></Date-picker>
+		    					<el-checkbox-group v-model="radio2" class="radio2">
+		    						<el-checkbox class="radio" label="1" @click="deadline">无期限</el-checkbox>
+		    					</el-checkbox-group>
+		    					
 		    				</td>
 		    			</tr>
 		    		</table>
-		    		<a class="refund">发布活动</a>
+		    		<a class="refund" @click="activit">发布活动</a>
 		    	</div>
 		    </div>
 			<footer-box></footer-box>
 		</div>
-		
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -86,47 +88,92 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
+    import { hostActivityArea,hostActivityAdd,hostRangeRandom } from '../api.js';
     import qs from 'qs';
     
     export default {
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+			warningModal
     	},
     	data(){
     		return{
+    			successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
 				currentPage3: 1,
-				radio1: '1',
-				radio2: '1',
-				options: [{
-		          value: '选项1',
-		          label: '黄金糕'
-		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
-		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
-		        }],
+				checked: true,
+				radio2: '0',
+				options: [],
 		        value: '',
-		        checkList:[]
+		        checkList:[],
+		        Activity:{
+		        	activityNum:'',
+		        	cityId:'',
+		        	activityTheme:'',
+		        	activityContent:'',
+		        	beginDate:'',
+		        	endRule:'',
+		        	endDate:'',
+		        	activityTotalMoney:'',
+		        	validityDate:'',
+		        	wordFirstKey:''
+		        }
 			}
     	},
     	mounted(){
-
+			this.datas();
     	},
     	filters:{
    
     	},
     	methods:{
+    		closeWarningModal() {
+				this.warningModal = false;
+			},
+    		datas(){
+    			axios.post(hostActivityArea).then((res)=>{
+    				//console.log(res);
+    				if(res.data.code == 10000 && res.status == 200){
+    					this.options = res.data.entity;
+    				}
+    				
+    			}).catch((err)=>{
+    				console.log(err);
+    			})
+    		},
+    		actives(value){
+    			this.Activity.wordFirstKey = this.options[this.options.findIndex(item => item.areaName == value)].wordFirstKey;
+    			console.log(this.Activity.wordFirstKey);
+    			axios.post(hostRangeRandom,
+    				qs.stringify({
+    					wordFirstKey:this.Activity.wordFirstKey
+    				})
+    			).then((res)=>{
+    				console.log(res);
+    				if(res.data.code == 10000 && res.status == 200){
+    					this.Activity.activityNum = res.data.entity;
+    				}
+    			}).catch((err)=>{
+    				console.log(err);
+    			})
+    		},
+    		deadline(){
+    			var doms = document.getElementById('a1');
+    			this.radio2 = this.radio2 == '0'?'1':'0';
+    			console.log(this.radio2);
+    			
+    		},
+    		activit(){
+    			
+    		}
+    		
     	},
     	created(){
     		
