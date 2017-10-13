@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>社区介绍</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{community.communityName}}</span>
 				</div>
 				<div class="ivu-warp-Community">
 					<div class="ivu-main-img">

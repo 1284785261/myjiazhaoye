@@ -78,14 +78,14 @@
 									</td>
 									<td>
 										<dl>
-											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment}}</span>
+											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span></p>
-												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice}}</span>
+												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
 												<span v-else>办公付款方式：未设置</span></p>
 												<p v-else-if="item.communityType == 0,1">
-												<span v-if="item.payment != null">公寓付款方式：{{item.payment}}</span>
+												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span><br>
-												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice}}</span>
+												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
@@ -99,7 +99,7 @@
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
-										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType}}">社区设置</router-link>
+										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
 									</td>
@@ -176,14 +176,14 @@
 									</td>
 									<td>
 										<dl>
-											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment}}</span>
+											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span></p>
-												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice}}</span>
+												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
 												<span v-else>办公付款方式：未设置</span></p>
 												<p v-else-if="item.communityType == 0,1">
-												<span v-if="item.payment != null">公寓付款方式：{{item.payment}}</span>
+												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span><br>
-												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice}}</span>
+												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
@@ -404,6 +404,46 @@
 				if(value) {
 					return new Date(value).Format(format)
 				}
+			},
+			payment(val){
+				let arr = [];
+				let arr2 = [];
+				arr = val.split(','); 
+				for(let i = 0;i<arr.length;i++){
+					if(arr[i] == '1'){
+						arr2.push('押二付一');
+					}
+					if(arr[i] == '2'){
+						arr2.push('押一付一');
+					}
+					if(arr[i] == '3'){
+						arr2.push('季付');
+					}
+					if(arr[i] == '4'){
+						arr2.push('年付');
+					}
+				}
+				return arr2.join(',');
+			},
+			paymentOffice(val){
+				let arr = [];
+				let arr2 = [];
+				arr = val.split(','); 
+				for(let i = 0;i<arr.length;i++){
+					if(arr[i] == '1'){
+						arr2.push('押二付一');
+					}
+					if(arr[i] == '2'){
+						arr2.push('押一付一');
+					}
+					if(arr[i] == '3'){
+						arr2.push('季付');
+					}
+					if(arr[i] == '4'){
+						arr2.push('年付');
+					}
+				}
+				return arr2.join(',');
 			}
 		},
 

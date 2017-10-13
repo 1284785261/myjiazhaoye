@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>社区设置</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Name}}</span>
 				</div>
 				<div id="communitySettingwrap">
 					<el-tabs v-model="activeName2" type="card">
@@ -31,7 +31,7 @@
 													</td>
 
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair)">{{tableRepair.deletect}}</button></td>
+													<td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
 											<div class="add-formItem">
@@ -55,7 +55,7 @@
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair)">{{tableRepair.deletect}}</button></td>
+													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
 											<div class="add-formItem">
@@ -143,7 +143,7 @@
 													</td>
 
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair3(tableRepair)">{{tableRepair.deletect}}</button></td>
+													<td width="90px"><button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
 											<div class="add-formItem">
@@ -172,7 +172,7 @@
 															</el-option>
 														</el-select>
 													</td>
-													<td width="50px"><button class="btn_bar" @click="deleteConference(tableRepair)">{{tableRepair.deletect}}</button></td>
+													<td width="50px"><button class="btn_bar" @click="deleteConference(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
 											<div class="add-formItem">
@@ -196,7 +196,7 @@
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair)">{{tableRepair.deletect}}</button></td>
+													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
 											<div class="add-formItem">
@@ -365,14 +365,20 @@
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				Type1: true,
-				Type2: true
+				Type2: true,
+				Name:''
 			}
 		},
 		mounted() {
 			this.communityId = this.$route.query.id;
 			this.communityType = this.$route.query.type;
+			this.Name = this.$route.query.Name;
 			let arr = this.communityType.split(',');
 			console.log(arr);
+			this.seting();
+			this.seting2();
+			this.befors();
+			this.compile();
 			for(let i = 0; i < arr.length; i++) {
 				if(arr[0] == 0 && arr.length == 1) {
 					this.Type1 = true;
@@ -386,10 +392,7 @@
 					return
 				}
 			}
-			this.seting();
-			this.seting2();
-			this.befors();
-			this.compile();
+			
 
 		},
 		methods: {
@@ -404,58 +407,62 @@
 						})
 					)
 					.then((response) => {
-						console.log(11111111111);
 						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							vm.serviceCost2 = response.data.entity[0].serviceCost;
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) {   //办公物资集合
-								vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {
-								if(this.tableRepairs3.length < response.data.entity[0].cxkjCommunityListPayway.length) {
-									vm.addRepairs3();
+							if(response.data.entity[0]){
+								if(response.data.entity[0].serviceCost){
+									vm.serviceCost2 = response.data.entity[0].serviceCost;
 								}
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {   //支付方式集合
-								this.tableRepairs3[i].checkValue = true;
-								if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1){
-									vm.tableRepairs3[i].value6 = '押二付一';
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) {   //办公物资集合
+									vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
-								else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2){
-									vm.tableRepairs3[i].value6 = '押一付一';
-								}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3){
-									vm.tableRepairs3[i].value6 = '季付';
-								}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4){
-									vm.tableRepairs3[i].value6 = '年付';
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {
+									if(this.tableRepairs3.length < response.data.entity[0].cxkjCommunityListPayway.length) {
+										vm.addRepairs3();
+									}
 								}
-								this.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
-								this.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
-							}
-							//console.log(this.tableRepairs3);
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {   
-								if(this.tableConferences.length < response.data.entity[0].cxkjCommunityListMeetingSuit.length) {
-									this.addRoom();
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {   //支付方式集合
+									this.tableRepairs3[i].checkValue = true;
+									if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1){
+										vm.tableRepairs3[i].value6 = '押二付一';
+									}
+									else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2){
+										vm.tableRepairs3[i].value6 = '押一付一';
+									}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3){
+										vm.tableRepairs3[i].value6 = '季付';
+									}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4){
+										vm.tableRepairs3[i].value6 = '年付';
+									}
+									this.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
+									this.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
 								}
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {  //办公套餐集合
-								this.tableConferences[i].checkValue = true;
-								this.tableConferences[i].value4 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].mettingSuitSystemData.dataName;
-								this.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitUnitSystemData.dataName;
-								this.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
-								this.tableConferences[i].communityMeetingSuitId = response.data.entity[0].cxkjCommunityListMeetingSuit[i].communityMeetingSuitId;
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {
-								if(this.tableRepairs5.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
-									vm.addRepairs5();
+								//console.log(this.tableRepairs3);
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {   
+									if(this.tableConferences.length < response.data.entity[0].cxkjCommunityListMeetingSuit.length) {
+										this.addRoom();
+									}
 								}
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {    //办公维修
-								this.tableRepairs5[i].checkValue = true;
-								this.tableRepairs5[i].value7 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
-								this.tableRepairs5[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
-								this.tableRepairs5[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
-							}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {  //办公套餐集合
+									this.tableConferences[i].checkValue = true;
+									this.tableConferences[i].value4 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].mettingSuitSystemData.dataName;
+									this.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitUnitSystemData.dataName;
+									this.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
+									this.tableConferences[i].communityMeetingSuitId = response.data.entity[0].cxkjCommunityListMeetingSuit[i].communityMeetingSuitId;
+								}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {
+									if(this.tableRepairs5.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
+										vm.addRepairs5();
+									}
+								}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {    //办公维修
+									this.tableRepairs5[i].checkValue = true;
+									this.tableRepairs5[i].value7 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
+									this.tableRepairs5[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
+									this.tableRepairs5[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
+								}
 							//console.log(this.tableRepairs5);
+							}
+							
 
 						}
 					})
@@ -634,67 +641,73 @@
 				axios.post(hostRooms,        //获取编辑社区公寓设置的全部数据
 						qs.stringify({
 							communityId: vm.communityId,
-							communityType: '0'
+							communityType: 0
 						})
 					)
 					.then((response) => {
 						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							vm.serviceCost = response.data.entity[0].serviceCost;
-							vm.waterEnergyPayDate = response.data.entity[0].waterEnergyPayDate;
-							if(response.data.entity[0].waterChargeType == 1) {
-								vm.radio1 = 1;
-								vm.sect = response.data.entity[0].waterPrice;
-							} else {
-								vm.radio1 = 2;
-								vm.sec2 = response.data.entity[0].waterPrice;
-							}
-							if(response.data.entity[0].energyChargeType == 1) {
-								vm.radio2 = 1;
-								vm.input1 = response.data.entity[0].energyPrice;
-							} else {
-								vm.radio2 = 2;
-								vm.input2 = response.data.entity[0].energyPrice;
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) {     //公寓家电集合
-								vm.checkList.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
-							}
-							console.log(vm.checkList);
-							for(let i=0;i< response.data.entity[0].cxkjCommunityListPayway.length;i++){
-								if(vm.tableRepairs.length < response.data.entity[0].cxkjCommunityListPayway.length) {
-									vm.addRepairs();
+							if(response.data.entity[0]){
+								if(response.data.entity[0].serviceCost){
+									vm.serviceCost = response.data.entity[0].serviceCost;
 								}
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {   //公寓支付方式集合
-								vm.tableRepairs[i].checkValue = true;
-								if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1){
-									vm.tableRepairs[i].value1 = '押二付一';
-								}
-								else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2){
-									vm.tableRepairs[i].value1 = '押一付一';
-								}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3){
-									vm.tableRepairs[i].value1 = '季付';
-								}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4){
-									vm.tableRepairs[i].value1 = '年付';
+								if(response.data.entity[0].waterEnergyPayDate){
+									vm.waterEnergyPayDate = response.data.entity[0].waterEnergyPayDate;
 								}
 								
-								vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
-								vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
-							}
-							for(let i=0;i< response.data.entity[0].cxkjCommunityListMaintain.length;i++){
-								if(this.tableRepairs2.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
-									this.addRepairs2();
+								if(response.data.entity[0].waterChargeType == 1) {
+									vm.radio1 = 1;
+									vm.sect = response.data.entity[0].waterPrice;
+								} else {
+									vm.radio1 = 2;
+									vm.sect2 = response.data.entity[0].waterPrice;
 								}
-							}
-							for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {   //公寓维修项目
-								this.tableRepairs2[i].checkValue = true;
-								this.tableRepairs2[i].value2 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
-								this.tableRepairs2[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
-								this.tableRepairs2[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
-							}
-//							console.log(222222222222222222222);
-//							console.log(this.tableRepairs2);
-
+								if(response.data.entity[0].energyChargeType == 1) {
+									vm.radio2 = 1;
+									vm.input1 = response.data.entity[0].energyPrice;
+								} else {
+									vm.radio2 = 2;
+									vm.input2 = response.data.entity[0].energyPrice;
+								}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) {     //公寓家电集合
+									vm.checkList.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
+								}
+								console.log(vm.checkList);
+								for(let i=0;i< response.data.entity[0].cxkjCommunityListPayway.length;i++){
+									if(vm.tableRepairs.length < response.data.entity[0].cxkjCommunityListPayway.length) {
+										vm.addRepairs();
+									}
+								}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {   //公寓支付方式集合
+									vm.tableRepairs[i].checkValue = true;
+									if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1){
+										vm.tableRepairs[i].value1 = '押二付一';
+									}
+									else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2){
+										vm.tableRepairs[i].value1 = '押一付一';
+									}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3){
+										vm.tableRepairs[i].value1 = '季付';
+									}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4){
+										vm.tableRepairs[i].value1 = '年付';
+									}
+									
+									vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
+									vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
+								}
+								for(let i=0;i< response.data.entity[0].cxkjCommunityListMaintain.length;i++){
+									if(this.tableRepairs2.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
+										this.addRepairs2();
+									}
+								}
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {   //公寓维修项目
+									this.tableRepairs2[i].checkValue = true;
+									this.tableRepairs2[i].value2 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
+									this.tableRepairs2[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
+									this.tableRepairs2[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
+								}
+	//							console.log(222222222222222222222);
+	//							console.log(this.tableRepairs2);
+								}
 						}
 					})
 					.catch((error) => {
@@ -779,32 +792,32 @@
 					}
 				}
 			},
-			deleteConference(tableRepair) { //删除会议室选项
-				this.tableConferences.splice(this.tableConferences.length - 1, 1);
-				let index = this.tableConferences.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListMeetingSuit.splice(index, 1);
+			deleteConference(tableRepair,index) { //删除会议室选项
+				this.tableConferences.splice(index, 1);
+				let index2 = this.tableConferences.findIndex(item => item == tableRepair);
+				this.cxkjCommunityListMeetingSuit.splice(index2, 1);
 			},
-			deleteRepair(tableRepair) { //删除公寓付款方式
+			deleteRepair(tableRepair,index) { //删除公寓付款方式
 				//console.log(tableRepair);
-				this.tableRepairs.splice(this.tableRepairs.length - 1, 1);
-				let index = this.tableRepairs.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index, 1);
+				this.tableRepairs.splice(index, 1);
+				let index2 = this.tableRepairs.findIndex(item => item == tableRepair);
+				this.cxkjCommunityListPayway.splice(index2, 1);
 				//console.log(this.cxkjCommunityListPayway);
 			},
-			deleteRepair2(tableRepair) { //删除公寓维修项目
-				this.tableRepairs2.splice(this.tableRepairs2.length - 1, 1);
-				let index = this.tableRepairs2.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListMaintain.splice(index, 1);
+			deleteRepair2(tableRepair,index) { //删除公寓维修项目
+				this.tableRepairs2.splice(index, 1);
+				let index2 = this.tableRepairs2.findIndex(item => item == tableRepair);
+				this.cxkjCommunityListMaintain.splice(index2, 1);
 			},
-			deleteRepair3() { //删除社区付款方式
-				this.tableRepairs3.splice(this.tableRepairs3.length - 1, 1);
-				let index = this.tableRepairs3.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index, 1);
+			deleteRepair3(tableRepair,index) { //删除社区付款方式
+				this.tableRepairs3.splice(index, 1);
+				let index2 = this.tableRepairs3.findIndex(item => item == tableRepair);
+				this.cxkjCommunityListPayway.splice(index2, 1);
 			},
-			deleteRepair5(tableRepair) { //删除社区办公维修项目
-				this.tableRepairs5.splice(this.tableRepairs5.length - 1, 1);
-				let index = this.tableRepairs5.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index, 1);
+			deleteRepair5(tableRepair,index) { //删除社区办公维修项目
+				this.tableRepairs5.splice(index, 1);
+				let index2 = this.tableRepairs5.findIndex(item => item == tableRepair);
+				this.cxkjCommunityListPayway.splice(index2, 1);
 			},
 			house() {
 				//公寓提交设置信息
@@ -837,7 +850,8 @@
 				if(vm.radio1 == 1) {
 					this.waterChargeType = 1;
 					vm.waterPrice = vm.sect;
-				} else {
+				} 
+				else if(vm.radio1 == 2){
 					this.waterChargeType = 2;
 					vm.waterPrice = vm.sect2;
 				}
@@ -846,7 +860,7 @@
 					this.energyChargeType = 1;
 					vm.energyPrice = vm.input1;
 
-				} else {
+				} else if(vm.radio2 == 2){
 					this.energyChargeType = 2;
 					vm.energyPrice = vm.input2;
 				}

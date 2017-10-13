@@ -366,6 +366,11 @@ export default new Router({
       name:'allotjuris',
       component:resolve =>
         require(['../views/system/allotjuris.vue'],resolve)
+    },{
+      path:'/personal/performance',				//修改登录密码/手机号成功
+      name:'performance',
+      component: resolve =>
+        require(['../views/personal/performance.vue'],resolve)
     },
 
 

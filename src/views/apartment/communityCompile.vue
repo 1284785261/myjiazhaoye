@@ -95,7 +95,7 @@
 								<!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
 								<el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' >
 									<el-button size="small" type="primary" style="font-size: 14px;color: #8fa6bf;">点击上传</el-button>
-									<div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传jpg/png文件</div>
+									<div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传pdf/png文件</div>
 								</el-upload>
 
 							</td>

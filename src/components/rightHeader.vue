@@ -48,7 +48,7 @@
 				}, {
 					icon: "iconfont icon-yeji",
 					userContent: "我的业绩",
-					path: "/apartment/communityPersonal"
+					path: "/personal/performance"
 				}, {
 					icon: "iconfont icon-zhuxiao",
 					userContent: "注销",
