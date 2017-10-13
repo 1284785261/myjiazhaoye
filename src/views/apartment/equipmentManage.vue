@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="equipmentMan">
 		    		<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-					    <el-tab-pane label="智能门锁" name="first">
+					    <el-tab-pane label="智能门锁" name="first" v-loading="loading">
                 <div class="equipment1" v-for="(doorLock,index) in doorLockList">
                   <div class="house_xq" @click="hideTable(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -49,7 +49,7 @@
                         <div>
                           <a @click="getTemporaryPwd(item.roomLockId)" v-if="item.lockStatus == 1">获取临时密码</a>
                           <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus">修改</a>
-                          <router-link to="/apartment/doorRecord" v-if="item.lockStatus">开门记录</router-link>
+                          <router-link :to="{name:'doorRecord',query:{roomLockId:item.roomLockId}}" v-if="item.lockStatus">开门记录</router-link>
                           <a @click="freezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus && item.lockStatus !=3">冻结</a>
                           <a @click="unfreezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus == 3">解冻</a>
                           <a @click="addDoorLockTo(doorLock.floorName,item.roomNum,item.roomId)" v-if="item.lockStatus !=1 && item.lockStatus !=2 && item.lockStatus !=3">添加门锁</a>
@@ -664,6 +664,7 @@
           freezeUpDoorLock:false,
           unFreezeUpDoorLock:false,
           activeRoomLockId:null,
+          loading:false,
 		   	}
     	},
       mounted(){
@@ -675,6 +676,7 @@
         //获取智能门锁列表
         getIntelligenceLock(){
           var that = this;
+          that.loading = true;debugger
           this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
@@ -682,6 +684,7 @@
               for(var i =0;i<that.doorLockList.length;i++){
                 that.$set(that.doorLockList[i],"showTable",true);
               }
+              that.loading = false;
             }
           })
         },

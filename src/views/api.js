@@ -464,5 +464,5 @@ export const addDoorLock =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelatio
 export const updateDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUpdate200141';//修改门锁配置
 export const deleteDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationDelete200142';//解除门锁
 export const unLockDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
-
+export const doorLockNotes =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationRecord200144';//开锁记录
 
