@@ -97,7 +97,7 @@
 									</td>
 									<td>
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
-										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
+										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,Name:item.communityName}}">社区介绍</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
@@ -195,10 +195,10 @@
 									</td>
 									<td>
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
-										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId}}">社区介绍</router-link>
-										<router-link to="/communityHouse">资源管理</router-link>
-										<router-link to="/apartment/communitySettings">社区设置</router-link>
-										<a href="javascript:;">设备管理</a>
+										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,Name:item.communityName}}">社区介绍</router-link>
+										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
+										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
+										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">开放社区</a>
 									</td>
 								</tr>

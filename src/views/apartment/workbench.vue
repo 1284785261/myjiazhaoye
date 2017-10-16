@@ -39,7 +39,7 @@
               <li><router-link to="/">公寓水电订单</router-link></li>
               <li><router-link to="/signed/repairs">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
-              <li><router-link to="/">退租管理</router-link></li>
+              <li><router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link></li>
               <li><router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link></li>
               <li><router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
@@ -80,7 +80,7 @@
               <li><router-link to="/">办公订单</router-link></li>
               <li><router-link to="/signed/repairs">用户报修</router-link></li>
               <li><router-link to="/">合同管理</router-link></li>
-              <li><router-link to="/">退租管理</router-link></li>
+              <li><router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link></li>
               <li><router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link></li>
               <li><router-link to="/">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
@@ -195,13 +195,14 @@ export default {
   	 	console.log(val);
 		 		let Index =this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
 		 		this.communityId = Index;
+		 		sessionStorage.setItem('communityId',Index);
   	 		//console.log(Index);
 	 		axios.post(hostManager,  //获取管家收款数据
 	 			qs.stringify({
 	 				communityId:Index
 	 			})
 	 		).then((response)=>{
-	 			console.log(response);
+	 			//console.log(response);
 	 			if(response.status ==200 && response.data.code == 10000){
 		 			this.datas[0].num = response.data.result.yesterdayPay+'.00';
 		 			this.datas[1].num = response.data.result.todayWaitPay+'.00';

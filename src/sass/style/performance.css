@@ -21,9 +21,6 @@
 #perform .perform1 .mvs{
 	width: 130px;
 }
-#perform .perform1 .dev{
-	width: 160px;
-}
 #perform .perform1 .spanBar{
 	margin: 0 10px;
 }
@@ -40,6 +37,11 @@
 	text-align: center;
 	min-width: 78px;
 	border: 1px  solid #dcdcdc;
+}
+#perform .perform1 .active{
+	background: #fff;
+	border: 1px solid #038BE2;
+	color: #038BE2;
 }
 #perform table{
 	width: 100%;

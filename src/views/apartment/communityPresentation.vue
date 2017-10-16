@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>社区介绍</h3>
-					<span>{{community.communityName}}</span>
+					<span>{{communityName}}</span>
 				</div>
 				<div class="ivu-warp-Community">
 					<div class="ivu-main-img">
@@ -200,9 +200,10 @@
 			rightHeader,
 			menuBox,
 			footerBox,
-			UE,
 			successModal,
-			warningModal
+			warningModal,
+			UE
+			
 		},
 		data() {
 			return {
@@ -239,7 +240,8 @@
 				defaultList: [],
 				defaultList2: [],
 				defaultList3: [],
-				disabled:false
+				disabled:false,
+				communityName:''
 			}
 
 		},
@@ -249,6 +251,7 @@
 			this.uploadList6 = this.$refs.upload3.fileList;
 			this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.id;
+			this.communityName = this.$route.query.Name;
 			this.present();	
 			this.imgPath = imgPath
 		},

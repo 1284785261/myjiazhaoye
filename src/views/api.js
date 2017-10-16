@@ -273,6 +273,9 @@ const RangeRandom = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActiv
 
 //活动管理-作废活动
 const ActivityModify = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityModify200097'
+
+//个人中心-我的业绩
+const SignContr = '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjSignList500066'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -363,6 +366,7 @@ export const hostActivityArea = host3 + ActivityArea;
 export const hostActivityAdd = host3 + ActivityAdd;
 export const hostRangeRandom = host3 + RangeRandom;
 export const hostActivityModify = host3 + ActivityModify;
+export const hostSignContr = host3 + SignContr;
 export const host = host3;
 //export default {
 //hosts:function(){

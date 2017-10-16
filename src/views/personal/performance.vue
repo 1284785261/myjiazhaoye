@@ -46,7 +46,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="5"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total="20">
 				    </el-pagination>
@@ -64,7 +64,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import { hostSignContr } from '../api.js';
     import qs from 'qs';
     
     export default {
@@ -78,16 +78,49 @@
 				currentPage3: 1,
 				radio: '1',
 				tite:['全部','公寓合同','联合办公合同'],
+				isAicat:'',
+				start:'',
+				over:'',
+				pageNum:1,
+				communityId:'',
+				pageSize:10
 		   	}
     	},
     	mounted(){
-
+				this.communityId = sessionStorage.getItem('communityId');
+				this.datas();
     	},
     	filters:{
    
     	},
     	methods:{
-			classify(){
+			classify(index){
+				this.isAicat = index;
+			},
+			datas(){
+				let param = new FormData();
+				param.append('communityId',this.communityId);
+				param.append('pageNum',this.pageNum);
+				param.append('pageSize',10);
+				if(this.state){
+					this.state = new Date(this.state).Format('yyyy-MM-dd');
+					param.append('stareTime',this.state);
+				}
+				if(this.over){
+					this.over = new Date(this.over).Format('yyyy-MM-dd');
+					param.append('endTime',this.over);
+				}
+				axios.post(hostSignContr, param).then((res)=>{
+					console.log(111111111);
+					console.log(res);
+				}).catch((err)=>{
+					console.log(err);
+				})
+			},
+			handleCurrentChange(val){
+				this.pageNum = val;
+			},
+			adddian(){
 				
 			}
     	},

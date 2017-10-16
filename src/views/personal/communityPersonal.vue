@@ -25,15 +25,6 @@
                     		<span class="jiahao3" v-if="chen">上传照片</span>
                     	</a>
                		</div>
-					<!--<el-upload
-					  class="avatar-uploader"
-					  :action="host3"
-					  :show-file-list="false"
-					  :on-success="handleAvatarSuccess"
-					  :before-upload="beforeAvatarUpload">
-					  <img v-if="imgPath1" :src="imgPath1" class="avatar">
-					  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-					</el-upload>-->
 		        	<ul class="fromss">
 		        		<li>
 		        			<span>用户姓名：</span><span>{{user.userName}}</span>

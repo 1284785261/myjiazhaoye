@@ -371,6 +371,16 @@ export default new Router({
       name:'performance',
       component: resolve =>
         require(['../views/personal/performance.vue'],resolve)
+    },{
+      path:'/signed/surrender',		//工作台-发起退租
+      name:'surrender',
+      component:resolve =>
+        require(['../views/signed/surrender.vue'],resolve)
+    },{
+      path:'/signed/affirmsurrend',		//发起退租-确认退租
+      name:'affirmsurrend',
+      component:resolve =>
+        require(['../views/signed/affirmsurrend.vue'],resolve)
     },
 
 

@@ -65,7 +65,7 @@
 				let vm = this;
 				this.$http.get(hostAuthor)
 					.then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.user = response.data.entity;
 							if(response.data.entity.headPic != null) {
