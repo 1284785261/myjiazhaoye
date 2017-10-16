@@ -425,7 +425,8 @@
       },
       createNewRoom(){
         var that = this;
-        var data = [].concat(this.cxkjCommunityListRoom);
+        var data = this.extendDeep(this.cxkjCommunityListRoom);
+        debugger
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
@@ -463,7 +464,6 @@
             }
           }
         }
-
         this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
           if(res.status == 200 && res.data.code === 10000){
             that.successMessage = "添加房间成功！";
@@ -482,7 +482,8 @@
       },
       updateRoom(){
         var that = this;
-        var data = [].concat(this.cxkjCommunityListRoom);
+        var data = this.extendDeep(this.cxkjCommunityListRoom);
+        debugger
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
@@ -520,6 +521,7 @@
             }
           }
         }
+
         this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";
@@ -538,6 +540,25 @@
       },
       closeRoomFurniture(){
           this.modal1 = false;
+      },
+      extendDeep(parent, child) {
+        child = child || [];
+        for(var i in parent) {
+          if(parent.hasOwnProperty(i)) {
+          //检测当前属性是否为对象
+            if(typeof parent[i] === "object") {
+          //如果当前属性为对象，还要检测它是否为数组
+          //这是因为数组的字面量表示和对象的字面量表示不同
+          //前者是[],而后者是{}
+              child[i] = (Object.prototype.toString.call(parent[i]) === "[object Array]") ? [] : {};
+          //递归调用extend
+              this.extendDeep(parent[i], child[i]);
+            } else {
+              child[i] = parent[i];
+            }
+          }
+        }
+        return child;
       }
     },
     computed:{

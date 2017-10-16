@@ -35,7 +35,7 @@
         @include fontSzie(16px,#dcdcdc);
         position: relative;
         padding:0 25px;
-        &.router-link-active,&:hover{
+        &.router-link-active,&:hover,&.test{
           color:#58beff;
           background: rgba(0,0,0,0.2);
           i{
@@ -55,6 +55,33 @@
           position: absolute;
           font-size: 16px;
           color:#999;
+          line-height: 1;
+          right: 25px;
+          top:24px;
+        }
+      }
+    }
+    .active-tab{
+      a{
+        display: block;
+        @include fontSzie(16px,#dcdcdc);
+        position: relative;
+        padding:0 25px;
+        color:#58beff;
+        background: rgba(0,0,0,0.2);
+        i{
+          margin-right: 20px;
+          font-size: 26px;
+          position: relative;
+          top: 2px;
+          color:#58beff;
+        }
+        &:after{
+          content: "\e606";
+          font-family: "iconfont" !important;
+          position: absolute;
+          font-size: 16px;
+          color:#58beff;
           line-height: 1;
           right: 25px;
           top:24px;

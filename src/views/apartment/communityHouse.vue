@@ -206,19 +206,20 @@
         <span>添加楼层</span>
       </div>
       <div class="add-floor-table">
-          <table>
-            <tr>
-              <td><span class="required">*</span>楼层 :</td>
-              <td><Input v-model="floorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
-            </tr>
-            <tr>
-              <td><span class="required">*</span>房间数量 :</td>
-              <td><Input v-model="roomSize" placeholder="请填写整数" style="width: 225px;height: 36px"></Input> 间</td>
-            </tr>
-          </table>
+        <table>
+          <tr>
+            <td><span class="required">*</span>楼层 :</td>
+            <td><Input v-model="floorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
+          </tr>
+          <tr>
+            <td>房间数量 :</td>
+            <td><Input v-model="roomSize" placeholder="请填写整数" style="width: 225px;height: 36px"></Input> 间</td>
+          </tr>
+        </table>
       </div>
+      <p v-if="showErrorInfo" style="color: red;position: relative;left: 173px;top: -20px;">楼层、房间数量为1-999整数</p>
       <div class="modal-btn">
-        <Button type="primary" @click="createNewFloor()" :disabled="!(floorNum && roomSize)">确定</Button>
+        <Button type="primary" @click="createNewFloor()" :disabled="!floorNum">确定</Button>
       </div>
       <div class="modal-close-btn" @click="closeFloorModal()">
         <Icon type="ios-close-empty"></Icon>
@@ -237,6 +238,7 @@
             <td><Input v-model="editfloorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
           </tr>
         </table>
+        <p v-if="showErrorInfo" style="color: red;position: relative;left: 173px;top: 0px;">楼层量为1-999整数</p>
       </div>
       <div class="modal-btn">
         <Button type="primary" @click="editNewFloor()" :disabled="!editfloorNum">确定</Button>
@@ -344,6 +346,7 @@
           placeRent:"",//工位租金
         },
         officeConfigure:{},//办公配置map
+        showErrorInfo:false,
       }
     },
     mounted(){
@@ -481,6 +484,10 @@
       closeFloorModal(){
         this.addFloorModal = false;
         this.editFloorModal = false;
+
+        this.showErrorInfo = false;
+        this.floorNum = "";
+        this.roomSize = "";
       },
       openFloorModal(){
         this.addFloorModal = true;
@@ -492,53 +499,70 @@
       },
       //添加楼层
       createNewFloor(){
-        this.addFloorModal = false;
-        var that = this;
-        this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
-          .then(function (res) {
-            if(res.data.code == 10004){
-              that.warningMessage = res.data.content;
-              that.warningModal = true;
-            }else if(res.data.code == 10000){
-              that.successMessage = "添加楼层成功!";
-              that.successModal = true;
-              setTimeout(function(){
-                that.successModal = false;
-              },1000)
-              that.getCommunityListRoom();
-            }else if(res.data.code == 10006){
-              that.warningMessage = "链接超时！"
-              that.warningModal = true;
+        var match = /^([1-9]\d\d|[1-9]\d|\d)$/;
+        if(match.test(this.floorNum)){
+          if(this.roomSize){
+            if(!match.test(this.roomSize)){
+              this.showErrorInfo = true;
+              return;
             }
-          }).catch(function(error){
-          console.log(error);
-        })
+          }
+          this.showErrorInfo = false;
+          this.addFloorModal = false;
+          var that = this;
+          this.$http.post(RoomAdd, qs.stringify({communityId: this.communityId,floorNum:that.floorNum,roomSize:that.roomSize}))
+            .then(function (res) {
+              if(res.data.code == 10004){
+                that.warningMessage = res.data.content;
+                that.warningModal = true;
+              }else if(res.data.code == 10000){
+                that.successMessage = "添加楼层成功!";
+                that.successModal = true;
+                setTimeout(function(){
+                  that.successModal = false;
+                },1000)
+                that.getCommunityListRoom();
+              }else if(res.data.code == 10006){
+                that.warningMessage = "链接超时！"
+                that.warningModal = true;
+              }
+            }).catch(function(error){
+            console.log(error);
+          })
+        }else{
+          this.showErrorInfo = true;
+        }
       },
       //修改楼层信息
       editNewFloor(){
-        var that = this;
-        this.editFloorModal = false;
-        var floorId = this.rootData[this.editActiveindex].floorId;
-        this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
-          .then(function (res) {
-            if(res.data.code == 10004){
-              that.warningMessage = "该楼层已存在！";
-              that.warningModal = true;
-            }else if(res.data.code == 10000){
-              that.successMessage = "修改楼层成功!";
-              that.successModal = true;
-              setTimeout(function(){
-                that.successModal = false;
-              },1000)
-              that.getCommunityListRoom();
-            }else if(res.data.code == 10006){
-              that.warningMessage = "链接超时！";
-              that.warningModal = true;
-            }
-          }).catch(function(error){
-          console.log(error);
-        })
-
+        var match = /^([1-9]\d\d|[1-9]\d|\d)$/;
+        if(match.test(this.editfloorNum)){
+          var that = this;
+          this.showErrorInfo = false;
+          this.editFloorModal = false;
+          var floorId = this.rootData[this.editActiveindex].floorId;
+          this.$http.post(editFloor, qs.stringify({communityId: this.communityId,floorId:floorId,floorName:this.editfloorNum}))
+            .then(function (res) {
+              if(res.data.code == 10004){
+                that.warningMessage = "该楼层已存在！";
+                that.warningModal = true;
+              }else if(res.data.code == 10000){
+                that.successMessage = "修改楼层成功!";
+                that.successModal = true;
+                setTimeout(function(){
+                  that.successModal = false;
+                },1000)
+                that.getCommunityListRoom();
+              }else if(res.data.code == 10006){
+                that.warningMessage = "链接超时！";
+                that.warningModal = true;
+              }
+            }).catch(function(error){
+            console.log(error);
+          })
+        }else{
+          this.showErrorInfo = true;
+        }
       },
       openDeleteModal(floorId){
         this.deleteFloorId = floorId;

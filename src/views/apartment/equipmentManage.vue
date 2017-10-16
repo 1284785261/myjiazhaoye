@@ -714,9 +714,11 @@
         },
         sendMessege(){
           var that = this;
-          this.$http.post(sendMessege,qs.stringify({phone:this.phone,messageType:this.password})).then(function(res){debugger
+          this.$http.post(sendMessege,qs.stringify({phone:this.phone,password:this.password})).then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
-
+              that.phone = "";
+              that.isHid = !that.isHid;
+              that.temporaryPwd = !that.temporaryPwd;
             }
           })
         },

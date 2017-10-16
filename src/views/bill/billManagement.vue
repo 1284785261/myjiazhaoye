@@ -283,10 +283,12 @@
         waterEnergyTotalNum:0,
 
 
-
       }
     },
     mounted(){
+      if(this.$route.query.tab){
+        this.activeName2 = this.$route.query.tab;
+      }
       this.getRoomBill({pageNum:1});
       this.getOfficeBill({pageNum:1});
       this.getWaterEnergyBill({pageNum:1});

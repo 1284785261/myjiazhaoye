@@ -35,10 +35,10 @@
               <li><router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:selectModel1}}">公寓签约</router-link></li>
               <li><router-link :to="{path:'/signed/houseState',query:{communityId:communityId}}">公寓状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
-              <li><router-link to="/">公寓租金账单</router-link></li>
-              <li><router-link to="/">公寓水电订单</router-link></li>
+              <li><router-link to="/bill/billManagement">公寓租金账单</router-link></li>
+              <li><router-link :to="{ name:'billManagement',query:{tab:'third'}}">公寓水电帐单</router-link></li>
               <li><router-link to="/signed/repairs">用户报修</router-link></li>
-              <li><router-link to="/">合同管理</router-link></li>
+              <li><router-link to="/contract/contractIndex">合同管理</router-link></li>
               <li><router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link></li>
               <li><router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link></li>
               <li><router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link></li>
@@ -152,7 +152,7 @@ export default {
         content:"佳兆业航运WEWA空间年中用户回馈活动的通知",
         date:"17:30"
       }],
-      
+
       remains:null,
       communityId:null
     }
@@ -189,7 +189,7 @@ export default {
   	 	.catch((error)=>{
   	 		console.log(error);
   	 	})
-  	 	
+
   	 },
   	 temp(val){
   	 	console.log(val);
@@ -212,7 +212,7 @@ export default {
 	 		.catch((error)=>{
 	 			console.log(error);
 	 		})
-  	 		
+
 	 		axios.post(hostWorkbench,  //获取今日待办数据
 	 			qs.stringify({
 	 				communityId:Index
@@ -222,7 +222,7 @@ export default {
 	 			if(response.status ==200 && response.data.code == 10000){
 	 				this.remains = response.data.result;
 	 			}
-	 			
+
 	 		})
 	 		.catch((error)=>{
 	 			console.log(error);
@@ -230,7 +230,7 @@ export default {
   	 }
   },
   created(){
-  	
+
   }
 }
 </script>

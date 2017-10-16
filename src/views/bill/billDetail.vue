@@ -1,6 +1,6 @@
 <template>
   <div>
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -124,6 +124,7 @@
     },
     data(){
       return{
+        activeTabName:"billManagement",
         value5: 4.8,
         billDetailList:[],
         billType:0,//0公寓，1办公室
@@ -142,7 +143,7 @@
       getRoomBillDetail(data){
         var vm = this;
         this.$http.get(roomBillDetail,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               vm.billDetailList = res.data.entity;
             }

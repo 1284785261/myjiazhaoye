@@ -1,6 +1,6 @@
 <template>
   <div>
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -301,6 +301,7 @@
         //customerType	1:个人租客 2:公司租客
       //isOffice	string	0:公寓 1:办公室
       return{
+        activeTabName:"contractIndex",
         contractSignId:"",
         isOffice:0,//0:公寓 1:办公室
         contractDetailData:{},
