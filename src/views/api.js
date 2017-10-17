@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -285,6 +285,9 @@ const wLeaseContr = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommu
 
 //查看退租-用户确认退租
 const LeaseController = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeasePass500088'
+
+//查看退租-查看退租详情
+const throwlease = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeaseDetail500093'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -379,6 +382,7 @@ export const hostSignContr = host3 + SignContr;
 export const hostThrowLease = host3 + ThrowLease;
 export const hostwLeaseContr = host3 + wLeaseContr;
 export const hostLeaseController = host3 + LeaseController;
+export const hostthrowlease = host3 + throwlease;
 export const host = host3;
 //export default {
 //hosts:function(){

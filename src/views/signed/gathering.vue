@@ -191,23 +191,25 @@
 				this.warningModal = false;
 			},
 			datas(){
+				let param = new FormData();
 				if(this.communityLeaseBegin != null){
 					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+					param.append("gatheringDate",this.communityLeaseBegin);
 				}
 				if(this.communityLeaseEnd != null){
 					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+					param.append("gatheringEndDate",this.communityLeaseEnd);
 				}
-				axios.post(hostPayment,  //请求收款数据列表
-					qs.stringify({
-						pageNum:this.pageNum,
-						pageSize:this.pageSize,
-						communityId:this.communityId,
-						gatheringDate:this.communityLeaseBegin,
-						gatheringEndDate:this.communityLeaseEnd,
-						gatheringState:this.gatheringState,
-						userNamePhone:this.values
-					})
-				)
+				if(this.values != null){
+					param.append("userNamePhone",this.values);
+				}
+				if(this.gatheringState != null){
+					param.append("gatheringState",this.gatheringState);
+				}
+				param.append("pageNum",this.pageNum);
+				param.append("pageSize",this.pageSize);
+				param.append("communityId",this.communityId);
+				axios.post(hostPayment, param)    //请求收款数据列表
 				.then((response)=>{
 //					console.log('00000000');
 		 			console.log(response);
@@ -281,16 +283,25 @@
 				this.Datas = null;
 				this.totalNum = null;
 				let vm = this;
-				this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
-				this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
-				axios.post(hostPayment,
-					qs.stringify({
-						gatheringDate:this.communityLeaseBegin,
-						gatheringEndDate:this.communityLeaseEnd,
-						gatheringState:this.gatheringState,
-						userNamePhone:this.values
-					})
-				).then((response)=>{
+				let param = new FormData();
+				if(this.communityLeaseBegin != null){
+					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+					param.append("gatheringDate",this.communityLeaseBegin);
+				}
+				if(this.communityLeaseEnd != null){
+					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+					param.append("gatheringEndDate",this.communityLeaseEnd);
+				}
+				if(this.values != null){
+					param.append("userNamePhone",this.values);
+				}
+				if(this.gatheringState != null){
+					param.append("gatheringState",this.gatheringState);
+				}
+				param.append("pageNum",this.pageNum);
+				param.append("pageSize",this.pageSize);
+				param.append("communityId",this.communityId);
+				axios.post(hostPayment, param).then((response)=>{
 //					console.log(response);
 					if(response.status == 200 && response.data.code == 10004){
 						vm.Datas = response.data.entity.page;

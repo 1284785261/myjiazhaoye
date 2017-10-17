@@ -788,7 +788,7 @@
 							q+=parseInt(this.tableRepairs[i].date);
 						}
 					}
-						return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2) +'元';
+					return (vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve)+parseInt(q)).toFixed(2) +'元';
 				}
 				else if(this.value2 == '押一付一'){
 					let q=0;
@@ -1279,9 +1279,12 @@
 				param.append('cyclePayDiscount',this.discount);
 				param.append('serviceCost',this.serve);
 				param.append('firstMoneyPayType',this.radio3);
-				param.append('firstPayMoney',this.housetderta.firstmoneys);
-				param.append('firstMoney',this.onemoney);
-				param.append('secondPayMoney',this.housetderta.twomoney);
+				if(this.radio3 == '1'){
+					param.append('firstPayMoney',this.onemoney);
+				}else if(this.radio3 == '2'){
+					param.append('firstMoney',this.onemoney);
+					param.append('secondPayMoney',this.housetderta.twomoney);
+				}
 				param.append('secondPayDate',this.dat);
 				param.append('waterChargeModel',this.housetderta.waterType);
 				param.append('electricChargeModel',this.housetderta.electricType);
@@ -1314,10 +1317,10 @@
 					param.append('ieList',this.ieList);
 				}
 				console.log(this.param);
-              debugger
 		        axios.post(hostSigController,param).then(res =>{
+		        	console.log(res);
 		        	if(res.status == 200 && res.data.code == 10000){
-						console.log(res);
+						
 						vm.successModal = true;
 						setTimeout(()=>{
 							vm.successModal = false;
@@ -1404,9 +1407,12 @@
 				param.append('cyclePayDiscount',this.discount);
 				param.append('serviceCost',this.serve);
 				param.append('firstMoneyPayType',this.radio3);
-				param.append('firstPayMoney',this.housetderta.firstmoneys);
-				param.append('firstMoney',this.onemoney);
-				param.append('secondPayMoney',this.housetderta.twomoney);
+				if(this.radio3 == '1'){
+					param.append('firstPayMoney',this.onemoney);
+				}else if(this.radio3 == '2'){
+					param.append('firstMoney',this.onemoney);
+					param.append('secondPayMoney',this.housetderta.twomoney);
+				}
 				param.append('secondPayDate',this.dat);
 				param.append('waterChargeModel',this.housetderta.waterType);
 				param.append('electricChargeModel',this.housetderta.electricType);

@@ -76,13 +76,13 @@
               <li><router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link></li>
               <li><router-link :to="{path:'/signed/workState',query:{id:communityId}}">办公空间状态</router-link></li>
               <li><router-link to="/">直播管理</router-link></li>
-              <li><router-link to="/">办公租金账单</router-link></li>
-              <li><router-link to="/">办公订单</router-link></li>
+              <li><router-link :to="{name: 'billManagement'}">办公租金账单</router-link></li>
+              <li><router-link :to="{name: 'orderManagement'}">办公订单</router-link></li>
               <li><router-link to="/signed/repairs">用户报修</router-link></li>
-              <li><router-link to="/">合同管理</router-link></li>
+             	<li><router-link to="/contract/contractIndex">合同管理</router-link></li>
               <li><router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link></li>
               <li><router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link></li>
-              <li><router-link to="/">发起收款</router-link></li>
+              <li><router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link></li>
               <li><router-link to="/">用户投诉</router-link></li>
             </ul>
           </div>

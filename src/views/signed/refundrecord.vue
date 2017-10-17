@@ -16,12 +16,11 @@
 		    		<div class="refundrecord1">
 		    			<router-link :to="{path:'/signed/openrefund',query:{id:communityId}}" class="refund">发起退款</router-link>
 		    			<span class="bsc">状态：</span>
-		    			<el-select v-model="value" placeholder="请选择">
+		    			<el-select v-model="value" placeholder="请选择" @change="sectte(value)">
 						    <el-option
 						      v-for="item in options8"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      :key="item.dataname"
+						      :value="item.dataname">
 						    </el-option>
 					 	 </el-select>
 						<span class="bsc">看房时间：</span>
@@ -58,7 +57,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="5"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total=totalNum>
 				    
@@ -80,7 +79,6 @@
     import axios from 'axios';
     import { hostRefund } from '../api.js';
     import qs from 'qs';
-    
     export default {
     	components:{
     		rightHeader,
@@ -92,26 +90,25 @@
 				currentPage3: 1,
 				radio: '1',
 				options8: [{
-		          value: '选项1',
-		          label: '黄金糕'
-		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
-		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
-		        }],
+					dataname:'待审核',
+					id:0
+				},{
+					dataname:'待退款',
+					id:1
+				},{
+					dataname:'已退款',
+					id:2
+				},{
+					dataname:'审核不通过',
+					id:3
+				}],
 		        value: '',
 		        communityId:'',
 		        pageNum:1,
 		        data:null,
-		        totalNum:'1'
+		        totalNum:'1',
+		        pageSize:10,
+		        State:''
 			}
     	},
     	mounted(){
@@ -123,7 +120,7 @@
    				return  new Date(val).Format('yyyy-MM-dd');
    			},
    			Money(val){
-   				return val+'.00';
+   				return parseFloat(val).toFixed(2);
    			},
    			Status(val){
    				if(val == 0){
@@ -144,12 +141,12 @@
 				this.datas();
 			},
     		datas(){
-    			let pageNum = this.pageNum | 1;
+    			let pageNum = this.pageNum;
     			axios.post(hostRefund,
     				qs.stringify({
     					communityId:this.communityId,
     					pageNum:pageNum,
-    					pageSize:8
+    					pageSize:this.pageSize
     				})
     			)
     			.then((response)=>{
@@ -162,6 +159,9 @@
     			.catch((error)=>{
     				console.log(error);
     			})
+    		},
+    		sectte(value){
+    			this.State = this.options8[this.options8.findIndex(item => item.dataname == val)].id;
     		}
     	},
     

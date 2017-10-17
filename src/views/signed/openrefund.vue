@@ -134,7 +134,7 @@
 							this.successModal = true;
 							setTimeout(()=>{
 								this.successModal = false;
-								this.$router.push('/signed/refundrecord');
+								this.$router.push({path:'/signed/refundrecord',query:{communityId:this.communityId}});
 							},3000);
 						}
 						else{
