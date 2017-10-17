@@ -10,20 +10,17 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>账单管理</h3>
-          <span>佳兆业航运WEWA空间</span>
+          <Select v-model="communityId" style="width:200px;margin-left: 20px;">
+            <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+          </Select>
         </div>
         <div id="bill-management-wrap">
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
             <el-tab-pane label="公寓租金账单" name="first">
               <div class="form-search-criteria">
+
                 <div class="form-item">
-                  <b>社区：</b>
-                  <Select v-model="roomCommunity" style="width:200px">
-                    <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
-                </div>
-                <div class="form-item">
-                  <span>开业日期：</span>
+                  <span>账单日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
@@ -39,23 +36,23 @@
               <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
                 <tr>
                   <th>账单日期</th>
-                  <th>所属社区</th>
                   <th>公寓房间</th>
                   <th>租期</th>
                   <th>承租人</th>
                   <th>承租人电话</th>
                   <th>金额/元</th>
+                  <th>服务费</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
                 <tr v-for="room in roomBillList">
                   <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{room.communityName}}</td>
                   <td>{{room.roomId}}层 {{room.roomNum}}</td>
                   <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
                   <td>{{room.userName}}</td>
                   <td>{{room.userPhone}}</td>
                   <td>{{room.generalRent}}</td>
+                  <td>{{room.serviceCost}}</td>
                   <td>
                     <span v-if="room.billState == 1">待支付</span>
                     <span v-if="room.billState == 2" style="color: #ccc;">已支付</span>
@@ -64,7 +61,7 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:room.billId,type:0}}"> 账单详情</router-link>
-                    <!--<router-link to="/bill/billDetail"> 查看合同</router-link>-->
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:0}}"> 查看合同</router-link>
                   </td>
                 </tr>
               </table>
@@ -80,9 +77,7 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="officeCommunity" style="width:200px">
-                    <Option v-for="community in  officeBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
+
                 </div>
                 <div class="form-item">
                   <span>开业日期：</span>
@@ -107,6 +102,7 @@
                   <th width="150px">联系人</th>
                   <th>联系电话</th>
                   <th>订单金额/元</th>
+                  <th>服务费/元</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
@@ -118,6 +114,7 @@
                   <td>{{item.userName}}</td>
                   <td>{{item.userPhone}}</td>
                   <td>{{item.generalRent}}</td>
+                  <td>{{item.serviceCost}}</td>
                   <td>
                     <span v-if="item.billState == 1">待支付</span>
                     <span v-if="item.billState == 2" style="color: #ccc;">已支付</span>
@@ -126,7 +123,7 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:item.billId,type:1}}"> 账单详情</router-link>
-                    <!--<router-link to="/bill/billDetail"> 查看合同</router-link>-->
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:1}}"> 查看合同</router-link>
                   </td>
                 </tr>
               </table>
@@ -143,55 +140,89 @@
                   <Button style="width: 140px;height: 40px;font-size: 18px;" @click="createBill()">生成账单</Button>
                 </div>
                 <div class="form-item">
-                  <a>筛选已出账单</a>
+                  <Button style="width: 140px;height: 40px;font-size: 18px;" @click="editBill()">编辑账单</Button>
                 </div>
                 <div class="form-item">
-                  <b>社区：</b>
-                  <Select v-model="waterEnergyCommunity" style="width:200px">
-                    <Option v-for="community in  waterEnergyBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
+                  <Button style="width: 140px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>
                 </div>
                 <div class="form-item">
-                  <span>开业日期：</span>
+                  <span>账单月份：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyEndDate"></Date-picker>
                 </div>
               </div>
-
-              <table class="water-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="waterEnergyTotalNum > 0">
-                <tr>
-                  <th>出账社区</th>
-                  <th>所属社区</th>
-                  <th>水费合计/元</th>
-                  <th>电费合计/元</th>
-                  <th>服务费合计/元</th>
-                  <th>合计应收/元</th>
-                  <th>租客数/户</th>
-                  <th>已收(元/户)</th>
-                  <th>待收(元/户)</th>
-                  <th>操作</th>
+              <div class="pay-information-wrap-head">
+                <ul>
+                  <li>所属社区 :<span style="color: #038be2;font-weight: 700;"></span></li>
+                  <li>出账日期 :<span></span></li>
+                  <li>全部租客 :<span>户</span></li>
+                  <li>待缴 :<span style="color:red;font-weight: 700;">户</span></li>
+                  <li>已缴 :<span style="color:black;font-weight: 700;">户</span></li>
+                </ul>
+              </div>
+              <div class="form-search-criteria">
+                <div class="form-item pay-btn-group">
+                  <span>筛选: </span>
+                  <Button :class="{'active-btn':activeStatus == 0}" @click="filterBill(0)">全部</Button>
+                  <Button :class="{'active-btn':activeStatus == 1}" @click="filterBill(1)">待缴</Button>
+                  <Button :class="{'active-btn':activeStatus == 2}" @click="filterBill(2)">已缴</Button>
+                </div>
+                <div class="form-item">
+                  <div class="form-search">
+                    <i class="iconfont icon-sousuo"></i>
+                    <Input v-model="searchKey" placeholder="搜索账单联系人或联系电话"></Input>
+                    <input type="button" value="搜索" @click="search()">
+                  </div>
+                </div>
+                <div class="form-item">
+                  <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
+                </div>
+              </div>
+              <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+                <tr class="tr1">
+                  <th class="th1">房间</th>
+                  <th class="th1">水电费情况</th>
+                  <!--<th class="th1">服务费/元</th>-->
+                  <th class="th1">合计应收/元</th>
+                  <th class="th1">租客/联系人</th>
+                  <th class="th1">联系电话</th>
+                  <th class="th1">状态</th>
                 </tr>
-                <tr v-for="item in waterEnergyBillList">
-                  <td>{{item.billDate | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{item.communityName}}</td>
-                  <td>{{item.waterTotalMoney}}</td>
-                  <td>{{item.energyTotalMoney}}</td>
-                  <td>{{item.totalServiceCost}}</td>
-                  <td>{{item.totalMoney}}</td>
-                  <td>{{item.userStaticsInfo.totalCount}}</td>
-                  <td>{{item.alreadyPay}}元 {{item.userStaticsInfo.alreadyCount}}户</td>
-                  <td>{{item.notyetPay}}元 {{item.userStaticsInfo.notyetCount}}户</td>
-                  <td>
-                    <router-link :to="{name:'paymentInformation',query:{communityId:item.communityId}}">缴费情况</router-link>
+                <tr class="tr1" v-for="(item,index) in billPaymentList">
+                  <td class="td1">{{item.roomNum}}</td>
+                  <td class="td1">
+                    <table class="table2">
+                      <tr class="tr2">
+                        <td class="td2">读数 :<span>{{item.waterData}}</span></td>
+                        <td class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
+                        <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
+                      </tr>
+                      <tr class="tr2">
+                        <td class="td2">读数 :<span>{{item.energyData}}</span></td>
+                        <td class="td2">用电量 :<span>{{item.energySize}}度</span></td>
+                        <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <!--<td class="td1">{{item.serviceCost}}</td>-->
+                  <td class="td1">{{item.totalMoney}}</td>
+                  <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
+                  <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
+                  <td class="td1">
+                    <span v-if="item.payStatus == 1">待缴</span>
+                    <span v-if="item.payStatus == 2" style="color: #ccc;">已缴</span>
+                    <span v-if="item.payStatus == 3" style="color: red;">违约</span>
+                    <span v-if="item.payStatus == 4" style="color: red;">违约办结</span>
                   </td>
                 </tr>
               </table>
+              <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
               <div class="blank-background-img" v-if="waterEnergyTotalNum == 0">
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无账单内容~</h2>
               </div>
-              <Page :total="waterEnergyTotalNum" :page-size="10" show-elevator show-total @on-change="waterEnergySearch" v-if="waterEnergyTotalNum > 0"></Page>
+              <!--<Page :total="waterEnergyTotalNum" :page-size="10" show-elevator show-total @on-change="waterEnergySearch" v-if="waterEnergyTotalNum > 0"></Page>-->
             </el-tab-pane>
           </el-tabs>
 
@@ -220,39 +251,10 @@
       return{
         activeName2: 'first',
         model1:"",
-        value:"",
-        communitys: [
-          {
-            value: 'beijing',
-            label: '北京市'
-          },
-          {
-            value: 'shanghai',
-            label: '上海市'
-          },
-          {
-            value: 'shenzhen',
-            label: '深圳市'
-          },
-          {
-            value: 'hangzhou',
-            label: '杭州市'
-          },
-          {
-            value: 'nanjing',
-            label: '南京市'
-          },
-          {
-            value: 'chongqing',
-            label: '重庆市'
-          }
-        ],
+
         roomBillList:[],
-        RoomBillSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],//下拉选
-        roomCommunity:-1,//当前选中
+        RoomBillSelects:[],//下拉选
+        communityId:null,//当前选中
         roomTotalNum:0,//公寓合同总条数
         roomBillCurrent:1,//公寓合同当前页
         roomStartDate:"",//公寓签约开始时间
@@ -261,10 +263,7 @@
 
 
         officeBillList:[],
-        officeBillSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],
+
         officeCommunity:-1,
         officeTotalNum:0,
         officeBillCurrent:1,
@@ -273,15 +272,20 @@
         officeSearchKey:"",
 
         waterEnergyBillList:[],
-        waterEnergyBillSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],
+
         waterEnergyCommunity:-1,
         waterEnergyStartDate:"",
         waterEnergyEndDate:"",
         waterEnergyTotalNum:0,
 
+        activeStatus:0,
+
+        communityPayStatic:[],
+        billPaymentList:[],
+        billTotalNum:0,
+        billCurrent:1,
+        searchKey:"",
+        createtime:0,
 
       }
     },
@@ -289,10 +293,8 @@
       if(this.$route.query.tab){
         this.activeName2 = this.$route.query.tab;
       }
-      this.getRoomBill({pageNum:1});
-      this.getOfficeBill({pageNum:1});
-      this.getWaterEnergyBill({pageNum:1});
       this.getCommunityData();
+
 
     },
     methods:{
@@ -304,22 +306,27 @@
         this.$http.get(allCommunity)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              that.RoomBillSelects = that.RoomBillSelects.concat(res.data.entity);
-              that.officeBillSelects = that.officeBillSelects.concat(res.data.entity);
-              that.waterEnergyBillSelects = that.waterEnergyBillSelects.concat(res.data.entity);
+              that.RoomBillSelects = res.data.entity;
+              that.communityId = that.RoomBillSelects[0].communityId;
+              that.getRoomBill({pageNum:1,communityId:that.communityId});
+              that.getOfficeBill({pageNum:1,communityId:that.communityId});
+              that.getWaterEnergyBill({pageNum:1,communityId:that.communityId});
+              //水电账单
+              that.getPayStatic({communityId:this.communityId});
+              that.getbillPayment({communityId:this.communityId,pageNum:1});
             }
           })
       },
       getRoomBill(data){
         var that = this;
         this.$http.get(roomBill,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.roomBillList = pageBean.page;
               that.roomTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10001){
+            if(res.data.code == 10001 || res.data.code == 10008){
               that.roomBillList = [];
               that.roomTotalNum = 0;
             }
@@ -327,11 +334,10 @@
       },
       roomSearch(page){
         var data = {
+          communityId:this.communityId,
           pageNum:page || 1
         }
-        if(this.roomCommunity != -1){
-          data.communityId = this.roomCommunity;
-        }
+
         if(this.roomSearchKey){
           data.keyWord = this.roomSearchKey;
         }
@@ -353,7 +359,7 @@
               that.officeBillList = pageBean.page;
               that.officeTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10001){
+            if(res.data.code == 10001 || res.data.code == 10008){
               that.officeBillList = [];
               that.officeTotalNum = 0;
             }
@@ -362,6 +368,7 @@
 
       officeSearch(page){
         var data = {
+          communityId:this.communityId,
           pageNum:page || 1
         }
         if(this.officeCommunity != -1){
@@ -382,13 +389,13 @@
       getWaterEnergyBill(data){
         var that = this;
         this.$http.get(waterEnergyBill,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.waterEnergyBillList = pageBean.page;
               that.waterEnergyTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10008){
+            if(res.data.code == 10008 || res.data.code == 10001){
               that.waterEnergyBillList = [];
               that.waterEnergyTotalNum = 0;
             }
@@ -396,6 +403,7 @@
       },
       waterEnergySearch(page){
         var data = {
+          communityId:this.communityId,
           pageNum:page || 1
         }
         if(this.waterEnergyCommunity != -1){
@@ -410,8 +418,67 @@
         this.getWaterEnergyBill(data);
       },
       createBill(){
-        this.$router.push({path:"/bill/generateBill"});
+        this.$router.push({path:"/bill/generateBill",query:{communityId:this.communityId}});
+      },
+      editBill(){
+        this.$router.push({path:"/bill/editGenerateBill",query:{communityId:this.communityId}});
+      },
+      historyBill(){
+        this.$router.push({path:"/bill/historyInformation",query:{communityId:this.communityId}});
+      },
+
+
+      getPayStatic(data){
+        var that = this;
+        this.$http.get(statisticsInfoOfUser,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.communityPayStatic = res.data.entity;
+            }
+          })
+      },
+      getbillPayment(data){
+        var that = this;
+        this.$http.get(billPayment,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.pageBean;
+              that.billPaymentList = pageBean.page;
+              that.billTotalNum = pageBean.totalNum;
+            }
+            if(res.data.code == 10001){
+              that.billPaymentList = [];
+              that.billTotalNum = 0;
+            }
+          })
+      },
+      search(page){
+        //接口待修改
+        var params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+        if(this.searchKey){
+          params.keyWord = this.searchKey
+        }
+        if(this.activeStatus != 0){
+          params.payStatus = this.activeStatus;
+        }
+        this.getbillPayment(params);
+      },
+      filterBill(payStatus){
+        this.activeStatus = payStatus;
+        var params = {
+          pageNum:1,
+          keyWord : this.searchKey,
+          communityId:this.communityId,
+        }
+        if(this.activeStatus != 0){
+          params.payStatus = this.activeStatus;
+        }
+        this.getbillPayment(params);
       }
+
     },
     filters:{
       timefilter(value,format){
@@ -421,6 +488,14 @@
       }
     },
     watch:{
+      communityId:function(newValue,oldValue){
+        var vm = this;
+        setTimeout(function(){
+          vm.getRoomBill({pageNum:1,communityId:newValue});
+          vm.getOfficeBill({pageNum:1,communityId:newValue});
+          vm.getWaterEnergyBill({pageNum:1,communityId:newValue});
+        });
+      },
       waterEnergyStartDate:function(newValue,oldValue){
         var vm = this;
         setTimeout(function(){
@@ -461,6 +536,22 @@
         color: #999;
       }
     }
+    .pay-information-wrap-head{
+      height: 80px;
+      background-color: #f7fbff;
+      border-bottom: 1px solid #ccc;
+      line-height: 80px;
+      ul{
+        margin-left: 20px;
+        li{
+          display: inline-block;
+          margin-right: 50px;
+          span{
+            padding-left: 5px;
+          }
+        }
+      }
+    }
     .el-tabs__header{
       border-bottom: 1px solid #038be2;
       .el-tabs__nav{
@@ -483,12 +574,24 @@
     .form-search-criteria{
       position: relative;
       padding: 21px 0 21px 20px;
+      .pay-btn-group{
+        button{
+          width: 80px;
+          height: 30px;
+          margin-left: 10px;
+        }
+        .active-btn{
+          border: solid 1px #038be2;
+          color: #038be2;
+          background-color: #fff;
+        }
+      }
       .form-item{
         display: inline-block;
         margin-right: 20px;
         .form-search{
           position: relative;
-          margin-left: 108px;
+          margin-left: 50px;
           .ivu-input-wrapper{
             width: auto;
           }
@@ -579,6 +682,49 @@
       }
 
     }
+
+    .payment-infirmation-table{
+      border-collapse:collapse;
+      text-align: center;
+      .th1{
+        background-color: #f8f8f9;
+      }
+      .th1,.td1{
+        border: 1px solid #ccc;
+        padding: 10px 10px;
+      }
+      .tr1>.td1:first-child,.tr>.th1:first-child{
+        border-left-width: 0;
+      }
+      .tr1>.td1:last-child,.tr1>.th1:last-child{
+        border-right-width: 0;
+      }
+      .tr1>.td1:last-child{
+        color: #FF6612;
+      }
+    }
+    .table2{
+      display: inline-block;
+      .tr2{
+        .td2{
+          text-align: left;
+          padding: 0 30px;
+          color: rgb(153,153,153);
+          span{
+            padding-left: 5px;
+            color: black;
+          }
+        }
+      }
+    }
+
+    .payment-infirmation-table{
+      .tr1>.td1:nth-child(4){
+        color: red;
+        font-weight: 700;
+      }
+    }
+
   }
 
 

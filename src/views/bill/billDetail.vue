@@ -44,6 +44,10 @@
                   <td>租金 :</td>
                   <td>{{billDetailList.generalRent}}元/位·天</td>
                 </tr>
+                <tr>
+                  <td>服务费 :</td>
+                  <td>200元/月</td>
+                </tr>
               </table>
               <div class="check-contract-btn">
                 查看合同

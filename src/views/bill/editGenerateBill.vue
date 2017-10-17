@@ -9,22 +9,23 @@
           <router-link  class="active" to="/apartment/communityManagement">生成水电账单</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>生成水电账单</h3>
+          <h3><i class="icon icon-iden"></i>编辑水电账单</h3>
         </div>
         <div id="pay-information-wrap">
           <div class="form-search-criteria">
             <div class="form-item">
               <b>社区：</b>
-              <span>{{communityName}}</span>
+              <span>佳兆业社区</span>
             </div>
             <div class="form-item">
-              当前公寓共合计 : <span style="font-weight: 700;color: black;">{{communityPayStatic.totalCount}}户</span>
+              <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{communityPayStatic.totalCount}}户</span>
             </div>
             <div class="form-item">
-              <Button style="width: 100px;height: 30px;">全部抄表</Button>
+              <Button style="width: 120px;height: 30px;">全部抄表</Button>
+              <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else>生成账单并发送给租客</span></Button>
             </div>
           </div>
-          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
+          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
             <tr class="tr1">
               <th class="th1">房间</th>
               <th class="th1">水电费情况</th>
@@ -68,16 +69,16 @@
                 </table>
               </td>
               <td class="td1">{{item.totalMoney}}</td>
-              <td class="td1">{{item.userName|| ""}}</td>
-              <td class="td1">{{item.userPhone || ""}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
+              <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
               <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
           </table>
-          <div class="blank-background-img" v-if="billTotalNum == 0">
+          <div class="blank-background-img" v-if="false">
             <img src="../../../static/images/blank/bill_space.png" >
             <h2>暂无账单内容~</h2>
           </div>
-          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch" v-if="billTotalNum > 0"></Page>
+          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
         </div>
 
       </div>
@@ -91,7 +92,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBill,editUsedWaterEnergy,createBillList,hostTitle} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment,editUsedWaterEnergy} from '../api.js';
 
 
   export default {
@@ -112,18 +113,11 @@
         billPaymentList:[],
         billTotalNum:0,
         billCurrent:1,
-        activePage:1,
-        communityId:null,
-        communityName:"",
+        activePage:1
       }
     },
     mounted(){
-      this.communityId = this.$route.query.communityId;
-      this.communityId = 3;
-      this.getCommunityInfo();
-      this.getPayStatic({communityId:this.communityId});
-      this.getbillPayment({communityId:this.communityId,pageNum:1});
-//      this.getCommunityData();
+      this.getCommunityData();
     },
     methods:{
       handleClick(tab, event) {
@@ -137,8 +131,8 @@
               that.billSelects = res.data.entity;
             }
             that.billCommunity = that.billSelects[0].communityId;
-            that.getPayStatic({communityId:that.billCommunity});
-            that.getbillPayment({communityId:that.billCommunity,pageNum:1});
+            that.getPayStatic({communityId:that.billSelects[0].communityId});
+            that.getbillPayment({communityId:that.billSelects[0].communityId,pageNum:1});
           })
       },
       getPayStatic(data){
@@ -150,20 +144,9 @@
             }
           })
       },
-      //获取社区信息
-      getCommunityInfo(){
-        var that = this;
-        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
-          if(res.data.code == 10000){
-            that.communityName = res.data.result.community.communityName;
-          }
-        }).catch(function(err){
-          console.log(err);
-        })
-      },
       getbillPayment(data){
         var that = this;
-        this.$http.get(createBillList,{params:data})
+        this.$http.get(unsentWaterEnergyBillList,{params:data})
           .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
@@ -182,7 +165,7 @@
       },
       pageSearch(page){
         var params = {
-          communityId : this.communityId,
+          communityId : this.billCommunity,
           pageNum:page || 1
         }
         if(page){
@@ -198,28 +181,21 @@
           this.$set(this.billPaymentList[index],"isEdit",!isEdit);
           this.$set(this.billPaymentList[index],"content","修改账单");
           var obj = this.billPaymentList[index];
-
+          console.log(obj)
           var params = {
-            waterData:parseInt(obj.newRoomWater),
-            energyData:parseInt(obj.newRoomElectric)
+            waterElectricityBill:obj.waterElectricityBill,
+            energyCost:obj.energyCost,
+            waterCost:obj.waterCost,
+            totalMoney:parseInt(obj.energyCost)+parseInt(obj.waterCost)
           };
           if(obj.waterChargeModel == 1){
-            params.waterSize=parseInt(obj.newRoomWater)-parseInt(obj.roomWater);
-            params.waterCost = parseInt(obj.waterPrice)*parseInt(params.waterSize);
-          }else{
-            params.count = obj.enterCount;
-            params.waterCost = parseInt(obj.waterPrice)*parseInt(obj.enterCount);
+            params.waterData=obj.waterData;
+            params.waterSize=obj.waterSize;
           }
-
           if(obj.electricChargeModel == 1){
-            params.energySize=parseInt(obj.newRoomElectric)-parseInt(obj.roomElectric);
-            params.energyCost = parseInt(obj.energyPrice)*parseInt(params.energySize);
-          }else{
-            params.count = obj.enterCount;
-            params.energyCost = parseInt(obj.energyPrice)*parseInt(obj.enterCount);
+            params.energyData=obj.energyData;
+            params.energySize=obj.energySize;
           }
-          params.totalMoney=params.energyCost + params.waterCost;
-          params.realMoney=params.energyCost + params.waterCost;
           if(obj.electricChargeModel == 2 || obj.waterChargeModel == 2){
             params.count = obj.count;
           }
@@ -229,8 +205,8 @@
       },
       saveBillPayment(params){
         var that = this;
-        this.$http.post(saveBill,qs.stringify(params))
-          .then(function(res){debugger
+        this.$http.post(editUsedWaterEnergy,qs.stringify(params))
+          .then(function(res){
             that.pageSearch(that.activePage);
           })
       },
@@ -248,12 +224,12 @@
       }
     },
     watch:{
-//      billCommunity:function(newValue,oldValue){
-//          var vm = this;
-//          setTimeout(function(){
-//            vm.getbillPayment({communityId:newValue,pageNum:1});
-//          });
-//      }
+      billCommunity:function(newValue,oldValue){
+        var vm = this;
+        setTimeout(function(){
+          vm.getbillPayment({communityId:newValue,pageNum:1});
+        });
+      }
     }
   }
 </script>

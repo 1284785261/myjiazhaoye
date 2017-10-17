@@ -4,7 +4,7 @@
           <img src="/static/images/temp/logo.jpg">
         </div>
       <ul class="menu-list">
-        <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-gongzuotai"></i>工作台</router-link></li>
+        <li :class="{'active-tab':activeTabName == 'workbench'}"><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-gongzuotai"></i>工作台</router-link></li>
         <li><router-link :to="{ name: 'messageInform' , params: { id: 123 }}"><i class="iconfont icon-xiaoxi"></i>消息中心</router-link></li>
         <li><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-zhibo"></i>直播管理</router-link></li>
         <li :class="{'active-tab':activeTabName == 'orderManagement'}"><router-link :to="{ name: 'orderManagement' , params: { id: 123 }}"><i class="iconfont icon-dingdanguanli"></i>订单管理</router-link></li>

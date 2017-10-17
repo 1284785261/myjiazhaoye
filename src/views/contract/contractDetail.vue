@@ -120,7 +120,7 @@
                 <td class="td1"><span v-if="contractDetailData.customerType == 2">企业资料:</span><span v-else-if="contractDetailData.customerType == 1">查看证明:</span></td>
                 <td class="td1 left-text-td">
                   <ul>
-                    <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)">
+                    <li v-for="(item,index) in contractDetailData.credentialsImages" @click="preViewPc(index)" v-if="item.filePath">
                       <img :src="imgPath+item.filePath" alt="证明图片">
                       <div class="picture-modal"><Icon type="ios-search"></Icon></div>
                       <p>{{item.fileTitle}}</p>

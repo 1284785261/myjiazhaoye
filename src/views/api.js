@@ -449,7 +449,11 @@ export const roomBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBi
 export const officeBillDetail =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetOfficeBillDetail300042';
 export const statisticsInfoOfUser =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetStatisticsInfoOfUser300036';
 export const billPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetWaterEnergyBillPaymentList300035';
-export const saveBillPayment =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWaterEnergy300037';
+export const saveBill =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWaterEnergy300037';
+//账单管理（改版）
+export const createBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetNoBillRoomContractList300112';//生成水电账单列表
+export const historyList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetRoomFloorList300111';//历史信息
+
 
 //客服管理
 export const complainList =host3+'/cxkj-room/apis/pc/complainCenter/CxkjComplainList300086';
@@ -486,3 +490,7 @@ export const deleteDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationDe
 export const unLockDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
 export const doorLockNotes =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationRecord200144';//开锁记录
 
+//看房预约
+export const appointmentList =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentList300106';//看房预约列表
+export const feedBack =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentFeedBack300108';//确认接待
+export const receive =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjReceiveCommunityAppointment300109';//我要接待

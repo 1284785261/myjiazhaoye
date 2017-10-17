@@ -1,0 +1,160 @@
+#right-content{
+  height: 100%!important;
+}
+#historyInfo{
+  width: 100%;
+  min-height: 1000px;
+  background: #fff;
+  overflow:hidden;
+  box-shadow: 0 3px 1px #ccc;
+  position: relative;
+}
+#historyInfo .historyInfo1{
+  height: 80px;
+  line-height: 80px;
+}
+#historyInfo .historyInfo1 span{
+  padding-left: 50px;
+}
+#historyInfo .historyInfo1 span b{
+  padding-right: 5px;
+}
+#historyInfo .historyInfo1 a:hover{
+  background: #038be2;
+  color: white;
+  border: none;
+}
+#historyInfo .historyInfo2{
+  border-top: 1px solid #ccc;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+#historyInfo .historyInfo2 .state1{
+
+  position: relative;
+}
+#historyInfo .historyInfo2 .state1 span:nth-child(1){
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 28px;
+  border-radius: 50%;
+  background: #038be2;
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+#historyInfo .historyInfo2 .state1 span:nth-child(2){
+  font-size: 14px;
+  color: #038be2;
+  padding-right: 15px;
+  border-right: 1px solid #ccc;
+}
+#historyInfo .historyInfo2 .state1 span:nth-child(3){
+  font-size: 14px;
+  margin-left: 15px;
+  color: #666;
+}
+#historyInfo .historyInfo2 .state1 i{
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  cursor: pointer;
+}
+
+#historyInfo .historyInfo2 .state2 li{
+  width: 194px;
+  height: 160px;
+  border: 1px solid #DCDCDC;
+  border-radius: 5px;
+  float: left;
+  margin: 20px 20px;
+  position: relative;
+}
+#historyInfo .historyInfo2 .state2 li div{
+  width: 194px;
+  height: 160px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#historyInfo .historyInfo2 .state2 li .sex{
+  width: 194px;
+  height: 160px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #038be2;
+  opacity: .7;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+#historyInfo .historyInfo2 .state2 li .sex span:nth-child(1){
+  margin-top: 50px;
+}
+#historyInfo .historyInfo2 .state2 li .sex span{
+  text-align: center;
+  color: white;
+  line-height: 20px;
+}
+#historyInfo .historyInfo2 .state2 li div{
+  width: 194px;
+  height: 160px;
+  display: inline-block;
+}
+#historyInfo .historyInfo2 .state2 li div .act{
+  color: #1fbba6;
+}
+#historyInfo .historyInfo2 .state2 li div .act2{
+  color: #038be2;
+}
+#historyInfo .historyInfo2 .state2 li div p:nth-child(1){
+  font-size: 12px;
+  font-weight: bold;
+  margin:10px 0 7px 10px;
+}
+#historyInfo .historyInfo2 .state2 li div p:nth-child(2){
+  font-size: 12px;
+  margin:0 0 8px 10px;
+}
+
+#historyInfo .historyInfo2 .state2 li span{
+  display: block;
+  font-size: 12px;
+}
+#historyInfo .historyInfo2 .state2 li p:nth-child(3){
+  width: 99%;
+  height: 46px;
+  border-radius: 5px;
+  border-top: 1px solid #dcdcdc;
+  background: #f8f8f8;
+  font-size: 12px;
+  color: #000;
+  line-height: 45px;
+  padding-left: 10px;
+  position: absolute;
+  bottom: 2px;
+}
+#historyInfo .historyInfo2 .state2 li p:nth-child(5) i{
+  float: right;
+  font-style: normal;
+  margin-right: 10px;
+}
+#historyInfo .historyInfo2 .transition-box {
+  margin-left: 30px;
+  max-height: 500px;
+  width: 100%;
+  box-sizing: border-box;
+}
+#historyInfo .state2 li:hover .sex{
+  display: block;
+}

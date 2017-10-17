@@ -386,7 +386,15 @@ export default new Router({
       name:'surredendetal',
       component:resolve =>
         require(['../views/signed/surredendetal.vue'],resolve)
-    },
+    },{
+      path: '/bill/historyInformation',     //账单管理->生成水电账单
+      name: 'historyInformation',
+      component: resolve => require(['../views/bill/historyInformation.vue'],resolve)
+    },{
+      path: '/bill/historyMeter',     //账单管理->生成水电账单
+      name: 'historyMeter',
+      component: resolve => require(['../views/bill/historyMeter.vue'],resolve)
+    }
 
 
 
