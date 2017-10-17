@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-//const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+const host3 = 'http://192.168.26.191:8080';
+//const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -276,6 +276,15 @@ const ActivityModify = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityAc
 
 //个人中心-我的业绩
 const SignContr = '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjSignList500066'
+
+//用户退租列表
+const ThrowLease = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeaseList500086'
+
+//查看退租-确认退租
+const wLeaseContr = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeaseStart500087'
+
+//查看退租-用户确认退租
+const LeaseController = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeasePass500088'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -367,6 +376,9 @@ export const hostActivityAdd = host3 + ActivityAdd;
 export const hostRangeRandom = host3 + RangeRandom;
 export const hostActivityModify = host3 + ActivityModify;
 export const hostSignContr = host3 + SignContr;
+export const hostThrowLease = host3 + ThrowLease;
+export const hostwLeaseContr = host3 + wLeaseContr;
+export const hostLeaseController = host3 + LeaseController;
 export const host = host3;
 //export default {
 //hosts:function(){

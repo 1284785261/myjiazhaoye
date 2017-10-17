@@ -283,3 +283,9 @@
 #surrender .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
+#surrender table tr .kust{
+	color: #ff6612;
+}
+#surrender table tr .kust1{
+	color: #999999;
+}

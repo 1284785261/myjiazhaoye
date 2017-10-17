@@ -381,6 +381,11 @@ export default new Router({
       name:'affirmsurrend',
       component:resolve =>
         require(['../views/signed/affirmsurrend.vue'],resolve)
+    },{
+      path:'/signed/surredendetal',		//发起退租-查看退租详情
+      name:'surredendetal',
+      component:resolve =>
+        require(['../views/signed/surredendetal.vue'],resolve)
     },
 
 

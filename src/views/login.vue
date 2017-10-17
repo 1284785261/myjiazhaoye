@@ -73,7 +73,6 @@ import qs from 'qs';
     methods: {
       handleSubmit:function() {
       	var that = this;
-      	//console.log('login1')
       	this.$http.post(hostlogin,
       		qs.stringify(
       			{

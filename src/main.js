@@ -42,15 +42,13 @@ Array.prototype.remove = function(val){
 axios.interceptors.request.use(
   config => {
 	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
-//  	const Token ="eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDQyMzI5MDMsInN1YiI6InQ2eUgzZDh2SDJHbjNMTEt3MUdOSC9JY3VXZThjdlJqbkwwQmVsZTdIY1NJNnFlcWFvc2U5YXYzRHl2RTBvRE1QWmZHMHkxb1VITVRcclxuWlJYR0MrMnlxZz09In0.SCMcQTGcu7sNfRB88jgQEeyYDDoDuOp2WzofGKZaxQI"
     console.log("请求....")
 
 	//console.log(Token)
 	//console.log(sessionStorage.getItem('token'));
 	//console.log(1111)
-    config.headers['Authorization'] = Token
-    //eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMDAwMDEiLCJpYXQiOjE1MDMyODc3OTIsInN1YiI6IlRiNm1EUWE2ZXFtSnY2cEpEQjdVUkE9PSJ9.tdUFIwfHMUoDFnZHRmbUTmeEldhvBHYxjJF4P6WbEXE
-    return config
+    config.headers['Authorization'] = Token;
+    return config;
     console.log(config);
   },
   err => {

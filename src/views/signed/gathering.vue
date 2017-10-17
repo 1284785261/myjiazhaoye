@@ -59,7 +59,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="5"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total=totalNum>
 				    
@@ -71,6 +71,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 		<div class="shade" v-show="isHide">		
 		</div>
 		<div class="bruin" v-show="isHide">
@@ -108,6 +110,8 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import { hostPayment,hostPayment2,hostWay } from '../api.js';
     import qs from 'qs';
@@ -116,7 +120,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+			warningModal
     	},
     	data(){
     		return{
@@ -134,7 +140,12 @@
 		        phone:null,
 		        money:null,
 		        titl1:null,
-		        gatheringState:null
+		        gatheringState:null,
+		        pageSize:10,
+		        successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
     		}
     	},
     	mounted(){
@@ -176,6 +187,9 @@
 				this.pageNum = val;
 				this.datas();
 			},
+			closeWarningModal() {
+				this.warningModal = false;
+			},
 			datas(){
 				if(this.communityLeaseBegin != null){
 					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
@@ -186,7 +200,7 @@
 				axios.post(hostPayment,  //请求收款数据列表
 					qs.stringify({
 						pageNum:this.pageNum,
-						pageSize:5,
+						pageSize:this.pageSize,
 						communityId:this.communityId,
 						gatheringDate:this.communityLeaseBegin,
 						gatheringEndDate:this.communityLeaseEnd,
@@ -194,10 +208,14 @@
 						userNamePhone:this.values
 					})
 				)
-				.then((response)=>{       
-	 			//console.log(response);
-	 			this.Datas = response.data.entity.page;
-	 			this.totalNum = response.data.entity.totalNum;
+				.then((response)=>{
+//					console.log('00000000');
+		 			console.log(response);
+		 			if(response.status == 200 && response.data.code == 10004){
+			 			this.Datas = response.data.entity.page;
+			 			this.totalNum = response.data.entity.totalNum;
+			 			console.log(this.Datas);
+		 			}
 		 		})
 		 		.catch((error)=>{
 		 			console.log(error);
@@ -215,19 +233,25 @@
 						gatheringMoney:this.money
 					})
 				).then((response)=>{
-					//console.log(11111);
+					console.log(11111);
 					console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						this.isHide = !this.isHide;
-						alert('发起收款成功');
-						this.datas();
+						this.successMessage = '发起收款成功';
+						this.successModal = true;
+						setTimeout(() => {
+							this.successModal = false;
+							this.datas();
+						}, 2000);
 					}else{
-						alert(response.data.content);
+						this.warningMessage = response.data.content;
+						this.warningModal = true;
 					}
 					
 				})
 				.catch((error)=>{
-					console.log(error);
+					this.warningMessage = '刷新失败,服务器出现异常';
+					this.warningModal = true;
 				})
 			},
 			states(){
@@ -236,7 +260,7 @@
 						parentId:51        //查询支付状态字典
 					})
 				).then((response)=>{
-					console.log(response);
+					//console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						this.options = response.data.entity;
 					}
@@ -267,17 +291,19 @@
 						userNamePhone:this.values
 					})
 				).then((response)=>{
-					console.log(response);
+//					console.log(response);
 					if(response.status == 200 && response.data.code == 10004){
-						alert(response.data.content);
 						vm.Datas = response.data.entity.page;
 						vm.totalNum = response.data.entity.totalNum;
 					}
 					else{
-						alert(response.data.content);
+						this.warningMessage = response.data.content;
+						this.warningModal = true;
 					}
 				}).catch((error)=>{
 					console.log(error);
+					this.warningMessage = '搜索失败，服务器异常';
+					this.warningModal = true;
 				})
 			}
     	}

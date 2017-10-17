@@ -179,16 +179,24 @@ export default {
   },
   methods:{
   	 title(){
-  	 	axios.post(allCommunity).then((response)=>{   //获取社区分类数据
-  	 		console.log(response);
-  	 		if(response.status ==200 && response.data.code == 10000){
-	  	 		this.cityList = response.data.entity;
-	  	 		this.selectModel1 =this.cityList[0].communityName;
-	  	 	}
-  	 	})
-  	 	.catch((error)=>{
-  	 		console.log(error);
-  	 	})
+  	 	let Model = sessionStorage.getItem('communityId');
+				console.log(Model);
+				axios.post(allCommunity).then((response) => { //获取社区分类数据
+						console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+							this.cityList = response.data.entity;
+							if(Model){
+								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
+							}
+							else{
+								this.selectModel1 = this.cityList[0].communityName;
+							}
+							
+						}
+					})
+					.catch((error) => {
+						console.log(error);
+					})
 
   	 },
   	 temp(val){

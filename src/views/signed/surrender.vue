@@ -5,218 +5,216 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/signed/housesubscribe">用户退租</router-link>
-		        </div>
-		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>用户退租</h3>
-		          <span>佳兆业航运WEWA空间</span>
-		        </div>
-		    	<div id="surrender">
-		    		<div class="surrender1">
-		    			<span class="bsc">类型：</span>
-		    			<el-select v-model="value" placeholder="请选择" @change="select(value)">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.dataName"
-						      :value="item.dataName">
-						    </el-option>
+					<span>您现在的位置：工作台 > </span>
+					<router-link class="active" to="/signed/housesubscribe">用户退租</router-link>
+				</div>
+				<div class="ivu-bar-title">
+					<h3><i class="icon icon-iden"></i>用户退租</h3>
+					<span>佳兆业航运WEWA空间</span>
+				</div>
+				<div id="surrender">
+					<div class="surrender1">
+						<span class="bsc">类型：</span>
+						<el-select v-model="value" placeholder="请选择" @change="select(value)">
+							<el-option v-for="item in options" :key="item.dataName" :value="item.dataName">
+							</el-option>
 						</el-select>
 						<span class="bsc">状态：</span>
-						<el-select v-model="value" placeholder="请选择" @change="select(value)">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.dataName"
-						      :value="item.dataName">
-						    </el-option>
+						<el-select v-model="value2" placeholder="请选择" @change="select2(value2)">
+							<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
+							</el-option>
 						</el-select>
 						<span class="bsc">申请时间：</span>
-						<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择日期" class="dev"></Date-picker>
+						<Date-picker type="date" placeholder="请选择日期" class="dev" v-model="startDate"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择日期" class="dev"></Date-picker>
-						<input type="text"  placeholder="搜索联系人/手机号" class="mv"/>
-						<i class="el-icon-search"></i>
-						<a>搜索</a>
-		    		</div>
-		    		<table>
-		    			<thead>
-		    				<td>申请时间</td>
-		    				<td>类型</td>
-		    				<td>承租人/联系人</td>
-		    				<td>联系电话</td>
-		    				<td>租期</td>
-		    				<td>剩余</td>
-		    				<td>租金和支付情况</td>
-		    				<td>状态</td>
-		    				<td>操作</td>
-		    			</thead>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td><router-link to="/signed/affirmsurrend">确认退租</router-link><a @click="adddian">查看合同</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td><a @click="adddian">查看退租</a><a @click="adddian">查看合同</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td><a @click="adddian">查看退租</a><a @click="adddian">查看合同</a></td>
-		    			</tr>
-		    		</table>
-		    		<el-pagination
-				      @current-change="handleCurrentChange"
-				      :current-page.sync="currentPage3"
-				      :page-size="5"
-				      layout="prev, pager, next,total,jumper"
-				      :total="20">
-				    
-				    </el-pagination>
-		    	</div>
-		    </div>
+						<Date-picker type="date" placeholder="请选择日期" class="dev" v-model="endDate"></Date-picker>
+						<div class="form-item" style="margin-left: 30px;">
+							<div class="form-search">
+								<i class="iconfont icon-sousuo"></i>
+								<Input v-model="keyWord" placeholder="搜索联系人/手机号"></Input>
+								<input type="button" value="搜索" @click="sous()">
+							</div>
+						</div>
+					</div>
+					<table>
+						<thead>
+							<td>申请时间</td>
+							<td>类型</td>
+							<td>承租人/联系人</td>
+							<td>联系电话</td>
+							<td>租期</td>
+							<td>剩余</td>
+							<td>租金和支付情况</td>
+							<td>状态</td>
+							<td>操作</td>
+						</thead>
+						<tr v-for="item in surrList">
+							<td>{{item.createTime | time}}</td>
+							<td>{{item.isOffice | ofice}}</td>
+							<td>{{item.userName}}</td>
+							<td>{{item.userPhone}}</td>
+							<td>{{item.beginDate | times}}-{{item.endDate | times}}</td>
+							<td style="color: red;">{{item.surplusDay}}天</td>
+							<td>{{item.cyclePayMoney | Money}} 已付{{item.payStage}}/{{item.stage}}</td>
+							<td :class="[{'kust':item.refundStatus == 0},{'kust1':item.refundStatus == 2}]">{{item.refundStatus | Status}}</td>
+							<td>
+								<router-link :to="{path:'/signed/affirmsurrend',query:{id:item.throwLeaseId}}" v-if="item.refundStatus == 0">确认退租</router-link>
+								<router-link :to="{path:'/signed/surredendetal',query:{id:item.throwLeaseId}}" v-else>查看退租</router-link>
+								<router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:item.isOffice}}">查看合同</router-link>
+							</td>
+						</tr>
+					</table>
+					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
+
+					</el-pagination>
+				</div>
+			</div>
 			<footer-box></footer-box>
 		</div>
 		<div class="scherm" v-show="ishide">
-			
-		</div>
-		<div class="instas4" v-show="ishide2">
-			<i class="el-icon-circle-close" @click="adddian"></i>
-			<p>接待反馈</p>
-			<table>
-				<tr>
-					<td><span>客户意向：</span></td>
-					<td>
-						<el-radio class="radio" v-model="radio" label="1">考虑中</el-radio>
-  						<el-radio class="radio" v-model="radio" label="2">不考虑</el-radio>
-					</td>
-				</tr>
-				<tr>
-					<td><span class="lov">原因：</span></td>
-					<td>
-						<textarea></textarea>
-					</td>
-				</tr>
-			</table>
-			<a @click="adddian()" class="tjss">确定</a>
-		</div>
-		<div class="popup" v-show="ishide3">
-			<i class="el-icon-circle-close" @click="adddian2"></i>
-			<p>预约详情</p>
-			<div>
-				<span>2017年5月18日</span>
-				<span>已签约</span>
-			</div>
-			<table>
-				<tr>
-					<td>联系人：</td>
-					<td>欧阳小溪</td>
-				</tr>
-				<tr>
-					<td>联系电话：</td>
-					<td>1564651651 <Icon type="ios-telephone"></Icon></td>
-				</tr>
-				<tr>
-					<td>已选户型：</td>
-					<td>标准大标间</td>
-				</tr>
-				<tr>
-					<td>用户留言：</td>
-					<td>欧阳小溪</td>
-				</tr>
-				<tr>
-					<td>预约看房时间：</td>
-					<td>2017-08-15 </td>
-				</tr>
-			</table>
-			<span class="xuxian"></span>
-			<table>
-				<tr>
-					<td>接待管家：</td>
-					<td>1111</td>
-				</tr>
-				<tr>
-					<td>已签约：</td>
-					<td>1111 201</td>
-				</tr>
-				<tr>
-					<td>签约时间：</td>
-					<td>1111</td>
-				</tr>
-			</table>
-			<a class="cha">查看合同</a>
 		</div>
 	</div>
 </template>
 
 <script>
-	
 	import '../../sass/style/surrender.css';
 	import menuBox from '../../components/menuBox.vue';
-    import rightHeader from '../../components/rightHeader.vue';
-    import footerBox from '../../components/footerBox.vue';
-    import axios from 'axios';
-    import { hostHousehold } from '../api.js';
-    import qs from 'qs';
-    
-    export default {
-    	components:{
-    		rightHeader,
-    		menuBox,
-    		footerBox
-    	},
-    	data(){
-    		return{
+	import rightHeader from '../../components/rightHeader.vue';
+	import footerBox from '../../components/footerBox.vue';
+	import axios from 'axios';
+	import { hostThrowLease } from '../api.js';
+	import qs from 'qs';
+
+	export default {
+		components: {
+			rightHeader,
+			menuBox,
+			footerBox
+		},
+		data() {
+			return {
 				currentPage3: 1,
 				radio: '1',
-				ishide:false,
-				ishide2:false,
-				ishide3:false
-		   	}
-    	},
-    	mounted(){
-
-    	},
-    	filters:{
-   
-    	},
-    	methods:{
-			adddian(){
-				this.ishide = ! this.ishide;
-				this.ishide2 = ! this.ishide2;
-			},
-			adddian2(){
-				this.ishide = ! this.ishide;
-				this.ishide3 = ! this.ishide3;
+				ishide: false,
+				communityId: '',
+				isOffice: null,
+				refundStatus: null,
+				startDate: '',
+				endDate: '',
+				keyWord: '',
+				pageNum: '1',
+				pageSize: 10,
+				totalNum: 0,
+				options: [{
+					dataName: '公寓',
+					id: 0
+				}, {
+					dataName: '办公室',
+					id: 1
+				}],
+				value: '',
+				options2: [{
+					dataName: '待处理',
+					id: 0
+				}, {
+					dataName: '待用户确认',
+					id: 1
+				}, {
+					dataName: '已办结',
+					id: 1
+				}],
+				value2: '',
+				surrList: {}
 			}
-    	},
-    	created(){
-    		
-			
-    	}
-    }
+		},
+		mounted() {
+			this.communityId = this.$route.query.communityId;
+			this.datas();
+		},
+		filters: {
+			ofice(val) {
+				if(val == 0) {
+					return '公寓'
+				} else if(val == 1) {
+					return '办公室'
+				}
+			},
+			time(val) {
+				return new Date(val).Format('yyyy-MM-dd');
+			},
+			times(val) {
+				return new Date(val).Format('yyyy.MM.dd');
+			},
+			Money(val) {
+				return val.toFixed(2) + '元/月';
+			},
+			Status(val) {
+				if(val == 0) {
+					return '待处理';
+				} else if(val == 1) {
+					return '待用户确认'
+				} else if(val == 2) {
+					return '已办结'
+				}
+			}
+		},
+		methods: {
+			datas() {
+				let param = new FormData();
+				param.append("communityId", this.communityId);
+				if(this.isOffice != null) {
+					param.append("isOffice", this.isOffice);
+				}
+				if(this.refundStatus != null) {
+					param.append("refundStatus", this.refundStatus);
+				}
+				if(this.startDate) {
+					this.startDate = new Date(this.startDate).Format('yyyy-MM-dd');
+					param.append("startDate", this.startDate);
+				}
+				if(this.endDate) {
+					this.endDate = new Date(this.endDate).Format('yyyy-MM-dd');
+					param.append("endDate", this.endDate);
+				}
+				if(this.keyWord != null) {
+					param.append("keyWord", this.keyWord);
+				}
+				param.append("pageNum", this.pageNum);
+				param.append("pageSize", this.pageSize);
+				console.log(param);
+				axios.post(hostThrowLease, param).then((res) => {
+					console.log(res);
+					if(res.data.code == 10000 && res.status == 200) {
+						this.surrList = res.data.result.leaseList;
+						this.totalNum = res.data.result.totalNum;
+					}
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
+			handleCurrentChange(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.datas();
+			},
+			select(val) {
+				this.isOffice = this.options[this.options.findIndex(item => item.dataName == val)].id;
+			},
+			select2(val) {
+				this.refundStatus = this.options2[this.options2.findIndex(item => item.dataName == val)].id;
+			},
+			sous(){
+				this.datas();
+			}
+		},
+		created() {
+
+		}
+	}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  @import '../../sass/base/_mixin.scss';
-  @import '../../sass/base/_public.scss';
+	@import '../../sass/base/_mixin.scss';
+	@import '../../sass/base/_public.scss';
+	@import '../../sass/page/_communityManagement.scss';
 </style>

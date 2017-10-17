@@ -1,4 +1,4 @@
-#addirmsurrend{
+#surrendetal{
 	width: 100%;
 	min-height: 1000px;
 	background: #fff;
@@ -6,36 +6,36 @@
 	box-shadow: 0 3px 1px #ccc;
 	position: relative;
 }
-#addirmsurrend .addirmsurrend1{
+#surrendetal .surrendetal1{
 	height: 114px;
 	width: 100%;
 	background: #f7fbff;
 	border-bottom: 1px solid #dcdcdc;
 	position: relative;
 }
-#addirmsurrend .addirmsurrend1 i{
+#surrendetal .surrendetal1 i{
 	font-size: 20px;
 	color: #038BE2;
 	margin-top: 26px;
 	margin-left: 24px;
 	margin-right: 12px;
 }
-#addirmsurrend .addirmsurrend2 input{
+#surrendetal .surrendetal2 input{
 	width: 118px;
 	height: 34px;
 	margin-right: 5px;
 }
-#addirmsurrend .addirmsurrend1 p{
+#surrendetal .surrendetal1 p{
 	display: inline-block;
 	font-size: 16px;
 	color: #038BE2;
 }
-#addirmsurrend .addirmsurrend1 ul li{
+#surrendetal .surrendetal1 ul li{
 	float: left;
 	margin-right: 50px;
 	line-height: 60px;
 }
-#addirmsurrend .addirmsurrend1 a{
+#surrendetal .surrendetal1 a{
 	display: inline-block;
 	width: 118px;
 	height: 34px;
@@ -50,38 +50,38 @@
 	right: 60px;
 	bottom: 20px;
 }
-#addirmsurrend .addirmsurrend2 div{
+#surrendetal .surrendetal2 div{
 	width: 92%;
 	min-height: 170px;
 	margin-left: 4%;
 	border-bottom:1px dashed #DCDCDC;
 	position: relative;
 }
-#addirmsurrend .addirmsurrend2 div h3{
+#surrendetal .surrendetal2 div h3{
 	display: inline-block;
 	font-size: 16px;
 	color: #038BE2;
 	line-height: 18px;
 	margin-top: 40px;
 }
-#addirmsurrend .addirmsurrend2 div img{
+#surrendetal .surrendetal2 div img{
 	width: 4px;
 	height: 18px;
 	margin-right: 12px;
 	margin-bottom: 4px;
 }
-#addirmsurrend .addirmsurrend2 div ul{
+#surrendetal .surrendetal2 div ul{
 	margin-top: 10px;
+	width: 600px;
 	margin-left: 20px;
-	overflow: hidden;
 }
-#addirmsurrend .addirmsurrend2 div ul li{
+#surrendetal .surrendetal2 div ul li{
 	float: left;
 	margin-right: 50px;
 	line-height: 40px;
 	font-size: 14px;
 }
-#addirmsurrend .addirmsurrend2 div a{
+#surrendetal .surrendetal2 div a{
 	display: inline-block;
 	width: 118px;
 	height: 34px;
@@ -96,16 +96,16 @@
 	right: 0;
 	bottom: 20px;
 }
-#addirmsurrend .addirmsurrend2 div table{
+#surrendetal .surrendetal2 div table{
 	margin-top: 10px;
 	margin-left: 20px;
 	font-size: 14px;
 }
-#addirmsurrend .addirmsurrend2 div table tr td{
+#surrendetal .surrendetal2 div table tr td{
 	padding-right: 76px;
 	line-height: 40px;
 }
-#addirmsurrend .addirmsurrend2 div p{
+#surrendetal .surrendetal2 div p{
 	margin-left: 20px;
 	margin-top: 20px;
 	font-size: 14px;
@@ -113,8 +113,18 @@
 	margin-bottom: 20px;
 	font-weight: bold;
 	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 10px;
 }
-#addirmsurrend .addirmsurrend2 div .chb{
+#surrendetal .surrendetal2 div .zong{
+	margin-left: 0px;
+	margin-top: 0px;
+	position: absolute;
+	left: 20px;
+	top: 33px;
+}
+#surrendetal .surrendetal2 div .chb{
 	display: inline-block;
 	width: 118px;
 	height: 34px;
@@ -129,19 +139,19 @@
 	right: 150px;
 	bottom: 50px;
 }
-#addirmsurrend .addirmsurrend2 div .wuzi td:nth-child(1) input{
+#surrendetal .surrendetal2 div .wuzi td:nth-child(1) input{
 	width: 140px;
 }
-#addirmsurrend .addirmsurrend2 div .wuzi td:nth-child(2) input{
+#surrendetal .surrendetal2 div .wuzi td:nth-child(2) input{
 	width: 68px;
 }
-#addirmsurrend .addirmsurrend2 div .wuzi tr td:nth-child(1){
+#surrendetal .surrendetal2 div .wuzi tr td:nth-child(1){
 	padding-right: 20px;
 }
-#addirmsurrend .addirmsurrend2 div .wuzi tr td:nth-child(2){
+#surrendetal .surrendetal2 div .wuzi tr td:nth-child(2){
 	padding-right: 88px;
 }
-#addirmsurrend .addirmsurrend2 div .titus{
+#surrendetal .surrendetal2 div .titus{
 	width: 600px;
 	height: 42px;
 	background: #fbfdff;
@@ -153,9 +163,9 @@
 	line-height: 42px;
 	position: absolute;
 	left: 272px;
-    top: -25px;
+    top: 4px;
 }
-#addirmsurrend .addirmsurrend2 div .loses{
+#surrendetal .surrendetal2 div .loses{
 	display: inline-block;
 	width: 138px;
 	height: 38px;
@@ -170,20 +180,17 @@
 	left: 120px;
 	top: 60px;
 }
-#addirmsurrend .addirmsurrend2 div .tsm{
+#surrendetal .surrendetal2 div .tsm{
 	position: absolute;
     left: 292px;
     top: 69px;
     font-size: 12px;
     color: #ff6612;
 }
-#addirmsurrend .addirmsurrend2 .qts ul li{
-	float: inherit;
-}
-#addirmsurrend .addirmsurrend2 .qts ul li span:nth-child(1){
+#surrendetal .surrendetal2 .qts ul li span:nth-child(1){
 	margin-right: 78px;
 }
-#addirmsurrend .addirmsurrend2 .qts ul li input:nth-child(1){
+#surrendetal .surrendetal2 .qts ul li input:nth-child(1){
 	margin-right: 78px;
 	width: 220px;
 }
