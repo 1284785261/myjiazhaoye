@@ -123,3 +123,7 @@
 #refundrecord .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
+#refundrecord .kbt{
+	margin: 0 auto;
+	text-align: center;
+}

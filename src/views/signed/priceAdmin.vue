@@ -17,38 +17,41 @@
 		    			<span>筛选：</span>
 		    			<a v-for="(item,index) in tite" @click="classify(index)" :class="{'active':isAicat == index}">{{item}}</a>
 		    		</div>
-		    		<table>
-		    			<thead>
-		    				<td>时间</td>
-		    				<td>房间</td>
-		    				<td>新价格(元/月)</td>
-		    				<td>原价格(元/月)</td>
-		    				<td>申请人</td>
-		    				<td>调价原因</td>
-		    				<td>状态</td>
-		    				<td>操作</td>
-		    			</thead>
-		    			<tr v-for="item in mindata">
-		    				<td>{{item.createtime | time}}</td>
-		    				<td>{{item.cxkjCommunityFloor.floorName}}层{{item.cxkjCommunityRoom.roomNum}}</td>
-		    				<td>{{item.newPrice}}.00</td>
-		    				<td>{{item.oldPrice}}.00</td>
-		    				<td>{{item.user.userType | type(item.user.userType)}} {{item.user.userName}}</td>
-		    				<td>{{item.reason}}</td>
-		    				<td :class="[{'act':item.status == 0},{'acts':item.status == 1},{'act2':item.status == 2}]">{{item.status | statu(item.status)}}</td>
-		    				<td v-if="item.status == 0" v-color ><router-link :to="{path:'/signed/priceCheck',query:{id:item.priceManagerId,ids:communityId}}">审批</router-link></td>
-		    				<td v-else>--</td>
-		    			</tr>
-		    		</table>
-		    		<el-pagination
-				      @current-change="handleCurrentChange"
-				      :current-page.sync="currentPage3"
-				      :page-size="10"
-				      layout="prev, pager, next,total,jumper"
-				      :total=totolNum>
-				     <a>跳转</a> 
-				    </el-pagination>
-				    
+		    		<div v-if="mindata != null">
+			    		<table>
+			    			<thead>
+			    				<td>时间</td>
+			    				<td>房间</td>
+			    				<td>新价格(元/月)</td>
+			    				<td>原价格(元/月)</td>
+			    				<td>申请人</td>
+			    				<td>调价原因</td>
+			    				<td>状态</td>
+			    				<td>操作</td>
+			    			</thead>
+			    			<tr v-for="item in mindata">
+			    				<td>{{item.createtime | time}}</td>
+			    				<td>{{item.cxkjCommunityFloor.floorName}}层{{item.cxkjCommunityRoom.roomNum}}</td>
+			    				<td>{{item.newPrice}}.00</td>
+			    				<td>{{item.oldPrice}}.00</td>
+			    				<td>{{item.user.userType | type(item.user.userType)}} {{item.user.userName}}</td>
+			    				<td>{{item.reason}}</td>
+			    				<td :class="[{'act':item.status == 0},{'acts':item.status == 1},{'act2':item.status == 2}]">{{item.status | statu(item.status)}}</td>
+			    				<td v-if="item.status == 0" v-color ><router-link :to="{path:'/signed/priceCheck',query:{id:item.priceManagerId,ids:communityId}}">审批</router-link></td>
+			    				<td v-else>--</td>
+			    			</tr>
+			    		</table>
+			    		<el-pagination
+					      @current-change="handleCurrentChange"
+					      :current-page.sync="currentPage3"
+					      :page-size="10"
+					      layout="prev, pager, next,total,jumper"
+					      :total=totolNum>
+					    </el-pagination>
+				    </div>
+				    <div v-else class="kbt">
+		    			<img src="../../../static/images/icon/tab_03.png" style="margin-top: 150px;">
+		    		</div>
 		    	</div> 
 		        
 		    

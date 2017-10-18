@@ -154,7 +154,7 @@
 						<table>
 							<tr>
 								<td>用户需支付首款:</td>
-								<td style="color: red;">{{firstmoney}}元</td>
+								<td style="color: red;">{{firstmoney}}</td>
 							</tr>
 							<tr>
 								<td>首款支付方式:</td>
@@ -413,7 +413,7 @@
 							q += parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2);
+					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
 				} else if(this.value2 == '押一付一') {
 					let q = 0;
 					for(let i = 0; i < this.tableRepairs.length; i++) {
@@ -421,7 +421,7 @@
 							q += parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2);
+					return(vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
 				} else if(this.value2 == '季付') {
 					let q = 0;
 					for(let i = 0; i < this.tableRepairs.length; i++) {
@@ -429,7 +429,7 @@
 							q += parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2);
+					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
 				} else if(this.value2 == '年付') {
 					let q = 0;
 					for(let i = 0; i < this.tableRepairs.length; i++) {
@@ -437,7 +437,7 @@
 							q += parseInt(this.tableRepairs[i].date);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 12 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2);
+					return(vm.housetderta.roomRent * vm.discount * 12 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
 				}
 			},
 			twomoney: function() {
@@ -743,9 +743,12 @@
 				this.param.append('cyclePayDiscount',this.discount);
 				this.param.append('serviceCost',this.serve);
 				this.param.append('firstMoneyPayType',this.radio3);
-				this.param.append('firstPayMoney',this.housetderta.firstmoneys);
-				this.param.append('firstMoney',this.onemoney);
-				this.param.append('secondPayMoney',this.housetderta.twomoney);
+				if(this.radio3 == '1'){
+					param.append('firstPayMoney',this.onemoney);
+				}else if(this.radio3 == '2'){
+					param.append('firstMoney',this.onemoney);
+					param.append('secondPayMoney',this.housetderta.twomoney);
+				}
 				this.param.append('secondPayDate',this.dat);
 				this.param.append('waterChargeModel',this.housetderta.waterType);
 				this.param.append('electricChargeModel',this.housetderta.electricType);

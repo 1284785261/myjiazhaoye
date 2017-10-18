@@ -71,3 +71,7 @@
 #advertiset .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
+#advertiset .kbt{
+	margin: 0 auto;
+	text-align: center;
+}

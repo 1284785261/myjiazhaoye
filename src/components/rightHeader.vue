@@ -22,8 +22,8 @@
 					{{userID}}
 					<Icon type="arrow-down-b"></Icon>
 				</a>
-				<Dropdown-menu slot="list">
-					<Dropdown-item v-for="userBar in userBars">
+				<Dropdown-menu slot="list" >
+					<Dropdown-item v-for="userBar in userBars" >
 						<router-link :to=userBar.path><i :class="userBar.icon"></i>{{userBar.userContent}}</router-link>
 					</Dropdown-item>
 				</Dropdown-menu>
@@ -44,7 +44,7 @@
 				userBars: [{
 					icon: "iconfont icon-gerenxinxi1",
 					userContent: "个人信息",
-					path: "/apartment/communityPersonal"
+					path: "/personal/communityPersonal"
 				}, {
 					icon: "iconfont icon-yeji",
 					userContent: "我的业绩",
@@ -65,7 +65,7 @@
 				let vm = this;
 				this.$http.get(hostAuthor)
 					.then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.user = response.data.entity;
 							if(response.data.entity.headPic != null) {

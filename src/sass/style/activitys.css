@@ -89,7 +89,10 @@
 #activitys table tr .ats3{
 	color: #999999;
 }
-
+#activitys .kbt{
+	margin: 0 auto;
+	text-align: center;
+}
 #housesub .scherm {
 	width: 100%;
 	height: 100%;

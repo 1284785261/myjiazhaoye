@@ -70,6 +70,9 @@ import qs from 'qs';
        	ins:0
       }
     },
+    mounted() {
+    	sessionStorage.clear();
+    },
     methods: {
       handleSubmit:function() {
       	var that = this;

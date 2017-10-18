@@ -33,38 +33,44 @@
 						</div>
 						
 		    		</div>
-		    		<table>
-		    			<thead>
-		    				<td>订单号</td>
-		    				<td>发起时间</td>
-		    				<td>收款对象</td>
-		    				<td>收款对象注册手机号</td>
-		    				<td>金额/元</td>
-		    				<td>状态</td>
-		    				<td>收款备注</td>
-		    				<td>操作</td>
-		    			</thead>
-		    			<tr v-for="item in Datas">
-		    				<td>{{item.gatheringNo}}</td>
-		    				<td>{{item.gatheringDate | Date}}</td>
-		    				<td>{{item.userName}}</td>
-		    				<td>{{item.userPhone}}</td>
-		    				<td :class="{'tas':item.gatheringMoney != null}">{{item.gatheringMoney | Money}}</td>
-		    				<td :class="{'tasm':item.gatheringState == 1}">{{item.gatheringState | State}}</td>
-		    				<td v-if="item.gatheringInfo != null">{{item.gatheringInfo}}</td>
-		    				<td v-else>--</td>
-		    				<td><router-link :to="{path:'/signed/gatherDetails',query:{id:item.gatheringId}}">查看详情</router-link></td>
-		    			</tr>
-		    		</table>
-		    		<el-pagination
-				      @current-change="handleCurrentChange"
-				      :current-page.sync="currentPage3"
-				      :page-size=pageSize
-				      layout="prev, pager, next,total,jumper"
-				      :total=totalNum>
-				    
-				    </el-pagination>
-				    
+		    		<div v-if="Datas != null">
+			    		<table>
+			    			<thead>
+			    				<td>订单号</td>
+			    				<td>发起时间</td>
+			    				<td>收款对象</td>
+			    				<td>收款对象注册手机号</td>
+			    				<td>金额/元</td>
+			    				<td>状态</td>
+			    				<td>收款备注</td>
+			    				<td>操作</td>
+			    			</thead>
+			    			<tr v-for="item in Datas">
+			    				<td>{{item.gatheringNo}}</td>
+			    				<td>{{item.gatheringDate | Date}}</td>
+			    				<td>{{item.userName}}</td>
+			    				<td>{{item.userPhone}}</td>
+			    				<td :class="{'tas':item.gatheringMoney != null}">{{item.gatheringMoney | Money}}</td>
+			    				<td :class="{'tasm':item.gatheringState == 1}">{{item.gatheringState | State}}</td>
+			    				<td v-if="item.gatheringInfo != null">{{item.gatheringInfo}}</td>
+			    				<td v-else>--</td>
+			    				<td><router-link :to="{path:'/signed/gatherDetails',query:{id:item.gatheringId}}">查看详情</router-link></td>
+			    			</tr>
+
+			    		</table>
+			    		
+			    		<el-pagination
+					      @current-change="handleCurrentChange"
+					      :current-page.sync="currentPage3"
+					      :page-size=pageSize
+					      layout="prev, pager, next,total,jumper"
+					      :total=totalNum>
+					    
+					    </el-pagination>
+		    		</div>
+				    <div v-else class="kbt">
+		    			<img src="../../../static/images/icon/kby_03.png" style="margin-top: 150px;">
+		    		</div>
 		    	</div> 
 		        
 		    
@@ -192,20 +198,20 @@
 			},
 			datas(){
 				let param = new FormData();
-				if(this.communityLeaseBegin != null){
-					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
-					param.append("gatheringDate",this.communityLeaseBegin);
-				}
-				if(this.communityLeaseEnd != null){
-					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
-					param.append("gatheringEndDate",this.communityLeaseEnd);
-				}
-				if(this.values != null){
-					param.append("userNamePhone",this.values);
-				}
-				if(this.gatheringState != null){
-					param.append("gatheringState",this.gatheringState);
-				}
+//				if(this.communityLeaseBegin != null){
+//					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+//					param.append("gatheringDate",this.communityLeaseBegin);
+//				}
+//				if(this.communityLeaseEnd != null){
+//					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
+//					param.append("gatheringEndDate",this.communityLeaseEnd);
+//				}
+//				if(this.values != null){
+//					param.append("userNamePhone",this.values);
+//				}
+//				if(this.gatheringState != null){
+//					param.append("gatheringState",this.gatheringState);
+//				}
 				param.append("pageNum",this.pageNum);
 				param.append("pageSize",this.pageSize);
 				param.append("communityId",this.communityId);

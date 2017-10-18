@@ -288,6 +288,15 @@ const LeaseController = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjC
 
 //查看退租-查看退租详情
 const throwlease = '/cxkj-room/apis/pcManager/cxkjcommunitythrowlease/CxkjCommunityLeaseDetail500093'
+
+//帖子列表
+const PostList = '/cxkj-room/apis/pc/forumCenter/CxkjPostList300079'
+
+//工作台-用户投诉
+const lainTable = '/cxkj-room/apis/pc/Usercomplain/CxkjComplainTable200101'
+
+//工作台-用户报修
+const RepairTabe = '/cxkj-room/apis/pcManager/cxkjcommunityRepair/CxkjCommunityRepairTabe200098'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -383,6 +392,9 @@ export const hostThrowLease = host3 + ThrowLease;
 export const hostwLeaseContr = host3 + wLeaseContr;
 export const hostLeaseController = host3 + LeaseController;
 export const hostthrowlease = host3 + throwlease;
+export const hostPostList = host3 + PostList;
+export const hostlainTable = host3 + lainTable;
+export const hostRepairTabe = host3 + RepairTabe;
 export const host = host3;
 //export default {
 //hosts:function(){

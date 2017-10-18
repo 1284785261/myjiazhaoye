@@ -147,11 +147,11 @@
     			})).then(res => {
     				if(res.status == 200 && res.data.code == 10000){
     					vm.loading = false
-    					alert('上传头像成功');
+//  					alert('上传头像成功');
     					location.reload();   
     				}
     				else{
-    					alert('上传头像失败');
+//  					alert('上传头像失败');
     				}
     			})
     			.catch(error => {

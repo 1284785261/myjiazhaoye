@@ -36,37 +36,41 @@
 							</div>
 						</div>
 					</div>
-					<table>
-						<thead>
-							<td>申请时间</td>
-							<td>类型</td>
-							<td>承租人/联系人</td>
-							<td>联系电话</td>
-							<td>租期</td>
-							<td>剩余</td>
-							<td>租金和支付情况</td>
-							<td>状态</td>
-							<td>操作</td>
-						</thead>
-						<tr v-for="item in surrList">
-							<td>{{item.createTime | time}}</td>
-							<td>{{item.isOffice | ofice}}</td>
-							<td>{{item.userName}}</td>
-							<td>{{item.userPhone}}</td>
-							<td>{{item.beginDate | times}}-{{item.endDate | times}}</td>
-							<td style="color: red;">{{item.surplusDay}}天</td>
-							<td>{{item.cyclePayMoney | Money}} 已付{{item.payStage}}/{{item.stage}}</td>
-							<td :class="[{'kust':item.refundStatus == 0},{'kust1':item.refundStatus == 2}]">{{item.refundStatus | Status}}</td>
-							<td>
-								<router-link :to="{path:'/signed/affirmsurrend',query:{id:item.throwLeaseId}}" v-if="item.refundStatus == 0">确认退租</router-link>
-								<router-link :to="{path:'/signed/surredendetal',query:{id:item.throwLeaseId}}" v-else>查看退租</router-link>
-								<router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:item.isOffice}}">查看合同</router-link>
-							</td>
-						</tr>
-					</table>
-					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
-
-					</el-pagination>
+					<div v-if="surrList">
+						<table>
+							<thead>
+								<td>申请时间</td>
+								<td>类型</td>
+								<td>承租人/联系人</td>
+								<td>联系电话</td>
+								<td>租期</td>
+								<td>剩余</td>
+								<td>租金和支付情况</td>
+								<td>状态</td>
+								<td>操作</td>
+							</thead>
+							<tr v-for="item in surrList">
+								<td>{{item.createTime | time}}</td>
+								<td>{{item.isOffice | ofice}}</td>
+								<td>{{item.userName}}</td>
+								<td>{{item.userPhone}}</td>
+								<td>{{item.beginDate | times}}-{{item.endDate | times}}</td>
+								<td style="color: red;">{{item.surplusDay}}天</td>
+								<td>{{item.cyclePayMoney | Money}} 已付{{item.payStage}}/{{item.stage}}</td>
+								<td :class="[{'kust':item.refundStatus == 0},{'kust1':item.refundStatus == 2}]">{{item.refundStatus | Status}}</td>
+								<td>
+									<router-link :to="{path:'/signed/affirmsurrend',query:{id:item.throwLeaseId}}" v-if="item.refundStatus == 0">确认退租</router-link>
+									<router-link :to="{path:'/signed/surredendetal',query:{id:item.throwLeaseId}}" v-else>查看退租</router-link>
+									<router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:item.isOffice}}">查看合同</router-link>
+								</td>
+							</tr>
+						</table>
+						<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
+						</el-pagination>
+					</div>
+					<div v-else class="kbt">
+		    			<img src="../../../static/images/icon/tms_03.png" style="margin-top: 150px;">
+		    		</div>
 				</div>
 			</div>
 			<footer-box></footer-box>

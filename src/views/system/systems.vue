@@ -11,201 +11,228 @@
 				<el-tabs v-model="activeName2" type="card">
 					<el-tab-pane label="员工管理" name="first">
 						<div class="systems">
-							<div>
+							<div class="adad">
 								<a @click="addstaff"> + 新增员工</a>
 								<a @click="detailstaff">批量删除</a>
 								<a @click="opens2">批量开放</a>
 								<a @click="closes2">批量关闭</a>
 							</div>
-							<table>
-								<thead>
-									<td>
-										<Checkbox v-model="single2" @click.prevent.native="handleCheckAll2"></Checkbox>
-									</td>
-									<td>账号</td>
-									<td>用户名</td>
-									<td>所属部门</td>
-									<td>职位</td>
-									<td>权限组</td>
-									<td>创建人</td>
-									<td>创建日期</td>
-									<td>状态</td>
-									<td width="110px">操作 </td>
-								</thead>
-								<tr v-for="(item,index) in data2">
-									<td>
-										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange2(item.sing,index)"></Checkbox>
-									</td>
-									<td>{{item.userPhone}}</td>
-									<td>{{item.userName}}</td>
-									<td>{{item.departmentName}}</td>
-									<td>{{item.positionName}}</td>
-									<td>{{item.powerName}}</td>
-									<td>{{item.createName}}</td>
-									<td>{{item.createtime | time}}</td>
-									<td :class="{acts:item.employeeStatus == 1}">{{item.employeeStatus | Status}}</td>
-									<td>
-										<a @click="amend2(item)">编辑</a>
-										<a @click="close2(item)" v-if="item.employeeStatus == 1">关闭</a>
-										<a @click="close2(item)" v-else-if="item.employeeStatus == 0">开启</a>
-									</td>
-								</tr>
-							</table>
-							<el-pagination @current-change="handleCurrentChange1" :current-page="currentPage1" :page-size=pageSize2 layout="prev, pager, next, total,jumper" :total=totalNum2>
-							</el-pagination>
+							<div v-if="data2 != null">
+								<table>
+									<thead>
+										<td>
+											<Checkbox v-model="single2" @click.prevent.native="handleCheckAll2"></Checkbox>
+										</td>
+										<td>账号</td>
+										<td>用户名</td>
+										<td>所属部门</td>
+										<td>职位</td>
+										<td>权限组</td>
+										<td>创建人</td>
+										<td>创建日期</td>
+										<td>状态</td>
+										<td width="110px">操作 </td>
+									</thead>
+									<tr v-for="(item,index) in data2">
+										<td>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange2(item.sing,index)"></Checkbox>
+										</td>
+										<td>{{item.userPhone}}</td>
+										<td>{{item.userName}}</td>
+										<td>{{item.departmentName}}</td>
+										<td>{{item.positionName}}</td>
+										<td>{{item.powerName}}</td>
+										<td>{{item.createName}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td :class="{acts:item.employeeStatus == 1}">{{item.employeeStatus | Status}}</td>
+										<td>
+											<a @click="amend2(item)">编辑</a>
+											<a @click="close2(item)" v-if="item.employeeStatus == 1">关闭</a>
+											<a @click="close2(item)" v-else-if="item.employeeStatus == 0">开启</a>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange1" :current-page="currentPage1" :page-size=pageSize2 layout="prev, pager, next, total,jumper" :total=totalNum2>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="部门管理" name="second">
 						<div class="systems">
-							<div>
+							<div class="adad">
 								<a @click="addsection"> + 新增</a>
 								<a @click="details">批量删除</a>
 								<a @click="opens">批量开放</a>
 								<a @click='closes'>批量关闭</a>
 								<a @click="returns">返回上级</a>
 							</div>
-							<table>
-								<thead>
-									<td>
-										<Checkbox v-model="single" @click.prevent.native="handleCheckAll"></Checkbox>
-									</td>
-									<td>部门</td>
-									<td>上级部门</td>
-									<td>子集数</td>
-									<td>创建人</td>
-									<td>创建日期</td>
-									<td>状态</td>
-									<td width="200px">操作 </td>
-								</thead>
-								<tr v-for="(item,index) in data">
-									<td>
-										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange(item.sing,index)"></Checkbox>
-									</td>
-									<td>{{item.departmentName}}</td>
-									<td v-if="item.parentDepartmentName != null">{{item.parentDepartmentName}}</td>
-									<td v-else>根节点</td>
-									<td>{{item.childNum}}</td>
-									<td>{{item.departmentCreateName}}</td>
-									<td>{{item.createtime | time}}</td>
-									<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
-									<td>
-										<a @click="bub(item)">进入子部门</a>
-										<a @click="amend(item)">编辑</a>
-										<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
-										<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
-									</td>
-								</tr>
-							</table>
-							<el-pagination @current-change="handleCurrentChange" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
-							</el-pagination>
+							<div v-if="data != null">
+								<table>
+									<thead>
+										<td>
+											<Checkbox v-model="single" @click.prevent.native="handleCheckAll"></Checkbox>
+										</td>
+										<td>部门</td>
+										<td>上级部门</td>
+										<td>子集数</td>
+										<td>创建人</td>
+										<td>创建日期</td>
+										<td>状态</td>
+										<td width="200px">操作 </td>
+									</thead>
+									<tr v-for="(item,index) in data">
+										<td>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange(item.sing,index)"></Checkbox>
+										</td>
+										<td>{{item.departmentName}}</td>
+										<td v-if="item.parentDepartmentName != null">{{item.parentDepartmentName}}</td>
+										<td v-else>根节点</td>
+										<td>{{item.childNum}}</td>
+										<td>{{item.departmentCreateName}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
+										<td>
+											<a @click="bub(item)">进入子部门</a>
+											<a @click="amend(item)">编辑</a>
+											<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
+											<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="社区人员配备" name="third">
 						<div class="systems">
-							<table class="equip">
-								<thead>
-									<td>社区</td>
-									<td>地址</td>
-									<td>店长</td>
-									<td>店长联系电话</td>
-									<td>员工数</td>
-									<td>操作</td>
-								</thead>
-								<tr v-for="item in users">
-									<td>{{item.communityName}}</td>
-									<td v-if="item.province == item.city">{{item.province}}{{item.district}}{{item.address}}</td>
-									<td v-else>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
-									<td>{{item.userName}}</td>
-									<td>{{item.userPhone}}</td>
-									<td>{{item.employeeNum}}</td>
-									<td>
-										<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId}}">委派人员</router-link>
-									</td>
-								</tr>
-							</table>
-							<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage3" :page-size=pageSize3 layout=" prev, pager, next, total,jumper" :total=totalNum3>
-							</el-pagination>
+							<div v-if="users != null">
+								<table class="equip">
+									<thead>
+										<td>社区</td>
+										<td>地址</td>
+										<td>店长</td>
+										<td>店长联系电话</td>
+										<td>员工数</td>
+										<td>操作</td>
+									</thead>
+									<tr v-for="item in users">
+										<td>{{item.communityName}}</td>
+										<td v-if="item.province == item.city">{{item.province}}{{item.district}}{{item.address}}</td>
+										<td v-else>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
+										<td>{{item.userName}}</td>
+										<td>{{item.userPhone}}</td>
+										<td>{{item.employeeNum}}</td>
+										<td>
+											<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId}}">委派人员</router-link>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange2" :current-page="currentPage3" :page-size=pageSize3 layout=" prev, pager, next, total,jumper" :total=totalNum3>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="职位管理" name="fourth">
 						<div class="systems">
-							<div>
+							<div class="adad">
 								<a @click="addPosition"> + 新增</a>
 								<a @click="delPosition">批量删除</a>
 								<a @click="opePosition">批量开放</a>
 								<a @click="cloPosition">批量关闭</a>
 							</div>
-							<table>
-								<thead>
-									<td>
-										<Checkbox v-model="single3" @click.prevent.native="handleCheckAll3"></Checkbox>
-									</td>
-									<td>职位名称</td>
-									<td>权限组</td>
-									<td>创建人</td>
-									<td>创建日期</td>
-									<td>状态</td>
-									<td width="200px">操作 </td>
-								</thead>
-								<tr v-for="(item,index) in Positions">
-									<td>
-										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange3(item.sing,index)"></Checkbox>
-									</td>
-									<td>{{item.positionName}}</td>
-									<td>{{item.powerName}}</td>
-									<td>{{item.userName}}</td>
-									<td>{{item.createtime | time}}</td>
-									<td :class="{acts:item.positionStatus == 1}">{{item.positionStatus | Status}}</td>
-									<td>
-										<a @click="compilePosit(item)">编辑</a>
-										<a @click="closem(item)" v-if="item.positionStatus == 1">关闭</a>
-										<a @click="closem(item)" v-else-if="item.positionStatus == 0">开启</a>
-									</td>
-								</tr>
-							</table>
-							<el-pagination @current-change="handleCurrentChange4" :current-page="currentPage4" :page-size=pageSize4 layout=" prev, pager, next, total,jumper" :total=totalNum4>
-							</el-pagination>
+							<div v-if="Positions != null">
+								<table>
+									<thead>
+										<td>
+											<Checkbox v-model="single3" @click.prevent.native="handleCheckAll3"></Checkbox>
+										</td>
+										<td>职位名称</td>
+										<td>权限组</td>
+										<td>创建人</td>
+										<td>创建日期</td>
+										<td>状态</td>
+										<td width="200px">操作 </td>
+									</thead>
+									<tr v-for="(item,index) in Positions">
+										<td>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange3(item.sing,index)"></Checkbox>
+										</td>
+										<td>{{item.positionName}}</td>
+										<td>{{item.powerName}}</td>
+										<td>{{item.userName}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td :class="{acts:item.positionStatus == 1}">{{item.positionStatus | Status}}</td>
+										<td>
+											<a @click="compilePosit(item)">编辑</a>
+											<a @click="closem(item)" v-if="item.positionStatus == 1">关闭</a>
+											<a @click="closem(item)" v-else-if="item.positionStatus == 0">开启</a>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange4" :current-page="currentPage4" :page-size=pageSize4 layout=" prev, pager, next, total,jumper" :total=totalNum4>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="权限管理" name="fourth3">
 						<div class="systems">
-							<div>
+							<div class="adad">
 								<a @click="addCommunity"> + 新增</a>
 								<a @click="delCommunity">批量删除</a>
 								<a @click="opeCommunity">批量开放</a>
 								<a @click="cloCommunity">批量关闭</a>
 							</div>
-							<table>
-								<thead>
-									<td>
-										<Checkbox v-model="single4" @click.prevent.native="handleCheckAll4"></Checkbox>
-									</td>
-									<td>权限组名称</td>
-									<td>创建人</td>
-									<td>创建日期</td>
-									<td>状态</td>
-									<td width="200px">操作 </td>
-								</thead>
-								<tr v-for="(item,index) in Communitys">
-									<td>
-										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange4(item.sing,index)"></Checkbox>
-									</td>
-									<td>{{item.powerName}}</td>
-									<td>{{item.userName}}</td>
-									<td>{{item.createtime | time}}</td>
-									<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
-									<td>
-										<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}">分配权限</router-link>
-									</td>
-								</tr>
-							</table>
-							<el-pagination @current-change="handleCurrentChange5" :current-page="currentPage5" :page-size=pageSize5 layout=" prev, pager, next, total,jumper" :total=totalNum5>
-							</el-pagination>
+							<div v-if="Communitys != null">
+								<table>
+									<thead>
+										<td>
+											<Checkbox v-model="single4" @click.prevent.native="handleCheckAll4"></Checkbox>
+										</td>
+										<td>权限组名称</td>
+										<td>创建人</td>
+										<td>创建日期</td>
+										<td>状态</td>
+										<td width="200px">操作 </td>
+									</thead>
+									<tr v-for="(item,index) in Communitys">
+										<td>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange4(item.sing,index)"></Checkbox>
+										</td>
+										<td>{{item.powerName}}</td>
+										<td>{{item.userName}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
+										<td>
+											<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}">分配权限</router-link>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange5" :current-page="currentPage5" :page-size=pageSize5 layout=" prev, pager, next, total,jumper" :total=totalNum5>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="审核设置" name="fourth5">
 						<div class="systems">
-
+							<div class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
 						</div>
 					</el-tab-pane>
 				</el-tabs>

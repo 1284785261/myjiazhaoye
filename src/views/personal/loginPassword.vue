@@ -101,15 +101,7 @@
     					alert('修改密码成功');
     					this.$router.push({path:"/amendWin",query:{names:'修改登录密码'}});
     				}
-    				else if(response.data.code == 10003){
-    					vm.inhide= true;
-    					vm.title2 = response.data.content;
-    				}
-    				else if(response.data.code == 10002){
-    					vm.inhide= true;
-    					vm.title2 = response.data.content;
-    				}
-    				else if(response.data.code == 10001){
+    				else{
     					vm.inhide= true;
     					vm.title2 = response.data.content;
     				}

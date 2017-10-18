@@ -39,12 +39,12 @@
 	margin-top: 40px;
 }
 
-.systems div {
+.systems .adad{
 	text-align: right;
 	padding-right: 20px;
 }
 
-.systems div a {
+.systems .adad a {
 	width: 118px;
 	height: 34px;
 	display: inline-block;
@@ -58,7 +58,7 @@
 	margin: 20px 10px;
 }
 
-.systems div a:hover {
+.systems .adad a:hover {
 	border: 1px solid #038BE2;
 	color: #038BE2;
 	background: white;
@@ -247,4 +247,8 @@
 	margin-top: 40px;
 	margin-bottom: 40px;
 	cursor: pointer;
+}
+.systems .kbt{
+	margin: 0 auto;
+	text-align: center;
 }

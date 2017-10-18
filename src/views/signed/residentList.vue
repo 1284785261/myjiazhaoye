@@ -41,7 +41,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="5"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total=totolNum>
 
@@ -80,7 +80,8 @@
     			Datas:[],
     			totolNum:null,
     			pageNum:1,
-          host3:''
+          		host3:'',
+          		pageSize:10
 		   	}
     	},
     	mounted(){
@@ -133,7 +134,7 @@
 		    		qs.stringify({
 		    			communityId:this.communityId,
 		    			pageNum: pageNum,
-		    			pageSize:5
+		    			pageSize:this.pageSize
 		    		}))
 		    	.then((response)=>{
 		    		console.log(response);

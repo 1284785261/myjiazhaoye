@@ -89,7 +89,7 @@
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
-				      :page-size="5"
+				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total="20">
 				    
@@ -109,7 +109,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostHousehold } from '../api.js';
+    import { hostRepairTabe } from '../api.js';
     import qs from 'qs';
     
     export default {
@@ -141,11 +141,15 @@
 		          value: '选项5',
 		          label: '北京烤鸭'
 		        }],
-		        value: ''
+		        value: '',
+		        pageNum:1,
+		        pageSize:10,
+		        communityId:''
 			}
     	},
     	mounted(){
-
+			this.communityId = this.$route.query.communityId;
+			this.datas();
     	},
     	filters:{
    
@@ -158,7 +162,26 @@
 			adddian2(){
 				this.ishide = ! this.ishide;
 				this.ishide3 = ! this.ishide3;
-			}
+			},
+			datas(){
+		    	let pageNum = this.pageNum || 1;
+		    	axios.post(hostRepairTabe,
+		    		qs.stringify({
+		    			communityId:this.communityId,
+		    			pageNum: pageNum,
+		    			pageSize:this.pageSize
+		    		}))
+		    	.then((response)=>{
+		    		console.log(response);
+		    		if(response.status == 200 && response.data.code == 10000){
+			    		this.Datas = response.data.entity.page;
+//			    		this.totolNum = response.data.entity.totalNum;
+			    	}
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
+		  	}
     	},
     	created(){
     		

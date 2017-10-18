@@ -6,24 +6,23 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/workbench">发起退款记录</router-link>
+		          <router-link  class="active" to="/apartment/workbench">用户投诉</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>发起退款记录</h3>
+		          <h3><i class="icon icon-iden"></i>用户投诉</h3>
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
-		    	<div id="refundrecord">
-		    		<div class="refundrecord1">
-		    			<router-link :to="{path:'/signed/openrefund',query:{id:communityId}}" class="refund">发起退款</router-link>
+		    	<div id="complain">
+		    		<div class="complain1">
 		    			<span class="bsc">状态：</span>
-		    			<el-select v-model="value" placeholder="请选择" @change="sectte(value)">
+		    			<el-select v-model="value" placeholder="全部" @change="sectte(value)">
 						    <el-option
 						      v-for="item in options8"
 						      :key="item.dataname"
 						      :value="item.dataname">
 						    </el-option>
 					 	 </el-select>
-						<span class="bsc">看房时间：</span>
+						<span class="bsc">投诉时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
@@ -31,42 +30,59 @@
 						<i class="el-icon-search"></i>
 						<a class="sa">搜索</a>
 		    		</div>
-		    		<div v-if="data != null">
-			    		<table>
-			    			<thead>
-			    				<td>订单号</td>
-			    				<td>发起时间</td>
-			    				<td>退款对象</td>
-			    				<td>退款对象注册手机号</td>
-			    				<td>金额/元</td>
-			    				<td>状态</td>
-			    				<td>退款备注</td>
-			    				<td>操作</td>
-			    				
-			    			</thead>
-			    			<tr v-for="item in data">
-			    				<td>{{item.refundId}}</td>
-			    				<td>{{item.createTime | time}}</td>
-			    				<td>{{item.userName}}</td>
-			    				<td>{{item.userPhone}}</td>
-			    				<td style="color: red;">{{item.refundMoney | Money}}</td>
-			    				<td>{{item.refundStatus | Status}}</td>
-			    				<td>未分配</td>
-			    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:item.refundId}}">查看详情</router-link></td>
-			    			</tr>
-			    		</table>
-			    		<el-pagination
-					      @current-change="handleCurrentChange"
-					      :current-page.sync="currentPage3"
-					      :page-size=pageSize
-					      layout="prev, pager, next,total,jumper"
-					      :total=totalNum>
-					    
-					    </el-pagination>
-				    </div>
-				    <div v-else class="kbt">
-		    			<img src="../../../static/images/icon/kbts_03.png" style="margin-top: 150px;">
-		    		</div>
+		    		<table>
+		    			<thead>
+		    				<td>工单号</td>
+		    				<td>投诉时间</td>
+		    				<td>投诉人</td>
+		    				<td>已注册手机号</td>
+		    				<td>问题描述</td>
+		    				<td>状态</td>
+		    				<td width="168px">操作</td>
+		    				
+		    			</thead>
+		    			<tr>
+		    				<td>11</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td style="color: red;">1</td>
+		    				<td>111</td>
+		    				<td>
+		    					<router-link :to="{path:'/signed/refunddetails',query:{id:1}}">查看详情</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">确认接收</router-link>
+		    				</td>
+		    			</tr>
+		    			<tr>
+		    				<td>11</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td style="color: red;">1</td>
+		    				<td>111</td>
+		    				<td>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">查看详情</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">确认已处理</router-link>
+		    				</td>
+		    			</tr>
+		    			<tr>
+		    				<td>11</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td style="color: red;">1</td>
+		    				<td>111</td>
+		    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:1}}">查看详情</router-link></td>
+		    			</tr>
+		    		</table>
+		    		<el-pagination
+				      @current-change="handleCurrentChange"
+				      :current-page.sync="currentPage3"
+				      :page-size=pageSize
+				      layout="prev, pager, next,total,jumper"
+				      :total=totalNum>
+				    
+				    </el-pagination>
 		    	</div>
 		    </div>
 			<footer-box></footer-box>
@@ -77,12 +93,12 @@
 
 <script>
 	
-	import '../../sass/style/refundrecord.css';
+	import '../../sass/style/complain.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostRefund } from '../api.js';
+    import { hostlainTable } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -95,17 +111,14 @@
 				currentPage3: 1,
 				radio: '1',
 				options8: [{
-					dataname:'待审核',
+					dataname:'待确认',
 					id:0
 				},{
-					dataname:'待退款',
+					dataname:'店长处理中',
 					id:1
 				},{
-					dataname:'已退款',
+					dataname:'已完结',
 					id:2
-				},{
-					dataname:'审核不通过',
-					id:3
 				}],
 		        value: '',
 		        communityId:'',
@@ -147,9 +160,9 @@
 			},
     		datas(){
     			let pageNum = this.pageNum;
-    			axios.post(hostRefund,
+    			axios.post(hostlainTable,
     				qs.stringify({
-    					communityId:this.communityId,
+//  					communityId:this.communityId,
     					pageNum:pageNum,
     					pageSize:this.pageSize
     				})

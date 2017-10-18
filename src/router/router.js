@@ -398,7 +398,17 @@ export default new Router({
       path: '/bill/editGenerateBill',     //账单管理->生成水电账单
       name: 'editGenerateBill',
       component: resolve => require(['../views/bill/editGenerateBill.vue'],resolve)
-    }
+    },{
+      path:'/signed/complain',		//工作台-用户投诉
+      name:'complain',
+      component:resolve =>
+        require(['../views/signed/complain.vue'],resolve)
+    },{
+      path:'/signed/complaindetail',		//工作台-投诉详情
+      name:'complaindetail',
+      component:resolve =>
+        require(['../views/signed/complaindetail.vue'],resolve)
+    },
 
 
 

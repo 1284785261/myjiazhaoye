@@ -128,6 +128,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 		<div class="zhezha" v-show="isHide">
 			
 		</div>
@@ -168,6 +170,8 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import { hostRoominfo,hostPrice } from '../api.js';
     import qs from 'qs';
@@ -175,7 +179,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+			warningModal
     	},
     	data(){
     		return{
@@ -184,7 +190,11 @@
     			Datas:null,
     			money:null,
     			texs:null,
-    			communityId:null
+    			communityId:null,
+    			successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
 		   	}
     	},
     	filters:{
@@ -312,9 +322,13 @@
     				console.log(error);
     			})
     		},
+    		closeWarningModal() {
+				this.warningModal = false;
+			},
     		bus(){
     			if(this.money ==null ||this.texs == null){
-    				alert('输入信息不完整');
+    				this.warningMessage = '信息填入不完整，请补充完信息';
+					this.warningModal = true;
     			}
     			else{
     				axios.post(hostPrice,
@@ -327,16 +341,23 @@
 	    			).then((response) =>{
 	    				console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
-	    					alert('调价成功');
-	    					this.isHide = !this.isHide;
+	    					this.successMessage = '申请调价成功';
+							this.successModal = true;
+	    					setTimeout(() => {
+								this.successModal = false;
+								this.isHide = !this.isHide;
+							}, 2000);
 	    				}
 	    				else{
-	    					alert('调价失败');
+	    					this.warningMessage = res.data.content;
+							this.warningModal = true;
 	    				}
 	    				
 	    			})
 	    			.catch((error)=>{
 	    				console.log(error);
+	    				this.warningMessage = '申请调价失败';
+						this.warningModal = true;
 	    			})
     			}
     			

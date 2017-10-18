@@ -71,6 +71,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 		<div class="zhezhaoa" v-show="isHide">		
 		</div>
 		<div class="instas" v-show="isHide">
@@ -113,6 +115,8 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import qs from 'qs';
     import { hostBean,hostBeans,hostRange,hostRange2 } from '../api.js';
@@ -124,6 +128,10 @@
     	},
     	data(){
     		return{
+    			successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
     			isHide:false,
     			currentPage3: 1,
     			activeName2: 'first',
@@ -177,6 +185,9 @@
 						console.log(error);
 					})
     		},
+    		closeWarningModal() {
+				this.warningModal = false;
+			},
     		bean2(){
     			let vm =this
     			let pageNum = vm.pageNum2 || 1;
@@ -220,7 +231,8 @@
     			let vm = this
     			vm.areaId = parseInt(vm.areaId);
     			if(vm.areaId == null || vm.titl1 == null || vm.titl2 == null){
-    				alert('发布信息不完整');
+    				this.warningMessage = '发布信息不完整';
+					this.warningModal = true;
     			}
     			else{
     				axios.post(hostRange2,
@@ -232,16 +244,25 @@
 	    			.then((response)=>{
 	    				console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
-	    					alert('发布成功');
-	    					this.isHide = !this.isHide;
+	    					this.successMessage = '发布成功';
+							this.successModal = true;
+							setTimeout(() => {
+								this.isHide = !this.isHide;
+								this.successModal = false;
+								this.bean();
+							}, 3000);
+	    					
 	    				}
 	    				else{
-	    					alert('发布失败');
+	    					this.warningMessage = res.data.content;
+							this.warningModal = true;
 	    				}
 	    				
 	    			})
 	    			.catch((error)=>{
 	    				console.log(error);
+	    				this.warningMessage = '发布失败,服务器出现异常';
+						this.warningModal = true;
 	    			})
     			}
     			

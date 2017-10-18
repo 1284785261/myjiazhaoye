@@ -876,4 +876,5 @@
 	.message-ti .block .el-pagination button {
 		border: 1px solid #DCDCDC;
 	}
+
 </style>

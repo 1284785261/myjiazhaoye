@@ -16,39 +16,44 @@
 					<div class="activitys1">
 						<router-link to="/activity/addactivity" class="refund"> + 新增活动</router-link>
 					</div>
-					<table v-if="Userlist != null">
-						<thead>
-							<td>序号</td>
-							<td>活动ID</td>
-							<td>开始日期</td>
-							<td>活动主题</td>
-							<td width="500px">活动详情</td>
-							<td>活动规则</td>
-							<td>发起人</td>
-							<td>发起日期</td>
-							<td>状态</td>
-							<td>操作</td>
-
-						</thead>
-						<tr v-for="(item,index) in Userlist">
-							<td>{{index+1}}</td>
-							<td>{{item.activityNum}}</td>
-							<td>{{item.beginDate | time}}</td>
-							<td>{{item.activityTheme}}</td>
-							<td>{{item.activityContent}}</td>
-							<td>{{item.endRule | endRule}}</td>
-							<td>{{item.user.userName}}</td>
-							<td v-if="item.user.createtime">{{item.user.createtime | time}}</td>
-							<td v-else>--</td>
-							<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
-							<td>
-								<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link>
-								<a @click="zuofei(item)" v-if="item.activityStatus != 3">作废</a>
-							</td>
-						</tr>
-					</table>
-					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize2 layout="prev, pager, next,total,jumper" :total=totalNum>
-					</el-pagination>
+					<div v-if="Userlist != null">
+						<table v-if="Userlist != null">
+							<thead>
+								<td>序号</td>
+								<td>活动ID</td>
+								<td>开始日期</td>
+								<td>活动主题</td>
+								<td width="500px">活动详情</td>
+								<td>活动规则</td>
+								<td>发起人</td>
+								<td>发起日期</td>
+								<td>状态</td>
+								<td>操作</td>
+	
+							</thead>
+							<tr v-for="(item,index) in Userlist">
+								<td>{{index+1}}</td>
+								<td>{{item.activityNum}}</t d>
+								<td>{{item.beginDate | time}}</td>
+								<td>{{item.activityTheme}}</td>
+								<td>{{item.activityContent}}</td>
+								<td>{{item.endRule | endRule}}</td>
+								<td>{{item.user.userName}}</td>
+								<td v-if="item.user.createtime">{{item.user.createtime | time}}</td>
+								<td v-else>--</td>
+								<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
+								<td>
+									<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link>
+									<a @click="zuofei(item)" v-if="item.activityStatus != 3">作废</a>
+								</td>
+							</tr>
+						</table>
+						<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize2 layout="prev, pager, next,total,jumper" :total=totalNum>
+						</el-pagination>
+					</div>
+					<div v-else class="kbt">
+		    			<img src="../../../static/images/icon/kts_03.png" style="margin-top: 150px;">
+		    		</div>
 				</div>
 			</div>
 			<footer-box></footer-box>

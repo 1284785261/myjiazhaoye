@@ -1,0 +1,179 @@
+#complaindetail{
+	width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+	position: relative;
+}
+#complaindetail .complaindetails{
+	height: 160px;
+	width: 100%;
+	background: #f7fbff url(../../../static/images/temp/sv_03.png) no-repeat 45px 25px;
+	position: relative;
+	border-bottom: 1px solid #DCDCDC;
+	overflow: hidden;
+}
+#complaindetail .complaindetails .dan{
+	font-size: 16px;
+	color: #000;
+	margin-left: 220px;
+	margin-top: 55px;
+	display: inline-block;
+	margin-right: 140px;
+}
+#complaindetail .complaindetails p{
+	font-size: 12px;
+	color: #797a7a;
+	margin-left: 220px;
+	margin-top: 20px;
+}
+#complaindetail div .complaindetails2{
+	width: 94%;
+	margin-left: 4%;
+	min-height: 100px;
+	border-bottom: 1px dashed #DCDCDC;
+	position: relative;
+}
+#complaindetail div .complaindetails2 h3{
+	color: #038BE2;
+	display: inline-block;
+	margin-top: 40px;
+	font-size: 16px;
+	line-height: 40px;
+	margin-left: 18px;
+}
+#complaindetail div .complaindetails2 img {
+	line-height: 40px;
+	width: 4px;
+	height: 20px;
+	margin-right: 10px;
+	position: absolute;
+	left: 0px;
+	top: 50px;
+}
+#complaindetail div .complaindetails2 table{
+	margin-left: 16px;
+	color: #000;
+	padding-bottom: 20px;
+}
+#complaindetail div .complaindetails2 table tr td:nth-child(1){
+	text-align: right;
+	padding-right: 10px;
+	font-weight: bold;
+}
+#complaindetail div .complaindetails2 table tr td{
+	line-height: 40px;
+}
+#complaindetail div a{
+	width: 140px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	color: #fff;
+	background: #038BE2;
+	display: inline-block;
+	font-size: 14px;
+	border-radius: 5px;
+	margin-left: 174px;
+	margin-top: 40px;
+}
+#complaindetail div .complaindetails3{
+	width: 94%;
+	margin-left: 4%;
+	min-height: 100px;
+	border-bottom: 1px dashed #DCDCDC;
+	position: relative;
+}
+#complaindetail div .complaindetails3 h3{
+	color: #038BE2;
+	display: inline-block;
+	margin-top: 40px;
+	font-size: 16px;
+	line-height: 40px;
+	margin-left: 18px;
+}
+#complaindetail div .complaindetails3 img {
+	line-height: 40px;
+	width: 4px;
+	height: 20px;
+	margin-right: 10px;
+	position: absolute;
+	left: 0px;
+	top: 50px;
+}
+#complaindetail div .complaindetails3 table{
+	margin-left: 16px;
+	color: #000;
+	padding-bottom: 20px;
+}
+#complaindetail div .chus{
+	margin-left: 92px;
+	font-size: 12px;
+	margin-top: 32px;
+	position: absolute;
+	left: 8px;
+    top: 507px;
+    color: #000;
+    font-weight: bold;
+}
+#complaindetail div textarea{
+	width: 438px;
+	height: 152px;
+	margin-left: 173px;
+	margin-top: 20px;
+	line-height: 30px;
+	padding-left: 10px;
+}
+#complaindetail div .chuli{
+	width: 140px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	color: #fff;
+	background: #038BE2;
+	display: inline-block;
+	font-size: 14px;
+	border-radius: 5px;
+	position: absolute;
+	left: 0px;
+	top: 700px;
+}
+
+#complaindetail div .complaindetails4{
+	width: 94%;
+	margin-left: 4%;
+	min-height: 100px;
+	position: relative;
+}
+#complaindetail div .complaindetails4 h3{
+	color: #038BE2;
+	display: inline-block;
+	margin-top: 40px;
+	font-size: 16px;
+	line-height: 40px;
+	margin-left: 18px;
+}
+#complaindetail div .complaindetails4 img {
+	line-height: 40px;
+	width: 4px;
+	height: 20px;
+	margin-right: 10px;
+	position: absolute;
+	left: 0px;
+	top: 50px;
+}
+#complaindetail div .complaindetails4 table{
+	margin-left: 16px;
+	color: #000;
+	font-size: 12px;
+	padding-bottom: 20px;
+}
+#complaindetail div .complaindetails4 table tr td:nth-child(1){
+	text-align: right;
+	padding-right: 10px;
+	font-weight: bold;
+}
+#complaindetail div .complaindetails4 table tr td{
+	line-height: 30px;
+}
