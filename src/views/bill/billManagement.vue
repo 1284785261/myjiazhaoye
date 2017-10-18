@@ -137,13 +137,13 @@
             <el-tab-pane label="水电账单" name="third">
               <div class="form-search-criteria">
                 <div class="form-item">
-                  <Button style="width: 140px;height: 40px;font-size: 18px;" @click="createBill()">生成账单</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="createBill()">生成账单</Button>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 140px;height: 40px;font-size: 18px;" @click="editBill()">编辑账单</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="editBill()">编辑账单</Button>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 140px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>
                 </div>
                 <div class="form-item">
                   <span>账单月份：</span>
@@ -152,16 +152,16 @@
                   <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyEndDate"></Date-picker>
                 </div>
               </div>
-              <div class="pay-information-wrap-head">
+              <div class="pay-information-wrap-head" v-if="billTotalNum > 0">
                 <ul>
-                  <li>所属社区 :<span style="color: #038be2;font-weight: 700;"></span></li>
-                  <li>出账日期 :<span></span></li>
-                  <li>全部租客 :<span>户</span></li>
-                  <li>待缴 :<span style="color:red;font-weight: 700;">户</span></li>
-                  <li>已缴 :<span style="color:black;font-weight: 700;">户</span></li>
+                  <li>所属社区 :<span style="color: #038be2;font-weight: 700;">{{communityPayStatic.communityName}}</span></li>
+                  <li>出账日期 :<span>{{createtime | timefilter("yyyy-MM-dd")}}</span></li>
+                  <li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>
+                  <li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>
+                  <li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>
                 </ul>
               </div>
-              <div class="form-search-criteria">
+              <div class="form-search-criteria" v-if="billTotalNum > 0">
                 <div class="form-item pay-btn-group">
                   <span>筛选: </span>
                   <Button :class="{'active-btn':activeStatus == 0}" @click="filterBill(0)">全部</Button>
@@ -179,7 +179,7 @@
                   <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
                 </div>
               </div>
-              <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+              <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
                 <tr class="tr1">
                   <th class="th1">房间</th>
                   <th class="th1">水电费情况</th>
@@ -217,12 +217,11 @@
                   </td>
                 </tr>
               </table>
-              <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search"></Page>
-              <div class="blank-background-img" v-if="waterEnergyTotalNum == 0">
+              <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search" v-if="billTotalNum > 0"></Page>
+              <div class="blank-background-img" v-if="billTotalNum == 0">
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无账单内容~</h2>
               </div>
-              <!--<Page :total="waterEnergyTotalNum" :page-size="10" show-elevator show-total @on-change="waterEnergySearch" v-if="waterEnergyTotalNum > 0"></Page>-->
             </el-tab-pane>
           </el-tabs>
 
@@ -238,7 +237,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill} from '../api.js';
+  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment} from '../api.js';
 
 
   export default {
@@ -271,13 +270,8 @@
         officeEndDate:"",
         officeSearchKey:"",
 
-        waterEnergyBillList:[],
-
-        waterEnergyCommunity:-1,
         waterEnergyStartDate:"",
         waterEnergyEndDate:"",
-        waterEnergyTotalNum:0,
-
         activeStatus:0,
 
         communityPayStatic:[],
@@ -286,7 +280,7 @@
         billCurrent:1,
         searchKey:"",
         createtime:0,
-
+        communityName:"",
       }
     },
     mounted(){
@@ -310,17 +304,16 @@
               that.communityId = that.RoomBillSelects[0].communityId;
               that.getRoomBill({pageNum:1,communityId:that.communityId});
               that.getOfficeBill({pageNum:1,communityId:that.communityId});
-              that.getWaterEnergyBill({pageNum:1,communityId:that.communityId});
               //水电账单
-              that.getPayStatic({communityId:this.communityId});
-              that.getbillPayment({communityId:this.communityId,pageNum:1});
+              that.getPayStatic({communityId:that.communityId});
+              that.getbillPayment({communityId:that.communityId,pageNum:1});
             }
           })
       },
       getRoomBill(data){
         var that = this;
         this.$http.get(roomBill,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.roomBillList = pageBean.page;
@@ -386,37 +379,6 @@
         this.getOfficeBill(data);
       },
 
-      getWaterEnergyBill(data){
-        var that = this;
-        this.$http.get(waterEnergyBill,{params:data})
-          .then(function(res){debugger
-            if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.waterEnergyBillList = pageBean.page;
-              that.waterEnergyTotalNum = pageBean.totalNum;
-            }
-            if(res.data.code == 10008 || res.data.code == 10001){
-              that.waterEnergyBillList = [];
-              that.waterEnergyTotalNum = 0;
-            }
-          })
-      },
-      waterEnergySearch(page){
-        var data = {
-          communityId:this.communityId,
-          pageNum:page || 1
-        }
-        if(this.waterEnergyCommunity != -1){
-          data.communityId = this.waterEnergyCommunity;
-        }
-        if(this.waterEnergyStartDate){
-          data.beginDate = new Date(this.waterEnergyStartDate).Format("yyyy-MM-dd");
-        }
-        if(this.waterEnergyEndDate){
-          data.endDate = new Date(this.waterEnergyEndDate).Format("yyyy-MM-dd");
-        }
-        this.getWaterEnergyBill(data);
-      },
       createBill(){
         this.$router.push({path:"/bill/generateBill",query:{communityId:this.communityId}});
       },
@@ -427,13 +389,17 @@
         this.$router.push({path:"/bill/historyInformation",query:{communityId:this.communityId}});
       },
 
-
       getPayStatic(data){
         var that = this;
         this.$http.get(statisticsInfoOfUser,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              that.communityPayStatic = res.data.entity;
+              if(res.data.entity){
+                that.communityPayStatic = res.data.entity;
+              }else{
+                that.communityPayStatic = [];
+              }
+
             }
           })
       },
@@ -464,6 +430,13 @@
         if(this.activeStatus != 0){
           params.payStatus = this.activeStatus;
         }
+        if(this.waterEnergyStartDate){
+          params.beginDate = new Date(this.waterEnergyStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.waterEnergyEndDate){
+          params.endDate = new Date(this.waterEnergyEndDate).Format("yyyy-MM-dd");
+        }
+        debugger
         this.getbillPayment(params);
       },
       filterBill(payStatus){
@@ -472,6 +445,12 @@
           pageNum:1,
           keyWord : this.searchKey,
           communityId:this.communityId,
+        }
+        if(this.waterEnergyStartDate){
+          params.beginDate = new Date(this.waterEnergyStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.waterEnergyEndDate){
+          params.endDate = new Date(this.waterEnergyEndDate).Format("yyyy-MM-dd");
         }
         if(this.activeStatus != 0){
           params.payStatus = this.activeStatus;
@@ -490,30 +469,22 @@
     watch:{
       communityId:function(newValue,oldValue){
         var vm = this;
+        if(this.RoomBillSelects){
+            for(var i =0;i<this.RoomBillSelects.length;i++){
+                if(this.RoomBillSelects[i].communityId == newValue){
+                    this.communityName = this.RoomBillSelects[i].communityName;
+                    break;
+                }
+            }
+        }
         setTimeout(function(){
           vm.getRoomBill({pageNum:1,communityId:newValue});
           vm.getOfficeBill({pageNum:1,communityId:newValue});
-          vm.getWaterEnergyBill({pageNum:1,communityId:newValue});
-        });
+          vm.getPayStatic({communityId:newValue});
+          vm.getbillPayment({communityId:newValue});
+        },10);
       },
-      waterEnergyStartDate:function(newValue,oldValue){
-        var vm = this;
-        setTimeout(function(){
-          vm.waterEnergySearch();
-        },50);
-      },
-      waterEnergyEndDate:function(newValue,oldValue){
-        var vm = this;
-        setTimeout(function(){
-          vm.waterEnergySearch();
-        },50);
-      },
-      waterEnergyCommunity:function(newValue,oldValue){
-        var vm = this;
-        setTimeout(function(){
-          vm.waterEnergySearch();
-        },50);
-      },
+
     }
   }
 </script>
@@ -523,7 +494,8 @@
   @import '../../sass/base/_public.scss';
 
   #bill-management-wrap{
-    height: 985px;
+    height: 100%;
+    min-height: 1000px;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;

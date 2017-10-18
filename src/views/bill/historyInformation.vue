@@ -93,7 +93,7 @@
       //获取社区信息
       getCommunityInfo(){
         var that = this;
-        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
+        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){debugger
           if(res.data.code == 10000){
             that.communityName = res.data.result.community.communityName;
           }
@@ -122,7 +122,7 @@
           qs.stringify({
             communityId:this.communityId
           })
-        ) .then((response)=>{
+        ) .then((response)=>{debugger
             var count = 0;
             if(response.status == 200 && response.data.code == 10000){
               var pageBean = response.data.pageBean;

@@ -18,7 +18,7 @@
               <span>{{communityName}}</span>
             </div>
             <div class="form-item">
-              当前公寓共合计 : <span style="font-weight: 700;color: black;">{{communityPayStatic.totalCount}}户</span>
+              当前公寓共合计 : <span style="font-weight: 700;color: black;">{{billTotalNum}}户</span>
             </div>
             <div class="form-item">
               <Button style="width: 100px;height: 30px;">全部抄表</Button>
@@ -119,27 +119,13 @@
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
-      this.communityId = 3;
       this.getCommunityInfo();
       this.getPayStatic({communityId:this.communityId});
       this.getbillPayment({communityId:this.communityId,pageNum:1});
-//      this.getCommunityData();
     },
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
-      },
-      getCommunityData(){
-        var that = this;
-        this.$http.get(allCommunity)
-          .then(function(res){
-            if(res.status == 200 && res.data.code == 10000){
-              that.billSelects = res.data.entity;
-            }
-            that.billCommunity = that.billSelects[0].communityId;
-            that.getPayStatic({communityId:that.billCommunity});
-            that.getbillPayment({communityId:that.billCommunity,pageNum:1});
-          })
       },
       getPayStatic(data){
         var that = this;
@@ -172,6 +158,12 @@
               for(var i =0;i<that.billPaymentList.length;i++){
                 that.$set(that.billPaymentList[i],"isEdit",false);
                 that.$set(that.billPaymentList[i],"content","修改账单");
+                if(!that.billPaymentList[i].roomWater){
+                  that.billPaymentList[i].roomWater = that.billPaymentList[i].waterInit;
+                }
+                if(!that.billPaymentList[i].roomElectric){
+                  that.billPaymentList[i].roomElectric = that.billPaymentList[i].electricInit;
+                }
               }
             }
             if(res.data.code == 10001){
@@ -200,6 +192,7 @@
           var obj = this.billPaymentList[index];
 
           var params = {
+            contractSignId:obj.contractSignId,
             waterData:parseInt(obj.newRoomWater),
             energyData:parseInt(obj.newRoomElectric)
           };

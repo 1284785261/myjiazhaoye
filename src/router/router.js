@@ -394,6 +394,10 @@ export default new Router({
       path: '/bill/historyMeter',     //账单管理->生成水电账单
       name: 'historyMeter',
       component: resolve => require(['../views/bill/historyMeter.vue'],resolve)
+    },{
+      path: '/bill/editGenerateBill',     //账单管理->生成水电账单
+      name: 'editGenerateBill',
+      component: resolve => require(['../views/bill/editGenerateBill.vue'],resolve)
     }
 
 

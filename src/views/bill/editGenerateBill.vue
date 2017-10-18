@@ -15,17 +15,17 @@
           <div class="form-search-criteria">
             <div class="form-item">
               <b>社区：</b>
-              <span>佳兆业社区</span>
+              <span>{{communityName}}</span>
             </div>
             <div class="form-item">
-              <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{communityPayStatic.totalCount}}户</span>
+              <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{billTotalNum}}户</span>
             </div>
             <div class="form-item">
               <Button style="width: 120px;height: 30px;">全部抄表</Button>
               <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else>生成账单并发送给租客</span></Button>
             </div>
           </div>
-          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
+          <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
             <tr class="tr1">
               <th class="th1">房间</th>
               <th class="th1">水电费情况</th>
@@ -42,13 +42,13 @@
                     <template v-if="!item.isEdit">
                       <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">上次水表读数 :<span>{{item.roomWater}}</span></td>
-                      <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<span>{{item.newRoomWater}}</span></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<span>{{item.waterData}}</span></td>
                       <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                     </template>
                     <template v-else>
                       <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">上次水表读数 :<span>{{item.roomWater}}</span></td>
-                      <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<input type="text" v-model="item.newRoomWater"/></td>
+                      <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<input type="text" v-model="item.waterData"/></td>
                       <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                     </template>
                   </tr>
@@ -56,13 +56,13 @@
                     <template v-if="!item.isEdit">
                       <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">上次电表读数 :<span>{{item.roomElectric}}</span></td>
-                      <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<span>{{item.newRoomElectric}}</span></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<span>{{item.energyData}}</span></td>
                       <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                     </template>
                     <template v-else>
                       <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">上次电表读数 :<span>{{item.roomElectric}}</span></td>
-                      <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<input type="text"  v-model="item.newRoomElectric"/></td>
+                      <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<input type="text"  v-model="item.energyData"/></td>
                       <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                     </template>
                   </tr>
@@ -74,11 +74,11 @@
               <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
           </table>
-          <div class="blank-background-img" v-if="false">
+          <div class="blank-background-img" v-if="billTotalNum == 0">
             <img src="../../../static/images/blank/bill_space.png" >
             <h2>暂无账单内容~</h2>
           </div>
-          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch"></Page>
+          <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch" v-if="billTotalNum > 0"></Page>
         </div>
 
       </div>
@@ -92,7 +92,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment,editUsedWaterEnergy} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment,editUsedWaterEnergy,hostTitle} from '../api.js';
 
 
   export default {
@@ -113,11 +113,15 @@
         billPaymentList:[],
         billTotalNum:0,
         billCurrent:1,
-        activePage:1
+        activePage:1,
+        communityName:""
       }
     },
     mounted(){
-      this.getCommunityData();
+      this.communityId = this.$route.query.communityId;
+      this.getCommunityInfo();
+      this.getPayStatic({communityId:this.communityId});
+      this.getbillPayment({communityId:this.communityId,pageNum:1});
     },
     methods:{
       handleClick(tab, event) {
@@ -134,6 +138,17 @@
             that.getPayStatic({communityId:that.billSelects[0].communityId});
             that.getbillPayment({communityId:that.billSelects[0].communityId,pageNum:1});
           })
+      },
+      //获取社区信息
+      getCommunityInfo(){
+        var that = this;
+        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
+          if(res.data.code == 10000){
+            that.communityName = res.data.result.community.communityName;
+          }
+        }).catch(function(err){
+          console.log(err);
+        })
       },
       getPayStatic(data){
         var that = this;
@@ -155,6 +170,12 @@
               for(var i =0;i<that.billPaymentList.length;i++){
                 that.$set(that.billPaymentList[i],"isEdit",false);
                 that.$set(that.billPaymentList[i],"content","修改账单");
+                if(!that.billPaymentList[i].roomWater){
+                  that.billPaymentList[i].roomWater = that.billPaymentList[i].waterInit;
+                }
+                if(!that.billPaymentList[i].roomElectric){
+                  that.billPaymentList[i].roomElectric = that.billPaymentList[i].electricInit;
+                }
               }
             }
             if(res.data.code == 10001){
@@ -181,24 +202,31 @@
           this.$set(this.billPaymentList[index],"isEdit",!isEdit);
           this.$set(this.billPaymentList[index],"content","修改账单");
           var obj = this.billPaymentList[index];
-          console.log(obj)
           var params = {
             waterElectricityBill:obj.waterElectricityBill,
-            energyCost:obj.energyCost,
-            waterCost:obj.waterCost,
-            totalMoney:parseInt(obj.energyCost)+parseInt(obj.waterCost)
+            waterData:parseInt(obj.waterData),
+            energyData:parseInt(obj.energyData)
           };
           if(obj.waterChargeModel == 1){
-            params.waterData=obj.waterData;
-            params.waterSize=obj.waterSize;
+            params.waterSize=parseInt(obj.waterData)-parseInt(obj.roomWater);
+            params.waterCost = parseInt(obj.waterPrice)*parseInt(params.waterSize);
+          }else{
+            params.count = obj.count;
+            params.waterCost = parseInt(obj.waterPrice)*parseInt(obj.count);
           }
+
           if(obj.electricChargeModel == 1){
-            params.energyData=obj.energyData;
-            params.energySize=obj.energySize;
+            params.energySize=parseInt(obj.energyData)-parseInt(obj.roomElectric);
+            params.energyCost = parseInt(obj.energyPrice)*parseInt(params.energySize);
+          }else{
+            params.count = obj.count;
+            params.energyCost = parseInt(obj.energyPrice)*parseInt(obj.count);
           }
+          params.totalMoney=params.energyCost + params.waterCost;
+          params.realMoney=params.energyCost + params.waterCost;
           if(obj.electricChargeModel == 2 || obj.waterChargeModel == 2){
             params.count = obj.count;
-          }
+          }debugger
           this.saveBillPayment(params);
         }
 
