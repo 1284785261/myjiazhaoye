@@ -82,7 +82,7 @@
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
-      this.communityId = 3;
+//      this.communityId = 3;
       //console.log(this.communityId);
       this.getCommunityInfo();
       this.getCommunityData();

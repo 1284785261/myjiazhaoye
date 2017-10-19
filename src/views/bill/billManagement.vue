@@ -152,16 +152,16 @@
                   <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyEndDate"></Date-picker>
                 </div>
               </div>
-              <div class="pay-information-wrap-head" v-if="billTotalNum > 0">
+              <div class="pay-information-wrap-head">
                 <ul>
                   <li>所属社区 :<span style="color: #038be2;font-weight: 700;">{{communityPayStatic.communityName}}</span></li>
-                  <li>出账日期 :<span>{{createtime | timefilter("yyyy-MM-dd")}}</span></li>
+                  <li>出账日期 :<span>{{communityPayStatic.waterEnergyPayDate | timefilter("yyyy-MM-dd")}}</span></li>
                   <li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>
                   <li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>
                   <li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>
                 </ul>
               </div>
-              <div class="form-search-criteria" v-if="billTotalNum > 0">
+              <div class="form-search-criteria">
                 <div class="form-item pay-btn-group">
                   <span>筛选: </span>
                   <Button :class="{'active-btn':activeStatus == 0}" @click="filterBill(0)">全部</Button>
@@ -190,7 +190,7 @@
                   <th class="th1">状态</th>
                 </tr>
                 <tr class="tr1" v-for="(item,index) in billPaymentList">
-                  <td class="td1">{{item.roomNum}}</td>
+                  <td class="td1">{{item.roomInfo?item.roomInfo.roomNum:""}}</td>
                   <td class="td1">
                     <table class="table2">
                       <tr class="tr2">
@@ -392,7 +392,7 @@
       getPayStatic(data){
         var that = this;
         this.$http.get(statisticsInfoOfUser,{params:data})
-          .then(function(res){
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               if(res.data.entity){
                 that.communityPayStatic = res.data.entity;
@@ -412,7 +412,7 @@
               that.billPaymentList = pageBean.page;
               that.billTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10001){
+            if(res.data.code == 10001 || res.data.code == 10008){
               that.billPaymentList = [];
               that.billTotalNum = 0;
             }

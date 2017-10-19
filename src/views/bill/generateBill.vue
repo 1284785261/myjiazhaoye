@@ -223,7 +223,7 @@
       saveBillPayment(params){
         var that = this;
         this.$http.post(saveBill,qs.stringify(params))
-          .then(function(res){debugger
+          .then(function(res){
             that.pageSearch(that.activePage);
           })
       },

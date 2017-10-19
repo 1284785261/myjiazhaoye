@@ -21,8 +21,8 @@
               <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{billTotalNum}}户</span>
             </div>
             <div class="form-item">
-              <Button style="width: 120px;height: 30px;">全部抄表</Button>
-              <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else>生成账单并发送给租客</span></Button>
+              <Button style="width: 120px;height: 30px;" :disabled="true">全部抄表</Button>
+              <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else @click="sendBillToCostomer">生成账单并发送给租客</span></Button>
             </div>
           </div>
           <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
@@ -84,6 +84,8 @@
       </div>
       <footer-box></footer-box>
     </div>
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 </template>
 
@@ -91,15 +93,19 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
-  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,saveBillPayment,editUsedWaterEnergy,hostTitle} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,editUsedWaterEnergy,hostTitle,sendAllToCustomer} from '../api.js';
 
 
   export default {
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      warningModal,
+      successModal
     },
     data(){
       return{
@@ -114,7 +120,11 @@
         billTotalNum:0,
         billCurrent:1,
         activePage:1,
-        communityName:""
+        communityName:"",
+        successMessage:"发送成功！",
+        warningMessage:"没有可供发送的账单！",
+        successModal:false,
+        warningModal:false,
       }
     },
     mounted(){
@@ -202,6 +212,7 @@
           this.$set(this.billPaymentList[index],"isEdit",!isEdit);
           this.$set(this.billPaymentList[index],"content","修改账单");
           var obj = this.billPaymentList[index];
+          debugger
           var params = {
             waterElectricityBill:obj.waterElectricityBill,
             waterData:parseInt(obj.waterData),
@@ -234,10 +245,29 @@
       saveBillPayment(params){
         var that = this;
         this.$http.post(editUsedWaterEnergy,qs.stringify(params))
-          .then(function(res){
+          .then(function(res){debugger
+            if(res.status != 200 || res.data.code != 10000){
+              that.warningModal = true;
+              that.warningMessage = "编辑失败！";
+            }
             that.pageSearch(that.activePage);
           })
       },
+      sendBillToCostomer(){
+        var that = this;
+        this.$http.get(sendAllToCustomer,{params:{communityId:this.communityId}})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }
+          })
+      },
+      closeWarningModal(){
+        this.warningModal = false;
+      }
     },
     computed:{
       editing:function(){

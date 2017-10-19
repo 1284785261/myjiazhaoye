@@ -61,16 +61,15 @@
 
 					    </el-tab-pane>
 					    <el-tab-pane label="电表" name="second">
-                <div class="equipment1 equipment2">
-                  <div class="house_xq">
+                <div class="equipment1 equipment2" v-for="(electricity,index) in electricityList">
+                  <div class="house_xq" @click="hideTable2(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
-                      <a href="#" class="ceng">1层</a>
+                      <a class="ceng">{{electricity.floorName}}层</a>
                   </div>
-                  <table>
+                  <table v-if="electricity.showTable">
                     <thead>
                       <td>房间</td>
                       <td>电表序列号</td>
-                      <td>网关名称</td>
                       <td>供应商</td>
                       <td>添加时间</td>
                       <td>上次抄表时间</td>
@@ -78,35 +77,25 @@
                       <td>电表状态</td>
                       <td width="15%">操作</td>
                     </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>2017.15.05</td>
-                      <td>121213</td>
-                      <td>在线</td>
+                    <tr v-for="(item,index1) in electricity.roomElectricity">
+                      <td>{{item.roomNum}}</td>
+                      <td>{{item.electricityMeterSn}}</td>
+                      <td>{{item.manufacturerName}}</td>
+                      <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{item.waterElectricityData}}</td>
                       <td>
-                        <div>
-                          <a @click="adddian2()">修改</a>
-                          <a>关闭</a>
-                          <router-link to="/apartment/meterReading">抄表记录</router-link>
-                        </div>
+                        <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
+                        <span v-else-if="item.electricityStatus == 1">离线</span>
+                        <span v-else-if="item.electricityStatus == 2">关闭</span>
+                        <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
-                    </tr>
-                    <tr>
-                      <td>101</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>2017.15.05</td>
-                      <td>121213</td>
-                      <td>在线</td>
                       <td>
-                        <div>
-                          <a @click="adddian()">添加电表</a>
+                        <div><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
+                          <a @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
+                          <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1)" @click="shutElectricity(item,electricity.floorName)">关闭</a>
+                          <a v-if="item.electricityStatus == 2" @click="openToElectricity(item,electricity.floorName)">开启</a>
+                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2">添加电表</a>
                         </div>
                       </td>
                     </tr>
@@ -114,16 +103,15 @@
                 </div>
 					    </el-tab-pane>
 					    <el-tab-pane label="水表" name="third">
-                <div class="equipment1 equipment2">
-                  <div class="house_xq">
+                <div class="equipment1 equipment2" v-for="(water,index) in waterList">
+                  <div class="house_xq" @click="hideTable3(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
-                      <a href="#" class="ceng">1层</a>
+                      <a class="ceng">{{water.floorName}}层</a>
                   </div>
-                  <table>
+                  <table  v-if="water.showTable">
                     <thead>
                       <td>房间</td>
                       <td>水表序列号</td>
-                      <td>网关名称</td>
                       <td>供应商</td>
                       <td>添加时间</td>
                       <td>上次抄表时间</td>
@@ -131,59 +119,31 @@
                       <td>水表状态</td>
                       <td width="15%">操作</td>
                     </thead>
-                    <tr>
-                      <td>101</td>
-                      <td>1341648946168</td>
-                      <td>1楼门锁网关A</td>
-                      <td>云丁</td>
-                      <td>2017.15.05</td>
-                      <td>2017.15.05</td>
-                      <td>121213</td>
-                      <td>在线</td>
+                    <tr v-for="(item,index) in water.roomWater">
+                      <td>{{item.roomNum}}</td>
+                      <td>{{item.waterMeterSn}}</td>
+                      <td>{{item.manufacturerName}}</td>
+                      <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{item.waterElectricityData}}</td>
+                      <td>
+                        <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
+                        <span v-else-if="item.electricityStatus == 1">离线</span>
+                        <span v-else-if="item.electricityStatus == 2">关闭</span>
+                        <span v-else style="color: rgb(254,120,50);">未配置</span>
+                      </td>
                       <td>
                         <div>
-                          <a @click="updateWater()">修改</a>
-                          <a @click="closeshui1()">关闭</a>
-                          <router-link to="/apartment/meterReading">抄表记录</router-link>
+                          <a @click="updateWater(item,water.floorName)">修改</a>
+                          <a @click="shutWater(item,water.floorName)">关闭</a>
+                          <a @click="openWater(item,water.floorName)">开启</a>
+                          <a @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
                         </div>
                       </td>
                     </tr>
 							  	</table>
 					    	</div>
 					    </el-tab-pane>
-					    <!--<el-tab-pane label="网关管理" name="fourth">-->
-					    	<!--<div class="equipment1 equipment2">-->
-					    		<!--<div class="house_xq">-->
-							  			<!--<img src="../../../static/images/temp/logo2_03.png">-->
-							  			<!--<a href="#" class="ceng">1层</a>-->
-							  			<!--<a class="tianjia" @click="instas10()"> + 添加网关</a>-->
-							  	<!--</div>-->
-							  	<!--<table>-->
-							  		<!--<thead>-->
-							  			<!--<td>序号</td>-->
-							  			<!--<td>网关类型</td>-->
-							  			<!--<td>网关名称</td>-->
-							  			<!--<td>供应商</td>-->
-							  			<!--<td>序列号</td>-->
-							  			<!--<td>已连接设备</td>-->
-							  			<!--<td>添加时间</td>-->
-							  			<!--<td>状态</td>-->
-							  			<!--<td>操作</td>-->
-							  		<!--</thead>-->
-							  		<!--<tr>-->
-							  			<!--<td>101</td>-->
-							  			<!--<td>1341648946168</td>-->
-							  			<!--<td>1楼门锁网关A</td>-->
-							  			<!--<td>云丁</td>-->
-							  			<!--<td>2017.15.05</td>-->
-							  			<!--<td>2017.15.05</td>-->
-							  			<!--<td>121213</td>-->
-							  			<!--<td>在线</td>-->
-							  			<!--<td><a @click="instas11()">修改</a></td>-->
-							  		<!--</tr>-->
-							  	<!--</table>-->
-					    	<!--</div>-->
-					    <!--</el-tab-pane>-->
 					</el-tabs>
 		    	</div>
 
@@ -309,7 +269,7 @@
 			<i class="ivu-icon ivu-icon-help-buoy"></i>
 			<p>你确定要<i>解除</i></p>
 			<p>房间<b>1层 103</b>的门锁吗?</p>
-			<a>确定</a><a @click="instas6()">取消</a>
+			<a>确定</a><a @click="deleteElectricitySure()">取消</a><!--deleteElectricitySure-->
 		</div>
     <!--冻结门锁-->
     <div class="instas2" v-show="freezeUpDoorLock">
@@ -323,263 +283,181 @@
       <Icon type="ios-unlocked-outline"></Icon>
       <p>你确定要<i>解冻</i></p>
       <p>房间<b>{{floorName}}层 {{roomNum}}</b>的门锁吗?</p>
-      <a @click="sureUnFreezeUp()">确定</a><a @click="instas6()">取消</a>
+      <a @click="sureUnFreezeUp()">确定</a><a @click="closeUnFreezeUpDoorLock()">取消</a>
     </div>
 
 
 
     <!--添加电表-->
-		<div class="instas7 instas4" v-show="isHide6">
-			<i class="el-icon-circle-close" @click="adddian()"></i>
+		<div class="instas7 instas4" v-show="addElectricity">
+			<i class="el-icon-circle-close" @click="closeModal()"></i>
 			<p>添加电表</p>
 			<table>
 				<tr>
 					<td>房间：</td>
-					<td>3层 301</td>
+          <td>{{floorName}}层 {{roomNum}}</td>
 				</tr>
 				<tr>
 					<td>序列号：</td>
 					<td>
-						<input type="text" placeholder="请输入序列号" />
+						<input type="text" placeholder="请输入序列号" v-model="electricityMeterSn"/>
 					</td>
 				</tr>
 				<tr>
-					<td>网关：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
+          <td>供应商：</td>
+          <td>
+            <el-select v-model="doorLockSupplier" filterable placeholder="请输入或选择">
+              <el-option
+                v-for="item in suppliers"
+                :key="item.dataId"
+                :label="item.dataName"
+                :value="item.dataId">
+              </el-option>
+            </el-select>
+          </td>
+
 				</tr>
 			</table>
-			<a @click="adddian()" class="tjss">确定</a>
+			<a @click="addElectricitySure()" class="tjss">确定</a>
 		</div>
     <!--修改电表配置-->
-		<div class="instas8 instas4" v-show="isHide7">
-			<i class="el-icon-circle-close" @click="adddian2()"></i>
+		<div class="instas8 instas4" v-show="updateElectricity">
+			<i class="el-icon-circle-close" @click="closeUpdateElectricity()"></i>
 			<p>修改电表配置</p>
 			<table>
 				<tr>
 					<td>房间：</td>
-					<td>3层 301<a @click="instas9()">解除电表</a></td>
+					<td>{{updateFloorName}}层 {{activeElectricity.roomNum}}<a @click="deleteElectricity()">解除电表</a></td>
 				</tr>
 				<tr>
 					<td>序列号：</td>
 					<td>
-						<input type="text" placeholder="请输入序列号" />
+						<input type="text" placeholder="请输入序列号" v-model="activeElectricity.electricityMeterSn"/>
 					</td>
 				</tr>
 				<tr>
-					<td>网关：</td>
-					<td>
-						<el-select v-model="value8" filterable placeholder="请输入或选择">
-						    <el-option
-						      v-for="item in options"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
-						    </el-option>
-						</el-select>
-					</td>
+          <td>供应商：</td>
+          <td>
+            <el-select v-model="activeElectricity.manufacturer" filterable placeholder="请输入或选择">
+              <el-option
+                v-for="item in suppliers"
+                :key="item.dataId"
+                :label="item.dataName"
+                :value="item.dataId">
+              </el-option>
+            </el-select>
+          </td>
 				</tr>
 			</table>
-			<a @click="adddian2()" class="tjss">确定</a>
+			<a @click="updateElectricitySure()" class="tjss">确定</a>
 		</div>
     <!--解除电表-->
-    <div class="instas9 instas2" v-show="isHide8">
+    <div class="deleteElectricity instas2" v-show="isHide8">
       <i class="ivu-icon ivu-icon-help-buoy"></i>
       <p>你确定要<i>解除</i></p>
-      <p>房间<b>1层 103</b>的电表吗?</p>
-      <a>确定</a><a @click="instas9()">取消</a>
+      <p>房间<b>{{updateFloorName}}层 {{activeElectricity.roomNum}}</b>的电表吗?</p>
+      <a @click="deleteElectricitySure">确定</a><a @click="closeDeleteElectricity()">取消</a>
+    </div>
+    <!--关闭电表-->
+    <div class="instas2" v-show="isHide11">
+      <Icon type="ios-close-outline"></Icon>
+      <p>你确定要<i>关闭</i></p>
+      <p>房间<b>{{updateFloorName}}层 {{activeElectricity.roomNum}}</b>的电表吗?</p>
+      <a @click="shutElectricitySure">确定</a><a @click="closeShutElectricity()">取消</a>
+    </div>
+    <!--开启电表-->
+    <div class="instas6 instas2" v-show="openElectricityModal">
+      <Icon type="ios-unlocked-outline"></Icon>
+      <p>你确定要<i>开启</i></p>
+      <p>房间<b>{{updateFloorName}}层 {{activeElectricity.roomNum}}</b>的电表吗?</p>
+      <a @click="openElectricitySure()">确定</a><a @click="closeOpenElectricity()">取消</a>
     </div>
 
 
     <!--关闭水表-->
-    <div class="instas2" v-show="isHide11">
+    <div class="instas2" v-show="shutWaterModal">
       <Icon type="ios-close-outline"></Icon>
       <p>你确定要<i>关闭</i></p>
-      <p>房间<b>1层 103</b>的水表吗?</p>
-      <a>确定</a><a @click="instas15()">取消</a>
+      <p>房间<b>{{updateFloorName}}层 {{activeWater.roomNum}}</b>的水表吗?</p>
+      <a @click="shutWaterSure()">确定</a><a @click="closeShutWaterModal()">取消</a>
     </div>
     <!-- 开启水表-->
-    <div class="instas2" v-show="isHide12">
+    <div class="instas2" v-show="openWaterModal">
       <Icon type="ios-checkmark-outline"></Icon>
       <p>你确定要<i>开启</i></p>
-      <p>房间<b>1层 103</b>的水表吗?</p>
-      <a>确定</a><a @click="instas16()">取消</a>
+      <p>房间<b>{{updateFloorName}}层 {{activeWater.roomNum}}</b>的水表吗?</p>
+      <a @click="openWaterSure()">确定</a><a @click="closeOpenWaterModal()">取消</a>
     </div>
     <!--添加水表-->
-    <div class="instas7 instas4" v-show="false">
-      <i class="el-icon-circle-close" @click="adddian()"></i>
+    <div class="instas7 instas4" v-show="addWaterModal">
+      <i class="el-icon-circle-close" @click="closeAddWaterModal()"></i>
       <p>添加水表</p>
       <table>
         <tr>
           <td>房间：</td>
-          <td>3层 301</td>
+          <td>{{floorName}}层 {{roomNum}}</td>
         </tr>
         <tr>
           <td>序列号：</td>
           <td>
-            <input type="text" placeholder="请输入序列号" />
+            <input type="text" placeholder="请输入序列号" v-model="waterMeterSn"/>
           </td>
         </tr>
         <tr>
-          <td>网关：</td>
+          <td>供应商：</td>
           <td>
-            <el-select v-model="value8" filterable placeholder="请输入或选择">
+            <el-select v-model="doorLockSupplier" filterable placeholder="请输入或选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in suppliers"
+                :key="item.dataId"
+                :label="item.dataName"
+                :value="item.dataId">
               </el-option>
             </el-select>
           </td>
         </tr>
       </table>
-      <a @click="adddian()" class="tjss">确定</a>
+      <a @click="addWaterSure()" class="tjss">确定</a>
     </div>
     <!--修改水表配置-->
-    <div class="instas8 instas4" v-show="isHide13">
+    <div class="instas8 instas4" v-show="updateWaterModal">
       <i class="el-icon-circle-close" @click="closeUpdateWater()"></i>
       <p>修改水表配置</p>
       <table>
         <tr>
           <td>房间：</td>
-          <td>3层 301<a @click="instas9()">解除电表</a></td>
+          <td>{{updateFloorName}}层 {{activeWater.roomNum}}<a @click="deleteWater()">解除水表</a></td>
         </tr>
         <tr>
           <td>序列号：</td>
           <td>
-            <input type="text" placeholder="请输入序列号" />
+            <input type="text" placeholder="请输入序列号" v-model="activeWater.waterMeterSn"/>
           </td>
         </tr>
         <tr>
           <td>网关：</td>
           <td>
-            <el-select v-model="value8" filterable placeholder="请输入或选择">
+            <el-select v-model="activeWater.manufacturer" filterable placeholder="请输入或选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in suppliers"
+                :key="item.dataId"
+                :label="item.dataName"
+                :value="item.dataId">
               </el-option>
             </el-select>
           </td>
         </tr>
       </table>
-      <a @click="closeUpdateWater()" class="tjss">确定</a>
+      <a @click="updateWaterSure()" class="tjss">确定</a>
+    </div>
+    <!--解除水表-->
+    <div class="deleteElectricity instas2" v-show="deleteWaterModal">
+      <i class="ivu-icon ivu-icon-help-buoy"></i>
+      <p>你确定要<i>解除</i></p>
+      <p>房间<b>{{updateFloorName}}层 {{activeWater.roomNum}}</b>的水表吗?</p>
+      <a @click="deleteWaterSure">确定</a><a @click="closeDeleteWater()">取消</a>
     </div>
 
-
-
-    <!--添加网关-->
-		<!--<div class="instas10 instas4" v-show="isHide9">-->
-			<!--<i class="el-icon-circle-close" @click="instas10()"></i>-->
-			<!--<p>添加网关</p>-->
-			<!--<table>-->
-				<!--<tr>-->
-					<!--<td>楼层：</td>-->
-					<!--<td>1层</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>网关名称：</td>-->
-					<!--<td>-->
-						<!--<input type="text" placeholder="请输入网关名称" />-->
-					<!--</td>-->
-				<!--</tr>-->
-
-				<!--<tr>-->
-					<!--<td>供应商：</td>-->
-					<!--<td>-->
-						<!--<el-select v-model="value8" filterable placeholder="请输入或选择">-->
-						    <!--<el-option-->
-						      <!--v-for="item in options"-->
-						      <!--:key="item.value"-->
-						      <!--:label="item.label"-->
-						      <!--:value="item.value">-->
-						    <!--</el-option>-->
-						<!--</el-select>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>网关类型：</td>-->
-					<!--<td>-->
-						<!--<el-select v-model="value5" placeholder="请选择网关类型">-->
-						    <!--<el-option-->
-						      <!--v-for="item in options"-->
-						      <!--:key="item.value"-->
-						      <!--:label="item.label"-->
-						      <!--:value="item.value">-->
-						    <!--</el-option>-->
-						<!--</el-select>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>序列号：</td>-->
-					<!--<td>-->
-						<!--<input type="text" placeholder="请输入序列号" />-->
-					<!--</td>-->
-				<!--</tr>-->
-			<!--</table>-->
-			<!--<a @click="instas10()" class="tjss">确定</a>-->
-		<!--</div>-->
-    <!--添加网关配置-->
-		<!--<div class="instas11 instas4" v-show="isHide10">-->
-			<!--<i class="el-icon-circle-close" @click="instas11()"></i>-->
-			<!--<p>添加网关配置</p>-->
-			<!--<table>-->
-				<!--<tr>-->
-					<!--<td>楼层：</td>-->
-					<!--<td>1层<a>解除网关</a></td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>网关名称：</td>-->
-					<!--<td>-->
-						<!--<input type="text" placeholder="请输入网关名称" />-->
-					<!--</td>-->
-				<!--</tr>-->
-
-				<!--<tr>-->
-					<!--<td>供应商：</td>-->
-					<!--<td>-->
-						<!--<el-select v-model="value8" filterable placeholder="请输入或选择">-->
-						    <!--<el-option-->
-						      <!--v-for="item in options"-->
-						      <!--:key="item.value"-->
-						      <!--:label="item.label"-->
-						      <!--:value="item.value">-->
-						    <!--</el-option>-->
-						<!--</el-select>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>网关类型：</td>-->
-					<!--<td>-->
-						<!--<el-select v-model="value5" placeholder="请选择网关类型">-->
-						    <!--<el-option-->
-						      <!--v-for="item in options"-->
-						      <!--:key="item.value"-->
-						      <!--:label="item.label"-->
-						      <!--:value="item.value">-->
-						    <!--</el-option>-->
-						<!--</el-select>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--<tr>-->
-					<!--<td>序列号：</td>-->
-					<!--<td>-->
-						<!--<input type="text" placeholder="请输入序列号" />-->
-					<!--</td>-->
-				<!--</tr>-->
-			<!--</table>-->
-			<!--<a @click="instas11()" class="tjss">确定</a>-->
-		<!--</div>-->
 
 	</div>
 </template>
@@ -591,7 +469,8 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL} from '../api.js';
+  import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL,electricityTable,pushElectricity,electricityDelete,electricitUpdate,openElectricity,
+    waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl} from '../api.js';
 
     export default {
     	components:{
@@ -609,13 +488,13 @@
     			isHide4:false,
     			isHide5:false,
     			isHide6:false,
-    			isHide7:false,
+    			updateElectricity:false,
     			isHide8:false,
     			isHide9:false,
     			isHide10:false,
           isHide11:false,
           isHide12:false,
-          isHide13:false,
+          updateWaterModal:false,
     			activeName2: 'first',
           value5:"",
     			options: [{
@@ -665,14 +544,194 @@
           unFreezeUpDoorLock:false,
           activeRoomLockId:null,
           loading:false,
+
+          electricityList:[],
+          addElectricity:false,
+          electricityMeterSn:"",
+          activeElectricity:{},
+          openElectricityModal:false,
+
+
+          waterList:[],
+          addWaterModal:false,
+          waterMeterSn:"",
+          activeWater:{},
+          deleteWaterModal:false,
+          shutWaterModal:false,
+          openWaterModal:false,
 		   	}
     	},
       mounted(){
     	  this.communityId = this.$route.query.communityId;
     	  this.getIntelligenceLock();
+    	  this.getElectricityTable();
+    	  this.getWaterList();
     	  this.getSupplier();
       },
     	methods:{
+        closeModal(){
+          this.isHid = false;
+          this.temporaryPwd = false;
+          this.addDoorLockFlag = false;
+          this.isHide4 = false;
+          this.freezeUpDoorLock = false;
+          this.unFreezeUpDoorLock = false;
+          this.addElectricity = false;
+          this.updateElectricity = false;
+          this.isHide8 = false;
+          this.isHide11 = false;
+          this.openElectricityModal = false;
+          this.addWaterModal = false;
+          this.updateWaterModal = false;
+          this.deleteWaterModal = false;
+          this.shutWaterModal = false;
+          this.openWaterModal = false;
+        },
+        //获取水表列表
+        getWaterList(){
+          var that = this;
+          this.$http.post(waterTable,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var rootData = res.data.entity;
+              that.waterList = rootData.page;
+              for(var i =0;i<that.waterList.length;i++){
+                that.$set(that.waterList[i],"showTable",true);
+              }
+            }
+          })
+        },
+        //添加水表对话框
+        addWaterTo(floorName,roomNum,roomId){
+          this.isHid = !this.isHid;
+          this.addWaterModal = !this.addWaterModal;
+
+          this.floorName = floorName;
+          this.roomNum = roomNum;
+          this.activeRoomId = roomId;
+        },
+        //关闭添加水表对话框
+        closeAddWaterModal(){
+          this.isHid = !this.isHid;
+          this.addWaterModal = false;
+        },
+        //确定添加水表
+        addWaterSure(){
+          var that = this;
+          var data = {
+            roomId:this.activeRoomId,
+            manufacturer:this.doorLockSupplier,
+            waterMeterSn:this.waterMeterSn,
+          };
+          this.$http.post(addWaterUrl,qs.stringify(data)).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.addWaterModal = !that.addWaterModal;
+              that.getWaterList();
+            }
+          })
+        },
+        //打开修改水表配置对话框
+        updateWater(item,floorName){
+          this.isHid = !this.isHid;
+          this.updateWaterModal = !this.updateWaterModal;
+
+          this.activeWater = item;
+          this.updateFloorName = floorName;
+        },
+        //关闭修改水表配置对话框
+        closeUpdateWater(){
+          this.isHid = !this.isHid;
+          this.updateWaterModal = !this.updateWaterModal;
+        },
+        //确定修改水表配置
+        updateWaterSure(){
+          var that = this;
+          var data = {
+            roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,
+            roomId:this.activeWater.roomId,
+            manufacturer:this.activeWater.manufacturer,
+            waterMeterSn:this.activeWater.waterMeterSn,
+          };
+          this.$http.post(updateWaterUrl,qs.stringify(data)).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.updateWaterModal = !that.updateWaterModal;
+              that.getWaterList();
+            }
+          })
+        },
+        //打开解除水表对话框
+        deleteWater(){
+          this.updateWaterModal = false;
+          this.deleteWaterModal = true;
+        },
+        //关闭解除水表
+        closeDeleteWater(){
+          this.isHid = !this.isHid;
+          this.deleteWaterModal = false;
+        },
+        //确定解除水表
+        deleteWaterSure(){
+          var that = this;
+          this.$http.post(deleteWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.deleteWaterModal = !that.deleteWaterModal;
+              that.getWaterList();
+            }
+          })
+        },
+        shutWater(item,floorName){
+          this.activeWater = item;
+          this.updateFloorName = floorName;
+          this.isHid = !this.isHid;
+          this.shutWaterModal = !this.shutWaterModal;
+        },
+        closeShutWaterModal(){
+          this.shutWaterModal = false;
+          this.isHid = !this.isHid;
+        },
+        shutWaterSure(){
+          var that = this;
+          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = false;
+              that.shutWaterModal = false;
+              that.getWaterList();
+            }
+          })
+        },
+
+
+        openWater(item,floorName){
+          this.activeWater = item;
+          this.updateFloorName = floorName;
+          this.isHid = !this.isHid;
+          this.openWaterModal = !this.openWaterModal;
+        },
+        closeOpenWaterModal(){
+          this.openWaterModal = false;
+          this.isHid = !this.isHid;
+        },
+        openWaterSure(){
+          var that = this;
+          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = false;
+              that.shutWaterModal = false;
+              that.getWaterList();
+            }
+          })
+        },
+
+
+
+
+
+
+
+
+
         //获取智能门锁列表
         getIntelligenceLock(){
           var that = this;
@@ -690,6 +749,12 @@
         },
         hideTable(index){
           this.$set(this.doorLockList[index],"showTable",!this.doorLockList[index].showTable);
+        },
+        hideTable2(index){
+          this.$set(this.electricityList[index],"showTable",!this.electricityList[index].showTable);
+        },
+        hideTable3(index){
+          this.$set(this.waterList[index],"showTable",!this.waterList[index].showTable);
         },
         //获取供应商数据
         getSupplier(){
@@ -764,6 +829,12 @@
           this.activeDoorLock = item;
           this.updateFloorName = floorName;
         },
+        //取消解冻门锁
+        closeUnFreezeUpDoorLock(){
+          this.isHid = false;
+          this.unFreezeUpDoorLock = false;
+        },
+
         //确认修改门锁配置
         sureUpdateDoorLock(){
           var that = this;
@@ -785,6 +856,7 @@
             }
           })
         },
+        //解除门锁
         deleteDoorLock(){
           var that = this;
           this.$http.post(deleteDL,qs.stringify({roomLockId:this.activeDoorLock.roomLockId})).then(function(res){debugger
@@ -841,6 +913,153 @@
         },
 
 
+
+        //获取电表列表
+        getElectricityTable(){
+          var that = this;
+          this.$http.post(electricityTable,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var rootData = res.data.entity;
+              that.electricityList = rootData.page;
+              for(var i =0;i<that.electricityList.length;i++){
+                that.$set(that.electricityList[i],"showTable",true);
+              }
+            }
+          })
+        },
+        //打开添加电表对话框
+        addElectricityTo(floorName,roomNum,roomId){
+          this.isHid = !this.isHid;
+          this.addElectricity = !this.addElectricity;
+
+          this.floorName = floorName;
+          this.roomNum = roomNum;
+          this.activeRoomId = roomId;
+        },
+        //提交添加电表
+        addElectricitySure(){
+          var that = this;
+          var data = {
+            roomId:this.activeRoomId,
+            manufacturer:this.doorLockSupplier,
+            electricityMeterSn:this.electricityMeterSn,
+          };
+          this.$http.post(pushElectricity,qs.stringify(data)).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.addElectricity = !that.addElectricity;
+              that.getElectricityTable();
+            }
+          })
+        },
+        //修改电表配置
+        updateElectricityTo(item,floorName){
+          this.isHid = !this.isHid;
+          this.updateElectricity = !this.updateElectricity;
+
+          this.activeElectricity = item;
+          this.updateFloorName = floorName;
+        },
+        //关闭修改电表配置
+        closeUpdateElectricity(){
+          this.isHid = !this.isHid;
+          this.updateElectricity = false;
+        },
+        //确定修改电表配置
+        updateElectricitySure(){
+          var that = this;
+
+          var data = {
+            roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,
+            roomId:this.activeElectricity.roomId,
+            manufacturer:this.activeElectricity.manufacturer,
+            electricityMeterSn:this.activeElectricity.electricityMeterSn,
+          };
+          this.$http.post(electricitUpdate,qs.stringify(data)).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.updateElectricity = !that.updateElectricity;
+              that.getElectricityTable();
+            }
+          })
+        },
+        //解除电表
+        deleteElectricity(){
+
+          this.isHide8 = !this.isHide8;
+          this.addElectricity = false;
+          this.updateElectricity = !this.updateElectricity;
+        },
+        //确认解除电表
+        deleteElectricitySure(){
+          var that = this;
+          this.$http.post(electricityDelete,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = !that.isHid;
+              that.isHide8 = !that.isHide8;
+              that.getElectricityTable();
+            }
+          })
+        },
+        //取消解除电表
+        closeDeleteElectricity(){
+          this.isHid = !this.isHid;
+          this.isHide8 = false;
+        },
+        //打开关闭电表对话框
+        shutElectricity(item,floorName){
+          this.activeElectricity = item;
+          this.updateFloorName = floorName;
+          this.isHid = !this.isHid;
+          this.isHide11 = !this.isHide11;
+        },
+        //取消关闭电表
+        closeShutElectricity(){
+          this.isHid = false
+          this.isHide11 = false;
+        },
+        //确定关闭电表
+        shutElectricitySure(){
+          var that = this;
+          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = false;
+              that.isHide11 = false;
+              that.getElectricityTable();
+            }
+          })
+        },
+        //打开开启电表弹框
+        openToElectricity(item,floorName){
+          this.isHid = !this.isHid;
+          this.openElectricityModal = true;
+          this.activeElectricity = item;
+          this.updateFloorName = floorName;
+        },
+        //确定开启电表
+        openElectricitySure(){
+          var that = this;
+          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.isHid = false;
+              that.openElectricityModal = false;
+              that.getElectricityTable();
+            }
+          })
+        },
+        closeOpenElectricity(){
+          this.isHid = false;
+          this.openElectricityModal = false;
+        },
+
+
+
+
+
+
+
+
+
     		instas:function(){
     			this.isHid = !this.isHid;
     			this.isHide = !this.isHide;
@@ -863,20 +1082,9 @@
     			this.isHide5 = !this.isHide5;
     			this.isHid2 = !this.isHid2;
     		},
-    		adddian:function(){
-    			this.isHid = !this.isHid;
-    			this.isHide6 = !this.isHide6;
-    		},
-    		adddian2:function(){
-    			this.isHid = !this.isHid;
-    			this.isHide7 = !this.isHide7;
-    		},
-    		instas9:function(){
-    			this.isHid = false;
-    			this.isHide7 = false;
-    			this.isHide8 = !this.isHide8;
-    			this.isHid2 = !this.isHid2;
-    		},
+
+
+
     		instas10:function(){
     			this.isHid = !this.isHid;
     			this.isHide9 = !this.isHide9;
@@ -885,39 +1093,18 @@
     			this.isHid = !this.isHid;
     			this.isHide10 = !this.isHide10;
     		},
-        instas15(){
-          this.isHid = !this.isHid;
-          this.isHide11 = !this.isHide11;
-        },
-        closeshui1(){debugger
-          this.isHid = !this.isHid;
-          this.isHide11 = !this.isHide11;
-        },
+
+
         instas16(){
           this.isHid = !this.isHid;
           this.isHide12 = !this.isHide12;
         },
-        updateWater(){
-          this.isHid = !this.isHid;
-          this.isHide13 = !this.isHide13;
-        },
-        closeUpdateWater(){
-          this.isHid = !this.isHid;
-          this.isHide13 = !this.isHide13;
-        },
+
     		handleClick(tab, event) {
 		        console.log(tab, event);
 		    },
 
 
-        closeModal(){
-          this.isHid = false;
-          this.temporaryPwd = false;
-          this.addDoorLockFlag = false;
-          this.isHide4 = false;
-          this.freezeUpDoorLock = false;
-          this.unFreezeUpDoorLock = false;
-        }
     	},
       filters:{
         timefilter(value,format){

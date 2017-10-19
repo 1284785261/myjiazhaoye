@@ -7,7 +7,7 @@ const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
-//const host3 = 'http://192.168.20.114:8081';//周昭滨
+//const host3 = 'http://192.168.26.232:8081';//周昭滨
 
 //用户登录接口
 const login='/cxkj-center/apis/user/CxkjCenterLogin100002';
@@ -501,8 +501,23 @@ export const updateDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUp
 export const deleteDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationDelete200142';//解除门锁
 export const unLockDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
 export const doorLockNotes =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationRecord200144';//开锁记录
+export const electricityTable =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityTable200137';//电表管理
+export const pushElectricity =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityAdd200145';//添加电表
+export const electricityDelete =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityDelete200155';//解除电表
+export const electricitUpdate =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityUpdate200156';//修改电表
+export const openElectricity =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityTurnOff200157';//关闭开启电表
+export const sendAllToCustomer =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSendAllToCustomer300119';//发送全部水电账单给客户
+
+
+export const waterTable =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTable200159';//水表管理
+export const addWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterAdd200160';//添加水表
+export const updateWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterUpdate200161';//修改水表
+export const deleteWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterDelete200162';//解除水表
+export const openWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTrunOff200163';//开启关闭水表
+
+
 
 //看房预约
-export const appointmentList =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentList300106';//看房预约列表
-export const feedBack =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentFeedBack300108';//确认接待
+export const appointmentList =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTable200159';//看房预约列表
+export const feedBack =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterAdd200160';//确认接待
 export const receive =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjReceiveCommunityAppointment300109';//我要接待
