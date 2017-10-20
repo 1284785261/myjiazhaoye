@@ -438,7 +438,7 @@
 
       },
       openMap(){
-        window.open("http://api.map.baidu.com/lbsapi/getpoint/index.html","width=300,height=200")
+        window.open("http://api.map.baidu.com/lbsapi/getpoint/index.html","_blank","width=400,height=500,,scrollbars=no,location=no,top=300,left=400");
       },
       closeWarningModal() {
         this.warningModal = false;
