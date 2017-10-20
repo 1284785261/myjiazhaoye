@@ -36,9 +36,14 @@
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
-						<input type="text"  placeholder="搜索收款对象/手机号" class="mv"/>
+						<div class="form-search">
+							<i class="iconfont icon-sousuo"></i>
+							<Input v-model="keyWord" placeholder="搜索收款对象/手机号"></Input>
+							<input type="button" value="搜索" @click="handleCurrentChange()">
+						</div>
+						<!--<input type="text"  placeholder="搜索收款对象/手机号" class="mv"/>
 						<i class="el-icon-search"></i>
-						<a class="sa">搜索</a>
+						<a class="sa">搜索</a>-->
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -193,4 +198,53 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
+  #repairs{
+  	.ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+	}
+  	.form-search {
+			position: relative;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 50px;
+			display: inline-block;
+			.ivu-input-wrapper {
+				width: auto;
+			}
+			input[type="text"] {
+				width: 208px;
+				height: 36px;
+				border-radius: 0;
+				padding-left: 30px;
+			}
+			i {
+				position: absolute;
+				left: 5px;
+				top: 7px;
+				z-index: 99;
+				font-size: 18px;
+				color: #999;
+			}
+			input[type=button] {
+				width: 70px;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				background-color: #038be2;
+				color: #fff;
+				border: none;
+				position: relative;
+				left: -5px;
+				top: 2px;
+			}
+		}
+  }
 </style>

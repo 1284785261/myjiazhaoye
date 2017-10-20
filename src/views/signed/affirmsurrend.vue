@@ -307,7 +307,13 @@
 				}
 			},
 			des(val) {
-				return parseFloat(val).toFixed(2);
+				if(val >= 0){
+					return parseFloat(val).toFixed(2);
+				}
+				else{
+					return 0;
+				}
+				
 			}
 		},
 		methods: {
@@ -431,7 +437,7 @@
 
 						}, 2000);
 					}else{
-						this.warningMessage = response.data.content;
+						this.warningMessage = res.data.content;
 						this.warningModal = true;
 					}
 				}).catch((err) => {
@@ -488,7 +494,7 @@
 
 						}, 2000);
 					}else{
-						this.warningMessage = response.data.content;
+						this.warningMessage = res.data.content;
 						this.warningModal = true;
 					}
 				}).catch((err) => {

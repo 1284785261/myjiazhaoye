@@ -19,7 +19,7 @@
                     	<a class="upload" href="javascript:void(0);"  v-loading.body="loading">
                     		<input type="file" class="upfile" @change="loadfile" accept="image/png,image/jpg">
                     	
-                    		<img :src=imgPath1 />
+                    		<img :src=imgPath1 v-if="imgPath1" />
                     		<span class="iconfont icon-jiahao1" v-if="chen"></span>
                     		<span class="iconfont icon-jiahao2" v-if="chen"></span>
                     		<span class="jiahao3" v-if="chen">上传照片</span>
@@ -36,10 +36,12 @@
 		        			<span>所属社区：</span><span v-for="item in user.cxkjCommunityList">{{item.communityName}}</span>
 		        		</li>
 		        		<li>
-		        			<span>所在部门：</span><span>{{user.departmentName}}</span>
+		        			<span>所在部门：</span><span v-if="user.departmentName">{{user.departmentName}}</span>
+		        			<span v-else>无</span>
 		        		</li>
 		        		<li>
-		        			<span>部门职位：</span><span>{{user.officePosition}}</span>
+		        			<span>部门职位：</span><span v-if="user.officePosition">{{user.officePosition}}</span>
+		        			<span v-else>无</span>
 		        		</li>
 		        	</ul>
 		        	
@@ -103,7 +105,7 @@
 	    		vm.user = null;
 	    		this.$http.get(hostAuthor)
 	    		.then((response)=>{
-	    			//console.log(response);
+	    			console.log(response);
 	    			if(response.status == 200 && response.data.code == 10000){
 		    			vm.user = response.data.entity;
 		    			sessionStorage.setItem("phone",this.user.userPhone);

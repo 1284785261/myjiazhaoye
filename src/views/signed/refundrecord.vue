@@ -23,13 +23,18 @@
 						      :value="item.dataname">
 						    </el-option>
 					 	 </el-select>
-						<span class="bsc">看房时间：</span>
+						<span class="bsc">退款时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
-						<input type="text"  placeholder="搜索联系人/手机号" class="mv"/>
+						<div class="form-search">
+							<i class="iconfont icon-sousuo"></i>
+							<Input v-model="keyWord" placeholder="搜索退款对象/手机号"></Input>
+							<input type="button" value="搜索" @click="handle">
+						</div>
+						<!--<input type="text"  placeholder="搜索联系人/手机号" class="mv"/>
 						<i class="el-icon-search"></i>
-						<a class="sa">搜索</a>
+						<a class="sa">搜索</a>-->
 		    		</div>
 		    		<div v-if="data != null">
 			    		<table>
@@ -45,13 +50,13 @@
 			    				
 			    			</thead>
 			    			<tr v-for="item in data">
-			    				<td>{{item.refundId}}</td>
+			    				<td>{{item.refundSn}}</td>
 			    				<td>{{item.createTime | time}}</td>
 			    				<td>{{item.userName}}</td>
 			    				<td>{{item.userPhone}}</td>
 			    				<td style="color: red;">{{item.refundMoney | Money}}</td>
 			    				<td>{{item.refundStatus | Status}}</td>
-			    				<td>未分配</td>
+			    				<td>{{item.refundInfo}}</td>
 			    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:item.refundId}}">查看详情</router-link></td>
 			    			</tr>
 			    		</table>
@@ -82,7 +87,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostRefund } from '../api.js';
+    import { hostRefund,refundHandle } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -95,6 +100,9 @@
 				currentPage3: 1,
 				radio: '1',
 				options8: [{
+					dataname:'全部',
+					id:-1
+				},{
 					dataname:'待审核',
 					id:0
 				},{
@@ -113,7 +121,10 @@
 		        data:null,
 		        totalNum:'1',
 		        pageSize:10,
-		        State:''
+		        State:'',
+		        keyWord:'',
+		        start:'',
+		        over:''
 			}
     	},
     	mounted(){
@@ -143,18 +154,62 @@
     		handleCurrentChange(val) {
 				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
-				this.datas();
+				this.handle();
 			},
     		datas(){
+    			let param = new FormData();
     			let pageNum = this.pageNum;
-    			axios.post(hostRefund,
-    				qs.stringify({
-    					communityId:this.communityId,
-    					pageNum:pageNum,
-    					pageSize:this.pageSize
-    				})
-    			)
-    			.then((response)=>{
+    			if(this.State != '' && this.State != -1){
+    				param.append('refundStatus',this.State);
+    			}
+    			if(this.start != ''){
+    				this.start = new Date(this.start).Format('yyyy-MM-dd');
+    				param.append('startDate',this.start);
+    			}
+    			if(this.over != ''){
+    				this.over = new Date(this.over).Format('yyyy-MM-dd');
+    				param.append('endDate',this.over);
+    			}
+    			if(this.keyWord != ''){
+    				param.append('keyWord',this.keyWord);
+    			}
+    			param.append('communityId',this.communityId);
+    			param.append('pageNum',pageNum);
+    			param.append('pageSize',this.pageSize);
+    			
+    			axios.post(refundHandle,param).then((response)=>{
+    				console.log(response);
+    				if(response.data.code == 10000 && response.status == 200){
+    					this.data = response.data.result.refundList;
+    					this.totalNum = response.data.result.totalNum;
+    				}
+    			})
+    			.catch((error)=>{
+    				console.log(error);
+    			})
+    		},
+    		handle(){
+    			let param = new FormData();
+    			let pageNum = this.pageNum;
+    			if(this.State != '' && this.State != -1){
+    				param.append('refundStatus',this.State);
+    			}
+    			if(this.start != ''){
+    				this.start = new Date(this.start).Format('yyyy-MM-dd');
+    				param.append('startDate',this.start);
+    			}
+    			if(this.over != ''){
+    				this.over = new Date(this.over).Format('yyyy-MM-dd');
+    				param.append('endDate',this.over);
+    			}
+    			if(this.keyWord != ''){
+    				param.append('keyWord',this.keyWord);
+    			}
+    			param.append('communityId',this.communityId);
+    			param.append('pageNum',pageNum);
+    			param.append('pageSize',this.pageSize);
+    			
+    			axios.post(refundHandle,param).then((response)=>{
     				console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.data = response.data.result.refundList;
@@ -166,7 +221,7 @@
     			})
     		},
     		sectte(value){
-    			this.State = this.options8[this.options8.findIndex(item => item.dataname == val)].id;
+    			this.State = this.options8[this.options8.findIndex(item => item.dataname == value)].id;
     		}
     	},
     
@@ -176,4 +231,53 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
+  #refundrecord{
+  	.ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+	}
+  	.form-search {
+			position: relative;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 50px;
+			display: inline-block;
+			.ivu-input-wrapper {
+				width: auto;
+			}
+			input[type="text"] {
+				width: 208px;
+				height: 36px;
+				border-radius: 0;
+				padding-left: 30px;
+			}
+			i {
+				position: absolute;
+				left: 5px;
+				top: 7px;
+				z-index: 99;
+				font-size: 18px;
+				color: #999;
+			}
+			input[type=button] {
+				width: 70px;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				background-color: #038be2;
+				color: #fff;
+				border: none;
+				position: relative;
+				left: -5px;
+				top: 2px;
+			}
+		}
+  }
 </style>

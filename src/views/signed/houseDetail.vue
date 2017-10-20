@@ -70,7 +70,7 @@
 		    				<td>
 		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
 		    					<p v-else>押金：无<span>租金：无</span></p>
-		    					<p >预存：300.00元<span v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost}}</span>
+		    					<p >预存：300.00元<span v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost | cyclePayMoney}}</span>
 		    						<span v-else> 服务费：无</span>
 		    					</p>
 		    				</td>
@@ -85,19 +85,25 @@
 		    				</td>
 		    				<td>
 		    					<p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
-		    					<p v-else></p>
+		    					<p v-else>租金账单：无</p>
 		    					<p v-if="Datas.cxkjWaterEnergyBill != null">水电账单{{Datas.cxkjWaterEnergyBill.payStatus | payStatus}}</p>
-		    					<p v-else></p>
+		    					<p v-else>水电账单：无</p>
 		    				</td>
 		    				<td>
 		    					<a>查看租金账单</a>
 		    					<a>查看水电账单</a>
-		    					<span>向用户发送交费提醒(5)</span>
+		    					<span style="color: red;">向用户发送交费提醒(5)</span>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>门锁状态：</td>
-		    				<td><span>在线</span><span>序列号：2153135131313</span></td>
+		    				<td v-if="roomLockWaterElect"><span v-if="roomLockWaterElect.lockStatus">{{roomLockWaterElect.lockStatus | Status}}</span>
+		    					<span v-else>暂无</span>
+		    					<span>序列号：{{roomLockWaterElect.sn}}</span>
+		    				</td>
+		    				<td v-else>
+		    					未配置
+		    				</td>
 		    				<td rowspan="3">
 		    					<router-link to="/signed/houseRecord">开门记录</router-link>
 		    					<a>冻结</a>
@@ -106,19 +112,26 @@
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
-		    				<td>
-		    					<span>在线</span><span>序列号：2153135131313</span>
-		    					<p>按人计费<b>50.00</b>元/人</p>
+		    				<td v-if="roomLockWaterElect">
+		    					<span >{{roomLockWaterElect.waterStatus | Status2}}</span>
+		    					<span>序列号：{{roomLockWaterElect.waterMeterSn}}</span>
+		    					<p>{{roomLockWaterElect.waterType | type}} <b> {{roomLockWaterElect.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
-		    				
+		    				<td v-else>
+		    					<span>暂无</span>
+		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>电表状态：</td>
-		    				<td>
-		    					<span>在线</span><span>序列号：2153135131313</span>
-		    					<p>按量计费<b>2.20</b>元/度</p>
+		    				<td v-if="roomLockWaterElect">
+		    					<span v-if="roomLockWaterElect.electricityStatus">{{roomLockWaterElect.electricityStatus | Status2}}</span>
+		    					<span v-else>暂无</span>
+		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
+		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
 		    				</td>
-		    				
+		    				<td v-else>
+		    					<span>暂无</span>
+		    				</td>
 		    			</tr>
 		    		</table>
 		    		
@@ -195,15 +208,54 @@
 				warningModal: false,
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
+				roomLockWaterElect:null
 		   	}
     	},
     	filters:{
+    		Status(val){
+    			if(val == 1){
+    				return '在线'
+    			}
+    			else if(val == 2){
+    				return '离线'
+    			}
+    			else if(val == 3){
+    				return '关闭'
+    			}
+    		},
+    		Status2(val){
+    			if(val == 1){
+    				return '在线'
+    			}
+    			else if(val == 2){
+    				return '离线'
+    			}
+    			else if(val == 3){
+    				return '关闭'
+    			}
+    		},
+    		Price(val){
+    			if(val){
+    				return parseFloat(val).toFixed(2);
+    			}else{
+    				return 0;
+    			}
+    			
+    		},
+    		type(val){
+    			if(val == 1){
+    				return '按用量'
+    			}
+    			else if(val == 2){
+    				return '按合租人数'
+    			}
+    		},
     		deposit(val){
     			if(val == null){
     				return '无'
     			}
     			else if(val !=null){
-    				return val.toFixed(2)+'元';
+    				return parseFloat(val).toFixed(2)+'元';
     			}
     		},
     		cyclePayMoney(val){
@@ -211,7 +263,7 @@
     				return '无'
     			}
     			else if(val !=null){
-    				return val.toFixed(2)+'元';
+    				return parseFloat(val).toFixed(2)+'元';
     			}
     		},
     		beginDate(val){
@@ -230,7 +282,7 @@
     		},
     		serviceCost(val){
     			if(val != null){
-    				return val.toFixed(2)+'元';
+    				return parseFloat(val).toFixed(2)+'元';
     			}
     		},
     		contractState(val){
@@ -293,7 +345,7 @@
     		},
     		roomRent(val){
     			if(val != null){
-    				return val.toFixed(2)+'元';
+    				return parseFloat(val).toFixed(2)+'元';
     			}
     		}
     	},
@@ -316,6 +368,11 @@
     				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
     					this.Datas = response.data.entity;
+    					if(this.Datas.roomLockWaterElect){
+    						this.roomLockWaterElect = this.Datas.roomLockWaterElect;
+    					}
+    					
+    					console.log(this.roomLockWaterElect);
     				}
     			})
     			.catch((error) => {

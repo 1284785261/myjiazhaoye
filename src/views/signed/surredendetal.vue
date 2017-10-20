@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="surrendetal" v-if="ThrowLease.isOffice == 0 && ThrowLease != null">
 		    		<div class="surrendetal1">
-		    			<Icon type="android-home"></Icon><p>{{ThrowLease.isOffice | isOffce}}{{ThrowLease.roomInfo}}</p>
+		    			<Icon type="android-home"></Icon><p>{{ThrowLease.isOffice | isOfce}}{{ThrowLease.roomInfo}}</p>
 		    			<ul>
 		    				<li style="margin-left: 66px;"><span>承租人：{{ThrowLease.userName}}</span></li>
 							<li><span>联系电话：{{ThrowLease.userPhone}}</span></li>
@@ -78,7 +78,7 @@
 		    	</div>
 		    	<div id="surrendetal" v-else-if="ThrowLease.isOffice == 1 && ThrowLease != null">
 		    		<div class="surrendetal1">
-		    			<Icon type="android-home"></Icon><p>{{ThrowLease.isOffice | isOffce}}{{ThrowLease.roomInfo}}</p>
+		    			<Icon type="android-home"></Icon><p>{{ThrowLease.isOffice | isOfce}}{{ThrowLease.roomInfo}}</p>
 		    			<ul>
 		    				<li style="margin-left: 66px;"><span>联系人：{{ThrowLease.userName}}</span></li>
 							<li><span>联系电话：{{ThrowLease.userPhone}}</span></li>
@@ -162,13 +162,14 @@
     	},
     	mounted(){
 			this.throwLeaseId = this.$route.query.id;
+			console.log(this.throwLeaseId);
 			this.datas();
     	},
     	filters:{
     		time(val) {
 				return new Date(val).Format('yyyy.MM.dd');
 			},
-   			isOffce(val) {
+   			isOfce(val) {
 				if(val == 0) {
 					return '公寓'
 				} else if(val == 1) {
@@ -189,10 +190,19 @@
 					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.ThrowLease = res.data.result;
-						this.refund = JSON.parse(this.ThrowLease.refundableMaterialsInfo);
-						this.OtherInfo = JSON.parse(this.ThrowLease.refundableOtherInfo);
-						this.refundableWaterInfo = JSON.parse(this.ThrowLease.refundableWaterInfo);
-						this.refundableEnergyInfo = JSON.parse(this.ThrowLease.refundableEnergyInfo);
+						if(this.ThrowLease.refundableMaterialsInfo){
+							this.refund = JSON.parse(this.ThrowLease.refundableMaterialsInfo);
+						}
+						if(this.ThrowLease.refundableOtherInfo){
+							this.OtherInfo = JSON.parse(this.ThrowLease.refundableOtherInfo);
+						}
+						if(this.ThrowLease.refundableWaterInfo){
+							this.refundableWaterInfo = JSON.parse(this.ThrowLease.refundableWaterInfo);
+						}
+						if(this.ThrowLease.refundableEnergyInfo){
+							this.refundableEnergyInfo = JSON.parse(this.ThrowLease.refundableEnergyInfo);
+						}
+						
 						console.log(this.refundableEnergyInfo);
 					}
 				}).catch((err) => {

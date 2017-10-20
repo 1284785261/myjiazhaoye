@@ -33,7 +33,7 @@
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list">
 							<li>
-								<router-link to="/signed/housesubscribe">看房预约</router-link>
+								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">看房预约</router-link>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:selectModel1}}">公寓签约</router-link>
@@ -116,7 +116,7 @@
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list">
 							<li>
-								<router-link to="/signed/housesubscribe">看房预约</router-link>
+								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId}}">看房预约</router-link>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>

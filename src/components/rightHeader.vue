@@ -44,7 +44,7 @@
 				userBars: [{
 					icon: "iconfont icon-gerenxinxi1",
 					userContent: "个人信息",
-					path: "/personal/communityPersonal"
+					path: "/apartment/communityPersonal"
 				}, {
 					icon: "iconfont icon-yeji",
 					userContent: "我的业绩",

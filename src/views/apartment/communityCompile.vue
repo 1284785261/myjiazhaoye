@@ -149,8 +149,6 @@
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				fullscreenLoading: false,
-				param: null,
-				param2: null,
 				pdfName: [],
 				province: '', //省
 				city: '', //市
@@ -186,8 +184,6 @@
 		},
 		mounted() {
       		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
-      		this.param = new FormData(); //创建form对象
- 			this.param2 = new FormData(); //创建form对象
 			if(this.$route.query.id){
 				this.communityId = this.$route.query.id;
 				this.befor();
@@ -274,47 +270,49 @@
 			Complie() {
 				let vm = this
 				console.log(this.pdfName);
+				let param = new FormData(); //创建form对象
 				vm.communityContract = this.pdfName.join(',');
 				vm.disabled = false;
-				console.log(vm.communityContract);
-//				console.log(vm.communityOpeningDate)
-//				console.log(vm.communityPhone)
-//				console.log(vm.communityContractNum)
-//				console.log(vm.communityLeaseBegin)
-//				console.log(vm.communityLeaseEnd)
-//				console.log(vm.communityFreeLeaseBegin)
-//				console.log(vm.communityFreeLeaseEnd)
-				console.log(vm.areaId)
-				console.log(vm.communityAddress)
-				console.log(vm.communityType)
-				console.log(vm.parentId)
-				console.log(vm.areas)
+				
 				this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
 				this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
 				this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
 				this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
 				this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
-				this.param.append("communityName", vm.communityName);
-				this.param.append("communityProvince", vm.areaId);
-				this.param.append("communityCity", vm.parentId);
-				this.param.append("communityDistrict", vm.areas);
-				this.param.append("communityAddress", vm.communityAddress);
-				this.param.append("communityOpeningDate", vm.communityOpeningDate);
-				this.param.append("communityType", vm.communityType);
-				this.param.append("communityPhone", vm.communityPhone);
-				this.param.append("communityContractNum", vm.communityContractNum);
-				this.param.append("communityLeaseBegin", vm.communityLeaseBegin);
-				this.param.append("communityLeaseEnd", vm.communityLeaseEnd);
-				this.param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
-				this.param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-				this.param.append('communityContract',vm.communityContract)
+				console.log(vm.communityContract);
+				console.log(vm.communityOpeningDate)
+				console.log(vm.communityPhone)
+				console.log(vm.communityContractNum)
+				console.log(vm.communityLeaseBegin)
+				console.log(vm.communityLeaseEnd)
+				console.log(vm.communityFreeLeaseBegin)
+				console.log(vm.communityFreeLeaseEnd)
+				console.log(vm.areaId)
+				console.log(vm.communityAddress)
+				console.log(vm.communityType)
+				console.log(vm.parentId)
+				console.log(vm.areas)
+				param.append("communityName", vm.communityName);
+				param.append("communityProvince", vm.areaId);
+				param.append("communityCity", vm.parentId);
+				param.append("communityDistrict", vm.areas);
+				param.append("communityAddress", vm.communityAddress);
+				param.append("communityOpeningDate", vm.communityOpeningDate);
+				param.append("communityType", vm.communityType);
+				param.append("communityPhone", vm.communityPhone);
+				param.append("communityContractNum", vm.communityContractNum);
+				param.append("communityLeaseBegin", vm.communityLeaseBegin);
+				param.append("communityLeaseEnd", vm.communityLeaseEnd);
+				param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
+				param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
+				param.append('communityContract',vm.communityContract)
 				this.fullscreenLoading = true;
 				if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
 					this.fullscreenLoading = false;
 					this.warningMessage = '信息填入不完整，请补充完信息';
 					this.warningModal = true;
 				} else {
-					this.$http.post(hostComplie, vm.param).then(res => {
+					this.$http.post(hostComplie, param).then(res => {
 
 							if(res.status == 200 && res.data.code == 10000) {
 								this.successMessage = '添加成功';
@@ -322,7 +320,7 @@
 								setTimeout(() => {
 									this.successModal = false;
 									this.fullscreenLoading = false;
-									vm.disabled = true;
+									this.disabled = true;
 									vm.$router.push('/apartment/communityManagement');
 								}, 2000);
 
@@ -338,10 +336,12 @@
 							this.warningModal = true;
 						})
 				}
+				
 			},
 			Complie2() {
 				let vm = this
 				vm.disabled2 = false;
+				let param2 = new FormData(); //创建form对象
 				//console.log(this.pdfName);
 				if(vm.communityId != ''){
 					vm.communityContract = this.pdfName.join(',');
@@ -364,28 +364,28 @@
 					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
 					this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
 					this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
-					this.param2.append("communityId",vm.communityId);
-					this.param2.append("communityName", vm.communityName);
-					this.param2.append("communityProvince", vm.areaId);
-					this.param2.append("communityCity", vm.parentId);
-					this.param2.append("communityDistrict", vm.areas);
-					this.param2.append("communityAddress", vm.communityAddress);
-					this.param2.append("communityOpeningDate", vm.communityOpeningDate);
-					this.param2.append("communityType", vm.communityType);
-					this.param2.append("communityPhone", vm.communityPhone);
-					this.param2.append("communityContractNum", vm.communityContractNum);
-					this.param2.append("communityLeaseBegin", vm.communityLeaseBegin);
-					this.param2.append("communityLeaseEnd", vm.communityLeaseEnd);
-					this.param2.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
-					this.param2.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-					this.param2.append('communityContract',vm.communityContract)
-					this.fullscreenLoading = true;
+					param2.append("communityId",vm.communityId);
+					param2.append("communityName", vm.communityName);
+					param2.append("communityProvince", vm.areaId);
+					param2.append("communityCity", vm.parentId);
+					param2.append("communityDistrict", vm.areas);
+					param2.append("communityAddress", vm.communityAddress);
+					param2.append("communityOpeningDate", vm.communityOpeningDate);
+					param2.append("communityType", vm.communityType);
+					param2.append("communityPhone", vm.communityPhone);
+					param2.append("communityContractNum", vm.communityContractNum);
+					param2.append("communityLeaseBegin", vm.communityLeaseBegin);
+					param2.append("communityLeaseEnd", vm.communityLeaseEnd);
+					param2.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
+					param2.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
+					param2.append('communityContract',vm.communityContract)
+					fullscreenLoading = true;
 					if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '') {
 						this.fullscreenLoading = false;
 						this.warningMessage = '修改信息不完整，请补充完信息';
 						this.warningModal = true;
 					} else {
-					this.$http.post(hostaddComplie, vm.param2).then(res => {
+					this.$http.post(hostaddComplie, param2).then(res => {
 							console.log(res.data)
 							if(res.status == 200 && res.data.code == 10000) {
 								this.successMessage = '修改成功';
@@ -505,4 +505,17 @@
 <style lang="scss" rel="stylesheet/scss">
 	@import '../../sass/base/_mixin.scss';
 	@import '../../sass/base/_public.scss';
+	.message-tis{
+		.ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+		}
+	}
 </style>

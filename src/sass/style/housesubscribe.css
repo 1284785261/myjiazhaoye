@@ -208,8 +208,8 @@
 #housesubscrib .popup table:nth-child(6){
 	position: absolute;
 	left: 59px;
-    bottom: 32px;
-	line-height: 32px;
+    top: 346px;
+	line-height: 25px;
 	color: #000;
 }
 #housesubscrib .popup div span:nth-child(1){

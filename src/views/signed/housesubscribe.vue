@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>看房预约</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Names}}</span>
 				</div>
 				<div id="housesubscribe">
 					<div class="housesubscribe1">
@@ -56,9 +56,9 @@
 							<td>
 								<a v-if="item.appointmentStatus ==0" @click="receive(item.appointmentId)">我要接待</a>
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
-								<a v-if="item.appointmentStatus ==1">立即签约</a>
-								<a v-if="item.appointmentStatus ==3">查看合同</a>
-								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3">查看详情</a>
+								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:Names}}" v-if="item.appointmentStatus ==1">立即签约</router-link>
+								<router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:item.isOffice}}"  v-if="item.appointmentStatus == 3" class="cha">查看合同</router-link>
+								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3" @click="adddian2(item.appointmentId)">查看详情</a>
 							</td>
 						</tr>
 					</table>
@@ -96,53 +96,68 @@
 			</table>
 			<a @click="sureReception()" class="tjss">确定</a>
 		</div>
-		<div class="popup" v-show="ishide3">
-			<i class="el-icon-circle-close" @click="adddian2"></i>
+		<div class="popup" v-show="ishide3" v-if="ListDatadetail != {}">
+			<i class="el-icon-circle-close" @click="closs"></i>
 			<p>预约详情</p>
 			<div>
-				<span>2017年5月18日</span>
-				<span>已签约</span>
+				<span>{{ListDatadetail.createTime | timefilter("yyyy-MM-dd hh:mm")}}</span>
+				
+				<span v-if="ListDatadetail.appointmentStatus == 2" style="color: red;">{{ListDatadetail.appointmentStatus | Status}}</span>
+				<span v-else>{{ListDatadetail.appointmentStatus | Status}}</span>
 			</div>
 			<table>
 				<tr>
 					<td>联系人：</td>
-					<td>欧阳小溪</td>
+					<td>{{ListDatadetail.userName}}</td>
 				</tr>
 				<tr>
 					<td>联系电话：</td>
-					<td>1564651651
-						<Icon type="ios-telephone"></Icon>
+					<td>{{ListDatadetail.userPhone}}
+						<Icon type="ios-telephone" v-if="ListDatadetail.userPhone"></Icon>
 					</td>
 				</tr>
 				<tr>
 					<td>已选户型：</td>
-					<td>标准大标间</td>
+					<td>{{ListDatadetail.buildingType}}</td>
 				</tr>
 				<tr>
 					<td>用户留言：</td>
-					<td>欧阳小溪</td>
+					<td>{{ListDatadetail.userWords}}</td>
 				</tr>
 				<tr>
 					<td>预约看房时间：</td>
-					<td>2017-08-15 </td>
+					<td>{{ListDatadetail.appointmentDate | timefilter("yyyy-MM-dd hh:mm")}}</td>
 				</tr>
 			</table>
 			<span class="xuxian"></span>
 			<table>
-				<tr>
+				<tr v-if="ListDatadetail.appointmentStatus">
 					<td>接待管家：</td>
-					<td>1111</td>
+					<td>{{ListDatadetail.managerUserName}}</td>
 				</tr>
-				<tr>
+				<tr style="color: #038BE2;" v-if="ListDatadetail.appointmentStatus == 3">
 					<td>已签约：</td>
-					<td>1111 201</td>
+					<td>公寓 {{ListDatadetail.signBuilding}}</td>
 				</tr>
-				<tr>
+				<tr v-else>
+					<td>反馈时间：</td>
+					<td>{{ListDatadetail.feedBackTime}}</td>
+				</tr>
+				<tr v-if="ListDatadetail.appointmentStatus == 3">
 					<td>签约时间：</td>
-					<td>1111</td>
+					<td>{{ListDatadetail.signTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+				</tr>
+				<tr v-else>
+					<td>用户意向：</td>
+					<td style="color: red;">{{ListDatadetail.userIntention}}</td>
+				</tr>
+				<tr v-if="ListDatadetail.appointmentStatus != 3">
+					<td>原因：</td>
+					<td style="color: red;">{{ListDatadetail.reason}}</td>
 				</tr>
 			</table>
-			<a class="cha">查看合同</a>
+			<router-link :to="{name:'contractDetail',query:{contractSignId:ListDatadetail.signId,isOffice:0}}" class="cha" v-if="ListDatadetail.appointmentStatus == 3">查看合同</router-link>
+			<!--<a class="cha" v-if="ListDatadetail.appointmentStatus == 3">查看合同</a>-->
 		</div>
 	</div>
 </template>
@@ -154,7 +169,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import successModal from '../../components/successModal.vue';
 	import axios from 'axios';
-	import { hostHousehold, appointmentList, feedBack, receive } from '../api.js';
+	import { hostHousehold, appointmentList, feedBack, receive,hostAppointment } from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -184,9 +199,14 @@
 				successMessage: "接待成功!",
 				successModal: false,
 				activePage: 1,
+				communityId:'',
+				Names:'',
+				ListDatadetail:{}
 			}
 		},
 		mounted() {
+			this.communityId = this.$route.query.communityId;
+			this.Names = this.$route.query.Name;
 			this.getAppointmentList({
 				pageNum: 1
 			});
@@ -198,11 +218,12 @@
 						params: data
 					})
 					.then(function(res) {
-						debugger
+//						debugger
 						if(res.status == 200 && res.data.code == 10000) {
 							var pageBean = res.data.pageBean;
 							that.appointmentListData = pageBean.page;
 							that.appointmentTotalNum = pageBean.totalNum;
+							console.log(that.appointmentListData);
 						}
 						if(res.data.code == 10008) {
 							that.appointmentListData = [];
@@ -212,8 +233,9 @@
 			},
 			reception(appointmentId) {
 				this.appointmentId = appointmentId
-				this.ishide = !this.ishide;
-				this.ishide2 = !this.ishide2;
+				this.ishide = true;
+				this.ishide2 = true;
+				this.getAppointmentList();
 			},
 			sureReception() {
 				var that = this;
@@ -223,7 +245,7 @@
 						userIntention: this.userIntention
 					}))
 					.then(function(res) {
-						debugger
+//						debugger
 						if(res.status == 200 && res.data.code == 10000) {
 							that.ishide = !that.ishide;
 							that.ishide2 = !that.ishide2;
@@ -231,6 +253,7 @@
 							that.successModal = true;
 							setTimeout(function() {
 								that.successModal = false;
+								this.getAppointmentList();
 							}, 1000);
 							that.handleCurrentChange({
 								pageNum: that.activePage
@@ -254,6 +277,7 @@
 							that.successModal = true;
 							setTimeout(function() {
 								that.successModal = false;
+								this.getAppointmentList();
 							}, 1000);
 							that.handleCurrentChange({
 								pageNum: that.activePage
@@ -262,7 +286,24 @@
 					})
 			},
 
-			adddian2() {
+			adddian2(Id) {
+				this.ishide = !this.ishide;
+				this.ishide3 = !this.ishide3;
+				//console.log(Id);
+				axios.post(hostAppointment,
+					qs.stringify({
+						appointmentId:Id
+					})
+				).then((res)=>{
+					console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.ListDatadetail = res.data.entity;
+					}
+				}).catch((err)=>{
+					console.log(err);
+				})
+			},
+			closs(){
 				this.ishide = !this.ishide;
 				this.ishide3 = !this.ishide3;
 			},
@@ -295,6 +336,19 @@
 			timefilter(value, format) {
 				if(value) {
 					return new Date(value).Format(format)
+				}
+			},
+			Status(value){
+				if(value == 0){
+					return '未分配';
+				}else if(value == 1){
+					return '已分配';
+				}else if(value == 2){
+					return '未签约';
+				}else if(value == 3){
+					return '已签约';
+				}else if(value == 4){
+					return '已取消';
 				}
 			}
 		},

@@ -22,7 +22,7 @@
 									<div :class="{opacity:imageUrl!=''}">
 									<i class="el-icon-plus avatar-uploader-icon"></i>
 									<span class="sb">上传图片</span>
-									<input type="file" accept="image/png,image/jpg" name="file" class="files" @change='uploadFile'/>
+									<input type="file" accept="image/png,image/jpeg" name="file" class="files" @change='uploadFile'/>
 									</div>
 								</div>
 		    				</td>

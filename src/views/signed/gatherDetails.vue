@@ -137,10 +137,10 @@
     			}
     		},
     		State(val){
-    			if(val == 1){
+    			if(val == 0){
     				return '待支付'
     			}
-    			else if( val == 2){
+    			else if( val == 1){
     				return '已支付'
     			}
     		}
@@ -154,9 +154,8 @@
 		    		})
 		    	).then((response)=>{
 		    		console.log(response);
-		    		if(response.status == 200 && response.data.code == 10004){
-		    			
-		    			vm.title = response.data.entity;
+		    		if(response.status == 200 && response.data.code == 10000){
+		    			vm.title = response.data.result;
 		    			console.log(vm.title);
 		    		}
 		    		

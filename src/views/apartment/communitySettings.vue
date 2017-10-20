@@ -120,7 +120,7 @@
 									</div>
 								</div>
 								<div class="operation-box">
-									<Button type="primary" @click="house()">确定</Button>
+									<Button type="primary" @click="house()" :disabled="disabled">确定</Button>
 									<Button>取消</Button>
 								</div>
 							</div>
@@ -222,7 +222,7 @@
 									</div>
 								</div>
 								<div class="operation-box">
-									<Button type="primary" @click="refer()">确定</Button>
+									<Button type="primary" @click="refer()" :disabled="disabled2">确定</Button>
 									<Button>取消</Button>
 								</div>
 							</div>
@@ -366,7 +366,9 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				Type1: true,
 				Type2: true,
-				Name:''
+				Name:'',
+				disabled:false,
+				disabled2:false
 			}
 		},
 		mounted() {
@@ -822,6 +824,7 @@
 			house() {
 				//公寓提交设置信息
 				let vm = this
+				this.disabled = false;
 				this.cxkjCommunityListPayway = [];
 				this.cxkjCommunityListMaintain = [];
 				for(let i = 0; i < vm.tableRepairs.length; i++) {
@@ -885,6 +888,7 @@
 							console.log(response);
 							if(response.status == 200 && response.data.code == 10000) {
 								vm.successMessage = '公寓设置成功';
+								vm.disabled = true;
 								vm.successModal = true;
 								setTimeout(() => {
 									vm.successModal = false;
@@ -908,6 +912,7 @@
 			},
 			refer() {
 				let vm = this
+				this.disabled2 = false;
 				this.cxkjCommunityListPayway = [];
 				this.cxkjCommunityListMaintain = [];
 				for(let i = 0; i < vm.tableRepairs3.length; i++) {
@@ -965,6 +970,7 @@
 							let code = parseInt(response.data.code)
 							if(code == 10000) {
 								this.successMessage = '办公设置成功';
+								vm.disabled2 = true;
 								this.successModal = true;
 								setTimeout(() => {
 									this.successModal = false;
