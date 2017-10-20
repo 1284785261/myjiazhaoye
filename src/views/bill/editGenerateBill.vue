@@ -245,7 +245,7 @@
       saveBillPayment(params){
         var that = this;
         this.$http.post(editUsedWaterEnergy,qs.stringify(params))
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status != 200 || res.data.code != 10000){
               that.warningModal = true;
               that.warningMessage = "编辑失败！";

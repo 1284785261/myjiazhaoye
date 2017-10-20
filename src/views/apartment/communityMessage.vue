@@ -21,6 +21,10 @@
 		        			<td>社区地址：</td>
 		        			<td>{{ sites }}</td>
 		        		</tr>
+                <tr>
+                  <td>坐标地点：</td>
+                  <td v-if="Datas.communityLongitude && Datas.communityLatitude">{{ Datas.communityLongitude+","+Datas.communityLatitude }}</td>
+                </tr>
 		        		<tr>
 		        			<td>社区类型：</td>
 		        			<td>{{ type }}</td>
@@ -48,22 +52,22 @@
 		        		<tr>
 		        			<td style="vertical-align: top;">物业合同：{{contract}}</td>
 		        			<td style="width: 500px;">
-		        				
+
 		        				<a v-for="(item,index) in contart" @click="getXML(imgPath + mv[index])"><img src="../../../static/images/temp/message.png" class="mess"> {{item}}</a><br/>
-		        				
+
 		        			</td>
 		        		</tr>
 		        	</table>
 		        	<div class="operation-box">
-		        	  
+
 		              	<Button type="primary" @click="Complie">编辑</Button>
-		        	  
+
 		              <Button>取消</Button>
-		            </div>  
+		            </div>
 		        </div>
-		        
-		        
-		    
+
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -71,7 +75,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/communityMessage.css';
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
@@ -79,7 +83,7 @@
     import axios from 'axios';
     import { hostTitle,imgPath } from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -188,7 +192,7 @@
 //  			console.log(mv);
 				for(let i=0;i < this.mv.length; i++){
 					this.contart.push(this.mv[i].substring(this.mv[i].lastIndexOf("/")+1,this.mv[i].length));
-					
+
 				}
     			console.log(this.contart);
     		}

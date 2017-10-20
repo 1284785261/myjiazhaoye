@@ -13,15 +13,15 @@
         </div>
         <div id="bill-detail-wrap">
           <div class="order-detail-wrap-head">
-            <img v-if="billDetailList.billState == 1" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
+            <img v-if="billDetailList.billState == 2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
             <img v-else src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
             <div class="order-detail-wrap-head-content">
               <h3>
                 <span style="padding-right: 10px;">6月</span>
                 <span v-if="billType == 0">公寓租金</span>
                 <span v-if="billType == 1">办公室租金</span>
-                <span class="colorSpan" v-if="billDetailList.billState == 1">已支付</span>
-                <span class="colorSpan" v-else-if="billDetailList.billState == 2">待支付</span>
+                <span class="colorSpan" v-else-if="billDetailList.billState == 1">待支付</span>
+                <span class="colorSpan" v-if="billDetailList.billState == 2">已支付</span>
                 <span class="colorSpan" v-else-if="billDetailList.billState == 3">违约</span>
                 <span class="colorSpan" v-else-if="billDetailList.billState == 4">违约办结</span>
               </h3>
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                   <td>租期 :</td>
-                  <td>{{billDetailList.beginDate | timefilter("yyyy.MM.dd")}}-{{billDetailList.endDate | timefilter("yyyy.MM.dd")}}（共4天）</td>
+                  <td>{{billDetailList.beginDate | timefilter("yyyy.MM.dd")}}-{{billDetailList.endDate | timefilter("yyyy.MM.dd")}}</td>
                 </tr>
                 <tr>
                   <td>租金 :</td>
@@ -46,10 +46,10 @@
                 </tr>
                 <tr>
                   <td>服务费 :</td>
-                  <td>200元/月</td>
+                  <td>{{billDetailList.serviceCost}}元/月</td>
                 </tr>
               </table>
-              <div class="check-contract-btn">
+              <div class="check-contract-btn" @click="goToContract(billDetailList.contractSignId)">
                 查看合同
               </div>
             </li>
@@ -64,7 +64,7 @@
                   <td>订单编号 :</td>
                   <td>{{billDetailList.billNo}}</td>
                 </tr>
-                <tr v-if="billDetailList.billState == 1">
+                <tr v-if="billDetailList.billState == 2">
                   <td>支付方式 :</td>
                   <td>
                     <span v-if="billDetailList.payType == 1">支付宝</span>
@@ -73,17 +73,17 @@
                     <span v-if="billDetailList.payType == 4">其他方式</span>
                   </td>
                 </tr>
-                <tr v-if="billDetailList.billState == 1">
+                <tr v-if="billDetailList.billState == 2">
                   <td>支付成功时间 :</td>
                   <td>{{billDetailList.paySuccessTime | timefilter("yyyy-MM-dd hh:mm:ss")}}</td>
                 </tr>
-                <tr v-if="billDetailList.billState == 2">
-                  <td colspan="2" class="payInfo">待支付 剩余12分钟</td>
-                </tr>
+                <!--<tr v-if="billDetailList.billState == 2">-->
+                  <!--<td colspan="2" class="payInfo">待支付 剩余12分钟</td>--><!--（系统时间+规定支付时间）-下单时间-->
+                <!--</tr>-->
               </table>
-              <Button v-if="billDetailList.billState == 2" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>
+              <Button v-if="billDetailList.billState == 1" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>
             </li>
-            <li v-if="billDetailList.billState == 1">
+            <li v-if="billDetailList.billState == 2">
               <h3><i class="icon icon-iden"></i>用户评价</h3>
               <table>
                 <tr>
@@ -163,6 +163,9 @@
             }
 
           })
+      },
+      goToContract(contractSignId){
+        this.$router.push({name:"contractDetail",query:{contractSignId:contractSignId,isOffice:this.billType}})
       },
     },
     filters:{
