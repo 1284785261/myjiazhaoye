@@ -137,18 +137,6 @@
       handleClick(tab, event) {
         console.log(tab, event);
       },
-      getCommunityData(){
-        var that = this;
-        this.$http.get(allCommunity)
-          .then(function(res){
-            if(res.status == 200 && res.data.code == 10000){
-              that.billSelects = res.data.entity;
-            }
-            that.billCommunity = that.billSelects[0].communityId;
-            that.getPayStatic({communityId:that.billSelects[0].communityId});
-            that.getbillPayment({communityId:that.billSelects[0].communityId,pageNum:1});
-          })
-      },
       //获取社区信息
       getCommunityInfo(){
         var that = this;
@@ -196,7 +184,7 @@
       },
       pageSearch(page){
         var params = {
-          communityId : this.billCommunity,
+          communityId : this.communityId,
           pageNum:page || 1
         }
         if(page){
@@ -282,12 +270,7 @@
       }
     },
     watch:{
-      billCommunity:function(newValue,oldValue){
-        var vm = this;
-        setTimeout(function(){
-          vm.getbillPayment({communityId:newValue,pageNum:1});
-        });
-      }
+
     }
   }
 </script>
