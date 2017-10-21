@@ -37,39 +37,28 @@
               </div>
               <table class="table ivu-table" v-if="roomTotalNum > 0">
                 <tr>
-                  <th >合同编号</th>
-                  <th>签约日期</th>
-                  <th>所属社区</th>
-                  <th>公寓房间</th>
-                  <th>租期</th>
-                  <th>承租人</th>
-                  <th>租金(元/月)</th>
-                  <th>状态</th>
-                  <th>操作</th>
+                  <th >序号</th>
+                  <th>水表读数</th>
+                  <th>电表读数</th>
+                  <th>抄表类型</th>
+                  <th>记录时间</th>
+                  <th>操作人</th>
                 </tr>
-                <tr v-for="room in roomContractList">
-                  <td>{{room.contractNumber}}</td>
-                  <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{room.communityName}}</td>
-                  <td>{{room.floorName}}层 {{room.roomNum}}</td>
-                  <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
-                  <td>{{room.userName}}</td>
-                  <td style="color: red;">{{room.rentPay}}</td>
-                  <td>
-                    <span v-if="room.contractState == 1">待确认</span>
-                    <span v-else-if="room.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
-                    <span v-else-if="room.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
-                    <span v-else-if="room.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
-                    <span v-else-if="room.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
-                    <span v-else-if="room.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
-                    <span v-else-if="room.contractState == 7" style="color: rgb(255,29,16)">违约</span>
-                    <span v-else-if="room.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
-                    <span v-else-if="room.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
-                    <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
-                  </td>
-                  <td>
-                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
-                  </td>
+                <tr>
+                  <td >1</td>
+                  <td>389</td>
+                  <td>389</td>
+                  <td>自动抄表</td>
+                  <td>2017-10-07  10：30</td>
+                  <td>系统</td>
+                </tr>
+                <tr>
+                  <td >1</td>
+                  <td>389</td>
+                  <td>389</td>
+                  <td>录入</td>
+                  <td>2017-10-07  10：30</td>
+                  <td>张三</td>
                 </tr>
               </table>
               <div class="blank-background-img" v-if="roomTotalNum == 0">
@@ -139,7 +128,7 @@
       getRoomContract(data){
         var that = this;
         this.$http.get(roomContract,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.roomContractList = pageBean.page;
@@ -169,10 +158,6 @@
         }
         this.getRoomContract(data);
       },
-
-
-
-
     },
     filters:{
       timefilter(value,format){

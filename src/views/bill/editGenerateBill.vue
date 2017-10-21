@@ -69,8 +69,8 @@
                 </table>
               </td>
               <td class="td1">{{item.totalMoney}}</td>
-              <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
-              <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
+              <td class="td1">{{item.userName}}</td>
+              <td class="td1">{{item.userPhone}}</td>
               <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
             </tr>
           </table>

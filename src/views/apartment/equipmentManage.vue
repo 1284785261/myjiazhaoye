@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="equipmentMan">
 		    		<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-					    <el-tab-pane label="智能门锁" name="first" v-loading="loading">
+					    <el-tab-pane label="智能门锁" name="first"><!--v-loading="loading"-->
                 <div class="equipment1" v-for="(doorLock,index) in doorLockList">
                   <div class="house_xq" @click="hideTable(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -92,7 +92,7 @@
                       </td>
                       <td>
                         <div><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
-                          <a @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
+                          <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
                           <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1)" @click="shutElectricity(item,electricity.floorName)">关闭</a>
                           <a v-if="item.electricityStatus == 2" @click="openToElectricity(item,electricity.floorName)">开启</a>
                           <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2">添加电表</a>
@@ -127,17 +127,17 @@
                       <td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
                       <td>{{item.waterElectricityData}}</td>
                       <td>
-                        <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
-                        <span v-else-if="item.electricityStatus == 1">离线</span>
-                        <span v-else-if="item.electricityStatus == 2">关闭</span>
+                        <span v-if="item.waterStatus == 0" style="color: #3dc4b2;">在线</span>
+                        <span v-else-if="item.waterStatus == 1">离线</span>
+                        <span v-else-if="item.waterStatus == 2">关闭</span>
                         <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
                       <td>
                         <div>
-                          <a @click="updateWater(item,water.floorName)">修改</a>
-                          <a @click="shutWater(item,water.floorName)">关闭</a>
-                          <a @click="openWater(item,water.floorName)">开启</a>
-                          <a @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
+                          <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2" @click="updateWater(item,water.floorName)">修改</a>
+                          <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1)" @click="shutWater(item,water.floorName)">关闭</a>
+                          <a v-if="item.waterStatus == 2" @click="openWater(item,water.floorName)">开启</a>
+                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
                         </div>
                       </td>
                     </tr>
@@ -735,7 +735,6 @@
         //获取智能门锁列表
         getIntelligenceLock(){
           var that = this;
-          that.loading = true;debugger
           this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
@@ -743,7 +742,6 @@
               for(var i =0;i<that.doorLockList.length;i++){
                 that.$set(that.doorLockList[i],"showTable",true);
               }
-              that.loading = false;
             }
           })
         },
