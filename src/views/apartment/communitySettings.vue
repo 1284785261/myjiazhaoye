@@ -54,7 +54,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -195,7 +195,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px"></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -344,7 +344,7 @@
 				}],
 				activeName2: 'first',
 				cxkjCommunityListPayway: [], //公寓付款方式
-				cxkjCommunityListMaintain: [], //公寓维修项目	
+				cxkjCommunityListMaintain: [], //公寓维修项目
 				cxkjCommunityListConfig: [], //公寓电器选择
 				cxkjCommunityListMeetingSuit: [], //会议室套餐设置
 				serviceCost: '', //公寓服务费
@@ -394,7 +394,7 @@
 					return
 				}
 			}
-			
+
 
 		},
 		methods: {
@@ -439,7 +439,7 @@
 									this.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
 								}
 								//console.log(this.tableRepairs3);
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {   
+								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {
 									if(this.tableConferences.length < response.data.entity[0].cxkjCommunityListMeetingSuit.length) {
 										this.addRoom();
 									}
@@ -464,7 +464,7 @@
 								}
 							//console.log(this.tableRepairs5);
 							}
-							
+
 
 						}
 					})
@@ -656,7 +656,7 @@
 								if(response.data.entity[0].waterEnergyPayDate){
 									vm.waterEnergyPayDate = response.data.entity[0].waterEnergyPayDate;
 								}
-								
+
 								if(response.data.entity[0].waterChargeType == 1) {
 									vm.radio1 = 1;
 									vm.sect = response.data.entity[0].waterPrice;
@@ -692,7 +692,7 @@
 									}else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4){
 										vm.tableRepairs[i].value1 = '年付';
 									}
-									
+
 									vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
 									vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
 								}
@@ -722,7 +722,7 @@
 				for(let i = 0; i < this.tableRepairs[index].option1.length; i++) {
 					if(vul == this.tableRepairs[index].option1[i].dataName) {
 						this.tableRepairs[index].inputValue = this.tableRepairs[index].option1[i].dataId;
-						
+
 					}
 				}
 				//console.log(this.tableRepairs);
@@ -732,7 +732,7 @@
 				for(let i = 0; i < this.tableRepairs2[index].option2.length; i++) {
 					if(val == this.tableRepairs2[index].option2[i].dataName) {
 						this.tableRepairs2[index].inputValue = this.tableRepairs2[index].option2[i].dataId;
-						
+
 					}
 				}
 				console.log(this.tableRepairs2);
@@ -834,7 +834,7 @@
 							discount: this.tableRepairs[i].date,
 							communityPayWayId:this.tableRepairs[i].communityPayWayId
 						});
-						
+
 					}
 				}
 				for(let i = 0; i < vm.tableRepairs2.length; i++) { //添加公寓维修项目编号
@@ -844,7 +844,7 @@
 							onSiteTime: this.tableRepairs2[i].date,
 							communityMaintainId:this.tableRepairs2[i].communityMaintainId
 						});
-						
+
 					}
 				}
 				console.log(vm.cxkjCommunityListPayway);
@@ -853,7 +853,7 @@
 				if(vm.radio1 == 1) {
 					this.waterChargeType = 1;
 					vm.waterPrice = vm.sect;
-				} 
+				}
 				else if(vm.radio1 == 2){
 					this.waterChargeType = 2;
 					vm.waterPrice = vm.sect2;
@@ -895,7 +895,7 @@
 									if(this.communityType == '0'){
 										vm.$router.push('/apartment/communityManagement');
 									}
-										
+
 								}, 2000);
 							} else {
 								this.warningMessage = response.data.content;
@@ -934,7 +934,7 @@
 							meetingSuitUnitDataId: this.tableConferences[i].inputValue2,
 							communityMeetingSuitId:this.tableConferences[i].communityMeetingSuitId
 						});
-						
+
 					}
 				}console.log(vm.cxkjCommunityListMeetingSuit);
 				for(let i = 0; i < vm.tableRepairs5.length; i++) { //添加办公维修项目编号

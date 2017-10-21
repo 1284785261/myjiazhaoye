@@ -293,7 +293,7 @@
         this.$http.post(
           roomInfo,qs.stringify({roomId:this.roomId})
         ).then(function(res){
-          var roomObj = res.data.entity;
+          var roomObj = res.data.entity;debugger
           that.cxkjCommunityListRoom = [{
               communityId: roomObj.communityId,
               roomId:roomObj.roomId,
@@ -301,8 +301,8 @@
               roomNum: roomObj.roomNum || "",
               roomType: roomObj.roomType,
               roomFurniture: roomObj.roomFurniture || "",
-              roomWater: roomObj.roomWater,
-              roomElectric: roomObj.roomElectric,
+              roomWater: roomObj.roomWater || "",
+              roomElectric: roomObj.roomElectric || "",
               roomRent: roomObj.roomRent,
               waterType: roomObj.waterType || that.cun_waterChargeType,
               electricType: roomObj.electricType || that.cun_energyChargeType,
@@ -431,7 +431,7 @@
           for(var key in data[j]){
             if(data[j][key]===""){
               if(this.cxkjCommunityListRoom[0].electricType == 2 &&　key == "roomElectric"){//如果按人计算，电表可以为空
-                  continue;
+                continue;
               }
               if(this.cxkjCommunityListRoom[0].waterType == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
                 continue;
@@ -490,7 +490,7 @@
               if(this.cxkjCommunityListRoom[0].electricType == 2 &&　key == "roomElectric"){//如果按人计算，电表可以为空
                 continue;
               }
-              if(this.cxkjCommunityListRoom[0].waterPrice == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
+              if(this.cxkjCommunityListRoom[0].waterType == 2 &&　key == "roomWater"){//如果按人计算，水表可以为空
                 continue;
               }
               that.warningModal = true;
