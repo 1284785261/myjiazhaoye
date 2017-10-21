@@ -48,6 +48,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    	<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -56,6 +58,8 @@
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+  	import warningModal from '../../components/warningModal.vue';
     import qs from 'qs';
 	import axios from 'axios';
 	import { hostPhone,hostAuthcode,hostOldphone } from '../api.js';
@@ -65,7 +69,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+      		warningModal
     	},
     	data(){
     		return{
@@ -79,7 +85,11 @@
     			disabled:false,
     			title2:'你输入的验证码错误，请重新获取',
     			ts:false,
-    			oldphone:false
+    			oldphone:false,
+    			successModal: false,
+		        warningModal: false,
+		        successMessage: '添加成功',
+		        warningMessage: '添加信息不完整，请检查添加社区信息'
     		}
     	},
     	mounted(){
@@ -126,6 +136,9 @@
     				console.log(error);
     			})
     		},
+    		closeWarningModal() {
+		        this.warningModal = false;
+		    },
     		mvs2(){
     			let vm = this
     			axios.post(hostAuthcode,   //请求新手机验证码
@@ -210,8 +223,13 @@
     				.then((response) => {
     					let code = parseInt(response.data.code);
     					if(code  == 10000){
-    						alert('修改手机号成功');
-    						this.$router.push({path:"/amendWin",query:{names:'修改手机号码'}});
+    						this.successMessage = '修改手机号成功';
+              				this.successModal = true;
+              				setTimeout(() => {
+              					this.successModal = false;
+              					this.$router.push({path:"/amendWin",query:{names:'修改手机号码'}});
+              				}, 2000);
+    						
     					}
     					else{
     						vm.ins2 = true;

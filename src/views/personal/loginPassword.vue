@@ -48,6 +48,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    	<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -56,6 +58,8 @@
 	import menuBox from '../../components/menuBox.vue';
     import  rightHeader from '../../components/rightHeader.vue';
     import  footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+  	import warningModal from '../../components/warningModal.vue';
     import qs from 'qs';
 	import axios from 'axios';
 	import { hostPassword,hostAuthcode } from '../api.js';
@@ -64,7 +68,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+      		warningModal
     	},
     	data(){
     		return{
@@ -77,7 +83,11 @@
     			word2:null,
     			phone:null,
     			verify:null,
-    			title2:'你输入的密码不一致，请重新输入'
+    			title2:'你输入的密码不一致，请重新输入',
+    			successModal: false,
+		        warningModal: false,
+		        successMessage: '添加成功',
+		        warningMessage: '添加信息不完整，请检查添加社区信息'
     		}
     	},
     	mounted(){
@@ -98,8 +108,13 @@
     			.then((response) => {
     				console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
-    					alert('修改密码成功');
-    					this.$router.push({path:"/amendWin",query:{names:'修改登录密码'}});
+    					this.successMessage = '修改密码成功';
+              			this.successModal = true;
+              			setTimeout(() => {
+              				this.successModal = false;
+              				this.$router.push({path:"/amendWin",query:{names:'修改登录密码'}});
+              			}, 2000);
+    					
     				}
     				else{
     					vm.inhide= true;
@@ -109,7 +124,6 @@
     			.catch((error) => {
     				console.log(error);
     			})
-//  			this.$router.push({path:"/amendWin"});
     		},
     		gain(){
     			let vm = this;
@@ -145,7 +159,10 @@
     			},1000);
     			
     			
-    		}
+    		},
+    		closeWarningModal() {
+		        this.warningModal = false;
+		    }
     	},
     	watch:{
     		word2:function(val){

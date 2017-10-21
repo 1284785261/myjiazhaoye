@@ -31,7 +31,7 @@
 										<span class="jiahao3" v-if="chen">{{tableConferen.deletect2}}</span>
 									</a>
 								</div>
-								<textarea placeholder="请输入店长介绍" v-model="tableConferen.inputValue"></textarea>
+								<textarea placeholder="请输入店长介绍" v-model="tableConferen.inputValue" maxlength="140"></textarea>
 							</td>
 						</tr>
 					</table>
@@ -56,7 +56,7 @@
 										<span class="jiahao3" v-if="item.chen">{{item.deletect2}}</span>
 									</a>
 								</div>
-								<textarea placeholder="请输入管家介绍" v-model="item.inputValue"></textarea>
+								<textarea placeholder="请输入管家介绍" v-model="item.inputValue" maxlength="140"></textarea>
 							</td>
 						</tr>
 						

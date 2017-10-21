@@ -53,7 +53,7 @@
 						</li>
 						<a @click="refer">确定</a>
 					</ul>
-					<h4>审批记录</h4>
+					<h4 v-if="cxkjRoomListPriceVerify">审批记录</h4>
 					<table class="titles2" v-show="isHides">
 						<thead>
 							<td width="25%">时间</td>

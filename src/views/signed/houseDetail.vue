@@ -74,10 +74,6 @@
 		    						<span v-else> 服务费：无</span>
 		    					</p>
 		    				</td>
-		    				<!--<td>
-		    					<p>押金：0元<span>租金：0元</span></p>
-		    					<p>预存：300.00元<span>服务费：0元</span></p>
-		    				</td>-->
 		    			</tr>
 		    			<tr>
 		    				<td>
@@ -85,12 +81,12 @@
 		    				</td>
 		    				<td>
 		    					<p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
-		    					<p v-else>租金账单：无</p>
-		    					<p v-if="Datas.cxkjWaterEnergyBill != null">水电账单{{Datas.cxkjWaterEnergyBill.payStatus | payStatus}}</p>
-		    					<p v-else>水电账单：无</p>
+		    					<p v-else></p>
+		    					<p v-if="Datas.waterEnergyBill != null">水电账单{{Datas.waterEnergyBill.payStatus | payStatus}}</p>
+		    					<p v-else></p>
 		    				</td>
 		    				<td>
-		    					<a>查看租金账单</a>
+		    					<router-link :to="{name:'billDetail',query:{billId:Datas.cxkjBillSys.billId,type:0}}" v-if="Datas.cxkjBillSys">查看租金账单</router-link>
 		    					<a>查看水电账单</a>
 		    					<span style="color: red;">向用户发送交费提醒(5)</span>
 		    				</td>
@@ -98,22 +94,22 @@
 		    			<tr>
 		    				<td>门锁状态：</td>
 		    				<td v-if="roomLockWaterElect"><span v-if="roomLockWaterElect.lockStatus">{{roomLockWaterElect.lockStatus | Status}}</span>
-		    					<span v-else>暂无</span>
+		    					<span v-else>离线</span>
 		    					<span>序列号：{{roomLockWaterElect.sn}}</span>
 		    				</td>
 		    				<td v-else>
-		    					未配置
+		    					暂无
 		    				</td>
 		    				<td rowspan="3">
-		    					<router-link to="/signed/houseRecord">开门记录</router-link>
+		    					<router-link :to="{name:'doorRecord',query:{roomLockId:roomLockWaterElect.roomLockId}}">开门记录</router-link>
 		    					<a>冻结</a>
 		    					<a>获取临时密码</a>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
-		    				<td v-if="roomLockWaterElect">
-		    					<span >{{roomLockWaterElect.waterStatus | Status2}}</span>
+		    				<td v-if="roomLockWaterElect.waterStatus">
+		    					<span>{{roomLockWaterElect.waterStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.waterMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.waterType | type}} <b> {{roomLockWaterElect.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
@@ -123,9 +119,8 @@
 		    			</tr>
 		    			<tr>
 		    				<td>电表状态：</td>
-		    				<td v-if="roomLockWaterElect">
-		    					<span v-if="roomLockWaterElect.electricityStatus">{{roomLockWaterElect.electricityStatus | Status2}}</span>
-		    					<span v-else>暂无</span>
+		    				<td v-if="roomLockWaterElect.electricityStatus">
+		    					<span>{{roomLockWaterElect.electricityStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
 		    				</td>
@@ -149,14 +144,14 @@
 		<div class="insta" v-show="isHide">
 				<i class="el-icon-circle-close"  @click="instas()"></i>
 				<p>调价</p>
-				<table>
+				<table >
 					<tr>
 						<td>房间：</td>
-						<td>{{Datas.cxkjCommunityFloor.floorName}}层{{Datas.roomNum}}</td>
+						<td v-if="Datas">{{Datas.cxkjCommunityFloor.floorName}}层{{Datas.roomNum}}</td>
 					</tr>
 					<tr>
 						<td>原价：</td>
-						<td>{{Datas.roomRent | roomRent}}</td>
+						<td v-if="Datas">{{Datas.roomRent | roomRent}}</td>
 					</tr>
 					<tr>
 						<td>新价格：</td>
