@@ -166,7 +166,7 @@
                 }
               }
             }
-            if(res.data.code == 10001){
+            if(res.data.code == 10001 && res.data.code==10008){
               that.billPaymentList = [];
               that.billTotalNum = 0;
             }

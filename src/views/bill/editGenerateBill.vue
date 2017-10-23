@@ -234,10 +234,6 @@
         var that = this;
         this.$http.post(editUsedWaterEnergy,qs.stringify(params))
           .then(function(res){
-            if(res.status != 200 || res.data.code != 10000){
-              that.warningModal = true;
-              that.warningMessage = "编辑失败！";
-            }
             that.pageSearch(that.activePage);
           })
       },
@@ -250,6 +246,10 @@
               setTimeout(function(){
                 that.successModal = false;
               },1000)
+            }
+            if(res.status == 200 || res.data.code == 10004){
+              that.warningModal = true;
+              that.warningMessage = "全部发送失败！";
             }
           })
       },

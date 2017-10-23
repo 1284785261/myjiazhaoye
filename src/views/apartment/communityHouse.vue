@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content" style="height: 100%!important;">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -61,8 +61,13 @@
                         <el-table-column
                           label="水表/水费">
                           <template scope="scope">
-                            <span v-if="true">在线 </span>
-                            <span v-else>离线 </span>
+                            <span v-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.waterStatus != 0 || scope.row.roomLockWaterElect.waterStatus != 1 || scope.row.roomLockWaterElect.waterStatus != 2)">
+                              <span v-if="scope.row.roomLockWaterElect.waterStatus == 0">在线 </span>
+                              <span v-else-if="scope.row.roomLockWaterElect.waterStatus == 1">离线 </span>
+                              <span v-else-if="scope.row.roomLockWaterElect.waterStatus == 2">冻结 </span>
+                              <span v-else-if="!scope.row.roomLockWaterElect.waterStatus">未配置 </span>
+                            </span>
+                            <span v-else>未配置 </span>
                             <span v-if="scope.row.waterType ==1">按量计费</span>
                             <span v-else>按人计费</span>
                           </template>
@@ -70,15 +75,30 @@
                         <el-table-column
                           label="电表/电费">
                           <template scope="scope">
-                            <span v-if="true">在线 </span>
-                            <span v-else>离线 </span>
+                            <span v-if="scope.row.roomLockWaterElect">
+                              <span v-if="scope.row.roomLockWaterElect.electricityStatus==0">在线</span>
+                              <span v-else-if="scope.row.roomLockWaterElect.electricityStatus==1">离线</span>
+                              <span v-else-if="scope.row.roomLockWaterElect.electricityStatus==2">关闭</span>
+                              <span v-else-if="!scope.row.roomLockWaterElect.electricityStatus">未配置 </span>
+                            </span>
+                            <span v-else="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.electricityStatus!=0 || scope.row.roomLockWaterElect.electricityStatus!=1 || scope.row.roomLockWaterElect.electricityStatus!=2)">
+                                未配置
+                            </span>
                             <span v-if="scope.row.electricType ==1">按量计费</span>
                             <span v-else-if="scope.row.electricType ==2">按人计费</span>
                           </template>
                         </el-table-column>
                         <el-table-column
-                          prop="open"
                           label="智能门锁">
+                          <template scope="scope">
+                            <span v-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.lockStatus!=1 || scope.row.roomLockWaterElect.lockStatus!=2 || scope.row.roomLockWaterElect.lockStatus!=3)">
+                              <span v-if="scope.row.roomLockWaterElect.lockStatus==1">在线</span>
+                              <span v-else-if="scope.row.roomLockWaterElect.lockStatus==2">离线</span>
+                              <span v-else-if="scope.row.roomLockWaterElect.lockStatus==3">关闭</span>
+                              <span v-else-if="!scope.row.roomLockWaterElect.lockStatus">未配置</span>
+                            </span>
+                            <span v-else>未配置 </span>
+                          </template>
                         </el-table-column>
                         <el-table-column
                           label="状态">
@@ -102,10 +122,11 @@
                   </div>
                 </div>
               </div>
-              <div class="blank-background-img" v-if="CommunityRoomCount == 0">
-                <img src="../../../static/images/blank/house_space.png" >
-                <h2>暂无公寓内容~</h2>
-              </div>
+              <!--<div class="blank-background-img" v-if="CommunityRoomCount == 0">-->
+                <!--<img src="../../../static/images/blank/house_space.png" >-->
+                <!--<h2>暂无公寓内容~</h2>-->
+              <!--</div>-->
+              <div v-loading="loading" style="width: 100%;height: 600px;" v-if="loading"></div>
             </el-tab-pane>
             <el-tab-pane label="开放工位" name="second">
               <ul>
@@ -238,7 +259,7 @@
             <td><Input v-model="editfloorNum" placeholder="请填写整数" style="width: 225px;height: 36px"></Input></td>
           </tr>
         </table>
-        <p v-if="showErrorInfo" style="color: red;position: relative;left: 173px;top: 0px;">楼层量为1-999整数</p>
+        <p v-if="showErrorInfo" style="color: red;position: relative;left: 173px;top: 0px;">楼层的值为1-999整数</p>
       </div>
       <div class="modal-btn">
         <Button type="primary" @click="editNewFloor()" :disabled="!editfloorNum">确定</Button>
@@ -315,6 +336,7 @@
     },
     data(){
       return {
+        activeTabName:"communityManagement",
         communityId:"",
         communityName:"",
         activeName2: 'first',
@@ -347,6 +369,7 @@
         },
         officeConfigure:{},//办公配置map
         showErrorInfo:false,
+        loading:false,
       }
     },
     mounted(){
@@ -385,6 +408,14 @@
         });
         return this.rootData;
       },
+      CommunityListMeetingRest:function(){
+        //计算返回一组新数据格式-->{'0':'xxx','1':'xxx','2':'xxx'}<--[模拟索引号]]
+        var obj = {};
+        for(var i = 0; i < this.CommunityListMeeting.length; i++){
+          obj[i]=this.CommunityListMeeting[i].meetingPersonNum+"";
+        }
+        return obj;
+      }
     },
     methods: {
       init(){
@@ -615,6 +646,7 @@
       },
       getCommunityListRoom(){
         var that = this;
+        that.loading = true;
         this.$http.post(Apartment, {"communityId": this.communityId})
           .then(function (res) {debugger
             if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
@@ -622,6 +654,7 @@
             }else{
 
             }
+            that.loading = false;
           }).catch(function(error){
           console.log(error);
         })
@@ -883,6 +916,32 @@
           that.successModal = false;
           that.init();
         },1000)
+      }
+    },
+    watch:{
+      "placeData.placeNum":function(value,oldValue){
+        if(value){
+          var value = value +"";
+          this.placeData.placeNum = value.replace(/[^\d]/g, "");
+        }
+      },
+      "placeData.placeRent":function(value,oldValue){
+        if(value){
+          var value = value +"";
+          this.placeData.placeRent = value.replace(/[^\d.]/g, "");
+        }
+      },
+      CommunityListMeetingRest:{
+        handler(newValue, oldValue) {
+          if(newValue){
+            for (let i = 0; i < this.CommunityListMeeting.length; i++) {
+              if (oldValue[i] != newValue[i] && newValue[i]) {
+                this.CommunityListMeeting[i].meetingPersonNum = newValue[i].replace(/[^\d]/g,"")
+              }
+            }
+          }
+        },
+        deep: true
       }
     }
   }

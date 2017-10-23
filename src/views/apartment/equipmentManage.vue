@@ -1,6 +1,6 @@
 <template>
 	<div class="hous">
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -14,7 +14,8 @@
 		        </div>
 		    	<div id="equipmentMan">
 		    		<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-					    <el-tab-pane label="智能门锁" name="first"><!--v-loading="loading"-->
+					    <el-tab-pane label="智能门锁" name="first">
+                <div style="width: 100%;height: 600px;" v-loading="loading" v-if="loading"></div>
                 <div class="equipment1" v-for="(doorLock,index) in doorLockList">
                   <div class="house_xq" @click="hideTable(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -480,6 +481,7 @@
     	},
     	data(){
     		return{
+          activeTabName:"communityManagement",
     			isHid:false,
     			isHid2:false,
     			isHide:false,
@@ -735,6 +737,7 @@
         //获取智能门锁列表
         getIntelligenceLock(){
           var that = this;
+          that.loading = true;
           this.$http.post(shutdown,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
@@ -742,6 +745,7 @@
               for(var i =0;i<that.doorLockList.length;i++){
                 that.$set(that.doorLockList[i],"showTable",true);
               }
+              that.loading = false;
             }
           })
         },
