@@ -15,7 +15,7 @@
 		    	<div id="addbanner">
 		    		<table>
 		    			<tr>
-		    				<td>上传banner图：</td>
+		    				<td style="vertical-align: top;line-height:44px;">上传banner图：</td>
 		    				<td>
 								<div class="bt">
 									<img v-show="imageUrl"  :src=imageUrl />
@@ -32,9 +32,9 @@
 		    				<td><input type="text" placeholder="请输入链接" v-model="links" maxlength="50"></td>
 		    			</tr>
 		    			<tr>
-		    				<td>图片说明：</td>
+		    				<td style="vertical-align: top;line-height:32px;">图片说明：</td>
 		    				<td>
-		    					<textarea placeholder="请输入图片说明" v-model="title" maxlength="140">
+		    					<textarea placeholder="请输入图片说明" v-model="title" maxlength="140" style="line-height:32px;">
 		    						
 		    					</textarea>
 		    				</td>

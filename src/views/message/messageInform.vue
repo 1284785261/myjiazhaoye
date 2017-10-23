@@ -124,7 +124,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+			warningModal
     	},
     	data(){
     		return{
@@ -145,7 +147,7 @@
 		        totalNum2:null,
 		        areaId:null,
 		       	titl1:null,
-		       	titl2:null,
+		       	titl2:null
 		   	}
     	},
     	mounted(){
@@ -187,6 +189,7 @@
     		},
     		closeWarningModal() {
 				this.warningModal = false;
+				this.isHide = !this.isHide;
 			},
     		bean2(){
     			let vm =this
@@ -233,6 +236,7 @@
     			if(vm.areaId == null || vm.titl1 == null || vm.titl2 == null){
     				this.warningMessage = '发布信息不完整';
 					this.warningModal = true;
+					this.isHide = !this.isHide;
     			}
     			else{
     				axios.post(hostRange2,
@@ -246,11 +250,11 @@
 	    				if(response.status == 200 && response.data.code == 10000){
 	    					this.successMessage = '发布成功';
 							this.successModal = true;
+							this.isHide = !this.isHide;
 							setTimeout(() => {
-								this.isHide = !this.isHide;
 								this.successModal = false;
 								this.bean();
-							}, 3000);
+							}, 2000);
 	    					
 	    				}
 	    				else{

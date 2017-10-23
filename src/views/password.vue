@@ -27,7 +27,7 @@
 							<td><input type="text" placeholder="请输入短信验证码" style="width: 168px;height: 42px;"/><a class="hq">获取短信验证码</a><i class="el-icon-warning"></i><span>验证码已发送至你的手机，120s内输入有效</span></td>
 						</tr>
 					</table>
-					<a class="xyb">下一步</a>
+					<a class="xyb" @click="next">下一步</a>
 				</div>
 				<div class="qhs" v-else-if="current == 1">
 					<table>
@@ -40,7 +40,7 @@
 							<td><input type="text" placeholder="请再次输入新密码" style="width: 298px;height: 42px;"/><i class="el-icon-circle-close"></i><span>你再次输入的密码错误，请重新输入</span></td>
 						</tr>
 					</table>
-					<a class="xyb">提交</a>
+					<a class="xyb" @click="next">提交</a>
 				</div>
 				<div class="qhs" v-else-if="current == 2">
 					<img src="../../static/images/icon/house_type_success.png">
@@ -61,7 +61,7 @@
 	export default {
 		data() {
 			return {
-				current: 2
+				current: 0
 			}
 		},
 		methods: {

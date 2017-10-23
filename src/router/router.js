@@ -408,6 +408,11 @@ export default new Router({
       name:'complaindetail',
       component:resolve =>
         require(['../views/signed/complaindetail.vue'],resolve)
+    },{
+      path:'/Patanjali/invitationlist',		//佳里人-帖子管理
+      name:'invitationlist',
+      component:resolve =>
+        require(['../views/Patanjali/invitationlist.vue'],resolve)
     },
 
 

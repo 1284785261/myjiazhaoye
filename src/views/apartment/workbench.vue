@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<menu-box></menu-box>
-		<div class="right-content" id="right-content">
+		<div class="right-content" id="rightwork">
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="main-home">
@@ -79,31 +79,31 @@
 						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
 							<li v-if="remains.roomMoney != null">
-								<router-link to="/">新增看房预约<span><span>{{remains.roomMoney}}人</span></span>
+								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.roomMoney}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.roomCount != null">
-								<router-link to="/">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span>
+								<router-link to="/bill/billManagement">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.officeCount != null">
-								<router-link to="/">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span>
+								<router-link to="/bill/billManagement">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.waterEnergyCount != null">
-								<router-link to="/">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
+								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.roomMoney != null">
-								<router-link to="/">用户报修<span><span>{{remains.roomMoney}}人</span></span>
+								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.roomMoney}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.rentCount != null">
-								<router-link to="/">用户退房<span><span>{{remains.rentCount}}人</span></span>
+								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">用户退房<span><span>{{remains.rentCount}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.expireCount != null">
-								<router-link to="/">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
+								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li>
 								<router-link to="/">今日直播时间<span><span>18:00-19:00</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li>
-								<router-link to="/">待处理用户投诉<span><span>6人</span></span>
+								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>6人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 						</ul>
 						<div class="muvs" v-else>
@@ -344,5 +344,11 @@
 		.ivu-col-span-12 {
 			padding: 0 10px;
 		}
+	}
+	#rightwork{
+		margin-left: 240px;
+	    position: relative;
+	    padding-bottom: 160px;
+	    height: 100%;
 	}
 </style>

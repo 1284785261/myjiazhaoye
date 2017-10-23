@@ -522,6 +522,6 @@ export const openWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityW
 
 
 //看房预约
-export const appointmentList =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTable200159';//看房预约列表
-export const feedBack =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterAdd200160';//确认接待
+export const appointmentList =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentList300106';//看房预约列表
+export const feedBack =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentFeedBack300108';//确认接待
 export const receive =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjReceiveCommunityAppointment300109';//我要接待

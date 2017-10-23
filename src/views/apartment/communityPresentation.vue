@@ -496,30 +496,27 @@
 					console.log(response);
 
 					if(response.status == 200 && response.data.code == 10000){
-//					  console.log(111)
-//					  console.log(response.data.result.community.communityInfo)
-//                      console.log(111)
 						vm.community = response.data.result.community;
 					  if(response.data.result.community.communityInfo){
 
                         vm.defaultMsg=response.data.result.community.communityInfo
-                        console.log(vm.defaultMsg)
+                        //console.log(vm.defaultMsg)
 //                        vm.defaultMsg = response.data.result.community.communityInfo;
-                      }else {
+                      }
+					  else {
                        vm.defaultMsg='请输入社区介绍'
                       }
 
 						let arr = [];
 						let arr2 = [];
 						let arr3 = [];
-						
+						console.log(vm.community.communityWork);
 						arr2 = vm.community.communityFace.split(",");
 						arr3 = vm.community.communityWork.split(",");
 						arr = vm.community.communityFlat.split(",");
-						//console.log(arr);
-						console.log(arr);
-						console.log(arr2);
-						console.log(arr3);
+//						console.log(arr);
+//						console.log(arr2);
+//						console.log(arr3);
 //						let imgUrl=response.data.result.community.communityContract.split(",");
 						vm.uploadList1 = [];
 						if(arr.length && arr[0] != ''){
@@ -532,7 +529,7 @@
 	                              vm.uploadList1.push(item);
 	                              vm.filelist1.push(arr[k]);
 	                        }
-							console.log(vm.uploadList1);
+							//console.log(vm.uploadList1);
 						}
 						
 						vm.uploadList2 = [];
@@ -606,8 +603,8 @@
 	.bts {
 		display: inline-block;
 		position: absolute;
-		left: 0;
-		top: 600px;
+		left: -21px;
+    	top: 523px;
 		padding-left: 91px;
 		font-size: 14px;
 		color: black;

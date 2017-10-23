@@ -219,6 +219,7 @@
 					})
 					.then(function(res) {
 //						debugger
+						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							var pageBean = res.data.pageBean;
 							that.appointmentListData = pageBean.page;
