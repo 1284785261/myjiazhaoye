@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>收款详情</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{name}}</span>
 		        </div>
 		    	<div id="gatherdetails">
 		    		<table>
@@ -87,11 +87,13 @@
     	data(){
     		return{
 		        gatheringId:null,
-		    	title:null
+		    	title:null,
+		    	name:''
     		}
     	},
     	mounted(){
     		this.gatheringId = this.$route.query.id;
+    		this.name = this.$route.query.name;
     		this.datas();
     	},
     	filters:{

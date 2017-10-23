@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="houseState">
 		    		<div class="housestate1">
@@ -78,7 +78,8 @@
     			bigdata:[],
     			hide:false,
     			clas:'el-icon-arrow-up',
-    			clas2:'el-icon-arrow-down'
+    			clas2:'el-icon-arrow-down',
+    			Name:''
 		   	}
     	},
     	filters:{
@@ -96,6 +97,7 @@
     	},
     	mounted(){
     		this.communityId = this.$route.query.communityId;
+    		this.Name = this.$route.query.Name;
     		//console.log(this.communityId);
     		this.datas();
     		

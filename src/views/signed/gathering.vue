@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>发起收款记录</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Name}}</span>
 				</div>
 				<div id="gethering">
 					<div class="residentlist">
@@ -53,7 +53,7 @@
 								<td v-if="item.gatheringInfo != null">{{item.gatheringInfo}}</td>
 								<td v-else>--</td>
 								<td>
-									<router-link :to="{path:'/signed/gatherDetails',query:{id:item.gatheringId}}">查看详情</router-link>
+									<router-link :to="{path:'/signed/gatherDetails',query:{id:item.gatheringId,name:Name}}">查看详情</router-link>
 								</td>
 							</tr>
 
@@ -146,10 +146,12 @@
 				warningModal: false,
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
+				Name:''
 			}
 		},
 		mounted() {
 			this.communityId = this.$route.query.communityId;
+			this.Name = this.$route.query.Name;
 			this.states();
 			this.matas();
 			

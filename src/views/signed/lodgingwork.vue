@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>联合办公签约</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Name}}</span>
 				</div>
 				<div id="lodgingwork">
 					<div class="ivu-floor loadin1">
@@ -44,11 +44,11 @@
 						<table v-for="userInfos in aaduserInfo">
 							<tr>
 								<td>已注册手机号:</td>
-								<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)"></td>
+								<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
 							</tr>
 							<tr>
 								<td>姓名:</td>
-								<td><input type="text" placeholder="请输入姓名" v-model="userInfos.username"></td>
+								<td><input type="text" placeholder="请输入姓名" v-model="userInfos.username" maxlength="10"></td>
 							</tr>
 							<tr>
 								<td>性别:</td>
@@ -68,7 +68,7 @@
 							</tr>
 							<tr>
 								<td>证件号码:</td>
-								<td><input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate"></td>
+								<td><input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate" maxlength="24"></td>
 							</tr>
 						</table>
 
@@ -78,11 +78,11 @@
 						<table>
 							<tr>
 								<td>公司信息:</td>
-								<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo"></td>
+								<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo" maxlength="30"></td>
 							</tr>
 							<tr>
 								<td>法人姓名:</td>
-								<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson"></td>
+								<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson" maxlength="10"></td>
 							</tr>
 						</table>
 					</div>
@@ -117,15 +117,15 @@
 								</tr>
 								<tr>
 									<td>租金:</td>
-									<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent"><span>元/月</span></td>
+									<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
 								</tr>
 								<tr>
 									<td>租金折扣/浮动比例:</td>
-									<td><input type="text" placeholder="请输入百分比" v-model="discount"><span>%</span></td>
+									<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="10"><span>%</span></td>
 								</tr>
 								<tr>
 									<td>服务费:</td>
-									<td><input type="text" placeholder="请输入服务费" v-model="serve"><span>元/月</span></td>
+									<td><input type="text" placeholder="请输入服务费" v-model="serve" maxlength="10"><span>元/月</span></td>
 								</tr>
 							</table>
 						</div>
@@ -136,10 +136,10 @@
 									<tr v-for="(tableRepair,index) in tableRepairs">
 
 										<td width="200px">
-											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" />
+											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10"/>
 										</td>
 
-										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span>元</span></td>
+										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
 										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
 										<td></td>
 									</tr>
@@ -167,9 +167,9 @@
 								<td></td>
 								<td>
 									<ul>
-										<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)"><span>元</span></li>
+										<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="10"><span>元</span></li>
 										<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
-										<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat"><span>日内</span></li>
+										<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
 									</ul>
 								</td>
 							</tr>
@@ -218,9 +218,9 @@
 								<table class="table ivu-table">
 									<tr v-for="tableRepair in tableRepairs2">
 										<td width="150px">
-											<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" />
+											<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10"/>
 										</td width="140px">
-										<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px"></td>
+										<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="10"></td>
 										<td></td>
 									</tr>
 								</table>
@@ -452,6 +452,12 @@
 				if(val) {
 					this.onemoney = parseFloat(val).toFixed(2);
 				}
+			},
+			discount:function(){
+				this.discount = this.discount.replace(/[^\d.]/,'');
+			},
+			serve:function(){
+				this.serve = this.serve.replace(/[^\d.]/,'');
 			}
 		},
 		methods: {

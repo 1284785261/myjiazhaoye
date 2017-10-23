@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>公寓租客签约</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Name}}</span>
 				</div>
 				<div id="lodgingHouse">
 					<div class="ivu-floor loadin1">
@@ -34,7 +34,7 @@
 							</tr>
 							<tr>
 								<td>合同编号:</td>
-								<td><input type="text" name="" id="" placeholder="请输入合同编号" v-model="contract"/></td>
+								<td><input type="text" name="" id="" placeholder="请输入合同编号" v-model="contract" maxlength="30"/></td>
 							</tr>
 							<tr>
 								<td>租客类型:</td>
@@ -53,12 +53,12 @@
 							<table v-for="userInfos in aaduserInfo">
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.username">
+										<input type="text" placeholder="请输入姓名" v-model="userInfos.username" maxlength="10">
 									</td>
 								</tr>
 								<tr>
@@ -80,19 +80,19 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate">
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate" maxlength="24">
 									</td>
 								</tr>
 							</table>
 							<table v-for="(userInfos,index) in ieList">
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.name">
+										<input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
 									</td>
 								</tr>
 								<tr>
@@ -114,7 +114,7 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber"><a class="dels" @click="dels(userInfos,index)">删除</a>
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24"><a class="dels" @click="dels(userInfos,index)" >删除</a>
 									</td>
 								</tr>
 							</table>
@@ -152,15 +152,15 @@
 									</tr>
 									<tr>
 										<td>租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
 									</tr>
 									<tr>
 										<td>租金折扣/浮动比例:</td>
-										<td><input type="text" placeholder="请输入百分比" v-model="discount"><span>%</span></td>
+										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
 									</tr>
 									<tr>
 										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serve"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入服务费" v-model="serve" maxlength="10"><span>元/月</span></td>
 									</tr>
 								</table>
 							</div>
@@ -171,10 +171,10 @@
 										<tr v-for="(tableRepair,index) in tableRepairs">
 	
 											<td width="200px">
-												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue"/>
+												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10"/>
 											</td>
 	
-											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span>元</span></td>
+											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
 											<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
 											<td></td>
 										</tr>
@@ -206,9 +206,9 @@
 										<ul>
 											<!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
 											<!--{{twomoney}}-->
-											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)"><span>元</span></li>
+											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="12"><span>元</span></li>
 											<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
-											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat"><span>日内</span></li>
+											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
 										</ul>
 									</td>
 								</tr>
@@ -218,7 +218,7 @@
 										<ul class="uls">
 											<li><span>水费:</span><span>{{housetderta.waterPrice | waterPrice}}元/人/月</span></li>
 											<li><span>电费:</span><span>{{housetderta.energyPrice | energyPrice}}元/度</span>
-												<span>初始:</span><input type="text" v-model="housetderta.roomWater"/><span>度</span>
+												<span>初始:</span><input type="text" v-model="housetderta.roomElectric" maxlength="10"/><span>度</span>
 											</li>
 										</ul>
 									</td>
@@ -287,9 +287,9 @@
 									<table class="table ivu-table">
 										<tr v-for="tableRepair in tableRepairs2">
 											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue"/>
+												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10"/>
 											</td width="140px">
-											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px"></td>
+											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
 											<td></td>
 										</tr>
 									</table>
@@ -307,15 +307,15 @@
 								<table>
 									<tr>
 										<td>中介公司:</td>
-										<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company"></td>
+										<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
 									</tr>
 									<tr>
 										<td>中介人:</td>
-										<td><input type="text" placeholder="请输入中介人" v-model="hints.man"></td>
+										<td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
 									</tr>
 									<tr>
 										<td>中介费:</td>
-										<td><input type="text" placeholder="请输入中介费" v-model="hints.cost"></td>
+										<td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
 									</tr>
 								</table>
 								<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
@@ -333,12 +333,12 @@
 							<table v-for="userInfos in aaduserInfo">
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.username">
+										<input type="text" placeholder="请输入姓名" v-model="userInfos.username" maxlength="10">
 									</td>
 								</tr>
 								<tr>
@@ -360,19 +360,19 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate">
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate" maxlength="24">
 									</td>
 								</tr>
 							</table>
 							<table v-for="(userInfos,index) in ieList">
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.name">
+										<input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
 									</td>
 								</tr>
 								<tr>
@@ -394,7 +394,7 @@
 								<tr>
 									<td>证件号码:</td> 
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber"><a class="dels" @click="dels(userInfos,index)">删除</a>
+										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24"><a class="dels" @click="dels(userInfos,index)">删除</a>
 									</td>
 								</tr>
 							</table>
@@ -405,11 +405,11 @@
 							<table>
 								<tr>
 									<td>公司信息:</td>
-									<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo"></td>
+									<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo" maxlength="15"></td>
 								</tr>
 								<tr>
 									<td>法人姓名:</td>
-									<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson"></td>
+									<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson" maxlength="10"></td>
 								</tr>
 							</table>
 						</div>
@@ -444,15 +444,15 @@
 									</tr>
 									<tr>
 										<td>租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
 									</tr>
 									<tr>
 										<td>租金折扣/浮动比例:</td>
-										<td><input type="text" placeholder="请输入百分比" v-model="discount"><span>%</span></td>
+										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="10"><span>%</span></td>
 									</tr>
 									<tr>
 										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serve"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入服务费" v-model="serve" maxlength="10"><span>元/月</span></td>
 									</tr>
 								</table>
 							</div>
@@ -463,10 +463,10 @@
 										<tr v-for="(tableRepair,index) in tableRepairs">
 	
 											<td width="200px">
-												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue"/>
+												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10"/>
 											</td>
 	
-											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span>元</span></td>
+											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
 											<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
 											<td></td>
 										</tr>
@@ -498,9 +498,9 @@
 										<ul>
 											<!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
 											<!--{{twomoney}}-->
-											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)"><span>元</span></li>
+											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="15"><span>元</span></li>
 											<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
-											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat"><span>日内</span></li>
+											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
 										</ul>
 									</td>
 								</tr>
@@ -509,10 +509,10 @@
 									<td>
 										<ul class="uls">
 											<li><span>水费:</span><span>{{housetderta.waterPrice | waterPrice}}元/人/月</span>
-												<span>初始:</span><input type="text" v-model="housetderta.roomWater"/><span>度</span>
+												<span>初始:</span><input type="text" v-model="housetderta.roomWater" maxlength="10"/><span>度</span>
 											</li>
 											<li><span>电费:</span><span>{{housetderta.energyPrice | energyPrice}}元/度</span>
-												<span>初始:</span><input type="text" v-model="housetderta.roomWater"/><span>度</span>
+												<span>初始:</span><input type="text" v-model="housetderta.roomElectric" maxlength="10"/><span>度</span>
 											</li>
 										</ul>
 									</td>
@@ -592,9 +592,9 @@
 									<table class="table ivu-table">
 										<tr v-for="tableRepair in tableRepairs2">
 											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue"/>
+												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10"/>
 											</td width="140px">
-											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px"></td>
+											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
 											<td></td>
 										</tr>
 									</table>
@@ -610,15 +610,15 @@
 								<table>
 									<tr>
 										<td>中介公司:</td>
-										<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company"></td>
+										<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
 									</tr>
 									<tr>
 										<td>中介人:</td>
-										<td><input type="text" placeholder="请输入中介人" v-model="hints.man"></td>
+										<td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
 									</tr>
 									<tr>
 										<td>中介费:</td>
-										<td><input type="text" placeholder="请输入中介费" v-model="hints.cost"></td>
+										<td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
 									</tr>
 								</table>
 								<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
@@ -830,6 +830,12 @@
 				if(val){
 					this.onemoney = parseFloat(val).toFixed(2);
 				}
+			},
+			discount:function(){
+				this.discount = this.discount.replace(/[^\d.]/,'');
+			},
+			serve:function(){
+				this.serve = this.serve.replace(/[^\d.]/,'');
 			}
 		},
 		filters:{
@@ -1285,6 +1291,9 @@
 					param.append('firstMoney',this.onemoney);
 					param.append('secondPayMoney',this.housetderta.twomoney);
 				}
+				if(this.housetderta.roomElectric != ''){
+					param.append('electricInit',this.housetderta.roomElectric);
+				}
 				param.append('secondPayDate',this.dat);
 				param.append('waterChargeModel',this.housetderta.waterType);
 				param.append('electricChargeModel',this.housetderta.electricType);
@@ -1412,6 +1421,12 @@
 				}else if(this.radio3 == '2'){
 					param.append('firstMoney',this.onemoney);
 					param.append('secondPayMoney',this.housetderta.twomoney);
+				}
+				if(this.housetderta.roomWater != ''){
+					param.append('waterInit',this.housetderta.roomWater);
+				}
+				if(this.housetderta.roomElectric != ''){
+					param.append('electricInit',this.housetderta.roomElectric);
 				}
 				param.append('secondPayDate',this.dat);
 				param.append('waterChargeModel',this.housetderta.waterType);

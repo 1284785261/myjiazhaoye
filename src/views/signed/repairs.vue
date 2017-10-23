@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>用户报修</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="repairs">
 		    		<div class="repairs1">
@@ -149,11 +149,13 @@
 		        value: '',
 		        pageNum:1,
 		        pageSize:10,
-		        communityId:''
+		        communityId:'',
+		        Name:''
 			}
     	},
     	mounted(){
 			this.communityId = this.$route.query.communityId;
+			this.Name = this.$route.query.Name;
 			this.datas();
     	},
     	filters:{

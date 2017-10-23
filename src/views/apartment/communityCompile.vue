@@ -11,11 +11,11 @@
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>编辑社区信息</h3>
         </div>
-        <div class="message-tis">
+        <div class="compile">
           <table class="cop">
             <tr>
               <td><span class="btxs">*</span>社区名称：</td>
-              <td><input type="text" placeholder="请输入社区名称" class="complie_name" v-model="communityName"></td>
+              <td><input type="text" placeholder="请输入社区名称" class="complie_name" v-model="communityName" maxlength="20"></td>
             </tr>
             <tr>
               <td><span class="btxs">*</span>地址：</td>
@@ -37,7 +37,7 @@
             <tr>
               <td></td>
               <td class="xiangxi">
-                <el-input v-model="communityAddress" placeholder="请填写详细地址"></el-input>
+                <el-input v-model="communityAddress" placeholder="请填写详细地址" maxlength="30"></el-input>
               </td>
             </tr>
             <tr>
@@ -67,11 +67,11 @@
             </tr>
             <tr>
               <td><span class="btxs">*</span>社区服务电话：</td>
-              <td><input type="text" placeholder="请输入社区服务电话" class="complie_name2" v-model="communityPhone"></td>
+              <td><input type="text" placeholder="请输入社区服务电话" class="complie_name2" v-model="communityPhone" maxlength="15"></td>
             </tr>
             <tr>
               <td><span class="btxs">*</span>物业合同编号：</td>
-              <td><input type="text" placeholder="请输入物业合同编号" class="complie_name3" v-model="communityContractNum"></td>
+              <td><input type="text" placeholder="请输入物业合同编号" class="complie_name3" v-model="communityContractNum" maxlength="20"></td>
             </tr>
             <tr>
               <td>
@@ -543,4 +543,15 @@
       left: 5px;
     }
   }
+  .ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+		}
 </style>

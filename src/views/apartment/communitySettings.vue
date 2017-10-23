@@ -30,7 +30,7 @@
 														</el-select>
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5"><span class="baifen">%</span></td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -54,7 +54,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px">小时</td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -78,7 +78,7 @@
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>服务费设置：</span>
 										<div class="floor-item form-item">
-											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost">元/月 </span>
+											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost" maxlength="10">元/月 </span>
 										</div>
 									</div>
 									<div class="floor-main">
@@ -99,8 +99,8 @@
 												<el-radio :label="1">按用量</el-radio><br>
 												<el-radio :label="2">按合租人数</el-radio>
 											</el-radio-group>
-											<input class="inputs" type="text" v-model="sect" placeholder="请填写金额"></input><span>元/立方米</span><br>
-											<input class="inputs inputs2" type="text" v-model="sect2" placeholder="请填写金额"></input><span>元/人</span>
+											<input class="inputs" type="text" v-model="sect" placeholder="请填写金额" maxlength="10"></input><span>元/立方米</span><br>
+											<input class="inputs inputs2" type="text" v-model="sect2" placeholder="请填写金额" maxlength="10"></input><span>元/人</span>
 										</div>
 									</div>
 								</div>
@@ -114,8 +114,8 @@
 												<el-radio :label="1">按用量</el-radio><br>
 												<el-radio :label="2">按合租人数</el-radio>
 											</el-radio-group>
-											<input class="inputs" type="text" v-model="input1" placeholder="请填写金额"></input><span>元/度</span><br>
-											<input class="inputs inputs2" type="text" v-model="input2" placeholder="请填写金额"></input><span>元/人</span>
+											<input class="inputs" type="text" v-model="input1" placeholder="请填写金额" maxlength="10"></input><span>元/度</span><br>
+											<input class="inputs inputs2" type="text" v-model="input2" placeholder="请填写金额" maxlength="10"></input><span>元/人</span>
 										</div>
 									</div>
 								</div>
@@ -142,7 +142,7 @@
 														</el-select>
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px"><span class="baifen">%</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5"><span class="baifen">%</span></td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -165,7 +165,7 @@
 															</el-option>
 														</el-select>
 													</td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px"><span class="baifen2">元/</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span class="baifen2">元/</span></td>
 													<td>
 														<el-select v-model="tableRepair.value8" placeholder="请选择次数" style="width: 140px" class="tbs" @change="communit3(tableRepair.value8,index)">
 															<el-option v-for="item in tableRepair.option8" :key="item.dataName" :value="item.dataName">
@@ -195,7 +195,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px">小时</td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -209,7 +209,7 @@
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>服务费设置：</span>
 										<div class="floor-item form-item">
-											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2">元/月 </span>
+											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2" maxlength="10">元/月 </span>
 										</div>
 									</div>
 									<div class="floor-main">
@@ -396,6 +396,26 @@
 			}
 
 
+		},
+		watch:{
+			serviceCost:function(){
+				this.serviceCost = this.serviceCost.replace(/[^\d.]/,'');
+			},
+			serviceCost2:function(){
+				this.serviceCost2 = this.serviceCost2.replace(/[^\d.]/,'');
+			},
+			sect:function(){
+				this.sect = this.sect.replace(/[^\d.]/,'');
+			},
+			sect2:function(){
+				this.sect2 = this.sect2.replace(/[^\d.]/,'');
+			},
+			input1:function(){
+				this.input1 = this.input1.replace(/[^\d.]/,'');
+			},
+			input2:function(){
+				this.input2 = this.input2.replace(/[^\d.]/,'');
+			}
 		},
 		methods: {
 			compile() {

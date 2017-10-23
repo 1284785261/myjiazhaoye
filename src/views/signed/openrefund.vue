@@ -16,31 +16,31 @@
 		    		<table>
 		    			<tr>
 		    				<td>金额：</td>
-		    				<td><input type="text" placeholder="请输入金额" style="width: 198px;" v-model="money"/><span>元</span></td>
+		    				<td><input type="text" placeholder="请输入金额" style="width: 198px;" v-model="money" maxlength="10"/><span>元</span></td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户注册手机号：</td>
-		    				<td><input type="text" placeholder="请输入用户注册的手机号码" v-model="phone"/></td>
+		    				<td><input type="text" placeholder="请输入用户注册的手机号码" v-model="phone" maxlength="13"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户姓名：</td>
-		    				<td><input type="text" placeholder="请输入用户姓名" v-model="name"/></td>
+		    				<td><input type="text" placeholder="请输入用户姓名" v-model="name" maxlength="10"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户收款银行账号：</td>
-		    				<td><input type="text" placeholder="请输入用户收款银行账号" v-model="account"/></td>
+		    				<td><input type="text" placeholder="请输入用户收款银行账号" v-model="account" maxlength="30"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>开户行：</td>
-		    				<td><input type="text" placeholder="请输入开户行" v-model="kahx"/></td>
+		    				<td><input type="text" placeholder="请输入开户行" v-model="kahx" maxlength="20"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>户名：</td>
-		    				<td><input type="text" placeholder="请输入户名" v-model="namet"/></td>
+		    				<td><input type="text" placeholder="请输入户名" v-model="namet" maxlength="10"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td style="vertical-align: top;">退款备注：</td>
-		    				<td><textarea placeholder="请输入退款备注" v-model="tesr"></textarea></td>
+		    				<td><textarea placeholder="请输入退款备注" v-model="tesr" maxlength="140"></textarea></td>
 		    			</tr>
 		    		</table>
 		    		<a @click="datas">提交退款申请</a>
@@ -106,6 +106,9 @@
     			if(str.test(this.name) == false){
     				this.phone.replace(/^[\u4E00-\u9FA5A-Za-z]+$/,'');
     			}
+    		},
+    		account:function(){
+    			this.account = this.account.replace(/[^\w\\/]/ig,'');
     		}
     	},
     	filters:{

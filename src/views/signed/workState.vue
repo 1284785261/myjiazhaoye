@@ -10,7 +10,7 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>办公空间状态</h3>
-          <span>佳兆业航运WEWA空间</span>
+          <span>{{Name}}</span>
         </div>
         <div id="workstate">
         	<div class="workstate1">
@@ -125,7 +125,8 @@
         gongweis:[],  //所有工位的数据
        	dilemma:[],  //日期时刻
        	days:'',   //工位当前日期
-       	days2:''   //会议室当前日期
+       	days2:'',   //会议室当前日期
+       	Name:''
       }
     },
     filters:{
@@ -162,6 +163,7 @@
     },
     mounted(){
     	this.communityId = this.$route.query.id;
+    	this.Name = this.$route.query.Name;
     	this.datas();
     	this.datam();
     },

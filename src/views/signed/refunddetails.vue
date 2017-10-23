@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>退款详情</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="refunddetails">
 		    		<div>
@@ -65,11 +65,13 @@
 		    				</tr>
 		    				<tr>
 		    					<td>审核通过时间：</td>
-		    					<td>{{data.passTime | time}}</td>
+		    					<td v-if="data.passTime">{{data.passTime | time}}</td>
+		    					<td v-else>--</td>
 		    				</tr>
 		    				<tr>
 		    					<td>退款时间：</td>
-		    					<td>{{data.createTime | time}}</td>
+		    					<td v-if="data.createTime">{{data.createTime | time}}</td>
+		    					<td v-else>--</td>
 		    				</tr>
 		    			</table>
 		    		</div>
@@ -101,11 +103,13 @@
 				currentPage3: 1,
 				radio: '1',
 				id:'',
-				data:null
+				data:null,
+				Name:''
 		   	}
     	},
     	mounted(){
 			this.id = this.$route.query.id;
+			this.Name = this.$route.query.name;
 			this.datas();
     	},
     	filters:{

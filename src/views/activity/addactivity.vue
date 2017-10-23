@@ -29,7 +29,7 @@
 						</tr>
 						<tr>
 							<td>活动主题：</td>
-							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" /></td>
+							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="20"/></td>
 						</tr>
 						<tr>
 							<td>开始时间：</td>
@@ -39,7 +39,7 @@
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
-							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent"></textarea></td>
+							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="50"></textarea></td>
 						</tr>
 						<tr>
 							<td>活动规则：</td>
@@ -59,7 +59,7 @@
 						</tr>
 						<tr>
 							<td>总金额：</td>
-							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" /></td>
+							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10"/></td>
 						</tr>
 						<tr>
 							<td>优惠券有效期：</td>

@@ -72,17 +72,17 @@
       left: 974px;
       top: 15px;
 }
-.repairs1 .el-select{
+#repairs .repairs1 .el-select{
 	width: 120px;
 	outline: none;
 }
-.repairs1 .el-select .el-input .el-input__icon{
+#repairs .repairs1 .el-select .el-input .el-input__icon{
 	border: 1px solid #DCDCDC;
 	transition:auto;
 	
 }
 
-.repairs1 .el-select .el-input__inner{
+#repairs .repairs1 .el-select .el-input__inner{
 	border-radius: inherit;
 	width: 120px;
 }

@@ -29,12 +29,12 @@
 		    			</tr>
 		    			<tr>
 		    				<td>图片链接：</td>
-		    				<td><input type="text" placeholder="请输入链接" v-model="links"></td>
+		    				<td><input type="text" placeholder="请输入链接" v-model="links" maxlength="50"></td>
 		    			</tr>
 		    			<tr>
 		    				<td>图片说明：</td>
 		    				<td>
-		    					<textarea placeholder="请输入图片说明" v-model="title">
+		    					<textarea placeholder="请输入图片说明" v-model="title" maxlength="140">
 		    						
 		    					</textarea>
 		    				</td>
@@ -92,6 +92,11 @@
     			param:[]
 		   	}
     	},
+    	watch: {
+			listNumber:function(){
+				this.listNumber = this.listNumber.replace(/[^\d]/,'');
+			}
+		},
     	mounted(){
     		this.param = new FormData();
     		let vm = this

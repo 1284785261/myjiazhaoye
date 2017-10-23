@@ -94,14 +94,14 @@
 				<tr>
 					<td style="vertical-align: top;">消息内容：</td>
 					<td>
-						<textarea placeholder="请输入消息内容" v-model="titl1">
+						<textarea placeholder="请输入消息内容" v-model="titl1" maxlength="140">
 							
 						</textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>超链接：</td>
-					<td><input type="text" placeholder="请输入链接" v-model="titl2"/></td>
+					<td><input type="text" placeholder="请输入链接" v-model="titl2" maxlength="50"/></td>
 				</tr>
 			</table>
 			<a @click="issue">发布</a>

@@ -39,7 +39,7 @@
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:selectModel1}}">公寓签约</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId}}">公寓状态</router-link>
+								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
 							<li>
 								<router-link to="/">直播管理</router-link>
@@ -51,22 +51,22 @@
 								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">公寓水电帐单</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId}}">用户报修</router-link>
+								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
 							</li>
 							<li>
 								<router-link to="/contract/contractIndex">合同管理</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link>
+								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link>
+								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link>
+								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId}}">用户投诉</router-link>
+								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
 							</li>
 						</ul>
 					</div>
@@ -122,7 +122,7 @@
 								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/workState',query:{id:communityId}}">办公空间状态</router-link>
+								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}">办公空间状态</router-link>
 							</li>
 							<li>
 								<router-link to="/">直播管理</router-link>
@@ -134,22 +134,22 @@
 								<router-link :to="{name: 'orderManagement'}">办公订单</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId}}">用户报修</router-link>
+								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
 							</li>
 							<li>
 								<router-link to="/contract/contractIndex">合同管理</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId}}">退租管理</router-link>
+								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId}}">发起退款</router-link>
+								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId}}">发起收款</router-link>
+								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId}}">用户投诉</router-link>
+								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
 							</li>
 						</ul>
 					</div>

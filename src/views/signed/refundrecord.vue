@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>发起退款记录</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="refundrecord">
 		    		<div class="refundrecord1">
@@ -57,7 +57,7 @@
 			    				<td style="color: red;">{{item.refundMoney | Money}}</td>
 			    				<td>{{item.refundStatus | Status}}</td>
 			    				<td>{{item.refundInfo}}</td>
-			    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:item.refundId}}">查看详情</router-link></td>
+			    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:item.refundId,name:Name}}">查看详情</router-link></td>
 			    			</tr>
 			    		</table>
 			    		<el-pagination
@@ -124,11 +124,13 @@
 		        State:'',
 		        keyWord:'',
 		        start:'',
-		        over:''
+		        over:'',
+		        Name:''
 			}
     	},
     	mounted(){
 			this.communityId = this.$route.query.communityId;
+			this.Name = this.$route.query.Name;
 			this.datas();
     	},
     	filters:{
