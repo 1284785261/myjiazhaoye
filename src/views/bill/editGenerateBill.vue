@@ -20,10 +20,10 @@
             <div class="form-item">
               <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{billTotalNum}}户</span>
             </div>
-            <div class="form-item">
-              <Button style="width: 120px;height: 30px;" :disabled="true">全部抄表</Button>
-              <Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else @click="sendBillToCostomer">生成账单并发送给租客</span></Button>
-            </div>
+            <!--<div class="form-item">-->
+              <!--<Button style="width: 120px;height: 30px;" :disabled="true">全部抄表</Button>-->
+              <!--<Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else @click="sendBillToCostomer">生成账单并发送给租客</span></Button>-->
+            <!--</div>-->
           </div>
           <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
             <tr class="tr1">
@@ -40,13 +40,13 @@
                 <table class="table2">
                   <tr class="tr2">
                     <template v-if="!item.isEdit">
-                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
+                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">上次水表读数 :<span>{{item.roomWater}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<span>{{item.waterData}}</span></td>
                       <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
+                      <td class="td2" v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">上次水表读数 :<span>{{item.roomWater}}</span></td>
                       <td class="td2" v-if="item.waterChargeModel != 2">本次水表读数 :<input type="text" v-model="item.waterData"/></td>
                       <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
@@ -54,13 +54,13 @@
                   </tr>
                   <tr class="tr2">
                     <template v-if="!item.isEdit">
-                      <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
+                      <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.count}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">上次电表读数 :<span>{{item.roomElectric}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<span>{{item.energyData}}</span></td>
                       <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                     </template>
                     <template v-else>
-                      <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.enterCount}}</span></td>
+                      <td class="td2" v-if="item.electricChargeModel == 2">人数 :<span>{{item.count}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">上次电表读数 :<span>{{item.roomElectric}}</span></td>
                       <td class="td2" v-if="item.electricChargeModel != 2">本次电表读数 :<input type="text"  v-model="item.energyData"/></td>
                       <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
@@ -68,7 +68,7 @@
                   </tr>
                 </table>
               </td>
-              <td class="td1">{{item.totalMoney}}</td>
+              <td class="td1">{{item.realMoney}}</td>
               <td class="td1">{{item.userName}}</td>
               <td class="td1">{{item.userPhone}}</td>
               <td class="td1" style="min-width: 85px;"><a @click="editBill(index,item.isEdit)">{{item.content}}</a></td>
@@ -96,7 +96,7 @@
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
-  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,editUsedWaterEnergy,hostTitle,sendAllToCustomer} from '../api.js';
+  import {allCommunity,unsentWaterEnergyBillList,statisticsInfoOfUser,editUsedWaterEnergy,hostTitle,sendAllToCustomer,WaterEnergyBillList500099,billList500098,WaterEnergyBillList5000100} from '../api.js';
 
 
   export default {
@@ -159,11 +159,11 @@
       },
       getbillPayment(data){
         var that = this;
-        this.$http.get(unsentWaterEnergyBillList,{params:data})
+        this.$http.get(billList500098,{params:data})
           .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.billPaymentList = pageBean.page;
+              var pageBean = res.data.result;
+              that.billPaymentList = pageBean.waterList;
               that.billTotalNum = pageBean.totalNum;
               for(var i =0;i<that.billPaymentList.length;i++){
                 that.$set(that.billPaymentList[i],"isEdit",false);
@@ -203,25 +203,25 @@
           debugger
           var params = {
             waterElectricityBill:obj.waterElectricityBill,
-            waterData:parseInt(obj.waterData),
-            energyData:parseInt(obj.energyData)
+            waterData:parseFloat(obj.waterData),
+            energyData:parseFloat(obj.energyData)
           };
           if(obj.waterChargeModel == 1){
-            params.waterSize=parseInt(obj.waterData)-parseInt(obj.roomWater);
-            params.waterCost = parseInt(obj.waterPrice)*parseInt(params.waterSize);
+            params.waterSize=parseFloat(obj.waterData)-parseFloat(obj.roomWater);
+            params.waterCost = parseFloat(obj.waterPrice)*parseFloat(params.waterSize);
           }else{
             params.count = obj.count;
-            params.waterCost = parseInt(obj.waterPrice)*parseInt(obj.count);
+            params.waterCost = parseFloat(obj.waterPrice)*parseFloat(obj.count);
           }
 
           if(obj.electricChargeModel == 1){
-            params.energySize=parseInt(obj.energyData)-parseInt(obj.roomElectric);
-            params.energyCost = parseInt(obj.energyPrice)*parseInt(params.energySize);
+            params.energySize=parseFloat(obj.energyData)-parseFloat(obj.roomElectric);
+            params.energyCost = parseFloat(obj.energyPrice)*parseFloat(params.energySize);
           }else{
             params.count = obj.count;
-            params.energyCost = parseInt(obj.energyPrice)*parseInt(obj.count);
+            params.energyCost = parseFloat(obj.energyPrice)*parseFloat(obj.count);
           }
-          params.totalMoney=params.energyCost + params.waterCost;
+//          params.totalMoney=params.energyCost + params.waterCost;
           params.realMoney=params.energyCost + params.waterCost;
           if(obj.electricChargeModel == 2 || obj.waterChargeModel == 2){
             params.count = obj.count;
@@ -232,7 +232,7 @@
       },
       saveBillPayment(params){
         var that = this;
-        this.$http.post(editUsedWaterEnergy,qs.stringify(params))
+        this.$http.post(WaterEnergyBillList5000100,qs.stringify(params))
           .then(function(res){
             that.pageSearch(that.activePage);
           })

@@ -67,6 +67,112 @@
               </div>
               <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
             </Tab-pane>
+            <Tab-pane label="历史水电账单">
+              <div class="form-search-criteria">
+                <div class="form-item">
+                  <b>社区：</b>
+                  <span>佳兆业社区</span>
+                </div>
+                <div class="form-item">
+                  <b>房间号：</b>
+                  <span>201 标准大单间</span>
+                </div>
+                <div class="form-item">
+                  <span>操作时间：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  <span class="inline-block spanBar">--</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+                </div>
+                <div class="form-item">
+                  <div class="form-search">
+                    <!--<i class="iconfont icon-sousuo"></i>-->
+                    <!--<Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>-->
+                    <input type="button" @click="roomSearch()" value="搜索">
+                  </div>
+                </div>
+              </div>
+              <table class="table ivu-table" v-if="roomTotalNum > 0">
+                <tr>
+                  <th >账单日期</th>
+                  <th>水费情况</th>
+                  <th>电费情况</th>
+                  <th>合计应收（元）</th>
+                  <th>租客/联系人</th>
+                  <th>状态</th>
+                </tr>
+                <tr>
+                  <td >2017-7-1</td>
+                  <td>读数：370 用水量：37m³ 水费：296.00 元</td>
+                  <td>读数：370 用电量：37m³ 电费：191.40 元</td>
+                  <td>507.40</td>
+                  <td>叶晓婷</td>
+                  <td>待缴</td>
+                </tr>
+                <tr>
+                  <td >2017-7-1</td>
+                  <td>读数：370 用水量：37m³ 水费：296.00 元</td>
+                  <td>读数：370 用电量：37m³ 电费：191.40 元</td>
+                  <td>507.40</td>
+                  <td>叶晓婷</td>
+                  <td>待缴</td>
+                </tr>
+              </table>
+              <div class="blank-background-img" v-if="roomTotalNum == 0">
+                <img src="../../../static/images/blank/contract_space.png" >
+                <h2>暂无合同内容~</h2>
+              </div>
+              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
+            </Tab-pane>
+            <Tab-pane label="历史租金账单">
+              <div class="form-search-criteria">
+                <div class="form-item">
+                  <b>社区：</b>
+                  <span>佳兆业社区</span>
+                </div>
+                <div class="form-item">
+                  <b>房间号：</b>
+                  <span>201 标准大单间</span>
+                </div>
+                <div class="form-item">
+                  <span>操作时间：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  <span class="inline-block spanBar">--</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+                </div>
+                <div class="form-item">
+                  <div class="form-search">
+                    <!--<i class="iconfont icon-sousuo"></i>-->
+                    <!--<Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>-->
+                    <input type="button" @click="roomSearch()" value="搜索">
+                  </div>
+                </div>
+              </div>
+              <table class="table ivu-table" v-if="roomTotalNum > 0">
+                <tr>
+                  <th >账单日期</th>
+                  <th>租期</th>
+                  <th>承租人</th>
+                  <th>承租人手机号</th>
+                  <th>租金（元）</th>
+                  <th>服务费（元）</th>
+                  <th>状态</th>
+                </tr>
+                <tr>
+                  <td >2017/7/7 </td>
+                  <td>2017/7/7-2017/8/7</td>
+                  <td>叶晓婷</td>
+                  <td>13644119411</td>
+                  <td>1200</td>
+                  <td>100</td>
+                  <td>待支付</td>
+                </tr>
+              </table>
+              <div class="blank-background-img" v-if="roomTotalNum == 0">
+                <img src="../../../static/images/blank/contract_space.png" >
+                <h2>暂无合同内容~</h2>
+              </div>
+              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
+            </Tab-pane>
           </Tabs>
         </div>
 

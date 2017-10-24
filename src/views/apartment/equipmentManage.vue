@@ -795,7 +795,7 @@
           this.isHid = !this.isHid;
           this.addDoorLockFlag = !this.addDoorLockFlag;
 
-          thsi.addLockFlag = false;//打开被锁按钮
+          this.addLockFlag = false;//打开被锁按钮
           this.floorName = floorName;
           this.roomNum = roomNum;
           this.activeRoomId = roomId;

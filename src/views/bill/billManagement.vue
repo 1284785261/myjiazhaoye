@@ -145,22 +145,22 @@
                 <div class="form-item">
                   <Button style="width: 120px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>
                 </div>
-                <div class="form-item">
-                  <span>账单月份：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyStartDate"></Date-picker>
-                  <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="waterEnergyEndDate"></Date-picker>
-                </div>
+                <!--<div class="form-item">-->
+                  <!--<span>账单月份：</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="waterEnergyStartDate"></Date-picker>-->
+                  <!--<span class="inline-block spanBar">-</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="waterEnergyEndDate"></Date-picker>-->
+                <!--</div>-->
               </div>
-              <div class="pay-information-wrap-head">
-                <ul>
-                  <li>所属社区 :<span style="color: #038be2;font-weight: 700;">{{communityPayStatic.communityName}}</span></li>
-                  <li>出账日期 :<span>{{communityPayStatic.waterEnergyPayDate | timefilter("yyyy-MM-dd")}}</span></li>
-                  <li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>
-                  <li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>
-                  <li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>
-                </ul>
-              </div>
+              <!--<div class="pay-information-wrap-head">-->
+                <!--<ul>-->
+                  <!--<li>所属社区 :<span style="color: #038be2;font-weight: 700;">{{communityPayStatic.communityName}}</span></li>-->
+                  <!--<li>出账日期 :<span>{{communityPayStatic.waterEnergyPayDate | timefilter("yyyy-MM-dd")}}</span></li>-->
+                  <!--<li>全部租客 :<span>{{communityPayStatic.totalCount}}户</span></li>-->
+                  <!--<li>待缴 :<span style="color:red;font-weight: 700;">{{communityPayStatic.notyetCount}}户</span></li>-->
+                  <!--<li>已缴 :<span style="color:black;font-weight: 700;">{{communityPayStatic.alreadyCount}}户</span></li>-->
+                <!--</ul>-->
+              <!--</div>-->
               <div class="form-search-criteria">
                 <div class="form-item pay-btn-group">
                   <span>筛选: </span>
@@ -175,9 +175,9 @@
                     <input type="button" value="搜索" @click="search()">
                   </div>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
-                </div>
+                <!--<div class="form-item">-->
+                  <!--<Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>-->
+                <!--</div>-->
               </div>
               <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
                 <tr class="tr1">
@@ -190,25 +190,27 @@
                   <th class="th1">状态</th>
                 </tr>
                 <tr class="tr1" v-for="(item,index) in billPaymentList">
-                  <td class="td1">{{item.roomInfo?item.roomInfo.roomNum:""}}</td>
+                  <td class="td1">{{item.roomNum}}</td>
                   <td class="td1">
                     <table class="table2">
                       <tr class="tr2">
-                        <td class="td2">读数 :<span>{{item.waterData}}</span></td>
-                        <td class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
+                        <td v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                        <td v-if="item.waterChargeModel != 2" class="td2">读数 :<span>{{item.waterData}}</span></td>
+                        <td v-if="item.waterChargeModel != 2" class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
                         <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                       </tr>
                       <tr class="tr2">
-                        <td class="td2">读数 :<span>{{item.energyData}}</span></td>
-                        <td class="td2">用电量 :<span>{{item.energySize}}度</span></td>
+                        <td v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                        <td v-if="item.waterChargeModel != 2" class="td2">读数 :<span>{{item.energyData}}</span></td>
+                        <td v-if="item.waterChargeModel != 2" class="td2">用电量 :<span>{{item.energySize}}度</span></td>
                         <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
                       </tr>
                     </table>
                   </td>
                   <!--<td class="td1">{{item.serviceCost}}</td>-->
-                  <td class="td1">{{item.totalMoney}}</td>
-                  <td class="td1">{{item.userInfo?item.userInfo.userName:""}}</td>
-                  <td class="td1">{{item.userInfo?item.userInfo.userPhone:""}}</td>
+                  <td class="td1">{{item.realMoney}}</td>
+                  <td class="td1">{{item.userName}}水:{{item.waterChargeModel}}电:{{item.electricChargeModel}}</td>
+                  <td class="td1">{{item.userPhone}}</td>
                   <td class="td1">
                     <span v-if="item.payStatus == 1">待缴</span>
                     <span v-if="item.payStatus == 2" style="color: #ccc;">已缴</span>
@@ -237,7 +239,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment} from '../api.js';
+  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099} from '../api.js';
 
 
   export default {
@@ -305,7 +307,7 @@
               that.getRoomBill({pageNum:1,communityId:that.communityId});
               that.getOfficeBill({pageNum:1,communityId:that.communityId});
               //水电账单
-              that.getPayStatic({communityId:that.communityId});
+//              that.getPayStatic({communityId:that.communityId});
               that.getbillPayment({communityId:that.communityId,pageNum:1});
             }
           })
@@ -380,7 +382,12 @@
       },
 
       createBill(){
-        this.$router.push({path:"/bill/generateBill",query:{communityId:this.communityId}});
+        var that = this;
+        this.$http.post(WaterEnergyBillList500099)
+          .then(function(res){
+            debugger
+          })
+//        this.$router.push({path:"/bill/generateBill",query:{communityId:this.communityId}});
       },
       editBill(){
         this.$router.push({path:"/bill/editGenerateBill",query:{communityId:this.communityId}});
@@ -405,11 +412,11 @@
       },
       getbillPayment(data){
         var that = this;
-        this.$http.get(billPayment,{params:data})
+        this.$http.get(billList500098,{params:data})
           .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.billPaymentList = pageBean.page;
+              var pageBean = res.data.result;
+              that.billPaymentList = pageBean.waterList;
               that.billTotalNum = pageBean.totalNum;
             }
             if(res.data.code == 10001 || res.data.code == 10008){
@@ -480,7 +487,7 @@
         setTimeout(function(){
           vm.getRoomBill({pageNum:1,communityId:newValue});
           vm.getOfficeBill({pageNum:1,communityId:newValue});
-          vm.getPayStatic({communityId:newValue});
+//          vm.getPayStatic({communityId:newValue});
           vm.getbillPayment({communityId:newValue});
         },10);
       },

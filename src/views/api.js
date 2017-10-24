@@ -7,7 +7,8 @@ const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
-//const host3 = 'http://192.168.26.232:8081';//周昭滨
+// const host3 = 'http://192.168.26.232:8081';//周昭滨
+//const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
 //用户登录接口
 const login='/cxkj-center/apis/user/CxkjCenterLogin100002';
@@ -525,3 +526,10 @@ export const openWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityW
 export const appointmentList =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentList300106';//看房预约列表
 export const feedBack =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentFeedBack300108';//确认接待
 export const receive =host3+'/cxkj-room/apis/pc/communityAppointmentCenter/CxkjReceiveCommunityAppointment300109';//我要接待
+
+
+//水电账单
+export const billList500098 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillList500098';//水电账单列表
+export const WaterEnergyBillList500099 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CreateCxkjWaterEnergyBillList500099';//编辑账单列表
+export const WaterEnergyBillList5000100 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyDetailSave500100';
+
