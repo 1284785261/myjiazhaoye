@@ -216,7 +216,7 @@
 				</tr>
 			</table>
       <span style="color: red;" v-if="erorrInfo">密码必须为6位数字组成</span>
-			<a class="tjss" @click="addDoorLockSure()">提交</a>
+			<Button type="primary" class="tjss" @click="addDoorLockSure()" :disabled="addLockFlag">提交</Button>
 		</div>
     <!--修改门锁配置-->
 		<div class="instas5" v-show="isHide4">
@@ -561,6 +561,7 @@
           deleteWaterModal:false,
           shutWaterModal:false,
           openWaterModal:false,
+          addLockFlag:false,
 		   	}
     	},
       mounted(){
@@ -794,6 +795,7 @@
           this.isHid = !this.isHid;
           this.addDoorLockFlag = !this.addDoorLockFlag;
 
+          thsi.addLockFlag = false;//打开被锁按钮
           this.floorName = floorName;
           this.roomNum = roomNum;
           this.activeRoomId = roomId;
@@ -815,12 +817,14 @@
             sn:this.doorLockSn,
             password:this.doorLockPwd
           };
+          this.addLockFlag = true;//锁定提交按钮
           this.$http.post(addDoorLock,qs.stringify(data)).then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.addDoorLockFlag = !that.addDoorLockFlag;
               that.getIntelligenceLock();
             }
+            that.addLockFlag = false;
           })
         },
         //打开修改门锁对话框

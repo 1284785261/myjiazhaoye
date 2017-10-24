@@ -58,15 +58,15 @@
                 <ul>
                   <li>
                     <p>收入金额</p>
-                    <h1>￥{{pageBean.inMoney}}</h1>
+                    <h1>￥{{pageBean.inMoney || 0}}</h1>
                   </li>
                   <li>
                     <p>支出金额</p>
-                    <h1 style="color: red;">￥{{pageBean.outMoney}}</h1>
+                    <h1 style="color: red;">￥{{pageBean.outMoney ||　0}}</h1>
                   </li>
                   <li>
                     <p>利润</p>
-                    <h1 style="color: #1fbba6">￥{{pageBean.inMoney-pageBean.outMoney}}</h1>
+                    <h1 style="color: #1fbba6">￥{{pageBean.inMoney-pageBean.outMoney || 0}}</h1>
                   </li>
                 </ul>
               </div>

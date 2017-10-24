@@ -18,7 +18,7 @@
             <tr>
               <th>序号</th>
               <th>户型</th>
-              <th>面积(m³)</th>
+              <th>面积(㎡)</th>
               <th>室</th>
               <th>厅</th>
               <th>卫</th>
