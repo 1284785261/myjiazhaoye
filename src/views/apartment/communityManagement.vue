@@ -481,7 +481,9 @@
 				axios.post(hostCommint, //请求数据列表
 						qs.stringify({
 							pageNum: pageNum,
-							pageSize: pageSize
+							pageSize: pageSize,
+							communityIsClose: 0
+							
 						})
 					).then((response) => {
 						console.log(response);

@@ -14,22 +14,20 @@
 		        </div>
 		    	<div id="repairs">
 		    		<div class="repairs1">
-		    			<span class="bsc">状态：</span>
-		    			<el-select v-model="value" placeholder="全部">
+		    			<span class="bsc">类型：</span>
+		    			<el-select v-model="value" placeholder="全部" @change="tba(value)">
 						    <el-option
-						      v-for="item in options8"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      v-for="item in options1"
+						      :key="item.data"
+						      :value="item.data">
 						    </el-option>
 					 	 </el-select>
 		    			<span class="bsc">状态：</span>
-		    			<el-select v-model="value" placeholder="全部">
+		    			<el-select v-model="value2" placeholder="全部" @change="tba2(value2)">
 						    <el-option
-						      v-for="item in options8"
-						      :key="item.value"
-						      :label="item.label"
-						      :value="item.value">
+						      v-for="item in options2"
+						      :key="item.data"
+						      :value="item.data">
 						    </el-option>
 					 	 </el-select>
 						<span class="bsc">报修时间：</span>
@@ -39,11 +37,8 @@
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
 							<Input v-model="keyWord" placeholder="搜索收款对象/手机号"></Input>
-							<input type="button" value="搜索" @click="handleCurrentChange()">
+							<input type="button" value="搜索" @click="handle()">
 						</div>
-						<!--<input type="text"  placeholder="搜索收款对象/手机号" class="mv"/>
-						<i class="el-icon-search"></i>
-						<a class="sa">搜索</a>-->
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -57,46 +52,29 @@
 		    				<td>问题描述</td>
 		    				<td>操作</td>
 		    			</thead>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td style="color: red;">111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td>未分配</td>
-		    				<td><router-link to="/signed/repairsdetails">查看详情</router-link><a style="margin-left: 10px;">确认跟进</a></td>
+		    			<tr v-for="item in Datas">
+		    				<td>{{item.repairNo}}</td>
+		    				<td>{{item.createtime | time}}</td>
+		    				<td>{{item.isOffice | office}}</td>
+		    				<td>{{item.cxkjCommunityRoom.roomNum}}</td>
+		    				<td>{{item.systemData.dataName}}</td>
+		    				<td>{{item.repairTime | time}}</td>
+		    				<td :class="[{'kust':item.repairState == 0},{'kust1':item.repairState == 1}]">{{item.repairState | state}}</td>
+		    				<td v-if="item.repairDesc">{{item.repairDesc}}</td>
+		    				<td v-else>--</td>
+		    				<td><router-link to="/signed/repairsdetails">查看详情</router-link>
+		    					<a style="margin-left: 10px;" v-if="item.repairState == 0">确认跟进</a>
+		    					<a style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</a>
+		    				</td>
 		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td>未分配</td>
-		    				<td><a>查看详情</a></td>
-		    			</tr>
-		    			<tr>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>111111</td>
-		    				<td>未分配</td>
-		    				<td>未分配</td>
-		    				<td><a>查看详情</a></td>
-		    			</tr>
+		    		
 		    		</table>
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
 				      :current-page.sync="currentPage3"
 				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
-				      :total="20">
+				      :total=totolNum>
 				    
 				    </el-pagination>
 		    	</div>
@@ -130,27 +108,42 @@
 				ishide:false,
 				ishide2:false,
 				ishide3:false,
-				options8: [{
-		          value: '选项1',
-		          label: '黄金糕'
+				options1: [{
+		          data: '全部',
+		          id:-1
 		        }, {
-		          value: '选项2',
-		          label: '双皮奶'
+		          data: '公寓',
+		          id:0
 		        }, {
-		          value: '选项3',
-		          label: '蚵仔煎'
-		        }, {
-		          value: '选项4',
-		          label: '龙须面'
-		        }, {
-		          value: '选项5',
-		          label: '北京烤鸭'
+		          data: '办公室',
+		          id:1
 		        }],
 		        value: '',
+		        options2: [{
+		          data: '全部',
+		          id:-1
+		        }, {
+		          data: '待处理',
+		          id:0
+		        }, {
+		          data: '跟进中',
+		          id:1
+		        }, {
+		          data: '已办结',
+		          id:2
+		        }],
+		        value2: '',
 		        pageNum:1,
 		        pageSize:10,
 		        communityId:'',
-		        Name:''
+		        Name:'',
+		        totolNum:0,
+		        Datas:{},
+		        repairState:null,
+		        isOffice:null,
+		        start:null,
+		        over:null,
+		        keyWord:null
 			}
     	},
     	mounted(){
@@ -159,7 +152,28 @@
 			this.datas();
     	},
     	filters:{
-   
+   			time(val) {
+				return new Date(val).Format('yyyy-MM-dd hh:mm');
+			},
+			office(val){
+				if(val == 0){
+					return '公寓报修'
+				}
+				else if(val == 1){
+					return '办公室报修'
+				}
+			},
+			state(val){
+				if(val == 0){
+					return '待处理'
+				}
+				else if(val == 1){
+					return '跟进中'
+				}
+				else if(val == 2){
+					return '已办结'
+				}
+			}
     	},
     	methods:{
 			adddian(){
@@ -172,23 +186,73 @@
 			},
 			datas(){
 		    	let pageNum = this.pageNum || 1;
-		    	axios.post(hostRepairTabe,
-		    		qs.stringify({
-		    			communityId:this.communityId,
-		    			pageNum: pageNum,
-		    			pageSize:this.pageSize
-		    		}))
-		    	.then((response)=>{
+		    	let param = new FormData();
+		    	param.append('communityId',this.communityId);
+		    	param.append('pageNum',pageNum);
+		    	param.append('pageSize',this.pageSize);
+		    	param.append('communityId',this.communityId);
+		    	axios.post(hostRepairTabe, param).then((response)=>{
 		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
-//			    		this.totolNum = response.data.entity.totalNum;
+			    		this.totolNum = response.data.entity.totalNum;
 			    	}
 		    	})
 		    	.catch((error)=>{
 		    		console.log(error);
 		    	})
-		  	}
+		  },
+		  	tba(value){
+		  		this.isOffice = this.options1[this.options1.findIndex(item => item.data == value)].id;
+		  	},
+		  	tba2(value){
+		  		this.repairState = this.options2[this.options2.findIndex(item => item.data == value)].id;
+		  	},
+		  	handleCurrentChange(val) {
+				//console.log(`当前页: ${val}`);
+				this.pageNum = val;
+				this.handle();
+			},
+			handle(){
+				let pageNum = this.pageNum || 1;
+		    	let param = new FormData();
+		    	param.append('communityId',this.communityId);
+		    	param.append('pageNum',pageNum);
+		    	param.append('pageSize',this.pageSize);
+		    	param.append('communityId',this.communityId);
+		    	
+		    	if(this.isOffice && this.isOffice != -1){
+		    		param.append('isOffice',this.isOffice);
+		    	}
+		    	if(this.repairState && this.repairState != -1){
+		    		param.append('repairState',this.repairState);
+		    	}
+		    	if(this.over){
+		    		this.over = new Date(this.over).Format('yyyy-MM-dd');
+		    		param.append('endtime',this.over);
+		    	}
+		    	if(this.start){
+		    		this.start = new Date(this.start).Format('yyyy-MM-dd');
+		    		param.append('starttime',this.start);
+		    	}
+		    	if(this.keyWord){
+		    		param.append('keyWord',this.keyWord);
+		    	}
+		    	axios.post(hostRepairTabe, param).then((response)=>{
+		    		console.log(response);
+		    		if(response.status == 200 && response.data.code == 10000){
+			    		this.Datas = response.data.entity.page;
+			    		this.totolNum = response.data.entity.totalNum;
+			    	}
+		    		else{
+		    			this.Datas = {};
+		    			this.totolNum = 0;
+		    		}
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
+			}
     	},
     	created(){
     		
