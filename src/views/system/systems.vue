@@ -333,7 +333,7 @@
 			<table>
 				<tr>
 					<td>账号：</td>
-					<td><input type="text" placeholder="请输入账号" v-model="Employ.account" /></td>
+					<td><input type="text" placeholder="请输入手机账号" v-model="Employ.account" @blur='Phone(Employ.account)' @focus="msg=''"/></td>
 				</tr>
 				<tr>
 					<td>用户姓名：</td>
@@ -341,7 +341,7 @@
 				</tr>
 				<tr v-if="adds2 == '新增员工'">
 					<td>密码：</td>
-					<td><input type="text" placeholder="请输入密码" v-model="Employ.password" /></td>
+					<td><input type="password" placeholder="请输入密码" v-model="Employ.password" /></td>
 				</tr>
 				<tr>
 					<td>所属部门：</td>
@@ -518,7 +518,8 @@
 					positionName: '',
 					powerId: '',
 					positionId: ''
-				}
+				},
+				msg:''
 			}
 		},
 		mounted() {
@@ -548,6 +549,16 @@
 			}
 		},
 		methods: {
+			Phone(value) { //验证手机号
+				let str = /^1(3|4|5|7|8)\d{9}$/;
+				console.log(str.test(value));
+				if(str.test(value) == true){
+					this.Employ.account = value;
+				}
+				else{
+					this.Employ.account = '';
+				}
+			},
 			handleCheckAll() { //部门全选
 				this.single = !this.single;
 				if(this.single == true) {
@@ -769,8 +780,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
-							this.Community();
+							this.datat();
+							this.datas();
+							this.Users();
 							this.Position();
+							this.Community();
 						}, 2000);
 					}
 				}).catch((err) => {
@@ -796,8 +810,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
-							this.Position();
 							this.datat();
+							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 						}, 2000);
 					}
 				}).catch((err) => {
@@ -824,8 +841,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
-							this.Position();
 							this.datat();
+							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 						}, 2000);
 					}
 				}).catch((err) => {
@@ -1110,7 +1130,11 @@
 							setTimeout(() => {
 								this.successModal = false;
 								this.test = ''
+								this.datat();
 								this.datas();
+								this.Users();
+								this.Position();
+								this.Community();
 							}, 2000);
 						} else {
 							this.isHide = false;
@@ -1148,7 +1172,11 @@
 
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
 							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 						}, 2000);
 					} else {
 						this.isHide = false;
@@ -1326,7 +1354,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
+							this.datas();
+							this.Users();
 							this.Position();
+							this.Community();
 							this.cxkjUserPositionList = [];
 						}, 2000);
 					}
@@ -1352,7 +1384,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
 							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 							this.departmentList = [];
 						}, 2000);
 					} else {
@@ -1385,6 +1421,10 @@
 						setTimeout(() => {
 							this.successModal = false;
 							this.datat();
+							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 							this.cxkjUserEmployeeList = [];
 						}, 2000);
 					} else {
@@ -1419,7 +1459,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
 							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 						}, 2000);
 					} else {
 						this.isHide = false;
@@ -1458,7 +1502,11 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
+							this.datas();
+							this.Users();
 							this.Position();
+							this.Community();
 						}, 2000);
 					} else {
 						this.isHide = false;
@@ -1491,6 +1539,10 @@
 						setTimeout(() => {
 							this.successModal = false;
 							this.datat();
+							this.datas();
+							this.Users();
+							this.Position();
+							this.Community();
 						}, 2000);
 					} else {
 						this.isHide = false;
@@ -1522,6 +1574,10 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							this.datat();
+							this.datas();
+							this.Users();
+							this.Position();
 							this.Community();
 						}, 2000);
 					} else {
@@ -1603,6 +1659,10 @@
 							setTimeout(() => {
 								this.successModal = false;
 								this.datat();
+								this.datas();
+								this.Users();
+								this.Position();
+								this.Community();
 							}, 2000);
 						} else {
 							this.isHide = false;
@@ -1653,7 +1713,11 @@
 							this.successModal = true;
 							setTimeout(() => {
 								this.successModal = false;
+								this.datat();
 								this.datas();
+								this.Users();
+								this.Position();
+								this.Community();
 							}, 2000);
 						} else {
 							this.isHide = false;
@@ -1702,7 +1766,11 @@
 							this.successModal = true;
 							setTimeout(() => {
 								this.successModal = false;
+								this.datat();
+								this.datas();
+								this.Users();
 								this.Position();
+								this.Community();
 							}, 2000);
 						} else {
 							this.isHide = false;
@@ -1747,8 +1815,11 @@
 							this.isHide = false;
 							this.isShow9 = false;
 							this.successMessage = '批量操作权限组成功';
-							this.Community();
+							this.datat();
+							this.datas();
+							this.Users();
 							this.Position();
+							this.Community();
 							this.successModal = true;
 							setTimeout(() => {
 								this.successModal = false;

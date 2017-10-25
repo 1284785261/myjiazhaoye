@@ -18,7 +18,7 @@
 							<td style="vertical-align: top;color: #000;font-weight: bold;line-height: 30px;">店长：</td>
 							<td>
 								<el-select v-model="tableConferen.value1" filterable placeholder="请选择" @change="actives(tableConferen.value1)">
-									<el-option v-for="item in tableConferen.option1" :key="item.userName +' '+ item.userPhone" :value="item.userName +' '+ item.userPhone">
+									<el-option v-for="item in tableConferen.option1" :key="item.userName +' '+ item.userPhone+' (' + item.positionName+')'" :value="item.userName +' '+ item.userPhone+' (' + item.positionName+')'">
 									</el-option>
 								</el-select>
 								<div class="uploading">
@@ -43,7 +43,7 @@
 								<a class="addploy" @click="addstaff" v-if="item.deletect == '继续添加管家'">{{item.deletect}}</a>
 								<a class="addploy" @click="details(item,index)" v-else >{{item.deletect}}</a>
 								<el-select v-model="item.value2" filterable placeholder="请选择" @change="actives2(item.value2,index)">
-									<el-option v-for="ites in item.option2" :key="ites.userName+' '+ites.userPhone" :value="ites.userName+' '+ites.userPhone">
+									<el-option v-for="ites in item.option2" :key="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'">
 									</el-option>
 								</el-select>
 								<div class="uploading">
@@ -66,7 +66,7 @@
 						<li v-for="(item,index) in ulsConfer">
 							<span v-if="item.title != ''">{{item.title}}维修：</span>
 							<el-select v-model="item.value3" filterable placeholder="请选择" @change="activem(item.value3,index)" v-if="item.title != ''">
-								<el-option v-for="ites in item.option3" :key="ites.userName +' '+ ites.userPhone" :value="ites.userName+' '+ites.userPhone">
+								<el-option v-for="ites in item.option3" :key="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName+' '+ites.userPhone+' (' + ites.positionName+')'">
 								</el-option>
 							</el-select>
 						</li>
@@ -190,11 +190,13 @@
 				this.tableConferences.splice(index,1);
 			},
 			datas(){
+//				officePositionDataId
 				axios.post(hostEmpRelation)          //员工信息
 				.then((response)=>{
 					//console.log(response);
 					if(response.data.code == 10000 && response.status == 200){
 						this.tableConferen.option1 = response.data.entity;
+						console.log(this.tableConferen.option1);
 						for(let i = 0 ;i<this.tableConferences.length;i++){
 							this.tableConferences[i].option2 = response.data.entity;
 						}
