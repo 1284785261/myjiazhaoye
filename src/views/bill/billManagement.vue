@@ -19,18 +19,24 @@
             <el-tab-pane label="公寓租金账单" name="first">
               <div class="form-search-criteria">
 
-                <div class="form-item">
-                  <span>账单日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
-                  <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
-                </div>
+                <!--<div class="form-item">-->
+                  <!--<span>账单日期：</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>-->
+                  <!--<span class="inline-block spanBar">-</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>-->
+                <!--</div>-->
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
                     <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
                     <input type="button" value="搜索" @click="roomSearch()">
                   </div>
+                </div>
+                <div class="form-item">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()">生成租金账单</Button>
+                </div>
+                <div class="form-item">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="historyBill()">历史账单</Button>
                 </div>
               </div>
               <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
@@ -46,12 +52,12 @@
                   <th>操作</th>
                 </tr>
                 <tr v-for="room in roomBillList">
-                  <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{room.roomId}}层 {{room.roomNum}}</td>
+                  <td>{{room.billDate | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{room.floorName}}层 {{room.roomNum}}</td>
                   <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
                   <td>{{room.userName}}</td>
                   <td>{{room.userPhone}}</td>
-                  <td>{{room.generalRent}}</td>
+                  <td>{{room.cyclePayMoney}}</td>
                   <td>{{room.serviceCost}}</td>
                   <td>
                     <span v-if="room.billState == 1">待支付</span>
@@ -61,7 +67,7 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:room.billId,type:0}}"> 账单详情</router-link>
-                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:0}}"> 查看合同</router-link>
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.signId,isOffice:0}}"> 查看合同</router-link>
                   </td>
                 </tr>
               </table>
@@ -75,16 +81,16 @@
 
             <el-tab-pane label="办公室租金账单" name="second">
               <div class="form-search-criteria">
-                <div class="form-item">
-                  <b>社区：</b>
+                <!--<div class="form-item">-->
+                  <!--<b>社区：</b>-->
 
-                </div>
-                <div class="form-item">
-                  <span>开业日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
-                  <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
-                </div>
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                  <!--<span>开业日期：</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>-->
+                  <!--<span class="inline-block spanBar">-</span>-->
+                  <!--<Date-picker type="date" placeholder="选择日期" v-model="officeEndDate"></Date-picker>-->
+                <!--</div>-->
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
@@ -92,11 +98,16 @@
                     <input type="button" value="搜索" @click="officeSearch()">
                   </div>
                 </div>
+                <div class="form-item">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()">生成租金账单</Button>
+                </div>
+                <div class="form-item">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="officeHistory()">历史账单</Button>
+                </div>
               </div>
               <table class="office-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="officeTotalNum > 0">
                 <tr>
                   <th>账单时间</th>
-                  <th>所属社区</th>
                   <th>会议室</th>
                   <th>使用时间</th>
                   <th width="150px">联系人</th>
@@ -107,13 +118,12 @@
                   <th>操作</th>
                 </tr>
                 <tr v-for="item in officeBillList">
-                  <td>{{item.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{item.communityName}}</td>
-                  <td>{{item.meetingPersonNum}}人间 {{item.meetingHouseNum}}</td>
+                  <td>{{item.billDate | timefilter("yyyy-MM-dd")}}</td>
+                  <td>{{item.officeWorkNum}}人间 {{item.officeHouseNum}}</td>
                   <td>{{item.beginDate|timefilter("yyyy.MM.dd")}}-{{item.endDate|timefilter("yyyy.MM.dd")}}</td>
                   <td>{{item.userName}}</td>
                   <td>{{item.userPhone}}</td>
-                  <td>{{item.generalRent}}</td>
+                  <td>{{item.cyclePayMoney}}</td>
                   <td>{{item.serviceCost}}</td>
                   <td>
                     <span v-if="item.billState == 1">待支付</span>
@@ -123,7 +133,7 @@
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:item.billId,type:1}}"> 账单详情</router-link>
-                    <router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:1}}"> 查看合同</router-link>
+                    <router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:1}}"> 查看合同</router-link>
                   </td>
                 </tr>
               </table>
@@ -209,7 +219,7 @@
                   </td>
                   <!--<td class="td1">{{item.serviceCost}}</td>-->
                   <td class="td1">{{item.realMoney}}</td>
-                  <td class="td1">{{item.userName}}水:{{item.waterChargeModel}}电:{{item.electricChargeModel}}</td>
+                  <td class="td1">{{item.userName}}</td>
                   <td class="td1">{{item.userPhone}}</td>
                   <td class="td1">
                     <span v-if="item.payStatus == 1">待缴</span>
@@ -232,6 +242,8 @@
       </div>
       <footer-box></footer-box>
     </div>
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 </template>
 
@@ -239,14 +251,18 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099} from '../api.js';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
+  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099,RoomBillList500101,OfficeBillList500102,BillList5000103} from '../api.js';
 
 
   export default {
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      warningModal,
+      successModal
     },
     data(){
       return{
@@ -283,6 +299,11 @@
         searchKey:"",
         createtime:0,
         communityName:"",
+
+        successModal:false,
+        successMessage:"生成账单成功！",
+        warningModal:false,
+        warningMessage:"账单已生成！",
       }
     },
     mounted(){
@@ -296,6 +317,9 @@
     methods:{
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      closeWarningModal(){
+        this.warningModal = false;
       },
       getCommunityData(){
         var that = this;
@@ -314,11 +338,11 @@
       },
       getRoomBill(data){
         var that = this;
-        this.$http.get(roomBill,{params:data})
-          .then(function(res){
+        this.$http.get(RoomBillList500101,{params:data})
+          .then(function(res){debugger
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.roomBillList = pageBean.page;
+              var pageBean = res.data.result;
+              that.roomBillList = pageBean.roomList;
               that.roomTotalNum = pageBean.totalNum;
             }
             if(res.data.code == 10001 || res.data.code == 10008){
@@ -345,13 +369,29 @@
         this.getRoomBill(data);
       },
 
-      getOfficeBill(data){
+      createRoomOfficeBill(){
         var that = this;
-        this.$http.get(officeBill,{params:data})
+        this.$http.post(BillList5000103)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.pageBean;
-              that.officeBillList = pageBean.page;
+              that.successMessage = "生成账单成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+              that.getRoomBill({pageNum:1,communityId:that.communityId});
+              that.getOfficeBill({pageNum:1,communityId:that.communityId});
+            }
+          })
+      },
+
+      getOfficeBill(data){
+        var that = this;
+        this.$http.get(OfficeBillList500102,{params:data})
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              var pageBean = res.data.result;
+              that.officeBillList = pageBean.officeList;
               that.officeTotalNum = pageBean.totalNum;
             }
             if(res.data.code == 10001 || res.data.code == 10008){
@@ -385,9 +425,15 @@
         var that = this;
         this.$http.post(WaterEnergyBillList500099)
           .then(function(res){
-            debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.successMessage = "生成账单成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+              that.getbillPayment({communityId:that.communityId,pageNum:1});
+            }
           })
-//        this.$router.push({path:"/bill/generateBill",query:{communityId:this.communityId}});
       },
       editBill(){
         this.$router.push({path:"/bill/editGenerateBill",query:{communityId:this.communityId}});
@@ -395,21 +441,24 @@
       historyBill(){
         this.$router.push({path:"/bill/historyInformation",query:{communityId:this.communityId}});
       },
-
-      getPayStatic(data){
-        var that = this;
-        this.$http.get(statisticsInfoOfUser,{params:data})
-          .then(function(res){debugger
-            if(res.status == 200 && res.data.code == 10000){
-              if(res.data.entity){
-                that.communityPayStatic = res.data.entity;
-              }else{
-                that.communityPayStatic = [];
-              }
-
-            }
-          })
+      officeHistory(){debugger
+        this.$router.push({path:"/bill/officeHistoryBill",query:{communityId:this.communityId}});
       },
+
+//      getPayStatic(data){
+//        var that = this;
+//        this.$http.get(statisticsInfoOfUser,{params:data})
+//          .then(function(res){
+//            if(res.status == 200 && res.data.code == 10000){
+//              if(res.data.entity){
+//                that.communityPayStatic = res.data.entity;
+//              }else{
+//                that.communityPayStatic = [];
+//              }
+//
+//            }
+//          })
+//      },
       getbillPayment(data){
         var that = this;
         this.$http.get(billList500098,{params:data})

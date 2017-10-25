@@ -533,3 +533,9 @@ export const billList500098 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWater
 export const WaterEnergyBillList500099 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CreateCxkjWaterEnergyBillList500099';//编辑账单列表
 export const WaterEnergyBillList5000100 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyDetailSave500100';
 
+export const RoomBillList500101 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillList500101';//公寓账单列表
+export const OfficeBillList500102 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillList500102';//办公账单列表
+export const BillList5000103 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBillList5000103';//生成本月租金账单列表
+export const RoomBillHistoryList500104 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillHistoryList500104';//公寓历史账单列表
+export const OfficeBillHistoryList500105 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillHistoryList500105';//办公历史账单列表
+export const WaterEnergyBillHistoryList500106 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillHistoryList500106';//水电历史账单列表

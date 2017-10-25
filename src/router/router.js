@@ -413,6 +413,16 @@ export default new Router({
       name:'invitationlist',
       component:resolve =>
         require(['../views/Patanjali/invitationlist.vue'],resolve)
+    },{
+      path:'/bill/officeHistoryBill',		//佳里人-帖子管理
+      name:'officeHistoryBill',
+      component:resolve =>
+        require(['../views/bill/officeHistoryBill.vue'],resolve)
+    },{
+      path:'/bill/officeHistoryMeter',		//佳里人-帖子管理
+      name:'officeHistoryMeter',
+      component:resolve =>
+        require(['../views/bill/officeHistoryMeter.vue'],resolve)
     },
 
 

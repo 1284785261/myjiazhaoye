@@ -11,7 +11,7 @@
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>历史信息</h3>
           <!--<span>佳兆业航运WEWA空间</span>-->
-          <Select v-model="communityId" style="width:200px;margin-left: 20px">
+          <Select v-model="communityId" style="width:200px;margin-left: 20px" @on-change="communityChange">
             <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
           </Select>
         </div>
@@ -31,8 +31,10 @@
                   <div>
                     <p>{{its.roomNum}}</p>
                     <p>{{its.housetypeName}}</p>
+                    <p><Button style="width: 80px;margin-left: 10px;" @click="goToMeter(its.roomId,its.roomNum,its.housetypeName)">抄表历史</Button></p>
                     <p>
-                      <Button style="width: 80px;" @click="goToMeter()">抄表历史</Button>
+                      <Button style="width: 80px;" @click="goToMeter(its.roomId,its.roomNum,its.housetypeName,'2')">历史水电</Button>
+                      <Button style="width: 80px;" @click="goToMeter(its.roomId,its.roomNum,its.housetypeName,'3')">历史租金</Button>
                     </p>
                   </div>
                 </li>
@@ -74,20 +76,17 @@
         clas2:'el-icon-arrow-down',
         RoomBillSelects:[],
         roomCount:0,
-        communityName:""
+        communityName:"",
       }
     },
     filters:{
 
     },
     mounted(){
-      this.communityId = this.$route.query.communityId;
-//      this.communityId = 3;
-      //console.log(this.communityId);
-      this.getCommunityInfo();
+      this.communityId = this.$route.query.communityId;debugger
       this.getCommunityData();
+      this.getCommunityInfo();
       this.datas();
-
     },
     methods:{
       //获取社区信息
@@ -96,6 +95,7 @@
         this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){debugger
           if(res.data.code == 10000){
             that.communityName = res.data.result.community.communityName;
+            that.communityId = res.data.result.community.communityId;
           }
         }).catch(function(err){
           console.log(err);
@@ -114,7 +114,6 @@
       shrink(index,els){
         let vm =this
         this.$set(vm.bigdata[index],"hais",!vm.bigdata[index].hais);
-        //console.log(this.bigdata[index].hais);
       },
       datas(){
         let vm = this
@@ -141,19 +140,45 @@
             console.log(error);
           })
       },
-      tsa(){
+      tsa(){debugger
         this.hide = !this.hide;
       },
-      goToMeter(){
-        this.$router.push({name:"historyMeter"})
+      communityChange(){
+        var vm = this;
+        if(this.RoomBillSelects){
+          for(var i =0;i<this.RoomBillSelects.length;i++){
+            if(this.RoomBillSelects[i].communityId == this.communityId){
+              this.communityName = this.RoomBillSelects[i].communityName;
+              break;
+            }
+          }
+        }
+        vm.datas();
+        vm.getCommunityInfo();
+      },
+      goToMeter(roomId,roomNum,housetypeName,tab){
+        sessionStorage.setItem('roomHistoryRoomNum', roomNum);
+        sessionStorage.setItem('roomHistoryHousetypeName', housetypeName);
+        sessionStorage.setItem('roomHistoryCommunityName', this.communityName);
+        this.$router.push({name:"historyMeter",query:{roomId:roomId,tab:tab}})
       }
     },
     watch:{
-      communityId:function(newValue,oldValue){debugger
-        var vm = this;
-        vm.datas();
-        vm.getCommunityInfo();
-      }
+//      communityId:function(newValue,oldValue){
+//        var vm = this;
+//        if(this.RoomBillSelects){
+//          for(var i =0;i<this.RoomBillSelects.length;i++){
+//            if(this.RoomBillSelects[i].communityId == newValue){
+//              this.communityName = this.RoomBillSelects[i].communityName;
+//              break;
+//            }
+//          }
+//        }
+//        setTimeout(function(){
+//          vm.datas();
+//          vm.getCommunityInfo();
+//        },10)
+//      }
     },
     created(){
 
