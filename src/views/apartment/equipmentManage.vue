@@ -148,7 +148,8 @@
 					</el-tabs>
 		    	</div>
 
-
+        <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+        <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -469,6 +470,8 @@
 	import menuBox from '../../components/menuBox.vue';
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
   import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL,electricityTable,pushElectricity,electricityDelete,electricitUpdate,openElectricity,
     waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl} from '../api.js';
@@ -477,7 +480,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+        warningModal,
+        successModal
     	},
     	data(){
     		return{
@@ -562,6 +567,11 @@
           shutWaterModal:false,
           openWaterModal:false,
           addLockFlag:false,
+
+          successModal:false,
+          successMessage:"添加成功！",
+          warningModal:false,
+          warningMessage:"添加失败！",
 		   	}
     	},
       mounted(){
@@ -572,6 +582,9 @@
     	  this.getSupplier();
       },
     	methods:{
+        closeWarningModal(){
+          this.warningModal = false;
+        },
         closeModal(){
           this.isHid = false;
           this.temporaryPwd = false;
@@ -630,6 +643,11 @@
               that.isHid = !that.isHid;
               that.addWaterModal = !that.addWaterModal;
               that.getWaterList();
+            }else if(res.status == 200 && res.data.code == 10004){
+              that.isHid = !that.isHid;
+              that.addWaterModal = !that.addWaterModal;
+              that.warningMessage = "添加水表失败！"
+              that.warningModal = true;
             }
           })
         },
@@ -823,6 +841,11 @@
               that.isHid = !that.isHid;
               that.addDoorLockFlag = !that.addDoorLockFlag;
               that.getIntelligenceLock();
+            }else if(res.status == 200 && res.data.code == 10004){
+              that.isHid = !that.isHid;
+              that.addDoorLockFlag = !that.addDoorLockFlag;
+              that.warningMessage = "添加门锁失败！"
+              that.warningModal = true;
             }
             that.addLockFlag = false;
           })
@@ -955,6 +978,11 @@
               that.isHid = !that.isHid;
               that.addElectricity = !that.addElectricity;
               that.getElectricityTable();
+            }else if(res.status == 200 && res.data.code == 10004){
+              that.isHid = !that.isHid;
+              that.addElectricity = !that.addElectricity;
+              that.warningMessage = "添加电表失败！"
+              that.warningModal = true;
             }
           })
         },

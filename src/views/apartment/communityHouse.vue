@@ -20,7 +20,7 @@
                 <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux">管理户型</router-link>
                 <a href="javascript:;" class="adds" @click="openFloorModal()">添加楼层</a>
               </div>
-              <div class="ls">
+              <div class="ls" v-if="!loading">
                 <div class="lishi" v-for="(floorData,index) in filterRootData">
                   <div class="house_xq">
                     <img src="../../../static/images/temp/logo2_03.png">
@@ -649,6 +649,21 @@
         that.loading = true;
         this.$http.post(Apartment, {"communityId": this.communityId})
           .then(function (res) {debugger
+            if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
+              that.rootData = res.data.entity;
+              that.getCommunityListRoomTrue();
+            }else{
+
+            }
+            that.loading = false;
+          }).catch(function(error){
+          console.log(error);
+        })
+      },
+      getCommunityListRoomTrue(){
+        var that = this;
+        this.$http.post(Apartment, {"communityId": this.communityId,status:1})
+          .then(function (res) {
             if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
               that.rootData = res.data.entity;
             }else{

@@ -10,8 +10,8 @@
           <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
         </div>
         <div id="contract-index-wrap">
-          <Tabs type="card">
-            <Tab-pane label="公寓合同">
+          <Tabs type="card" @on-click="changeTab" v-model="activeName">
+            <Tab-pane label="公寓合同" name="room">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
@@ -78,7 +78,7 @@
 
             </Tab-pane>
 
-            <Tab-pane label="联合办公合同">
+            <Tab-pane label="联合办公合同" name="office">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
@@ -149,7 +149,7 @@
               <Page :total="officeTotalNum" :current="officeContractCurrent" :page-size="10" show-elevator show-total @on-change="officeSearch" v-if="officeTotalNum > 0"></Page>
             </Tab-pane>
 
-            <Tab-pane label="物业合同">
+            <Tab-pane label="物业合同" name="property">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
@@ -237,6 +237,7 @@ export default {
   },
   data () {
     return {
+      activeName:"room",
       RoomContractSelects:[{
         communityId: -1,
         communityName: '全部'
@@ -277,12 +278,19 @@ export default {
       }
    },
   mounted(){
+    let tab = sessionStorage.getItem("contractIndexTab");
+    if(tab){
+        this.activeName = tab;
+    }
     this.getCommunityData();
     this.getRoomContract({pageNum:1});
     this.getOfficeContract({pageNum:1});
     this.getPropertyContract({pageNum:1});
   },
   methods: {
+    changeTab(tab){
+      sessionStorage.setItem("contractIndexTab",tab);
+    },
     getCommunityData(){
       var that = this;
       this.$http.get(allCommunity)
