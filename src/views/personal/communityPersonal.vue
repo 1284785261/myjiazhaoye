@@ -103,7 +103,7 @@
     		datas(){
 	    		let vm = this
 	    		vm.user = null;
-	    		this.$http.get(hostAuthor)
+	    		axios.get(hostAuthor)
 	    		.then((response)=>{
 	    			console.log(response);
 	    			if(response.status == 200 && response.data.code == 10000){

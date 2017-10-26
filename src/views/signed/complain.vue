@@ -91,7 +91,6 @@
     	data(){
     		return{
 				currentPage3: 1,
-				radio: '1',
 				options8: [{
 					dataname:'全部',
 					id:-1

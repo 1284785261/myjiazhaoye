@@ -69,45 +69,43 @@
 								<a @click='closes'>批量关闭</a>
 								<a @click="returns">返回上级</a>
 							</div>
-							<div v-if="data != null">
-								<table>
-									<thead>
-										<td>
-											<Checkbox v-model="single" @click.prevent.native="handleCheckAll"></Checkbox>
-										</td>
-										<td>部门</td>
-										<td>上级部门</td>
-										<td>子集数</td>
-										<td>创建人</td>
-										<td>创建日期</td>
-										<td>状态</td>
-										<td width="200px">操作 </td>
-									</thead>
-									<tr v-for="(item,index) in data">
-										<td>
-											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange(item.sing,index)"></Checkbox>
-										</td>
-										<td>{{item.departmentName}}</td>
-										<td v-if="item.parentDepartmentName != null">{{item.parentDepartmentName}}</td>
-										<td v-else>根节点</td>
-										<td>{{item.childNum}}</td>
-										<td>{{item.departmentCreateName}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
-										<td>
-											<a @click="bub(item)">进入子部门</a>
-											<a @click="amend(item)">编辑</a>
-											<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
-											<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
-										</td>
-									</tr>
-								</table>
-								<el-pagination @current-change="handleCurrentChange" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
-								</el-pagination>
-							</div>
-							<div v-else class="kbt">
+							<table>
+								<thead>
+									<td>
+										<Checkbox v-model="single" @click.prevent.native="handleCheckAll"></Checkbox>
+									</td>
+									<td>部门</td>
+									<td>上级部门</td>
+									<td>子集数</td>
+									<td>创建人</td>
+									<td>创建日期</td>
+									<td>状态</td>
+									<td width="200px">操作 </td>
+								</thead>
+								<tr v-for="(item,index) in data">
+									<td>
+										<Checkbox v-model="item.sing" @on-change="checkAllGroupChange(item.sing,index)"></Checkbox>
+									</td>
+									<td>{{item.departmentName}}</td>
+									<td v-if="item.parentDepartmentName != null">{{item.parentDepartmentName}}</td>
+									<td v-else>根节点</td>
+									<td>{{item.childNum}}</td>
+									<td>{{item.departmentCreateName}}</td>
+									<td>{{item.createtime | time}}</td>
+									<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
+									<td>
+										<a @click="bub(item)">进入子部门</a>
+										<a @click="amend(item)">编辑</a>
+										<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
+										<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
+									</td>
+								</tr>
+							</table>
+							<el-pagination @current-change="handleCurrentChange" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
+							</el-pagination>
+							<!--<div v-else class="kbt">
 				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
-				    		</div>
+				    		</div>-->
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="社区人员配备" name="third">
@@ -313,6 +311,15 @@
 					<td>部门：</td>
 					<td><input type="text" placeholder="请设置部门" v-model="test" /></td>
 				</tr>
+				<tr>
+					<td>上级部门：</td>
+					<td>
+						<el-select v-model="value4" placeholder="请选择" @change="selectm(value4)">
+							<el-option v-for="item in options" :key="item.departmentId" :value="item.departmentName">
+							</el-option>
+						</el-select>
+					</td>
+				</tr>
 			</table>
 			<a class="tjss" @click="adds">确定</a>
 		</div>
@@ -323,6 +330,15 @@
 				<tr>
 					<td>部门：</td>
 					<td><input type="text" placeholder="请设置部门" v-model="test2" /></td>
+				</tr>
+				<tr>
+					<td>上级部门：</td>
+					<td>
+						<el-select v-model="value5" placeholder="请选择" @change="selectm2(value5)">
+							<el-option v-for="item in options" :key="item.departmentId" :value="item.departmentName">
+							</el-option>
+						</el-select>
+					</td>
 				</tr>
 			</table>
 			<a class="tjss" @click="edit">确定</a>
@@ -456,7 +472,7 @@
 				pageSize4: 10,
 				pageNum5: '1',
 				pageSize5: 10,
-				data: null, //部门的数据展示
+				data: [], //部门的数据展示
 				data2: null, //员工的数据展示
 				users: null, //社区人员配备
 				Positions: null, //职位的数据展示
@@ -488,6 +504,8 @@
 				value2: '',
 				options3: [],
 				value3: '',
+				value4:'',
+				value5:'',
 				parentId: 0,
 				test: '',
 				test2: '',
@@ -519,8 +537,10 @@
 					powerId: '',
 					positionId: ''
 				},
-				msg:''
-			}
+				msg:'',
+				superior:'',   //上级部门id
+				superior2:''   //编辑上级部门ID
+ 			}
 		},
 		mounted() {
 			this.datat();
@@ -681,6 +701,12 @@
 			select3(val) {
 				this.posit.powerId = this.options2[this.options2.findIndex(item => item.powerName == val)].powerId;
 				console.log(this.posit.powerId);
+			},
+			selectm(val){
+				this.superior = this.options[this.options.findIndex(item => item.departmentName == val)].departmentId;
+			},
+			selectm2(val){
+				this.superior2 = this.options[this.options.findIndex(item => item.departmentName == val)].departmentId;
 			},
 			addEmploy() {
 				if(this.Employ.account == '' || this.Employ.password == '' || this.Employ.userName == '' || this.Employ.departmentId == '' || this.Employ.officePositionDataId == '') {
@@ -992,6 +1018,7 @@
 					//console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.options = response.data.entity;
+						console.log(this.options);
 					}
 				}).catch((error) => {
 					console.log(error);
@@ -1063,22 +1090,22 @@
 						parentId: this.id2
 					})
 				).then((response) => {
-					//console.log(response);
+					console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
-						this.data = response.data.entity.page;
-						this.totalNum = response.data.entity.totalNum;
-						for(let i = 0; i < this.data.length; i++) {
-							this.$set(this.data[i], "sing", false);
+						if(response.data.entity){
+							this.data = response.data.entity.page;
+							this.totalNum = response.data.entity.totalNum;
+							for(let i = 0; i < this.data.length; i++) {
+								this.$set(this.data[i], "sing", false);
+							}
+							this.successMessage = '进入子部门成功'
+							this.successModal = true;
+							setTimeout(() => {
+								this.successModal = false;
+								this.test = ''
+							}, 1000);
 						}
-						this.successMessage = '进入子部门成功'
-						this.successModal = true;
-						setTimeout(() => {
-							this.successModal = false;
-							this.test = ''
-						}, 1000);
-					} else {
-						this.warningMessage = response.data.content;
-						this.warningModal = true;
+						
 					}
 				}).catch((error) => {
 					console.log(error);
@@ -1113,11 +1140,10 @@
 				})
 			},
 			adds() {
-				let id = this.id2 | 0;
 				axios.post(hostaddDepart, //添加部门
 						qs.stringify({
 							departmentName: this.test,
-							parentId: id
+							parentId: this.superior
 						})
 					)
 					.then((response) => {
@@ -1150,8 +1176,14 @@
 			amend(item) {
 				this.isHide = true;
 				this.amends = true;
-				//console.log(item)
+				console.log(item)
 				this.test2 = item.departmentName;
+				if(item.parentDepartmentName){
+					this.value5 = item.parentDepartmentName;
+				}else{
+					this.value5 = '根节点'
+				}
+				
 				this.id = item.departmentId;
 				this.parentId = item.parentId;
 			},

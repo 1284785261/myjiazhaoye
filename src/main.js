@@ -43,10 +43,6 @@ axios.interceptors.request.use(
   config => {
 	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
     console.log("请求....")
-
-	//console.log(Token)
-	//console.log(sessionStorage.getItem('token'));
-	//console.log(1111)
     config.headers['Authorization'] = Token;
     return config;
     console.log(config);

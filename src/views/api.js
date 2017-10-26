@@ -2,8 +2,8 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-const host3 = 'http://192.168.26.191:8080';
-//const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://192.168.26.191:8080';
+const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';
@@ -313,6 +313,9 @@ const aintDetails = '/cxkj-room/apis/pc/Usercomplain/CxkjComplaintDetails200102'
 
 //投诉处理
 const EditDetails = '/cxkj-room/apis/pc/Usercomplain/CxkjComplaintEditDetails200103'
+
+//帖子关闭、开放
+const OpenAllPost = '/cxkj-room/apis/pc/forumCenter/CxkjCloseOrOpenAllPost300082'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -416,6 +419,7 @@ export const hostRepairInfo = host3 + RepairInfo;
 export const hostRepairRemark = host3 + RepairRemark;
 export const hostaintDetails = host3 + aintDetails;
 export const hostEditDetails = host3 + EditDetails;
+export const hostOpenAllPost = host3 + OpenAllPost;
 export const host = host3;
 //export default {
 //hosts:function(){

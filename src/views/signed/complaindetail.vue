@@ -149,13 +149,7 @@
     	},
     	data(){
     		return{
-    			isHide:false,
-    			currentPage3: 1,
     			Datas:{},
-    			totolNum:null,
-    			pageNum:1,
-          		host3:'',
-          		pageSize:10,
           		complainId:'',
           		successModal: false,
 				warningModal: false,

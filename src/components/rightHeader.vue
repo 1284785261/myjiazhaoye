@@ -40,7 +40,7 @@
 	export default {
 		data() {
 			return {
-				userID: "会飞的鱼~",
+				userID: "请登录~",
 				userBars: [{
 					icon: "iconfont icon-gerenxinxi1",
 					userContent: "个人信息",
@@ -58,19 +58,28 @@
 			}
 		},
 		mounted() {
-			this.datas();
+			this.imgPath1 = sessionStorage.getItem("imgPath1")? sessionStorage.getItem("imgPath1"):'';
+			this.userID = sessionStorage.getItem("userID")? sessionStorage.getItem("userID"):'';
+			if(this.imgPath1 && this.userID){
+				return
+			}else {
+				this.datas();
+			}
+		
 		},
 		methods: {
 			datas() {
 				let vm = this;
-				this.$http.get(hostAuthor)
+				axios.get(hostAuthor)
 					.then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							vm.user = response.data.entity;
 							if(response.data.entity.headPic != null) {
 								vm.imgPath1 = imgPath + response.data.entity.headPic;
+							
 								vm.userID = response.data.entity.userAliase;
+								sessionStorage.setItem("imgPath1",vm.imgPath1);
+								sessionStorage.setItem("userID",vm.userID);
 							}
 						}
 					})
