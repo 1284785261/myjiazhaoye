@@ -17,9 +17,9 @@
             <img v-else src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
             <div class="order-detail-wrap-head-content">
               <h3>
-                <span style="padding-right: 10px;">6月</span>
-                <span v-if="billType == 0">公寓租金</span>
-                <span v-if="billType == 1">办公室租金</span>
+                <!--<span style="padding-right: 10px;">6月</span>-->
+                <span v-if="billType == 0">{{billDetailList.billName}}</span>
+                <span v-if="billType == 1">{{billDetailList.billName}}</span>
                 <span class="colorSpan" v-else-if="billDetailList.billState == 1">待支付</span>
                 <span class="colorSpan" v-if="billDetailList.billState == 2">已支付</span>
                 <span class="colorSpan" v-else-if="billDetailList.billState == 3">违约</span>
@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                   <td>租金 :</td>
-                  <td>{{billDetailList.generalRent}}元/位·天</td>
+                  <td>{{billDetailList.generalRent}}元/月</td>
                 </tr>
                 <tr>
                   <td>服务费 :</td>
