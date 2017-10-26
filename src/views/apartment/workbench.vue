@@ -21,11 +21,11 @@
 				<Row>
 					<Col span="12">
 					<div class="modular-box">
-						<!--<h3><i class="icon icon-info"></i>我的消息</h3>
+						<h3><i class="icon icon-info"></i>我的消息</h3>
 						<ul class="info-list">
 							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.icon"></i>{{myInfo.state}}</span>
 								<router-link to="/">{{myInfo.content}}</router-link><span class="date">{{myInfo.date}}</span></li>
-						</ul>-->
+						</ul>
 					</div>
 					</Col>
 					<Col span="12">
@@ -76,7 +76,7 @@
 				<Row>
 					<Col span="12">
 					<div class="modular-box">
-						<!--<h3><i class="icon icon-info"></i>今日待办</h3>
+						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
 							<li v-if="remains.roomMoney != null">
 								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.roomMoney}}人</span></span>
@@ -108,7 +108,7 @@
 						</ul>
 						<div class="muvs" v-else>
 							<img src="../../../static/images/temp/ms_06.png" />
-						</div>-->
+						</div>
 					</div>
 					</Col>
 					<Col span="12">

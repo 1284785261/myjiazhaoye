@@ -45,38 +45,17 @@
 		    			</thead>
 		    			<tr v-for="item in Data">
 		    				<td>{{item.complainNum}}</td>
-		    				<td>{{item.createTime}}</td>
+		    				<td>{{item.createTime | time}}</td>
 		    				<td>{{item.userName}}</td>
 		    				<td>{{item.userPhone}}</td>
 		    				<td>{{item.complainContent}}</td>
 		    				<td :class="[{'kust':item.complainStatus == 0},{'kust1':item.complainStatus == 1}]">{{item.complainStatus | Status}}</td>
 		    				<td>
-		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}">查看详情</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId,stats:'0'}}">查看详情</router-link>
 		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}" v-if="item.complainStatus == 0">确认接收</router-link>
 		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}" v-else-if="item.complainStatus == 1">确认已处理</router-link>
 		    				</td>
 		    			</tr>
-		    			<!--<tr>
-		    				<td>11</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td style="color: red;">1</td>
-		    				<td>111</td>
-		    				<td>
-		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">查看详情</router-link>
-		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">确认已处理</router-link>
-		    				</td>
-		    			</tr>
-		    			<tr>
-		    				<td>11</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td style="color: red;">1</td>
-		    				<td>111</td>
-		    				<td><router-link :to="{path:'/signed/complaindetail',query:{id:1}}">查看详情</router-link></td>
-		    			</tr>-->
 		    		</table>
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
@@ -151,7 +130,7 @@
     	},
     	filters:{
    			time(val){
-   				return  new Date(val).Format('yyyy-MM-dd');
+   				return  new Date(val).Format('yyyy-MM-dd hh:mm');
    			},
    			Money(val){
    				return parseFloat(val).toFixed(2);

@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="complaindetail">
 		    		<div class="complaindetails">
-		    			<p class="dan">工单号：{{Datas.complainNum}}</p><span style="font-size: 16px;color: #ff6612;font-weight: bold;">{{Datas.complainStatus | Status}}</span>
+		    			<p class="dan">工单号：{{Datas.complainNum}}</p><span :class="[{'kust':Datas.complainStatus == 0},{'kust1':Datas.complainStatus == 1}]">{{Datas.complainStatus | Status}}</span>
 		    			<p>发起投诉时间：{{Datas.createTime | time}}</p>
 		    		</div>
 		    		<div v-if="Datas.complainStatus == 0">
@@ -36,11 +36,11 @@
 			    			</table>
 			    			
 			    		</div>
-			    		<a @click="receive">确认接收</a>
+			    		<a @click="receive" v-show="statas == '1'">确认接收</a>
 		    		</div>
 		    		<div v-if="Datas.complainStatus == 1">
 		    			<div class="complaindetails2">
-			    			<img src="../../../static/images/icon/info.png"/><h3>用户信息</h3>
+			    			<img src="../../../static/images/icon/custom_chulizhong.png"/><h3>用户信息</h3>
 			    			<table>
 			    				<tr>
 			    					<td>姓名：</td>
@@ -66,51 +66,51 @@
 			    				</tr>
 			    			</table>
 			    		</div>
-			    		<span class="chus">处理结果：</span><textarea placeholder="请填写处理结果" v-model="test"></textarea>
-			    		<a class="chuli" @click="receive2">确认已处理</a>
+			    		<span class="chus" v-if="statas != 0">处理结果：</span><textarea placeholder="请填写处理结果" v-model="test" v-if="statas != 0" maxlength="140"></textarea>
+			    		<a class="chuli" @click="receive2" v-if="statas != 0">确认已处理</a>
 		    		</div>
-		    		<div v-if="Datas.complainStatus == 4">
+		    		<div v-if="Datas.complainStatus == 2 || Datas.complainStatus == 3">
 			    		<div class="complaindetails4">
-			    			<img src="../../../static/images/icon/info.png"/><h3>处理记录</h3>
+			    			<img src="../../../static/images/icon/xx_03.png"/><h3>处理记录</h3>
 			    			<table>
-			    				<tr>
+			    				<tr v-for="item in dianz">
 			    					<td>店长确认接收：</td>
-			    					<td>{{Datas.complainResult}}</td>
+			    					<td>{{item.confirmTime}}</td>
 			    				</tr>
 			    			</table>
 			    			<p style="border-bottom: 1px dashed #DCDCDC;"></p>
-			    			<table>
+			    			<table v-for="item in dianz">
 			    				<tr>
 			    					<td>店长完成处理：</td>
-			    					<td>啥表</td>
+			    					<td>{{item.completeTime | time}}</td>
 			    				</tr>
 			    				<tr>
 			    					<td>处理结果：</td>
-			    					<td>啥表</td>
+			    					<td>{{item.complainResult}}</td>
 			    				</tr>
 			    				<tr>
 			    					<td style="vertical-align: top;">用户反馈：</td>
 			    					<td>
-			    						<p>不满意</p>
-			    						<p>不满意</p>	
+			    						<p :class="[{'kum':Datas.complainStatus == 0},{'kum1':Datas.complainStatus == 1}]">{{item.userDegree | Degree}}</p>
+			    						<p>{{item.userFeedback}}</p>	
 			    					</td>
 			    				</tr>
 			    			</table>
 			    			<p style="border-bottom: 1px dashed #DCDCDC;"></p>
-			    			<table>
+			    			<table v-for="item in guanjia">
 			    				<tr>
 			    					<td>客服介入处理：</td>
-			    					<td>啥表</td>
+			    					<td>{{item.completeTime | time}}</td>
 			    				</tr>
 			    				<tr>
 			    					<td>处理结果：</td>
-			    					<td>啥表</td>
+			    					<td>{{item.complainResult}}</td>
 			    				</tr>
 			    				<tr>
 			    					<td style="vertical-align: top;">用户反馈：</td>
 			    					<td>
-			    						<p>不满意</p>
-			    						<p>不满意</p>
+			    						<p>{{item.userDegree | Degree}}</p>
+			    						<p>{{item.userFeedback}}</p>
 			    					</td>
 			    				</tr>
 			    			</table>
@@ -163,25 +163,58 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				recordList:[],
 				dianz:[],
-				test:''
+				guanjia:[],
+				test:'',
+				statas:'1'
 				
 		   	}
     	},
     	mounted(){
     		this.complainId = this.$route.query.id;
     		this.datas();
+    		if(this.$route.query.stats){
+    			this.statas = this.$route.query.stats;
+    		}
+    		else{
+    			this.statas = '1';
+    		}
+    		console.log(this.statas);
+    		
     	},
     	filters:{
     		time(val) {
 				return new Date(val).Format('yyyy-MM-dd hh:mm');
 			},
 			Status(val){
-				if(val == 0) {
-					return '待处理'
-				} else if(val == 1) {
-					return '店长处理中'
-				} else if(val == 4) {
-					return '已完结'
+//				if(val == 0) {
+//					return '待处理'
+//				} else if(val == 1) {
+//					return '店长处理中'
+//				} else if(val == 2) {
+//					return '已完结'
+//				}
+				if(val == 0){
+   					return '待确认';
+   				}
+   				else if(val == 1){
+   					return '店长处理中';
+   				}
+   				else if(val == 2){
+   					return '店长已处理';
+   				}
+   				else if(val == 3){
+   					return '客服处理中';
+   				}
+   				else if(val == 4){
+   					return '已完结';
+   				}
+			},
+			Degree(val){
+				if(val == 0){
+					return '满意'
+				}
+				else if(val == 1){
+					return '不满意'
 				}
 			}
     	},
@@ -203,6 +236,9 @@
     						for(let i = 0;i<this.recordList.length;i++){
     							if(this.recordList[i].isCustomService == 0){
     								this.dianz.push(this.recordList[i]);
+    							}
+    							else if(this.recordList[i].isCustomService == 1){
+    								this.guanjia.push(this.recordList[i]);
     							}
     						}
     					}
@@ -241,6 +277,8 @@
 		  	},
 		  	receive2(){
 		  		let vm = this
+		  		console.log(this.test);
+		  		console.log(this.dianz[0].complainRecordId);
 		  		axios.post(hostEditDetails,
     				qs.stringify({
     					complainId:this.complainId,
