@@ -35,7 +35,7 @@
                   <!--</div>-->
                 <!--</div>-->
               </div>
-              <table class="table ivu-table" v-if="roomHistoryBillTotalNum > 0">
+              <table class="table ivu-table">
                 <tr>
                   <th >序号</th>
                   <th>水表读数</th>
@@ -44,21 +44,13 @@
                   <th>记录时间</th>
                   <th>操作人</th>
                 </tr>
-                <tr>
+                <tr v-if="false">
                   <td >1</td>
                   <td>389</td>
                   <td>389</td>
                   <td>自动抄表</td>
                   <td>2017-10-07  10：30</td>
                   <td>系统</td>
-                </tr>
-                <tr>
-                  <td >1</td>
-                  <td>389</td>
-                  <td>389</td>
-                  <td>录入</td>
-                  <td>2017-10-07  10：30</td>
-                  <td>张三</td>
                 </tr>
               </table>
               <div class="blank-background-img" v-if="roomHistoryBillTotalNum == 0">
@@ -123,7 +115,7 @@
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无账单内容~</h2>
               </div>
-              <Page :total="waterHistoryBillTotalNum"  :page-size="10" show-elevator show-total @on-change="waterSearch" ></Page>
+              <Page :total="waterHistoryBillTotalNum"  :page-size="10" show-elevator show-total @on-change="waterSearch" v-if="waterHistoryBillList > 0"></Page>
             </Tab-pane>
             <Tab-pane label="历史租金账单" name="3">
               <div class="form-search-criteria">
@@ -149,7 +141,7 @@
                   <!--</div>-->
                 <!--</div>-->
               </div>
-              <table class="table ivu-table" v-if="roomHistoryBillTotalNum > 0">
+              <table class="table ivu-table">
                 <tr>
                   <th >账单日期</th>
                   <th>租期</th>
@@ -176,7 +168,7 @@
               </table>
               <div class="blank-background-img" v-if="roomHistoryBillTotalNum == 0">
                 <img src="../../../static/images/blank/bill_space.png" >
-                <h2>暂无合同内容~</h2>
+                <h2>暂无账单内容~</h2>
               </div>
               <Page :total="roomHistoryBillTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomHistoryBillTotalNum > 0"></Page>
             </Tab-pane>

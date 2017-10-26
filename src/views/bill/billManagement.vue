@@ -10,7 +10,7 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>账单管理</h3>
-          <Select v-model="communityId" style="width:200px;margin-left: 20px;">
+          <Select v-model="communityId" style="width:200px;margin-left: 20px;" @on-change="changeCommunityId">
             <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
           </Select>
         </div>
@@ -307,6 +307,10 @@
       }
     },
     mounted(){
+      let tab = sessionStorage.getItem("billManagementTab");
+      if(tab){
+          this.activeName2 = tab;
+      }
       if(this.$route.query.tab){
         this.activeName2 = this.$route.query.tab;
       }
@@ -316,22 +320,26 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        sessionStorage.setItem("billManagementTab",tab.name);
       },
       closeWarningModal(){
         this.warningModal = false;
       },
       getCommunityData(){
         var that = this;
+        var value = sessionStorage.getItem("billManagement_communityId");
         this.$http.get(allCommunity)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.RoomBillSelects = res.data.entity;
-              that.communityId = that.RoomBillSelects[0].communityId;
+              if(value){
+                that.communityId = value;
+              }else{
+                that.communityId = that.RoomBillSelects[0].communityId;
+              }
               that.getRoomBill({pageNum:1,communityId:that.communityId});
               that.getOfficeBill({pageNum:1,communityId:that.communityId});
               //水电账单
-//              that.getPayStatic({communityId:that.communityId});
               that.getbillPayment({communityId:that.communityId,pageNum:1});
             }
           })
@@ -339,7 +347,7 @@
       getRoomBill(data){
         var that = this;
         this.$http.get(RoomBillList500101,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.roomBillList = pageBean.roomList;
@@ -388,7 +396,7 @@
       getOfficeBill(data){
         var that = this;
         this.$http.get(OfficeBillList500102,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.officeBillList = pageBean.officeList;
@@ -441,7 +449,7 @@
       historyBill(){
         this.$router.push({path:"/bill/historyInformation",query:{communityId:this.communityId}});
       },
-      officeHistory(){debugger
+      officeHistory(){
         this.$router.push({path:"/bill/officeHistoryBill",query:{communityId:this.communityId}});
       },
 
@@ -462,7 +470,7 @@
       getbillPayment(data){
         var that = this;
         this.$http.get(billList500098,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.billPaymentList = pageBean.waterList;
@@ -512,7 +520,23 @@
           params.payStatus = this.activeStatus;
         }
         this.getbillPayment(params);
-      }
+      },
+      changeCommunityId(){
+        this.communityId = this.RoomBillSelects[this.RoomBillSelects.findIndex(item => item.communityId == this.communityId)].communityId;
+        sessionStorage.setItem("billManagement_communityId",this.communityId);
+        if(this.RoomBillSelects){
+          for(var i =0;i<this.RoomBillSelects.length;i++){
+            if(this.RoomBillSelects[i].communityId == this.communityId){
+              this.communityName = this.RoomBillSelects[i].communityName;
+              break;
+            }
+          }
+        }
+        this.getRoomBill({pageNum:1,communityId:this.communityId});
+        this.getOfficeBill({pageNum:1,communityId:this.communityId});
+        this.getbillPayment({communityId:this.communityId});
+
+      },
 
     },
     filters:{
@@ -523,23 +547,26 @@
       }
     },
     watch:{
-      communityId:function(newValue,oldValue){
-        var vm = this;
-        if(this.RoomBillSelects){
-            for(var i =0;i<this.RoomBillSelects.length;i++){
-                if(this.RoomBillSelects[i].communityId == newValue){
-                    this.communityName = this.RoomBillSelects[i].communityName;
-                    break;
-                }
-            }
-        }
-        setTimeout(function(){
-          vm.getRoomBill({pageNum:1,communityId:newValue});
-          vm.getOfficeBill({pageNum:1,communityId:newValue});
-//          vm.getPayStatic({communityId:newValue});
-          vm.getbillPayment({communityId:newValue});
-        },10);
-      },
+//      communityId:function(newValue,oldValue){
+//        var vm = this;
+//        if(newValue){
+//          sessionStorage.setItem("billManagement_communityId",newValue);
+//        }
+//        if(this.RoomBillSelects && newValue){
+//            for(var i =0;i<this.RoomBillSelects.length;i++){
+//                if(this.RoomBillSelects[i].communityId == newValue){
+//                    this.communityName = this.RoomBillSelects[i].communityName;
+//                    break;
+//                }
+//            }
+//        }
+//        setTimeout(function(){
+//          vm.getRoomBill({pageNum:1,communityId:newValue});
+//          vm.getOfficeBill({pageNum:1,communityId:newValue});
+////          vm.getPayStatic({communityId:newValue});
+//          vm.getbillPayment({communityId:newValue});
+//        },10);
+//      },
 
     }
   }
