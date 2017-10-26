@@ -73,7 +73,7 @@
 											<dd v-if="item.shopkeeper != null">店长联系电话：<span> {{item.shopkeeper.userPhone}}</span></dd>
 											<dd v-else>店长联系电话：<span> <!--{{item.shopkeeper.userName}}--></span></dd>
 											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
-											<dd>员工：<span>{{item.cxkjCommunityListUserRelationSize}}人</span></dd>
+											<dd>员工：<span>{{item.userRelationNum}}人</span></dd>
 										</dl>
 									</td>
 									<td>
@@ -171,7 +171,7 @@
 											<dd v-if="item.shopkeeper != null">店长联系电话：<span> {{item.shopkeeper.userPhone}}</span></dd>
 											<dd v-else>店长联系电话：<span> <!--{{item.shopkeeper.userName}}--></span></dd>
 											<dd>社区服务电话：<span> {{item.communityPhone}}</span></dd>
-											<dd>员工：<span>{{item.cxkjCommunityListUserRelationSize}}人</span></dd>
+											<dd>员工：<span>{{item.userRelationNum}}人</span></dd>
 										</dl>
 									</td>
 									<td>

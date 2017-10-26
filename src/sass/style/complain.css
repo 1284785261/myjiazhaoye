@@ -126,3 +126,9 @@
 #complain .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
+#complain table tr .kust{
+	color: #ff6612;
+}
+#complain table tr .kust1{
+	color: #1fbba6;
+}

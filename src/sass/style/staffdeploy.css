@@ -133,29 +133,33 @@
 	width: 51px;
   height: 6px;
 }
+#staffdeploy .div1s,#staffdeploy .div2s{
+	float: left;
+	position: relative;
+}
 #staffdeploy ul{
-	width: 880px;
-	min-height: 97px;
-	margin-left: 140px;
-	overflow: hidden;
-	padding-bottom: 60px;
+	width: 380px;
+    min-height: 97px;
+    margin-left: 217px;
+    margin-top: 37px;
+    background: #f8f8f8;
+    overflow: hidden;
+    padding-bottom: 15px;
+    margin-bottom: 50px;
 }
 #staffdeploy ul li{
-	float: left;
-	margin-top: 30px;
-	margin-right: 66px;
-	text-align: right;
+	width: 100%;
+	margin-top: 15px;
+	text-align: left;
 }
-.clear{ 
-	clear:both;
-} 
 #staffdeploy ul li span{
 	color: #000;
 	font-weight: bold;
 	line-height: 30px;
+	padding-left: 20px;
 }
 #staffdeploy ul li .el-select{
-	width: 278px;
+	width: 238px;
 	height: 34px;
 }
 #staffdeploy ul li .el-select .el-input .el-input__icon{
@@ -165,7 +169,7 @@
 
 #staffdeploy ul li .el-select .el-input__inner{
 	border-radius: inherit;
-	width: 278px;
+	width: 238px;
 }
 #staffdeploy .confirm{
 	display: inline-block;

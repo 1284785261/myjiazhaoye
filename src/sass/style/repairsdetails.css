@@ -27,11 +27,17 @@
 }
 #repairsdetails .repairsdetails1 .ms{
 	font-size: 16px;
-	color: #ff6612;
+	color: #999;
 	font-weight: bold;
 	position: absolute;
 	right: 20px;
 	top: 26px;
+}
+#repairsdetails .repairsdetails1 .kust{
+	color: #ff6612;
+}
+#repairsdetails .repairsdetails1 .kust1{
+	color: #1fbba6;
 }
 #repairsdetails .repairsdetails1 ul{
 	margin-left: 85px;

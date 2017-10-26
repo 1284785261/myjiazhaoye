@@ -36,7 +36,7 @@
 						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
-							<Input v-model="keyWord" placeholder="搜索收款对象/手机号"></Input>
+							<Input v-model="keyWord" placeholder="搜索报修对象/手机号"></Input>
 							<input type="button" value="搜索" @click="handle()">
 						</div>
 		    		</div>
@@ -62,9 +62,9 @@
 		    				<td :class="[{'kust':item.repairState == 0},{'kust1':item.repairState == 1}]">{{item.repairState | state}}</td>
 		    				<td v-if="item.repairDesc">{{item.repairDesc}}</td>
 		    				<td v-else>--</td>
-		    				<td><router-link to="/signed/repairsdetails">查看详情</router-link>
-		    					<a style="margin-left: 10px;" v-if="item.repairState == 0">确认跟进</a>
-		    					<a style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</a>
+		    				<td><router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId,type:'0'}}">查看详情</router-link>
+		    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-if="item.repairState == 0">确认跟进</router-link>
+		    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</router-link>
 		    				</td>
 		    			</tr>
 		    		
@@ -190,7 +190,6 @@
 		    	param.append('communityId',this.communityId);
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
-		    	param.append('communityId',this.communityId);
 		    	axios.post(hostRepairTabe, param).then((response)=>{
 		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
@@ -219,7 +218,6 @@
 		    	param.append('communityId',this.communityId);
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
-		    	param.append('communityId',this.communityId);
 		    	
 		    	if(this.isOffice && this.isOffice != -1){
 		    		param.append('isOffice',this.isOffice);
@@ -309,7 +307,7 @@
 				border: none;
 				position: relative;
 				left: -5px;
-				top: 2px;
+				top: 1px;
 			}
 		}
   }

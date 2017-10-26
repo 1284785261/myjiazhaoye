@@ -26,9 +26,11 @@
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
-						<input type="text"  placeholder="搜索联系人/手机号" class="mv"/>
-						<i class="el-icon-search"></i>
-						<a class="sa">搜索</a>
+						<div class="form-search">
+							<i class="iconfont icon-sousuo"></i>
+							<Input v-model="keyWord" placeholder="搜索报修对象/手机号"></Input>
+							<input type="button" value="搜索" @click="handle()">
+						</div>
 		    		</div>
 		    		<table>
 		    			<thead>
@@ -41,19 +43,20 @@
 		    				<td width="168px">操作</td>
 		    				
 		    			</thead>
-		    			<tr>
-		    				<td>11</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td>1</td>
-		    				<td style="color: red;">1</td>
-		    				<td>111</td>
+		    			<tr v-for="item in Data">
+		    				<td>{{item.complainNum}}</td>
+		    				<td>{{item.createTime}}</td>
+		    				<td>{{item.userName}}</td>
+		    				<td>{{item.userPhone}}</td>
+		    				<td>{{item.complainContent}}</td>
+		    				<td :class="[{'kust':item.complainStatus == 0},{'kust1':item.complainStatus == 1}]">{{item.complainStatus | Status}}</td>
 		    				<td>
-		    					<router-link :to="{path:'/signed/refunddetails',query:{id:1}}">查看详情</router-link>
-		    					<router-link :to="{path:'/signed/complaindetail',query:{id:1}}">确认接收</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}">查看详情</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}" v-if="item.complainStatus == 0">确认接收</router-link>
+		    					<router-link :to="{path:'/signed/complaindetail',query:{id:item.complainId}}" v-else-if="item.complainStatus == 1">确认已处理</router-link>
 		    				</td>
 		    			</tr>
-		    			<tr>
+		    			<!--<tr>
 		    				<td>11</td>
 		    				<td>1</td>
 		    				<td>1</td>
@@ -72,8 +75,8 @@
 		    				<td>1</td>
 		    				<td style="color: red;">1</td>
 		    				<td>111</td>
-		    				<td><router-link :to="{path:'/signed/refunddetails',query:{id:1}}">查看详情</router-link></td>
-		    			</tr>
+		    				<td><router-link :to="{path:'/signed/complaindetail',query:{id:1}}">查看详情</router-link></td>
+		    			</tr>-->
 		    		</table>
 		    		<el-pagination
 				      @current-change="handleCurrentChange"
@@ -111,22 +114,35 @@
 				currentPage3: 1,
 				radio: '1',
 				options8: [{
+					dataname:'全部',
+					id:-1
+				},{
 					dataname:'待确认',
 					id:0
 				},{
 					dataname:'店长处理中',
 					id:1
 				},{
-					dataname:'已完结',
+					dataname:'店长已处理',
 					id:2
+				},{
+					dataname:'客服处理中',
+					id:3
+				},{
+					dataname:'已完结',
+					id:4
 				}],
-		        value: '',
+		        value: '全部',
 		        communityId:'',
 		        pageNum:1,
 		        data:null,
 		        totalNum:'1',
 		        pageSize:10,
-		        State:''
+		        State:'',
+		        Data:{},
+		        start:'',
+		        over:'',
+		        keyWord:''
 			}
     	},
     	mounted(){
@@ -142,36 +158,38 @@
    			},
    			Status(val){
    				if(val == 0){
-   					return '待审核';
+   					return '待确认';
    				}
    				else if(val == 1){
-   					return '待退款';
+   					return '店长处理中';
    				}
    				else if(val == 2){
-   					return '已退款';
+   					return '店长已处理';
+   				}
+   				else if(val == 3){
+   					return '客服处理中';
+   				}
+   				else if(val == 4){
+   					return '已完结';
    				}
    			}
     	},
     	methods:{
     		handleCurrentChange(val) {
-				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
-				this.datas();
+				this.handle();
 			},
     		datas(){
-    			let pageNum = this.pageNum;
-    			axios.post(hostlainTable,
-    				qs.stringify({
-//  					communityId:this.communityId,
-    					pageNum:pageNum,
-    					pageSize:this.pageSize
-    				})
-    			)
-    			.then((response)=>{
+    			let pageNum = this.pageNum || 1;
+		    	let param = new FormData();
+		    	param.append('communityId',this.communityId);
+		    	param.append('pageNum',pageNum);
+		    	param.append('pageSize',this.pageSize);
+    			axios.post(hostlainTable, param).then((response)=>{
     				console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
-    					this.data = response.data.result.refundList;
-    					this.totalNum = response.data.result.totalNum;
+    					this.Data = response.data.pageBean.page;
+    					this.totalNum = response.data.pageBean.totalNum;
     				}
     			})
     			.catch((error)=>{
@@ -179,7 +197,43 @@
     			})
     		},
     		sectte(value){
-    			this.State = this.options8[this.options8.findIndex(item => item.dataname == val)].id;
+    			this.State = this.options8[this.options8.findIndex(item => item.dataname == value)].id;
+    		},
+    		handle(){
+    			let pageNum = this.pageNum || 1;
+		    	let param = new FormData();
+		    	param.append('communityId',this.communityId);
+		    	param.append('pageNum',pageNum);
+		    	param.append('pageSize',this.pageSize);
+		    	
+		    	if(this.State && this.State != -1){
+		    		param.append('complainStatus',this.State);
+		    	}
+		    	if(this.over){
+		    		this.over = new Date(this.over).Format('yyyy-MM-dd');
+		    		param.append('endDate',this.over);
+		    	}
+		    	if(this.start){
+		    		this.start = new Date(this.start).Format('yyyy-MM-dd');
+		    		param.append('beginDate',this.start);
+		    	}
+		    	if(this.keyWord){
+		    		param.append('keyWord',this.keyWord);
+		    	}
+		    	axios.post(hostlainTable, param).then((response)=>{
+		    		console.log(response);
+		    		if(response.status == 200 && response.data.code == 10000){
+			    		this.Data = response.data.pageBean.page;
+    					this.totalNum = response.data.pageBean.totalNum;
+			    	}
+		    		else{
+		    			this.Data = {};
+		    			this.totolNum = 0;
+		    		}
+		    	})
+		    	.catch((error)=>{
+		    		console.log(error);
+		    	})
     		}
     	},
     
@@ -189,4 +243,53 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
+  #complain{
+  	.ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+	}
+  	.form-search {
+			position: relative;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 50px;
+			display: inline-block;
+			.ivu-input-wrapper {
+				width: auto;
+			}
+			input[type="text"] {
+				width: 208px;
+				height: 36px;
+				border-radius: 0;
+				padding-left: 30px;
+			}
+			i {
+				position: absolute;
+				left: 5px;
+				top: 7px;
+				z-index: 99;
+				font-size: 18px;
+				color: #999;
+			}
+			input[type=button] {
+				width: 70px;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				background-color: #038be2;
+				color: #fff;
+				border: none;
+				position: relative;
+				left: -4px;
+				top: 1px;
+			}
+		}
+  }
 </style>

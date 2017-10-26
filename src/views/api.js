@@ -301,6 +301,18 @@ const RepairTabe = '/cxkj-room/apis/pcManager/cxkjcommunityRepair/CxkjCommunityR
 
 //看房预约-预约详情
 const Appointment = '/cxkj-room/apis/pc/communityAppointmentCenter/CxkjCommunityAppointmentDetail300107'
+
+//工作台-用户报修-报修详情
+const RepairInfo = '/cxkj-room/apis/pcManager/cxkjcommunityRepair/CxkjCommunityRepairInfo200099'
+
+//用户报修-报修跟进
+const RepairRemark = '/cxkj-room/apis/pcManager/cxkjcommunityRepair/CxkjCommunityRepairRemark200100'
+
+//用户投诉-投诉跟进
+const aintDetails = '/cxkj-room/apis/pc/Usercomplain/CxkjComplaintDetails200102'
+
+//投诉处理
+const EditDetails = '/cxkj-room/apis/pc/Usercomplain/CxkjComplaintEditDetails200103'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -400,6 +412,10 @@ export const hostPostList = host3 + PostList;
 export const hostlainTable = host3 + lainTable;
 export const hostRepairTabe = host3 + RepairTabe;
 export const hostAppointment = host3 +Appointment;
+export const hostRepairInfo = host3 + RepairInfo;
+export const hostRepairRemark = host3 + RepairRemark;
+export const hostaintDetails = host3 + aintDetails;
+export const hostEditDetails = host3 + EditDetails;
 export const host = host3;
 //export default {
 //hosts:function(){
