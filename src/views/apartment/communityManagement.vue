@@ -89,9 +89,9 @@
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
-											<dd v-if="item.serviceCostMap.roomServiceCost">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span></dd>
+											<dd v-if="item.serviceCostMap">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span></dd>
 											<dd v-else>公寓服务费：<span>未设置</span></dd>
-											<dd v-if="item.serviceCostMap.officeServiceCost">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span></dd>
+											<dd v-if="item.serviceCostMap">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span></dd>
 											<dd v-else>办公室服务费：<span>未设置</span></dd>
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
 											<dd>维修项：<span> {{item.maintain | Fors(item.maintain)}}</span></dd>
@@ -189,10 +189,10 @@
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
-											<dd v-if="item.serviceCostMap.roomServiceCost">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span>
+											<dd v-if="item.serviceCostMaz">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span>
 											</dd>
 											<dd v-else>公寓服务费：<span>未设置</span></dd>
-											<dd v-if="item.serviceCostMap.officeServiceCost">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span>
+											<dd v-if="item.serviceCostMap">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span>
 											</dd>
 											<dd v-else>办公室服务费：<span>未设置</span></dd>
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>

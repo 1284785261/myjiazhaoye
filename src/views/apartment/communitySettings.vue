@@ -84,8 +84,8 @@
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>水电账单日设置：</span>
 										<div class="floor-item">
-											<Date-picker type="date" placeholder="选择日期" v-model="waterEnergyPayDate" style="margin-top: 10px;"></Date-picker>
-											<span class="ivu-yellow"><i class="ivu-icon ivu-icon-information-circled"></i>提醒管家收取水费、电费、服务费</span>
+											<Date-picker type="date" format="dd" placeholder="选择日期" v-model="waterEnergyPayDate" style="margin-top: 10px;"></Date-picker>
+											<span class="ivu-yellow"><i class="ivu-icon ivu-icon-information-circled"></i>每月提醒管家收取水费、电费、服务费的日期</span>
 										</div>
 									</div>
 								</div>

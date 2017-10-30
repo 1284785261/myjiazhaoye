@@ -61,6 +61,8 @@
               <td><span class="btxs">*</span>开业日期：</td>
               <td>
                 <div class="form-item">
+                	<!--<Date-picker type="month" placeholder="选择月" style="width: 200px"></Date-picker>-->
+                	<!--<Date-picker type="datetime" format="dd" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker>-->
                   <Date-picker type="date" placeholder="选择日期" v-model="communityOpeningDate"></Date-picker>
                 </div>
               </td>
@@ -104,7 +106,9 @@
                   <el-button size="small" type="primary" style="font-size: 14px;color: #8fa6bf;">点击上传</el-button>
                   <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传pdf/png文件</div>
                 </el-upload>
-
+								<ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
+									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;">查看</li>
+								</ul>
               </td>
             </tr>
           </table>
@@ -189,10 +193,12 @@
         coordinate:"",
         fileList3: [],
         disabled:false,
-        disabled2:false
+        disabled2:false,
+        imgPath:''
       }
     },
     mounted() {
+    	this.imgPath = imgPath
       this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
       if(this.$route.query.id){
         this.communityId = this.$route.query.id;
@@ -201,6 +207,10 @@
 
     },
     methods: {
+    	openItem(item){
+    		 window.open(imgPath+item,"","width=600,height=600");
+		    
+    	},
       befor(){
         let vm = this
         if(this.communityId != ''){
