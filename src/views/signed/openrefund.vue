@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>发起退款</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="openrefund">
 		    		<table>
@@ -88,11 +88,13 @@
 				account:'',
 				kahx:'',
 				namet:'',
-				tesr:''
+				tesr:'',
+				Name:''
 		   	}
     	},
     	mounted(){
 			this.communityId = this.$route.query.id;
+			this.Name = this.$route.query.Name;
     	},
     	watch:{
     		money:function(){

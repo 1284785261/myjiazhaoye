@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>退租详情</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="surrendetal" v-if="ThrowLease.isOffice == 0 && ThrowLease != null">
 		    		<div class="surrendetal1">
@@ -157,11 +157,13 @@
 				refund: null, //物资清点
 				OtherInfo: null, //其他费用
 				refundableWaterInfo:null,
-				refundableEnergyInfo:null
+				refundableEnergyInfo:null,
+				Name:''
 		   	}
     	},
     	mounted(){
 			this.throwLeaseId = this.$route.query.id;
+			this.Name = this.$route.query.Name;
 			console.log(this.throwLeaseId);
 			this.datas();
     	},

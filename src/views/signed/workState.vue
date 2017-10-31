@@ -181,7 +181,7 @@
       			communityId:this.communityId          //工位数据
       		})
       	).then((response)=>{
-      		//console.log(response);
+      		console.log(response);
       		if(response.status == 200 && response.data.code == 10000){
     				vm.station = response.data.entity;
 //    			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;

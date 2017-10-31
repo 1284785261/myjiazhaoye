@@ -10,7 +10,6 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>报修详情</h3>
-					<span>佳兆业航运WEWA空间</span>
 				</div>
 				<div id="repairsdetails">
 					<div class="repairsdetails1">

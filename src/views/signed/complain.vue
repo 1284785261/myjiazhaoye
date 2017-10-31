@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>用户投诉</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{Name}}</span>
 		        </div>
 		    	<div id="complain">
 		    		<div class="complain1">
@@ -120,11 +120,13 @@
 		        Data:{},
 		        start:'',
 		        over:'',
-		        keyWord:''
+		        keyWord:'',
+		        Name:''
 			}
     	},
     	mounted(){
 			this.communityId = this.$route.query.communityId;
+			this.Name = this.$route.query.Name;
 			this.datas();
     	},
     	filters:{

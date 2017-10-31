@@ -42,7 +42,7 @@
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
 							<li>
-								<router-link to="/">直播管理</router-link>
+								<router-link to="">直播管理</router-link>
 							</li>
 							<li>
 								<router-link to="/bill/billManagement">公寓租金账单</router-link>
@@ -122,10 +122,11 @@
 								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
 							</li>
 							<li>
-								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}">办公空间状态</router-link>
+								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}" v-if="type == 1">办公空间状态</router-link>
+								<router-link to="/apartment/workbench" v-else>办公空间状态</router-link>
 							</li>
 							<li>
-								<router-link to="/">直播管理</router-link>
+								<router-link to="">直播管理</router-link>
 							</li>
 							<li>
 								<router-link :to="{name: 'billManagement'}">办公租金账单</router-link>
@@ -225,7 +226,8 @@
 				user: {
 					name: '',
 					quanxian: ''
-				}
+				},
+				type:0
 			}
 		},
 		mounted() {
@@ -292,8 +294,17 @@
 
 			},
 			temp(val) {
-				//console.log(val);
+				console.log(val);
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
+				
+				let communityType = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityType;
+				console.log(communityType);
+				let arr = communityType.split(',');
+				for(let i= 0;i<arr.length;i++){
+					if(arr[i] == '1'){
+						this.type = 1;
+					}
+				}
 				this.communityId = Index;
 				sessionStorage.setItem('communityId', Index);
 				//console.log(Index);

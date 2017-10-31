@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>用户退租</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span>{{Name}}</span>
 				</div>
 				<div id="surrender">
 					<div class="surrender1">
@@ -59,8 +59,8 @@
 								<td>{{item.cyclePayMoney | Money}} 已付{{item.payStage}}/{{item.stage}}</td>
 								<td :class="[{'kust':item.refundStatus == 0},{'kust1':item.refundStatus == 2}]">{{item.refundStatus | Status}}</td>
 								<td>
-									<router-link :to="{path:'/signed/affirmsurrend',query:{id:item.throwLeaseId}}" v-if="item.refundStatus == 0">确认退租</router-link>
-									<router-link :to="{path:'/signed/surredendetal',query:{id:item.throwLeaseId}}" v-else>查看退租</router-link>
+									<router-link :to="{path:'/signed/affirmsurrend',query:{id:item.throwLeaseId,Name:Name}}" v-if="item.refundStatus == 0">确认退租</router-link>
+									<router-link :to="{path:'/signed/surredendetal',query:{id:item.throwLeaseId,Name:Name}}" v-else>查看退租</router-link>
 									<router-link :to="{name:'contractDetail',query:{contractSignId:item.contractSignId,isOffice:item.isOffice}}">查看合同</router-link>
 								</td>
 							</tr>
@@ -110,14 +110,20 @@
 				pageSize: 10,
 				totalNum: 0,
 				options: [{
+					dataName: '全部',
+					id: -1
+				},{
 					dataName: '公寓',
 					id: 0
 				}, {
 					dataName: '办公室',
 					id: 1
 				}],
-				value: '',
+				value: '全部',
 				options2: [{
+					dataName: '全部',
+					id: -1
+				},{
 					dataName: '待处理',
 					id: 0
 				}, {
@@ -125,14 +131,16 @@
 					id: 1
 				}, {
 					dataName: '已办结',
-					id: 1
+					id: 2
 				}],
-				value2: '',
-				surrList: {}
+				value2: '全部',
+				surrList: {},
+				Name:''
 			}
 		},
 		mounted() {
 			this.communityId = this.$route.query.communityId;
+			this.Name = this.$route.query.Name;
 			this.datas();
 		},
 		filters: {
@@ -166,10 +174,10 @@
 			datas() {
 				let param = new FormData();
 				param.append("communityId", this.communityId);
-				if(this.isOffice != null) {
+				if(this.isOffice && this.isOffice != -1) {
 					param.append("isOffice", this.isOffice);
 				}
-				if(this.refundStatus != null) {
+				if(this.refundStatus && this.refundStatus != -1) {
 					param.append("refundStatus", this.refundStatus);
 				}
 				if(this.startDate) {
@@ -197,7 +205,6 @@
 				})
 			},
 			handleCurrentChange(val) {
-				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.datas();
 			},

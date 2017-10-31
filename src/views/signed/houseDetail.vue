@@ -21,7 +21,7 @@
 		    		<table>
 		    			<tr>
 		    				<td width="15%">房间信息：</td>
-		    				<td>
+		    				<td v-if="Datas.cxkjCommunityHousetype">
 		    					<p>格局：{{Datas.cxkjCommunityHousetype.roomId}}室{{Datas.cxkjCommunityHousetype.housetypeHall}}厅{{Datas.cxkjCommunityHousetype.housetypeHygienism}}卫 {{Datas.cxkjCommunityHousetype.housetypeWindow}}</p>
 		    					<p>面积：{{Datas.cxkjCommunityHousetype.housetypeArea}}m²</p>
 		    					<p>租金：<span>{{Datas.roomRent | roomRent}}</span></p>
@@ -38,7 +38,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>租约信息：</td>
-		    				<td v-if="Datas.cxkjContractSign != null">
+		    				<td v-if="Datas.cxkjContractSign">
 		    					<p>合同编码：{{Datas.cxkjContractSign.contractNumber}}</p>
 		    					<p>状态：<span>{{Datas.cxkjContractSign.contractState | contractState}}</span></p>
 		    					<p>租期：{{Datas.cxkjContractSign.beginDate | beginDate}}--{{Datas.cxkjContractSign.endDate | endDate}}</p>
@@ -49,14 +49,15 @@
 		    					<p>租期：无</p>
 		    				</td>
 		    				<td rowspan="3">
-		    					<a>查看租约</a>
+		    					<!--<a>查看租约</a>-->
+		    					<router-link :to="{name:'contractDetail',query:{contractSignId:Datas.cxkjContractSign.contractSignId,isOffice:'0'}}" v-if="Datas.cxkjContractSign">查看租约</router-link>
 		    					<a>续租</a>
 		    					<a>退房</a>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>承租人：</td>
-		    				<td v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.user != null">
+		    				<td v-if="Datas.cxkjContractSign">
 		    					<span >{{Datas.cxkjContractSign.user.userName}}</span>
 		    					<span>联系电话：{{Datas.cxkjContractSign.user.userPhone}}</span>
 		    				</td>
@@ -101,14 +102,14 @@
 		    					暂无
 		    				</td>
 		    				<td rowspan="3">
-		    					<router-link :to="{name:'doorRecord',query:{roomLockId:roomLockWaterElect.roomLockId}}">开门记录</router-link>
+		    					<router-link :to="{name:'doorRecord',query:{roomLockId:roomLockWaterElect.roomLockId}}" v-if="roomLockWaterElect">开门记录</router-link>
 		    					<a>冻结</a>
 		    					<a>获取临时密码</a>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
-		    				<td v-if="roomLockWaterElect.waterStatus">
+		    				<td v-if="roomLockWaterElect">
 		    					<span>{{roomLockWaterElect.waterStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.waterMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.waterType | type}} <b> {{roomLockWaterElect.waterPrice | Price}}</b>元/吨</p>
@@ -119,7 +120,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>电表状态：</td>
-		    				<td v-if="roomLockWaterElect.electricityStatus">
+		    				<td v-if="roomLockWaterElect">
 		    					<span>{{roomLockWaterElect.electricityStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
@@ -159,7 +160,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>调价原因：</td>
+						<td style="vertical-align: text-top;line-height: 50px;">调价原因：</td>
 						<td>
 							<textarea v-model="texs">
 								
@@ -366,8 +367,6 @@
     					if(this.Datas.roomLockWaterElect){
     						this.roomLockWaterElect = this.Datas.roomLockWaterElect;
     					}
-    					
-    					console.log(this.roomLockWaterElect);
     				}
     			})
     			.catch((error) => {

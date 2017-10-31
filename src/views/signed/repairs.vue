@@ -40,43 +40,47 @@
 							<input type="button" value="搜索" @click="handle()">
 						</div>
 		    		</div>
-		    		<table>
-		    			<thead>
-		    				<td>工单号</td>
-		    				<td>报修时间</td>
-		    				<td>类型</td>
-		    				<td>房间</td>
-		    				<td>维修项目</td>
-		    				<td>预约上门时间</td>
-		    				<td>状态</td>
-		    				<td>问题描述</td>
-		    				<td>操作</td>
-		    			</thead>
-		    			<tr v-for="item in Datas">
-		    				<td>{{item.repairNo}}</td>
-		    				<td>{{item.createtime | time}}</td>
-		    				<td>{{item.isOffice | office}}</td>
-		    				<td>{{item.cxkjCommunityRoom.roomNum}}</td>
-		    				<td>{{item.systemData.dataName}}</td>
-		    				<td>{{item.repairTime | time}}</td>
-		    				<td :class="[{'kust':item.repairState == 0},{'kust1':item.repairState == 1}]">{{item.repairState | state}}</td>
-		    				<td v-if="item.repairDesc">{{item.repairDesc}}</td>
-		    				<td v-else>--</td>
-		    				<td><router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId,type:'0'}}">查看详情</router-link>
-		    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-if="item.repairState == 0">确认跟进</router-link>
-		    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</router-link>
-		    				</td>
-		    			</tr>
-		    		
-		    		</table>
-		    		<el-pagination
-				      @current-change="handleCurrentChange"
-				      :current-page.sync="currentPage3"
-				      :page-size=pageSize
-				      layout="prev, pager, next,total,jumper"
-				      :total=totolNum>
-				    
-				    </el-pagination>
+		    		<div v-if="Datas">
+			    		<table>
+			    			<thead>
+			    				<td>工单号</td>
+			    				<td>报修时间</td>
+			    				<td>类型</td>
+			    				<td>房间</td>
+			    				<td>维修项目</td>
+			    				<td>预约上门时间</td>
+			    				<td>状态</td>
+			    				<td>问题描述</td>
+			    				<td>操作</td>
+			    			</thead>
+			    			<tr v-for="item in Datas">
+			    				<td>{{item.repairNo}}</td>
+			    				<td>{{item.createtime | time}}</td>
+			    				<td>{{item.isOffice | office}}</td>
+			    				<td>{{item.cxkjCommunityRoom.roomNum}}</td>
+			    				<td>{{item.systemData.dataName}}</td>
+			    				<td>{{item.repairTime | time}}</td>
+			    				<td :class="[{'kust':item.repairState == 0},{'kust1':item.repairState == 1}]">{{item.repairState | state}}</td>
+			    				<td v-if="item.repairDesc">{{item.repairDesc}}</td>
+			    				<td v-else>--</td>
+			    				<td><router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId,type:'0'}}">查看详情</router-link>
+			    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-if="item.repairState == 0">确认跟进</router-link>
+			    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</router-link>
+			    				</td>
+			    			</tr>
+			    		
+			    		</table>
+			    		<el-pagination
+					      @current-change="handleCurrentChange"
+					      :current-page.sync="currentPage3"
+					      :page-size=pageSize
+					      layout="prev, pager, next,total,jumper"
+					      :total=totolNum>
+					    </el-pagination>
+		    		</div>
+		    		<div v-else class="kbt">
+		    			<img src="../../../static/images/icon/my_03.png" style="margin-top: 150px;">
+		    		</div>
 		    	</div>
 		    </div>
 			<footer-box></footer-box>
@@ -118,7 +122,7 @@
 		          data: '办公室',
 		          id:1
 		        }],
-		        value: '',
+		        value: '全部',
 		        options2: [{
 		          data: '全部',
 		          id:-1
@@ -132,13 +136,13 @@
 		          data: '已办结',
 		          id:2
 		        }],
-		        value2: '',
+		        value2: '全部',
 		        pageNum:1,
 		        pageSize:10,
 		        communityId:'',
 		        Name:'',
 		        totolNum:0,
-		        Datas:{},
+		        Datas:null,
 		        repairState:null,
 		        isOffice:null,
 		        start:null,
@@ -243,7 +247,7 @@
 			    		this.totolNum = response.data.entity.totalNum;
 			    	}
 		    		else{
-		    			this.Datas = {};
+		    			this.Datas = null;
 		    			this.totolNum = 0;
 		    		}
 		    	})
@@ -262,6 +266,10 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
+  #repairs .kbt{
+	margin: 0 auto;
+	text-align: center;
+	}
   #repairs{
   	.ivu-icon-ios-calendar-outline {
 			color: #038be2;

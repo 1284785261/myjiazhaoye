@@ -253,6 +253,7 @@
 .insta table tr td  textarea{
 	width: 198px;
 	height: 120px;
+	margin-top: 10px;
 	resize: none;
 	border: none;
 	border: 1px solid #DCDCDC;

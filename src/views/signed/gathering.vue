@@ -17,7 +17,7 @@
 						<a @click="mvvs()">发起收款</a>
 						<span class="zhut">状态：</span>
 						<el-select v-model="value" placeholder="请选择" @change="select(value)">
-							<el-option v-for="item in options" :key="item.dataName" :value="item.dataName">
+							<el-option v-for="item in options" :key="item.dataname" :value="item.dataname">
 							</el-option>
 						</el-select>
 						<span class="zhut">发起时间：</span>
@@ -127,9 +127,18 @@
 		data() {
 			return {
 				currentPage3: 1,
-				options: [],
+				options: [{
+					dataname:'全部',
+					id:-1
+				},{
+					dataname:'待支付',
+					id:0
+				},{
+					dataname:'已支付',
+					id:1
+				}],
 				values: null,
-				value: '',
+				value: '全部',
 				communityLeaseBegin: null,
 				communityLeaseEnd: null,
 				pageNum: 1,
@@ -152,7 +161,6 @@
 		mounted() {
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
-			this.states();
 			this.matas();
 			
 		},
@@ -241,27 +249,8 @@
 						this.warningModal = true;
 					})
 			},
-			states() {
-				axios.post(hostWay,
-					qs.stringify({
-						parentId: 51 //查询支付状态字典
-					})
-				).then((response) => {
-					//console.log(response);
-					if(response.status == 200 && response.data.code == 10000) {
-						this.options = response.data.entity;
-					}
-				}).catch((error) => {
-					console.log(error);
-				})
-			},
 			select(val) {
-				console.log(val);
-				if(val == '待支付') {
-					this.gatheringState = 0;
-				} else if(val == '已支付') {
-					this.gatheringState = 1;
-				}
+				this.gatheringState = this.options[this.options.findIndex(item => item.dataname == val)].id;
 			},
 			seek() {
 				let vm = this;
@@ -277,7 +266,7 @@
 				if(this.values) {
 					param.append("keyWord", this.values);
 				}
-				if(this.gatheringState) {
+				if(this.gatheringState &&this.gatheringState != -1) {
 					param.append("gatheringState", this.gatheringState);
 				}
 				param.append("pageNum", this.pageNum);

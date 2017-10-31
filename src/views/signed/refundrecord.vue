@@ -14,7 +14,7 @@
 		        </div>
 		    	<div id="refundrecord">
 		    		<div class="refundrecord1">
-		    			<router-link :to="{path:'/signed/openrefund',query:{id:communityId}}" class="refund">发起退款</router-link>
+		    			<router-link :to="{path:'/signed/openrefund',query:{id:communityId,Name:Name}}" class="refund">发起退款</router-link>
 		    			<span class="bsc">状态：</span>
 		    			<el-select v-model="value" placeholder="请选择" @change="sectte(value)">
 						    <el-option
@@ -115,7 +115,7 @@
 					dataname:'审核不通过',
 					id:3
 				}],
-		        value: '',
+		        value: '全部',
 		        communityId:'',
 		        pageNum:1,
 		        data:null,
@@ -161,20 +161,6 @@
     		datas(){
     			let param = new FormData();
     			let pageNum = this.pageNum;
-    			if(this.State != '' && this.State != -1){
-    				param.append('refundStatus',this.State);
-    			}
-    			if(this.start != ''){
-    				this.start = new Date(this.start).Format('yyyy-MM-dd');
-    				param.append('startDate',this.start);
-    			}
-    			if(this.over != ''){
-    				this.over = new Date(this.over).Format('yyyy-MM-dd');
-    				param.append('endDate',this.over);
-    			}
-    			if(this.keyWord != ''){
-    				param.append('keyWord',this.keyWord);
-    			}
     			param.append('communityId',this.communityId);
     			param.append('pageNum',pageNum);
     			param.append('pageSize',this.pageSize);
