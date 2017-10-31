@@ -62,7 +62,7 @@
 
 		              	<Button type="primary" @click="Complie">编辑</Button>
 
-		              <Button>取消</Button>
+		              <Button @click="gos">取消</Button>
 		            </div>
 		        </div>
 
@@ -107,6 +107,9 @@
     		this.datas();
     	},
     	methods:{
+    		gos(){
+		    	this.$router.go(-1);
+		    },
     		Complie:function(){
     			this.$router.push({path:"/apartment/communityComplie",query:{id:this.communityId}});
     		},

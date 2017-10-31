@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>佳里人帖子管理</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <!--<span>佳兆业航运WEWA空间</span>-->
 		        </div>
 		    	<div id="invitationlist">
 		    		<div class="invitationlist1">

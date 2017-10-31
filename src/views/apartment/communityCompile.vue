@@ -118,7 +118,7 @@
                         </el-button>-->
             <Button type="primary" @click="Complie" v-if="communityId == '' " :disabled="disabled">确定</Button>
             <Button type="primary" @click="Complie2" v-else :disabled="disabled2">确定</Button>
-            <Button>取消</Button>
+            <Button @click="gos">取消</Button>
           </div>
         </div>
 
@@ -207,6 +207,9 @@
 
     },
     methods: {
+    	gos(){
+	    	this.$router.go(-1);
+	    },
     	openItem(item){
     		 window.open(imgPath+item,"","width=600,height=600");
 		    

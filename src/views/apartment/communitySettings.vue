@@ -121,7 +121,7 @@
 								</div>
 								<div class="operation-box">
 									<Button type="primary" @click="house()" :disabled="disabled">确定</Button>
-									<Button>取消</Button>
+									<Button @click="gos">取消</Button>
 								</div>
 							</div>
 						</el-tab-pane>
@@ -223,7 +223,7 @@
 								</div>
 								<div class="operation-box">
 									<Button type="primary" @click="refer()" :disabled="disabled2">确定</Button>
-									<Button>取消</Button>
+									<Button @click="gos">取消</Button>
 								</div>
 							</div>
 						</el-tab-pane>
@@ -344,7 +344,9 @@
 				}],
 				activeName2: 'first',
 				cxkjCommunityListPayway: [], //公寓付款方式
+				cxkjCommunityListPayway2: [], //办公付款方式
 				cxkjCommunityListMaintain: [], //公寓维修项目
+				cxkjCommunityListMaintain2: [], //办公维修项目
 				cxkjCommunityListConfig: [], //公寓电器选择
 				cxkjCommunityListConfig2: [], //办公物资选择
 				cxkjCommunityListMeetingSuit: [], //会议室套餐设置
@@ -418,6 +420,9 @@
 			}
 		},
 		methods: {
+			gos(){
+		    	this.$router.go(-1);
+		    },
 			befors() {
 				let vm = this
 				this.cxkjCommunityListPayway = [];
@@ -507,7 +512,7 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -709,8 +714,6 @@
 						})
 					).then((response) => {
 						vm.option3 = response.data.entity;
-						console.log(11111111111111);
-						console.log(vm.option3);
 					})
 					.catch((error) => {
 						console.log(error);
@@ -758,14 +761,14 @@
 
 					}
 				}
-				console.log(this.tableRepairs2);
+				//console.log(this.tableRepairs2);
 			},
 			communit1(val, index) {
 				//社区付款方式
 				for(let i = 0; i < this.tableRepairs3[index].option6.length; i++) {
 					if(val == this.tableRepairs3[index].option6[i].dataName) {
 						this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
-						console.log(this.tableRepairs3);
+						//console.log(this.tableRepairs3);
 					}
 				}
 			},
@@ -813,12 +816,12 @@
 			deleteRepair3(tableRepair, index) { //删除社区付款方式
 				this.tableRepairs3.splice(index, 1);
 				let index2 = this.tableRepairs3.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index2, 1);
+				this.cxkjCommunityListPayway2.splice(index2, 1);
 			},
 			deleteRepair5(tableRepair, index) { //删除社区办公维修项目
 				this.tableRepairs5.splice(index, 1);
 				let index2 = this.tableRepairs5.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index2, 1);
+				this.cxkjCommunityListPayway2.splice(index2, 1);
 			},
 			house() {
 				//公寓提交设置信息
@@ -927,11 +930,9 @@
 			refer() {
 				let vm = this
 				this.disabled2 = false;
-				this.cxkjCommunityListPayway = [];
-				this.cxkjCommunityListMaintain = [];
 				for(let i = 0; i < vm.tableRepairs3.length; i++) {
 					if(this.tableRepairs3[i].checkValue == true) { //添加办公付款方式编号
-						vm.cxkjCommunityListPayway.push({
+						vm.cxkjCommunityListPayway2.push({
 							dataId: this.tableRepairs3[i].inputValue,
 							discount: this.tableRepairs3[i].date,
 							communityPayWayId: this.tableRepairs3[i].communityPayWayId
@@ -954,7 +955,7 @@
 				//				console.log(vm.cxkjCommunityListMeetingSuit);
 				for(let i = 0; i < vm.tableRepairs5.length; i++) { //添加办公维修项目编号
 					if(this.tableRepairs5[i].checkValue == true) {
-						vm.cxkjCommunityListMaintain.push({
+						vm.cxkjCommunityListMaintain2.push({
 							communityMaintainDataId: this.tableRepairs5[i].inputValue,
 							onSiteTime: this.tableRepairs5[i].date,
 							communityMaintainId: this.tableRepairs5[i].communityMaintainId
@@ -969,20 +970,19 @@
 				}
 //				console.log(list2);
 //				console.log(vm.cxkjCommunityListConfig2);
-				//console.log(vm.cxkjCommunityListPayway);
-				console.log(vm.cxkjCommunityListMaintain);
+//				console.log(vm.cxkjCommunityListPayway2);
+//				console.log(vm.cxkjCommunityListMaintain2);
 				//console.log(vm.cxkjCommunityListConfig2);
 //				console.log(vm.cxkjCommunityListMeetingSuit);
 //				console.log(vm.serviceCost2);
-				if(vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || vm.cxkjCommunityListConfig2.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
+				if(vm.cxkjCommunityListPayway2.length == 0 || vm.cxkjCommunityListMaintain2.length == 0 || vm.cxkjCommunityListConfig2.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {
-
 					axios.post(hostRoom, {
 							communityId: vm.communityId,
-							cxkjCommunityListPayway: vm.cxkjCommunityListPayway,
-							cxkjCommunityListMaintain: vm.cxkjCommunityListMaintain,
+							cxkjCommunityListPayway: vm.cxkjCommunityListPayway2,
+							cxkjCommunityListMaintain: vm.cxkjCommunityListMaintain2,
 							cxkjCommunityListConfig: vm.cxkjCommunityListConfig2,
 							cxkjCommunityListMeetingSuit: vm.cxkjCommunityListMeetingSuit,
 							serviceCost: vm.serviceCost2,
