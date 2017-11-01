@@ -25,7 +25,7 @@
               <span>{{item.floorName}}</span><span>层</span><span>{{item.roomCount}}间</span>
               <i :class="[item.hais ? clas:clas2]" @click="shrink(index,item.hais)"></i>
             </div>
-            <transition name="el-zoom-in-top">
+            <transition name="el-zoom-in-top" appear="true">
               <ul class="state2 transition-box" v-show='item.hais'>
                 <li v-for="its in item.roomList" >
                   <div>

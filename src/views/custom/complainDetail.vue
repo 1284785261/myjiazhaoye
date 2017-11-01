@@ -13,10 +13,12 @@
         </div>
         <div id="complain-detail-wrap">
           <div class="order-detail-wrap-head">
-            <!--投诉状态0、待确认1、店长处理中2、店长已处理3、客服处理中4、已完结5、已回访-->
+            <!--投诉状态0、待确认1、店长处理中2、店长已处理3、客服处理中4、已完结(待回访)5、已回访-->
             <img v-if="complainData.complainStatus == 5"  src="../../../static/images/icon/custom_yihuifang.png" alt="投诉详情-已回访">
-            <img v-else-if="complainData.complainStatus == 3 || complainData.complainStatus == 1" src="../../../static/images/icon/custom_chulizhong.png" alt="投诉详情-已回访">
-            <img v-else-if="complainData.complainStatus == 0" src="../../../static/images/icon/custom_huifang.png" alt="投诉详情-已回访">
+            <img v-else-if="complainData.complainStatus == 3 || complainData.complainStatus == 1" src="../../../static/images/icon/custom_chulizhong.png" alt="投诉详情-店长处理中">
+            <img v-else-if="complainData.complainStatus == 2" src="../../../static/images/icon/yichuli.png" alt="投诉详情-已处理">
+            <img v-else-if="complainData.complainStatus == 4" src="../../../static/images/icon/yichuli.png" alt="投诉详情-已完结">
+            <img v-else-if="complainData.complainStatus == 0" src="../../../static/images/icon/custom_huifang.png" alt="投诉详情-待确认">
             <div class="order-detail-wrap-head-content">
               <h3>
                 <span style="padding-right: 10px;">工号:{{complainData.complainNum}}</span>
@@ -24,7 +26,7 @@
                 <span v-else-if="complainData.complainStatus == 1" class="colorSpan" style="color: #96a5af;">店长已处理</span>
                 <span v-else-if="complainData.complainStatus == 2" class="colorSpan" style="color: #96a5af;">店长处理中</span>
                 <span v-else-if="complainData.complainStatus == 3" class="colorSpan" style="color: #3dc4b2;">客服处理中</span>
-                <span v-else-if="complainData.complainStatus == 4" class="colorSpan" style="color: #96a5af;">已完结</span>
+                <span v-else-if="complainData.complainStatus == 4" class="colorSpan" style="color: #FF6612;">待回访</span>
                 <span v-else-if="complainData.complainStatus == 5" class="colorSpan" style="color: #96a5af;">已回访</span>
               </h3>
               <p>发起投诉时间:{{complainData.createTime | timefilter("yyyy-MM-dd hh:mm")}}</p>
@@ -44,12 +46,13 @@
                 </tr>
                 <tr>
                   <td><b>事情经过 :</b></td>
-                  <td><p style="max-width: 650px;">sfdgsdfgsdgsdfgsdgdfsgfff</p></td>
+                  <td><p style="max-width: 650px;">{{complainData.complainContent}}</p></td>
                 </tr>
               </table>
             </li>
+            <!--isCustomService:0、店长处理1、客服处理   isReturnVisit:是否是回访0、不是1、是-->
             <template v-for="(item,index) in complainData.recordList">
-              <li>
+              <li v-if="item.isCustomService == 0">
                 <h3 v-if="index==0"><i class="icon icon-iden"></i>处理记录</h3>
                 <table>
                   <tr>
@@ -61,18 +64,23 @@
               <li>
                 <table>
                   <tr>
-                    <td>店长完成处理 :</td>
-                    <td>{{item.completeTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+                    <td v-if="item.isCustomService == 0">店长完成处理 :</td>
+                    <td v-if="item.isCustomService == 1 &&　item.isReturnVisit == 0">客服介入处理 :</td>
+                    <td v-if="item.isCustomService == 1 &&　item.isReturnVisit == 1">客服回访 :</td>
+                    <!--两个不同的时间-->
+                    <td v-if="item.isCustomService == 0">{{item.completeTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+                    <td v-if="item.isCustomService == 1">{{item.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
                   </tr>
                   <tr>
-                    <td><b>处理结果 :</b></td>
+                    <td v-if="item.isReturnVisit == 0"><b>处理结果 :</b></td>
+                    <td v-if="item.isReturnVisit == 1"><b>回访反馈 :</b></td>
                     <td>{{item.complainResult}}</td>
                   </tr>
-                  <tr>
+                  <tr v-if="item.isReturnVisit == 0">
                     <td><b>反馈 :</b></td>
                     <td><span v-if="item.userDegree==0">满意</span><span v-else-if="item.userDegree==1">不满意</span></td>
                   </tr>
-                  <tr>
+                  <tr v-if="item.isReturnVisit == 0">
                     <td></td>
                     <td>{{item.userFeedback}}</td>
                   </tr>
@@ -83,11 +91,11 @@
               <table>
                 <tr>
                   <td>客服回访 :</td>
-                  <td>2017-09-20 17:50</td>
+                  <td>{{item.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
                 </tr>
                 <tr>
                   <td><b>回访反馈 :</b></td>
-                  <td>确认处理完毕</td>
+                  <td>{{item.complainResult}}</td>
                 </tr>
               </table>
             </li>
@@ -95,17 +103,29 @@
               <table>
                 <tr>
                   <td style="position: relative;top: -60px"><b>客服介入处理 :</b></td>
-                  <td><textarea name="remarks" style="width:400px;height: 140px;padding: 5px;" placeholder="请填写处理结果" ></textarea></td>
+                  <td><textarea name="remarks" style="width:400px;height: 140px;padding: 5px;" placeholder="请填写处理结果" v-model="complainContent"></textarea></td>
                 </tr>
                 <tr>
                   <td></td>
-                  <td><Button type="primary" style="width: 120px;" @click="test()">确认回访</Button></td>
+                  <td><Button type="primary" style="width: 120px;" @click="costomerReturn()">确认已处理</Button></td>
+                </tr>
+              </table>
+            </li>
+            <li v-if="complainData.complainStatus == 4">
+              <table>
+                <tr>
+                  <td style="position: relative;top: -60px"><b>客服回访 :</b></td>
+                  <td><textarea name="remarks" style="width:400px;height: 140px;padding: 5px;" placeholder="请填回访内容" v-model="complainContent2"></textarea></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><Button type="primary" style="width: 120px;" @click="costomerReturn2()">确认回访</Button></td>
                 </tr>
               </table>
             </li>
           </ul>
           <div class="accept-btn" v-if="complainData.complainStatus == 0">
-            <Button type="primary" style="width: 120px;" @click="test()">确认接收</Button>
+            <Button type="primary" style="width: 120px;">确认接收</Button>
           </div>
         </div>
         <success-modal :success-message="successMessage" v-if="false"></success-modal>
@@ -122,7 +142,8 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {complainDetail} from '../api.js';
+  import {complainDetail,CustomerService300126} from '../api.js';
+  import qs from 'qs';
 
 
   export default {
@@ -140,6 +161,8 @@
         testModal:false,
         complainId:"",
         complainData:{},
+        complainContent:"",
+        complainContent2:""
       }
     },
     mounted(){
@@ -156,8 +179,25 @@
             }
           })
       },
-      test(){
-        this.testModal = true;
+      //确认已处理
+      costomerReturn(){
+        var that = this;
+        this.$http.post(CustomerService300126,qs.stringify({complainStatus:3,complainContent:this.complainContent,complainId:this.complainId}))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.getComplainDetail({complainId:that.complainId});
+            }
+          })
+      },
+      //确认回访
+      costomerReturn2(){
+        var that = this;
+        this.$http.post(CustomerService300126,qs.stringify({complainStatus:4,complainContent:this.complainContent2,complainId:this.complainId}))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.getComplainDetail({complainId:that.complainId});
+            }
+          })
       },
       closeWarningModal(){
         this.testModal = false;

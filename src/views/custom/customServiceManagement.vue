@@ -60,12 +60,12 @@
               <td>{{complain.userName}}</td>
               <td>{{complain.userPhone}}</td>
               <td>
-                <!--投诉状态 0、待确认1、店长处理中2、店长已处理3、客服处理中4、已完结5、已回访-->
+                <!--投诉状态 0、待确认1、店长处理中2、店长已处理3、客服处理中4、待回访5、已回访-->
                 <span v-if="complain.complainStatus==0">待确认</span>
                 <span v-if="complain.complainStatus==1">店长处理中</span>
                 <span v-if="complain.complainStatus==2">店长已处理</span>
                 <span v-if="complain.complainStatus==3">客服处理中</span>
-                <span v-if="complain.complainStatus==4">已完结</span>
+                <span v-if="complain.complainStatus==4" style="color: #FF6612;">待回访</span>
                 <span v-if="complain.complainStatus==5">已回访</span>
               </td>
               <td>
@@ -118,7 +118,7 @@
           lable:"客服处理中"
         },{
           value:4,
-          lable:"已完结"
+          lable:"待回访"
         },{
           value:5,
           lable:"已回访"
@@ -155,11 +155,11 @@
             }
           })
       },
-      getComplainData(data){
+      getComplainData(data){debugger
         var that = this;
         this.$http.get(complainList,{params:data})
-          .then(function(res){
-            if(res.status == 200 && res.data.code == 10000){
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){debugger
               var pageBean = res.data.pageBean;
               that.complainList = pageBean.page;
               that.complainTotalNum = pageBean.totalNum;

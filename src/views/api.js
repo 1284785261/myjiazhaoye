@@ -559,3 +559,6 @@ export const BillList5000103 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBillList5
 export const RoomBillHistoryList500104 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillHistoryList500104';//公寓历史账单列表
 export const OfficeBillHistoryList500105 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillHistoryList500105';//办公历史账单列表
 export const WaterEnergyBillHistoryList500106 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillHistoryList500106';//水电历史账单列表
+
+//客服管理
+export const CustomerService300126 =host3+'/cxkj-room/apis/pc/complainCenter/CxkjConfirmReturnVisitOrCustomerService300126';//客服确认处理或回访

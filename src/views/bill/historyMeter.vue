@@ -53,11 +53,11 @@
                   <td>系统</td>
                 </tr>
               </table>
-              <div class="blank-background-img" v-if="roomHistoryBillTotalNum == 0">
+              <div class="blank-background-img" v-if="true">
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无抄表内容~</h2>
               </div>
-              <Page :total="roomHistoryBillTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomHistoryBillTotalNum > 0"></Page>
+              <Page :total="roomHistoryBillTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="false"></Page>
             </Tab-pane>
             <Tab-pane label="历史水电账单" name="2">
               <div class="form-search-criteria">
