@@ -168,10 +168,10 @@
               for(var i =0;i<that.billPaymentList.length;i++){
                 that.$set(that.billPaymentList[i],"isEdit",false);
                 that.$set(that.billPaymentList[i],"content","修改账单");
-                if(!that.billPaymentList[i].roomWater){
+                if(!that.billPaymentList[i].roomWater || (that.billPaymentList[i].roomWater && (parseFloat(that.billPaymentList[i].roomWater) == that.billPaymentList[i].waterData))){
                   that.billPaymentList[i].roomWater = that.billPaymentList[i].waterInit;
                 }
-                if(!that.billPaymentList[i].roomElectric){
+                if(!that.billPaymentList[i].roomElectric || (that.billPaymentList[i].roomElectric && (parseFloat(that.billPaymentList[i].roomElectric) == that.billPaymentList[i].energyData))){
                   that.billPaymentList[i].roomElectric = that.billPaymentList[i].electricInit;
                 }
               }

@@ -283,11 +283,19 @@
         <table>
           <tr>
             <td>快递公司 :</td>
-            <td>{{sendBillDetail.expressCompany}}</td>
+            <td>
+              <Select v-model="expressCompany" style="width:200px">
+                <Option v-for="item in  ExpressSelect" :value="item.dataName" :key="item.dataName">{{ item.dataName }}</Option>
+              </Select>
+            </td>
           </tr>
           <tr>
             <td>付款方式 :</td>
-            <td>到付</td>
+            <td>
+              <Select v-model="expressPayType" style="width:200px">
+                <Option v-for="item in  expressPayTypes" :value="item.dataId" :key="item.dataId">{{ item.dataName }}</Option>
+              </Select>
+            </td>
           </tr>
           <tr>
             <td>运单号 :</td>
@@ -469,6 +477,16 @@
         refundMoney:"",
         refundId:"",
         refundActivePage:1,
+        ExpressSelect:[],
+        expressCompany:"",
+        expressPayTypes:[{
+          dataName:"到付",
+          dataId:0
+        },{
+          dataName:"寄付",
+          dataId:1
+        }],
+      expressPayType:0,
       }
     },
     mounted(){
@@ -476,7 +494,7 @@
       this.getBillInvoice({pageNum:1});
       this.getrefundHandle({pageNum:1});
       this.getFinanceList({pageNum:1});
-      this.getOfficeSelect();
+      this.getExpress();
     },
     methods: {
       closeBillModal(){
@@ -587,16 +605,28 @@
           }
         })
       },
+      //获取供应商数据
+      getExpress(){
+        var that = this;
+        this.$http.post(
+          SytemData,qs.stringify({parentId:63})
+        ).then(function(res){debugger
+          that.ExpressSelect = res.data.entity;
+          that.expressCompany = that.ExpressSelect[0].dataName;
+        }).catch(function(err){
+          console.log(err);
+        })
+      },
       //打开寄发票窗口
       sendBill(invoiceId){
         var that = this;
         this.sendBillModal = true;
         this.ativeInvoiceId = invoiceId;
-        this.$http.post(invoiceDetail,qs.stringify({invoiceId:invoiceId})).then(function(res){
-          if(res.status == 200 && res.data.code == 10000){
-            that.sendBillDetail = res.data.result.invoice;
-          }
-        })
+//        this.$http.post(invoiceDetail,qs.stringify({invoiceId:invoiceId})).then(function(res){
+//          if(res.status == 200 && res.data.code == 10000){
+//            that.sendBillDetail = res.data.result.invoice;
+//          }
+//        })
       },
       sureRefund(index,refundId){
         this.refundId = refundId;
@@ -621,9 +651,9 @@
         var that = this;
         var data = {
           invoiceId:this.ativeInvoiceId,
-          expressCompany:this.sendBillDetail.expressCompany,
+          expressCompany:this.expressCompany,
           expressNo:this.expressNo,
-          expressPayType:this.sendBillDetail.expressPayType
+          expressPayType:this.expressPayType
         }
         this.$http.post(invoiceDetailSend,qs.stringify(data)).then(function(res){
           if(res.data.code == 10000){
@@ -918,7 +948,7 @@
       border-top-left-radius: 5px;
     }
     .finance-bill-detail-table{
-      height: 100px;
+      height: 120px;
       width: 100%;
       padding-top: 30px;
       table{

@@ -10,7 +10,7 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>订单管理</h3>
-          <span>佳兆业航运WEWA空间</span>
+          <!--<span>佳兆业航运WEWA空间</span>-->
         </div>
         <div id="order-management-wrap">
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
@@ -23,7 +23,7 @@
                   </Select>
                 </div>
                 <div class="form-item">
-                  <span>开业日期：</span>
+                  <span>订单日期：</span>
                   <Date-picker type="date" v-model="stationStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" v-model="stationEndDate" placeholder="选择日期"></Date-picker>
@@ -83,7 +83,7 @@
                   </Select>
                 </div>
                 <div class="form-item">
-                  <span>开业日期：</span>
+                  <span>账单时间：</span>
                   <Date-picker type="date" v-model="officeStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" v-model="officeEndDate" placeholder="选择日期"></Date-picker>

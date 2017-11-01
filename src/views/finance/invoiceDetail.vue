@@ -107,7 +107,8 @@
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>付款方式 :</span>
-                    <span>{{invoiceDetailData.expressPayType}}</span>
+                    <span v-if="invoiceDetailData.expressPayType == 0">到付</span>
+                    <span v-if="invoiceDetailData.expressPayType == 1">寄付</span>
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>寄出时间 :</span>
