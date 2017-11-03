@@ -6,7 +6,7 @@
 const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
-//const host3 = 'http://192.168.26.135:8091';
+//const host3 = 'http://192.168.26.135:8091';//李志guang
 // const host3 = 'http://192.168.26.232:8081';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
@@ -316,6 +316,12 @@ const EditDetails = '/cxkj-room/apis/pc/Usercomplain/CxkjComplaintEditDetails200
 
 //帖子关闭、开放
 const OpenAllPost = '/cxkj-room/apis/pc/forumCenter/CxkjCloseOrOpenAllPost300082'
+
+//忘记密码短信接口
+const Sendcode = '/cxkj-center/apis/verify/CxkjCenterSendcode200167'
+
+//忘记密码-重置密码
+const ForgotPass = '/cxkj-center/apis/user/CxkjCommunityForgotPassword200166'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -420,6 +426,8 @@ export const hostRepairRemark = host3 + RepairRemark;
 export const hostaintDetails = host3 + aintDetails;
 export const hostEditDetails = host3 + EditDetails;
 export const hostOpenAllPost = host3 + OpenAllPost;
+export const hostSendcode = host3 + Sendcode;
+export const hostForgotPass = host3 + ForgotPass;
 export const host = host3;
 //export default {
 //hosts:function(){

@@ -29,7 +29,7 @@
 						</tr>
 						<tr>
 							<td>活动主题：</td>
-							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="20"/></td>
+							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<td>开始时间：</td>
@@ -59,7 +59,7 @@
 						</tr>
 						<tr>
 							<td>总金额：</td>
-							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10"/></td>
+							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<td>优惠券有效期：</td>
@@ -206,7 +206,7 @@
 				param.append("endRule", vm.Activity.endRule);
 				param.append("endDate", vm.Activity.endDate);
 				param.append("activityTotalMoney", vm.Activity.activityTotalMoney);
-				if(vm.Activity.validityDate){
+				if(vm.Activity.validityDate) {
 					param.append("validityDate", vm.Activity.validityDate);
 				}
 				axios.post(hostActivityAdd, param).then((res) => {
@@ -268,4 +268,25 @@
 <style lang="scss" rel="stylesheet/scss">
 	@import '../../sass/base/_mixin.scss';
 	@import '../../sass/base/_public.scss';
+	.location_community {
+		.ivu-icon-location {
+			font-size: 38px;
+			color: red;
+			position: relative;
+			top: 10px;
+			left: 5px;
+		}
+	}
+	
+	.ivu-icon-ios-calendar-outline {
+		color: #038be2;
+		font-family: "iconfont" !important;
+		font-size: 18px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		&:before {
+			content: "\e60c";
+		}
+	}
 </style>

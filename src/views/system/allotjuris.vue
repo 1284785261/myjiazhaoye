@@ -12,18 +12,18 @@
 					<el-tab-pane label="权限配置" name="first">
 						<div class="allotjuris">
 							<div class="allotjur">
-								<img src="../../../static/images/icon/iden.png" /> <span>用户信息</span>
+								<img src="../../../static/images/icon/iden.png" /> <span>PC权限管理</span>
 							</div>
 							<div class="allotjur2">
 								<span>权限组名称：</span><input type="text" v-model="name" />
 							</div>
 							<table>
-								<tr v-for="(item,index) in UserList">
+								<tr v-for="(item,index) in loderList">
 									<td>
-										<Checkbox v-model="list[index]" @click.prevent.native="handleCheckAll(item,index)"><span>{{item.title.powerItemName}}</span></Checkbox>
+										<Checkbox v-model="item.singd" @click.prevent.native="handleCheckAll(item,index)"><span>{{item.powerItemName}}</span></Checkbox>
 									</td>
 									<td>
-										<Checkbox v-for="(ite,inde) in item.list" v-model="ite.sing" @on-change="checkAllGroupChange(item,inde)"><span>{{ite.powerItemName}}</span></Checkbox>
+										<Checkbox v-for="(ite,inde) in item.powerItemChildList" v-model="ite.sing" @on-change="checkAllGroupChange(item,inde)"><span>{{ite.powerItemName}}</span></Checkbox>
 									</td>
 								</tr>
 							</table>
@@ -69,10 +69,6 @@
 				warningMessage: '添加部门失败，请检查是否重复',
 				activeName2: 'first',
 				loderList: [],
-				UserList: [{
-					title: {},
-					list: []
-				}],
 				powerId: '',
 				name: '',
 				list:[],
@@ -85,12 +81,6 @@
 			this.datas();
 		},
 		methods: {
-			addUser() {
-				this.UserList.push({
-					title: {},
-					list: []
-				})
-			},
 			datas() {
 				axios.post(hostAllocation,
 					qs.stringify({
@@ -101,6 +91,7 @@
 					if(res.status == 200 && res.data.code == 10000) {
 						this.loderList = res.data.entity.powerItemList;
 						this.name = res.data.entity.powerName;
+						
 						if(res.data.entity.powerItem){
 							this.lins = res.data.entity.powerItem.split(",");
 							console.log(this.lins);
@@ -110,43 +101,32 @@
 						let arr2 = [];
 						let arr3 = [];
 						for(let i = 0; i < this.loderList.length; i++) {
-							if(this.loderList[i].parentId == 0) {
-								a++;
-								arr.push(this.loderList[i]);
-							}
-							if(this.loderList[i].parentId == 1){
-								arr2.push(this.loderList[i]);
-							}
-							if(this.loderList[i].parentId == 6){
-								arr3.push(this.loderList[i]);
+							this.$set(this.loderList[i], "singd", false);
+							for(let m = 0; m < this.loderList[i].powerItemChildList.length; m++){
+								this.$set(this.loderList[i].powerItemChildList[m], "sing", false);
 							}
 						}
-						for(let i = 1; i<a; i++) {
-							this.addUser();
-						}
-						for(let i = 0; i < this.UserList.length; i++) {
-							this.UserList[i].title = arr[i];
-							if(this.UserList[i].title.powerItemId == arr2[i].parentId){
-								this.UserList[i].list = arr2;
-							}
-							if(this.UserList[i].title.powerItemId == arr3[i].parentId){
-								this.UserList[i].list = arr3;
-							}
-						}
-						for(let i = 0; i < this.UserList.length; i++) {
-							this.$set(this.list, [i], false);
-							for(let m = 0; m < this.UserList[i].list.length; m++){
-								this.$set(this.UserList[i].list[m], "sing", false);
-								for(let s = 0;s < this.lins.length;s++){
-									if(this.lins[s] == this.UserList[i].list[m].powerItemId){
-										
-										this.$set(this.UserList[i].list[m], "sing", true);
+						
+						for(let i = 0; i < this.loderList.length; i++) {
+							for(let m = 0; m < this.lins.length; m++){
+								if(this.loderList[i].powerItemId == this.lins[m]){
+									this.$set(this.loderList[i], "singd", true);
+									for(let s =0; s< this.loderList[i].powerItemChildList.length;s++){
+										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
 									}
-								}								
+								}
+								
+							}
+							for(let s = 0; s < this.loderList[i].powerItemChildList.length;s++){
+								for(let m = 0; m < this.lins.length; m++){
+									if(this.loderList[i].singd == false && this.loderList[i].powerItemChildList[s].powerItemId == this.lins[m]){
+										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
+									}
+								}
 							}
 							
 						}
-						console.log(this.UserList);
+						console.log(this.loderList);
 					}
 				}).catch((err) => {
 					console.log(err);
@@ -154,61 +134,49 @@
 			},
 			handleCheckAll(item,index) { //权限全选
 				console.log(item);
-//				item.title.single = ! item.title.single;
-				this.$set(this.list,index,!this.list[index])
-				if(this.list[index] == true) {
-					for(let i = 0; i < item.list.length; i++) {
-						this.$set(item.list[i], "sing", true);
+				item.singd = ! item.singd;
+				if(this.loderList[index].singd == true) {
+					for(let i = 0; i < this.loderList[index].powerItemChildList.length; i++) {
+						this.$set(this.loderList[index].powerItemChildList[i], "sing", true);
 					}
 				} else {
-					for(let i = 0; i < item.list.length; i++) {
-						this.$set(item.list[i], "sing", false);
+					for(let i = 0; i < this.loderList[index].powerItemChildList.length; i++) {
+						this.$set(this.loderList[index].powerItemChildList[i], "sing", false);
 					}
 				}
-				console.log("item.title.single")
-				console.log(this.list[index])
-				console.log("item.title.single")
 			},
 			checkAllGroupChange(item, index) { //权限单选
 				console.log(item);
 				console.log(index);
-				console.log(this.list);
 				var flag = true;
-				for(let i = 0; i < item.list.length; i++) {
-					if(item.list[i].sing != this.sings) {
+				for(let i = 0; i < item.powerItemChildList.length; i++) {
+					if(item.powerItemChildList[i].sing != this.sings) {
 						flag = false;
 						break;
 					}
 				}
-				if(item.title.powerItemId == 1){
-					if(item.list.length) {
-						this.list[0] = flag;
-					} else {
-						this.list[0] = false;
-					}
+				if(item.powerItemChildList.length) {
+					item.singd = flag;
+				} else {
+					item.singd = false;
 				}
-				else if(item.title.powerItemId == 6){
-					if(item.list.length) {
-						this.list[1] = flag;
-					} else {
-						this.list[1] = false;
-					}
-				}
-				
-				console.log(this.list);
 			},
 			closeWarningModal() {
 				this.warningModal = false;
 			},
 			addcommunis(){
 				this.list2 = [];
-				for(let i = 0;i<this.UserList.length;i++){
-					for(let m = 0;m < this.UserList[i].list.length;m++){
-						if(this.UserList[i].list[m].sing == true){
-							this.list2.push(this.UserList[i].list[m].powerItemId);
+				for(let i = 0;i<this.loderList.length;i++){
+					if(this.loderList[i].singd == true){
+						this.list2.push(this.loderList[i].powerItemId);
+					}
+					for(let m = 0;m < this.loderList[i].powerItemChildList.length;m++){
+						if(this.loderList[i].powerItemChildList[m].sing == true && this.loderList[i].singd == false){
+							this.list2.push(this.loderList[i].powerItemChildList[m].powerItemId);
 						}
 					}
 				}
+				console.log(this.list2);
 				let str = '';
 				str = this.list2.join(",");
 				axios.post(hostAddToManagement,

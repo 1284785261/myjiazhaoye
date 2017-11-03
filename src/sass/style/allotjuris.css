@@ -85,7 +85,7 @@
 }
 .allotjuris table td:nth-child(1){
 	width: 206px;
-	height: 164px;
+	height: 56px;
 	vertical-align: top;
 	background: #f8f8f8;
 }
@@ -94,8 +94,9 @@
 	margin-top: 20px;
 }
 .allotjuris table td:nth-child(2) .ivu-checkbox-wrapper{
-	margin-left: 30px;
+	margin-right: 150px;
 	line-height: 36px;
+	float: left;
 }
 .allotjuris table td:nth-child(2) span{
 	margin-left: 13px;
@@ -111,6 +112,7 @@
 	background: #038BE2;
 	border-radius: 5px;
 	margin-left: 150px;
-	margin-top: 80px;
+	margin-top: 40px;
+    margin-bottom: 40px;
 	cursor: pointer;
 }

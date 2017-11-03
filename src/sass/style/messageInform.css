@@ -161,11 +161,13 @@
 	height: 120px;
 	border: none;
 	resize: none;
+	padding-left: 10px;
 	border: 1px solid #DCDCDC;
 }
 .instas tr td input{
 	width: 320px;
 	height: 34px;
+	padding-left: 10px;
 	border: none;
 	border: 1px solid #DCDCDC;
 }
@@ -181,4 +183,12 @@
 	border-radius: 5px;
 	margin-left: 180px;
 	margin-top: 10px;
+}
+.instas tr td textarea::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+.instas tr td input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
 }

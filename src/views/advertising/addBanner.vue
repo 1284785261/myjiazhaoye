@@ -59,8 +59,6 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
-		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
-		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -70,8 +68,6 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    import successModal from '../../components/successModal.vue';
-	import warningModal from '../../components/warningModal.vue';
     import qs from 'qs';
 	import axios from 'axios';
 	import { hostAddadvert,hostamend,imgPath,hostAlter } from '../api.js';
@@ -80,9 +76,7 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox,
-    		successModal,
-			warningModal
+    		footerBox
     	},
     	data(){
     		return{
@@ -95,11 +89,7 @@
     			listNumber:null,
     			filelist:[],
     			id:null,
-    			param:[],
-    			successModal: false,
-				warningModal: false,
-				successMessage: '添加成功',
-				warningMessage: '添加信息不完整，请检查添加社区信息'
+    			param:[]
 		   	}
     	},
     	watch: {
@@ -136,9 +126,6 @@
     		}
     	},
     	methods:{
-    		closeWarningModal() {
-				this.warningModal = false;
-			},
     		uploadFile(e){
     			let vm = this
     			vm.filelist = [];
@@ -177,23 +164,15 @@
 						this.$http.post(hostAlter,this.param).then(res => {
 		    				console.log(res);
 		    				if(res.status == 200 && res.data.code == 10000){
-		    					this.successMessage = '修改成功';
-								this.successModal = true;
-								setTimeout(() => {
-									this.successModal = false;
-									vm.$router.push('/advertising/advertiset');
-								}, 2000);
-		    					
+		    					alert('修改成功');
+		    					vm.$router.push('/advertising/advertiset');
 		    				}
 		    				else{
-		    					this.warningMessage = res.data.content;
-              					this.warningModal = true;
+		    					alert('修改失败');
 		    				}
 		    			})
 		    			.catch(error =>{
 		    				console.log(error);
-		    				this.warningMessage = '修改失败';
-              				this.warningModal = true;
 		    			})
 					}
 					else{
@@ -202,26 +181,18 @@
 		    			}
 						else{
 							this.$http.post(hostAddadvert,this.param).then(res => {
-			    				console.log(res);
-			    				if(res.status == 200 && res.data.code == 10000){
-			    					this.successMessage = '添加成功';
-									this.successModal = true;
-									setTimeout(() => {
-										this.successModal = false;
-										vm.$router.push('/advertising/advertiset');
-									}, 2000);
-			    					
-			    				}
-			    				else{
-			    					this.warningMessage = res.data.content;
-	              					this.warningModal = true;
-			    				}
+		    				console.log(res);
+		    				if(res.status == 200 && res.data.code == 10000){
+		    					alert('添加成功');
+		    					vm.$router.push('/advertising/advertiset');
+		    				}
+		    				else{
+		    					alert('添加失败');
+		    				}
 		    				
 			    			})
 			    			.catch(error =>{
 			    				console.log(error);
-			    				this.warningMessage = '添加失败';
-              					this.warningModal = true;
 			    			})
 						}
 		    			

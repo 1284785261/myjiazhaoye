@@ -18,7 +18,6 @@
 		        	<div class="uploading">
                     	<a class="upload" href="javascript:void(0);"  v-loading.body="loading">
                     		<input type="file" class="upfile" @change="loadfile" accept="image/png,image/jpg">
-                    	
                     		<img :src=imgPath1 v-if="imgPath1" />
                     		<span class="iconfont icon-jiahao1" v-if="chen"></span>
                     		<span class="iconfont icon-jiahao2" v-if="chen"></span>

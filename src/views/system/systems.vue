@@ -226,13 +226,6 @@
 				    		</div>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="审核设置" name="fourth5">
-						<div class="systems">
-							<div class="kbt">
-				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
-				    		</div>
-						</div>
-					</el-tab-pane>
 				</el-tabs>
 			</div>
 			<footer-box></footer-box>
@@ -1002,7 +995,7 @@
 						pageSize: pageSize
 					})
 				).then((response) => {
-					//console.log(response);
+					console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.data2 = response.data.entity.page;
 						this.totalNum2 = response.data.entity.totalNum;
@@ -1018,7 +1011,7 @@
 					//console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.options = response.data.entity;
-						console.log(this.options);
+						//console.log(this.options);
 					}
 				}).catch((error) => {
 					console.log(error);

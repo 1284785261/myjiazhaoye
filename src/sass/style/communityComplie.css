@@ -1,26 +1,29 @@
-.compile{
+.compile {
 	width: 100%;
 	height: 1000px;
 	background: #fff;
 	overflow: hidden;
 	box-shadow: 0 3px 1px #ccc;
 }
-.compile .cop{
+
+.compile .cop {
 	position: relative;
 	margin-left: 84px;
 	margin-top: 30px;
 }
-.compile .cop tr{
+
+.compile .cop tr {
 	height: 54px;
 }
-.compile .cop tr td:nth-child(1){
+
+.compile .cop tr td:nth-child(1) {
 	font-size: 12px;
 	font-weight: bold;
 	text-align: right;
 	padding-right: 10px;
-	
 }
-.compile .cop tr td .complie_name{
+
+.compile .cop tr td .complie_name {
 	width: 290px;
 	height: 35px;
 	border: none;
@@ -29,29 +32,35 @@
 	padding-left: 10px;
 	font-size: 14px;
 }
-.compile .cop tr td .el-select{
+
+.compile .cop tr td .el-select {
 	width: 142px;
 	border: 1px solid #dcdcdc;
 }
-.compile .cop tr td .el-select .el-input .el-input__inner{
+
+.compile .cop tr td .el-select .el-input .el-input__inner {
 	border: none;
 	color: #b8b8b8;
 	width: 140px;
 }
 
-.compile .cop tr .xiangxi .el-input{
+.compile .cop tr .xiangxi .el-input {
 	border: 1px solid #dcdcdc;
 	width: 434px;
 }
-.compile .cop tr .xiangxi .el-input .el-input__inner{
+
+.compile .cop tr .xiangxi .el-input .el-input__inner {
 	border: none;
 	color: #b8b8b8;
 	width: 432px;
 }
+
 .compile .cop .ivu-date-picker-editor input {
-    width: 180px;
+	width: 180px;
 }
-.compile .cop tr td .complie_name2,.compile .cop tr td .complie_name3{
+
+.compile .cop tr td .complie_name2,
+.compile .cop tr td .complie_name3 {
 	width: 180px;
 	height: 35px;
 	border: none;
@@ -59,42 +68,50 @@
 	padding-left: 10px;
 	font-size: 14px;
 }
-.compile .cop tr .unloading{
+
+.compile .cop tr .unloading {
 	position: absolute;
 	left: 100px;
-	width:390px;
+	width: 390px;
 	height: 100px;
-	border:1px dashed #9accea;
-	
+	border: 1px dashed #9accea;
 }
-.compile .cop tr .unloading li span{
+
+.compile .cop tr .unloading li span {
 	font-size: 14px;
 	line-height: 30px;
 }
-.compile .cop tr .unloading a:nth-child(1){
+
+.compile .cop tr .unloading a:nth-child(1) {
 	font-size: 12px;
 }
-.compile .cop tr .unloading a:nth-child(2){
+
+.compile .cop tr .unloading a:nth-child(2) {
 	font-size: 14px;
 	padding: 10px;
 }
-.compile .cop tr .unloading .el-icon-delete{
+
+.compile .cop tr .unloading .el-icon-delete {
 	float: right;
 	font-size: 16px;
 	margin: 5px;
 	cursor: pointer;
 }
-.compile .cop tr .unloading .el-icon-delete:hover{
+
+.compile .cop tr .unloading .el-icon-delete:hover {
 	color: #038BE2;
 }
-.compile .cop .btxs{
+
+.compile .cop .btxs {
 	color: red;
 	margin-right: 5px;
 }
-.compile .cop tr .bargain{
+
+.compile .cop tr .bargain {
 	position: relative;
 }
-.compile .cop tr .bargain button{
+
+.compile .cop tr .bargain button {
 	width: 260px;
 	height: 34px;
 	background: #ffffff;
@@ -106,55 +123,69 @@
 	top: 0;
 	left: 0;
 }
-.compile .cop tr .bargain .el-upload__tip{
+
+.compile .cop tr .bargain .el-upload__tip {
 	position: absolute;
 	top: 0px;
-    left: 280px;
-    color: #c33939;
+	left: 280px;
+	color: #c33939;
 }
-.compile .cop tr .bargain ul{
+
+.compile .cop tr .bargain ul {
 	margin-top: 30px;
 	padding-bottom: 10px;
 	width: 400px;
 }
-.compile tr td .cass{
+
+.compile tr td .cass {
 	width: 118px;
 	height: 35px;
 	text-align: center;
 	border: 1px solid #dcdcdc;
 	position: absolute;
 	left: 379px;
-    bottom: 68px;
+	bottom: 68px;
 }
 
 .compile .cop .ivu-date-picker-editor .ivu-input {
-    width: 180px;
-    font-size: 14px;
+	width: 180px;
+	font-size: 14px;
 }
-.compile .cop .ivu-date-picker-editor .ivu-input::-webkit-input-placeholder{
+
+.compile .cop .ivu-date-picker-editor .ivu-input::-webkit-input-placeholder {
 	color: #8fa6bf;
 }
- .complie_name::-webkit-input-placeholder{ /* WebKit browsers*/
-    color: #8fa6bf;
-  }
-  .complie_name2::-webkit-input-placeholder{ /* WebKit browsers*/
-    color: #8fa6bf;
-  }
-  .complie_name3::-webkit-input-placeholder{ /* WebKit browsers*/
-    color: #8fa6bf;
-  }
-.compile tr td .form-item{
+
+.complie_name::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+
+.complie_name2::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+
+.complie_name3::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+
+.compile tr td .form-item {
 	width: 180px;
 }
-.operation-box2{
+
+.operation-box2 {
 	margin-left: 192px;
 	margin-top: 30px;
 }
-.operation-box2 Button{
+
+.operation-box2 Button {
 	display: inline-block;
 	width: 140px;
 	height: 40px;
 }
-.operation-box2 Button{
+
+.operation-box2 Button {
 	margin-right: 30px;
 }

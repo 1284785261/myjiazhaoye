@@ -28,7 +28,7 @@
 				    		<el-pagination
 						      @current-change="handleCurrentChange"
 						      :current-page.sync="currentPage3"
-						      :page-size="8"
+						      :page-size=pageSize1
 						      layout="prev, pager, next,total,jumper"
 						      :total=totalNum>
 						     
@@ -41,21 +41,21 @@
 				    		<a class="issue" @click="instas()">发布系统消息</a>
 				    		<table>
 				    			<thead>
-				    				<td width="15%">类型</td>
-				    				<td width="20%">时间</td>
+				    				<td width="15%">时间</td>
+				    				<td width="20%">发布范围</td>
 				    				<td>消息内容</td>
 				    			</thead>
 				    			<tr v-for="item in title2">
-				    				<td>{{item.messageType | types(item.messageType)}}</td>
 				    				<td>{{item.createtime | time(item.createtime)}}</td>
+				    				<td>{{item.communityName}}</td>
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
 				    		</table>
 				    		<el-pagination
 						      @current-change="handleCurrentChange2"
-						      :current-page.sync="currentPage3"
-						      :page-size="8"
+						      :current-page.sync="currentPage"
+						      :page-size=pageSize2
 						      layout="prev, pager, next,total,jumper"
 						      :total=totalNum2>
 						     
@@ -85,8 +85,8 @@
 						<el-select v-model="value8" filterable placeholder="请输入或者选择" @change="mvvs(value8)">
 						    <el-option
 						      v-for="item in options"
-						      :key="item.areaId"
-						      :value="item.areaName">
+						      :key="item.communityName"
+						      :value="item.communityName">
 						    </el-option>
 						</el-select>
 					</td>
@@ -119,7 +119,7 @@
 	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import qs from 'qs';
-    import { hostBean,hostBeans,hostRange,hostRange2 } from '../api.js';
+    import { hostBean,hostBeans,hostRange,hostRange2,allCommunity } from '../api.js';
     export default {
     	components:{
     		rightHeader,
@@ -136,8 +136,9 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
     			isHide:false,
     			currentPage3: 1,
+    			currentPage:1,
     			activeName2: 'first',
-    			options: [],
+    			options: null,
 		        value8: '',
 		        pageNum:1,
 		        title:'',  //通知消息数据
@@ -147,21 +148,26 @@
 		        totalNum2:null,
 		        areaId:null,
 		       	titl1:null,
-		       	titl2:null
+		       	titl2:null,
+		       	pageSize1:8,
+		       	pageSize2:8
 		   	}
     	},
     	mounted(){
     		this.bean();
     		this.bean2();
     		this.range();
+    	
     	},
     	methods:{
     		
 		    handleCurrentChange(val) {
 		        this.pageNum =val;
+		        this.bean();
 		    },
 		    handleCurrentChange2(val) {
 		        this.pageNum2 =val;
+		        this.bean2();
 		    },
 		    instas:function(){
     			this.isHide = !this.isHide;
@@ -169,7 +175,7 @@
     		bean(){
     			let vm =this
     			let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 8;
+				let pageSize = vm.pageSize1;
     			axios.get(hostBean, //请求通知消息数据列表
 						qs.stringify({
 							pageNum: pageNum,
@@ -194,7 +200,7 @@
     		bean2(){
     			let vm =this
     			let pageNum = vm.pageNum2 || 1;
-				let pageSize = vm.pageSize2 || 8;
+				let pageSize = vm.pageSize2;
     			axios.get(hostBeans, //请求系统通知数据列表
 						qs.stringify({
 							pageNum: pageNum,
@@ -214,12 +220,14 @@
 					})
     		},
     		range(){
-    			axios.get(hostRange)
+    			let vm = this
+    			axios.get(allCommunity)
     			.then((response)=>{  //请求通知范围
 //  				console.log(111111111);
-//  				console.log(response);
+    				console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
-    					this.options = response.data.pageBean;
+    					vm.options = response.data.entity;
+    					
     				}
     			})
     			.catch((error)=>{
@@ -227,12 +235,11 @@
     			})
     		},
     		mvvs(val){
-    			this.areaId = this.options[this.options.findIndex(item => item.areaName == val)].areaId;
-    			//console.log(this.areaId);
+    			this.areaId = this.options[this.options.findIndex(item => item.communityName == val)].communityId;
+    			console.log(this.areaId);
     		},
     		issue(){
     			let vm = this
-    			vm.areaId = parseInt(vm.areaId);
     			if(vm.areaId == null || vm.titl1 == null || vm.titl2 == null){
     				this.warningMessage = '发布信息不完整';
 					this.warningModal = true;
@@ -240,11 +247,11 @@
     			}
     			else{
     				axios.post(hostRange2,
-    				{
+    				qs.stringify({
     					cityId:vm.areaId,
     					content:vm.titl1,
     					messageUrl:vm.titl2
-    				})
+    				}))
 	    			.then((response)=>{
 	    				console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
@@ -254,6 +261,7 @@
 							setTimeout(() => {
 								this.successModal = false;
 								this.bean();
+								this.bean2();
 							}, 2000);
 	    					
 	    				}
@@ -306,7 +314,21 @@
 				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
 				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
 				return Y + M + D + H + mm;
-    		}
+    		},
+//  		cityId(val){
+//  			let vm = this
+//  			if(val != 'null'){
+////	console.log(vm.options);
+////	debugger
+//  				console.log(val);
+//  				console.log(11111);
+////  				return vm.options[vm.options.findIndex(item => item.communityId == parseInt(val))].communityName;
+//  				
+//  			}else{
+//  				return '';
+//  			}
+//  			
+//  		}
     	},
     	created(){
     		

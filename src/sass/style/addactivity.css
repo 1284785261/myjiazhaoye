@@ -57,6 +57,7 @@
 	border: 1px solid #DCDCDC;
 	font-size: 12px;
 	line-height: 24px;
+	resize: none;
 }
 #addactivity .el-select{
 	width: 198px!important;
@@ -80,4 +81,26 @@
 	position: absolute;
 	left: 310px;
     bottom: 16px;
+}
+#addactivity table tr td input::-webkit-input-placeholder {
+	color: #8fa6bf;
+}
+
+#addactivity table tr td input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+
+#addactivity table tr td input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+
+#addactivity table tr td input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
+#addactivity table tr td textarea::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
 }
