@@ -12,6 +12,10 @@
         <div id="history-meter-wrap">
           <Tabs type="card" v-model="activeName">
             <Tab-pane label="历史抄表" name="1">
+              <div>
+                <Button style="margin-top: 20px;margin-left: 30px;">历史水表</Button>
+                <Button style="margin-top: 20px;margin-left: 30px;">历史电表</Button>
+              </div>
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>

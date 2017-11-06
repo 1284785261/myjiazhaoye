@@ -570,3 +570,9 @@ export const WaterEnergyBillHistoryList500106 =host3+'/cxkj-room/apis/pc/waterEn
 
 //客服管理
 export const CustomerService300126 =host3+'/cxkj-room/apis/pc/complainCenter/CxkjConfirmReturnVisitOrCustomerService300126';//客服确认处理或回访
+
+//运营报表
+export const report500110 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityReport500110';//房源状态
+export const BusinessReport500111 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityBusinessReport500111';//报表业务情况
+export const OrderReport500112 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOrderReport500112';//账单业务情况
+export const OrderReport500113 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOrderReport500113';//财务业务情况

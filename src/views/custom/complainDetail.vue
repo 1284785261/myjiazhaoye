@@ -23,8 +23,8 @@
               <h3>
                 <span style="padding-right: 10px;">工号:{{complainData.complainNum}}</span>
                 <span v-if="complainData.complainStatus == 0" class="colorSpan" style="color: #FF6612;">待确认</span>
-                <span v-else-if="complainData.complainStatus == 1" class="colorSpan" style="color: #96a5af;">店长已处理</span>
-                <span v-else-if="complainData.complainStatus == 2" class="colorSpan" style="color: #96a5af;">店长处理中</span>
+                <span v-else-if="complainData.complainStatus == 1" class="colorSpan" style="color: #96a5af;">店长处理中</span>
+                <span v-else-if="complainData.complainStatus == 2" class="colorSpan" style="color: #96a5af;">店长已处理</span>
                 <span v-else-if="complainData.complainStatus == 3" class="colorSpan" style="color: #3dc4b2;">客服处理中</span>
                 <span v-else-if="complainData.complainStatus == 4" class="colorSpan" style="color: #FF6612;">待回访</span>
                 <span v-else-if="complainData.complainStatus == 5" class="colorSpan" style="color: #96a5af;">已回访</span>
@@ -51,7 +51,7 @@
               </table>
             </li>
             <!--isCustomService:0、店长处理1、客服处理   isReturnVisit:是否是回访0、不是1、是-->
-            <template v-for="(item,index) in complainData.recordList">
+            <template v-for="(item,index) in complainData.recordList" v-if="complainData.complainStatus != 1">
               <li v-if="item.isCustomService == 0">
                 <h3 v-if="index==0"><i class="icon icon-iden"></i>处理记录</h3>
                 <table>
@@ -124,9 +124,9 @@
               </table>
             </li>
           </ul>
-          <div class="accept-btn" v-if="complainData.complainStatus == 0">
-            <Button type="primary" style="width: 120px;">确认接收</Button>
-          </div>
+          <!--<div class="accept-btn" v-if="complainData.complainStatus == 0">-->
+            <!--<Button type="primary" style="width: 120px;">确认接收</Button>-->
+          <!--</div>-->
         </div>
         <success-modal :success-message="successMessage" v-if="false"></success-modal>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="false"></warning-modal>

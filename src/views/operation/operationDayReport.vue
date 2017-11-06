@@ -15,8 +15,6 @@
           <div class="operation-day-report-content">
             <div>
               <Date-picker type="date" placeholder="选择日期" v-model="startDate"></Date-picker>
-              至
-              <Date-picker type="date" placeholder="选择日期" v-model="endDate"></Date-picker>
             </div>
             <dev class="day-report-btn">
               <Button type="primary" style="width:120px;height: 38px;">导出报表</Button>
@@ -37,17 +35,44 @@
                   <th>新增房间</th>
                   <th>删除房间</th>
                   <th>空置房间</th>
-                  <th>再租房间</th>
+                  <th>在租房间</th>
                   <th>入住率</th>
                 </tr>
                 <tr>
                   <td>公寓</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
+                  <td>{{houseResource.room.totalCount}}</td>
+                  <td>{{houseResource.room.addCount}}</td>
+                  <td>{{houseResource.room.delCount}}</td>
+                  <td>{{houseResource.room.vacantCount}}</td>
+                  <td>{{houseResource.room.rentCount}}</td>
+                  <td>{{houseResource.room.rentPercent}}%</td>
+                </tr>
+                <tr>
+                  <td>办公室</td>
+                  <td>{{houseResource.office.totalCount}}</td>
+                  <td>{{houseResource.office.addCount}}</td>
+                  <td>{{houseResource.office.delCount}}</td>
+                  <td>{{houseResource.office.vacantCount}}</td>
+                  <td>{{houseResource.office.rentCount}}</td>
+                  <td>{{houseResource.office.rentPercent}}%</td>
+                </tr>
+                <tr>
+                  <td>会议室</td>
+                  <td>{{houseResource.meeting.totalCount}}</td>
+                  <td>{{houseResource.meeting.addCount}}</td>
+                  <td>{{houseResource.meeting.delCount}}</td>
+                  <td>{{houseResource.meeting.vacantCount}}</td>
+                  <td>{{houseResource.meeting.rentCount}}</td>
+                  <td>{{houseResource.meeting.rentPercent}}%</td>
+                </tr>
+                <tr>
+                  <td>工位</td>
+                  <td>{{houseResource.place.totalCount}}</td>
+                  <td>{{houseResource.place.addCount}}</td>
+                  <td>{{houseResource.place.delCount}}</td>
+                  <td>{{houseResource.place.vacantCount}}</td>
+                  <td>{{houseResource.place.rentCount}}</td>
+                  <td>{{houseResource.place.rentPercent}}%</td>
                 </tr>
               </table>
             </li>
@@ -61,10 +86,10 @@
                   <th>业务处理率</th>
                 </tr>
                 <tr>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
+                  <td>{{businessData.addCount}}</td>
+                  <td>{{businessData.followCount}}</td>
+                  <td>{{businessData.rentCount}}</td>
+                  <td>{{businessData.rentPercent}}%</td>
                 </tr>
               </table>
             </li>
@@ -75,92 +100,94 @@
                   <th>账单总数</th>
                   <th>应收账单数</th>
                   <th>应付账单数</th>
-                  <th>代收款账单数</th>
+                  <th>待收款账单数</th>
+                  <th>待付款账单数</th>
                 </tr>
                 <tr>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
-                  <td>1200</td>
+                  <td>{{billData.totalCount}}</td>
+                  <td>{{billData.gatherCount}}</td>
+                  <td>{{billData.refundCount}}</td>
+                  <td>{{billData.waitGatherCount}}</td>
+                  <td>{{billData.waitRefundCount}}</td>
                 </tr>
               </table>
             </li>
             <li class="day-report-table-li">
               <h3><i class="icon icon-iden"></i>财务情况</h3>
               <ul class="day-report-inner-ul">
-                <li class="day-report-inner-li">
-                  <div class="inner-li-title">当前现金收入</div>
+                <li class="day-report-inner-li" style="height: 200px;">
+                  <div class="inner-li-title">当日收支</div>
                   <di class="inner-li-content">
                     <div class="inner-li-content-item">
                       <p>应收已收/元</p>
-                      <span>290000.00</span>
+                      <span>{{financeData.totalGatherMoney}}</span>
                     </div>
                     <div class="inner-li-content-item">
                       <p>应收未收/元</p>
-                      <span style="color: red">290000.00</span>
+                      <span style="color: red">{{financeData.waitGatherMoney}}</span>
                     </div>
                     <div class="inner-li-content-item">
                       <p>回收率</p>
-                      <span style="color: #00a0e9;">290000.00</span>
+                      <span style="color: #00a0e9;">{{financeData.gatherPercent}}%</span>
                     </div>
                   </di>
                 </li>
+                <!--<li class="day-report-inner-li">-->
+                  <!--<div class="inner-li-title">明日租金预期</div>-->
+                  <!--<di class="inner-li-content">-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金收支差/元</p>-->
+                      <!--<span>29000000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金收入/元</p>-->
+                      <!--<span style="color: #3dc4b2;">2900000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>预计租金支出/元</p>-->
+                      <!--<span style="color: red;">2900000.00</span>-->
+                    <!--</div>-->
+                  <!--</di>-->
+                <!--</li>-->
                 <li class="day-report-inner-li">
-                  <div class="inner-li-title">明日租金预期</div>
-                  <di class="inner-li-content">
-                    <div class="inner-li-content-item">
-                      <p>预计租金收支差/元</p>
-                      <span>29000000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>预计租金收入/元</p>
-                      <span style="color: #3dc4b2;">2900000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>预计租金支出/元</p>
-                      <span style="color: red;">2900000.00</span>
-                    </div>
-                  </di>
-                </li>
-                <li class="day-report-inner-li">
-                  <div class="inner-li-title">现金收入</div>
-                  <div class="inner-li-total-income">
-                    <span>现金总收入:</span><span style="color: #3dc4b2;">290000.00</span>
-                  </div>
+                  <div class="inner-li-title">收入分析</div>
+                  <!--<div class="inner-li-total-income">-->
+                    <!--<span>现金总收入:</span><span style="color: #3dc4b2;">290000.00</span>-->
+                  <!--</div>-->
                   <di class="inner-li-content">
                     <div class="inner-li-content-item">
                       <p>租金收入/元</p>
-                      <span>+290000.00</span>
+                      <span>{{financeData.rentGatherMoney}}</span>
                     </div>
                     <div class="inner-li-content-item">
                       <p>押金收入/元</p>
-                      <span>+290000.00</span>
+                      <span>{{financeData.depositGatherMoney}}</span>
                     </div>
                     <div class="inner-li-content-item">
                       <p>杂费收入/元</p>
-                      <span>+290000.00</span>
+                      <span>{{financeData.otherGatherMoney}}</span>
                     </div>
                   </di>
                 </li>
                 <li class="day-report-inner-li">
-                  <div class="inner-li-title">现金支出</div>
+                  <div class="inner-li-title">支出分析</div>
                   <div class="inner-li-total-income">
-                    <span>现金总支出:</span><span style="color: red;">290000.00</span>
+                    <span>现金总支出:</span><span style="color: red;">{{financeData.refundMoney}}</span>
                   </div>
-                  <di class="inner-li-content">
-                    <div class="inner-li-content-item">
-                      <p>租金支出/元</p>
-                      <span>-290000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>押金支出/元</p>
-                      <span>-290000.00</span>
-                    </div>
-                    <div class="inner-li-content-item">
-                      <p>杂费支出/元</p>
-                      <span>-290000.00</span>
-                    </div>
-                  </di>
+                  <!--<di class="inner-li-content">-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>租金支出/元</p>-->
+                      <!--<span>-290000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>押金支出/元</p>-->
+                      <!--<span>-290000.00</span>-->
+                    <!--</div>-->
+                    <!--<div class="inner-li-content-item">-->
+                      <!--<p>杂费支出/元</p>-->
+                      <!--<span>-290000.00</span>-->
+                    <!--</div>-->
+                  <!--</di>-->
                 </li>
               </ul>
             </li>
@@ -177,7 +204,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {} from '../api.js';
+  import {report500110,BusinessReport500111,OrderReport500112,OrderReport500113} from '../api.js';
 
 
   export default {
@@ -189,14 +216,63 @@
     data(){
       return{
         startDate:"",
-        endDate:""
+        houseResource:[],
+        businessData:[],
+        billData:[],
+        financeData:[]
       }
     },
     mounted(){
-      this.userId = this.$route.query.id;
+      this.getHouseResource({startDate:"2017-10-17"});
+      this.getBusinessData({startDate:"2017-10-17"});
+      this.getBillData({startDate:"2017-10-17"});
+      this.getFinanceData({startDate:"2017-10-17"});
     },
     methods:{
-
+        //房源
+      getHouseResource(data){
+        var that = this;
+        this.$http.post(report500110,qs.stringify(data))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.houseResource = res.data.result;
+              console.log(that.houseResource)
+            }
+          })
+      },
+      //业务
+      getBusinessData(data){
+        var that = this;
+        this.$http.post(BusinessReport500111,qs.stringify(data))
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.businessData = res.data.result;
+              console.log(that.businessData)
+            }
+          })
+      },
+      //账单
+      getBillData(data){
+        var that = this;
+        this.$http.post(OrderReport500112,qs.stringify(data))
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.billData = res.data.result;
+              console.log(that.billData)
+            }
+          })
+      },
+      //财务
+      getFinanceData(data){
+        var that = this;
+        this.$http.post(OrderReport500113,qs.stringify(data))
+          .then(function(res){debugger
+            if(res.status == 200 && res.data.code == 10000){
+              that.financeData = res.data.result;
+              console.log(that.financeData)
+            }
+          })
+      },
     }
   }
 </script>
@@ -294,7 +370,7 @@
               height: 80px;
               line-height: 80px;
               text-align: center;
-              border-bottom: dashed 1px #ccc;
+              //border-bottom: dashed 1px #ccc;
             }
             .inner-li-content{
               width: 100%;
