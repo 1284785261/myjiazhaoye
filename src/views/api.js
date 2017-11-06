@@ -2,12 +2,15 @@
 //共用接口
 //const host = 'http://115.29.138.230:8080';
 
-//const host3 = 'http://192.168.26.191:8080';
-const host3 = 'http://120.78.16.234:8060';
+//const host3 = 'http://yunsoft.kaisaspace.com:8060';
+// const host3 = 'http://test.kaisaspace.com:8060';
+// const host3 = 'http://120.78.16.234:8060';
+// const host3 = 'http://120.78.16.234:8060';
+// const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';//李志guang
-// const host3 = 'http://192.168.26.232:8081';//周昭滨
+const host3 = 'http://192.168.20.124:8081';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
 //用户登录接口
@@ -498,6 +501,7 @@ export const saveBill =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWat
 //账单管理（改版）
 export const createBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetNoBillRoomContractList300112';//生成水电账单列表
 export const historyList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetRoomFloorList300111';//历史信息
+export const WaterEnergyHistoryList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyHistoryList500114';//历史信息
 
 
 //客服管理

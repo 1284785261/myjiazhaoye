@@ -13,8 +13,8 @@
           <Tabs type="card" v-model="activeName">
             <Tab-pane label="历史抄表" name="1">
               <div>
-                <Button style="margin-top: 20px;margin-left: 30px;">历史水表</Button>
-                <Button style="margin-top: 20px;margin-left: 30px;">历史电表</Button>
+                <Button style="margin-top: 20px;margin-left: 30px;" :class="{active:isActives == 1}" @click="setIsActive(1)">历史水表</Button>
+                <Button style="margin-top: 20px;margin-left: 30px;" :class="{active:isActives == 2}" @click="setIsActive(2)">历史电表</Button>
               </div>
               <div class="form-search-criteria">
                 <div class="form-item">
@@ -25,43 +25,43 @@
                   <b>房间号：</b>
                   <span>{{roomHistoryRoomNum}} {{roomHistoryHousetypeName}}</span>
                 </div>
-                <!--<div class="form-item">-->
-                  <!--<span>操作时间：</span>-->
-                  <!--<Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>-->
-                  <!--<span class="inline-block spanBar">&#45;&#45;</span>-->
-                  <!--<Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>-->
-                <!--</div>-->
-                <!--<div class="form-item">-->
-                  <!--<div class="form-search">-->
-                    <!--&lt;!&ndash;<i class="iconfont icon-sousuo"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>&ndash;&gt;-->
-                    <!--<input type="button" @click="roomSearch()" value="搜索">-->
-                  <!--</div>-->
-                <!--</div>-->
+                <div class="form-item">
+                  <span>操作时间：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="mrStartTime"></Date-picker>
+                  <span class="inline-block spanBar">--</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="mrEndTime"></Date-picker>
+                </div>
+                <div class="form-item">
+                  <div class="form-search">
+                    <!--<i class="iconfont icon-sousuo"></i>-->
+                    <!--<Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>-->
+                    <input type="button" @click="waterElectricitySearch" value="搜索">
+                  </div>
+                </div>
               </div>
               <table class="table ivu-table">
                 <tr>
                   <th >序号</th>
-                  <th>水表读数</th>
-                  <th>电表读数</th>
-                  <th>抄表类型</th>
+                  <th v-if="isActives == 1">水表读数</th>
+                  <th v-if="isActives == 2">电表读数</th>
+                  <th >抄表类型</th>
                   <th>记录时间</th>
                   <th>操作人</th>
                 </tr>
-                <tr v-if="false">
-                  <td >1</td>
-                  <td>389</td>
-                  <td>389</td>
-                  <td>自动抄表</td>
-                  <td>2017-10-07  10：30</td>
-                  <td>系统</td>
+                <tr v-for="(item,index) in WaterEnergyHistory" v-if="WaterEnergyHistory.length">
+                  <td >{{index+1}}</td>
+                  <td>{{item.data}}</td>
+                  <!--<td>{{item.energyData}}</td>-->
+                  <td>{{item.operationType == 1?'自动':'手动'}}</td>
+                  <td>{{item.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+                  <td>{{item.userName}}</td>
                 </tr>
               </table>
-              <div class="blank-background-img" v-if="true">
+              <div class="blank-background-img" v-if="!WaterEnergyHistory.length">
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无抄表内容~</h2>
               </div>
-              <Page :total="roomHistoryBillTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="false"></Page>
+              <Page :total="WaterEnergyHistoryTotalNum" :current="WaterEnergyHistoryCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="WaterEnergyHistory.length"></Page>
             </Tab-pane>
             <Tab-pane label="历史水电账单" name="2">
               <div class="form-search-criteria">
@@ -96,7 +96,7 @@
                   <th>租客/联系人</th>
                   <th>状态</th>
                 </tr>
-                <tr v-for="item in waterHistoryBillList">
+                <tr v-for="item in waterHistoryBillList" v-if="waterHistoryBillList.length">
                   <td>{{item.createTime | timefilter("yyyy-MM-dd")}}</td>
                   <td>
                     <span>读数：{{item.waterData}} </span>
@@ -115,11 +115,11 @@
                   </td>
                 </tr>
               </table>
-              <div class="blank-background-img" v-if="waterHistoryBillList == 0">
+              <div class="blank-background-img" v-if="waterHistoryBillList.length == 0">
                 <img src="../../../static/images/blank/bill_space.png" >
                 <h2>暂无账单内容~</h2>
               </div>
-              <Page :total="waterHistoryBillTotalNum"  :page-size="10" show-elevator show-total @on-change="waterSearch" v-if="waterHistoryBillList > 0"></Page>
+              <Page :total="waterHistoryBillTotalNum"  :page-size="10" show-elevator show-total @on-change="waterSearch" v-if="waterHistoryBillList.length"></Page>
             </Tab-pane>
             <Tab-pane label="历史租金账单" name="3">
               <div class="form-search-criteria">
@@ -193,7 +193,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract,RoomBillHistoryList500104,WaterEnergyBillHistoryList500106} from '../api.js';
+  import {allCommunity,roomContract,officeContract,propertyContract,RoomBillHistoryList500104,WaterEnergyBillHistoryList500106,WaterEnergyHistoryList} from '../api.js';
+  import qs from 'qs'
 
   export default {
     components:{
@@ -221,7 +222,14 @@
         roomHistoryHousetypeName:"",
         waterHistoryBillList:[],
         waterHistoryBillTotalNum:0,
-        communityName:""
+        communityName:"",
+        isActives:1,
+        mrStartTime:'',//抄表开始时间
+        mrEndTime:'',//抄表结束时间
+        WaterEnergyHistory:[],//历史抄表
+        WaterEnergyHistoryTotalNum:0,//历史抄表总页数
+        WaterEnergyHistoryCurrent:0,//历史抄表总条数
+
       }
     },
     mounted(){
@@ -233,11 +241,36 @@
       this.roomHistoryRoomNum = sessionStorage.getItem('roomHistoryRoomNum');
       this.roomHistoryHousetypeName = sessionStorage.getItem('roomHistoryHousetypeName');
       this.communityName = sessionStorage.getItem('roomHistoryCommunityName');
+      this.getWaterEnergyHistoryList();
       this.getCommunityData();
       this.getRoomHistoryBill({roomId:this.roomId,pageNum:1});
       this.getWaterBillList({roomId:this.roomId,pageNum:1});
     },
     methods: {
+      setIsActive(num){//切换抄表类型 1 水表 2电表
+        this.isActives = num
+        this.page = 1
+        this.mrStartTime = ''
+        this.mrEndTime = ''
+
+        this.getWaterEnergyHistoryList()
+      },
+      getWaterEnergyHistoryList(){//获取历史抄表
+        let vm = this
+        vm.$http.post(WaterEnergyHistoryList,qs.stringify({
+          roomId:parseInt(vm.$route.query.roomId),
+          type:vm.isActives,
+          pageNum:vm.page || 1,
+          startDate:vm.mrStartTime,
+          endDate:vm.mrEndTime
+        })).then(res => {
+            if(res.status == 200 && res.data.code == 10000){
+              vm.WaterEnergyHistory = res.data.result.waterEnergyList
+              vm.WaterEnergyHistoryTotalNum = res.data.result.totalNum
+              vm.WaterEnergyHistoryCurrent = res.data.result.WaterEnergyHistoryCurrent
+            }
+          })
+      },
       getCommunityData(){
         var that = this;
         this.$http.get(allCommunity)
@@ -250,7 +283,7 @@
       getRoomHistoryBill(data){
         var that = this;
         this.$http.get(RoomBillHistoryList500104,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.roomHistoryBillList = pageBean.roomList;
@@ -262,19 +295,38 @@
             }
           })
       },
+      waterElectricitySearch(){
+        let vm = this
+
+        if(vm.mrStartTime && vm.mrEndTime &&vm.mrStartTime < new Date() && vm.mrStartTime < vm.mrEndTime ){
+//          new Date().getTime()
+          vm.mrStartTime = vm.dateTime(vm.mrStartTime.getTime())
+          vm.mrEndTime = vm.dateTime(vm.mrEndTime.getTime())
+          vm.page = 1
+          vm.getWaterEnergyHistoryList()
+        }else {
+
+        }
+      },
       roomSearch(page){
-        var data = {
+        let data = {
           pageNum:page || 1,
           roomId:this.roomId
         }
         this.getRoomHistoryBill(data);
       },
       getWaterBillList(data){
-        var that = this;
+        let that = this;
         this.$http.get(WaterEnergyBillHistoryList500106,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
+//            console.log("res.data")
+//            console.log(res.data)
+//            console.log("res.data")
             if(res.status == 200 && res.data.code == 10000){
-              var pageBean = res.data.result;
+              let pageBean = res.data.result;
+              console.log("pageBean")
+              console.log(pageBean.waterList)
+              console.log("pageBean")
               that.waterHistoryBillList = pageBean.waterList;
               that.waterHistoryBillTotalNum = pageBean.totalNum;
             }
