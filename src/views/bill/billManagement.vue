@@ -185,9 +185,9 @@
                     <input type="button" value="搜索" @click="search()">
                   </div>
                 </div>
-                <!--<div class="form-item">-->
-                  <!--<Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>-->
-                <!--</div>-->
+                <div class="form-item">
+                  <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
+                </div>
               </div>
               <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
                 <tr class="tr1">
@@ -325,6 +325,7 @@
       closeWarningModal(){
         this.warningModal = false;
       },
+
       getCommunityData(){
         var that = this;
         var value = sessionStorage.getItem("billManagement_communityId");

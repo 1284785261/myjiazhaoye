@@ -29,7 +29,20 @@ Date.prototype.Format = function (fmt) {
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
   return fmt;
 };
-
+Vue.prototype.dateTime = function (t) {
+  let date = new Date(parseInt(t))
+  let year = date.getFullYear(),
+    o = {
+      MM:date.getMonth()+1,
+      day:date.getDate()
+    };
+  for (let k in o){
+    o[k] = o[k] < 10 ?  '0' + o[k]: o[k];
+  }
+  let times = year + '-' + o.MM + '-' + o.day;
+  // console.log(times)
+  return times;
+};
 Array.prototype.remove = function(val){
 	var index = this.indexOf(val);
 	if (index > -1) {

@@ -83,7 +83,7 @@
 
     },
     mounted(){
-      this.communityId = this.$route.query.communityId;debugger
+      this.communityId = this.$route.query.communityId;
       this.getCommunityData();
       this.getCommunityInfo();
       this.datas();
@@ -91,8 +91,8 @@
     methods:{
       //获取社区信息
       getCommunityInfo(){
-        var that = this;
-        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+        let that = this;
+        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
           if(res.data.code == 10000){
             that.communityName = res.data.result.community.communityName;
             that.communityId = res.data.result.community.communityId;
@@ -103,7 +103,7 @@
       },
       //获取所有社区
       getCommunityData(){
-        var that = this;
+        let that = this;
         this.$http.get(allCommunity)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
@@ -121,12 +121,13 @@
           qs.stringify({
             communityId:this.communityId
           })
-        ) .then((response)=>{debugger
-            var count = 0;
+        ) .then((response)=>{
+            console.log(response.data)
+            let count = 0;
             if(response.status == 200 && response.data.code == 10000){
-              var pageBean = response.data.pageBean;
+              let pageBean = response.data.pageBean;
               this.bigdata = pageBean.page;
-              for(var i=0;i<this.bigdata.length;i++){
+              for(let i=0;i<this.bigdata.length;i++){
                 this.$set(this.bigdata[i],"hais",true);
                 count += this.bigdata[i].roomList.length;
               }
@@ -140,13 +141,13 @@
             console.log(error);
           })
       },
-      tsa(){debugger
+      tsa(){
         this.hide = !this.hide;
       },
       communityChange(){
-        var vm = this;
+        let vm = this;
         if(this.RoomBillSelects){
-          for(var i =0;i<this.RoomBillSelects.length;i++){
+          for(let i =0;i<this.RoomBillSelects.length;i++){
             if(this.RoomBillSelects[i].communityId == this.communityId){
               this.communityName = this.RoomBillSelects[i].communityName;
               break;

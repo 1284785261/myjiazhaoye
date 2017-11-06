@@ -20,6 +20,12 @@
             <div class="form-item">
               <b>当前公寓共合计 :</b> <span style="font-weight: 700;color: black;">{{billTotalNum}}户</span>
             </div>
+              <!--<div class="form-item">-->
+                  <!--<Button  >全部抄表</Button>-->
+              <!--</div>-->
+              <!--<div class="form-item">-->
+                  <!--<Button >发送账单给客户</Button>-->
+              <!--</div>-->
             <!--<div class="form-item">-->
               <!--<Button style="width: 120px;height: 30px;" :disabled="true">全部抄表</Button>-->
               <!--<Button style="width: 180px;height: 30px;margin-left: 30px;" :disabled="editing"><span v-if="editing">请保存正在编辑的账单</span><span v-else @click="sendBillToCostomer">生成账单并发送给租客</span></Button>-->
@@ -160,7 +166,7 @@
       getbillPayment(data){
         var that = this;
         this.$http.get(billList500098,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.billPaymentList = pageBean.waterList;
@@ -200,7 +206,6 @@
           this.$set(this.billPaymentList[index],"isEdit",!isEdit);
           this.$set(this.billPaymentList[index],"content","修改账单");
           var obj = this.billPaymentList[index];
-          debugger
           var params = {
             waterElectricityBill:obj.waterElectricityBill,
             waterData:parseFloat(obj.waterData),
@@ -225,7 +230,7 @@
           params.realMoney=params.energyCost + params.waterCost;
           if(obj.electricChargeModel == 2 || obj.waterChargeModel == 2){
             params.count = obj.count;
-          }debugger
+          }
           this.saveBillPayment(params);
         }
 
@@ -240,7 +245,7 @@
       sendBillToCostomer(){
         var that = this;
         this.$http.get(sendAllToCustomer,{params:{communityId:this.communityId}})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.successModal = true;
               setTimeout(function(){
