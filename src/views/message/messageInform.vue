@@ -149,8 +149,8 @@
 		        areaId:null,
 		       	titl1:null,
 		       	titl2:null,
-		       	pageSize1:8,
-		       	pageSize2:8
+		       	pageSize1:10,
+		       	pageSize2:10
 		   	}
     	},
     	mounted(){
@@ -162,11 +162,11 @@
     	methods:{
     		
 		    handleCurrentChange(val) {
-		        this.pageNum =val;
+		        this.pageNum = val;
 		        this.bean();
 		    },
 		    handleCurrentChange2(val) {
-		        this.pageNum2 =val;
+		        this.pageNum2 = val;
 		        this.bean2();
 		    },
 		    instas:function(){
@@ -174,9 +174,9 @@
     		},
     		bean(){
     			let vm =this
-    			let pageNum = vm.pageNum || 1;
+    			let pageNum = vm.pageNum;
 				let pageSize = vm.pageSize1;
-    			axios.get(hostBean, //请求通知消息数据列表
+    			axios.post(hostBean, //请求通知消息数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize
@@ -199,9 +199,9 @@
 			},
     		bean2(){
     			let vm =this
-    			let pageNum = vm.pageNum2 || 1;
+    			let pageNum = vm.pageNum2;
 				let pageSize = vm.pageSize2;
-    			axios.get(hostBeans, //请求系统通知数据列表
+    			axios.post(hostBeans, //请求系统通知数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize
@@ -221,7 +221,7 @@
     		},
     		range(){
     			let vm = this
-    			axios.get(allCommunity)
+    			axios.post(allCommunity)
     			.then((response)=>{  //请求通知范围
 //  				console.log(111111111);
     				console.log(response);

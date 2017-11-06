@@ -17,8 +17,8 @@
 		    			<tr>
 		    				<td style="vertical-align: top;line-height:44px;">上传banner图：</td>
 		    				<td>
-								<div class="bt">
-									<img v-show="imageUrl"  :src=imageUrl />
+								<div class="bt" v-loading.body="loading">
+									<img v-show="imageUrl"  :src='imgPath+imageUrl' />
 									<div :class="{opacity:imageUrl!=''}">
 									<i class="el-icon-plus avatar-uploader-icon"></i>
 									<span class="sb">上传图片</span>
@@ -59,6 +59,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -68,18 +70,23 @@
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
+    import successModal from '../../components/successModal.vue';
+	import warningModal from '../../components/warningModal.vue';
     import qs from 'qs';
 	import axios from 'axios';
-	import { hostAddadvert,hostamend,imgPath,hostAlter } from '../api.js';
+	import { hostAddadvert,hostamend,imgPath,hostAlter,host } from '../api.js';
 	
     export default {
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+    		footerBox,
+    		successModal,
+			warningModal
     	},
     	data(){
     		return{
+    			imgPath:'',
     			whirt:'添加Banner',
     			isHide:false,
     			imageUrl: '',
@@ -89,7 +96,12 @@
     			listNumber:null,
     			filelist:[],
     			id:null,
-    			param:[]
+    			loading:false,
+    			successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
+				host3:''
 		   	}
     	},
     	watch: {
@@ -98,7 +110,8 @@
 			}
 		},
     	mounted(){
-    		this.param = new FormData();
+    		this.imgPath = imgPath;
+    		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
     		let vm = this
     		if(this.$route.query.id !=null){   //修改banner页面
     			this.id = this.$route.query.id;
@@ -111,7 +124,7 @@
     			.then((response)=>{
     				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
-    					vm.imageUrl =imgPath + response.data.entity.bannerPic;
+    					vm.imageUrl = response.data.entity.bannerPic;
 	    				vm.links = response.data.entity.imgUrl;
 	    				vm.title = response.data.entity.imgExplain;
 	    				vm.listNumber = response.data.entity.listNumber;
@@ -128,6 +141,8 @@
     	methods:{
     		uploadFile(e){
     			let vm = this
+    			let param = new FormData();
+    			vm.loading = true;
     			vm.filelist = [];
     			this.isHide = true;
     			let file = e.target.files[0];   //添加新的banner数据
@@ -135,64 +150,95 @@
     			let files = [file,file.name];
     			this.filelist.push(files);
     			if(file.size > 1024 * 521) {
-			        alert('图片大小不能超过 500KB!');
+			        vm.warningMessage = '图片大小不能超过 500KB!';
+              		vm.warningModal = true;
+              		vm.loading = false;
 			        return false;
 			    }
-    			let windowURL = window.URL || window.webkitURL;
-    			this.imageUrl =  windowURL.createObjectURL(e.target.files[0]);
-    			console.log(this.filelist);
+//  			let windowURL = window.URL || window.webkitURL;
+//  			this.imageUrl =  windowURL.createObjectURL(e.target.files[0]);
+				param.append('file',file);
+    			param.append('module','banner');
+    			axios.post(vm.host3, param).then(res =>{
+    				
+    				if(res.data.code == 10000 && res.status == 200){
+    					vm.loading = false;
+    					vm.imageUrl = res.data.result.virtualPath;
+    				}
+    				console.log(res);
+    				console.log(imgUser);
+    				//vm.userImg(imgUser)
+    			}).catch(err=>{
+    				console.log(err)
+    			})
     		},
+    		closeWarningModal() {
+				this.warningModal = false;
+			},
     		adds:function(){
     				let vm= this
+    				let param = new FormData();
     				console.log(this.links);
     				console.log(this.title);
     				console.log(this.radio);
     				console.log(this.listNumber);
-    				if(this.filelist.length){
-    					this.param.append('adPicFile',this.filelist[0][0]);
-    				}else{
-    					this.param.append('adPicFile','');
-    				}
-//	    			this.param.append('adPicFile',this.filelist[0][0]);
-	    			this.param.append("imgUrl",this.links);
-	    			this.param.append("imgExplain",this.title);
-	    			this.param.append("isClose",this.radio);
-	    			this.param.append("listNumber",this.listNumber);
+    				param.append('bannerPic',vm.imageUrl);
+    				
+	    			param.append("imgUrl",this.links);
+	    			param.append("imgExplain",this.title);
+	    			param.append("isClose",this.radio);
+	    			param.append("listNumber",this.listNumber);
 					//console.log(this.param);
 					if(this.id != null){
-						this.param.append('adId',this.id);
-						this.$http.post(hostAlter,this.param).then(res => {
+						param.append('adId',this.id);
+						this.$http.post(hostAlter, param).then(res => {
 		    				console.log(res);
 		    				if(res.status == 200 && res.data.code == 10000){
-		    					alert('修改成功');
-		    					vm.$router.push('/advertising/advertiset');
+		    					
+		    					this.successMessage = '修改成功';
+								this.successModal = true;
+								setTimeout(() => {
+									this.successModal = false;
+									vm.$router.push('/advertising/advertiset');
+								}, 2000);
 		    				}
 		    				else{
-		    					alert('修改失败');
+		    					this.warningMessage = res.data.content;
+              					this.warningModal = true;
 		    				}
 		    			})
 		    			.catch(error =>{
 		    				console.log(error);
+		    				this.warningMessage = '修改失败';
+              				this.warningModal = true;
 		    			})
 					}
 					else{
 						if(this.filelist == [] || this.links == null || this.title == null || this.radio == '' || this.listNumber == null){
-		    				alert('信息填入不完整');
+		    				this.warningMessage = '信息填入不完整';
+              				this.warningModal = true;
 		    			}
 						else{
-							this.$http.post(hostAddadvert,this.param).then(res => {
+							this.$http.post(hostAddadvert, param).then(res => {
 		    				console.log(res);
 		    				if(res.status == 200 && res.data.code == 10000){
-		    					alert('添加成功');
-		    					vm.$router.push('/advertising/advertiset');
+		    					this.successMessage = '添加成功';
+								this.successModal = true;
+								setTimeout(() => {
+									this.successModal = false;
+									vm.$router.push('/advertising/advertiset');
+								}, 2000);
 		    				}
 		    				else{
-		    					alert('添加失败');
+		    					this.warningMessage = res.data.content;
+              					this.warningModal = true;
 		    				}
 		    				
 			    			})
 			    			.catch(error =>{
 			    				console.log(error);
+			    				this.warningMessage = '添加失败';
+              					this.warningModal = true;
 			    			})
 						}
 		    			

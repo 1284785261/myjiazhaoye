@@ -82,7 +82,7 @@
 				totalNum: null,
 				pageNum: 1,
 				imgPaths: null,
-				pageSize: 3,
+				pageSize: 4,
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
@@ -100,18 +100,17 @@
 			handleCurrentChange(val) {
 				//console.log(`当前页: ${val}`);
 				this.pageNum = val;
+				this.datas();
 			},
 			datas() {
-				let vm = this
-				let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 3;
-				axios.get(hostAdvert,
+				let vm = this               //获取所有banner数据
+				let pageNum = vm.pageNum;
+				let pageSize = vm.pageSize;
+				axios.post(hostAdvert,
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize
-						})
-					) //获取所有banner数据
-					.then((response) => {
+						})).then((response) => {
 						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.Datas = response.data.pageBean.page;
