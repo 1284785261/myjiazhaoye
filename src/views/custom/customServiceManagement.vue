@@ -70,7 +70,8 @@
               </td>
               <td>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 查看详情</router-link>
-                <i></i>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==3"> 确认处理</router-link>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==4"> 确认回访</router-link>
               </td>
             </tr>
           </table>

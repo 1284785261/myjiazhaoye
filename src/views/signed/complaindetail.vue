@@ -12,7 +12,7 @@
 		          <h3><i class="icon icon-iden"></i>投诉详情</h3>
 		        </div>
 		    	<div id="complaindetail">
-		    		<div class="complaindetails">
+		    		<div class="complaindetails" :class="[{'tms':Datas.complainStatus == 1},{'tms2':Datas.complainStatus == 4}]">
 		    			<p class="dan">工单号：{{Datas.complainNum}}</p><span :class="[{'kust':Datas.complainStatus == 0},{'kust1':Datas.complainStatus == 1}]">{{Datas.complainStatus | Status}}</span>
 		    			<p>发起投诉时间：{{Datas.createTime | time}}</p>
 		    		</div>
@@ -39,7 +39,7 @@
 		    		</div>
 		    		<div v-if="Datas.complainStatus == 1">
 		    			<div class="complaindetails2">
-			    			<img src="../../../static/images/icon/custom_chulizhong.png"/><h3>用户信息</h3>
+			    			<img src="../../../static/images/icon/info.png"/><h3>用户信息</h3>
 			    			<table>
 			    				<tr>
 			    					<td>姓名：</td>
@@ -54,7 +54,6 @@
 			    					<td>{{Datas.complainContent}}</td>
 			    				</tr>
 			    			</table>
-			    			
 			    		</div>
 			    		<div class="complaindetails3">
 			    			<img src="../../../static/images/icon/info.png"/><h3>处理记录</h3>
@@ -66,15 +65,79 @@
 			    			</table>
 			    		</div>
 			    		<span class="chus" v-if="statas != 0">处理结果：</span><textarea placeholder="请填写处理结果" v-model="test" v-if="statas != 0" maxlength="140"></textarea>
-			    		<a class="chuli" @click="receive2" v-if="statas != 0">确认已处理</a>
+			    		<a class="chuli" @click="receive2" v-show="statas == '1'">确认已处理</a>
 		    		</div>
 		    		<div v-if="Datas.complainStatus == 2 || Datas.complainStatus == 3">
 			    		<div class="complaindetails4">
-			    			<img src="../../../static/images/icon/xx_03.png"/><h3>处理记录</h3>
+			    			<img src="../../../static/images/icon/info.png"/><h3>处理记录</h3>
 			    			<table>
 			    				<tr v-for="item in dianz">
 			    					<td>店长确认接收：</td>
-			    					<td>{{item.confirmTime}}</td>
+			    					<td>{{item.confirmTime | time}}</td>
+			    				</tr>
+			    			</table>
+			    			<p style="border-bottom: 1px dashed #DCDCDC;"></p>
+			    			<table v-for="item in dianz">
+			    				<tr>
+			    					<td>店长完成处理：</td>
+			    					<td>{{item.completeTime | time}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td>处理结果：</td>
+			    					<td>{{item.complainResult}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td style="vertical-align: top;">用户反馈：</td>
+			    					<td>
+			    						<p :class="[{'kum':Datas.complainStatus == 0},{'kum1':Datas.complainStatus == 1}]">{{item.userDegree | Degree}}</p>
+			    						<p>{{item.userFeedback}}</p>	
+			    					</td>
+			    				</tr>
+			    			</table>
+			    			<p style="border-bottom: 1px dashed #DCDCDC;"></p>
+			    			<table v-for="item in guanjia">
+			    				<tr>
+			    					<td>客服介入处理：</td>
+			    					<td>{{item.completeTime | time}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td>处理结果：</td>
+			    					<td>{{item.complainResult}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td style="vertical-align: top;">用户反馈：</td>
+			    					<td>
+			    						<p>{{item.userDegree | Degree}}</p>
+			    						<p>{{item.userFeedback}}</p>
+			    					</td>
+			    				</tr>
+			    			</table>
+			    		</div>
+		    		</div>
+		    		<div v-if="Datas.complainStatus == 4">
+		    			<div class="complaindetails2">
+			    			<img src="../../../static/images/icon/info.png"/><h3>用户信息</h3>
+			    			<table>
+			    				<tr>
+			    					<td>姓名：</td>
+			    					<td>{{Datas.userName}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td>已注册手机号：</td>
+			    					<td>{{Datas.userPhone}}</td>
+			    				</tr>
+			    				<tr>
+			    					<td>问题描述：</td>
+			    					<td>{{Datas.complainContent}}</td>
+			    				</tr>
+			    			</table>
+			    		</div>
+			    		<div class="complaindetails4">
+			    			<img src="../../../static/images/icon/info.png"/><h3>处理记录</h3>
+			    			<table>
+			    				<tr v-for="item in dianz">
+			    					<td>店长确认接收：</td>
+			    					<td>{{item.confirmTime | time}}</td>
 			    				</tr>
 			    			</table>
 			    			<p style="border-bottom: 1px dashed #DCDCDC;"></p>

@@ -40,7 +40,7 @@
 #addactivity table tr td input{
 	width: 198px;
 	height: 34px;
-	color: #b8b8b8;
+	color: #000;
 	padding-left: 10px;
 	font-size: 12px;
 }
@@ -52,7 +52,7 @@
 	width: 440px;
 	height: 120px;
 	border: none;
-	color: #b8b8b8;
+	color: #000;
 	padding-left: 10px;
 	border: 1px solid #DCDCDC;
 	font-size: 12px;

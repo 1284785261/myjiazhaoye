@@ -191,6 +191,10 @@
 	border-radius: 5px;
 	text-align: center;
 }
+#housesubscrib .addsection input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #8fa6bf;
+}
 #housesubscrib .addsection .el-icon-circle-close{
 	position: absolute;
     right: -41px;
@@ -230,7 +234,7 @@
 	height: 34px;
 	border-radius: inherit;
 	border: 1px solid #dcdcdc;
-	color: #b8b8b8;
+	color: #000;
 	padding-left: 10px;
 }
 #housesubscrib .addsection .tjss{

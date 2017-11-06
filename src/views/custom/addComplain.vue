@@ -6,10 +6,10 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">投诉详情</router-link>
+          <router-link  class="active" to="/apartment/communityManagement">投诉管理</router-link>
         </div>
         <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>投诉详情</h3>
+          <h3><i class="icon icon-iden"></i>添加投诉</h3>
           <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="add-complain-wrap">

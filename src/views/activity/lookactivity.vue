@@ -13,7 +13,7 @@
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
 		    	<div id="lookactivity">
-		    		<table class="looks">
+		    		<table class="looks" v-if="Userlist">
 		    			<tr>
 		    				<td>活动ID：</td>
 		    				<td>{{Userlist.activityNum}}</td>
