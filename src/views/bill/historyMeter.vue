@@ -182,7 +182,8 @@
       </div>
       <footer-box></footer-box>
     </div>
-
+      <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+      <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 
 </template>
@@ -193,6 +194,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import successModal from '../../components/successModal.vue';
+  import warningModal from '../../components/warningModal.vue';
   import {allCommunity,roomContract,officeContract,propertyContract,RoomBillHistoryList500104,WaterEnergyBillHistoryList500106,WaterEnergyHistoryList} from '../api.js';
   import qs from 'qs'
 
@@ -200,7 +203,9 @@
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      successModal,
+      warningModal
     },
     data () {
       return {
@@ -229,7 +234,10 @@
         WaterEnergyHistory:[],//历史抄表
         WaterEnergyHistoryTotalNum:0,//历史抄表总页数
         WaterEnergyHistoryCurrent:0,//历史抄表总条数
-
+        successModal: false,
+        warningModal: false,
+        successMessage: '设置成功',
+        warningMessage: '',
       }
     },
     mounted(){
@@ -271,6 +279,9 @@
             }
           })
       },
+      closeWarningModal() {
+        this.warningModal = false;
+      },
       getCommunityData(){
         var that = this;
         this.$http.get(allCommunity)
@@ -289,11 +300,19 @@
               that.roomHistoryBillList = pageBean.roomList;
               that.roomHistoryBillTotalNum = pageBean.totalNum;
             }
-            if(res.data.code == 10008){
+            else if(res.data.code == 10008){
               that.roomHistoryBillList = [];
               that.roomHistoryBillTotalNum = 0;
+              that.warningMessage = '没有更多数据了'
+              that.warningModal = true
+            }else {
+              that.warningMessage = res.data.content
+              that.warningModal = true
             }
-          })
+          }).catch(err=>{
+          that.warningMessage = '查询失败'
+          that.warningModal = true
+        })
       },
       waterElectricitySearch(){
         let vm = this
@@ -305,7 +324,8 @@
           vm.page = 1
           vm.getWaterEnergyHistoryList()
         }else {
-
+          vm.warningMessage = '请选择有效的时间'
+          vm.warningModal = true
         }
       },
       roomSearch(page){

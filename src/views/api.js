@@ -3,14 +3,14 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-// const host3 = 'http://test.kaisaspace.com:8060';
+const host3 = 'http://test.kaisaspace.com:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 //const host3 = 'http://192.168.20.108:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.26.135:8091';//李志guang
-const host3 = 'http://192.168.20.124:8081';//周昭滨
+// const host3 = 'http://192.168.20.124:8081';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
 //用户登录接口
