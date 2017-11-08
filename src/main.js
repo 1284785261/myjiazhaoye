@@ -9,8 +9,11 @@ import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css'
 
+import echarts from 'echarts'
+
 Vue.use(ElementUI);
 Vue.use(iView);
+Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios;
 Vue.config.productionTip = false
 
@@ -50,6 +53,17 @@ Array.prototype.remove = function(val){
 	}
 };
 
+Vue.prototype.jurisdiction = function(val){
+  let arr = sessionStorage.getItem("success");
+  let arrs = arr.split(',');
+  for(let i = 0;i < arrs.length;i++){
+    if(arrs[i] == val){
+      return true;
+    }else{
+      return false;
+    }
+  }
+}
 
 //token配置
 axios.interceptors.request.use(

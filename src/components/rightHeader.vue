@@ -76,11 +76,22 @@
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity.headPic != null) {
 								vm.imgPath1 = imgPath + response.data.entity.headPic;
-							
-								vm.userID = response.data.entity.userAliase;
 								sessionStorage.setItem("imgPath1",vm.imgPath1);
+							}
+							else{
+								vm.imgPath1 = ''
+							}
+							if(response.data.entity.userName){
+								vm.userID = response.data.entity.userName;
 								sessionStorage.setItem("userID",vm.userID);
 							}
+							else{
+								vm.userID = '请登录~'
+							}
+							
+							
+							
+							
 						}
 					})
 					.catch((error) => {

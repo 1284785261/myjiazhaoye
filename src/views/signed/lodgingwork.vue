@@ -163,7 +163,7 @@
 									<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
 								</td>
 							</tr>
-							<tr>
+							<tr v-show="radio3 == 2">
 								<td></td>
 								<td>
 									<ul>
@@ -360,7 +360,6 @@
 				filelist7: [],
 				filelist8: [],
 				dat: null,
-				param: null,
 				cyclePayType: '',
 				user: {
 					id: '',
@@ -402,7 +401,6 @@
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
 			this.datas();
-			this.param = new FormData();
 		},
 		computed: {
 			firstmoney: function() {
@@ -713,6 +711,7 @@
 			},
 			SigController2(){
 				let vm = this         //公寓公司租客签约
+				let param = new FormData();
 				let arr = [];
 				for(let i = 0;i< this.tableRepairs.length;i++){
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != ''){
@@ -737,47 +736,48 @@
                   this.successMessage = '证明未上传完整';
                   return
                 }
-                this.param.append('credentialsImages',JSON.stringify(vm.fileList));
+                param.append('credentialsImages',JSON.stringify(vm.fileList));
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				this.param.append('communityId',this.communityId);
-				this.param.append('contractNumber',this.contract);
-				this.param.append('buildingId',this.housetderta.roomId);
-				this.param.append('buildingVersion',this.housetderta.version);
-				this.param.append('customerType',2);
-				this.param.append('beginDate',this.onhrie);
-				this.param.append('endDate',this.expire);
-				this.param.append('cyclePayType',this.cyclePayType);
-				this.param.append('cyclePayMoney',this.housetderta.roomRent);
-				this.param.append('cyclePayDiscount',this.discount);
-				this.param.append('serviceCost',this.serve);
-				this.param.append('firstMoneyPayType',this.radio3);
+				param.append('communityId',this.communityId);
+				param.append('contractNumber',this.contract);
+				param.append('buildingId',this.housetderta.roomId);
+				param.append('buildingVersion',this.housetderta.version);
+				param.append('customerType',2);
+				param.append('beginDate',this.onhrie);
+				param.append('endDate',this.expire);
+				param.append('cyclePayType',this.cyclePayType);
+				param.append('cyclePayMoney',this.housetderta.roomRent);
+				param.append('cyclePayDiscount',this.discount);
+				param.append('serviceCost',this.serve);
+				param.append('firstMoneyPayType',this.radio3);
 				if(this.radio3 == '1'){
 					param.append('firstPayMoney',this.onemoney);
 				}else if(this.radio3 == '2'){
 					param.append('firstMoney',this.onemoney);
 					param.append('secondPayMoney',this.housetderta.twomoney);
+					param.append('secondPayDate',this.dat);
 				}
-				this.param.append('secondPayDate',this.dat);
-				this.param.append('waterChargeModel',this.housetderta.waterType);
-				this.param.append('electricChargeModel',this.housetderta.electricType);
-				this.param.append('isPaper',this.radio4);
-				this.param.append('user.id',this.user.id);
-				this.param.append('user.version',this.user.version);
-				this.param.append('user.userPhone',this.user.userPhone);
-				this.param.append('user.userName',this.user.userName);
-				this.param.append('user.gender',this.user.gender);
-				this.param.append('user.certificateId',this.user.certificateId);
-				this.param.append('user.userCertificate',this.user.userCertificate);
+				
+				param.append('waterChargeModel',this.housetderta.waterType);
+				param.append('electricChargeModel',this.housetderta.electricType);
+				param.append('isPaper',this.radio4);
+				param.append('user.id',this.user.id);
+				param.append('user.version',this.user.version);
+				param.append('user.userPhone',this.user.userPhone);
+				param.append('user.userName',this.user.userName);
+				param.append('user.gender',this.user.gender);
+				param.append('user.certificateId',this.user.certificateId);
+				param.append('user.userCertificate',this.user.userCertificate);
 				console.log(this.user);
-				this.param.append('materials',this.materials);
-				this.param.append('furniture',this.furniture);
+				param.append('materials',this.materials);
+				param.append('furniture',this.furniture);
 				if(this.otherCostJson){
-					this.param.append('otherCostJson',this.otherCostJson);
+					param.append('otherCostJson',this.otherCostJson);
 				}
-				this.param.append('companyInfo',this.companyInfo);
-				this.param.append('companylegalPerson',this.companylegalPerson);
+				param.append('companyInfo',this.companyInfo);
+				param.append('companylegalPerson',this.companylegalPerson);
 		        axios.post(hostSignOffice,this.param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);

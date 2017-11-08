@@ -111,15 +111,15 @@
 							for(let m = 0; m < this.lins.length; m++){
 								if(this.loderList[i].powerItemId == this.lins[m]){
 									this.$set(this.loderList[i], "singd", true);
-									for(let s =0; s< this.loderList[i].powerItemChildList.length;s++){
-										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
-									}
+									// for(let s =0; s< this.loderList[i].powerItemChildList.length;s++){
+									// 	this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
+									// }
 								}
 								
 							}
 							for(let s = 0; s < this.loderList[i].powerItemChildList.length;s++){
 								for(let m = 0; m < this.lins.length; m++){
-									if(this.loderList[i].singd == false && this.loderList[i].powerItemChildList[s].powerItemId == this.lins[m]){
+									if(this.loderList[i].powerItemChildList[s].powerItemId == this.lins[m]){
 										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
 									}
 								}
@@ -148,18 +148,30 @@
 			checkAllGroupChange(item, index) { //权限单选
 				console.log(item);
 				console.log(index);
-				var flag = true;
+				// var flag = true;
+				let flag = []
 				for(let i = 0; i < item.powerItemChildList.length; i++) {
 					if(item.powerItemChildList[i].sing != this.sings) {
-						flag = false;
-						break;
+						flag.push(false)
+						// break;
+					}else{
+						flag.push(true)
 					}
 				}
-				if(item.powerItemChildList.length) {
-					item.singd = flag;
-				} else {
-					item.singd = false;
+				let ins = flag.findIndex(fla=>fla == true)
+				if(ins >= 0){
+					item.singd = true
+				}else{
+					item.singd = false
 				}
+				// for(let k in flag){
+
+				// }
+				// if(item.powerItemChildList.length) {
+				// 	item.singd = flag;
+				// } else {
+				// 	item.singd = false;
+				// }
 			},
 			closeWarningModal() {
 				this.warningModal = false;
@@ -167,14 +179,12 @@
 			addcommunis(){
 				this.list2 = [];
 				for(let i = 0;i<this.loderList.length;i++){
-					if(this.loderList[i].singd == true){
-						this.list2.push(this.loderList[i].powerItemId);
-					}
 					for(let m = 0;m < this.loderList[i].powerItemChildList.length;m++){
-						if(this.loderList[i].powerItemChildList[m].sing == true && this.loderList[i].singd == false){
+						if(this.loderList[i].powerItemChildList[m].sing == true){
 							this.list2.push(this.loderList[i].powerItemChildList[m].powerItemId);
+							this.list2.push(this.loderList[i].powerItemId);
 						}
-					}
+					}					
 				}
 				console.log(this.list2);
 				let str = '';

@@ -244,7 +244,7 @@
       getBusinessData(data){
         var that = this;
         this.$http.post(BusinessReport500111,qs.stringify(data))
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.businessData = res.data.result;
               console.log(that.businessData)
@@ -255,7 +255,7 @@
       getBillData(data){
         var that = this;
         this.$http.post(OrderReport500112,qs.stringify(data))
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.billData = res.data.result;
               console.log(that.billData)
@@ -266,7 +266,7 @@
       getFinanceData(data){
         var that = this;
         this.$http.post(OrderReport500113,qs.stringify(data))
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.financeData = res.data.result;
               console.log(that.financeData)

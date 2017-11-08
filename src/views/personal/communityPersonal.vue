@@ -104,7 +104,8 @@
 	    		vm.user = null;
 	    		axios.get(hostAuthor)
 	    		.then((response)=>{
-	    			console.log(response);
+					console.log(response);
+					
 	    			if(response.status == 200 && response.data.code == 10000){
 		    			vm.user = response.data.entity;
 		    			sessionStorage.setItem("phone",this.user.userPhone);
@@ -122,7 +123,8 @@
 	    		})
     		},
     		loadfile(e){
-    			let vm = this
+				let vm = this
+				vm.loading = true;
     			vm.filelist = [];
     			let file = e.target.files[0];
     			let files = [file,file.name];
@@ -134,7 +136,6 @@
     			this.param.append('file',file);
     			this.param.append('module','user');
     			this.$http.post(vm.host3,vm.param).then(res =>{
-    				vm.loading = true
     				let imgUser = res.data.result.virtualPath
     				vm.userImg(imgUser)
     			}).catch(err=>{

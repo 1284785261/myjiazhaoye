@@ -200,7 +200,7 @@
 										<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
 									</td>
 								</tr>
-								<tr>
+								<tr v-show="radio3 == 2">
 									<td></td>
 									<td>
 										<!--{{onemoney}}-->
@@ -508,7 +508,7 @@
 										<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
 									</td>
 								</tr>
-								<tr>
+								<tr v-show="radio3 == 2           ">
 									<td></td>
 									<td>
 										<!--{{onemoney}}-->
@@ -1327,11 +1327,12 @@
 				} else if(this.radio3 == '2') {
 					param.append('firstMoney', this.onemoney);
 					param.append('secondPayMoney', this.housetderta.twomoney);
+					param.append('secondPayDate', this.dat);
 				}
 				if(this.housetderta.roomElectric != '') {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-				param.append('secondPayDate', this.dat);
+				
 				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
 				param.append('electricInit', this.housetderta.roomElectric);
@@ -1474,6 +1475,7 @@
 				} else if(this.radio3 == '2') {
 					param.append('firstMoney', this.onemoney);
 					param.append('secondPayMoney', this.housetderta.twomoney);
+					param.append('secondPayDate', this.dat);
 				}
 				if(this.housetderta.roomWater != '') {
 					param.append('waterInit', this.housetderta.roomWater);
@@ -1481,7 +1483,7 @@
 				if(this.housetderta.roomElectric != '') {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-				param.append('secondPayDate', this.dat);
+				
 				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
 				param.append('electricInit', this.housetderta.roomElectric);

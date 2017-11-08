@@ -87,7 +87,8 @@ import qs from 'qs';
       	.then((res)=>{
       		console.log(res);
       			if(parseInt(res.data.code)==10000){
-      				sessionStorage.setItem("token",res.data.result.token);
+              sessionStorage.setItem("token",res.data.result.token);
+              sessionStorage.setItem("success",res.data.entity);
       				that.$router.push({path:"/apartment/communityManagement"});
       				//把token上传到sessionStorage
 
@@ -126,7 +127,7 @@ import qs from 'qs';
     width: 100px;
     height: 20px;
     font-size: 12px;
-    color: red;
+    color:red;
   }
   #loginBack{
   	height: 1000px;

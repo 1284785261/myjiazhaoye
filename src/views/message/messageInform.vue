@@ -119,7 +119,7 @@
 	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import qs from 'qs';
-    import { hostBean,hostBeans,hostRange,hostRange2,allCommunity } from '../api.js';
+    import { hostBean,hostBeans,hostRange2,allCommunity } from '../api.js';
     export default {
     	components:{
     		rightHeader,
@@ -314,21 +314,7 @@
 				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
 				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
 				return Y + M + D + H + mm;
-    		},
-//  		cityId(val){
-//  			let vm = this
-//  			if(val != 'null'){
-////	console.log(vm.options);
-////	debugger
-//  				console.log(val);
-//  				console.log(11111);
-////  				return vm.options[vm.options.findIndex(item => item.communityId == parseInt(val))].communityName;
-//  				
-//  			}else{
-//  				return '';
-//  			}
-//  			
-//  		}
+    		}
     	},
     	created(){
     		

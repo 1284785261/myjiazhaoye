@@ -3,14 +3,14 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-const host3 = 'http://test.kaisaspace.com:8060';
+//const host3 = 'http://test.kaisaspace.com:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
-// const host3 = 'http://120.78.16.234:8060';
-//const host3 = 'http://192.168.20.108:8080';
+//const host3 = 'http://120.78.16.234:8050';
+const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
-//const host3 = 'http://192.168.26.135:8091';//李志guang
-// const host3 = 'http://192.168.20.124:8081';//周昭滨
+//const host3 = 'http://192.168.20.135:8091';//李志guang
+// const host3 = 'http://192.168.20.124:8080';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
 //用户登录接口
@@ -579,4 +579,10 @@ export const CustomerService300126 =host3+'/cxkj-room/apis/pc/complainCenter/Cxk
 export const report500110 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityReport500110';//房源状态
 export const BusinessReport500111 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityBusinessReport500111';//报表业务情况
 export const OrderReport500112 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOrderReport500112';//账单业务情况
-export const OrderReport500113 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOrderReport500113';//财务业务情况
+export const OrderReport500113 =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMoneyReport500113';//财务业务情况
+// 月报
+export const CommunityMonthReport =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMonthReport500115';//pc端 报表房源状态
+export const CommunityBusinessMonthReport =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityBusinessMonthReport500116';//pc端 报表业务情况
+export const CommunityOrderMonthReport =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityOrderMonthReport500117';//pc端 报表账单情况
+export const CommunityMoneyMonthReport =host3+'/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunityMoneyMonthReport500118';//pc端 报表财务情况
+
