@@ -78,25 +78,25 @@
 					<div class="modular-box">
 						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
-							<li v-if="remains.roomMoney != null">
-								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.roomMoney}}人</span></span>
+							<li v-if="remains.appointmentCount != 0">
+								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.appointmentCount}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.roomCount != null">
+							<li v-if="remains.roomCount != 0">
 								<router-link to="/bill/billManagement">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.officeCount != null">
+							<li v-if="remains.officeCount != 0">
 								<router-link to="/bill/billManagement">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.waterEnergyCount != null">
+							<li v-if="remains.waterEnergyCount != 0">
 								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.roomMoney != null">
+							<li v-if="remains.roomMoney != 0">
 								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.roomMoney}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.rentCount != null">
+							<li v-if="remains.rentCount != 0">
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">用户退房<span><span>{{remains.rentCount}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.expireCount != null">
+							<li v-if="remains.expireCount != 0">
 								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li>
@@ -263,7 +263,7 @@
 				let vm = this;
 				this.$http.get(hostAuthor)
 					.then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.user.name = response.data.entity.userName;
 							vm.user.quanxian = response.data.entity.userType;
@@ -277,7 +277,7 @@
 				let Model = sessionStorage.getItem('communityId');
 				//console.log(Model);
 				axios.post(allCommunity).then((response) => { //获取社区分类数据
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.cityList = response.data.entity;
 							if(Model) {
@@ -329,7 +329,7 @@
 							communityId: Index
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}

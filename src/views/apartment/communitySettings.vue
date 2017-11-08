@@ -30,7 +30,7 @@
 														</el-select>
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5"><span class="baifen">%</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="yanzhens(tableRepair.date,index)"><span class="baifen">%</span></td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -54,7 +54,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5">小时</td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5" @blur="hours(tableRepair.date,index)">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -142,7 +142,7 @@
 														</el-select>
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5"><span class="baifen">%</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="moins(tableRepair.date,index)"><span class="baifen">%</span></td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -165,7 +165,7 @@
 															</el-option>
 														</el-select>
 													</td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span class="baifen2">元/</span></td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="5" @blur="moins2(tableRepair.date,index)"><span class="baifen2">元/</span></td>
 													<td>
 														<el-select v-model="tableRepair.value8" placeholder="请选择次数" style="width: 140px" class="tbs" @change="communit3(tableRepair.value8,index)">
 															<el-option v-for="item in tableRepair.option8" :key="item.dataName" :value="item.dataName">
@@ -195,7 +195,7 @@
 														</el-select>
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5">小时</td>
+													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5" @blur="moins3(tableRepair.date,index)">小时</td>
 													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button></td>
 												</tr>
 											</table>
@@ -273,7 +273,8 @@
 					value4: '',
 					deletect: "删除",
 					option8: [],
-					value8: ''
+					value8: '',
+					date: "",
 				}],
 				option3: [],
 				value3: '',
@@ -423,6 +424,53 @@
 			gos(){
 		    	this.$router.go(-1);
 		    },
+		    yanzhens(value,index){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableRepairs[index].date = value;
+		    	}
+		    	else{
+		    		this.tableRepairs[index].date = '';
+		    	}
+		    },
+		    hours(value,index){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableRepairs2[index].date = value;
+		    	}
+		    	else{
+		    		this.tableRepairs2[index].date = '';
+		    	}
+		    },
+		    moins(value,index){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableRepairs3[index].date = value;
+		    	}
+		    	else{
+		    		this.tableRepairs3[index].date = '';
+		    	}
+		    },
+		    moins2(value,index){
+		    	console.log(value);
+		    	console.log(index);
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableConferences[index].date = value;
+		    	}
+		    	else{
+		    		this.tableConferences[index].date = '';
+		    	}
+		    },
+		    moins3(value,index){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableRepairs5[index].date = value;
+		    	}
+		    	else{
+		    		this.tableRepairs5[index].date = '';
+		    	}
+		    },
 			befors() {
 				let vm = this
 				this.cxkjCommunityListPayway = [];
@@ -434,7 +482,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -553,6 +601,7 @@
 									this.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
 									this.tableConferences[i].communityMeetingSuitId = response.data.entity[0].cxkjCommunityListMeetingSuit[i].communityMeetingSuitId;
 								}
+								console.log(this.tableConferences);
 								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {
 									if(this.tableRepairs5.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
 										vm.addRepairs5();
@@ -595,7 +644,8 @@
 					option4: [],
 					value4: '',
 					option8: [],
-					value8: ''
+					value8: '',
+					date: "",
 				})
 				this.seting();
 				this.seting2();

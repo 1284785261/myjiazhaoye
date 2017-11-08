@@ -198,7 +198,7 @@
 				this.isHide = !this.isHide;
 			},
     		bean2(){
-    			let vm =this
+    			let vm = this
     			let pageNum = vm.pageNum2;
 				let pageSize = vm.pageSize2;
     			axios.post(hostBeans, //请求系统通知数据列表
@@ -224,7 +224,7 @@
     			axios.post(allCommunity)
     			.then((response)=>{  //请求通知范围
 //  				console.log(111111111);
-    				console.log(response);
+    				//console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
     					vm.options = response.data.entity;
     					
@@ -253,7 +253,7 @@
     					messageUrl:vm.titl2
     				}))
 	    			.then((response)=>{
-	    				console.log(response);
+	    				//console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
 	    					this.successMessage = '发布成功';
 							this.successModal = true;

@@ -11,6 +11,15 @@
 	margin-left: 5%;
 	padding: 20px 0;
 }
+#lodgingHouse input{
+	font-size: 12px;
+	padding-left: 10px;
+	border-radius: inherit;
+}
+#lodgingHouse input::-webkit-input-placeholder {
+	/* WebKit browsers*/
+	color: #b8b8b8;
+}
 #lodgingHouse .loadin1 table{
 	margin-left: 85px;
 	font-size: 12px;
@@ -35,6 +44,7 @@
 #lodgingHouse .loadin1 table tr td input{
 	width: 198px;
 	height: 34px;
+	border: 1px solid #DCDCDC;
 }
 #lodgingHouse .loadin2{
 	min-height: 370px;
@@ -45,6 +55,7 @@
 	float: left;
 	margin-left: 66px;
 	font-weight: bold;
+	line-height: 54px;
 }
 #lodgingHouse .loadin2 table{
 	width: 600px;
@@ -115,11 +126,16 @@
 	position: relative;
 	height: 230px;
 }
+#lodgingHouse .loadin3 .ivu-date-picker{
+	width: 198px;
+	height: 34px;
+}
 #lodgingHouse .loadin3 p{
 	width: 73px;
 	float: left;
 	margin-left: 76px;
 	font-weight: bold;
+	line-height: 50px;
 }
 #lodgingHouse .loadin3 .zq{
 	float: left;
@@ -133,7 +149,7 @@
 }
 #lodgingHouse .loadin3 .zq li .qzr{
 	margin-left: 50px;
-	margin-right: 10px;
+	margin-right: 4px;
 }
 #lodgingHouse .loadin3 .zq .apartment{
 	margin-left: 60px;
@@ -173,6 +189,7 @@
 	margin-left: 34px;
 	font-weight: bold;
 	margin-right: 10px;
+	line-height: 50px;
 }
 .loadin4 .div1 table{
 	float: left;
@@ -207,6 +224,7 @@
 	margin-left: 74px;
 	font-weight: bold;
 	margin-right: 10px;
+	line-height: 50px;
 	
 }
 .loadin4 .div2 .floor-item{
@@ -274,6 +292,7 @@
 }
 .loadin5 table tr td ul li{
 	padding: 10px;
+	line-height: 26px;
 }
 .loadin5 table tr td ul li span{
 	margin: 0 10px;
@@ -291,6 +310,7 @@
 	height: 100px;
 	background: #f8f8f8;
 	margin-bottom: 20px;
+	position: relative;
 }
 .loadin6 table{
 	margin-left: 15px;
@@ -418,6 +438,7 @@
 	margin-left: 74px;
 	font-weight: bold;
 	margin-right: 10px;
+	line-height: 50px;
 	
 }
 .loadin7 .div2 .floor-item{
@@ -470,7 +491,7 @@
 	font-weight: bold;
 	margin-left: 88px;
 	margin-right: 16px ;
-	line-height: 80px;
+	line-height: 50px;
 }
 .loadin8  table{
 	float: left;

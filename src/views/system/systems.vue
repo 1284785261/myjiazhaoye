@@ -342,7 +342,7 @@
 			<table>
 				<tr>
 					<td>账号：</td>
-					<td><input type="text" placeholder="请输入手机账号" v-model="Employ.account" @blur='Phone(Employ.account)' @focus="msg=''"/></td>
+					<td><input type="text" placeholder="请输入手机账号" v-model="Employ.account" @blur='Phone(Employ.account)'/></td>
 				</tr>
 				<tr>
 					<td>用户姓名：</td>

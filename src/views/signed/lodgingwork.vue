@@ -186,7 +186,7 @@
 							</tr>
 							<tr>
 
-								<td style="vertical-align: top;">上传证明:</td>
+								<td style="vertical-align: top;line-height: 40px;">上传证明:</td>
 								<td class="boxs">
 									<div class="ivu-main-img">
 										<div class="item-img">
@@ -442,10 +442,13 @@
 				}
 			},
 			twomoney: function() {
-				if(this.onemoney) {
+				if(this.onemoney && this.housetderta.firstmoneys) {
 					this.housetderta.twomoney = (parseFloat(this.housetderta.firstmoneys) - parseFloat(this.onemoney)).toFixed(2);
+					return this.housetderta.twomoney
+				}else{
+					return 0
 				}
-				return this.housetderta.twomoney
+				
 			}
 		},
 		watch: {
@@ -800,4 +803,24 @@
 <style lang="scss" rel="stylesheet/scss">
 	@import '../../sass/base/_mixin.scss';
 	@import '../../sass/base/_public.scss';
+	.location_community{
+    .ivu-icon-location{
+      font-size: 38px;
+      color: red;
+      position: relative;
+      top: 10px;
+      left: 5px;
+    }
+  }
+  .ivu-icon-ios-calendar-outline {
+			color: #038be2;
+			font-family: "iconfont" !important;
+			font-size: 18px;
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			&:before {
+				content: "\e60c";
+			}
+		}
 </style>
