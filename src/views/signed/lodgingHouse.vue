@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content" style="height: 100%;">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -690,6 +690,7 @@
 		},
 		data() {
 			return {
+				activeTabName:"workbench",
 				successModal: false,
 				warningModal: false,
 				successMessage: '签约成功',

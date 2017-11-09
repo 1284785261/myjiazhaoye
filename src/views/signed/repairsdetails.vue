@@ -1,6 +1,6 @@
 <template>
 	<div id="housesubscrib">
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -97,6 +97,7 @@
 		},
 		data() {
 			return {
+				activeTabName:"workbench",
 				currentPage3: 1,
 				mts: '2',
 				radio: '1',

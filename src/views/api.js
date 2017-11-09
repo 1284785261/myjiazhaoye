@@ -6,7 +6,7 @@
 //const host3 = 'http://test.kaisaspace.com:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
-const host3 = 'http://120.78.16.234:8050';
+nconst host3 = 'http://120.78.16.234:8050';
 //const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang

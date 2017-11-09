@@ -1,7 +1,7 @@
 <template>
 
 	<div>
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -78,6 +78,7 @@
     	},
     	data(){
     		return{
+				activeTabName:"workbench",
     			user:{},  //用户信息
     			imgPath1:null,
     			chen:true,

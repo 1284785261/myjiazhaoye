@@ -1,6 +1,6 @@
 <template>
 	<div id="housesubscrib">
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box mps">
@@ -438,6 +438,7 @@
 		},
 		data() {
 			return {
+				activeTabName:"systems",
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加部门成功',

@@ -1,6 +1,6 @@
 <template>
 	<div id="housesubscrib">
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box mps">
@@ -61,6 +61,7 @@
 		},
 		data() {
 			return {
+				activeTabName:"systems",
 				sings:true,
 				single:false,
 				successModal: false,
@@ -194,6 +195,7 @@
 						this.successModal = true;
 						setTimeout(() => {
 							this.successModal = false;
+							sessionStorage.setItem("success",JSON.stringify(res.data.entity));
 							this.datas();
 							this.$router.push('/system/systems');
 						}, 2000);

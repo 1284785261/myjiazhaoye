@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -216,7 +216,7 @@
 										<span class="fl"><span class="btxs">*</span>办公物资：</span>
 										<div class="floor-item form-item">
 											<el-checkbox-group v-model="checkList2">
-												<el-checkbox v-for="item in option5" :label=item.dataName></el-checkbox>
+												<el-checkbox v-for="item in option5" :label='item.dataName'></el-checkbox>
 											</el-checkbox-group>
 										</div>
 									</div>
@@ -258,6 +258,7 @@
 		},
 		data() {
 			return {
+				activeTabName:"communityManagement",
 				radio1: 1,
 				radio2: 1,
 				checkList: [],

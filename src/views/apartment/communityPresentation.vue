@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -210,6 +210,7 @@
 				data: {
 					module: 'introduce'
 				},
+				activeTabName:"communityManagement",
 				host3:'',
 				successModal: false,
 				warningModal: false,

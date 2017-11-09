@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -34,18 +34,31 @@
 		    				<td>活动规则：</td>
 		    				<td>{{Userlist.endRule | endRule}}</td>
 		    			</tr>
+						<tr>
+		    				<td>金额范围：</td>
+		    				<td>{{Userlist.endDate | time}}</td>
+		    			</tr>
+						<tr>
+		    				<td>总金额：</td>
+		    				<td style="color: red;">{{Userlist.activityTotalMoney | Money}}</td>
+		    			</tr>
+						<tr>
+		    				<td>剩余金额：</td>
+		    				<td>{{Userlist.endDate | time}}</td>
+		    			</tr>
 		    			<tr>
 		    				<td>结束时间：</td>
 		    				<td>{{Userlist.endDate | time}}</td>
 		    			</tr>
-		    			<tr>
-		    				<td>总金额：</td>
-		    				<td style="color: red;">{{Userlist.activityTotalMoney | Money}}</td>
-		    			</tr>
+		    			
 		    			<tr>
 		    				<td>优惠券有效期：</td>
 		    				<td v-if="Userlist.validityDate != null">{{Userlist.validityDate | time}}</td>
 		    				<td v-else>无期限</td>
+		    			</tr>
+						<tr>
+		    				<td>参与对象：</td>
+		    				<td><span>注册时间：</span>{{Userlist.endDate | time}}<span>是否有签约记录：</span></td>
 		    			</tr>
 		    		</table>
 		    		<p></p>
@@ -57,6 +70,7 @@
 		    				<td>优惠券金额/元</td>
 		    				<td>优惠券编码</td>
 		    				<td>领取时间</td>
+							<td>使用时间</td>
 		    			</thead>
 		    			<tr>
 		    				<td>1</td>
@@ -64,6 +78,7 @@
 		    				<td>1</td>
 		    				<td>1</td>
 		    				<td>1</td>
+							<td>1</td>
 		    			</tr>
 		    		</table>
 		    	</div> 
@@ -94,6 +109,7 @@
     	},
     	data(){
     		return{
+				activeTabName:"activitys",
 		        activityId:'',
 		    	Userlist:null
     		}
