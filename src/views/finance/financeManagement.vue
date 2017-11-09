@@ -188,8 +188,8 @@
                     <span v-if="item.invoiceState == 3">已收件</span>
                   </td>
                   <td>
-                    <a  @click="openBill(item.invoiceId)" v-if="item.invoiceState == 0">开发票</a>
-                    <a v-if="item.invoiceState == 1" @click="sendBill(item.invoiceId)">寄出</a>
+                    <a  @click="openBill(item.invoiceId)" v-if="item.invoiceState == 0 && jurisdiction('FINANCE_UPDATE')">开发票</a>
+                    <a v-if="item.invoiceState == 1 && jurisdiction('FINANCE_UPDATE')" @click="sendBill(item.invoiceId)">寄出</a>
                     <router-link :to="{name:'invoiceDetail',query:{invoiceId:item.invoiceId}}" v-if="item.invoiceState == 2 || item.invoiceState == 3">查看详情</router-link>
                   </td>
                 </tr>
@@ -257,8 +257,8 @@
                   </td>
                   <td>
                     <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}">查看详情</router-link>
-                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}" v-if="item.refundStatus == 0">审核</router-link>
-                    <a v-if="item.refundStatus == 1" @click="sureRefund(index,item.refundId)">退款</a>
+                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}" v-if="item.refundStatus == 0 && jurisdiction('FINANCE_UPDATE')">审核</router-link>
+                    <a v-if="item.refundStatus == 1 && jurisdiction('FINANCE_UPDATE')" @click="sureRefund(index,item.refundId)">退款</a>
                   </td>
                 </tr>
               </table>

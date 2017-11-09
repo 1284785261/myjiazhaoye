@@ -9,13 +9,13 @@
 					<router-link class="active" to="/apartment/workbench">系统管理</router-link>
 				</div>
 				<el-tabs v-model="activeName2" type="card">
-					<el-tab-pane label="员工管理" name="first">
+					<el-tab-pane label="员工管理" v-if="jurisdiction('STAFF_QUERY')">
 						<div class="systems">
 							<div class="adad">
-								<a @click="addstaff"> + 新增员工</a>
-								<a @click="detailstaff">批量删除</a>
-								<a @click="opens2">批量开放</a>
-								<a @click="closes2">批量关闭</a>
+								<a @click="addstaff" v-if="jurisdiction('STAFF_INCREASE')"> + 新增员工</a>
+								<a @click="detailstaff" v-if="jurisdiction('STAFF_DELETE')">批量删除</a>
+								<a @click="opens2" v-if="jurisdiction('STAFF_UPDATE')">批量开放</a>
+								<a @click="closes2" v-if="jurisdiction('STAFF_UPDATE')">批量关闭</a>
 							</div>
 							<div v-if="data2 != null">
 								<table>
@@ -46,9 +46,9 @@
 										<td>{{item.createtime | time}}</td>
 										<td :class="{acts:item.employeeStatus == 1}">{{item.employeeStatus | Status}}</td>
 										<td>
-											<a @click="amend2(item)">编辑</a>
-											<a @click="close2(item)" v-if="item.employeeStatus == 1">关闭</a>
-											<a @click="close2(item)" v-else-if="item.employeeStatus == 0">开启</a>
+											<a @click="amend2(item)" v-if="jurisdiction('STAFF_UPDATE')">编辑</a>
+											<a @click="close2(item)" v-if="item.employeeStatus == 1 && jurisdiction('STAFF_UPDATE')">关闭</a>
+											<a @click="close2(item)" v-else-if="item.employeeStatus == 0 && jurisdiction('STAFF_UPDATE')">开启</a>
 										</td>
 									</tr>
 								</table>
@@ -60,13 +60,13 @@
 				    		</div>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="部门管理" name="second">
+					<el-tab-pane label="部门管理" v-if="jurisdiction('DEPARTMENT_QUERY')">
 						<div class="systems">
 							<div class="adad">
-								<a @click="addsection"> + 新增</a>
-								<a @click="details">批量删除</a>
-								<a @click="opens">批量开放</a>
-								<a @click='closes'>批量关闭</a>
+								<a @click="addsection" v-if="jurisdiction('DEPARTMENT_INCREASE')"> + 新增</a>
+								<a @click="details" v-if="jurisdiction('DEPARTMENT_DELETE')">批量删除</a>
+								<a @click="opens" v-if="jurisdiction('DEPARTMENT_UPDATE')">批量开放</a>
+								<a @click='closes' v-if="jurisdiction('DEPARTMENT_UPDATE')">批量关闭</a>
 								<a @click="returns">返回上级</a>
 							</div>
 							<table>
@@ -95,9 +95,9 @@
 									<td :class="{acts:item.departmentStatus == 1}">{{item.departmentStatus | Status}}</td>
 									<td>
 										<a @click="bub(item)">进入子部门</a>
-										<a @click="amend(item)">编辑</a>
-										<a @click="close(item)" v-if="item.departmentStatus == 1">关闭</a>
-										<a @click="close(item)" v-else-if="item.departmentStatus == 0">开启</a>
+										<a @click="amend(item)" v-if="jurisdiction('DEPARTMENT_UPDATE')">编辑</a>
+										<a @click="close(item)" v-if="item.departmentStatus == 1 && jurisdiction('DEPARTMENT_UPDATE')">关闭</a>
+										<a @click="close(item)" v-else-if="item.departmentStatus == 0 && jurisdiction('DEPARTMENT_UPDATE')">开启</a>
 									</td>
 								</tr>
 							</table>
@@ -108,7 +108,7 @@
 				    		</div>-->
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="社区人员配备" name="third">
+					<el-tab-pane label="社区人员配备" v-if="jurisdiction('STAFFING_QUERY')">
 						<div class="systems">
 							<div v-if="users != null">
 								<table class="equip">
@@ -140,13 +140,13 @@
 				    		</div>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="职位管理" name="fourth">
+					<el-tab-pane label="职位管理" v-if="jurisdiction('POSITION_QUERY')">
 						<div class="systems">
 							<div class="adad">
-								<a @click="addPosition"> + 新增</a>
-								<a @click="delPosition">批量删除</a>
-								<a @click="opePosition">批量开放</a>
-								<a @click="cloPosition">批量关闭</a>
+								<a @click="addPosition" v-if="jurisdiction('POSITION_INCREASE')"> + 新增</a>
+								<a @click="delPosition" v-if="jurisdiction('POSITION_DELETE')">批量删除</a>
+								<a @click="opePosition" v-if="jurisdiction('POSITION_UPDATE')">批量开放</a>
+								<a @click="cloPosition" v-if="jurisdiction('POSITION_UPDATE')">批量关闭</a>
 							</div>
 							<div v-if="Positions != null">
 								<table>
@@ -171,9 +171,9 @@
 										<td>{{item.createtime | time}}</td>
 										<td :class="{acts:item.positionStatus == 1}">{{item.positionStatus | Status}}</td>
 										<td>
-											<a @click="compilePosit(item)">编辑</a>
-											<a @click="closem(item)" v-if="item.positionStatus == 1">关闭</a>
-											<a @click="closem(item)" v-else-if="item.positionStatus == 0">开启</a>
+											<a @click="compilePosit(item)" v-if="jurisdiction('POSITION_UPDATE')">编辑</a>
+											<a @click="closem(item)" v-if="item.positionStatus == 1 && jurisdiction('POSITION_UPDATE')">关闭</a>
+											<a @click="closem(item)" v-else-if="item.positionStatus == 0 && jurisdiction('POSITION_UPDATE')">开启</a>
 										</td>
 									</tr>
 								</table>
@@ -185,13 +185,13 @@
 				    		</div>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="权限管理" name="fourth3">
+					<el-tab-pane label="权限管理" v-if="jurisdiction('POWER_QUERY')">
 						<div class="systems">
 							<div class="adad">
-								<a @click="addCommunity"> + 新增</a>
-								<a @click="delCommunity">批量删除</a>
-								<a @click="opeCommunity">批量开放</a>
-								<a @click="cloCommunity">批量关闭</a>
+								<a @click="addCommunity" v-if="jurisdiction('POWER_INCREASE')"> + 新增</a>
+								<a @click="delCommunity" v-if="jurisdiction('POWER_DELETE')">批量删除</a>
+								<a @click="opeCommunity" v-if="jurisdiction('POWER_UPDATE')">批量开放</a>
+								<a @click="cloCommunity" v-if="jurisdiction('STAFF_UPDATE')">批量关闭</a>
 							</div>
 							<div v-if="Communitys != null">
 								<table>
@@ -448,7 +448,6 @@
 				currentPage4: 1,
 				currentPage5: 1,
 				titles: '批量开放',
-				activeName2: 'first',
 				single: false, //部门选择
 				sing: true,
 				single2: false, //员工选择

@@ -15,7 +15,7 @@
 				<div id="advertiset">
 					<div class="advertiset1">
 						<span>Banner管理</span>
-						<router-link to="/advertising/addBanner">+ 添加Banner</router-link>
+						<router-link to="/advertising/addBanner" v-if="jurisdiction('AD_INCREASE')">+ 添加Banner</router-link>
 					</div>
 					<div v-if="Datas != null">
 						<table>
@@ -33,8 +33,8 @@
 								<td>{{item.listNumber}}</td>
 								<td>{{item.isClose | order(item.isClose)}}</td>
 								<td>
-									<router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}">修改</router-link>
-									<a @click="deletes(item.adId)">删除</a>
+									<router-link :to="{path:'/advertising/addBanner',query:{id:item.adId}}" v-if="jurisdiction('AD_UPDATE')">修改</router-link>
+									<a @click="deletes(item.adId)" v-if="jurisdiction('AD_DELETE')">删除</a>
 								</td>
 							</tr>
 						</table>

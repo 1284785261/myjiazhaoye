@@ -54,14 +54,16 @@ Array.prototype.remove = function(val){
 };
 
 Vue.prototype.jurisdiction = function(val){
-  let arr = sessionStorage.getItem("success");
-  let arrs = arr.split(',');
-  for(let i = 0;i < arrs.length;i++){
-    if(arrs[i] == val){
-      return true;
-    }else{
-      return false;
-    }
+  let arr = JSON.parse(sessionStorage.getItem("success")) ;
+  //console.log(arr);
+  let index = arr.findIndex(item => item==val)
+  if(index>=0){
+    //console.log(1111);
+    return true;
+  }
+  else{
+    //console.log(2222);
+    return false;
   }
 }
 

@@ -14,7 +14,7 @@
 				</div>
 				<div id="activitys">
 					<div class="activitys1">
-						<router-link to="/activity/addactivity" class="refund"> + 新增活动</router-link>
+						<router-link to="/activity/addactivity" class="refund" v-if="jurisdiction('ACTIVITY_INCREASE')"> + 新增活动</router-link>
 					</div>
 					<div v-if="Userlist != null">
 						<table v-if="Userlist != null">
@@ -44,7 +44,7 @@
 								<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
 								<td>
 									<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link>
-									<a @click="zuofei(item)" v-if="item.activityStatus != 3">作废</a>
+									<a @click="zuofei(item)" v-if="item.activityStatus != 3 && jurisdiction('AD_DELETE')">作废</a>
 								</td>
 							</tr>
 						</table>

@@ -15,7 +15,7 @@
 							<div class="form-search-criteria">
 								<div class="form-item">
 
-									<router-link to="/apartment/communityComplie" class="add"><span>+</span>添加社区</router-link>
+									<router-link to="/apartment/communityComplie" class="add" v-if="jurisdiction('COMMUNITY_INCREASE')"><span>+</span>添加社区</router-link>
 
 								</div>
 								<div class="form-item">
@@ -103,7 +103,7 @@
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
-										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
+										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
 									</td>
 								</tr>
 
@@ -205,7 +205,7 @@
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
-										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})">开放社区</a>
+										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_UPDATE')">开放社区</a>
 									</td>
 								</tr>
 

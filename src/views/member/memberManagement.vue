@@ -57,7 +57,7 @@
                   </td>
                   <td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"--"}}</td>
                   <td>
-                    <a @click="openBlackModal(item.id,index)" v-if="item.userBlacklist!=1">设为黑名单</a>
+                    <a @click="openBlackModal(item.id,index)" v-if="item.userBlacklist!=1 && jurisdiction('MEMBER_UPDATE')">设为黑名单</a>
                     <router-link :to="{name:'memberInformation',query:{id:item.id}}">详情</router-link>
                   </td>
                 </tr>
@@ -119,13 +119,13 @@
                   </td>
                   <td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"--"}}</td>
                   <td>
-                    <a @click="openWhileModal(item.cxkjCenterBlacklist.blacklistId,index)">设为白名单</a>
+                    <a @click="openWhileModal(item.cxkjCenterBlacklist.blacklistId,index)" v-if="jurisdiction('MEMBER_UPDATE')">设为白名单</a>
                   </td>
                 </tr>
               </table>
               <div class="all-select-wrap" v-if="blackMemberTotalNum > 0">
                 <div @click="selectAll" style="display: inline-block"><Checkbox label="全选" v-model="checkAllStatus">全选</Checkbox></div>
-                <Button style="width: 120px;height: 30px;" :disabled="checkBtnStatus"  @click="setAllWhile()">批量设为白名单</Button>
+                <Button style="width: 120px;height: 30px;" :disabled="checkBtnStatus"  @click="setAllWhile()" v-if="jurisdiction('MEMBER_UPDATE')">批量设为白名单</Button>
               </div>
               <div class="blank-background-img" v-if="blackMemberTotalNum == 0">
                 <img src="../../../static/images/blank/black_member_space.png" >

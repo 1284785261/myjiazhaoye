@@ -38,7 +38,7 @@
 				    </el-tab-pane>
 				    <el-tab-pane label="系统消息管理" name="second">
 				    	<div id="messageInform1">
-				    		<a class="issue" @click="instas()">发布系统消息</a>
+				    		<a class="issue" @click="instas()" v-if="jurisdiction('MESSAGE_INCREASE')">发布系统消息</a>
 				    		<table>
 				    			<thead>
 				    				<td width="15%">时间</td>

@@ -173,7 +173,7 @@
 							<UE :defaultMsg='defaultMsg' :config=config ref="ue"></UE>
 						</div>
 					</div>
-					<button class="confirm" @click="click" :disabled="disabled">确定</button>
+					<button class="confirm" @click="click" :disabled="disabled" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</button>
 					<button class="call" @click="goBack">取消</button>
 				</div>
 			</div>

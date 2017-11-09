@@ -18,17 +18,17 @@
             <el-tab-pane :label="'公寓('+CommunityRoomCount+')'" name="first">
               <div class="house_hu">
                 <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux">管理户型</router-link>
-                <a href="javascript:;" class="adds" @click="openFloorModal()">添加楼层</a>
+                <a href="javascript:;" class="adds" @click="openFloorModal()" v-if="jurisdiction('COMMUNITY_INCREASE')">添加楼层</a>
               </div>
               <div class="ls" v-if="!loading">
                 <div class="lishi" v-for="(floorData,index) in filterRootData">
                   <div class="house_xq">
                     <img src="../../../static/images/temp/logo2_03.png">
                     <a class="ceng" @click="hideTable(index)">{{floorData.floorName}}层</a>
-                    <a class="del" @click="openDeleteModal(floorData.floorId)">删除楼层</a>
-                    <a class="isste" @click="copyFloor(floorData.floorId)">快速复制楼层</a>
-                    <a class="isste" @click="openEditFloorModal(index)">修改楼层信息</a>
-                    <router-link :to="{ name: 'communityAddRoom' , query: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda">批量添加房间</router-link>
+                    <a class="del" @click="openDeleteModal(floorData.floorId)" v-if="jurisdiction('COMMUNITY_DELETE')">删除楼层</a>
+                    <a class="isste" @click="copyFloor(floorData.floorId)" v-if="jurisdiction('COMMUNITY_UPDATE')">快速复制楼层</a>
+                    <a class="isste" @click="openEditFloorModal(index)" v-if="jurisdiction('COMMUNITY_UPDATE')">修改楼层信息</a>
+                    <router-link :to="{ name: 'communityAddRoom' , query: { floorName: floorData.floorName,communityId:floorData.communityId,floorId:floorData.floorId}}" class="adda" v-if="jurisdiction('COMMUNITY_INCREASE')">批量添加房间</router-link>
                   </div>
                   <div class="house_xqb" v-if="floorData.showTable">
                     <el-table
@@ -111,8 +111,8 @@
                         <el-table-column
                           label="操作">
                           <template scope="scope">
-                            <span v-if="scope.row.roomStatus == 2" style="color: #ccc;">编辑</span>
-                            <span v-if="scope.row.roomStatus == 2" style="color: #ccc;">删除</span>
+                            <span v-if="scope.row.roomStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" style="color: #ccc;">编辑</span>
+                            <span v-if="scope.row.roomStatus == 2 && jurisdiction('COMMUNITY_DELETE')" style="color: #ccc;">删除</span>
                             <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
                             <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
@@ -137,8 +137,8 @@
                   <span>工位租金：</span><input v-model="placeData.placeRent" type="text" placeholder="请输入工位租金"/><span>元/天</span>
                 </li>
               </ul>
-              <a href="javascript:;" class="confirm2" @click="addCommunityPlace()">确定</a>
-              <a href="javascript:;" class="call" @click="canCommunityPlace()">取消</a>
+              <a href="javascript:;" class="confirm2" @click="addCommunityPlace()" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</a>
+              <a href="javascript:;" class="call" @click="canCommunityPlace()" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</a>
             </el-tab-pane>
             <el-tab-pane label="办公室" name="third">
               <table class="bgs" id="office-table">
@@ -175,8 +175,8 @@
                 </tr>
               </table>
               <div style="margin-bottom: 50px;">
-                <a class="qd" href="javascript:;" @click="addCommunityOffice()">确定</a>
-                <a class="qx" @click="canclCommunityOffice()" >取消</a>
+                <a class="qd" href="javascript:;" @click="addCommunityOffice()" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</a>
+                <a class="qx" @click="canclCommunityOffice()" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</a>
               </div>
             </el-tab-pane>
             <el-tab-pane label="会议室" name="fourth">
@@ -210,8 +210,8 @@
                 </tr>
               </table>
               <div style="margin-bottom: 50px;">
-                <a class="qd" href="javascript:;" @click="addCommunityMeeting()">确定</a>
-                <a class="qx" href="javascript:;" @click="cancleCommunityMeeting()">取消</a>
+                <a class="qd" href="javascript:;" @click="addCommunityMeeting()" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</a>
+                <a class="qx" href="javascript:;" @click="cancleCommunityMeeting()" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</a>
               </div>
             </el-tab-pane>
           </el-tabs>

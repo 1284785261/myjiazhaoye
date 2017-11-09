@@ -89,8 +89,8 @@
 						</div>
 					</div>
 					<p class="xuexian" v-if="ulsConfer[0].title != ''"></p>
-					<a class="confirm" style="margin-left: 372px;" @click="confirms">确定</a>
-					<router-link class="confirm" to="/system/systems">取消</router-link>
+					<a class="confirm" style="margin-left: 372px;" @click="confirms" v-if="jurisdiction('STAFFING_UPDATE')">确定</a>
+					<router-link class="confirm" to="/system/systems" v-if="jurisdiction('STAFFING_UPDATE')">取消</router-link>
 				</div>
 			</div>
 			<footer-box></footer-box>

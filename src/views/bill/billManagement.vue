@@ -33,7 +33,7 @@
                   </div>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()">生成租金账单</Button>
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()" v-if="jurisdiction('BILL_QUERY')">生成租金账单</Button>
                 </div>
                 <div class="form-item">
                   <Button style="width: 160px;height: 40px;font-size: 18px;" @click="historyBill()">历史账单</Button>
@@ -99,7 +99,7 @@
                   </div>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()">生成租金账单</Button>
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()" v-if="jurisdiction('BILL_QUERY')">生成租金账单</Button>
                 </div>
                 <div class="form-item">
                   <Button style="width: 160px;height: 40px;font-size: 18px;" @click="officeHistory()">历史账单</Button>
@@ -147,10 +147,10 @@
             <el-tab-pane label="水电账单" name="third">
               <div class="form-search-criteria">
                 <div class="form-item">
-                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="createBill()">生成账单</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="createBill()" v-if="jurisdiction('BILL_QUERY')">生成账单</Button>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="editBill()">编辑账单</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="editBill()" v-if="jurisdiction('BILL_UPDATE')">编辑账单</Button>
                 </div>
                 <div class="form-item">
                   <Button style="width: 120px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>

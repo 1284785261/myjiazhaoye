@@ -28,7 +28,7 @@
 								</tr>
 							</table>
 
-							<a class="tjss" @click="addcommunis">确定</a>
+							<a class="tjss" @click="addcommunis" v-if="jurisdiction('STAFF_UPDATE') || jurisdiction('STAFF_INCREASE')">确定</a>
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -106,25 +106,25 @@
 								this.$set(this.loderList[i].powerItemChildList[m], "sing", false);
 							}
 						}
-						
+						console.log(this.loderList);
 						for(let i = 0; i < this.loderList.length; i++) {
-							for(let m = 0; m < this.lins.length; m++){
-								if(this.loderList[i].powerItemId == this.lins[m]){
-									this.$set(this.loderList[i], "singd", true);
-									// for(let s =0; s< this.loderList[i].powerItemChildList.length;s++){
-									// 	this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
-									// }
-								}
-								
-							}
 							for(let s = 0; s < this.loderList[i].powerItemChildList.length;s++){
 								for(let m = 0; m < this.lins.length; m++){
 									if(this.loderList[i].powerItemChildList[s].powerItemId == this.lins[m]){
-										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);
+										this.$set(this.loderList[i].powerItemChildList[s], "sing", true);	
 									}
 								}
+							}	
+						}
+						for(let i = 0; i < this.loderList.length;i++){
+							for(let s = 0; s < this.loderList[i].powerItemChildList.length;s++){
+								if(this.loderList[i].powerItemChildList[s].sing != true){
+									this.$set(this.loderList[i], "singd", false);
+								}
+								else{
+									this.$set(this.loderList[i], "singd", true);
+								}
 							}
-							
 						}
 						console.log(this.loderList);
 					}
@@ -148,30 +148,24 @@
 			checkAllGroupChange(item, index) { //权限单选
 				console.log(item);
 				console.log(index);
-				// var flag = true;
-				let flag = []
+				var flag = true;
 				for(let i = 0; i < item.powerItemChildList.length; i++) {
 					if(item.powerItemChildList[i].sing != this.sings) {
-						flag.push(false)
-						// break;
-					}else{
-						flag.push(true)
+						flag = false;
+						break;
 					}
 				}
-				let ins = flag.findIndex(fla=>fla == true)
-				if(ins >= 0){
-					item.singd = true
-				}else{
-					item.singd = false
+				// let ins = flag.findIndex(fla=>fla == true)
+				// if(ins >= 0){
+				// 	item.singd = true
+				// }else{
+				// 	item.singd = false
+				// }
+				if(item.powerItemChildList.length) {
+					item.singd = flag;
+				} else {
+					item.singd = false;
 				}
-				// for(let k in flag){
-
-				// }
-				// if(item.powerItemChildList.length) {
-				// 	item.singd = flag;
-				// } else {
-				// 	item.singd = false;
-				// }
 			},
 			closeWarningModal() {
 				this.warningModal = false;
@@ -182,7 +176,6 @@
 					for(let m = 0;m < this.loderList[i].powerItemChildList.length;m++){
 						if(this.loderList[i].powerItemChildList[m].sing == true){
 							this.list2.push(this.loderList[i].powerItemChildList[m].powerItemId);
-							this.list2.push(this.loderList[i].powerItemId);
 						}
 					}					
 				}

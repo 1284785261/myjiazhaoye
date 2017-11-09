@@ -60,7 +60,7 @@
 		        	</table>
 		        	<div class="operation-box">
 
-		              	<Button type="primary" @click="Complie">编辑</Button>
+		              	<Button type="primary" @click="Complie" v-if="jurisdiction('COMMUNITY_UPDATE')">编辑</Button>
 
 		              <Button @click="gos">取消</Button>
 		            </div>

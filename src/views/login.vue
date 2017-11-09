@@ -85,10 +85,11 @@ import qs from 'qs';
       			}
       		))
       	.then((res)=>{
-      		console.log(res);
+          console.log(res);
+          
       			if(parseInt(res.data.code)==10000){
               sessionStorage.setItem("token",res.data.result.token);
-              sessionStorage.setItem("success",res.data.entity);
+              sessionStorage.setItem("success",JSON.stringify(res.data.entity));
       				that.$router.push({path:"/apartment/communityManagement"});
       				//把token上传到sessionStorage
 
