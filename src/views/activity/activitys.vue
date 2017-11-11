@@ -15,6 +15,7 @@
 				<div id="activitys">
 					<div class="activitys1">
 						<router-link to="/activity/addactivity" class="refund" v-if="jurisdiction('ACTIVITY_INCREASE')"> + 新增活动</router-link>
+						<!-- <router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link> -->
 					</div>
 					<div v-if="Userlist != null">
 						<table v-if="Userlist != null">
@@ -23,7 +24,7 @@
 								<td>活动ID</td>
 								<td>开始日期</td>
 								<td>活动主题</td>
-								<td width="500px">活动详情</td>
+								<td width="400px">活动详情</td>
 								<td>活动规则</td>
 								<td>发起人</td>
 								<td>发起日期</td>
@@ -38,8 +39,8 @@
 								<td>{{item.activityTheme}}</td>
 								<td>{{item.activityContent}}</td>
 								<td>{{item.endRule | endRule}}</td>
-								<td>{{item.user.userName}}</td>
-								<td v-if="item.user.createtime">{{item.user.createtime | time}}</td>
+								<td v-if="">{{item.userName}}</td>
+								<td v-if="itemcreatetime">{{item.createtime | time}}</td>
 								<td v-else>--</td>
 								<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
 								<td>
@@ -119,7 +120,7 @@
 					label: '北京烤鸭'
 				}],
 				value: '',
-				pageSize2: 10,
+				pageSize2: 5,
 				totalNum: 0,
 				pageNum: '1',
 				Userlist: null,
@@ -176,6 +177,7 @@
 		methods: {
 			handleCurrentChange(val) {
 				this.pageNum = val;
+				this.datas();
 			},
 			adddian() {
 				this.ishide = !this.ishide;
@@ -196,8 +198,8 @@
 				).then((res) => {
 					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
-						this.Userlist = res.data.entity.page;
-						this.totalNum = res.data.entity.totalNum;
+						this.Userlist = res.data.result.activityList;
+						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err) => {
 					console.log(err);

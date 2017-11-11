@@ -259,18 +259,10 @@
 	    initEcharts(){
 		    // 查询房源状态
 		    this.getCommunityMonthReport()
-
-		    // 公寓 报表
-		    this.createApartmentReport()
-		    // 办公室 报表
-		    this.createOfficeReport()
-
 		    // 查询 业务情况
 		    this.getCommunityBusinessMonthReport()
-
 		    // 查询 账单
 		    this.getCommunityOrderMonthReport()
-
 		    // 查询 财务
 		    this.getCommunityMoneyMonthReport()
 	    },
@@ -296,7 +288,10 @@
 			    .then(function(res){
 				    if(res.status == 200 && res.data.code == 10000){
 					    let data = res.data.result;
-
+					    // 公寓 报表
+					    that.createRoomReport(data.room)
+					    // 办公室 报表
+					    that.createOfficeReport(data.office)
               // 会议室 报表
 					    that.createMeetingReport(data.meeting)
 					    // 工位 报表
@@ -356,7 +351,6 @@
        * 选择日期
        */
 	    dateChange(date){
-
 	    	let that = this
 	      let _date = new Date(date)
 	      let newDate = new Date()
@@ -384,14 +378,8 @@
 	    /**
        * 公寓 报表
 	     */
-	    createApartmentReport(){
-
-	    	let datas = []
-		    let values = []
-        for (let i=0; i<31; i++){
-	        datas.push(i+1)
-	        values.push(10+(i*3))
-        }
+	    createRoomReport(dt){
+		    let data = this.getDataValue(dt)
 
 	    	//指定图标的配置和数据
 		    var option1 = {
@@ -419,7 +407,7 @@
 				    //type: 'category',
 				    //show: true,
 				    name: '日期',
-				    data:datas
+				    data:data.datas
 			    },
 			    yAxis:{
 				    min: 0,
@@ -436,7 +424,7 @@
 			    series:[{
 				    name:'公寓入住率',
 				    type:'line',
-				    data:values
+				    data:data.values
 			    }]
 		    };
 		    //初始化echarts实例
@@ -448,13 +436,9 @@
 	    /**
 	     * 办公室 报表
 	     */
-	    createOfficeReport(){
-		    let datas = []
-		    let values = []
-		    for (let i=0; i<31; i++){
-			    datas.push(i+1)
-			    values.push(10+(i*3))
-		    }
+	    createOfficeReport(dt){
+		    let data = this.getDataValue(dt)
+
         //指定图标的配置和数据
 		    var option1 = {
 			    title:{
@@ -481,7 +465,7 @@
 				    //type: 'category',
 				    //show: true,
 				    name: '日期',
-				    data:datas
+				    data:data.datas
 			    },
 			    yAxis:{
 				    min: 0,
@@ -498,7 +482,7 @@
 			    series:[{
 				    name:'办公室入住率',
 				    type:'line',
-				    data:values
+				    data:data.values
 			    }]
 		    };
 		    //初始化echarts实例

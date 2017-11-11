@@ -59,3 +59,26 @@
 #lookactivity .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
+#lookactivity .zhts{
+	position: absolute;
+	right: 30px;
+	top: 50px;
+}
+#lookactivity .zhts span{
+	margin: 0px 5px;
+	color: #fe6610;
+}
+
+#lookactivity .tuisong{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	background: #038ae3;
+	color: #feffff;
+	font-size: 16px;
+	border-radius: 5px;
+	margin-left: 45%;
+	margin-top: 30px;
+}

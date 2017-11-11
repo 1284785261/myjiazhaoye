@@ -53,8 +53,28 @@ Array.prototype.remove = function(val){
 	}
 };
 
+Vue.filter("Service", function(value) {  //企业服务
+  let val = parseInt(value)
+  let msg = '';
+  switch (val){
+    case 68: msg = '工商注册'; break;
+    case 69: msg = '财税服务'; break;
+    case 70: msg = '知识产权'; break;
+    case 71: msg = '法律服务'; break;
+    case 72: msg = '人力资源'; break;
+    case 73: msg = '社保服务'; break;
+    case 74: msg = '软件开发'; break;
+    case 75: msg = '微信服务'; break;
+    case 76: msg = '融资服务'; break;
+    case 77: msg = '运动与健康'; break;
+    case 78: msg = '营销推广'; break;
+    default:
+      msg = ''
+  }
+  return msg
+});
 Vue.prototype.jurisdiction = function(val){
-  let arr = JSON.parse(sessionStorage.getItem("success")) ;
+  let arr = JSON.parse(sessionStorage.getItem("success") =="" ? " ":sessionStorage.getItem('success')) ;
   //console.log(arr);
   let index = arr.findIndex(item => item==val)
   if(index>=0){
