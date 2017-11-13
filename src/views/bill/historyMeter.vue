@@ -276,14 +276,8 @@
               vm.WaterEnergyHistory = res.data.result.waterEnergyList
               vm.WaterEnergyHistoryTotalNum = res.data.result.totalNum
               vm.WaterEnergyHistoryCurrent = res.data.result.WaterEnergyHistoryCurrent
-            }else {
-              vm.warningMessage = '没有更多数据了'
-              vm.warningModal = true
             }
-          }).catch(err =>{
-            vm.warningMessage = '请求失败'
-            vm.warningModal = true
-        })
+          })
       },
       closeWarningModal() {
         this.warningModal = false;
@@ -309,7 +303,8 @@
             else if(res.data.code == 10008){
               that.roomHistoryBillList = [];
               that.roomHistoryBillTotalNum = 0;
-
+              that.warningMessage = '没有更多数据了'
+              that.warningModal = true
             }else {
               that.warningMessage = res.data.content
               that.warningModal = true

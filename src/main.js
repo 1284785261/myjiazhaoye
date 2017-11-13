@@ -74,15 +74,15 @@ Vue.filter("Service", function(value) {  //企业服务
   return msg
 });
 Vue.prototype.jurisdiction = function(val){
-  let arr = JSON.parse(sessionStorage.getItem("success")) ;
-  // console.log(arr);
+  let arr = JSON.parse(sessionStorage.getItem("success") =="" ? " ":sessionStorage.getItem('success')) ;
+  //console.log(arr);
   let index = arr.findIndex(item => item==val)
   if(index>=0){
-    console.log(1111);
+    //console.log(1111);
     return true;
   }
   else{
-    console.log(2222);
+    //console.log(2222);
     return false;
   }
 }

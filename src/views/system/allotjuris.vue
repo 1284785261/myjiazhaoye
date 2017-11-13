@@ -28,7 +28,7 @@
 								</tr>
 							</table>
 
-							<a class="tjss" @click="addcommunis" v-if="jurisdiction('STAFF_UPDATE') || jurisdiction('STAFF_INCREASE')">确定</a>
+							<a class="tjss" @click="addcommunis" v-if="jurisdiction('POWER_UPDATE') || jurisdiction('POWER_INCREASE')">确定</a>
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -156,12 +156,6 @@
 						break;
 					}
 				}
-				// let ins = flag.findIndex(fla=>fla == true)
-				// if(ins >= 0){
-				// 	item.singd = true
-				// }else{
-				// 	item.singd = false
-				// }
 				if(item.powerItemChildList.length) {
 					item.singd = flag;
 				} else {
@@ -191,11 +185,15 @@
 				).then((res)=>{
 					console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
-						this.successMessage = '添加权限成功';
+						this.successMessage = '设置权限成功';
 						this.successModal = true;
+						if(sessionStorage.getItem("success")){
+							sessionStorage.removeItem("success"); 
+							sessionStorage.setItem("success",JSON.stringify(res.data.entity));
+						}
+						
 						setTimeout(() => {
 							this.successModal = false;
-							sessionStorage.setItem("success",JSON.stringify(res.data.entity));
 							this.datas();
 							this.$router.push('/system/systems');
 						}, 2000);

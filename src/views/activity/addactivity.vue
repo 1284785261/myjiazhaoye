@@ -15,26 +15,22 @@
 				<div id="addactivity">
 					<table>
 						<tr>
-							<td>活动范围：</td>
+							<td>活动类型：</td>
 							<td>
-								<el-select v-model="value" placeholder="请选择范围" @change="actives(value)">
-									<el-option v-for="item in options" :key="item.areaName" :value="item.areaName">
+								<el-select v-model="value" placeholder="请选择活动类型" @change="actives(value)">
+									<el-option v-for="item in options" :key="item.dataName" :value="item.dataName">
 									</el-option>
 								</el-select>
 							</td>
-						</tr>
-						<tr>
-							<td>活动ID：</td>
-							<td><input type="text" placeholder="根据针对范围直接生成" class="mt" v-model="Activity.activityNum" /></td>
 						</tr>
 						<tr>
 							<td>活动主题：</td>
 							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="20" /></td>
 						</tr>
 						<tr>
-							<td>开始时间：</td>
+							<td>活动时间：</td>
 							<td>
-								<Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate"></Date-picker>
+								<Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate"></Date-picker> -- <Date-picker type="date" placeholder="请选择结束时间" v-model="Activity.endDate"></Date-picker>
 							</td>
 						</tr>
 						<tr>
@@ -52,26 +48,35 @@
 							</td>
 						</tr>
 						<tr>
-							<td>结束日期：</td>
+							<td>额度范围：</td>
 							<td>
-								<Date-picker type="date" placeholder="请选择结束日期" v-model="Activity.endDate"></Date-picker>
+								<input type="text" style="width:82px;margin-right: 10px;border: 1px solid #DCDCDC;" v-model="Activity.beginQuota">至<input type="text" style="width:82px;margin-left: 10px;margin-right:10px;border: 1px solid #DCDCDC;" v-model="Activity.endQuota"/>元
 							</td>
 						</tr>
 						<tr>
 							<td>总金额：</td>
-							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" /></td>
+							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" />元</td>
 						</tr>
 						<tr>
 							<td>优惠券有效期：</td>
 							<td>
-								<Date-picker type="date" placeholder="请选择优惠券有效期" v-model="Activity.validityDate" @on-change="mus(Activity.validityDate)"></Date-picker>
-								<el-checkbox-group v-model="checkList2" class="radio2">
-									<el-checkbox class="radio" label="无期限" :disabled="disabled4"></el-checkbox>
-								</el-checkbox-group>
-
+								<input type="text" placeholder="请输入有效天数" class="mt" v-model="Activity.validityDate" maxlength="10" />天</td>
+							</td>
+						</tr>
+						<tr>
+							<td>参与对象：</td>
+							<td>
+								<el-radio class="radio" v-model="radio3" label="1" style="margin-left:0;">是</el-radio>
+  								<el-radio class="radio" v-model="radio3" label="0">否</el-radio>
 							</td>
 						</tr>
 					</table>
+					<div class="sxb" v-if="radio3 == '1'">
+						<span>注册时间：</span><Date-picker type="date" placeholder="请选择" v-model="Activity.beginRegisterTime" style="width:110px;margin-right:10px;"></Date-picker>--<Date-picker type="date" placeholder="请选择" v-model="Activity.endRegisterTime" style="width:110px;;margin-left:10px;"></Date-picker><br>
+						<span style="line-height:60px;">是否有签约记录：</span>
+						<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
+  						<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
+					</div>
 					<a class="refund" @click="activit">发布活动</a>
 				</div>
 			</div>
@@ -111,21 +116,30 @@
 				currentPage3: 1,
 				checked: true,
 				radio2: '0',
-				options: [],
+				radio3: '1',
+				radio4: '1',
+				options: [{
+					dataName:'优惠券',
+					id:0
+				}],
 				value: '',
 				checkList: [],
 				checkList2: [],
 				Activity: {
-					activityNum: '',
-					cityId: '',
+					activityType: '',
 					activityTheme: '',
 					activityContent: '',
 					beginDate: '',
 					endRule: '',
 					endDate: '',
+					beginQuota:'',
+					endQuota:'',
 					activityTotalMoney: '',
 					validityDate: '',
-					wordFirstKey: ''
+					joinStatus:'',
+					beginRegisterTime:'',
+					endRegisterTime:'',
+					signStatus:''
 				},
 				disabled: false,
 				disabled2: false,
@@ -134,7 +148,7 @@
 			}
 		},
 		mounted() {
-			this.datas();
+
 		},
 		filters: {
 
@@ -143,33 +157,9 @@
 			closeWarningModal() {
 				this.warningModal = false;
 			},
-			datas() {
-				axios.post(hostActivityArea).then((res) => {
-					console.log(res);
-					if(res.data.code == 10000 && res.status == 200) {
-						this.options = res.data.entity;
-					}
-
-				}).catch((err) => {
-					console.log(err);
-				})
-			},
 			actives(value) {
-				this.Activity.wordFirstKey = this.options[this.options.findIndex(item => item.areaName == value)].wordFirstKey;
-				this.Activity.cityId = this.options[this.options.findIndex(item => item.areaName == value)].areaId;
-				console.log(this.Activity.wordFirstKey);
-				axios.post(hostRangeRandom,
-					qs.stringify({
-						wordFirstKey: this.Activity.wordFirstKey
-					})
-				).then((res) => {
-					console.log(res);
-					if(res.data.code == 10000 && res.status == 200) {
-						this.Activity.activityNum = res.data.entity;
-					}
-				}).catch((err) => {
-					console.log(err);
-				})
+				this.Activity.activityType = this.options[this.options.findIndex(item => item.dataName == value)].id;
+				console.log(this.Activity);
 			},
 			activit() {
 				let vm = this
@@ -191,24 +181,25 @@
 				let str = arr.join(',');
 				this.Activity.endRule = str;
 				this.Activity.beginDate = new Date(this.Activity.beginDate).Format('yyyy-MM-dd');
-
 				this.Activity.endDate = new Date(this.Activity.endDate).Format('yyyy-MM-dd');
-				if(this.Activity.validityDate) {
-					this.Activity.validityDate = new Date(this.Activity.validityDate).Format('yyyy-MM-dd');
-				} else if(this.checkList2[0] == '无期限') {
-					this.Activity.validityDate = null;
-				}
 				console.log(this.Activity);
-				param.append("activityNum", vm.Activity.activityNum);
-				param.append("cityId", vm.Activity.cityId);
+				param.append("activityType", vm.Activity.activityType);
 				param.append("activityTheme", vm.Activity.activityTheme);
 				param.append("activityContent", vm.Activity.activityContent);
 				param.append("beginDate", vm.Activity.beginDate);
 				param.append("endRule", vm.Activity.endRule);
 				param.append("endDate", vm.Activity.endDate);
+				param.append("beginQuota", vm.Activity.beginQuota);
+				param.append("endQuota", vm.Activity.endQuota);
 				param.append("activityTotalMoney", vm.Activity.activityTotalMoney);
-				if(vm.Activity.validityDate) {
-					param.append("validityDate", vm.Activity.validityDate);
+				param.append("validityDate", vm.Activity.validityDate);
+				param.append("joinStatus", vm.radio3);
+				if(vm.radio3 == '1'){
+					this.Activity.beginRegisterTime = new Date(this.Activity.beginRegisterTime).Format('yyyy-MM-dd');
+					this.Activity.endRegisterTime = new Date(this.Activity.endRegisterTime).Format('yyyy-MM-dd');
+					param.append("beginRegisterTime", vm.Activity.beginRegisterTime);
+					param.append("endRegisterTime", vm.Activity.endRegisterTime);
+					param.append("signStatus", vm.radio4);
 				}
 				axios.post(hostActivityAdd, param).then((res) => {
 					console.log(res);
@@ -249,14 +240,6 @@
 					}
 				}
 
-			},
-			mus(value) {
-				console.log(value);
-				if(!value) {
-					this.disabled4 = true;
-				} else {
-					this.disabled4 = false;
-				}
 			}
 
 		},

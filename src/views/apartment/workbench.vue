@@ -31,9 +31,11 @@
 					<Col span="12">
 					<div class="modular-box">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
-						<ul class="apartment-list">
+						<ul class="apartment-list workbens">
 							<li>
+								<Badge :count="messsaget[5]"></Badge>
 								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">看房预约</router-link>
+								
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:selectModel1}}">公寓签约</router-link>
@@ -45,27 +47,34 @@
 								<router-link to="">直播管理</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[2]"></Badge>
 								<router-link to="/bill/billManagement">公寓租金账单</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[6]"></Badge>
 								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">公寓水电帐单</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[12]"></Badge>
 								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[4]"></Badge>
 								<router-link to="/contract/contractIndex">合同管理</router-link>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[8]"></Badge>
 								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[7]"></Badge>
 								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[13]"></Badge>
 								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
 							</li>
 						</ul>
@@ -114,8 +123,9 @@
 					<Col span="12">
 					<div class="modular-box" style="height: 447px;">
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
-						<ul class="apartment-list">
+						<ul class="apartment-list workbens">
 							<li>
+								<Badge :count="messsaget[2]"></Badge>
 								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId}}">看房预约</router-link>
 							</li>
 							<li>
@@ -129,27 +139,34 @@
 								<router-link to="">直播管理</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[2]"></Badge>
 								<router-link :to="{name: 'billManagement'}">办公租金账单</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[3]"></Badge>
 								<router-link :to="{name: 'orderManagement'}">办公订单</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[12]"></Badge>
 								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[4]"></Badge>
 								<router-link to="/contract/contractIndex">合同管理</router-link>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[8]"></Badge>
 								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[7]"></Badge>
 								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
 							</li>
 							<li>
+								<Badge :count="messsaget[13]"></Badge>
 								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
 							</li>
 						</ul>
@@ -168,7 +185,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { allCommunity, hostManager, hostWorkbench, hostAuthor } from '../api.js';
+	import { allCommunity, hostManager, hostWorkbench, hostAuthor,hostReadMessage } from '../api.js';
 	export default {
 		components: {
 			rightHeader,
@@ -227,7 +244,8 @@
 					name: '',
 					quanxian: ''
 				},
-				type:0
+				type:0,
+				messsaget:null
 			}
 		},
 		mounted() {
@@ -292,13 +310,24 @@
 						console.log(error);
 					})
 
+
+
+
+				axios.post(hostReadMessage).then((res)=>{
+					console.log(res);
+					if(res.data.code == 10000 && res.status == 200){
+						this.messsaget = res.data.entity;
+					}
+				}).catch((err)=>{
+					console.log(err);
+				})
 			},
 			temp(val) {
-				console.log(val);
+				//console.log(val);
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
 				
 				let communityType = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityType;
-				console.log(communityType);
+				//console.log(communityType);
 				let arr = communityType.split(',');
 				for(let i= 0;i<arr.length;i++){
 					if(arr[i] == '1'){
@@ -329,7 +358,7 @@
 							communityId: Index
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
@@ -361,5 +390,16 @@
 	    position: relative;
 	    padding-bottom: 160px;
 	    height: 100%;
+	}
+	.workbens li{
+		position: relative;
+	}
+	.workbens .ivu-badge{
+		position: absolute;
+		right: 50px;
+    	top: 15px;
+	}
+	.workbens .ivu-badge .ivu-badge-count{
+		padding: 0;
 	}
 </style>
