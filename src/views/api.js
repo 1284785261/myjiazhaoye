@@ -3,14 +3,14 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-//const host3 = 'http://test.kaisaspace.com:8050';
+const host3 = 'http://test.kaisaspace.com:8050';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
-//const host3 = 'http://120.78.16.234:8050';
-const host3 = 'http://192.168.20.191:8080';
+// const host3 = 'http://120.78.16.234:8050';
+//const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
-//const host3 = 'http://192.168.20.124:8080';//周昭滨
+// const host3 = 'http://192.168.20.124:8080';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
 //用户登录接口
@@ -261,7 +261,7 @@ const Allocation = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityAl
 const AddToManagement = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommunityAddToManagement200116'
 
 //活动管理
-const Activity = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityList500126'
+const Activity = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivity200092'
 
 //活动管理-详情
 const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityInfo200094'
@@ -270,25 +270,13 @@ const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActi
 const ActivityArea = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityArea200095'
 
 //活动管理-新增活动
-const ActivityAdd = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityAdd500127'
-
-//活动管理-领取记录
-const ActivityContro = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityCouponList500130'
-
-//活动管理-推送优惠券详情
-const ActivityCo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityDetailPush500131'
-
-//活动管理-推送记录
-const ActivityCon = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityCouponListPush500132'
-
-//活动管理-推送优惠券
-const ActivityControl = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityCouponAdd500133'
+const ActivityAdd = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityAdd200093'
 
 //活动管理-活动编号随机码
 const RangeRandom = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityRangeRandom200096'
 
 //活动管理-作废活动
-const ActivityModify = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityUpdate500128'
+const ActivityModify = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityModify200097'
 
 //个人中心-我的业绩
 const SignContr = '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjSignList500066'
@@ -337,12 +325,6 @@ const Sendcode = '/cxkj-center/apis/verify/CxkjCenterSendcode200167'
 
 //忘记密码-重置密码
 const ForgotPass = '/cxkj-center/apis/user/CxkjCommunityForgotPassword200166'
-
-//未读消息
-const UserMessagey = '/cxkj-room/apis/app/message/CxkjUserMessage200168'
-
-//分类的未读消息
-const ReadMessage = '/cxkj-room/apis/app/message/CxkjUserReadMessage200171'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -449,12 +431,6 @@ export const hostEditDetails = host3 + EditDetails;
 export const hostOpenAllPost = host3 + OpenAllPost;
 export const hostSendcode = host3 + Sendcode;
 export const hostForgotPass = host3 + ForgotPass;
-export const hostActivityContro = host3 + ActivityContro;
-export const hostActivityCon = host3 + ActivityCon;
-export const hostActivityCo = host3 + ActivityCo;
-export const hostActivityControl = host3 + ActivityControl;
-export const hostUserMessagey = host3 + UserMessagey;
-export const hostReadMessage = host3 + ReadMessage;
 export const host = host3;
 //export default {
 //hosts:function(){
@@ -595,6 +571,7 @@ export const BillList5000103 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBillList5
 export const RoomBillHistoryList500104 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillHistoryList500104';//公寓历史账单列表
 export const OfficeBillHistoryList500105 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillHistoryList500105';//办公历史账单列表
 export const WaterEnergyBillHistoryList500106 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillHistoryList500106';//水电历史账单列表
+export const WaterEnergyBillListSendMessage500124 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillListSendMessage500124';//水电账单未缴费提醒
 
 //客服管理
 export const CustomerService300126 =host3+'/cxkj-room/apis/pc/complainCenter/CxkjConfirmReturnVisitOrCustomerService300126';//客服确认处理或回访

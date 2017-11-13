@@ -47,7 +47,6 @@
 #addactivity table tr td .mt{
 	border: none;
 	border: 1px solid #DCDCDC;
-	margin-right: 10px;
 }
 #addactivity table tr td textarea{
 	width: 440px;
@@ -81,7 +80,7 @@
 #addactivity .radio2{
 	position: absolute;
 	left: 310px;
-    bottom: 64px;
+    bottom: 16px;
 }
 #addactivity table tr td input::-webkit-input-placeholder {
 	color: #8fa6bf;
@@ -104,7 +103,4 @@
 #addactivity table tr td textarea::-webkit-input-placeholder {
 	/* WebKit browsers*/
 	color: #8fa6bf;
-}
-#addactivity .sxb{
-	margin-left: 198px;
 }

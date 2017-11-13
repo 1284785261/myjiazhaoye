@@ -423,11 +423,6 @@ export default new Router({
       name:'officeHistoryMeter',
       component:resolve =>
         require(['../views/bill/officeHistoryMeter.vue'],resolve)
-    },{
-      path:'/activity/discountcom',		//活动管理-推送优惠券
-      name:'discountcom',
-      component:resolve =>
-        require(['../views/activity/discountcom.vue'],resolve)
     },
 
 

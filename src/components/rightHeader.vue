@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<div class="inline-block">
-			<Badge :count="nums">
+			<Badge count="12">
 				<Icon type="ios-bell-outline"></Icon>
 			</Badge>
 			<Dropdown trigger="hover" class="reset-dropdown">
@@ -34,7 +34,7 @@
 
 <script>
 	import axios from 'axios';
-	import { hostAuthor, imgPath,hostUserMessagey } from '../views/api.js';
+	import { hostAuthor, imgPath } from '../views/api.js';
 	import qs from 'qs'
 
 	export default {
@@ -54,12 +54,10 @@
 					userContent: "注销",
 					path: "/"
 				}],
-				imgPath1: '',
-				nums:0
+				imgPath1: ''
 			}
 		},
 		mounted() {
-			this.datas2();
 			this.imgPath1 = sessionStorage.getItem("imgPath1")? sessionStorage.getItem("imgPath1"):'';
 			this.userID = sessionStorage.getItem("userID")? sessionStorage.getItem("userID"):'';
 			if(this.imgPath1 && this.userID){
@@ -73,41 +71,32 @@
 			datas() {
 				let vm = this;
 				axios.get(hostAuthor)
-				.then((response) => {
-					console.log(response);
-					if(response.status == 200 && response.data.code == 10000) {
-						if(response.data.entity.headPic != null) {
-							vm.imgPath1 = imgPath + response.data.entity.headPic;
-							sessionStorage.setItem("imgPath1",vm.imgPath1);
+					.then((response) => {
+						console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+							if(response.data.entity.headPic != null) {
+								vm.imgPath1 = imgPath + response.data.entity.headPic;
+								sessionStorage.setItem("imgPath1",vm.imgPath1);
+							}
+							else{
+								vm.imgPath1 = ''
+							}
+							if(response.data.entity.userName){
+								vm.userID = response.data.entity.userName;
+								sessionStorage.setItem("userID",vm.userID);
+							}
+							else{
+								vm.userID = '请登录~'
+							}
+							
+							
+							
+							
 						}
-						else{
-							vm.imgPath1 = ''
-						}
-						if(response.data.entity.userName){
-							vm.userID = response.data.entity.userName;
-							sessionStorage.setItem("userID",vm.userID);
-						}
-						else{
-							vm.userID = '请登录~'
-						}
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				})
-
-				
-			},
-			datas2(){
-				axios.post(hostUserMessagey)
-				.then((res)=>{
-					//console.log(res);
-					if(res.data.code == 10000 && res.status == 200){
-						this.nums = res.data.entity.messageCount;
-					}
-				}).catch((err)=>{
-					console.log(err);
-				})
+					})
+					.catch((error) => {
+						console.log(error);
+					})
 			}
 		}
 	}

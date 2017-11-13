@@ -186,7 +186,7 @@
                   </div>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
+                  <Button style="width: 180px;height: 30px;" @click="reminder">向未缴租客发送缴费提醒</Button>
                 </div>
               </div>
               <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
@@ -253,7 +253,8 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099,RoomBillList500101,OfficeBillList500102,BillList5000103} from '../api.js';
+  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099,RoomBillList500101,OfficeBillList500102,BillList5000103,WaterEnergyBillListSendMessage500124} from '../api.js';
+  import qs from 'qs'
 
 
   export default {
@@ -319,6 +320,27 @@
 
     },
     methods:{
+      reminder(){
+        let communityId = parseInt(sessionStorage.getItem("billManagement_communityId")),
+          vm = this
+        vm.$http.post(WaterEnergyBillListSendMessage500124,qs.stringify({communityId:communityId}))
+          .then(res => {
+            console.log(res.data.code)
+            if(res.data.code == '10000') {
+              vm.successMessage = '发送提醒成功'
+              vm.successModal = true
+              setTimeout(() => {
+                vm.successModal = false
+              },900)
+            }else {
+              vm.warningMessage = res.data.content
+              vm.warningModal = true
+            }
+          }).catch(err => {
+          vm.warningMessage = '发送提醒失败'
+          vm.warningModal = true
+        })
+      },
       handleClick(tab, event) {
         sessionStorage.setItem("billManagementTab",tab.name);
       },

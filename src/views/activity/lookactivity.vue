@@ -14,21 +14,17 @@
 		        </div>
 		    	<div id="lookactivity">
 		    		<table class="looks" v-if="Userlist">
-						<tr>
-		    				<td>活动类型：</td>
-		    				<td>{{Userlist.activityType | activityType}}</td>
-		    			</tr>
-						<tr>
-		    				<td>活动主题：</td>
-		    				<td>{{Userlist.activityTheme}}</td>
-		    			</tr>
 		    			<tr>
 		    				<td>活动ID：</td>
 		    				<td>{{Userlist.activityNum}}</td>
 		    			</tr>
 		    			<tr>
-		    				<td>活动时间：</td>
-		    				<td>{{Userlist.beginDate | time}} 至 {{Userlist.endDate | time}}</td>
+		    				<td>活动主题：</td>
+		    				<td>{{Userlist.activityTheme}}</td>
+		    			</tr>
+		    			<tr>
+		    				<td>开始时间：</td>
+		    				<td>{{Userlist.beginDate | time}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>活动介绍：</td>
@@ -40,7 +36,7 @@
 		    			</tr>
 						<tr>
 		    				<td>金额范围：</td>
-		    				<td style="color: red;">{{Userlist.beginQuota | Money}} - {{Userlist.endQuota | Money}}</td>
+		    				<td>{{Userlist.endDate | time}}</td>
 		    			</tr>
 						<tr>
 		    				<td>总金额：</td>
@@ -48,24 +44,23 @@
 		    			</tr>
 						<tr>
 		    				<td>剩余金额：</td>
-		    				<td style="color: red;">{{Userlist.activitySurplusMoney | Money}}</td>
+		    				<td>{{Userlist.endDate | time}}</td>
 		    			</tr>
 		    			<tr>
+		    				<td>结束时间：</td>
+		    				<td>{{Userlist.endDate | time}}</td>
+		    			</tr>
+		    			
+		    			<tr>
 		    				<td>优惠券有效期：</td>
-		    				<td>{{Userlist.validityDate}}天</td>
+		    				<td v-if="Userlist.validityDate != null">{{Userlist.validityDate | time}}</td>
+		    				<td v-else>无期限</td>
 		    			</tr>
 						<tr>
 		    				<td>参与对象：</td>
-		    				<td v-if="Userlist.joinStatus == '1'"><span>注册时间：</span>{{Userlist.beginRegisterTime | time}} 至 {{Userlist.endRegisterTime | time}}</td>
-							<td v-else>无</td>
+		    				<td><span>注册时间：</span>{{Userlist.endDate | time}}<span>是否有签约记录：</span></td>
 		    			</tr>
-						<tr>
-							<td>是否有签约记录：</td>
-							<td v-if="Userlist.signStatus">{{Userlist.signStatus | Status2}}</td>
-							<td v-else>无</td>
-						</tr>
 		    		</table>
-					<h3 class="zhts">活动状态:<span>{{Userlist.activityStatus | Status3}}</span></h3>
 		    		<p></p>
 		    		<h3>领取记录</h3>
 		    		<table class="lqjv">
@@ -77,20 +72,15 @@
 		    				<td>领取时间</td>
 							<td>使用时间</td>
 		    			</thead>
-		    			<tr v-for="(item,index) in couplist">
-		    				<td>{{index+1}}</td>
-		    				<td>{{item.userPhone}}</td>
-		    				<td>{{item.amount | Money}}</td>
-		    				<td>{{item.couponNum}}</td>
-		    				<td v-if="item.getTime">{{item.getTime | time2}}</td>
-							<td v-else>--</td>
-							<td v-if="item.useTime">{{item.useTime | time2}}</td>
-							<td v-else>--</td>
+		    			<tr>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+		    				<td>1</td>
+							<td>1</td>
 		    			</tr>
 		    		</table>
-					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
-					</el-pagination>
-					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus =='0' || Userlist.activityStatus =='1'">推送优惠券</router-link>
 		    	</div> 
 		        
 		    
@@ -108,7 +98,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostActivityInfo,hostActivityContro } from '../api.js';
+    import { hostActivityInfo } from '../api.js';
     import qs from 'qs';
     
     export default{
@@ -121,27 +111,18 @@
     		return{
 				activeTabName:"activitys",
 		        activityId:'',
-				Userlist:null,
-				couplist:null,
-				pageNum:'1',
-				pageSize:5,
-				currentPage3: 1,
-				totalNum:0
+		    	Userlist:null
     		}
     	},
     	mounted(){
     		this.activityId = this.$route.query.id;
     		this.datas();
-			this.datas2();
     	},
     	filters:{
     		time(val) {
 				if(val) {
 					return new Date(val).Format('yyyy-MM-dd');
 				}
-			},
-			time2(val) {
-				return new Date(val).Format('yyyy-MM-dd hh:mm:ss');
 			},
 			Status(val){
 				if(val == '1'){
@@ -177,31 +158,8 @@
 					return '到期结束+送完即止+长期有效'
 				}
 			},
-			Status3(val){
-				if(val == '0'){
-					return '未开始'
-				}else if(val == '1'){
-					return '进行中'
-				}else if(val == '2'){
-					return '已结束'
-				}else if(val == '3'){
-					return '已作废'
-				}
-			},
 			Money(val){
-				return '￥' + parseFloat(val).toFixed(2);
-			},
-			activityType(val){
-				if(val == '0'){
-					return '优惠券'
-				}
-			},
-			Status2(val){
-				if(val == '0'){
-					return '否'
-				}else if(val == '1'){
-					return '是'
-				}
+				return val.toFixed(2)+'元'
 			}
     	},
     	methods:{
@@ -211,35 +169,14 @@
 						activityId:this.activityId
 					})
 				).then((res) => {
-					//console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.entity;
 					}
 				}).catch((err) => {
 					console.log(err);
 				})
-		    },
-			datas2(){
-				axios.post(hostActivityContro,
-					qs.stringify({
-						activityId : this.activityId,
-						pageNum :this.pageNum,
-						pageSize : this.pageSize
-					})
-				).then((res) => {
-					console.log(res);
-					if(res.status == 200 && res.data.code == 10000) {
-						this.couplist = res.data.result.couponList;
-						this.totalNum = res.data.result.totalNum;
-					}
-				}).catch((err) => {
-					console.log(err);
-				})
-			},
-			handleCurrentChange(val) {
-				this.pageNum = val;
-				this.datas2();
-			},
+		    }
     	}
     }
 </script>

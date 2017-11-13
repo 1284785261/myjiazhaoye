@@ -288,46 +288,22 @@
     				return '系统消息'
     			}
     			else if(val == 2){
-    				return '账单消息'
+    				return '预约通知'
     			}
     			else if(val == 3){
-    				return '办公订单消息'
+    				return '订单支付通知'
     			}
     			else if(val == 4){
-    				return '合同消息'
+    				return '合同待签通知'
     			}
     			else if(val == 5){
-    				return '预约消息'
+    				return '合同即将到期通知'
     			}
     			else if(val == 6){
-    				return '水电账单消息'
+    				return '支付通知'
     			}
     			else if(val == 7){
-    				return '管家收款消息'
-				}
-				else if(val == 8){
-    				return '管家退款消息'
-				}
-				else if(val == 9){
-    				return '优惠券消息'
-				}
-				else if(val == 10){
-    				return '现金券消息'
-				}
-				else if(val == 11){
-    				return '红包消息'
-				}
-				else if(val == 12){
-    				return '报修消息'
-				}
-				else if(val == 13){
-    				return '投诉消息'
-				}
-				else if(val == 14){
-    				return '呼叫管家消息'
-				}
-				else if(val == 15){
-    				return '发票消息'
+    				return '用户报修通知'
     			}
     		},
     		time(val){

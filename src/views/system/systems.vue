@@ -8,7 +8,7 @@
 					<span>您现在的位置： </span>
 					<router-link class="active" to="/apartment/workbench">系统管理</router-link>
 				</div>
-				<el-tabs type="card">
+				<el-tabs v-model="activeName2" type="card">
 					<el-tab-pane label="员工管理" v-if="jurisdiction('STAFF_QUERY')">
 						<div class="systems">
 							<div class="adad">
@@ -191,7 +191,7 @@
 								<a @click="addCommunity" v-if="jurisdiction('POWER_INCREASE')"> + 新增</a>
 								<a @click="delCommunity" v-if="jurisdiction('POWER_DELETE')">批量删除</a>
 								<a @click="opeCommunity" v-if="jurisdiction('POWER_UPDATE')">批量开放</a>
-								<a @click="cloCommunity" v-if="jurisdiction('POWER_UPDATE')">批量关闭</a>
+								<a @click="cloCommunity" v-if="jurisdiction('STAFF_UPDATE')">批量关闭</a>
 							</div>
 							<div v-if="Communitys != null">
 								<table>

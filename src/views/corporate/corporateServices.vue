@@ -41,25 +41,25 @@
                                 <th>操作</th>
                             </tr>
                             <tr class="active" v-if="complainList.length" v-for="(item,index) in complainList">
-                                <td>
+                                <td class="borderRight">
                                     <div style="padding:20px">
                                         <img :src="imgPath+item.enterpriseLogo" alt="" style="width: 50px">
                                     </div>
                                 </td>
-                                <td style="padding: 20px">
+                                <td style="padding: 20px" class="borderRight">
                                     <h3 v-if="!item.update">{{item.enterpriseName}}</h3>
                                     <Input v-model="item.enterpriseName" placeholder="" style="width: 200px"
                                            v-if="item.update"></Input>
                                 </td>
-                                <td style="padding: 20px">
+                                <td style="padding: 20px" class="borderRight">
                                     <div v-if="!item.update">{{item.enterpriseTel}}</div>
                                     <Input v-model="item.enterpriseTel" placeholder="" style="width: 150px"
                                            v-if="item.update"></Input>
                                 </td>
-                                <td class="service-project" style="padding: 20px">
+                                <td class="service-project borderRight" style="padding: 20px">
                                     <div style="margin-bottom: 10px ">
                                         <el-select v-model="newService" filterable placeholder="请选择" v-if="item.update">
-                                            <el-option v-for="item in floors" :key="item.dataId" :label="item.dataName"
+                                            <el-option v-for="(item,index) in floors" :key="item.dataId" :label="item.dataName" v-if="index != 0"
                                                        :value="item.dataId"></el-option>
                                         </el-select>
                                         <!--</td>-->
@@ -78,11 +78,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 20px">
-                                    <div v-if="!item.update && item.enterpriseArea">{{item.enterpriseArea | enter}}</div>
+                                <td style="padding: 20px" class="borderRight">
+                                    <div v-if="!item.update ">{{item.enterpriseArea | enter}}</div>
                                     <div style="margin-bottom: 10px">
                                         <el-select v-model="item.enterpriseArea" filterable placeholder="请选择" v-if="item.update">
-                                            <el-option v-for="item in Area" :key="item.dataId" :label="item.dataName"
+                                            <el-option v-for="(item,index) in Area" :key="item.dataId" :label="item.dataName"  v-if="index != 0"
                                                        :value="item.dataId"></el-option>
                                         </el-select>
                                     </div>
@@ -141,8 +141,8 @@
         enterpriseType: '',
         enterpriseArea: '',
         complainList: [],
-        seleArea:[{dataId:'',dataName:'全部'}],
-        selefloors:[{dataId:'',dataName:'全部'}],
+        seleArea:[],
+        selefloors:[],
         Area: [],
         imgPath:'',
         enterpriseList: [],
@@ -173,6 +173,7 @@
           if (res.data.code == '10000') {
             vm.floors = res.data.entity
             vm.selefloors = res.data.entity
+            vm.selefloors.unshift({dataId:'',dataName:'全部'})
           }
         })
       },
@@ -185,7 +186,8 @@
             vm.Area = res.data.entity
             sessionStorage.setItem('Area',JSON.stringify(res.data.entity))
             vm.seleArea = res.data.entity
-            vm.seleArea.push()
+            vm.seleArea.unshift({dataId:'',dataName:'全部'})
+//            vm.seleArea.push()
           }
         })
       },
@@ -212,6 +214,7 @@
                 vm.$set(vm.enterpriseList,k,0)
               }
             }
+            console.log(vm.complainList)
           }
         }).catch(err => {
           console.log(err)
@@ -223,6 +226,7 @@
       },
       /** 新增服务 **/
       addService(indexs){
+
         let index = this.enterpriseList[indexs].findIndex(item => item == this.newService)
         if(!this.newService){
           this.warningMessage = '请选择有效的企业服务'
@@ -264,7 +268,11 @@
       /** 保存 **/
       preservationCorporate(index){
         let vm = this
-        if(!vm.complainList[index].enterpriseLogo || !vm.complainList[index].enterpriseName || !vm.complainList[index].enterpriseTel || !vm.complainList[index].enterpriseArea || !vm.enterpriseList[index].length){
+        if(vm.complainList[index].enterpriseArea === ''){
+          vm.complainList[index].enterpriseArea = 0
+
+        }
+        if(!vm.complainList[index].enterpriseLogo || !vm.complainList[index].enterpriseName || !vm.complainList[index].enterpriseTel ||  !vm.enterpriseList[index].length){
           vm.warningMessage = '请填写有效的企业信息'
           vm.warningModal = true
           return
@@ -304,9 +312,12 @@
         }
       },
       enter(value){
+        console.log(value +'dfdsf')
         let Area = JSON.parse(sessionStorage.getItem('Area'))
-        if(Area){
+        if(Area && value){
           return Area[Area.findIndex(item => item.dataId == parseInt(value))].dataName
+        }else if(!value ){
+          return '全部'
         }
 
       }
@@ -343,6 +354,9 @@
                     }
                 }
             }
+        }
+        .borderRight{
+            border-right: 1px solid #ccc
         }
         .corporate-service-content{
             padding-top: 75px;
