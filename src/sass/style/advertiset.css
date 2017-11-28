@@ -55,7 +55,7 @@
 }
 #advertiset table tr td a{
 	color: #038BE2;
-	margin-right: 20px;
+	padding: 0 10px;
 }
 #advertiset table tr td:nth-child(4){
 	color: #ff6612;

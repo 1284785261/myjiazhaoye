@@ -58,7 +58,7 @@
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:Names}}" v-if="item.appointmentStatus ==1">立即签约</router-link>
 								<router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:item.isOffice}}"  v-if="item.appointmentStatus == 3" class="cha">查看合同</router-link>
-								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3" @click="adddian2(item.appointmentId)">查看详情</a>
+								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3 ||　item.appointmentStatus ==4" @click="adddian2(item.appointmentId)">查看详情</a>
 							</td>
 						</tr>
 					</table>

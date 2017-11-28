@@ -14,15 +14,16 @@
         <div id="operation-day-report-wrap">
           <div class="operation-day-report-content">
             <div>
-              <Date-picker type="date" placeholder="选择日期" v-model="startDate"></Date-picker>
+              <Date-picker type="date" placeholder="选择日期" v-model="startDate" format="yyyy-MM-dd"
+                           :editable="false" :clearable="false" @on-change="dateChange"></Date-picker>
             </div>
             <dev class="day-report-btn">
-              <Button type="primary" style="width:120px;height: 38px;">导出报表</Button>
+              <!--<Button type="primary" style="width:120px;height: 38px;">导出报表</Button>-->
             </dev>
           </div>
           <div class="day-report-center-wrap">
             <div class="day-report-center-title">
-              <h2>2017年6月25号运营状态报表</h2>
+              <h2>{{startDate | timefilter("yyyy年MM月dd日")}}运营状态报表</h2>
             </div>
           </div>
           <ul class="day-report-table-ul">
@@ -223,12 +224,48 @@
       }
     },
     mounted(){
-      this.getHouseResource({startDate:"2017-10-17"});
-      this.getBusinessData({startDate:"2017-10-17"});
-      this.getBillData({startDate:"2017-10-17"});
-      this.getFinanceData({startDate:"2017-10-17"});
+    	this.startDate = new Date().Format('yyyy-MM-dd');
+      let date = {startDate:this.startDate}
+      this.getHouseResource(date);
+      this.getBusinessData(date);
+      this.getBillData(date);
+      this.getFinanceData(date);
     },
+	  filters: {
+		  timefilter(value, format) {
+			  if(value) {
+				  return new Date(value).Format(format)
+			  }
+		  }
+	  },
     methods:{
+	    /**
+	     * 选择日期
+	     */
+	    dateChange(val){
+		    let that = this
+		    let _date = new Date(val)
+		    let newDate = new Date()
+
+		    this.startDate = val
+		    if(_date>newDate){
+			    this.$message({
+				    showClose: true,
+				    message: '查询日期不能大于今天',
+				    type: 'warning'
+			    });
+
+			    this.startDate = ''
+			    setTimeout(function () {
+				    that.startDate = new Date().Format('yyyy-MM-dd');
+			    },1)
+		    }
+		    let date = {startDate:this.startDate}
+		    this.getHouseResource(date);
+		    this.getBusinessData(date);
+		    this.getBillData(date);
+		    this.getFinanceData(date);
+	    },
         //房源
       getHouseResource(data){
         var that = this;

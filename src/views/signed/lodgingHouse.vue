@@ -933,11 +933,16 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							console.log(this.userInfo);
-							this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
+							//console.log(this.userInfo);
+							if(this.userInfo.userCertificate != 'null'){
+								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
+							}
+							else{
+								this.aaduserInfo[0].userCertificate = ''
+							}
 							this.aaduserInfo[0].username = this.userInfo.userName + '';
 							this.aaduserInfo[0].radio2 = this.userInfo.gender + '';
 							this.user.id = this.userInfo.id;
@@ -946,9 +951,18 @@
 							this.user.userName = this.userInfo.userName;
 							this.user.gender = this.userInfo.gender;
 							this.user.certificateId = this.userInfo.certificateId;
-							this.user.userCertificate = this.userInfo.userCertificate;
-							let id = this.userInfo.certificateId;
-							this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+							if(this.userInfo.userCertificate != 'null'){
+								this.user.userCertificate = this.userInfo.userCertificate;
+							}
+							else{
+								this.user.userCertificate = ''
+							}
+							if(this.userInfo.certificateId != null){
+								let id = this.userInfo.certificateId;
+								this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+							}
+							console.log(this.userInfo);
+							
 						} else {
 							console.log('该手机未注册用户')
 						};

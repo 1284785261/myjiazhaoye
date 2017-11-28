@@ -39,6 +39,7 @@
           </Form-item>
         </Form>
       </div>
+      <span style="position: absolute;left: 358px;bottom: 27px;color:#fff;">版本号：1.1.10.171128_release</span>
       <p class="Copy">Copyright © 2017 佳兆业创享空间科技（深圳）有限公司版权所有 粤ICP备16035093号</p>
     </div>
   </div>
@@ -90,7 +91,7 @@ import qs from 'qs';
       			if(parseInt(res.data.code)==10000){
               sessionStorage.setItem("token",res.data.result.token);
               sessionStorage.setItem("success",JSON.stringify(res.data.entity));
-      				that.$router.push({path:"/apartment/communityManagement"});
+      				that.$router.push({path:"/apartment/workbench"});
       				//把token上传到sessionStorage
 
       		}

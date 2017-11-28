@@ -200,7 +200,7 @@
                                                     <template >
                                                         <img :src="imgList[index]">
                                                         <div class="demo-upload-list-cover">
-                                                            <Icon type="ios-trash-outline" @click.native="handleRemove(index)"></Icon>
+                                                            <Icon type="ios-trash-outline" @click.native="handleRemoven(index)"></Icon>
                                                         </div>
                                                     </template>
                                                 </div>
@@ -604,7 +604,11 @@
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
 							console.log(this.userInfo);
-							this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
+							if(this.userInfo.userCertificate != 'null'){
+								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
+							}else{
+								this.aaduserInfo[0].userCertificate = ''
+							}
 							this.aaduserInfo[0].username = this.userInfo.userName + '';
 							this.aaduserInfo[0].radio2 = this.userInfo.gender + '';
 							this.user.id = this.userInfo.id;
@@ -613,9 +617,16 @@
 							this.user.userName = this.userInfo.userName;
 							this.user.gender = this.userInfo.gender;
 							this.user.certificateId = this.userInfo.certificateId;
-							this.user.userCertificate = this.userInfo.userCertificate;
-							let id = this.userInfo.certificateId;
-							this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+							if(this.userInfo.userCertificate != 'null'){
+								this.user.userCertificate = this.userInfo.userCertificate;
+							}else{
+								this.user.userCertificate = ''
+							}
+							if(this.userInfo.certificateId != null){
+								let id = this.userInfo.certificateId;
+								this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+							}
+							
 						} else {
 							console.log('该手机未注册用户')
 						};
@@ -652,7 +663,8 @@
 					}
 				}
 			},
-			handleRemove(item) {
+			handleRemoven(item) {
+			  let vm = this;
               vm.$set(vm.imgList,vm.indexs,0)
               vm.fileList.splice(vm.indexs, 1);
 			},

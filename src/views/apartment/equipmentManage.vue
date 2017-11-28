@@ -49,11 +49,11 @@
                       <td>
                         <div>
                           <a @click="getTemporaryPwd(item.roomLockId)" v-if="item.lockStatus == 1">获取临时密码</a>
-                          <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus">修改</a>
+                          <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus && jurisdiction('COMMUNITY_UPDATE')">修改</a>
                           <router-link :to="{name:'doorRecord',query:{roomLockId:item.roomLockId}}" v-if="item.lockStatus">开门记录</router-link>
-                          <a @click="freezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus && item.lockStatus !=3">冻结</a>
-                          <a @click="unfreezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus == 3">解冻</a>
-                          <a @click="addDoorLockTo(doorLock.floorName,item.roomNum,item.roomId)" v-if="item.lockStatus !=1 && item.lockStatus !=2 && item.lockStatus !=3">添加门锁</a>
+                          <a @click="freezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus && item.lockStatus !=3 && jurisdiction('COMMUNITY_UPDATE')">冻结</a>
+                          <a @click="unfreezeUp(doorLock.floorName,item.roomNum,item.roomLockId)" v-if="item.lockStatus == 3 && jurisdiction('COMMUNITY_UPDATE')">解冻</a>
+                          <a @click="addDoorLockTo(doorLock.floorName,item.roomNum,item.roomId)" v-if="item.lockStatus !=1 && item.lockStatus !=2 && item.lockStatus !=3 && jurisdiction('COMMUNITY_UPDATE')">添加门锁</a>
                         </div>
                       </td>
                     </tr>
@@ -93,10 +93,10 @@
                       </td>
                       <td>
                         <div><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
-                          <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
-                          <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1)" @click="shutElectricity(item,electricity.floorName)">关闭</a>
-                          <a v-if="item.electricityStatus == 2" @click="openToElectricity(item,electricity.floorName)">开启</a>
-                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2">添加电表</a>
+                          <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
+                          <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutElectricity(item,electricity.floorName)">关闭</a>
+                          <a v-if="item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openToElectricity(item,electricity.floorName)">开启</a>
+                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
                         </div>
                       </td>
                     </tr>
@@ -135,10 +135,10 @@
                       </td>
                       <td>
                         <div>
-                          <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2" @click="updateWater(item,water.floorName)">修改</a>
-                          <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1)" @click="shutWater(item,water.floorName)">关闭</a>
-                          <a v-if="item.waterStatus == 2" @click="openWater(item,water.floorName)">开启</a>
-                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
+                          <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateWater(item,water.floorName)">修改</a>
+                          <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutWater(item,water.floorName)">关闭</a>
+                          <a v-if="item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openWater(item,water.floorName)">开启</a>
+                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2 && jurisdiction('COMMUNITY_UPDATE')" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
                         </div>
                       </td>
                     </tr>

@@ -25,7 +25,7 @@
 						</tr>
 						<tr>
 							<td>活动主题：</td>
-							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="20" /></td>
+							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="15" /></td>
 						</tr>
 						<tr>
 							<td>活动时间：</td>
@@ -35,7 +35,7 @@
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
-							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="50"></textarea></td>
+							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="100"></textarea></td>
 						</tr>
 						<tr>
 							<td>活动规则：</td>
@@ -50,17 +50,17 @@
 						<tr>
 							<td>额度范围：</td>
 							<td>
-								<input type="text" style="width:82px;margin-right: 10px;border: 1px solid #DCDCDC;" v-model="Activity.beginQuota">至<input type="text" style="width:82px;margin-left: 10px;margin-right:10px;border: 1px solid #DCDCDC;" v-model="Activity.endQuota"/>元
+								<input type="text" style="width:82px;margin-right: 10px;border: 1px solid #DCDCDC;" v-model="Activity.beginQuota" @blur="shuzi(Activity.beginQuota)" />至<input type="text" style="width:82px;margin-left: 10px;margin-right:10px;border: 1px solid #DCDCDC;" v-model="Activity.endQuota" @blur="shuzi2(Activity.endQuota)"/>元
 							</td>
 						</tr>
 						<tr>
 							<td>总金额：</td>
-							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" />元</td>
+							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" @blur="shuzi3(Activity.activityTotalMoney)"/>元</td>
 						</tr>
 						<tr>
 							<td>优惠券有效期：</td>
 							<td>
-								<input type="text" placeholder="请输入有效天数" class="mt" v-model="Activity.validityDate" maxlength="10" />天</td>
+								<input type="text" placeholder="请输入有效天数" class="mt" v-model="Activity.validityDate" maxlength="10" @blur="shuzi4(Activity.validityDate)"/>天</td>
 							</td>
 						</tr>
 						<tr>
@@ -154,6 +154,42 @@
 
 		},
 		methods: {
+			shuzi(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+					if(str.test(value) == true){
+						this.Activity.beginQuota = value;
+					}
+					else{
+						this.Activity.beginQuota = '';
+					}
+			},
+			shuzi2(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+					if(str.test(value) == true){
+						this.Activity.endQuota = value;
+					}
+					else{
+						this.Activity.endQuota = '';
+					}
+			},
+			shuzi3(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+					if(str.test(value) == true){
+						this.Activity.activityTotalMoney = value;
+					}
+					else{
+						this.Activity.activityTotalMoney = '';
+					}
+			},
+			shuzi4(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+					if(str.test(value) == true){
+						this.Activity.validityDate = value;
+					}
+					else{
+						this.Activity.validityDate = '';
+					}
+			},
 			closeWarningModal() {
 				this.warningModal = false;
 			},

@@ -15,9 +15,9 @@
         </div>
         <div class="message-tis community-house-wrap">
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-            <el-tab-pane :label="'公寓('+CommunityRoomCount+')'" name="first">
+            <el-tab-pane :label="'公寓('+CommunityRoomCount+')'" name="first" v-if="hides1">
               <div class="house_hu">
-                <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux">管理户型</router-link>
+                <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux" && v-if="jurisdiction('COMMUNITY_UPDATE')">管理户型</router-link>
                 <a href="javascript:;" class="adds" @click="openFloorModal()" v-if="jurisdiction('COMMUNITY_INCREASE')">添加楼层</a>
               </div>
               <div class="ls" v-if="!loading">
@@ -81,7 +81,7 @@
                               <span v-else-if="scope.row.roomLockWaterElect.electricityStatus==2">关闭</span>
                               <span v-else-if="!scope.row.roomLockWaterElect.electricityStatus">未配置 </span>
                             </span>
-                            <span v-else="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.electricityStatus!=0 || scope.row.roomLockWaterElect.electricityStatus!=1 || scope.row.roomLockWaterElect.electricityStatus!=2)">
+                            <span v-else-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.electricityStatus!=0 || scope.row.roomLockWaterElect.electricityStatus!=1 || scope.row.roomLockWaterElect.electricityStatus!=2)">
                                 未配置
                             </span>
                             <span v-if="scope.row.electricType ==1">按量计费</span>
@@ -113,8 +113,8 @@
                           <template scope="scope">
                             <span v-if="scope.row.roomStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" style="color: #ccc;">编辑</span>
                             <span v-if="scope.row.roomStatus == 2 && jurisdiction('COMMUNITY_DELETE')" style="color: #ccc;">删除</span>
-                            <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
-                            <el-button v-if="scope.row.roomStatus != 2" type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
+                            <el-button v-if="scope.row.roomStatus != 2 && jurisdiction('COMMUNITY_UPDATE')" type="text" size="small" @click="editRoom(floorData.cxkjCommunityListRoom[scope.$index].roomId,floorData.floorName,floorData.communityId,floorData.floorId)">编辑</el-button>
+                            <el-button v-if="scope.row.roomStatus != 2 && jurisdiction('COMMUNITY_DELETE')" type="text" size="small" @click="deleteRomm(floorData.cxkjCommunityListRoom[scope.$index],scope.$index,index)">删除</el-button>
                           </template>
                         </el-table-column>
                       </template>
@@ -128,7 +128,7 @@
               <!--</div>-->
               <div v-loading="loading" style="width: 100%;height: 600px;" v-if="loading"></div>
             </el-tab-pane>
-            <el-tab-pane label="开放工位" name="second">
+            <el-tab-pane label="开放工位" name="second" v-if="hides2">
               <ul>
                 <li>
                   <span>开放工位：</span><input v-model="placeData.placeNum" type="text" placeholder="请输入开放工位数"/><span>个</span>
@@ -140,7 +140,7 @@
               <a href="javascript:;" class="confirm2" @click="addCommunityPlace()" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</a>
               <a href="javascript:;" class="call" @click="canCommunityPlace()" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</a>
             </el-tab-pane>
-            <el-tab-pane label="办公室" name="third">
+            <el-tab-pane label="办公室" name="third" v-if="hides2">
               <table class="bgs" id="office-table">
                 <thead>
                 <tr>
@@ -179,7 +179,7 @@
                 <a class="qx" @click="canclCommunityOffice()" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</a>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="会议室" name="fourth">
+            <el-tab-pane label="会议室" name="fourth" v-if="hides2">
               <table class="bgs">
                 <thead>
                 <tr>
@@ -370,10 +370,25 @@
         officeConfigure:{},//办公配置map
         showErrorInfo:false,
         loading:false,
+        hides1:true,
+        hides2:true
       }
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
+      let type = this.$route.query.type;
+      console.log(type);
+      if(type == '0'){
+        this.hides2 = false;
+      }
+      else if(type == '1'){
+        this.hides1 = false;
+        this.activeName2 = 'second';
+      }
+      else{
+        this.hides1 = true;
+        this.hides2 = true;
+      }
       this.getCommunityInfo();
       this.getCommunityListRoom();
       this.init();
@@ -883,6 +898,9 @@
             that.successModal = true;
             setTimeout(function(){
               that.successModal = false;
+                  if(this.communityType == '1' || this.communityType == '0,1') {
+										vm.$router.push('/apartment/communityManagement');
+									}
             },1000)
             that.getMeetingInfo();
           }).catch(function(error){

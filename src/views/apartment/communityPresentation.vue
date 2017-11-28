@@ -15,7 +15,7 @@
 				<div class="ivu-warp-Community">
 					<div class="ivu-main-img">
 						<h4>社区图片：</h4>
-						<div class="item-img">
+						<div class="item-img" v-if="hides1">
 							<span class="fl">公寓：</span>
 							<div class="demo-upload-list" v-for="item in uploadList1">
 								<template>
@@ -111,7 +111,7 @@
 								<img :src="imgName" v-if="visible">
 							</Modal>
 						</div>
-						<div class="item-img">
+						<div class="item-img" v-if="hides2">
 							<span class="fl">办公区：</span>
 							<div class="demo-upload-list" v-for="item in uploadList3">
 								<template>
@@ -242,7 +242,10 @@
 				defaultList2: [],
 				defaultList3: [],
 				disabled:false,
-				communityName:''
+				communityName:'',
+				type:null,
+				hides1:true,
+        		hides2:true
 			}
 
 		},
@@ -254,7 +257,18 @@
 			this.communityId = this.$route.query.id;
 			this.communityName = this.$route.query.Name;
 			this.present();	
-			this.imgPath = imgPath
+			this.imgPath = imgPath;
+			let type = this.$route.query.type;
+			if(type == '0'){
+			this.hides2 = false;
+			}
+			else if(type == '1'){
+			this.hides1 = false;
+			}
+			else{
+			this.hides1 = true;
+			this.hides2 = true;
+			}
 		},
 		methods: {
 			click(){

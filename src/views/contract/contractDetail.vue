@@ -39,9 +39,9 @@
               <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 4">
                 打印合同
               </div>
-              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 1">
+              <!-- <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 1">
                 修改合同
-              </div>
+              </div> -->
               <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 9 || contractDetailData.contractState == 6">
                 查看退租详情
               </div>

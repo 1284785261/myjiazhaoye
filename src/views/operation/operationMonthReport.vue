@@ -20,7 +20,7 @@
               <!--<Date-picker type="month" placeholder="选择日期" v-model="endDate"></Date-picker>-->
             </div>
             <dev class="day-report-btn">
-              <Button type="primary" style="width:120px;height: 38px;">导出报表</Button>
+              <!--<Button type="primary" style="width:120px;height: 38px;">导出报表</Button>-->
             </dev>
           </div>
           <div class="day-report-center-wrap">

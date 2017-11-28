@@ -9,6 +9,7 @@
 	font-size: 12px;
 	padding-left: 10px;
 	border-radius: inherit;
+	border: 1px solid #dcdcdc;
 }
 #lodgingwork input::-webkit-input-placeholder {
 	/* WebKit browsers*/
@@ -250,6 +251,7 @@
 	color: #038BE2;
 	font-size: 14px;
 	font-weight: bold;
+	cursor: pointer;
 }
 #lodgingwork .loadin4 .div2 .addm{
 	display: block;
@@ -322,7 +324,6 @@
 	background: #fff;
 	position: relative;
 	box-shadow: 0 1px 1px rgba(0,0,0,.2);
-	margin-left: 10px;
 	margin-right: 10px;
 	margin-bottom: 22px;
 }

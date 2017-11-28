@@ -29,7 +29,7 @@
 								<td>发起人</td>
 								<td>发起日期</td>
 								<td>状态</td>
-								<td>操作</td>
+								<td style="width:100px;">操作</td>
 	
 							</thead>
 							<tr v-for="(item,index) in Userlist">
@@ -44,8 +44,8 @@
 								<td v-else>--</td>
 								<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
 								<td>
-									<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="margin-right: 15px;">查看</router-link>
-									<a @click="zuofei(item)" v-if="item.activityStatus != 3 && jurisdiction('ACTIVITY_DELETE')">作废</a>
+									<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="padding:5px;">查看 </router-link>
+									<a @click="zuofei(item)" v-if="item.activityStatus != 3 && jurisdiction('ACTIVITY_DELETE')" style="padding:5px;"> 作废</a>
 								</td>
 							</tr>
 						</table>

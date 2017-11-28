@@ -16,11 +16,11 @@
 		    		<table>
 		    			<tr>
 		    				<td>金额：</td>
-		    				<td><input type="text" placeholder="请输入金额" style="width: 198px;" v-model="money" maxlength="10"/><span>元</span></td>
+		    				<td><input type="text" placeholder="请输入金额" style="width: 198px;" v-model="money" maxlength="10" @blur="mpns(money)"/><span>元</span></td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户注册手机号：</td>
-		    				<td><input type="text" placeholder="请输入用户注册的手机号码" v-model="phone" maxlength="13"/></td>
+		    				<td><input type="text" placeholder="请输入用户注册的手机号码" v-model="phone" maxlength="13" @blur="Phone(phone)"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>用户姓名：</td>
@@ -28,7 +28,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>用户收款银行账号：</td>
-		    				<td><input type="text" placeholder="请输入用户收款银行账号" v-model="account" maxlength="30"/></td>
+		    				<td><input type="text" placeholder="请输入用户收款银行账号" v-model="account" maxlength="30" @blur="Acrror(account)"/></td>
 		    			</tr>
 		    			<tr>
 		    				<td>开户行：</td>
@@ -118,6 +118,32 @@
    
     	},
     	methods:{
+			mpns(value){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.money = value;
+		    	}
+		    	else{
+		    		this.money = '';
+		    	}
+			},
+			Phone(value) { //验证手机号
+				let str = /^1(3|4|5|7|8)\d{9}$/;
+				if(str.test(value) == true){
+					this.phone = value;
+				}
+				else{
+					this.phone = '';
+				}
+			},
+			Acrror(value){
+				let str = /^([1-9]{1})(\d{14}|\d{18})$/;
+				if(str.test(value) == true){
+					this.account = value;
+				}else{
+					this.account = ''
+				}
+			},
 			datas(){
 				if(this.money == '' || this.phone == '' || this.name == '' || this.account == '' || this.kahx=='' || this.namet == '' || this.tesr == ''){
 					this.warningMessage = '发起退款信息不完整,请填写完整';

@@ -47,7 +47,7 @@
 						</li>
 						<li>
 							<span>备注：</span>
-							<textarea placeholder="请输入备注内容" v-model="texts">
+							<textarea placeholder="请输入备注内容" v-model="texts" maxlength="100">
 								
 							</textarea>
 						</li>

@@ -205,6 +205,7 @@
               setTimeout(function(){
                 that.getRefundDetail({refundId:this.refundId});
                 that.successModal = false;
+                that.$router.push('/finance/financeManagement');
               },1000);
             }
           })

@@ -107,7 +107,7 @@
 }
 
 .systems table tr td a {
-	margin: 10px;
+	padding: 0 10px;
 }
 
 .systems table tr .acts {

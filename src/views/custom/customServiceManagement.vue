@@ -10,7 +10,7 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>投诉管理</h3>
-          <span>佳兆业航运WEWA空间</span>
+          <!-- <span>佳兆业航运WEWA空间</span> -->
         </div>
         <div id="custom-service-management-wrap">
           <div class="form-search-criteria">
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="form-item">
-              <Button style="height: 36px;width: 120px;" @click="toAddComplain()">添加投诉</Button>
+              <Button style="height: 36px;width: 120px;" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</Button>
             </div>
           </div>
           <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
@@ -70,8 +70,8 @@
               </td>
               <td>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 查看详情</router-link>
-                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==3"> 确认处理</router-link>
-                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==4"> 确认回访</router-link>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==3 &&  jurisdiction('CUSTOMER_UPDATE')"> 确认处理</router-link>
+                <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==4 &&  jurisdiction('CUSTOMER_UPDATE')"> 确认回访</router-link>
               </td>
             </tr>
           </table>

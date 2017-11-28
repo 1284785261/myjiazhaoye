@@ -156,13 +156,13 @@
 					</tr>
 					<tr>
 						<td>新价格：</td>
-						<td><input type="text" v-model="money"/>元/月
+						<td><input type="text" v-model="money" @blur="jiage(money)"/>元/月
 						</td>
 					</tr>
 					<tr>
 						<td style="vertical-align: text-top;line-height: 50px;">调价原因：</td>
 						<td>
-							<textarea v-model="texs">
+							<textarea v-model="texs" maxlength="50">
 								
 							</textarea>
 						</td>
@@ -354,7 +354,16 @@
     	methods:{
     		instas:function(){
     			this.isHide = !this.isHide;
-    		},
+			},
+			jiage(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+				if(str.test(value) == true){
+					this.money = value;
+				}
+				else{
+					this.money = '';
+				}
+			},
     		datas(){
     			axios.post(hostRoominfo,
     				qs.stringify({
@@ -376,13 +385,16 @@
     		},
     		closeWarningModal() {
 				this.warningModal = false;
+				this.isHide = ! this.isHide;
 			},
     		bus(){
     			if(this.money ==null ||this.texs == null){
     				this.warningMessage = '信息填入不完整，请补充完信息';
 					this.warningModal = true;
+					this.isHide = false;
     			}
     			else{
+					this.isHide = false;
     				axios.post(hostPrice,
     				qs.stringify({
     					communityId:this.communityId,
@@ -395,14 +407,16 @@
 	    				if(response.status == 200 && response.data.code == 10000){
 	    					this.successMessage = '申请调价成功';
 							this.successModal = true;
+							this.money = null;
+							this.texs = null;
 	    					setTimeout(() => {
 								this.successModal = false;
-								this.isHide = !this.isHide;
 							}, 2000);
 	    				}
 	    				else{
 	    					this.warningMessage = res.data.content;
 							this.warningModal = true;
+							this.isHide = false;
 	    				}
 	    				
 	    			})
@@ -410,8 +424,9 @@
 	    				console.log(error);
 	    				this.warningMessage = '申请调价失败';
 						this.warningModal = true;
+						this.isHide = false;
 	    			})
-    			}
+				}
     			
     		}
     	

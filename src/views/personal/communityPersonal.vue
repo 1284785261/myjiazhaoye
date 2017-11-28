@@ -24,26 +24,34 @@
                     		<span class="jiahao3" v-if="chen">上传照片</span>
                     	</a>
                		</div>
-		        	<ul class="fromss">
-		        		<li>
-		        			<span>用户姓名：</span><span>{{user.userName}}</span>
-		        		</li>
-		        		<li>
-		        			<span>手机号码：</span><span>{{user.userPhone}}</span>
-		        		</li>
-		        		<li>
-		        			<span>所属社区：</span><span v-for="item in user.cxkjCommunityList">{{item.communityName}}</span>
-		        		</li>
-		        		<li>
-		        			<span>所在部门：</span><span v-if="user.departmentName">{{user.departmentName}}</span>
-		        			<span v-else>无</span>
-		        		</li>
-		        		<li>
-		        			<span>部门职位：</span><span v-if="user.officePosition">{{user.officePosition}}</span>
-		        			<span v-else>无</span>
-		        		</li>
-		        	</ul>
-		        	
+		        	<table class="fromss">
+						<tr>
+							<td>用户姓名：</td>
+							<td>{{user.userName}}</td>
+						</tr>
+						<tr>
+							<td>手机号码：</td>
+							<td>{{user.userPhone}}</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top;">所属社区：</td>
+							<td><span v-for="item in user.cxkjCommunityList" class="lista">{{item.communityName}}</span></td>
+						</tr>
+						<tr>
+							<td>所在部门：</td>
+							<td>
+								<span v-if="user.departmentName">{{user.departmentName}}</span>
+								<span v-else>无</span>
+							</td>
+						</tr>
+						<tr>
+							<td>部门职位：</td>
+							<td>
+								<span v-if="user.officePosition">{{user.officePosition}}</span>
+								<span v-else>无</span>
+							</td>
+						</tr>
+					</table>
 		        	
 		        	<router-link to="/lognPhone" class="inste inste1">修改手机号</router-link>
 		        	<a class="inste inste2" @click="emss">修改登录密码</a>

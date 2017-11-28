@@ -82,19 +82,19 @@
 				<tr>
 					<td>用户注册手机号：</td>
 					<td>
-						<input type="text" placeholder="请输入手机号" v-model="phone" />
+						<input type="text" placeholder="请输入手机号" v-model="phone" @blur="Phone(phone)"/>
 					</td>
 				</tr>
 				<tr>
 					<td>收款金额：</td>
 					<td>
-						<input type="text" placeholder="请输入金额" class="mongs" v-model="money" /><span>元</span>
+						<input type="text" placeholder="请输入金额" class="mongs" v-model="money" @blur="moins(money)"/><span>元</span>
 					</td>
 				</tr>
 				<tr>
 					<td>收款备注：</td>
 					<td>
-						<textarea placeholder="请输入收款备注" v-model="titl1">
+						<textarea placeholder="请输入收款备注" v-model="titl1" maxlength="50">
 							
 						</textarea>
 					</td>
@@ -192,6 +192,24 @@
 			}
 		},
 		methods: {
+			Phone(value) { //验证手机号
+				let str = /^1(3|4|5|7|8)\d{9}$/;
+				if(str.test(value) == true){
+					this.phone = value;
+				}
+				else{
+					this.phone = '';
+				}
+			},
+			moins(value){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.money = value;
+		    	}
+		    	else{
+		    		this.money = '';
+		    	}
+		    },
 			handleCurrentChange(val) {
 				this.pageNum = val;
 				this.seek();

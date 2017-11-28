@@ -3,11 +3,11 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-//const host3 = 'http://test.kaisaspace.com:8050';
+const host3 = 'http://test.kaisaspace.com:8050';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
-//const host3 = 'http://120.78.16.234:8050';
-const host3 = 'http://192.168.20.191:8080';
+// const host3 = 'http://120.78.16.234:8050';
+//const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
@@ -343,6 +343,21 @@ const UserMessagey = '/cxkj-room/apis/app/message/CxkjUserMessage200168'
 
 //分类的未读消息
 const ReadMessage = '/cxkj-room/apis/app/message/CxkjUserReadMessage200171'
+
+//工作台管家社区列表
+const AppMgCxkjCo = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityList500020'
+
+//工作台管家收款数据
+const gCxkjCommun = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityManagerMoney500021'
+
+//工作台今日待办数据
+const aCommunityCo = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityManagerTodayTask500022'
+
+//工作台消息显示
+const PcMessage = '/cxkj-room/apis/app/message/CxkjGetMessage300024'
+
+//修改消息的未读状态
+const essageUpdate = '/cxkj-room/apis/app/message/CxkjUserReadMessageUpdate200172'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -455,6 +470,11 @@ export const hostActivityCo = host3 + ActivityCo;
 export const hostActivityControl = host3 + ActivityControl;
 export const hostUserMessagey = host3 + UserMessagey;
 export const hostReadMessage = host3 + ReadMessage;
+export const hostAppMgCxkjCo = host3 + AppMgCxkjCo;
+export const hostgCxkjCommun = host3 + gCxkjCommun;
+export const hostaCommunityCo = host3 + aCommunityCo;
+export const hostPcMessage = host3 + PcMessage;
+export const hostessageUpdate = host3 + essageUpdate;
 export const host = host3;
 //export default {
 //hosts:function(){

@@ -20,11 +20,11 @@
 				</div>
 				<Row>
 					<Col span="12">
-					<div class="modular-box">
+					<div class="modular-box" style="height:330px;">
 						<h3><i class="icon icon-info"></i>我的消息</h3>
 						<ul class="info-list">
-							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.icon"></i>{{myInfo.state}}</span>
-								<router-link to="/">{{myInfo.content}}</router-link><span class="date">{{myInfo.date}}</span></li>
+							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
+								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link><span class="date">{{myInfo.createtime | time}}</span></li>
 						</ul>
 					</div>
 					</Col>
@@ -33,8 +33,8 @@
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens">
 							<li>
-								<Badge :count="messsaget[5]"></Badge>
-								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">看房预约</router-link>
+								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
+								<a @click="eliminat(5)">看房预约</a>
 								
 							</li>
 							<li>
@@ -43,39 +43,39 @@
 							<li>
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
-							<li>
-								<router-link to="">直播管理</router-link>
+							<li v-if="jurisdiction('LIVE_QUERY')">
+								<router-link  to="">直播管理</router-link>
+							</li>
+							<li v-if="jurisdiction('BILL_QUERY')">
+								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
+								<a @click="eliminate(2)">公寓租金账单</a>
+							</li>
+							<li v-if="jurisdiction('BILL_QUERY')">
+								<Badge :count="messsaget[6]" v-if='messsaget[6]'></Badge>
+								<a @click="eliminate6(6)">公寓水电帐单</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[2]"></Badge>
-								<router-link to="/bill/billManagement">公寓租金账单</router-link>
+								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
+								<a @click="eliminate12(12)">用户报修</a>
 							</li>
-							<li>
-								<Badge :count="messsaget[6]"></Badge>
-								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">公寓水电帐单</router-link>
-							</li>
-							<li>
-								<Badge :count="messsaget[12]"></Badge>
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
-							</li>
-							<li>
-								<Badge :count="messsaget[4]"></Badge>
-								<router-link to="/contract/contractIndex">合同管理</router-link>
+							<li v-if="jurisdiction('CONTRACT_QUERY')">
+								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
+								<a @click="eliminate4(4)">合同管理</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<Badge :count="messsaget[8]"></Badge>
-								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
+								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
+								<a @click="eliminate8(8)">发起退款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[7]"></Badge>
-								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
+								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
+								<a @click="eliminate7(7)">发起收款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[13]"></Badge>
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
+								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
+								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
 						</ul>
 					</div>
@@ -99,8 +99,8 @@
 							<li v-if="remains.waterEnergyCount != 0">
 								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.roomMoney != 0">
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.roomMoney}}人</span></span>
+							<li v-if="remains.repairCount != 0">
+								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.repairCount}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.rentCount != 0">
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">用户退房<span><span>{{remains.rentCount}}人</span></span>
@@ -111,8 +111,8 @@
 							<li>
 								<router-link to="/">今日直播时间<span><span>18:00-19:00</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li>
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>6人</span></span>
+							<li v-if="remains.complaintCount != 0">
+								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 						</ul>
 						<div class="muvs" v-else>
@@ -125,8 +125,8 @@
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list workbens">
 							<li>
-								<Badge :count="messsaget[2]"></Badge>
-								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId}}">看房预约</router-link>
+								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
+								<a @click="eliminat(5)">看房预约</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
@@ -135,39 +135,39 @@
 								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}" v-if="type == 1">办公空间状态</router-link>
 								<router-link to="/apartment/workbench" v-else>办公空间状态</router-link>
 							</li>
-							<li>
-								<router-link to="">直播管理</router-link>
+							<li v-if="jurisdiction('LIVE_QUERY')">
+								<router-link  to="">直播管理</router-link>
+							</li>
+							<li v-if="jurisdiction('BILL_QUERY')">
+								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
+								<a @click="eliminate(2)">办公租金账单</a>
+							</li>
+							<li v-if="jurisdiction('ORDER_QUERY')">
+								<Badge :count="messsaget[3]" v-if='messsaget[3]'></Badge>
+								<a @click="eliminate3(3)">办公订单</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[2]"></Badge>
-								<router-link :to="{name: 'billManagement'}">办公租金账单</router-link>
+								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
+								<a @click="eliminate12(12)">用户报修</a>
 							</li>
-							<li>
-								<Badge :count="messsaget[3]"></Badge>
-								<router-link :to="{name: 'orderManagement'}">办公订单</router-link>
-							</li>
-							<li>
-								<Badge :count="messsaget[12]"></Badge>
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修</router-link>
-							</li>
-							<li>
-								<Badge :count="messsaget[4]"></Badge>
-								<router-link to="/contract/contractIndex">合同管理</router-link>
+							<li v-if="jurisdiction('CONTRACT_QUERY')">
+								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
+								<a @click="eliminate4(4)">合同管理</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<Badge :count="messsaget[8]"></Badge>
-								<router-link :to="{path:'/signed/refundrecord',query:{communityId:communityId,Name:selectModel1}}">发起退款</router-link>
+								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
+								<a @click="eliminate8(8)">发起退款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[7]"></Badge>
-								<router-link :to="{path:'/signed/gathering',query:{communityId:communityId,Name:selectModel1}}">发起收款</router-link>
+								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
+								<a @click="eliminate7(7)">发起收款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[13]"></Badge>
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">用户投诉</router-link>
+								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
+								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
 						</ul>
 					</div>
@@ -185,7 +185,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { allCommunity, hostManager, hostWorkbench, hostAuthor,hostReadMessage } from '../api.js';
+	import { hostAppMgCxkjCo, hostgCxkjCommun, hostaCommunityCo, hostPcMessage,hostReadMessage,hostessageUpdate,hostUserMessagey } from '../api.js';
 	export default {
 		components: {
 			rightHeader,
@@ -211,32 +211,7 @@
 					title: "昨日业绩",
 					num: ""
 				}],
-				myInfos: [{
-					icon: "iconfont icon-baoxiu",
-					state: "用户报修",
-					content: "公寓 802 租客申请报修，请及时跟进",
-					date: "17:30"
-				}, {
-					icon: "iconfont icon-xiaoxi1",
-					state: "系统消息",
-					content: "佳兆业航运WEWA空间年中用户回馈活动的通知",
-					date: "17:30"
-				}, {
-					icon: "iconfont icon-xiaoxi1",
-					state: "系统消息",
-					content: "佳兆业航运WEWA空间年中用户回馈活动的通知",
-					date: "17:30"
-				}, {
-					icon: "iconfont icon-xiaoxi1",
-					state: "系统消息",
-					content: "佳兆业航运WEWA空间年中用户回馈活动的通知",
-					date: "17:30"
-				}, {
-					icon: "iconfont icon-xiaoxi1",
-					state: "系统消息",
-					content: "佳兆业航运WEWA空间年中用户回馈活动的通知",
-					date: "17:30"
-				}],
+				myInfos: [],
 
 				remains: null,
 				communityId: null,
@@ -249,8 +224,11 @@
 			}
 		},
 		mounted() {
+			this.communityId = sessionStorage.getItem('communityId');
 			this.title();
+			this.mtsbv();
 			this.datam();
+			this.datas2();
 		},
 		filters: {
 			roomMoney(val) {
@@ -268,40 +246,124 @@
 					return val.toFixed(2) + '元';
 				}
 			},
-			quanxian(val){
-				if(val == 1){
-					return '店长'
-				}else if(val == 2){
-					return '管家'
+			types(val){
+    			if(val == 1){
+    				return '系统消息'
+    			}
+    			else if(val == 2){
+    				return '账单消息'
+    			}
+    			else if(val == 3){
+    				return '办公订单消息'
+    			}
+    			else if(val == 4){
+    				return '合同消息'
+    			}
+    			else if(val == 5){
+    				return '预约消息'
+    			}
+    			else if(val == 6){
+    				return '水电账单消息'
+    			}
+    			else if(val == 7){
+    				return '管家收款消息'
+				}
+				else if(val == 8){
+    				return '管家退款消息'
+				}
+				else if(val == 9){
+    				return '优惠券消息'
+				}
+				else if(val == 10){
+    				return '现金券消息'
+				}
+				else if(val == 11){
+    				return '红包消息'
+				}
+				else if(val == 12){
+    				return '报修消息'
+				}
+				else if(val == 13){
+    				return '投诉消息'
+				}
+				else if(val == 14){
+    				return '呼叫管家消息'
+				}
+				else if(val == 15){
+    				return '发票消息'
+    			}
+			},
+			time(val){
+				if(val){
+					return new Date(val).Format('hh:mm');
 				}
 			}
 		},
 		methods: {
 			datam() {
-				let vm = this;
-				this.$http.get(hostAuthor)
-					.then((response) => {
+
+				let Model = sessionStorage.getItem('communityId');
+				console.log(Model);
+				if(Model){
+					axios.post(hostgCxkjCommun, //获取管家收款数据
+						qs.stringify({
+							communityId: Model
+						})
+					).then((response) => {
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							vm.user.name = response.data.entity.userName;
-							vm.user.quanxian = response.data.entity.userType;
+							this.datas[0].num = response.data.result.yesterdayPay + '.00';
+							this.datas[1].num = response.data.result.todayWaitPay + '.00';
+							this.datas[2].num = response.data.result.yesterdayCount + '笔';
 						}
 					})
 					.catch((error) => {
 						console.log(error);
 					})
-			},
-			title() {
-				let Model = sessionStorage.getItem('communityId');
-				//console.log(Model);
-				axios.post(allCommunity).then((response) => { //获取社区分类数据
+
+				axios.post(hostaCommunityCo, //获取今日待办数据
+						qs.stringify({
+							communityId: Model
+						})
+					).then((response) => {
 						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							this.cityList = response.data.entity;
+							this.remains = response.data.result;
+						}
+
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+				}
+				
+			},
+			datas2(){
+				axios.post(hostUserMessagey)
+				.then((res)=>{
+					//console.log(res);
+					if(res.data.code == 10000 && res.status == 200){
+						// this.nums = res.data.entity.messageCount;
+						sessionStorage.setItem('nums', res.data.entity.messageCount);
+					}
+				}).catch((err)=>{
+					console.log(err);
+				})
+			},
+			title() {
+				let vm = this
+				let Model = sessionStorage.getItem('communityId');
+				//console.log(Model);
+				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
+						//console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+							this.cityList = response.data.result.communityList;
 							if(Model) {
 								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
 							} else {
 								this.selectModel1 = this.cityList[0].communityName;
+								sessionStorage.setItem('communityId', this.cityList[0].communityId);
+								this.datam();
 							}
 
 						}
@@ -309,14 +371,37 @@
 					.catch((error) => {
 						console.log(error);
 					})
-
-
-
-
+			},
+			mtsbv(){
 				axios.post(hostReadMessage).then((res)=>{
+					//console.log(res);
+					if(res.data.code == 10000 && res.status == 200){
+						// for(let k in res.data.entity){
+						// 	vm.$set(this.messsaget,k,res.data.entity[k])
+						// }
+						this.messsaget = res.data.entity;
+						console.log(this.messsaget);
+					}
+				}).catch((err)=>{
+					console.log(err);
+				})
+
+				axios.post(hostPcMessage,
+					qs.stringify({
+						pageSize:5
+					})
+				).then((res)=>{
 					console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
-						this.messsaget = res.data.entity;
+						this.myInfos = res.data.entity.page;
+						for(let i = 0;i < this.myInfos.length;i++){
+							if(this.myInfos[i].messageType == '1'){
+								this.$set(this.myInfos[i], "inco", 'iconfont icon-xiaoxi1');
+							}
+							else{
+								this.$set(this.myInfos[i], "inco", 'iconfont icon-baoxiu');
+							}
+						}
 					}
 				}).catch((err)=>{
 					console.log(err);
@@ -324,20 +409,14 @@
 			},
 			temp(val) {
 				//console.log(val);
+				let vm = this
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
 				
-				let communityType = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityType;
-				//console.log(communityType);
-				let arr = communityType.split(',');
-				for(let i= 0;i<arr.length;i++){
-					if(arr[i] == '1'){
-						this.type = 1;
-					}
-				}
+				this.mtsbv();
 				this.communityId = Index;
 				sessionStorage.setItem('communityId', Index);
-				//console.log(Index);
-				axios.post(hostManager, //获取管家收款数据
+				//console.log(this.communityId);
+				axios.post(hostgCxkjCommun, //获取管家收款数据
 						qs.stringify({
 							communityId: Index
 						})
@@ -353,7 +432,7 @@
 						console.log(error);
 					})
 
-				axios.post(hostWorkbench, //获取今日待办数据
+				axios.post(hostaCommunityCo, //获取今日待办数据
 						qs.stringify({
 							communityId: Index
 						})
@@ -367,7 +446,68 @@
 					.catch((error) => {
 						console.log(error);
 					})
-			}
+			},	
+			share(value){
+				console.log(value);
+				
+				axios.post(hostessageUpdate,
+					qs.stringify({
+						messageType:parseInt(value)
+					})
+				).then((res)=>{
+					console.log(res.data);
+					debugger
+					console.log(res);
+				}).catch((err)=>{
+					console.log(err);
+				})
+			},
+			eliminate(value){
+				//console.log(value);
+				this.share(value);
+				this.$router.push('/bill/billManagement');
+				this.datas2();
+			},
+			eliminat(value){
+				this.share(value);
+				this.$router.push({path:'/signed/housesubscribe',query:{communityId:this.communityId,Name:this.selectModel1}});
+				this.datas2();
+			},
+			eliminate6(value){
+				this.share(value);
+				this.$router.push({name:'billManagement',query:{tab:'third'}});
+				this.datas2();
+			},
+			eliminate12(value){
+				this.share(value);
+				this.$router.push({path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1}});
+				this.datas2();
+			},
+			eliminate4(value){
+				this.share(value);
+				this.$router.push('/contract/contractIndex');
+				this.datas2();
+			},
+			eliminate8(value){
+				this.share(value);
+				this.$router.push({path:'/signed/refundrecord',query:{communityId:this.communityId,Name:this.selectModel1}});
+				this.datas2();
+			},
+			eliminate7(value){
+				this.share(value);
+				this.$router.push({path:'/signed/gathering',query:{communityId:this.communityId,Name:this.selectModel1}});
+				this.datas2();
+			},
+			eliminate13(value){
+				this.share(value);
+				this.$router.push({path:'/signed/complain',query:{communityId:this.communityId,Name:this.selectModel1}});
+				this.datas2();
+			},
+			eliminate3(value){
+				this.share(value);
+				this.$router.push({name: 'orderManagement'});
+				this.datas2();
+			},
 		},
 		created() {
 

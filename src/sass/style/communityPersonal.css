@@ -80,10 +80,16 @@
 }
 .message-tis .fromss{
 	margin-left: 220px;
-	margin-top: 52px;
+	margin-top: 52px;	
 }
-.message-tis .fromss li{
+.message-tis .fromss tr{
 	line-height: 32px;
+}
+.message-tis .fromss tr td:nth-child(1){
+	width: 75px;
+}
+.message-tis .fromss tr td:nth-child(2){
+	width: 700px;
 }
 .message-tis .inste{
 	width: 120px;
@@ -105,4 +111,8 @@
 	background-color: #fff;
 	border: 1px solid #038be2;
 	color: #038be2;
+}
+.message-tis .fromss tr td .lista{
+	display: inline-block;
+	margin-right: 10px; 
 }

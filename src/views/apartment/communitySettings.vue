@@ -120,7 +120,7 @@
 									</div>
 								</div>
 								<div class="operation-box">
-									<Button type="primary" @click="house()" :disabled="disabled">确定</Button>
+									<Button type="primary" @click="house()" :disabled="disabled" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</Button>
 									<Button @click="gos">取消</Button>
 								</div>
 							</div>
@@ -222,7 +222,7 @@
 									</div>
 								</div>
 								<div class="operation-box">
-									<Button type="primary" @click="refer()" :disabled="disabled2">确定</Button>
+									<Button type="primary" @click="refer()" :disabled="disabled2" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</Button>
 									<Button @click="gos">取消</Button>
 								</div>
 							</div>
@@ -483,7 +483,7 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -880,6 +880,7 @@
 				this.disabled = false;
 				this.cxkjCommunityListPayway = [];
 				this.cxkjCommunityListMaintain = [];
+				let cxkjCommunityListConfig = [];
 				for(let i = 0; i < vm.tableRepairs.length; i++) {
 					if(this.tableRepairs[i].checkValue == true) { //添加公寓付款方式编号
 						vm.cxkjCommunityListPayway.push({
@@ -901,7 +902,7 @@
 					}
 				}
 				for(let i = 0; i < vm.checkList.length; i++) {
-					vm.cxkjCommunityListConfig.push({
+					cxkjCommunityListConfig.push({
 						configDataId: this.option3[this.option3.findIndex(item => item.dataName == vm.checkList[i])].dataId
 					});
 				}
@@ -928,14 +929,14 @@
 				}
 								console.log(this.cxkjCommunityListPayway);
 								console.log(this.cxkjCommunityListMaintain);
-				console.log(this.cxkjCommunityListConfig);
+								console.log(this.cxkjCommunityListConfig);
 //								console.log(this.serviceCost);
 //								console.log(this.waterEnergyPayDate);
 //								console.log(this.waterChargeType);
 //								console.log(this.waterPrice);
 //								console.log(this.energyChargeType);
 //								console.log(this.energyPrice);
-				if(vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || vm.cxkjCommunityListConfig.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
+				if(vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {
@@ -943,7 +944,7 @@
 							communityId: vm.communityId,
 							cxkjCommunityListPayway: vm.cxkjCommunityListPayway,
 							cxkjCommunityListMaintain: vm.cxkjCommunityListMaintain,
-							cxkjCommunityListConfig: vm.cxkjCommunityListConfig,
+							cxkjCommunityListConfig: cxkjCommunityListConfig,
 							serviceCost: vm.serviceCost,
 							communityType: 0,
 							waterEnergyPayDate: vm.waterEnergyPayDate,
@@ -981,6 +982,7 @@
 			refer() {
 				let vm = this
 				this.disabled2 = false;
+				let cxkjCommunityListConfig = [];
 				for(let i = 0; i < vm.tableRepairs3.length; i++) {
 					if(this.tableRepairs3[i].checkValue == true) { //添加办公付款方式编号
 						vm.cxkjCommunityListPayway2.push({
@@ -1015,7 +1017,7 @@
 					}
 				}
 				for(let i = 0; i < vm.checkList2.length; i++) {
-					vm.cxkjCommunityListConfig2.push({
+					cxkjCommunityListConfig.push({
 						configDataId: this.option5[this.option5.findIndex(item => item.dataName == vm.checkList2[i])].dataId
 					});
 				}
@@ -1026,7 +1028,7 @@
 				//console.log(vm.cxkjCommunityListConfig2);
 //				console.log(vm.cxkjCommunityListMeetingSuit);
 //				console.log(vm.serviceCost2);
-				if(vm.cxkjCommunityListPayway2.length == 0 || vm.cxkjCommunityListMaintain2.length == 0 || vm.cxkjCommunityListConfig2.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
+				if(vm.cxkjCommunityListPayway2.length == 0 || vm.cxkjCommunityListMaintain2.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {
@@ -1034,7 +1036,7 @@
 							communityId: vm.communityId,
 							cxkjCommunityListPayway: vm.cxkjCommunityListPayway2,
 							cxkjCommunityListMaintain: vm.cxkjCommunityListMaintain2,
-							cxkjCommunityListConfig: vm.cxkjCommunityListConfig2,
+							cxkjCommunityListConfig: cxkjCommunityListConfig,
 							cxkjCommunityListMeetingSuit: vm.cxkjCommunityListMeetingSuit,
 							serviceCost: vm.serviceCost2,
 							communityType: 1
@@ -1048,7 +1050,7 @@
 								this.successModal = true;
 								setTimeout(() => {
 									this.successModal = false;
-									if(this.communityType == '0' || this.communityType == '0,1') {
+									if(this.communityType == '1' || this.communityType == '0,1') {
 										vm.$router.push('/apartment/communityManagement');
 									}
 								}, 2000);

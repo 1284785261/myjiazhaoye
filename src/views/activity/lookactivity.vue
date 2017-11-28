@@ -48,7 +48,7 @@
 		    			</tr>
 						<tr>
 		    				<td>剩余金额：</td>
-		    				<td style="color: red;">{{Userlist.activitySurplusMoney | Money}}</td>
+		    				<td style="color: red;">{{Userlist.activitySurplusMoney | Moneys}}</td>
 		    			</tr>
 		    			<tr>
 		    				<td>优惠券有效期：</td>
@@ -90,7 +90,7 @@
 		    		</table>
 					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
 					</el-pagination>
-					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus =='0' || Userlist.activityStatus =='1'">推送优惠券</router-link>
+					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus =='0' || Userlist.activityStatus =='1' && jurisdiction('ACTIVITY_UPDATE')">推送优惠券</router-link>
 		    	</div> 
 		        
 		    
@@ -190,6 +190,14 @@
 			},
 			Money(val){
 				return '￥' + parseFloat(val).toFixed(2);
+			},
+			Moneys(val){
+				if(val){
+					return '￥' + parseFloat(val).toFixed(2);
+				}
+				else{
+					return '￥' + 0;
+				}
 			},
 			activityType(val){
 				if(val == '0'){

@@ -98,6 +98,8 @@
 #repairsdetails .mts textarea{
 	width: 540px;
 	height: 208px;
+	padding-left: 10px;
+	line-height: 30px;
 }
 #repairsdetails .mts span{
 	vertical-align: top;

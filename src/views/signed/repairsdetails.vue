@@ -37,7 +37,7 @@
 						</tr>
 						<tr>
 							<td>
-								<Icon type="settings"></Icon><span>问题描述</span></td>
+								<Icon type="clipboard"></Icon><span>问题描述</span></td>
 							<td>
 								<span v-if="cxkjCommunityRepair.repairDesc">{{cxkjCommunityRepair.repairDesc}}</span>
 								<span v-else>--</span>
@@ -46,7 +46,7 @@
 						</tr>
 						<tr v-if="cxkjCommunityRepair.repairState == 2">
 							<td>
-								<Icon type="settings"></Icon><span>用户评价</span></td>
+								<Icon type="android-happy"></Icon><span>用户评价</span></td>
 							<td>
 								<span v-if="cxkjCommunityRepair.repairComment">{{cxkjCommunityRepair.repairComment}}</span>
 								<span v-else>--</span>
@@ -59,14 +59,14 @@
 					</div>
 					<div v-else-if="mts == '1' && type != '0'" class="mts">
 						<span>备注：</span>
-						<textarea placeholder="请输入备注内容" v-model="test1"></textarea>
+						<textarea placeholder="请输入备注内容" v-model="test1" maxlength="100"></textarea>
 						<a class="refund" @click="conclude">确认办结</a>
 					</div>
-					<div v-else-if="mts == '2' && type != '0'" class="mts">
+					<!-- <div class="mts" v-else-if="mts == '2' && type != '0'">
 						<span>备注：</span>
-						<textarea placeholder="请输入备注内容" v-model="test2"></textarea>
+						<textarea placeholder="请输入备注内容" v-model="test2" maxlength="100"></textarea>
 						<a class="refund" @click="details">保存</a>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<footer-box></footer-box>

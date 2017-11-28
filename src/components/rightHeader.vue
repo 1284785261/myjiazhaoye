@@ -2,7 +2,7 @@
 	<div class="header">
 		<div class="inline-block">
 			<Badge :count="nums">
-				<Icon type="ios-bell-outline"></Icon>
+				<router-link to="/signed/messageInform"><Icon type="ios-bell-outline"></Icon></router-link>
 			</Badge>
 			<Dropdown trigger="hover" class="reset-dropdown">
 				<a href="javascript:void(0)"><i class="iconfont icon-shujuappxiazai"></i>下载管家APP</a>
@@ -59,7 +59,7 @@
 			}
 		},
 		mounted() {
-			this.datas2();
+			this.nums = sessionStorage.getItem("nums") ? sessionStorage.getItem("nums"):0;
 			this.imgPath1 = sessionStorage.getItem("imgPath1")? sessionStorage.getItem("imgPath1"):'';
 			this.userID = sessionStorage.getItem("userID")? sessionStorage.getItem("userID"):'';
 			if(this.imgPath1 && this.userID){
@@ -97,17 +97,6 @@
 				})
 
 				
-			},
-			datas2(){
-				axios.post(hostUserMessagey)
-				.then((res)=>{
-					//console.log(res);
-					if(res.data.code == 10000 && res.status == 200){
-						this.nums = res.data.entity.messageCount;
-					}
-				}).catch((err)=>{
-					console.log(err);
-				})
 			}
 		}
 	}

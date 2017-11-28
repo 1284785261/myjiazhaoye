@@ -211,9 +211,10 @@
       },
       submit(){
         let vm = this
-        if(!vm.logoUrl || !vm.enterpriseName || !vm.enterpriseTel || !vm.itemArea.length || !vm.projectServices){
+        if(!vm.logoUrl || !vm.enterpriseName || !vm.enterpriseTel || !vm.itemArea || !vm.projectServices){
           vm.warningMessage = '请填写有效的企业信息'
           vm.warningModal = true
+          debugger
           return
         }
         let param = new FormData()

@@ -128,7 +128,7 @@
 										<td>{{item.userPhone}}</td>
 										<td>{{item.employeeNum}}</td>
 										<td>
-											<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId}}">委派人员</router-link>
+											<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">委派人员</router-link>
 										</td>
 									</tr>
 								</table>
@@ -214,7 +214,7 @@
 										<td>{{item.createtime | time}}</td>
 										<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
 										<td>
-											<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}">分配权限</router-link>
+											<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}" v-if="jurisdiction('POWER_UPDATE')">分配权限</router-link>
 										</td>
 									</tr>
 								</table>

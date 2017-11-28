@@ -120,7 +120,7 @@
 								</tr>
 							</table>
 						</li>
-						<li v-if="complainData.complainStatus == 4">
+						<li v-if="complainData.complainStatus == 4 && jurisdiction('CUSTOMER_UPDATE')">
 							<table>
 								<tr>
 									<td style="position: relative;top: -60px"><b>客服回访 :</b></td>

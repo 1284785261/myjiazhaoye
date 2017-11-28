@@ -28,7 +28,7 @@
 		    		<table>
 		    			<thead>
 		    				<td width="60px">选择</td>
-		    				<td style="text-align: left;padding-left: 20px;">帖子内容</td>
+		    				<td style="text-align: left;padding-left: 20px;width:500px;">帖子内容</td>
 		    				<td>发布人</td>
 		    				<td>发布日期</td>
 		    				<td>状态</td>
@@ -41,8 +41,8 @@
 		    				<td>{{item.createTime | time}}</td>
 		    				<td style="color: #ff6612;">{{item.isClose | isClose}}</td>
 		    				<td>
-		    					<a v-if="item.isClose == 0" @click="close(item)">关闭</a>
-		    					<a v-else-if="item.isClose == 1">开放</a>
+		    					<a v-if="item.isClose == 0 && jurisdiction('JIAREN_CLOSE')" @click="close(item)">关闭</a>
+		    					<a v-else-if="item.isClose == 1 && jurisdiction('JIAREN_CLOSE')" @click="close(item)">开放</a>
 		    				</td>
 		    			</tr>
 		    		</table>
@@ -63,6 +63,8 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    	<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
 
@@ -71,7 +73,9 @@
 	import '../../sass/style/invitation.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
-    import footerBox from '../../components/footerBox.vue';
+	import footerBox from '../../components/footerBox.vue';
+	import successModal from '../../components/successModal.vue';
+  	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
     import { hostPostList,hostOpenAllPost } from '../api.js';
     import qs from 'qs';
@@ -80,7 +84,9 @@
     	components:{
     		rightHeader,
     		menuBox,
-    		footerBox
+			footerBox,
+			successModal,
+      		warningModal
     	},
     	data(){
     		return{
@@ -106,10 +112,15 @@
 		        pageSize:10,
 		        State:null,
 		        disabled:true,
-		        postIdArray:[]
+				postIdArray:[],
+				successModal: false,
+				warningModal: false,
+				successMessage: '添加成功',
+				warningMessage: '添加信息不完整，请检查添加社区信息',
 			}
     	},
     	mounted(){
+			console.log(this.jurisdiction('JIAREN_UPDATE'));
     		this.communityId = this.$route.query.id;
     		this.datas();
     	},
@@ -126,8 +137,11 @@
 			}
     	},
     	methods:{
+			closeWarningModal() {
+				this.warningModal = false;
+			},
 		    handleCurrentChange(val) {
-//		        console.log(`当前页: ${val}`);
+		        console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.demand();
 		    },
@@ -219,39 +233,61 @@
 			},
 			close(item){
 				console.log(item);
+				let vm = this;
+				
 				if(item.isClose == 0){
+					let param = new FormData();
 					this.postIdArray.push(item.postId);
-					console.log(this.postIdArray);
-					axios.get(hostOpenAllPost,
-						{
-							postIdArray:this.postIdArray,
-							isclose:1
-						}
-					).then((res)=>{
-						console.log(res);
+					//console.log(vm.postIdArray)
+					param.append('postIdArray',vm.postIdArray);
+					param.append('isclose',1);
+					axios.post(hostOpenAllPost,param).then((res)=>{
+						//console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
-							
+							vm.successMessage = '关闭帖子成功';
+							vm.successModal = true;
+							setTimeout(() => {
+								vm.successModal = false;
+								this.demand();
+							}, 2000);
+						}
+						else{
+							this.warningMessage = res.data.content;
+							this.warningModal = true;
 						}
 					}).catch((err)=>{
 						console.log(err);
+						this.warningMessage = '关闭帖子失败，服务器异常';
+						this.warningModal = true;
 					})
 				}
 				else if(item.isClose == 1){
+					let param = new FormData();
 					this.postIdArray.push(item.postId);
-					axios.get(hostOpenAllPost,
-						{
-							postIdArray:this.postIdArray,
-							isclose:0
-						}
-					).then((res)=>{
+					console.log(vm.postIdArray)
+					param.append('postIdArray',vm.postIdArray);
+					param.append('isclose',0);
+					axios.post(hostOpenAllPost,param).then((res)=>{
 						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
-							
+							vm.successMessage = '开放帖子成功';
+							vm.successModal = true;
+							setTimeout(() => {
+								vm.successModal = false;
+								this.demand();
+							}, 2000);
+						}
+						else{
+							this.warningMessage = res.data.content;
+							this.warningModal = true;
 						}
 					}).catch((err)=>{
 						console.log(err);
+						this.warningMessage = '关闭帖子失败，服务器异常';
+						this.warningModal = true;
 					})
 				}
+				this.postIdArray = [];
 			}
 
     	},

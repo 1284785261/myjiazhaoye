@@ -10,7 +10,6 @@
                 </div>
                 <div class="ivu-bar-title">
                     <h3><i class="icon icon-iden"></i>企业服务</h3>
-                    <span>佳兆业航运WEWA空间</span>
                 </div>
                 <div id="corporate-service-list">
                     <div class="corporate-service-content">
@@ -90,7 +89,7 @@
                                 <td style="padding: 20px">
                                     <Button style="width: 80px;height: 30px" @click="updateCorporate(index)" v-if="jurisdiction('ENTERPRISE_UPDATE') && !item.update">编辑</Button>
                                     <Button style="width: 80px;height: 30px" @click="preservationCorporate(index)" v-if="jurisdiction('ENTERPRISE_UPDATE') && item.update">保存</Button>
-                                    <Button style="width: 80px;height: 30px" @click="goToDelete(item,index)">删除</Button>
+                                    <Button style="width: 80px;height: 30px" @click="goToDelete(item,index)" v-if="jurisdiction('ENTERPRISE_DELETE')">删除</Button>
                                 </td>
                             </tr>
                         </table>

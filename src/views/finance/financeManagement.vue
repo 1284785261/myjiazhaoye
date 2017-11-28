@@ -332,7 +332,7 @@
           </tr>
           <tr >
             <td style="padding-bottom: 15px;">发票内容 :</td>
-            <td style="padding-bottom: 15px;">{{invoiceDetailData.invoiceContent}}</td>
+            <td style="padding-bottom: 15px;">{{invoiceDetailData.invoiceContent | invoiceContent}}</td>
           </tr>
           <tr style="position: relative">
             <div style="width: 460px;border-bottom: 1px dashed #ccc;position: absolute;left: 20px;"></div>
@@ -592,6 +592,7 @@
         this.$http.post(invoiceDetail,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.invoiceDetailData = res.data.result.invoice;
+              console.log(that.invoiceDetailData );
             }
           })
       },
@@ -747,6 +748,14 @@
       timefilter(value,format){
         if(value){
           return new Date(value).Format(format)
+        }
+      },
+      invoiceContent(value){
+        if(value == true){
+          return '是服务费发票';
+        }
+        else{
+          return '不是服务费发票';
         }
       }
     },

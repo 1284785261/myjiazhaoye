@@ -28,7 +28,7 @@
 	border: none;
 	border: 1px solid #DCDCDC;
 	outline: none;
-	padding-left: 5px;
+	padding-left: 10px;
 }
 #openrefund table tr{
 	line-height: 50px;
@@ -40,11 +40,11 @@
 	width: 430px;
 	height: 136px;
 	resize: none;
-	line-height: 20px;
+	line-height: 30px;
 	margin-top: 10px;
 	outline: none;
 	border: 1px solid #DCDCDC;
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 #openrefund table tr td:nth-child(1){

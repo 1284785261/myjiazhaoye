@@ -45,7 +45,7 @@
 									<td>{{index+1}}</td>
 									<td>
 										<dl>
-											<dt>{{item.communityName}}</dt>
+											<dt v-if="item.communityName">{{item.communityName}}</dt>
 											<dd>社区类型：<span> {{item.communityType | Form(item.communityType)}}</span></dd>
 											<dd>开业日期：<span> {{item.communityOpeningDate | imata(item.communityOpeningDate)}}</span></dd>
 											<dd>物业合同截止：<span> {{item.communityLeaseEnd | imata}}</span></dd>
@@ -99,8 +99,8 @@
 									</td>
 									<td>
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
-										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,Name:item.communityName}}">社区介绍</router-link>
-										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
+										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区介绍</router-link>
+										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
@@ -145,7 +145,7 @@
 									<td>{{index+1}}</td>
 									<td>
 										<dl>
-											<dt>{{item.communityName}}</dt>
+											<dt v-if="item.communityName">{{item.communityName}}</dt>
 											<dd>社区类型：<span> {{item.communityType | Form(item.communityType)}}</span></dd>
 											<dd>开业日期：<span> {{item.communityOpeningDate | imata(item.communityOpeningDate)}}</span></dd>
 											<dd>物业合同截止：<span> {{item.communityLeaseEnd | imata}}</span></dd>
@@ -202,7 +202,7 @@
 									<td>
 										<router-link :to="{path:'/apartment/communityMessage',query:{id:item.communityId}}">基本信息</router-link>
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,Name:item.communityName}}">社区介绍</router-link>
-										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId}}">资源管理</router-link>
+										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_UPDATE')">开放社区</a>
@@ -252,8 +252,8 @@
 								</tr>
 								<tr v-for="tableEvaluate in tableEvaluates">
 									<td><span class="text-default">{{tableEvaluate.createtime | createtime}}</span></td>
-									<td style="text-align: center"><span class="text-black">{{tableEvaluate.cxkjCommunity.communityName}}</span></td>
-									<td style="text-align: center"><span class="text-black">{{tableEvaluate.userInfo.userName}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.cxkjCommunity">{{tableEvaluate.cxkjCommunity.communityName}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.userInfo">{{tableEvaluate.userInfo.userName}}</span></td>
 									<td style="text-align: center">
 										<span class="text-default" v-if="tableEvaluate.cxkjBill != null">{{tableEvaluate.cxkjBill.billName}}</span>
 										<span class="text-default" v-if="tableEvaluate.cxkjOfficeOrder != null">{{tableEvaluate.cxkjOfficeOrder.orderName}}</span>
