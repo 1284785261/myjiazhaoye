@@ -358,6 +358,8 @@ const PcMessage = '/cxkj-room/apis/app/message/CxkjGetMessage300024'
 
 //修改消息的未读状态
 const essageUpdate = '/cxkj-room/apis/app/message/CxkjUserReadMessageUpdate200172'
+
+const OrOpenAll = '/cxkj-room/apis/pc/forumCenter/CxkjDelBatchPost300131'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -475,6 +477,7 @@ export const hostgCxkjCommun = host3 + gCxkjCommun;
 export const hostaCommunityCo = host3 + aCommunityCo;
 export const hostPcMessage = host3 + PcMessage;
 export const hostessageUpdate = host3 + essageUpdate;
+export const hostOrOpenAll = host3 + OrOpenAll;
 export const host = host3;
 //export default {
 //hosts:function(){

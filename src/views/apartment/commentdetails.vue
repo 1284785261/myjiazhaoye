@@ -202,10 +202,11 @@
 						commentId:this.communityId
 					})
 				).then((response)=>{
-					if(response.status == 200 && response.data.code){
+					// console.log(response);
+					if(response.status == 200 && response.data.code == 10000){
 
 						this.Datas = response.data.entity;
-						console.log(Datas)
+						// console.log(this.Datas)
 						this.score = this.Datas.score;
 						if(this.Datas.cxkjCommunity.province.areaName == this.Datas.cxkjCommunity.city.areaName){
 							this.communityAddress = this.Datas.cxkjCommunity.province.areaName + this.Datas.cxkjCommunity.district.areaName + this.Datas.cxkjCommunity.communityAddress;

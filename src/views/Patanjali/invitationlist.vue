@@ -77,7 +77,7 @@
 	import successModal from '../../components/successModal.vue';
   	import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
-    import { hostPostList,hostOpenAllPost } from '../api.js';
+    import { hostPostList,hostOpenAllPost,hostOrOpenAll } from '../api.js';
     import qs from 'qs';
 
     export default {
@@ -230,6 +230,35 @@
 			},
 			destidl(){
 				console.log(1111111111);
+				let vm = this;
+				let param = new FormData();
+				for(let i = 0;i<this.Datas.length;i++){
+					if(this.Datas[i].sing == true){
+						this.postIdArray.push(this.Datas[i].postId);
+					}
+				}
+				console.log(this.postIdArray);
+				param.append('postIdArray',vm.postIdArray);
+				axios.post(hostOrOpenAll,param).then((res)=>{
+					console.log(res);
+					if(res.status == 200 &&  res.data.code == 10000){
+						vm.successMessage = '批量删除帖子成功';
+						vm.successModal = true;
+						setTimeout(() => {
+							vm.successModal = false;
+							this.demand();
+						}, 2000);
+					}
+					else{
+							this.warningMessage = res.data.content;
+							this.warningModal = true;
+						}
+				}).catch((err)=>{
+					console.log(err);
+					this.warningMessage = '批量删除帖子失败';
+					this.warningModal = true;
+				})
+				this.postIdArray = [];
 			},
 			close(item){
 				console.log(item);

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="communityPesents">
 		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -588,7 +588,7 @@
 	@import '../../sass/page/_communityPresentation.scss';
 </style>
 <style>
-	.ivu-warp-Community {
+	#communityPesents .ivu-warp-Community {
 		width: 100%;
 		min-height: 1000px;
 		background: #fff;

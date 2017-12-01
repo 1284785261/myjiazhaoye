@@ -194,6 +194,10 @@
       selectArea(){
         this.selectList()
       },
+      deleteService(index){
+          console.log(this.enterpriseList);
+          this.enterpriseList[0].splice(index, 1);
+      },
       selectList(){
         let vm = this
         vm.$http.post(CommunityServiceList500119, qs.stringify({
@@ -339,6 +343,9 @@
                         margin-top: 10px;
                         background-color: #fff;
                         border: solid 1px #ccc;
+                        div{
+                            cursor: pointer;
+                        }
                     }
                 }
             }
@@ -397,6 +404,7 @@
                         background-color: rgb(248, 248, 248);
                     }
                     td{
+                        border-right: 1px solid #ccc;
                         .corporate-logo{
                             width: 90px;
                             height: 90px;
@@ -445,7 +453,7 @@
                     }
                 }
                 .active{
-                    border-bottom: 1px dashed #ccc;
+                    border-bottom: 1px solid #ccc;
                 }
                 .active:hover{
                     background: rgb(248, 252, 255);

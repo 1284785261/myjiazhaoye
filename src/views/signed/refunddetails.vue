@@ -123,7 +123,10 @@
    				}
    				else if(val == 2){
    					return '已退款';
-   				}
+				}
+				else if(val == 3){
+					return '审核不通过';
+				}
    			},
    			Money(val){
    				return val.toFixed(2)+'元'

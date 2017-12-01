@@ -1,155 +1,158 @@
 @charset "utf-8";
-.demo-upload-list{
-  display: inline-block;
-  width: 160px;
-  height: 120px;
-  text-align: center;
-  line-height: 108px;
-  border: 1px solid #dcdcdc;
-  overflow: hidden;
-  padding: 3px;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0,0,0,.2);
-  margin-right: 20px;
-}
-.demo-upload-list img{
-  width: 100%;
-  height: 100%;
-}
-.demo-upload-list-cover{
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,.6);
-}
-.demo-upload-list:hover .demo-upload-list-cover{
-  display: block;
-}
-.demo-upload-list-cover i{
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
-}
-.ivu-upload-drag{
-  border:1px solid #dcdcdc;
-  border-radius: 0;
-  &:hover{
-    border:1px solid #038be2;
-  }
-  i.ivu-icon.ivu-icon-camera{
-    background-image: url("/static/images/icon/olss.png");
+#communityPesents{
+  .demo-upload-list{
+    display: inline-block;
     width: 160px;
     height: 120px;
-  }
-}
-
-.demo-upload-list-cover{
-  i{
-    &:before{
-      display: none;
-    }
-  }
-  .ivu-icon-ios-eye-outline{
-    background-image: url("/static/images/icon/eye-outline.png");
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -15px;
-    margin-top: -15px;
-  }
-  .ivu-icon-ios-trash-outline{
-    background-image: url("/static/images/icon/trash-outline.png");
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-}
-
-
-.ivu-warp-Community{
-  background-color: #fff;
-  padding-top: 40px;
-  padding-bottom: 120px;
-  box-shadow: 0 3px 1px #ccc;
-  .ivu-main-img{
+    text-align: center;
+    line-height: 108px;
+    border: 1px solid #dcdcdc;
+    overflow: hidden;
+    padding: 3px;
+    background: #fff;
     position: relative;
-    padding-left: 155px;
-    h4{
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 155px;
-      text-align: right;
-      padding-right: 15px;
-      @include fontSzie(14px,#333);
-      font-weight: bold;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 20px;
+  }
+  .demo-upload-list img{
+    width: 100%;
+    height: 100%;
+  }
+  .demo-upload-list-cover{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.6);
+  }
+  .demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+  }
+  .demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+  }
+  .ivu-upload-drag{
+    border:1px solid #dcdcdc;
+    border-radius: 0;
+    &:hover{
+      border:1px solid #038be2;
     }
-    .item-img{
-      margin-bottom: 20px;
+    i.ivu-icon.ivu-icon-camera{
+      background-image: url("/static/images/icon/olss.png");
+      width: 160px;
+      height: 120px;
+    }
+  }
+  
+  .demo-upload-list-cover{
+    i{
+      &:before{
+        display: none;
+      }
+    }
+    .ivu-icon-ios-eye-outline{
+      background-image: url("/static/images/icon/eye-outline.png");
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+    }
+    .ivu-icon-ios-trash-outline{
+      background-image: url("/static/images/icon/trash-outline.png");
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+  
+  
+  .ivu-warp-Community{
+    background-color: #fff;
+    padding-top: 40px;
+    padding-bottom: 120px;
+    box-shadow: 0 3px 1px #ccc;
+    .ivu-main-img{
       position: relative;
-      padding-left: 80px;
-      overflow: hidden;
-      .fl{
+      padding-left: 155px;
+      h4{
         position: absolute;
         left: 0;
         top: 0;
-        width: 80px;
+        width: 155px;
         text-align: right;
-        padding-right: 10px;
+        padding-right: 15px;
+        @include fontSzie(14px,#333);
+        font-weight: bold;
       }
-      .demo-upload-list{
-          float: left;
-      }
-      .uplodas{
-          float: left;
-          display: inline-block;
-          position: relative;
-           height: 122px;
-           width: 162px;
-           div{
-               position: absolute;
-               left: 0;
-               top: 0;
-               width: 162px;
-               height: 122px;
-               line-height: 112px;
-               border: 1px solid #DCDCDC;
-            input{
-               position: absolute;
-               left: 0;
-               top: 0;
-               width: 160px;
-               height: 120px;
-               z-index: 50;
-               opacity: 0;
-               cursor: pointer;
-            }
-            .icons{
-               background-image: url(/static/images/icon/upload.png);
-                width: 160px;
-                height: 120px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                z-index: 10;
-            }
-           }
-           
+      .item-img{
+        margin-bottom: 20px;
+        position: relative;
+        padding-left: 80px;
+        overflow: hidden;
+        .fl{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 80px;
+          text-align: right;
+          padding-right: 10px;
+        }
+        .demo-upload-list{
+            float: left;
+        }
+        .uplodas{
+            float: left;
+            display: inline-block;
+            position: relative;
+             height: 122px;
+             width: 162px;
+             div{
+                 position: absolute;
+                 left: 0;
+                 top: 0;
+                 width: 162px;
+                 height: 122px;
+                 line-height: 112px;
+                 border: 1px solid #DCDCDC;
+              input{
+                 position: absolute;
+                 left: 0;
+                 top: 0;
+                 width: 160px;
+                 height: 120px;
+                 z-index: 50;
+                 opacity: 0;
+                 cursor: pointer;
+              }
+              .icons{
+                 background-image: url(/static/images/icon/upload.png);
+                  width: 160px;
+                  height: 120px;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  z-index: 10;
+              }
+             }
+             
+        }
       }
     }
   }
-}
-
-
-.ivu-icon.ivu-icon-camera::before{
-    display: none;
+  
+  
+  .ivu-icon.ivu-icon-camera::before{
+      display: none;
+  }
+  
 }

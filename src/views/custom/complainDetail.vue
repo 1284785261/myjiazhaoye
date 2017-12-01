@@ -51,11 +51,25 @@
 									</td>
 								</tr>
 							</table>
-							<ul class="logs" v-show="images.length">
+							<!-- <ul class="logs" v-show="images.length">
 								<li class="logs1" v-for="item in images">
 									<img :src='imgPath + item' style="width: 200px;height: 120px;" />
 								</li>
-							</ul>
+							</ul> -->
+							<div class="ivu-warp-Communitys" v-show="images.length">
+								
+									<div class="demo-upload-list" v-for="item in images">
+								<template>
+									<img :src="imgPath + item">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
+									</div>
+								</template>
+							</div>
+									<Modal v-model="visible">
+										<img :src="imgPath + imgName" v-if="visible">
+									</Modal>
+							</div>
 						</li>
 						<!--isCustomService:0、店长处理1、客服处理   isReturnVisit:是否是回访0、不是1、是-->
 						<template v-for="(item,index) in complainData.recordList" v-if="complainData.complainStatus != 1">
@@ -148,197 +162,291 @@
 </template>
 
 <script>
-	import menuBox from '../../components/menuBox.vue';
-	import rightHeader from '../../components/rightHeader.vue';
-	import footerBox from '../../components/footerBox.vue';
-	import successModal from '../../components/successModal.vue';
-	import warningModal from '../../components/warningModal.vue';
-	import { complainDetail, CustomerService300126,imgPath } from '../api.js';
-	import qs from 'qs';
+import menuBox from "../../components/menuBox.vue";
+import rightHeader from "../../components/rightHeader.vue";
+import footerBox from "../../components/footerBox.vue";
+import successModal from "../../components/successModal.vue";
+import warningModal from "../../components/warningModal.vue";
+import { complainDetail, CustomerService300126, imgPath } from "../api.js";
+import qs from "qs";
 
-	export default {
-		components: {
-			rightHeader,
-			menuBox,
-			footerBox,
-			successModal,
-			warningModal
-		},
-		data() {
-			return {
-				warningMessage: "",
-				successMessage: "",
-				testModal: false,
-				complainId: "",
-				complainData: {},
-				complainContent: "",
-				complainContent2: "",
-				images:[],
-				imgPath:''
-			}
-		},
-		mounted() {
-			this.complainId = this.$route.query.id;
-			this.imgPath = imgPath;
-			this.getComplainDetail({
-				complainId: this.complainId
-			});
-		},
-		methods: {
-			getComplainDetail(data) {
-				var that = this;
-				this.$http.get(complainDetail, {
-						params: data
-					})
-					.then(function(res) {
-						console.log(res);
-						if(res.status == 200 && res.data.code == 10000) {
-							that.complainData = res.data.entity;
-							let strs = that.complainData.complainImage.split(',');
-							console.log(strs);
-							that.images = strs;
-						}
-					})
-			},
-			//确认已处理
-			costomerReturn() {
-				var that = this;
-				this.$http.post(CustomerService300126, qs.stringify({
-						complainStatus: 3,
-						complainContent: this.complainContent,
-						complainId: this.complainId
-					}))
-					.then(function(res) {
-						if(res.status == 200 && res.data.code == 10000) {
-							that.getComplainDetail({
-								complainId: that.complainId
-							});
-						}
-					})
-			},
-			//确认回访
-			costomerReturn2() {
-				var that = this;
-				this.$http.post(CustomerService300126, qs.stringify({
-						complainStatus: 4,
-						complainContent: this.complainContent2,
-						complainId: this.complainId
-					}))
-					.then(function(res) {
-						if(res.status == 200 && res.data.code == 10000) {
-							that.getComplainDetail({
-								complainId: that.complainId
-							});
-						}
-					})
-			},
-			closeWarningModal() {
-				this.testModal = false;
-			}
-		},
-		filters: {
-			timefilter(value, format) {
-				if(value) {
-					return new Date(value).Format(format)
-				}
-			}
-		},
-	}
+export default {
+  components: {
+    rightHeader,
+    menuBox,
+    footerBox,
+    successModal,
+    warningModal
+  },
+  data() {
+    return {
+      warningMessage: "",
+      successMessage: "",
+      testModal: false,
+      complainId: "",
+      complainData: {},
+      complainContent: "",
+      complainContent2: "",
+      images: [],
+      imgPath: "",
+      imgName: "",
+      visible: false
+    };
+  },
+  mounted() {
+    this.complainId = this.$route.query.id;
+    this.imgPath = imgPath;
+    this.getComplainDetail({
+      complainId: this.complainId
+    });
+  },
+  methods: {
+    getComplainDetail(data) {
+      var that = this;
+      this.$http
+        .get(complainDetail, {
+          params: data
+        })
+        .then(function(res) {
+          console.log(res);
+          if (res.status == 200 && res.data.code == 10000) {
+            that.complainData = res.data.entity;
+            let strs = that.complainData.complainImage.split(",");
+            console.log(strs);
+            that.images = strs;
+          }
+        });
+    },
+    //确认已处理
+    costomerReturn() {
+      var that = this;
+      this.$http
+        .post(
+          CustomerService300126,
+          qs.stringify({
+            complainStatus: 3,
+            complainContent: this.complainContent,
+            complainId: this.complainId
+          })
+        )
+        .then(function(res) {
+          if (res.status == 200 && res.data.code == 10000) {
+            that.getComplainDetail({
+              complainId: that.complainId
+            });
+          }
+        });
+    },
+    //确认回访
+    costomerReturn2() {
+      var that = this;
+      this.$http
+        .post(
+          CustomerService300126,
+          qs.stringify({
+            complainStatus: 4,
+            complainContent: this.complainContent2,
+            complainId: this.complainId
+          })
+        )
+        .then(function(res) {
+          if (res.status == 200 && res.data.code == 10000) {
+            that.getComplainDetail({
+              complainId: that.complainId
+            });
+          }
+        });
+    },
+    handleView(name) {
+	console.log(name);
+      this.imgName = name;
+      this.visible = true;
+    },
+    closeWarningModal() {
+      this.testModal = false;
+    }
+  },
+  filters: {
+    timefilter(value, format) {
+      if (value) {
+        return new Date(value).Format(format);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-	@import '../../sass/base/_mixin.scss';
-	@import '../../sass/base/_public.scss';
-	#complain-detail-wrap {
-		padding-bottom: 50px;
-		width: 100%;
-		min-height: 1000px;
-		background-color: #fff;
-		box-shadow: 0 3px 1px #ccc;
-		.order-detail-wrap-head {
-			position: relative;
-			height: 160px;
+@import "../../sass/base/_mixin.scss";
+@import "../../sass/base/_public.scss";
+#complain-detail-wrap {
+  padding-bottom: 50px;
+  width: 100%;
+  min-height: 1000px;
+  background-color: #fff;
+  box-shadow: 0 3px 1px #ccc;
+  .order-detail-wrap-head {
+    position: relative;
+    height: 160px;
+    width: 100%;
+    background-color: rgb(247, 251, 255);
+    border-bottom: 1px solid rgb(220, 220, 220);
+    img {
+      margin: 25px 45px;
+    }
+    .order-detail-wrap-head-content {
+      height: 100%;
+      display: inline-block;
+      h3 {
+        span.colorSpan {
+          padding-left: 150px;
+        }
+      }
+      p {
+        position: relative;
+        top: 10px;
+      }
+    }
+  }
+  ul {
+    margin: 40px 50px;
+    height: 100%;
+    li {
+      border-bottom: 1px dashed #ccc;
+      margin-top: 30px;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+    .border-bottom {
+      border-bottom: 1px dashed #ccc !important;
+    }
+  }
+  .accept-btn {
+    margin-left: 180px;
+    margin-top: 20px;
+  }
+  .order-detail-content {
+    h3 {
+      display: inline-block;
+      color: rgb(3, 139, 226);
+      i {
+        margin-right: 10px;
+        background: url("/static/images/icon/iden.png") no-repeat;
+        background-size: 80%;
+        width: 6px;
+        height: 24px;
+      }
+    }
+    table {
+      tr > td:nth-child(1) {
+        text-align: right;
+      }
+      tr {
+        td {
+          padding: 10px;
+        }
+        td:first-child {
+          width: 115px;
+        }
+        td.payInfo {
+          text-align: left;
+          padding-left: 40px;
+          color: red;
+        }
+      }
+    }
+    .ivu-warp-Communitys {
+      width: 100%;
+      min-height: 130px;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+
+      .demo-upload-list {
+        display: inline-block;
+        width: 160px;
+        height: 120px;
+        text-align: center;
+        line-height: 108px;
+        border: 1px solid #dcdcdc;
+        overflow: hidden;
+        padding: 3px;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        margin-right: 20px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        .demo-upload-list-cover {
+          display: none;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.6);
+          i {
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+          }
+		}
+		.ivu-modal-footer {
+			display: none;
+		}
+	
+		.ivu-modal-wrap .ivu-modal {
+			width: 800px!important;
+			height: 600px;
+		}
+
+		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-close {
+			display: inline-block;
+			background: #333333;
+			width: 30px;
+			border-radius: 50%;
+			text-align: center;
+			position: absolute;
+			top: -5%;
+			right: -5%;
+		}
+
+		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body {
+			width: 800px;
+			height: 600px;
+			overflow: hidden;
+		}
+
+		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body img {
 			width: 100%;
-			background-color: rgb(247, 251, 255);
-			border-bottom: 1px solid rgb(220, 220, 220);
-			img {
-				margin: 25px 45px
-			}
-			.order-detail-wrap-head-content {
-				height: 100%;
-				display: inline-block;
-				h3 {
-					span.colorSpan {
-						padding-left: 150px;
-					}
-				}
-				p {
-					position: relative;
-					top: 10px;
-				}
-			}
+			height: 550px;
 		}
-		ul {
-			margin: 40px 50px;
-			height: 100%;
-			li {
-				border-bottom: 1px dashed #ccc;
-				margin-top: 30px;
-			}
-			li:last-child {
-				border-bottom: none;
-			}
-			.border-bottom {
-				border-bottom: 1px dashed #ccc!important;
-			}
+        
+	  }
+	  .demo-upload-list-cover{
+		i{
+		&:before{
+			display: none;
 		}
-		.accept-btn {
-			margin-left: 180px;
-			margin-top: 20px;
 		}
-		.order-detail-content {
-			h3 {
-				display: inline-block;
-				color: rgb(3, 139, 226);
-				i {
-					margin-right: 10px;
-					background: url("/static/images/icon/iden.png") no-repeat;
-					background-size: 80%;
-					width: 6px;
-					height: 24px;
-				}
-			}
-			table {
-				tr>td:nth-child(1) {
-					text-align: right;
-				}
-				tr {
-					td {
-						padding: 10px;
-					}
-					td:first-child {
-						width: 115px;
-					}
-					td.payInfo {
-						text-align: left;
-						padding-left: 40px;
-						color: red;
-					}
-				}
-			}
-			li {
-				.logs {
-					margin-top: 15px;
-					width: 100%;
-					overflow: hidden;
-					.logs1 {
-						float: left;
-						border-bottom: none;
-						margin-top: 0;
-						margin-right: 20px;
-					}
-				}
-			}
+		.ivu-icon-ios-eye-outline{
+			background-image: url("/static/images/icon/eye-outline.png");
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -15px;
+			margin-top: -15px;
 		}
 	}
+	}
+	.ivu-warp-Communitys .demo-upload-list:hover .demo-upload-list-cover {
+		display: block;
+	}
+  }
+}
 </style>

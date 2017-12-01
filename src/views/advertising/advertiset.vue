@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="advers">
 		<menu-box></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -50,6 +50,14 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<div class="lose" v-show="isShow4">
+			<span>确认<i>删除</i>此banner吗？</span>
+			<p></p>
+			<a @click="qsm5">确定</a>
+			<a @click="qb5">取消</a>
+		</div>
+		<div class="scherm" v-show="isHide">
+		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
@@ -76,6 +84,7 @@
 		},
 		data() {
 			return {
+				isShow4: false,
 				isHide: false,
 				currentPage3: 1,
 				Datas: null,
@@ -86,7 +95,8 @@
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
-				warningMessage: '添加信息不完整，请检查添加社区信息'
+				warningMessage: '添加信息不完整，请检查添加社区信息',
+				id:''
 			}
 		},
 		mounted() {
@@ -123,10 +133,21 @@
 						console.log(error);
 					})
 			},
+			qb5(){
+				this.isHide = false;
+				this.isShow4 = false;
+			},
 			deletes(id) {
-				axios.post(hostDelete, //删除广告
+				this.isHide = ! this.isHide;
+				this.isShow4 = !this.isShow4;
+				this.id = id;
+			},
+			qsm5(){
+					this.isHide = false;
+					this.isShow4 = false;
+					axios.post(hostDelete, //删除广告
 						qs.stringify({
-							adIds: id
+							adIds: this.id
 						}))
 					.then((response) => {
 						console.log(response);
@@ -151,7 +172,7 @@
               			this.warningModal = true;
 					})
 
-			}
+				}
 
 		},
 		filters: {
