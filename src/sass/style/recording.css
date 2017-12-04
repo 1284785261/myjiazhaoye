@@ -1,0 +1,66 @@
+.recording{
+    width: 100%;
+	min-height: 1000px;
+	background: #fff;
+	overflow: hidden;
+	box-shadow: 0 3px 1px #ccc;
+}
+.recording .tos{
+    height: 76px;
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+}
+.recording .tos .bsf{
+    line-height: 76px;
+    margin-left: 20px;
+    font-size: 12px;
+    color: #000;
+}
+.recording .tos .sous{
+    display: inline-block;
+    cursor: pointer;
+    width: 98px;
+    height: 35px;
+    border: 1px solid #329cf6;
+    color: #329cf6;
+    font-size: 16px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+.recording .lives{
+    width: 90%;
+    height: 400px;
+    position: relative;
+    margin-top: 40px;
+    margin-left:5%;
+}
+.recording .lives li{
+    float: left;
+    position: relative;
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+.recording .lives li .logs{
+    width: 250px;
+    height: 190px;
+}
+.recording .lives li #myvideo{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.recording .el-pagination {
+	text-align: center;
+	margin-top: 100px;
+}
+
+.recording .el-pagination .el-pager .number {
+	margin: 0 5px;
+	border: 1px solid #DCDCDC;
+}
+
+.recording .el-pagination button {
+	border: 1px solid #DCDCDC;
+}

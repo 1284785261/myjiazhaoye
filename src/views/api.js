@@ -3,13 +3,13 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-const host3 = 'http://test.kaisaspace.com:8050';
+//const host3 = 'http://test.kaisaspace.com:8050';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 //const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
-//const host3 = 'http://192.168.20.135:8091';//李志guang
+const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
 //const host3 = 'http://192.168.26.118:8081';//周昭滨2
 
@@ -360,6 +360,9 @@ const PcMessage = '/cxkj-room/apis/app/message/CxkjGetMessage300024'
 const essageUpdate = '/cxkj-room/apis/app/message/CxkjUserReadMessageUpdate200172'
 
 const OrOpenAll = '/cxkj-room/apis/pc/forumCenter/CxkjDelBatchPost300131'
+
+//直播记录
+const AllLiveList = '/cxkj-room/apis/pc/live/CxkjAllLiveList300132'
 export const hostlogin = host3 + login;
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
@@ -478,6 +481,7 @@ export const hostaCommunityCo = host3 + aCommunityCo;
 export const hostPcMessage = host3 + PcMessage;
 export const hostessageUpdate = host3 + essageUpdate;
 export const hostOrOpenAll = host3 + OrOpenAll;
+export const hostAllLiveList = host3 + AllLiveList;
 export const host = host3;
 //export default {
 //hosts:function(){

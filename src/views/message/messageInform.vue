@@ -262,8 +262,7 @@
 								this.successModal = false;
 								this.bean();
 								this.bean2();
-							}, 2000);
-	    					
+							}, 2000);	    					
 	    				}
 	    				else{
 	    					this.warningMessage = res.data.content;

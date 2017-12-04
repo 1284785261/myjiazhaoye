@@ -428,6 +428,16 @@ export default new Router({
       name:'discountcom',
       component:resolve =>
         require(['../views/activity/discountcom.vue'],resolve)
+    },{
+      path:'/Liverecording/recording',		//直播管理
+      name:'recording',
+      component:resolve =>
+        require(['../views/Liverecording/recording.vue'],resolve)
+    },{
+      path:'/Industry/industry',		//工商注册
+      name:'industry',
+      component:resolve =>
+        require(['../views/Industry/industry.vue'],resolve)
     },
 
 
