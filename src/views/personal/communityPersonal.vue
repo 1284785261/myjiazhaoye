@@ -35,19 +35,19 @@
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">所属社区：</td>
-							<td><span v-for="item in user.cxkjCommunityList" class="lista">{{item.communityName}}</span></td>
+							<td><span v-for="item in communityNames" class="lista">{{item}}</span></td>
 						</tr>
 						<tr>
 							<td>所在部门：</td>
 							<td>
-								<span v-if="user.departmentName">{{user.departmentName}}</span>
+								<span v-if="user">{{user.departmentName}}</span>
 								<span v-else>无</span>
 							</td>
 						</tr>
 						<tr>
 							<td>部门职位：</td>
 							<td>
-								<span v-if="user.officePosition">{{user.officePosition}}</span>
+								<span v-if="user.positionName">{{user.positionName}}</span>
 								<span v-else>无</span>
 							</td>
 						</tr>
@@ -98,7 +98,8 @@
                 filelist:[],
                 imageUrl: '',
                 loading:false,
-                param:{}
+				param:{},
+				communityNames:null
     		}
     	},
     	mounted(){
@@ -116,7 +117,11 @@
 					console.log(response);
 					
 	    			if(response.status == 200 && response.data.code == 10000){
-		    			vm.user = response.data.entity;
+						vm.user = response.data.entity;
+						if(vm.user.communityNames){
+							vm.communityNames = vm.user.communityNames.split(",");
+							console.log(vm.communityNames);
+						}
 		    			sessionStorage.setItem("phone",this.user.userPhone);
 		    			if(response.data.entity.headPic != null){
 		    				vm.imgPath1 = imgPath + response.data.entity.headPic;

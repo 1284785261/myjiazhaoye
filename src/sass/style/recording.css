@@ -30,29 +30,86 @@
     margin-left: 20px;
 }
 .recording .lives{
-    width: 90%;
-    height: 400px;
+    width: 100%;
     position: relative;
     margin-top: 40px;
-    margin-left:5%;
+    overflow: hidden;
 }
-.recording .lives li{
+.recording .lives .lis{
     float: left;
     position: relative;
-    margin-right: 40px;
-    margin-bottom: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 25px;
+    cursor: pointer;
 }
-.recording .lives li .logs{
+.recording .lives .lis .logs{
     width: 250px;
     height: 190px;
 }
-.recording .lives li #myvideo{
+.recording .lives .lis #myvideo{
     position: absolute;
     left: 0;
     top: 0;
 }
+.recording .lives .lis .hfs{
+    display: inline-block;
+    width: 68px;
+    height: 22px;
+    background: #ee7700;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 22px;
+    position: absolute;
+    right: 12px;
+    top: 10px; 
+}
+.recording .lives .lis .commid{
+    position: absolute;
+    left: 8px;
+    bottom: 15px; 
+    font-size: 12px;
+    color: #fff;
+    z-index: 10;
+}
+.recording .lives .lis .bfs{
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 250px;
+    height: 190px;
+    display: none;
+    background: #666;
+    opacity: 0.5;
+}
+.recording .lives .lis .bfs div{
+    width: 250px;
+    height: 190px;
+    display: none;
+    border: 2px solid #ee7700;
+    z-index: 9;
+}
+.recording .lives .lis .btsg{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: none;
+    transform: translate(-50%,-50%);
+}
+.recording .lives .lis:hover .btsg{
+    display: block;
+}
+.recording .lives .lis:hover .bfs,.recording .lives .lis:hover .bfs div{
+    display: block;
+}
+.recording .lives .lis:hover .hfs{
+    display: none;
+}
 .recording .el-pagination {
-	text-align: center;
+    width: 100%;
+    text-align: center;
 	margin-top: 100px;
 }
 
@@ -63,4 +120,19 @@
 
 .recording .el-pagination button {
 	border: 1px solid #DCDCDC;
+}
+#zbjs{
+    position: absolute;
+    left: 50%;
+    top: 50%;    
+    display: none;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+}
+#zbjs i{
+    font-size: 30px;
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    cursor: pointer;
 }

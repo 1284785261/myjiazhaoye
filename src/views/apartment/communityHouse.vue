@@ -17,7 +17,7 @@
           <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
             <el-tab-pane :label="'公寓('+CommunityRoomCount+')'" name="first" v-if="hides1">
               <div class="house_hu">
-                <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux" && v-if="jurisdiction('COMMUNITY_UPDATE')">管理户型</router-link>
+                <router-link :to="{name:'communityHouseType',query:{communityId:communityId}}" class="hux" v-if="jurisdiction('COMMUNITY_UPDATE')">管理户型</router-link>
                 <a href="javascript:;" class="adds" @click="openFloorModal()" v-if="jurisdiction('COMMUNITY_INCREASE')">添加楼层</a>
               </div>
               <div class="ls" v-if="!loading">
@@ -663,7 +663,7 @@
         var that = this;
         that.loading = true;
         this.$http.post(Apartment, {"communityId": this.communityId})
-          .then(function (res) {debugger
+          .then(function (res) {
             if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
               that.rootData = res.data.entity;
               that.getCommunityListRoomTrue();

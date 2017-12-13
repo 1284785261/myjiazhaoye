@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="invitat">
 		<menu-box></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
@@ -63,6 +63,14 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<div class="lose" v-show="isShow4">
+			<span>确认<i>批量删除</i>帖子吗？</span>
+			<p></p>
+			<a @click="qsm5">确定</a>
+			<a @click="qb5">取消</a>
+		</div>
+		<div class="scherm" v-show="isHide">
+		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
     	<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
@@ -110,7 +118,9 @@
           		}],
 		        value: '全部',
 		        pageSize:10,
-		        State:null,
+				State:null,
+				isShow4:false,
+				isHide: false,
 		        disabled:true,
 				postIdArray:[],
 				successModal: false,
@@ -122,7 +132,7 @@
     	mounted(){
 			console.log(this.jurisdiction('JIAREN_UPDATE'));
     		this.communityId = this.$route.query.id;
-    		this.datas();
+    		this.demand();
     	},
     	filters:{
     		time(val) {
@@ -141,32 +151,13 @@
 				this.warningModal = false;
 			},
 		    handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
+		        // console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.demand();
 		    },
-		    datas(){
-		    	let pageNum = this.pageNum || 1;
-		    	let param = new FormData();
-		    	param.append('pageNum',pageNum);
-		    	param.append('pageSize',this.pageSize);
-		    	axios.post(hostPostList, param).then((response)=>{
-		    		console.log(response);
-		    		if(response.status == 200 && response.data.code == 10000){
-			    		this.Datas = response.data.pageBean.page;
-			    		this.totolNum = response.data.pageBean.totalNum;
-			    		for(let i = 0; i < this.Datas.length; i++) {
-							this.$set(this.Datas[i], "sing", false);
-						}
-			    		console.log(this.Datas);
-			    	}
-		    	})
-		    	.catch((error)=>{
-		    		console.log(error);
-		    	})
-		  	},
 		  	types(value){
-		  		this.State = this.options[this.options.findIndex(item => item.name == value)].id;
+				this.State = this.options[this.options.findIndex(item => item.name == value)].id;
+				console.log(this.State);
 		  	},
 		  	demand(){
 		  		let pageNum = this.pageNum || 1;
@@ -175,9 +166,11 @@
 		    	param.append('pageSize',this.pageSize);
 		    	if(this.inputs){
 		    		param.append('userName',this.inputs);
-		    	}
-		    	if(this.State){
-		    		param.append('isClose',this.State);
+				}
+				if(this.State != null){
+					if(this.State != -1){
+						param.append('isclose',this.State);
+					}
 		    	}
 		    	console.log(this.State);
 		    	axios.post(hostPostList, param).then((response)=>{
@@ -191,7 +184,7 @@
 			    	}
 		    		else{
 		    			this.Datas = [];
-		    			this.totolNum = 0
+		    			this.totolNum = 0;
 		    		}
 		    	})
 		    	.catch((error)=>{
@@ -208,15 +201,16 @@
 					}
 		  		}
 		  		if(this.Datas.length){
-		  			this.single2 = flag;
-		  			this.disabled = !this.disabled;
+					this.single2 = flag;
+		  			this.disabled = false;
 		  		}else {
 		  			this.single2 = false;
-		  		}
+				}
+				console.log(value);  
 		  	},
 		  	handleCheckAll2() { //全选
 				this.single2 = !this.single2;
-				this.disabled = !this.disabled;
+				this.disabled = false;
 				if(this.single2 == true) {
 					for(let i = 0; i < this.Datas.length; i++) {
 						this.$set(this.Datas[i], "sing", true);
@@ -229,7 +223,13 @@
 
 			},
 			destidl(){
-				console.log(1111111111);
+				// console.log(1111111111);
+				this.isHide = ! this.isHide;
+				this.isShow4 = !this.isShow4;
+			},
+			qsm5(){
+				this.isHide = false;
+				this.isShow4 = false;
 				let vm = this;
 				let param = new FormData();
 				for(let i = 0;i<this.Datas.length;i++){
@@ -259,6 +259,10 @@
 					this.warningModal = true;
 				})
 				this.postIdArray = [];
+			},
+			qb5(){
+				this.isHide = false;
+				this.isShow4 = false;
 			},
 			close(item){
 				console.log(item);

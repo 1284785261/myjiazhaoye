@@ -67,20 +67,20 @@
 	background: #b8b8b8;
 	position: absolute;
 	left: 38%;
-  top: 41%;
+  	top: 41%;
 }
 .message-tis .uploading .upload .jiahao3{
 	position: absolute;
 	left: 24px;
-  top: 30px;
+  	top: 30px;
 	color: #b8b8b8;
 	font-size: 12px;
 	width: 51px;
-  height: 6px;
+  	height: 6px;
 }
 .message-tis .fromss{
 	margin-left: 220px;
-	margin-top: 52px;	
+	margin-top: 52px;
 }
 .message-tis .fromss tr{
 	line-height: 32px;
@@ -89,7 +89,7 @@
 	width: 75px;
 }
 .message-tis .fromss tr td:nth-child(2){
-	width: 700px;
+	width: 600px;
 }
 .message-tis .inste{
 	width: 120px;

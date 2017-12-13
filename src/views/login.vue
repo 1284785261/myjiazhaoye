@@ -39,7 +39,7 @@
           </Form-item>
         </Form>
       </div>
-      <span style="position: absolute;left: 358px;bottom: 27px;color:#fff;">版本号：1.1.10.171128_release</span>
+      <span style="position: absolute;left: 358px;bottom: 27px;color:#fff;">版本号：1.1.12.3.171128_release</span>
       <p class="Copy">Copyright © 2017 佳兆业创享空间科技（深圳）有限公司版权所有 粤ICP备16035093号</p>
     </div>
   </div>
