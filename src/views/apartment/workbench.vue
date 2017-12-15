@@ -3,7 +3,7 @@
 		<menu-box></menu-box>
 		<div class="right-content" id="rightwork">
 			<right-header></right-header>
-			<div class="wordbench-box">
+			<div class="wordbench-box" style="min-height:1000px;">
 				<div class="main-home">
 					<div class="home-item">
 						<!--<h3>{{user.name}}<span>{{user.quanxian | quanxian}}</span></h3>-->

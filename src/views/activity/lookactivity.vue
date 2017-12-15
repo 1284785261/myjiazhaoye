@@ -40,7 +40,8 @@
 		    			</tr>
 						<tr>
 		    				<td>金额范围：</td>
-		    				<td style="color: red;">{{Userlist.beginQuota | Money}} - {{Userlist.endQuota | Money}}</td>
+		    				<td style="color: red;" v-if="Userlist.beginQuota">{{Userlist.beginQuota | Money}} - {{Userlist.endQuota | Money}}</td>
+							<td style="color: red;" v-else>无</td>
 		    			</tr>
 						<tr>
 		    				<td>总金额：</td>
@@ -164,16 +165,16 @@
 				else if(val == '2'){
 					return '长期有效'
 				}
-				else if(val == '0,1'){
+				else if(val == '0,1' || val == '1,0'){
 					return '到期结束+送完即止'
 				}
-				else if(val == '0,2'){
+				else if(val == '0,2' || val == '2,0'){
 					return '到期结束+长期有效'
 				}
-				else if(val == '1,2'){
+				else if(val == '1,2' || val == '2,1'){
 					return '送完即止+长期有效'
 				}
-				else if(val == '0,1,2'){
+				else if(val == '0,1,2' || val == '1,0,2' || val == '2,1,0'){
 					return '到期结束+送完即止+长期有效'
 				}
 			},
@@ -219,7 +220,7 @@
 						activityId:this.activityId
 					})
 				).then((res) => {
-					//console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.entity;
 					}

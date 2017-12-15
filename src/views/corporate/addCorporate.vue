@@ -223,6 +223,7 @@
         param.append('enterpriseTel', vm.enterpriseTel)
         param.append('enterpriseArea', vm.itemArea)
         param.append('enterpriseType', vm.projectServices)
+        
         vm.$http.post(CommunityServiceAdd500120,param).then(res => {
           if(res.data.code == '10000'){
             vm.successMessage='添加企业服务成功'

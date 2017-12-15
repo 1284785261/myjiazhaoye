@@ -164,13 +164,18 @@
 					}
 			},
 			shuzi2(value){
-				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+				if(parseFloat(value) > parseFloat(this.Activity.beginQuota)){
+					let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 					if(str.test(value) == true){
 						this.Activity.endQuota = value;
 					}
 					else{
 						this.Activity.endQuota = '';
 					}
+				}else{
+					this.Activity.endQuota = '';
+				}
+					
 			},
 			shuzi3(value){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
@@ -225,8 +230,10 @@
 				param.append("beginDate", vm.Activity.beginDate);
 				param.append("endRule", vm.Activity.endRule);
 				param.append("endDate", vm.Activity.endDate);
-				param.append("beginQuota", vm.Activity.beginQuota);
-				param.append("endQuota", vm.Activity.endQuota);
+				if(parseFloat(vm.Activity.endQuota) > parseFloat(vm.Activity.beginQuota)){
+					param.append("beginQuota", vm.Activity.beginQuota);
+					param.append("endQuota", vm.Activity.endQuota);
+				}
 				param.append("activityTotalMoney", vm.Activity.activityTotalMoney);
 				param.append("validityDate", vm.Activity.validityDate);
 				param.append("joinStatus", vm.radio3);

@@ -226,13 +226,19 @@
       },
       /** 新增服务 **/
       addService(indexs){
-        let index = this.enterpriseList[indexs].findIndex(item => item == this.newService)
+        console.log(indexs);
+        console.log(this.seleArea);
+        console.log(this.enterpriseList);
+        console.log(this.enterpriseList[indexs]);
+        let index = this.enterpriseList[indexs].findIndex(item => item == this.newService);
+       
         if(!this.newService){
           this.warningMessage = '请选择有效的企业服务'
           this.warningModal = true
         } else if(index<0){
           let list = this.enterpriseList[indexs];
-          list.push(this.newService)
+          list.push(this.newService);
+          console.log(list);
           vm.$set(vm.enterpriseList,indexs,list)
           this.newService = "";
         }else {
