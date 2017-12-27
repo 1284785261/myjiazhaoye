@@ -35,7 +35,7 @@
             </div>
             <div class="form-item">
               <a class="dcs" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</a>
-              <a class="dcs">导出</a>
+              <a class="dcs" @click="DerivedForm">导出</a>
             </div>
           </div>
           <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
@@ -92,7 +92,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,complainList} from '../api.js';
+  import {allCommunity,complainList,ComplainListDownLoad200177} from '../api.js';
 
 
   export default {
@@ -132,19 +132,43 @@
         }],
         complainList:[],
         complainTotalNum:0,
-        selectStatus:-1,
-        roomCommunity:-1,
+        selectStatus:'',
+        roomCommunity:'',
         roomSearchKey:"",
         roomStartDate:"",
         roomEndDate:"",
         complainCurrent:1,
+        ComplainListDownLoad200177:'',
+        pageNum:1,
       }
     },
     mounted(){
+      this.ComplainListDownLoad200177 = ComplainListDownLoad200177
       this.getCommunityData();
       this.getComplainData({pageNum:1});
     },
     methods:{
+      DerivedForm(){
+        let vm = this
+        let url=ComplainListDownLoad200177+`?pageNum=${vm.pageNum}`
+        if(vm.roomCommunity>=0){
+          url += `&communityId=${vm.roomCommunity}`
+        }
+        if(vm.selectStatus>=0){
+          url += `&complainStatus=${vm.selectStatus}`
+        }
+        if(vm.roomStartDate){
+          url += `&beginDate=${vm.roomStartDate}`
+        }
+        if(vm.roomEndDate){
+          url += `&beginDate=${vm.roomEndDate}`
+        }
+        if(vm.keyWord){
+          url += `&keyWord=${vm.keyWord}`
+        }
+        console.log(url)
+        window.open(url)
+      },
       handleClick(tab, event) {
         console.log(tab, event);
       },
@@ -157,11 +181,11 @@
             }
           })
       },
-      getComplainData(data){debugger
+      getComplainData(data){
         var that = this;
         this.$http.get(complainList,{params:data})
-          .then(function(res){debugger
-            if(res.status == 200 && res.data.code == 10000){debugger
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.complainList = pageBean.page;
               that.complainTotalNum = pageBean.totalNum;
@@ -179,7 +203,7 @@
         if(this.roomCommunity != -1){
           data.communityId = this.roomCommunity;
         }
-        if(this.selectStatus != -1){
+        if(this.selectStatus != ''){
           data.complainStatus = this.selectStatus;
         }
         if(this.roomSearchKey){
@@ -191,8 +215,10 @@
         if(this.roomEndDate){
           data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
         }
+        this.pageNum = page || 1
         this.getComplainData(data);
       },
+
       toAddComplain(){
           this.$router.push({name:'addComplain'})
       }

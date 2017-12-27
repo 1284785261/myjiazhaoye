@@ -49,6 +49,7 @@
 											<a @click="amend2(item)" v-if="jurisdiction('STAFF_UPDATE')">编辑</a>
 											<a @click="close2(item)" v-if="item.employeeStatus == 1 && jurisdiction('STAFF_UPDATE')">关闭</a>
 											<a @click="close2(item)" v-else-if="item.employeeStatus == 0 && jurisdiction('STAFF_UPDATE')">开启</a>
+                                            <a @click="updatePwd(item)" >重置密码</a>
 										</td>
 									</tr>
 								</table>
@@ -296,6 +297,12 @@
 			<a @click="qsm9">确定</a>
 			<a @click="qb9">取消</a>
 		</div>
+        <div class="lose" v-show="isShow10">
+            <span>确认重置该用户的密码吗？</span>
+            <p></p>
+            <a @click="qsm10">确定</a>
+            <a @click="qb10">取消</a>
+        </div>
 		<div class="addsection" v-show="isShowadd">
 			<i class="el-icon-circle-close" @click="inst"></i>
 			<p>新增部门</p>
@@ -486,6 +493,7 @@
 				isShow7: false,
 				isShow8:false,
 				isShow9:false,
+                isShow10:false,
 				isShows: false,
 				isShowadd: false,
 				addcommuni:false,
@@ -1264,6 +1272,12 @@
 					})
 				}
 			},
+          /***重置密码***/
+          updatePwd(item){
+            this.isHide = true;
+             this.isShow10 = true
+			  alert(JSON.stringify(item))
+          },
 			closem(item) {
 				this.isHide = true;
 				this.isShow5 = true;
@@ -1815,6 +1829,16 @@
 					this.warningModal = true;
 				}
 			},
+          /****确认重置密码***/
+            qsm10(){
+            this.isShow10 = false
+            this.isHide = false
+           },
+          /****取消重置密码*****/
+          qb10(){
+            this.isShow10 = false
+            this.isHide = false
+          },
 			qsm9(){
 				let mt = 0;
 				if(this.titles == '批量开放') {

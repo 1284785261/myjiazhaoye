@@ -34,7 +34,7 @@
 						<ul class="apartment-list workbens">
 							<li>
 								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
-								<a @click="eliminat(5)">看房预约</a>
+								<a @click="eliminat(5,0)">看房预约</a>
 								
 							</li>
 							<li>
@@ -126,7 +126,7 @@
 						<ul class="apartment-list workbens">
 							<li>
 								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
-								<a @click="eliminat(5)">看房预约</a>
+								<a @click="eliminat(5,1)">看房预约</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
@@ -456,7 +456,7 @@
 					})
 				).then((res)=>{
 					console.log(res.data);
-					debugger
+//					debugger
 					console.log(res);
 				}).catch((err)=>{
 					console.log(err);
@@ -468,9 +468,10 @@
 				this.$router.push('/bill/billManagement');
 				this.datas2();
 			},
-			eliminat(value){
+			eliminat(value,num){
 				this.share(value);
-				this.$router.push({path:'/signed/housesubscribe',query:{communityId:this.communityId,Name:this.selectModel1}});
+				let isOffice = num
+				this.$router.push({path:'/signed/housesubscribe',query:{communityId:this.communityId,Name:this.selectModel1,isOffice:isOffice}});
 				this.datas2();
 			},
 			eliminate6(value){

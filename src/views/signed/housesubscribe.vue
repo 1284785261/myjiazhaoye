@@ -54,7 +54,7 @@
 								<span v-if="item.appointmentStatus ==3" style="color: #ccc;">已签约</span>
 								<span v-if="item.appointmentStatus ==4">已取消</span>
 							</td>
-							<td>微信</td>
+							<td>{{item.isWx== 1?'微信':'App'}}</td>
 							<td>
 								<a v-if="item.appointmentStatus ==0" @click="receive(item.appointmentId)">我要接待</a>
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
@@ -203,14 +203,19 @@
 				activePage: 1,
 				communityId:'',
 				Names:'',
-				ListDatadetail:{}
+				ListDatadetail:{},
+                isOffice:''
 			}
 		},
 		mounted() {
 			this.communityId = this.$route.query.communityId;
+            this.isOffice = parseInt(this.$route.query.isOffice);
+			 console.log(this.isOffice+'isOffice')
 			this.Names = this.$route.query.Name;
+			 let vm = this
 			this.getAppointmentList({
-				pageNum: 1
+				pageNum: 1,
+                isOffice:vm.isOffice
 			});
 		},
 		methods: {
@@ -332,6 +337,7 @@
 				if(this.keyWord) {
 					data.keyWord = this.keyWord;
 				}
+              data.isOffice = this.isOffice
 				this.getAppointmentList(data);
 			}
 		},
