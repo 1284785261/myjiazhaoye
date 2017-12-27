@@ -134,11 +134,6 @@ import qs from 'qs';
       			that.title = res.data.content;//把错误信息赋给当前的title
       			that.isShow = true;
       			console.log(that.isShow);
-
-      			setInterval(function(){//设置定时器控制title消失
-
-      				that.isShow = false;
-      			},10000);
       		}
       	})
       	.catch((error)=>{
@@ -159,7 +154,7 @@ import qs from 'qs';
   }
   .titp{
   	position: absolute;
-    top: 51.5%;
+    top: 51.6%;
     display: inline-block;
     height: 20px;
     font-size: 12px;

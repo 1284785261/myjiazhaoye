@@ -27,7 +27,7 @@
           width: 100px;
           margin: 0 15px;
           height: 36px;
-          padding: 6px 12px;
+          padding-left: 10px;
           border: 1px solid #dcdcdc;
         }
       }
@@ -58,6 +58,9 @@
       }
       .ivu-input{
         width: 180px;
+        font-size: 14px;
+        color: #000;
+        padding-left: 10px;
       }
       .ivu-yellow{
         color:#ff6612;

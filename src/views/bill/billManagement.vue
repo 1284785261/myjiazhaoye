@@ -15,7 +15,7 @@
           </Select>
         </div>
         <div id="bill-management-wrap">
-          <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+          <el-tabs v-model="activeName2" type="card">
             <el-tab-pane label="公寓租金账单" name="first">
               <div class="form-search-criteria">
 
@@ -319,9 +319,6 @@
 
     },
     methods:{
-      handleClick(tab, event) {
-        sessionStorage.setItem("billManagementTab",tab.name);
-      },
       closeWarningModal(){
         this.warningModal = false;
       },
@@ -633,7 +630,6 @@
       .pay-btn-group{
         button{
           width: 80px;
-          height: 30px;
           margin-left: 10px;
         }
         .active-btn{
@@ -675,7 +671,8 @@
             border:none;
             position: relative;
             left: -5px;
-            top: 2px;
+            top: 1px;
+            cursor: pointer;
           }
         }
       }

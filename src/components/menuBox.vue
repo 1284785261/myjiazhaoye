@@ -6,7 +6,7 @@
       <ul class="menu-list">
         <li v-if="jurisdiction('WORKBENCH_QUERY')" :class="{'active-tab':activeTabName == 'workbench'}"><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-gongzuotai"></i>工作台</router-link></li>
         <li v-if="jurisdiction('MESSAGE_QUERY')" :class="{'active-tab':activeTabName == 'messageInform'}"><router-link :to="{ name: 'messageInform' , params: { id: 123 }}"><i class="iconfont icon-xiaoxi"></i>消息中心</router-link></li>
-        <li v-if="jurisdiction('LIVE_QUERY')" :class="{'active-tab':activeTabName == 'workbench'}"><router-link :to="{ name: 'recording' , params: { id: 123 }}"><i class="iconfont icon-zhibo"></i>直播管理</router-link></li>
+        <li v-if="jurisdiction('LIVE_QUERY')" :class="{'active-tab':activeTabName == 'recording'}"><router-link :to="{ name: 'recording' , params: { id: 123 }}"><i class="iconfont icon-zhibo"></i>直播管理</router-link></li>
         <li v-if="jurisdiction('ORDER_QUERY')" :class="{'active-tab':activeTabName == 'orderManagement'}"><router-link :to="{ name: 'orderManagement' , params: { id: 123 }}"><i class="iconfont icon-dingdanguanli"></i>订单管理</router-link></li>
         <li v-if="jurisdiction('BILL_QUERY')" :class="{'active-tab':activeTabName == 'billManagement'}"><router-link :to="{ name: 'billManagement' , params: { id: 123 }}"><i class="iconfont icon-zhangdan"></i>账单管理</router-link></li>
         <li v-if="jurisdiction('CONTRACT_QUERY')" :class="{'active-tab':activeTabName == 'contractIndex'}"><router-link :to="{ name: 'contractIndex' , params: { id: 123 }}"><i class="iconfont icon-hetong"></i>合同管理</router-link></li>

@@ -133,9 +133,15 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">中介公司 :<span>{{contractDetailData.intermediaryCompany}}</span></td>
-                      <td class="td2">中介人 :<span>{{contractDetailData.intermediaryName}}</span></td>
-                      <td class="td2">中介费 :<span span style="color: red;">{{contractDetailData.intermediaryMoney}}元</span></td>
+                      <td class="td2">中介公司 :<span v-if="contractDetailData.intermediaryCompany">{{contractDetailData.intermediaryCompany}}</span>
+                      <span>无</span>
+                      </td>
+                      <td class="td2">中介人 :<span v-if="contractDetailData.intermediaryName">{{contractDetailData.intermediaryName}}</span>
+                      <span>无</span>
+                      </td>
+                      <td class="td2">中介费 :<span style="color: red;" v-if="contractDetailData.intermediaryMoney">{{contractDetailData.intermediaryMoney}}元</span>
+                      <span style="color: red;">0元</span>
+                      </td>
                     </tr>
                   </table>
                 </td>
@@ -475,6 +481,7 @@
             padding-bottom: 20px;
             .contract-detail-table2{
               .tr2{
+                text-align: left;
                 td{
                   padding-left: 30px;
                   span{
@@ -625,10 +632,10 @@
     .pre-view{
       width: 100%;
       height: 100%;
+      text-align: center;
       img{
-        width: 100%;
         height: 100%;
-        background-size: 100%;
+        background-size:initial;
       }
     }
     .next-btn,.pre-btn{

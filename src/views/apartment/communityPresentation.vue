@@ -174,7 +174,7 @@
 						</div>
 					</div>
 					<button class="confirm" @click="click" :disabled="disabled" v-if="jurisdiction('COMMUNITY_UPDATE')">确定</button>
-					<button class="call" @click="goBack">取消</button>
+					<button class="call" @click="goBack" v-if="jurisdiction('COMMUNITY_UPDATE')">取消</button>
 				</div>
 			</div>
 			<footer-box></footer-box>
@@ -230,8 +230,12 @@
 				uploadList5: [],
 				uploadList6: [],
 				config: {
+					autoHeightEnabled: false,
+            		autoFloatEnabled: true,　　//是否工具栏可浮动
 					initialFrameWidth: null,
-					initialFrameHeight: 350
+					initialFrameHeight: 350,
+					BaseUrl: '',
+            		UEDITOR_HOME_URL: '/static/UE/'
 				},
 				communityId:null, //社区ID
 				community:null, //当前页面数据
@@ -245,7 +249,7 @@
 				communityName:'',
 				type:null,
 				hides1:true,
-        		hides2:true
+				hides2:true
 			}
 
 		},
@@ -508,14 +512,14 @@
 						communityId:vm.communityId
 				}))
 				.then((response)=>{
-					console.log(response);
+					//console.log(response);
 
 					if(response.status == 200 && response.data.code == 10000){
 						vm.community = response.data.result.community;
 					  if(response.data.result.community.communityInfo){
 
                         vm.defaultMsg=response.data.result.community.communityInfo
-                        //console.log(vm.defaultMsg)
+                        console.log(vm.defaultMsg)
 //                        vm.defaultMsg = response.data.result.community.communityInfo;
                       }
 					  else {
@@ -525,7 +529,7 @@
 						let arr = [];
 						let arr2 = [];
 						let arr3 = [];
-						console.log(vm.community.communityWork);
+						//console.log(vm.community.communityWork);
 						arr2 = vm.community.communityFace.split(",");
 						arr3 = vm.community.communityWork.split(",");
 						arr = vm.community.communityFlat.split(",");
@@ -607,7 +611,7 @@
 	
 	.components-container {
 		margin-left: 170px;
-		width: 900px;
+		width: 965px;
 		margin-bottom: 50px;
 	}
 	
@@ -687,6 +691,8 @@
 		width: 100%;
 		height: 550px;
 	}
-	
+	.edui-editor{
+		z-index: 100!important;
+	}
 	
 </style>

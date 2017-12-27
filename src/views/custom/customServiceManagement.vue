@@ -34,7 +34,8 @@
               </div>
             </div>
             <div class="form-item">
-              <Button style="height: 36px;width: 120px;" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</Button>
+              <a class="dcs" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</a>
+              <a class="dcs">导出</a>
             </div>
           </div>
           <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
@@ -237,6 +238,24 @@
         display: inline-block;
         margin-right: 20px;
         padding-top: 20px;
+        .dcs{
+            display: inline-block;
+            width: 120px;
+            text-align: center;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 3px;
+            margin-left: 10px;
+            color:#666;
+            background-color: #f7f7f7;
+            border: 1px solid #dcdcdc;
+        }
+        .dcs:hover {
+            color: #57a3f3;
+            transition: color .2s linear,background-color .2s linear,border .2s linear;
+            background-color: #fff;
+            border-color: #57a3f3;
+        }
         .form-search{
           position: relative;
           .ivu-input-wrapper{
@@ -266,7 +285,7 @@
             border:none;
             position: relative;
             left: -5px;
-            top: 2px;
+            top: 1px;
           }
         }
       }
@@ -289,7 +308,7 @@
       }
     }
     .ivu-date-picker{
-      width: 120px;
+      width: 150px;
     }
     .ivu-page{
       margin: 50px 0 160px 0;

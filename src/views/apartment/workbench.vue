@@ -44,7 +44,7 @@
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
 							<li v-if="jurisdiction('LIVE_QUERY')">
-								<router-link  to="">直播管理</router-link>
+								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
 								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
@@ -136,7 +136,7 @@
 								<router-link to="/apartment/workbench" v-else>办公空间状态</router-link>
 							</li>
 							<li v-if="jurisdiction('LIVE_QUERY')">
-								<router-link  to="">直播管理</router-link>
+								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
 								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>

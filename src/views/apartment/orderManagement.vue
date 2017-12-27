@@ -18,7 +18,7 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="stationCommunity" style="width:200px">
+                  <Select v-model="stationCommunity" style="width:180px">
                     <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>

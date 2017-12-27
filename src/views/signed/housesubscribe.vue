@@ -37,6 +37,7 @@
 							<td>已选户型</td>
 							<td>接待管家</td>
 							<td>状态</td>
+							<td>预约来源</td>
 							<td>操作</td>
 						</thead>
 						<tr v-for="(item,index) in appointmentListData">
@@ -53,6 +54,7 @@
 								<span v-if="item.appointmentStatus ==3" style="color: #ccc;">已签约</span>
 								<span v-if="item.appointmentStatus ==4">已取消</span>
 							</td>
+							<td>微信</td>
 							<td>
 								<a v-if="item.appointmentStatus ==0" @click="receive(item.appointmentId)">我要接待</a>
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
@@ -141,7 +143,7 @@
 				</tr>
 				<tr v-else>
 					<td>反馈时间：</td>
-					<td>{{ListDatadetail.feedBackTime}}</td>
+					<td>{{ListDatadetail.feedBackTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
 				</tr>
 				<tr v-if="ListDatadetail.appointmentStatus == 3">
 					<td>签约时间：</td>
@@ -149,7 +151,7 @@
 				</tr>
 				<tr v-else>
 					<td>用户意向：</td>
-					<td style="color: red;">{{ListDatadetail.userIntention}}</td>
+					<td style="color: red;" v-if="ListDatadetail.userIntention == 1">不考虑</td>
 				</tr>
 				<tr v-if="ListDatadetail.appointmentStatus != 3">
 					<td>原因：</td>
@@ -416,7 +418,7 @@
 				border: none;
 				position: relative;
 				left: -5px;
-				top: 2px;
+				top: 1px;
 			}
 		}
 	}

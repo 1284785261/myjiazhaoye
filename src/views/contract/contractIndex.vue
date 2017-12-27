@@ -28,7 +28,7 @@
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="roomSearchKey" placeholder="搜索合同的联系人或联系电话"></Input>
+                    <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
                     <input type="button" @click="roomSearch()" value="搜索">
                   </div>
                 </div>

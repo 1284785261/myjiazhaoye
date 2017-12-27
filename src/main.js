@@ -8,7 +8,6 @@ import axios from 'axios';
 import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css'
-
 import echarts from 'echarts'
 
 Vue.use(ElementUI);

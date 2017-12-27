@@ -39,7 +39,8 @@
 		    				<td style="text-align: left;padding-left: 20px;">{{item.content}}</td>
 		    				<td>{{item.userAliase}}</td>
 		    				<td>{{item.createTime | time}}</td>
-		    				<td style="color: #ff6612;">{{item.isClose | isClose}}</td>
+		    				<td style="color: #ff6612;" v-if="item.isClose == 0 ">开放</td>
+							<td style="color: #999;" v-else-if="item.isClose == 1 ">关闭</td>
 		    				<td>
 		    					<a v-if="item.isClose == 0 && jurisdiction('JIAREN_CLOSE')" @click="close(item)">关闭</a>
 		    					<a v-else-if="item.isClose == 1 && jurisdiction('JIAREN_CLOSE')" @click="close(item)">开放</a>

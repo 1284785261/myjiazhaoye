@@ -264,7 +264,7 @@
 													<div v-if="!uploadList[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
 														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传身份证照片</span>
+														<span class="titew">上传身份证正面照片</span>
 													</div>
 													<div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
 														<template>
@@ -277,12 +277,28 @@
 													</div>
 												</div>
 												<div class="uplodas">
+													<div v-if="!uploadList4[0]">
+														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
+														<Icon type="camera" class="icons"></Icon>
+														<span class="titew">上传身份证反面照片</span>
+													</div>
+													<div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
+														<template>
+
+															<img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
+															<div class="demo-upload-list-cover">
+																<Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
+															</div>
+														</template>
+													</div>
+												</div>
+												<div class="uplodas" v-if="radio4 == '1'">
 													<div v-if="!uploadList2[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传合同照片/扫描件</span>
 													</div>
-													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[1]">
+													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
 														<template>
 															<img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
 															<div class="demo-upload-list-cover">
@@ -514,7 +530,7 @@
 										<!--{{onemoney}}-->
 										<ul>
 											<!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
-											<!--{{twomoney}}-->
+											<!-- {{twomoney}} -->
 											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="15"><span>元</span></li>
 											<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
 											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
@@ -570,7 +586,7 @@
 													<div v-if="!uploadList[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
 														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传经办人身份证</span>
+														<span class="titew">上传身份证正面照片</span>
 													</div>
 													<div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
 														<template>
@@ -582,12 +598,28 @@
 													</div>
 												</div>
 												<div class="uplodas">
+													<div v-if="!uploadList4[0]">
+														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
+														<Icon type="camera" class="icons"></Icon>
+														<span class="titew">上传身份证反面照片</span>
+													</div>
+													<div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
+														<template>
+
+															<img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
+															<div class="demo-upload-list-cover">
+																<Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
+															</div>
+														</template>
+													</div>
+												</div>
+												<div class="uplodas">
 													<div v-if="!uploadList2[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传委托书</span>
 													</div>
-													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[1]">
+													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
 														<template>
 															<img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
 															<div class="demo-upload-list-cover">
@@ -596,13 +628,13 @@
 														</template>
 													</div>
 												</div>
-												<div class="uplodas">
+												<div class="uplodas" v-if="radio4 == '1'">
 													<div v-if="!uploadList3[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传合同</span>
 													</div>
-													<div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[2]">
+													<div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[3]">
 														<template>
 															<img :src="imgPath+uploadList3[0]" v-if="uploadList3[0]">
 															<div class="demo-upload-list-cover">
@@ -767,11 +799,9 @@
 				uploadList: [0],
 				uploadList2: [0],
 				uploadList3: [0],
+				uploadList4: [0],
 				finished: false,
 				imgName: '',
-				filelist1: [],
-				filelist2: [],
-				filelist3: [],
 				dat: null,
 				hints: {
 					company: '',
@@ -1146,6 +1176,10 @@
 				this.uploadList3 = []
 				this.uploadList3[0] = 0
 			},
+			handleRemove4() {
+				this.uploadList4 = []
+				this.uploadList4[0] = 0
+			},
 			uploadfile(e) {
 				let vm = this;
 				let file = e.target.files[0];
@@ -1165,7 +1199,7 @@
 							if(vm.uploadList.length < 2) {
 								//                      this.filelist1.push(file);
 								vm.uploadList[0] = res.data.result.virtualPath;
-								vm.uploadList.push('身份证');
+								vm.uploadList.push('身份证正面');
 							} else {
 								alert('最多可以上传1张图片');
 								return
@@ -1175,7 +1209,7 @@
 						alert(err)
 					})
 			},
-			uploadfile2(e) {
+			uploadfile4(e) {
 				let vm = this;
 				let file = e.target.files[0];
 				if(!file) {
@@ -1192,10 +1226,10 @@
 								vm.$set(vm.loadList, 1, false)
 							}, 2000)
 
-							if(vm.uploadList2.length < 2) {
+							if(vm.uploadList4.length < 2) {
 								//                      this.filelist1.push(file);
-								vm.uploadList2[0] = res.data.result.virtualPath;
-								vm.uploadList2.push('合同证明');
+								vm.uploadList4[0] = res.data.result.virtualPath;
+								vm.uploadList4.push('身份证反面');
 							} else {
 								alert('最多可以上传1张图片');
 								return
@@ -1205,7 +1239,7 @@
 						alert(err)
 					})
 			},
-			uploadfile3(e) {
+			uploadfile2(e) {
 				let vm = this;
 				let file = e.target.files[0];
 				if(!file) {
@@ -1220,6 +1254,37 @@
 						if(parseInt(res.data.code) == 10000) {
 							setTimeout(function() {
 								vm.$set(vm.loadList, 2, false)
+							}, 2000)
+
+							if(vm.uploadList2.length < 2) {
+								//                      this.filelist1.push(file);
+								vm.uploadList2[0] = res.data.result.virtualPath;
+								vm.uploadList2.push('合同证明');
+							} else {
+								alert('最多可以上传1张图片');
+								return
+							}
+						}
+					}).catch(err => {
+						alert(err)
+					})
+			},
+			
+			uploadfile3(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				if(!file) {
+					return
+				}
+				vm.$set(vm.loadList, 3, true)
+				let param = new FormData();
+				param.append('file', file)
+				param.append('module', 'user')
+				vm.$http.post(vm.host3, param)
+					.then(res => {
+						if(parseInt(res.data.code) == 10000) {
+							setTimeout(function() {
+								vm.$set(vm.loadList, 3, false)
 							}, 2000)
 							if(vm.uploadList3.length < 2) {
 								//                      this.filelist1.push(file);
@@ -1296,6 +1361,12 @@
 					fileList.push({
 						"filePath": this.uploadList[0],
 						"fileTitle": this.uploadList[1]
+					});
+				}
+				if(this.uploadList4.length) {
+					fileList.push({
+						"filePath": this.uploadList4[0],
+						"fileTitle": this.uploadList4[1]
 					});
 				}
 				if(this.uploadList2.length) {
@@ -1452,12 +1523,19 @@
 						"fileTitle": this.uploadList[1]
 					});
 				}
+				if(this.uploadList4.length) {
+					fileList.push({
+						"filePath": this.uploadList4[0],
+						"fileTitle": this.uploadList4[1]
+					});
+				}
 				if(this.uploadList2.length) {
 					fileList.push({
 						"filePath": this.uploadList2[0],
 						"fileTitle": this.uploadList2[1]
 					});
 				}
+				
 				if(this.uploadList3.length) {
 					fileList.push({
 						"filePath": this.uploadList3[0],

@@ -10,7 +10,6 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>退款详情</h3>
-          <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="refund-detail-wrap">
           <div class="refund-detail-content-wrap">
@@ -69,7 +68,7 @@
                 </div>
               </li>
               <li>
-                <div class="invoice-detail-info">
+                <div class="invoice-detail-info" style="width: 1100px;">
                   <div class="invoice-detail-info-item">
                     <span>发起时间 :</span>
                     <span>{{reRenfundDetail.createTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
@@ -88,7 +87,7 @@
                     <span>{{reRenfundDetail.passDepartmentName}}</span>
                     <span>{{reRenfundDetail.passPositionName}}</span>
                   </div>
-                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==2">
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==2" style="margin-left:276px;">
                     <span>确认退款时间 :</span>
                     <span>{{reRenfundDetail.refundTime | timefilter("yyyy-MM-dd hh:mm") }}</span>
                   </div>
@@ -98,12 +97,12 @@
                     <span>{{reRenfundDetail.refundDepartmentName}}</span>
                     <span>{{reRenfundDetail.refundPositionName}}</span>
                   </div>
+                  <div class="invoice-detail-info-item" v-if="reRenfundDetail.refundStatus==3">
+                    <p>审核不通过原因 : <span style="color: red;">{{reRenfundDetail.refundRemark}}</span></p>
+                  </div>
                 </div>
               </li>
             </ul>
-            <div style="text-align: center;" v-if="reRenfundDetail.refundStatus==3">
-              <p>审核不通过原因 : <span style="color: red;">{{reRenfundDetail.refundRemark}}</span></p>
-            </div>
             <div style="text-align: center;margin-top: 70px;" v-if="reRenfundDetail.refundStatus==1">
               <Button type="primary" style="width:120px;height: 36px;" @click="sureRefund()">确认退款</Button>
             </div>
@@ -111,12 +110,14 @@
               <div class="refund-examine-content">
                 <div class="refund-examine-content-item1 padingBottom">
                   <span class="span-width">审批操作 :</span>
-                  <RadioGroup v-model="judgeCode">
-                    <Radio label="0">通过</Radio>
-                    <Radio label="1">不通过</Radio>
+                  <RadioGroup v-model="judgeCode" style="font-size: 14px;">
+                    <!-- <Radio label="0">通过</Radio>
+                    <Radio label="1">不通过</Radio> -->
+                    <el-radio class="radio" v-model="radio" label="0">通过</el-radio>
+                    <el-radio class="radio" v-model="radio" label="1">不通过</el-radio>
                   </RadioGroup>
                 </div>
-                <div class="refund-examine-content-item1">
+                <div class="refund-examine-content-item1" v-if="radio == '1'">
                   <span class="span-width positionTop">不通过原因 :</span>
                   <textarea name="remarks" style="width:380px;height: 120px;resize: none;padding: 5px;" placeholder="请输入不通过原因" v-model="refundInfo"></textarea>
                 </div>
@@ -179,6 +180,7 @@
         warningModal:false,
         warningMessage:"房间信息填写不完整，请填写完整后重新提交！",
         refundInfo:"",
+        radio: '0'
       }
     },
     mounted(){

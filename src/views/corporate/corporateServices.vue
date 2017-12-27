@@ -32,18 +32,25 @@
                         <div class="add-corporate-btn" @click="goToAddCorporate()" v-if="jurisdiction('ENTERPRISE_INCREASE')"><span>+</span>新增企业</div>
                         <table class="corporate-service-table" cellspacing="0" width="100%">
                             <tr class="table-heaher">
-                                <th>公司LOGO</th>
+                                <th width="150px;">公司LOGO</th>
                                 <th>公司名称</th>
                                 <th>联系电话</th>
                                 <th>服务项目</th>
-                                <th>服务范围</th>
+                                <th width="150px;">服务范围</th>
                                 <th>操作</th>
                             </tr>
                             <tr class="active" v-if="complainList.length" v-for="(item,index) in complainList">
                                 <td>
-                                    <div style="padding:20px">
-                                        <img :src="imgPath+item.enterpriseLogo" alt="" style="width: 50px">
+                                    <div class="uploading">
+                                        <a class="upload" href="javascript:void(0);"  v-loading.body="loading">
+                                            <input type="file" class="upfile" @change="loadfile($event,index)" accept="image/png,image/jpg" v-if="chen">
+                                            <img :src="imgPath + item.enterpriseLogo" v-if="item.enterpriseLogo" />
+                                            <span class="jiahao3" v-if="chen">上传照片</span>
+                                        </a>
                                     </div>
+                                    <!-- <div style="padding:20px">
+                                        <img :src="imgPath+item.enterpriseLogo" alt="" style="width: 50px">
+                                    </div> -->
                                 </td>
                                 <td style="padding: 20px">
                                     <h3 v-if="!item.update">{{item.enterpriseName}}</h3>
@@ -118,7 +125,8 @@
     CommunityServiceList500119,
     CommunityServiceUpdate500121,
     CommunityServiceDel500122,
-    SytemData
+    SytemData,
+    host
   } from '../api.js';
   import qs from 'qs'
   export default {
@@ -149,13 +157,20 @@
         successMessage:"",
         warningModal:false,
         warningMessage:"",
+        chen:false,
+        loading:false,
+        host3:'',
+        param:{},
+        imgUser:''
       }
     },
     mounted(){
       this.selectService()
       this.selectAreas()
       this.selectList()
-      this.imgPath = imgPath
+      this.imgPath = imgPath;
+      this.param = new FormData();
+      this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
     },
     computed:{
 
@@ -268,7 +283,29 @@
       },
       /** 修改企业服务 **/
       updateCorporate(index){
-        this.$set(this.complainList[index], 'update', true)
+        this.$set(this.complainList[index], 'update', true);
+        this.chen = true;
+      },
+      /** 上传图片 **/
+      loadfile(e,index){
+        let vm = this
+        vm.loading = true;
+        let file = e.target.files[0];
+        let files = [file,file.name];
+        vm.chen = false;
+        this.param.append('file',file);
+        this.param.append('module','user');
+        this.$http.post(vm.host3,vm.param).then(res =>{
+            console.log(res);
+            if(res.status == 200 && res.data.code == 10000){
+                vm.complainList[index].enterpriseLogo = res.data.result.virtualPath;
+                vm.loading = false;
+            }
+            
+            
+        }).catch(err=>{
+            console.log(err)
+        })
       },
       /** 保存 **/
       preservationCorporate(index){
@@ -476,5 +513,84 @@
     }
 
 
+
+
+
+.active td{
+    position: relative;
+}
+.active td .uploading{
+    position: absolute;
+    left: 50%;
+    top: 45%; 
+    transform: translate(-50%,-50%);
+}
+.active td .uploading .upload .upfile{
+  cursor: pointer;
+  direction: rtl;
+  height: 70px;
+  opacity: 0;
+  width: 70px;
+  filter: alpha(opacity=0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+}
+.active td .uploading .upload{
+  position: relative;
+  display: block;
+  height: 70px;
+  margin-top: 7px;
+  overflow: hidden;
+  width: 70px;
+  background: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  line-height: 80px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.active td .uploading .upload img{
+	width: 70px;
+    height: 70px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.active td .uploading .upload .icon-jiahao1{
+	width: 2px;
+	height: 20px;
+	display: block;
+	font-size: 12px;
+	color: #B94A48;
+	background: #b8b8b8;
+	position: absolute;
+	left: 47%;
+	top: 32%;
+}
+.active td .uploading .upload .icon-jiahao2{
+	width: 20px;
+	height: 2px;
+	display: block;
+	font-size: 12px;
+	color: #B94A48;
+	background: #b8b8b8;
+	position: absolute;
+	left: 38%;
+  	top: 41%;
+}
+.active td .uploading .upload .jiahao3{
+	position: absolute;
+	left: 24px;
+  	top: 30px;
+	color: #b8b8b8;
+	font-size: 12px;
+	width: 51px;
+  	height: 6px;
+}
 </style>
 

@@ -190,7 +190,22 @@
 								<td class="boxs">
 									<div class="ivu-main-img">
 										<div class="item-img">
-											<div class="uplodas" v-for="(item,index) in labelList" >
+											<div class="uplodas" v-for="(item,index) in labelList" v-if="radio4 == '1'">
+												<div  v-if="!imgList[index]" @click="indexs = index">
+													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
+													<Icon type="camera" class="icons"></Icon>
+													<span class="titew">上传{{item}}</span>
+												</div>
+                                                <div class="demo-upload-list" v-if="imgList[index]" v-loading.body="loadList[index]">
+                                                    <template >
+                                                        <img :src="imgList[index]">
+                                                        <div class="demo-upload-list-cover">
+                                                            <Icon type="ios-trash-outline" @click.native="handleRemoven(index)"></Icon>
+                                                        </div>
+                                                    </template>
+                                                </div>
+											</div>
+											<div class="uplodas" v-for="(item,index) in labelList2" v-if="radio4 == '2'">
 												<div  v-if="!imgList[index]" @click="indexs = index">
 													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
 													<Icon type="camera" class="icons"></Icon>
@@ -381,7 +396,8 @@
 				companylegalPerson: '',
 				dialogImageUrl: '',
 				dialogVisible: false,
-                labelList:['法人身份证','委托人身份证','委托书','服务协议','服务守则','工商证明','免责申明','合同'],
+				labelList:['法人身份证正面','法人身份证反面','委托人身份证正面','委托人身份证反面','委托书','服务协议','服务守则','工商证明','免责申明','合同'],
+				labelList2:['法人身份证正面','法人身份证反面','委托人身份证正面','委托人身份证反面','委托书','服务协议','服务守则','工商证明','免责申明'],
                 imgShow:[],
                 loadList:[],
               indexs:'',

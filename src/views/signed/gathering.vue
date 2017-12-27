@@ -355,7 +355,7 @@
 				border: none;
 				position: relative;
 				left: -5px;
-				top: 2px;
+				top: 1px;
 			}
 		}
 	}

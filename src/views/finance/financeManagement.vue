@@ -219,7 +219,7 @@
                   <div class="form-search" style="margin-left: 0;">
                     <i class="iconfont icon-sousuo"></i>
                     <Input v-model="refundHandSearchKey" placeholder="搜索退款对象姓名或手机"></Input>
-                    <input type="button" value="搜索" @click="refundHandSearch()">
+                    <input type="button" value="搜索" @click="refundHandSearch2()">
                   </div>
                 </div>
                 <div class="form-item" style="display: block;margin-top: 20px;">
@@ -512,7 +512,7 @@
       getFinanceList(data){
         var that = this;
         this.$http.get(financeList,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
               that.financeList = that.pageBean.financeList;
@@ -543,7 +543,7 @@
         if(this.financeEndDate){
           data.endDate =  new Date(this.financeEndDate).Format("yyyy-MM-dd");
         }
-        this.getFinanceList(data);debugger
+        this.getFinanceList(data);
       },
 
 
@@ -611,7 +611,7 @@
         var that = this;
         this.$http.post(
           SytemData,qs.stringify({parentId:63})
-        ).then(function(res){debugger
+        ).then(function(res){
           that.ExpressSelect = res.data.entity;
           that.expressCompany = that.ExpressSelect[0].dataName;
         }).catch(function(err){
@@ -643,7 +643,7 @@
           .then(function(res){
             that.refundModal = false;
             if(res.status == 200 && res.data.code == 10000){
-              that.refundHandSearch(that.refundActivePage)
+              that.refundHandSearch2(that.refundActivePage)
             }
           })
       },
@@ -705,7 +705,8 @@
       getrefundHandle(data){
         var that = this;
         this.$http.get(refundHandle,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.refundHandleList = pageBean.refundList;
@@ -718,7 +719,7 @@
           })
       },
 
-      refundHandSearch(page){
+      refundHandSearch2(page){
         var data = {
           pageNum:page || 1
         }
@@ -732,7 +733,7 @@
           data.keyWord = this.refundHandSearchKey;
         }
         if(this.refundHandStartDate){
-          data.beginDate = new Date(this.refundHandStartDate).Format("yyyy-MM-dd");
+          data.startDate = new Date(this.refundHandStartDate).Format("yyyy-MM-dd");
         }
         if(this.refundHandEndDate){
           data.endDate = new Date(this.refundHandEndDate).Format("yyyy-MM-dd");
@@ -740,6 +741,7 @@
         if(this.refundStatus != -1){
             data.refundStatus = this.refundStatus;
         }
+        console.log(data);
         this.getrefundHandle(data);
       },
 

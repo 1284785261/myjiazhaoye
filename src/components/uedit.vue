@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	
+
 	import '../../static/UE/ueditor.config.js';
 	import '../../static/UE/ueditor.all.js';
 	import '../../static/UE/lang/zh-cn/zh-cn.js';
@@ -13,7 +13,8 @@
 		name: 'UE',
 	    data () {
 	      return {
-	        editor: null
+					editor: null,
+					id: Math.random().toString(16).substring(2) + 'ueditorId'
 	      }
 	    },
 	    props: {
@@ -26,7 +27,7 @@
 	    },
 	    mounted() {
 	      const _this = this;
-	      this.editor = UE.getEditor('editor', this.config); // 初始化UE
+				this.editor = UE.getEditor('editor', this.config); // 初始化UE
 	      this.editor.addListener("ready", function () {
 	        _this.editor.setContent(_this.defaultMsg); // 确保UE加载完成后，放入内容。
 	      });
@@ -40,6 +41,7 @@
 	      this.editor.destroy();
 	    }
 	}
+	
 </script>
 
 <style>

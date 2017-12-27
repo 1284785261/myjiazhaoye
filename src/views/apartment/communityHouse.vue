@@ -371,17 +371,18 @@
         showErrorInfo:false,
         loading:false,
         hides1:true,
-        hides2:true
+        hides2:true,
+        communittype:''
       }
     },
     mounted(){
       this.communityId = this.$route.query.communityId;
-      let type = this.$route.query.type;
-      console.log(type);
-      if(type == '0'){
+      this.communittype = this.$route.query.type;
+
+      if(this.communittype == '0'){
         this.hides2 = false;
       }
-      else if(type == '1'){
+      else if(this.communittype == '1'){
         this.hides1 = false;
         this.activeName2 = 'second';
       }
@@ -898,8 +899,8 @@
             that.successModal = true;
             setTimeout(function(){
               that.successModal = false;
-                  if(this.communityType == '1' || this.communityType == '0,1') {
-										vm.$router.push('/apartment/communityManagement');
+                  if(that.communittype == '1' || that.communittype == '0,1') {
+										that.$router.push('/apartment/communityManagement');
 									}
             },1000)
             that.getMeetingInfo();
