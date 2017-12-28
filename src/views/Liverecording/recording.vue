@@ -22,9 +22,10 @@
 					<div style="width:100%;height:100%;clear:both;padding: 0 20px;">
 						<ul class="lives">
 							<li v-for="item in Datas" class="lis">
-								<img :src="imgPath + item.imgs" class="logs">
+								<img :src="imgPath + item.imgs" class="logs" v-if="item.imgs">
+								<img :src="imgPath + '/files/introduce/0io43171012150401.jpg'" class="logs" v-if="!item.imgs">
 								<span class="hfs"> · 录播回放</span>
-								<span class="commid">{{item.communityName}}</span>
+								<span class="commid">{{item.communityName?item.communityName:''}}</span>
 								
 								<div class="bfs">
 									<div>
@@ -110,8 +111,11 @@
                         console.log(this.totalNum);
                         let arr = [];
                         for(let i = 0 ; i < this.Datas.length; i++){
+                          if(this.Datas[i].communityFace){
                             arr =  this.Datas[i].communityFace.split(',');
                             this.$set(this.Datas[i], "imgs", arr[0]);
+                          }
+
                         }
                     }
                 }).catch((error)=>{
