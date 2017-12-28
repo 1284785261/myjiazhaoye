@@ -90,10 +90,10 @@
 						<p>租期信息:</p>
 						<ul class="zq">
 							<li><span class="qzr">起租日：</span>
-								<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+								<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 							</li>
 							<li><span class="qzr">到期日：</span>
-								<Date-picker type="date" placeholder="请选择日期" v-model="expire"></Date-picker>
+								<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire"></Date-picker>
 							</li>
 							<ul class="apartment">
 								<li v-for="(apps,index) in apartments">
@@ -283,6 +283,7 @@
 			warningModal
 		},
 		data() {
+			var _this = this;
 			return {
 				activeTabName:"workbench",
 				successModal: false,
@@ -400,11 +401,21 @@
 				labelList2:['法人身份证正面','法人身份证反面','委托人身份证正面','委托人身份证反面','委托书','服务协议','服务守则','工商证明','免责申明'],
                 imgShow:[],
                 loadList:[],
-              indexs:'',
-              host3:'',
-              imgList:[],
-              imgPath:'',
-              fileList:[],
+				indexs:'',
+				host3:'',
+				imgList:[],
+				imgPath:'',
+				fileList:[],
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < Date.now() - 86400000;
+					}
+				},
+				option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.onhrie;
+					}
+				},
 			}
 		},
 		mounted() {
@@ -422,38 +433,72 @@
 		computed: {
 			firstmoney: function() {
 				let vm = this
+
+				var date = new Date();
+				//获取年份
+				var year = date.getFullYear();
+				//获取当前月份
+				var mouth = date.getMonth() + 1;
+				var daym = date.getDate() - 1;
+				//定义当月的天数；
+				var days;
+				//当月份为二月时，根据闰年还是非闰年判断天数
+				if (mouth == 2) {
+					days = year % 4 == 0 ? 29 : 28;
+				}
+				else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
+					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+					days = 31;
+				}
+				else {
+					//其他月份，天数为：30.
+					days = 30;
+				}
+
 				if(this.value2 == '押二付一') {
 					let q = 0;
-					for(let i = 0; i < this.tableRepairs.length; i++) {
-						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+					if(vm.discount){
+						console.log(days);
+						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+						for(let i = 0; i < this.tableRepairs.length; i++) {
+							if(parseInt(this.tableRepairs[i].date) > 0) {
+								q += parseFloat(this.tableRepairs[i].date).toFixed(4);
+							}
 						}
+						return(vm.housetderta.roomRent * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
+					
 				} else if(this.value2 == '押一付一') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
+					return(vm.housetderta.roomRent * 1 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '季付') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
+					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '年付') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 12 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) +'元';
+					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 11 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				}
 			},
 			twomoney: function() {
@@ -702,7 +747,7 @@
                     setTimeout(function(){
                       vm.$set(vm.loadList,vm.indexs,false)
                     },500)
-                    vm.fileList.push({'filePath':'res.data.result.virtualPath','fileTitle':vm.labelList[vm.indexs]})
+                    vm.fileList.push({'filePath':res.data.result.virtualPath,'fileTitle':vm.labelList[vm.indexs]})
                   }
                 }).catch(err => {
                 alert(err)
@@ -739,7 +784,7 @@
 				}
 			},
 			SigController2(){
-				let vm = this         //公寓公司租客签约
+				let vm = this         //办公室租客签约
 				let param = new FormData();
 				let arr = [];
 				for(let i = 0;i< this.tableRepairs.length;i++){
@@ -760,15 +805,19 @@
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				if(this.fileList.length!=8){
-                  this.successModal = true;
-                  this.successMessage = '证明未上传完整';
+				if(this.fileList.length < 9){
+                  this.warningModal = true;
+                  this.warningModal = '证明未上传完整';
                   return
                 }
                 param.append('credentialsImages',JSON.stringify(vm.fileList));
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
+				console.log(this.communityId);
+				console.log(this.contract)
+				console.log(this.housetderta.roomId)
+				console.log(this.housetderta.version)
 				param.append('communityId',this.communityId);
 				param.append('contractNumber',this.contract);
 				param.append('buildingId',this.housetderta.roomId);
@@ -807,7 +856,7 @@
 				}
 				param.append('companyInfo',this.companyInfo);
 				param.append('companylegalPerson',this.companylegalPerson);
-		        axios.post(hostSignOffice,this.param).then(res =>{
+		        axios.post(hostSignOffice,param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						console.log(res);
 						vm.successModal = true;

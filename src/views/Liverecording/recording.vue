@@ -31,7 +31,7 @@
 									<div>
 									</div>	
 								</div>
-								<img src="../../../static/images/icon/zb_03.png" class="btsg" @click="plays(item.thirdActivityId)">
+								<img src="../../../static/images/icon/zb.png" class="btsg" @click="plays(item.thirdActivityId)">
 							</li>
 						</ul>
 					</div>

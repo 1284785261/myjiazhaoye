@@ -89,10 +89,16 @@
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
-											<dd v-if="item.serviceCostMap">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span></dd>
-											<dd v-else>公寓服务费：<span>未设置</span></dd>
-											<dd v-if="item.serviceCostMap">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span></dd>
-											<dd v-else>办公室服务费：<span>未设置</span></dd>
+											<dd v-if="item.serviceCostMap">公寓服务费：
+												<span v-if="item.serviceCostMap.roomServiceCost">{{item.serviceCostMap.roomServiceCost}}元/月</span>
+												<span v-else>未设置</span>
+											</dd>
+											
+											<dd v-if="item.serviceCostMap">办公室服务费：
+												<span v-if="item.serviceCostMap.officeServiceCost">{{item.serviceCostMap.officeServiceCost}}元/月</span>
+												<span v-else>未设置</span>
+											</dd>
+											
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
 											<dd>维修项：<span> {{item.maintain | Fors(item.maintain)}}</span></dd>
 										</dl>
@@ -189,10 +195,14 @@
 												<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
-											<dd v-if="item.serviceCostMaz">公寓服务费：<span>{{item.serviceCostMap.roomServiceCost}}元/月</span>
+											<dd v-if="item.serviceCostMap">公寓服务费：
+												<span v-if="item.serviceCostMap.roomServiceCost">{{item.serviceCostMap.roomServiceCost}}元/月</span>
+												<span v-else>未设置</span>
 											</dd>
-											<dd v-else>公寓服务费：<span>未设置</span></dd>
-											<dd v-if="item.serviceCostMap">办公室服务费：<span>{{item.serviceCostMap.officeServiceCost}}元/月</span>
+											
+											<dd v-if="item.serviceCostMap">办公室服务费：
+												<span v-if="item.serviceCostMap.officeServiceCost">{{item.serviceCostMap.officeServiceCost}}元/月</span>
+												<span v-else>未设置</span>
 											</dd>
 											<dd v-else>办公室服务费：<span>未设置</span></dd>
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
@@ -236,7 +246,7 @@
 									<div class="form-search" style="margin-left: 0;">
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="searchKey" placeholder="搜索用户"></Input>
-										<input type="button" value="搜索" @click="handleCurrentChange3()">
+										<input type="button" value="搜索" @click="btusys">
 										<!--<a class="exports" :href="host+communityId">导出</a>-->
 									</div>
 								</div>
@@ -460,6 +470,7 @@
 			this.befor();
 			this.befors();
 			this.classifys();
+			this.btusys();	
 			this.comment({
 				pageNum: 1
 			});
@@ -712,9 +723,14 @@
 				}
 
 			},
-			handleCurrentChange3(page) {
+			handleCurrentChange3(val) {
+				this.pageNum3 = val;
+				this.btusys();
+			},
+			btusys() {
+				let vm = this
 				var data = {
-					pageNum: page || 1
+					pageNum: this.pageNum3 || 1
 				};
 				if(this.model1 !== -1) {
 					data.communityId = this.model1;
@@ -728,11 +744,7 @@
 				if(this.searchKey) {
 					data.userNamePhone = this.searchKey;
 				}
-				this.comment(data);
-				//debugger
-			},
-			comment(data) {
-				let vm = this
+				console.log(data);
 				axios.post(hostComment,
 					qs.stringify(data)
 				).then((response) => {
@@ -748,26 +760,6 @@
 					console.log(error);
 				})
 			},
-			//			seek(){
-			//				let vm = this
-			//				axios.post(hostComment,
-			//					qs.stringify({
-			//						createtime:this.createtime,
-			//						commentDate:this.commentDate,
-			//						userNameLike:this.valu,
-			//						communityId:this.communityId,
-			//					})
-			//				).then((response)=>{
-			//					console.log(response);
-			//					if(response.status == 200 && response.data.code == 10000){
-			//						alert('搜索成功');
-			//						vm.tableEvaluates = response.data.entity.page;
-			//						vm.totalNum3 = response.data.entity.totalNum;
-			//					}
-			//				}).catch((error)=>{
-			//					console.log(error);
-			//				})
-			//			}
 		},
 
 	}

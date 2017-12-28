@@ -575,7 +575,7 @@
           data.keyWord = this.billInvoiSearchKey;
         }
         if(this.billInvoiceStartDate){
-          data.beginDate = new Date(this.billInvoiceStartDate).Format("yyyy-MM-dd");
+          data.startDate = new Date(this.billInvoiceStartDate).Format("yyyy-MM-dd");
         }
         if(this.billInvoiceEndDate){
           data.endDate = new Date(this.billInvoiceEndDate).Format("yyyy-MM-dd");

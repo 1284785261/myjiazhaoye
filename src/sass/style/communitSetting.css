@@ -86,6 +86,7 @@
 }
 #communitySettingwrap .ivu-table tr td{
 	border: none!important;
+	text-align: left;
 }
 #communitySettingwrap .btn_bar{
 	background-color: #f8f8f8!important;

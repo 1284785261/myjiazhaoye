@@ -22,21 +22,24 @@
 										<div class="floor-item">
 											<table class="table ivu-table">
 												<tr v-for="(tableRepair,index) in tableRepairs">
-													<td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
-													<td>
-														<el-select v-model="tableRepair.value1" placeholder="请选择付款方式" @change="mus(tableRepair.value1,index)">
+													<td style="width:30px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
+													<td style="width: 185px;">
+														<input class="ivu-input" v-model="tableRepair.option1.dataName" style="width:168px;">
+														<!-- <el-select v-model="tableRepair.value1" placeholder="请选择付款方式" @change="mus(tableRepair.value1,index)">
 															<el-option v-for="item in tableRepair.option1" :key="item.dataName" :value="item.dataName">
 															</el-option>
-														</el-select>
+														</el-select> -->
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="yanzhens(tableRepair.date,index)"><span class="baifen">%</span></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button></td>
+													<td style="width: 180px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="yanzhens(tableRepair.date,index)"><span class="baifen">%</span></td>
+													<td>
+														<!-- <button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+													</td>
 												</tr>
 											</table>
-											<div class="add-formItem">
+											<!-- <div class="add-formItem">
 												<Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -46,21 +49,24 @@
 										<div class="floor-item">
 											<table class="table ivu-table">
 												<tr v-for="(tableRepair,index) in tableRepairs2">
-													<td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
-													<td>
-														<el-select v-model="tableRepair.value2" placeholder="请选择维修项目" @change="mvs(tableRepair.value2,index)">
+													<td style="width:40px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
+													<td style="width: 298px;">
+														<input class="ivu-input" v-model="tableRepair.option2[index].dataName" placeholder="请输入内容">
+														<!-- <el-select v-model="tableRepair.value2" placeholder="请选择维修项目" @change="mvs(tableRepair.value2,index)">
 															<el-option v-for="item in tableRepair.option2" :key="item.dataName" :value="item.dataName">
 															</el-option>
-														</el-select>
+														</el-select> -->
 													</td>
-													<td><span class="text-default">{{tableRepair.element}}</span></td>
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5" @blur="hours(tableRepair.date,index)">小时</td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button></td>
+													<td style="width: 185px;"><span class="text-default">{{tableRepair.element}}</span></td>
+													<td style="width: 185px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5" @blur="hours(tableRepair.date,index)">小时</td>
+													<td style="width: 185px;">
+														<!-- <button class="btn_bar" @click="deleteRepair2(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+													</td>
 												</tr>
 											</table>
-											<div class="add-formItem">
+											<!-- <div class="add-formItem">
 												<Button @click="addRepairs2"><Icon type="plus"></Icon>继续添加</Button>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -99,8 +105,8 @@
 												<el-radio :label="1">按用量</el-radio><br>
 												<el-radio :label="2">按合租人数</el-radio>
 											</el-radio-group>
-											<input class="inputs" type="text" v-model="sect" placeholder="请填写金额" maxlength="10"></input><span>元/立方米</span><br>
-											<input class="inputs inputs2" type="text" v-model="sect2" placeholder="请填写金额" maxlength="10"></input><span>元/人</span>
+											<input class="inputs" type="text" v-model="sect" placeholder="请填写金额" maxlength="10"><span>元/立方米</span><br>
+											<input class="inputs inputs2" type="text" v-model="sect2" placeholder="请填写金额" maxlength="10"><span>元/人</span>
 										</div>
 									</div>
 								</div>
@@ -114,8 +120,8 @@
 												<el-radio :label="1">按用量</el-radio><br>
 												<el-radio :label="2">按合租人数</el-radio>
 											</el-radio-group>
-											<input class="inputs" type="text" v-model="input1" placeholder="请填写金额" maxlength="10"></input><span>元/度</span><br>
-											<input class="inputs inputs2" type="text" v-model="input2" placeholder="请填写金额" maxlength="10"></input><span>元/人</span>
+											<input class="inputs" type="text" v-model="input1" placeholder="请填写金额" maxlength="10"><span>元/度</span><br>
+											<input class="inputs inputs2" type="text" v-model="input2" placeholder="请填写金额" maxlength="10"><span>元/人</span>
 										</div>
 									</div>
 								</div>
@@ -134,21 +140,24 @@
 										<div class="floor-item">
 											<table class="table ivu-table">
 												<tr v-for="(tableRepair,index) in tableRepairs3">
-													<td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
-													<td>
-														<el-select v-model="tableRepair.value6" placeholder="请选择付款方式" @change="communit1(tableRepair.value6,index)">
+													<td style="width:30px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
+													<td style="width: 185px;">
+														<input class="ivu-input" v-model="tableRepair.option6.dataName" style="width:168px;">
+														<!-- <el-select v-model="tableRepair.value6" placeholder="请选择付款方式" @change="communit1(tableRepair.value6,index)">
 															<el-option v-for="item in tableRepair.option6" :key="item.dataName" :value="item.dataName">
 															</el-option>
-														</el-select>
+														</el-select> -->
 													</td>
 
-													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="moins(tableRepair.date,index)"><span class="baifen">%</span></td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button></td>
+													<td style="width: 180px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="moins(tableRepair.date,index)"><span class="baifen">%</span></td>
+													<td>
+														<!-- <button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+													</td>
 												</tr>
 											</table>
-											<div class="add-formItem">
+											<!-- <div class="add-formItem">
 												<Button @click="addRepairs3"><Icon type="plus"></Icon>继续添加</Button>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -160,10 +169,11 @@
 												<tr v-for="(tableRepair,index) in tableConferences">
 													<td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
 													<td>
-														<el-select v-model="tableRepair.value4" placeholder="请选择套餐名称" style="width: 160px" @change="communit2(tableRepair.value4,index)">
+														<input class="ivu-input" v-model="tableRepair.option4[index].dataName" placeholder="请输入内容">
+														<!-- <el-select v-model="tableRepair.value4" placeholder="请选择套餐名称" style="width: 160px" @change="communit2(tableRepair.value4,index)">
 															<el-option v-for="item in tableRepair.option4" :key="item.dataName" :value="item.dataName">
 															</el-option>
-														</el-select>
+														</el-select> -->
 													</td>
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="5" @blur="moins2(tableRepair.date,index)"><span class="baifen2">元/</span></td>
 													<td>
@@ -172,12 +182,14 @@
 															</el-option>
 														</el-select>
 													</td>
-													<td width="50px"><button class="btn_bar" @click="deleteConference(tableRepair,index)">{{tableRepair.deletect}}</button></td>
+													<td width="50px">
+														<!-- <button class="btn_bar" @click="deleteConference(tableRepair,index)">{{tableRepair.deletect}}</button>	 -->
+													</td>
 												</tr>
 											</table>
-											<div class="add-formItem">
+											<!-- <div class="add-formItem">
 												<Button @click="addRoom"><Icon type="plus"></Icon>继续添加</Button>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -189,19 +201,22 @@
 												<tr v-for="(tableRepair,index) in tableRepairs5">
 													<td><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
 													<td>
-														<el-select v-model="tableRepair.value7" placeholder="请选择维修项目" @change="communit4(tableRepair.value7,index)">
+														<input class="ivu-input" v-model="tableRepair.option7[index].dataName" placeholder="请输入内容">
+														<!-- <el-select v-model="tableRepair.value7" placeholder="请选择维修项目" @change="communit4(tableRepair.value7,index)">
 															<el-option v-for="item in tableRepair.option7" :key="item.dataName" :value="item.dataName">
 															</el-option>
-														</el-select>
+														</el-select> -->
 													</td>
 													<td><span class="text-default">{{tableRepair.element}}</span></td>
 													<td><input class="ivu-input" v-model="tableRepair.date" placeholder="24小时内" style="width: 120px" maxlength="5" @blur="moins3(tableRepair.date,index)">小时</td>
-													<td width="90px"><button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button></td>
+													<td width="90px">
+														<!-- <button class="btn_bar" @click="deleteRepair5(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+													</td>
 												</tr>
 											</table>
-											<div class="add-formItem">
+											<!-- <div class="add-formItem">
 												<Button @click="addRepairs5"><Icon type="plus"></Icon>继续添加</Button>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -276,6 +291,19 @@
 					option8: [],
 					value8: '',
 					date: "",
+				},{
+					checkValue: "",
+					inputValue: "",
+					inputValue2: "",
+					communityMeetingSuitId: null,
+					numValue: "",
+					element: "元/",
+					option4: [],
+					value4: '',
+					deletect: "删除",
+					option8: [],
+					value8: '',
+					date: "",
 				}],
 				option3: [],
 				value3: '',
@@ -288,22 +316,64 @@
 					date: "",
 					communityPayWayId: null,
 					deletect: "删除",
-					option1: [{
+					option1:{
 						dataName: '押二付一',
 						dataId: 1
-					}, {
+					},
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option1:{
 						dataName: '押一付一',
 						dataId: 2
-					}, {
+					}, 
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除", 
+					option1:{
 						dataName: '季付',
 						dataId: 3
-					}, {
+					},
+					value1: ''
+				},{
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option1:{
 						dataName: '年付',
 						dataId: 4
-					}],
+					},
 					value1: ''
 				}],
-				tableRepairs2: [{ //公寓维修项目
+				tableRepairs2: [{
+					checkValue: "",
+					inputValue: "",
+					element: "预计上门时间：",
+					date: "",
+					communityMaintainId: null,
+					deletect: "删除",
+					option2: [],
+					value2: ''
+				},{
+					checkValue: "",
+					inputValue: "",
+					element: "预计上门时间：",
+					date: "",
+					communityMaintainId: null,
+					deletect: "删除",
+					option2: [],
+					value2: ''
+				},{
 					checkValue: "",
 					inputValue: "",
 					element: "预计上门时间：",
@@ -313,28 +383,70 @@
 					option2: [],
 					value2: ''
 				}],
-				tableRepairs3: [{ //社区办公付款方式
-					checkValue: "",
+				tableRepairs3: [{ //办公付款方式
+					checkValue: false,
 					inputValue: "",
 					date: "",
 					communityPayWayId: null,
 					deletect: "删除",
-					option6: [{
+					option6:{
 						dataName: '押二付一',
 						dataId: 1
-					}, {
+					},
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option6:{
 						dataName: '押一付一',
 						dataId: 2
-					}, {
+					}, 
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除", 
+					option6:{
 						dataName: '季付',
 						dataId: 3
-					}, {
+					},
+					value1: ''
+				},{
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option6:{
 						dataName: '年付',
 						dataId: 4
-					}],
-					value6: ''
+					},
+					value1: ''
 				}],
 				tableRepairs5: [{ //办公区维修项目设置
+					checkValue: "",
+					inputValue: "",
+					element: "预计上门时间：",
+					date: "",
+					communityMaintainId: null,
+					deletect: "删除",
+					option7: [],
+					value7: ''
+				},{
+					checkValue: "",
+					inputValue: "",
+					element: "预计上门时间：",
+					date: "",
+					communityMaintainId: null,
+					deletect: "删除",
+					option7: [],
+					value7: ''
+				},{
 					checkValue: "",
 					inputValue: "",
 					element: "预计上门时间：",
@@ -511,38 +623,29 @@
 								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) { //公寓家电集合
 									vm.checkList.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
-								console.log(vm.checkList);
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {
-									if(vm.tableRepairs.length < response.data.entity[0].cxkjCommunityListPayway.length) {
-										vm.addRepairs();
+								
+								for(let i = 0; i < vm.tableRepairs.length;i++){
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) { //公寓支付方式集合
+										if(vm.tableRepairs[i].option1.dataId == response.data.entity[0].cxkjCommunityListPayway[m].dataId){
+											vm.tableRepairs[i].checkValue = true;
+											vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
+											vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
+										}
+										
 									}
 								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) { //公寓支付方式集合
-									vm.tableRepairs[i].checkValue = true;
-									if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1) {
-										vm.tableRepairs[i].value1 = '押二付一';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2) {
-										vm.tableRepairs[i].value1 = '押一付一';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3) {
-										vm.tableRepairs[i].value1 = '季付';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4) {
-										vm.tableRepairs[i].value1 = '年付';
-									}
-
-									vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
-									vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
-								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {
-									if(this.tableRepairs2.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
-										this.addRepairs2();
+								console.log(this.tableRepairs);
+								
+								for(let i = 0; i < this.tableRepairs2.length;i++){        //公寓维修项目
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMaintain.length; m++) {
+										if(this.tableRepairs2[i].option2[i].dataName == response.data.entity[0].cxkjCommunityListMaintain[m].systemData.dataName){
+											this.tableRepairs2[i].checkValue = true;
+											this.tableRepairs2[i].date = response.data.entity[0].cxkjCommunityListMaintain[m].onSiteTime;
+											this.tableRepairs2[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[m].communityMaintainId;
+										}
 									}
 								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) { //公寓维修项目
-									this.tableRepairs2[i].checkValue = true;
-									this.tableRepairs2[i].value2 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
-									this.tableRepairs2[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
-									this.tableRepairs2[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
-								}
+								console.log(this.tableRepairs2);
 							}
 						}
 					})
@@ -570,49 +673,35 @@
 								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) { //办公物资集合
 									vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) {
-									if(this.tableRepairs3.length < response.data.entity[0].cxkjCommunityListPayway.length) {
-										vm.addRepairs3();
+								for(let i = 0; i < vm.tableRepairs3.length;i++){     //办公支付方式集合
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) { 
+										if(vm.tableRepairs3[i].option6.dataId == response.data.entity[0].cxkjCommunityListPayway[m].dataId){
+											vm.tableRepairs3[i].checkValue = true;
+											vm.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
+											vm.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
+										}
+										
 									}
 								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListPayway.length; i++) { //支付方式集合
-									this.tableRepairs3[i].checkValue = true;
-									if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 1) {
-										vm.tableRepairs3[i].value6 = '押二付一';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 2) {
-										vm.tableRepairs3[i].value6 = '押一付一';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 3) {
-										vm.tableRepairs3[i].value6 = '季付';
-									} else if(response.data.entity[0].cxkjCommunityListPayway[i].dataId == 4) {
-										vm.tableRepairs3[i].value6 = '年付';
+								for(let i = 0; i < vm.tableConferences.length;i++){//办公套餐集合
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMeetingSuit.length; m++) { 
+										if(vm.tableConferences[i].option4[i].dataName == response.data.entity[0].cxkjCommunityListMeetingSuit[m].mettingSuitSystemData.dataName){
+											vm.tableConferences[i].checkValue = true;
+											vm.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[m].meetingSuitUnitSystemData.dataName;
+											vm.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[m].meetingSuitPrice;
+											vm.tableConferences[i].communityMeetingSuitId = response.data.entity[0].cxkjCommunityListMeetingSuit[m].communityMeetingSuitId;
+										}
 									}
-									this.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[i].discount;
-									this.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[i].communityPayWayId;
-								}
-								//console.log(this.tableRepairs3);
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) {
-									if(this.tableConferences.length < response.data.entity[0].cxkjCommunityListMeetingSuit.length) {
-										this.addRoom();
-									}
-								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMeetingSuit.length; i++) { //办公套餐集合
-									this.tableConferences[i].checkValue = true;
-									this.tableConferences[i].value4 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].mettingSuitSystemData.dataName;
-									this.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitUnitSystemData.dataName;
-									this.tableConferences[i].date = response.data.entity[0].cxkjCommunityListMeetingSuit[i].meetingSuitPrice;
-									this.tableConferences[i].communityMeetingSuitId = response.data.entity[0].cxkjCommunityListMeetingSuit[i].communityMeetingSuitId;
 								}
 								console.log(this.tableConferences);
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) {
-									if(this.tableRepairs5.length < response.data.entity[0].cxkjCommunityListMaintain.length) {
-										vm.addRepairs5();
+								for(let i = 0; i < vm.tableRepairs5.length;i++){        //办公维修项目
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMaintain.length; m++) {
+										if(vm.tableRepairs5[i].option7[i].dataName == response.data.entity[0].cxkjCommunityListMaintain[m].systemData.dataName){
+											vm.tableRepairs5[i].checkValue = true;
+											vm.tableRepairs5[i].date = response.data.entity[0].cxkjCommunityListMaintain[m].onSiteTime;
+											vm.tableRepairs5[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[m].communityMaintainId;
+										}
 									}
-								}
-								for(let i = 0; i < response.data.entity[0].cxkjCommunityListMaintain.length; i++) { //办公维修
-									this.tableRepairs5[i].checkValue = true;
-									this.tableRepairs5[i].value7 = response.data.entity[0].cxkjCommunityListMaintain[i].systemData.dataName;
-									this.tableRepairs5[i].date = response.data.entity[0].cxkjCommunityListMaintain[i].onSiteTime;
-									this.tableRepairs5[i].communityMaintainId = response.data.entity[0].cxkjCommunityListMaintain[i].communityMaintainId;
 								}
 								//console.log(this.tableRepairs5);
 							}
@@ -633,98 +722,98 @@
 			closeWarningModal() {
 				this.warningModal = false;
 			},
-			addRoom() { //添加会议室套餐类别
-				this.tableConferences.push({
-					checkValue: "",
-					inputValue: "",
-					inputValue2: "",
-					communityMeetingSuitId: null,
-					numValue: "",
-					element: "元/",
-					deletect: "删除",
-					option4: [],
-					value4: '',
-					option8: [],
-					value8: '',
-					date: "",
-				})
-				this.seting();
-				this.seting2();
-			},
-			addRepairs() { //添加公寓付款方式设置
-				this.tableRepairs.push({
-					checkValue: false,
-					inputValue: "",
-					date: "",
-					communityPayWayId: null,
-					deletect: "删除",
-					option1: [{
-						dataName: '押二付一',
-						dataId: 1
-					}, {
-						dataName: '押一付一',
-						dataId: 2
-					}, {
-						dataName: '季付',
-						dataId: 3
-					}, {
-						dataName: '年付',
-						dataId: 4
-					}],
-					value1: ''
-				})
-				this.seting();
-			},
-			addRepairs2() { //添加公寓维修项目
-				this.tableRepairs2.push({
-					checkValue: "",
-					inputValue: "",
-					element: "预计上门时间：",
-					date: "",
-					communityMaintainId: null,
-					deletect: "删除",
-					option2: [],
-					value2: ''
-				})
-				this.seting();
-			},
-			addRepairs3() { //添加办公付款方式
-				this.tableRepairs3.push({
-					checkValue: "",
-					inputValue: "",
-					date: "",
-					communityPayWayId: null,
-					deletect: "删除",
-					option6: [{
-						dataName: '押二付一',
-						dataId: 1
-					}, {
-						dataName: '押一付一',
-						dataId: 2
-					}, {
-						dataName: '季付',
-						dataId: 3
-					}, {
-						dataName: '年付',
-						dataId: 4
-					}],
-					value6: ''
-				})
-				this.seting();
-			},
-			addRepairs5() {
-				this.tableRepairs5.push({ //添加办公维修项目
-					checkValue: "",
-					inputValue: "",
-					element: "预计上门时间：",
-					date: "",
-					communityMaintainId: null,
-					deletect: "删除",
-					option7: [],
-					value7: ''
-				})
-				this.seting();
-			},
+			// addRoom() { //添加会议室套餐类别
+			// 	this.tableConferences.push({
+			// 		checkValue: "",
+			// 		inputValue: "",
+			// 		inputValue2: "",
+			// 		communityMeetingSuitId: null,
+			// 		numValue: "",
+			// 		element: "元/",
+			// 		deletect: "删除",
+			// 		option4: [],
+			// 		value4: '',
+			// 		option8: [],
+			// 		value8: '',
+			// 		date: "",
+			// 	})
+			// 	this.seting();
+			// 	this.seting2();
+			// },
+			// addRepairs() { //添加公寓付款方式设置
+			// 	this.tableRepairs.push({
+			// 		checkValue: false,
+			// 		inputValue: "",
+			// 		date: "",
+			// 		communityPayWayId: null,
+			// 		deletect: "删除",
+			// 		option1: [{
+			// 			dataName: '押二付一',
+			// 			dataId: 1
+			// 		}, {
+			// 			dataName: '押一付一',
+			// 			dataId: 2
+			// 		}, {
+			// 			dataName: '季付',
+			// 			dataId: 3
+			// 		}, {
+			// 			dataName: '年付',
+			// 			dataId: 4
+			// 		}],
+			// 		value1: ''
+			// 	})
+			// 	this.seting();
+			// },
+			// addRepairs2() { //添加公寓维修项目
+			// 	this.tableRepairs2.push({
+			// 		checkValue: "",
+			// 		inputValue: "",
+			// 		element: "预计上门时间：",
+			// 		date: "",
+			// 		communityMaintainId: null,
+			// 		deletect: "删除",
+			// 		option2: [],
+			// 		value2: ''
+			// 	})
+			// 	this.seting();
+			// },
+			// addRepairs3() { //添加办公付款方式
+			// 	this.tableRepairs3.push({
+			// 		checkValue: "",
+			// 		inputValue: "",
+			// 		date: "",
+			// 		communityPayWayId: null,
+			// 		deletect: "删除",
+			// 		option6: [{
+			// 			dataName: '押二付一',
+			// 			dataId: 1
+			// 		}, {
+			// 			dataName: '押一付一',
+			// 			dataId: 2
+			// 		}, {
+			// 			dataName: '季付',
+			// 			dataId: 3
+			// 		}, {
+			// 			dataName: '年付',
+			// 			dataId: 4
+			// 		}],
+			// 		value6: ''
+			// 	})
+			// 	this.seting();
+			// },
+			// addRepairs5() {
+			// 	this.tableRepairs5.push({ //添加办公维修项目
+			// 		checkValue: "",
+			// 		inputValue: "",
+			// 		element: "预计上门时间：",
+			// 		date: "",
+			// 		communityMaintainId: null,
+			// 		deletect: "删除",
+			// 		option7: [],
+			// 		value7: ''
+			// 	})
+			// 	this.seting();
+			// },
 			seting() {
 				let vm = this //获取付款方式以及维修项目的数据
 				axios.post(hostWay,
@@ -734,7 +823,7 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableRepairs2.length; i++) {
 							vm.tableRepairs2[i].option2 = response.data.entity;
-							//console.log(vm.tableRepairs2);
+							console.log(vm.tableRepairs2);
 						}
 						for(let i = 0; i < vm.tableRepairs5.length; i++) {
 							vm.tableRepairs5[i].option7 = response.data.entity;
@@ -751,6 +840,7 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableConferences.length; i++) {
 							vm.tableConferences[i].option8 = response.data.entity;
+							// console.log(vm.tableConferences[i].option8);
 						}
 					})
 					.catch((error) => {
@@ -776,6 +866,7 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableConferences.length; i++) {
 							vm.tableConferences[i].option4 = response.data.entity;
+							//console.log(vm.tableConferences[i].option4);
 						}
 					})
 					.catch((error) => {
@@ -793,44 +884,44 @@
 					})
 			},
 
-			mus(vul, index) {
-				//公寓付款方式
-				console.log(vul);
-				for(let i = 0; i < this.tableRepairs[index].option1.length; i++) {
-					if(vul == this.tableRepairs[index].option1[i].dataName) {
-						this.tableRepairs[index].inputValue = this.tableRepairs[index].option1[i].dataId;
+			// mus(vul, index) {
+			// 	//公寓付款方式
+			// 	console.log(vul);
+			// 	for(let i = 0; i < this.tableRepairs[index].option1.length; i++) {
+			// 		if(vul == this.tableRepairs[index].option1[i].dataName) {
+			// 			this.tableRepairs[index].inputValue = this.tableRepairs[index].option1[i].dataId;
 
-					}
-				}
-				//console.log(this.tableRepairs);
-			},
-			mvs(val, index) {
-				//公寓维修项目
-				for(let i = 0; i < this.tableRepairs2[index].option2.length; i++) {
-					if(val == this.tableRepairs2[index].option2[i].dataName) {
-						this.tableRepairs2[index].inputValue = this.tableRepairs2[index].option2[i].dataId;
+			// 		}
+			// 	}
+			// 	//console.log(this.tableRepairs);
+			// },
+			// mvs(val, index) {
+			// 	//公寓维修项目
+			// 	for(let i = 0; i < this.tableRepairs2[index].option2.length; i++) {
+			// 		if(val == this.tableRepairs2[index].option2[i].dataName) {
+			// 			this.tableRepairs2[index].inputValue = this.tableRepairs2[index].option2[i].dataId;
 
-					}
-				}
-				//console.log(this.tableRepairs2);
-			},
-			communit1(val, index) {
-				//社区付款方式
-				for(let i = 0; i < this.tableRepairs3[index].option6.length; i++) {
-					if(val == this.tableRepairs3[index].option6[i].dataName) {
-						this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
-						//console.log(this.tableRepairs3);
-					}
-				}
-			},
-			communit2(val, index) {
-				for(let i = 0; i < this.tableConferences[index].option4.length; i++) {
-					if(val == this.tableConferences[index].option4[i].dataName) {
-						this.tableConferences[index].inputValue = this.tableConferences[index].option4[i].dataId;
-						//console.log(this.tableConferences);
-					}
-				}
-			},
+			// 		}
+			// 	}
+			// 	//console.log(this.tableRepairs2);
+			// },
+			// communit1(val, index) {
+			// 	//社区付款方式
+			// 	for(let i = 0; i < this.tableRepairs3[index].option6.length; i++) {
+			// 		if(val == this.tableRepairs3[index].option6[i].dataName) {
+			// 			this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
+			// 			//console.log(this.tableRepairs3);
+			// 		}
+			// 	}
+			// },
+			// communit2(val, index) {
+			// 	for(let i = 0; i < this.tableConferences[index].option4.length; i++) {
+			// 		if(val == this.tableConferences[index].option4[i].dataName) {
+			// 			this.tableConferences[index].inputValue = this.tableConferences[index].option4[i].dataId;
+			// 			//console.log(this.tableConferences);
+			// 		}
+			// 	}
+			// },
 			communit3(val, index) {
 				for(let i = 0; i < this.tableConferences[index].option8.length; i++) {
 					if(val == this.tableConferences[index].option8[i].dataName) {
@@ -839,41 +930,41 @@
 					}
 				}
 			},
-			communit4(val, index) {
-				for(let i = 0; i < this.tableRepairs5[index].option7.length; i++) {
-					if(val == this.tableRepairs5[index].option7[i].dataName) {
-						this.tableRepairs5[index].inputValue = this.tableRepairs5[index].option7[i].dataId;
-						//console.log(this.tableRepairs5);
-					}
-				}
-			},
-			deleteConference(tableRepair, index) { //删除会议室选项
-				this.tableConferences.splice(index, 1);
-				let index2 = this.tableConferences.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListMeetingSuit.splice(index2, 1);
-			},
-			deleteRepair(tableRepair, index) { //删除公寓付款方式
-				//console.log(tableRepair);
-				this.tableRepairs.splice(index, 1);
-				let index2 = this.tableRepairs.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway.splice(index2, 1);
-				//console.log(this.cxkjCommunityListPayway);
-			},
-			deleteRepair2(tableRepair, index) { //删除公寓维修项目
-				this.tableRepairs2.splice(index, 1);
-				let index2 = this.tableRepairs2.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListMaintain.splice(index2, 1);
-			},
-			deleteRepair3(tableRepair, index) { //删除社区付款方式
-				this.tableRepairs3.splice(index, 1);
-				let index2 = this.tableRepairs3.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway2.splice(index2, 1);
-			},
-			deleteRepair5(tableRepair, index) { //删除社区办公维修项目
-				this.tableRepairs5.splice(index, 1);
-				let index2 = this.tableRepairs5.findIndex(item => item == tableRepair);
-				this.cxkjCommunityListPayway2.splice(index2, 1);
-			},
+			// communit4(val, index) {
+			// 	for(let i = 0; i < this.tableRepairs5[index].option7.length; i++) {
+			// 		if(val == this.tableRepairs5[index].option7[i].dataName) {
+			// 			this.tableRepairs5[index].inputValue = this.tableRepairs5[index].option7[i].dataId;
+			// 			//console.log(this.tableRepairs5);
+			// 		}
+			// 	}
+			// },
+			// deleteConference(tableRepair, index) { //删除会议室选项
+			// 	this.tableConferences.splice(index, 1);
+			// 	let index2 = this.tableConferences.findIndex(item => item == tableRepair);
+			// 	this.cxkjCommunityListMeetingSuit.splice(index2, 1);
+			// },
+			// deleteRepair(tableRepair, index) { //删除公寓付款方式
+			// 	//console.log(tableRepair);
+			// 	this.tableRepairs.splice(index, 1);
+			// 	let index2 = this.tableRepairs.findIndex(item => item == tableRepair);
+			// 	this.cxkjCommunityListPayway.splice(index2, 1);
+			// 	//console.log(this.cxkjCommunityListPayway);
+			// },
+			// deleteRepair2(tableRepair, index) { //删除公寓维修项目
+			// 	this.tableRepairs2.splice(index, 1);
+			// 	let index2 = this.tableRepairs2.findIndex(item => item == tableRepair);
+			// 	this.cxkjCommunityListMaintain.splice(index2, 1);
+			// },
+			// deleteRepair3(tableRepair, index) { //删除社区付款方式
+			// 	this.tableRepairs3.splice(index, 1);
+			// 	let index2 = this.tableRepairs3.findIndex(item => item == tableRepair);
+			// 	this.cxkjCommunityListPayway2.splice(index2, 1);
+			// },
+			// deleteRepair5(tableRepair, index) { //删除社区办公维修项目
+			// 	this.tableRepairs5.splice(index, 1);
+			// 	let index2 = this.tableRepairs5.findIndex(item => item == tableRepair);
+			// 	this.cxkjCommunityListPayway2.splice(index2, 1);
+			// },
 			house() {
 				//公寓提交设置信息
 				let vm = this
@@ -884,7 +975,7 @@
 				for(let i = 0; i < vm.tableRepairs.length; i++) {
 					if(this.tableRepairs[i].checkValue == true) { //添加公寓付款方式编号
 						vm.cxkjCommunityListPayway.push({
-							dataId: this.tableRepairs[i].inputValue,
+							dataId: i+1,
 							discount: this.tableRepairs[i].date,
 							communityPayWayId: this.tableRepairs[i].communityPayWayId
 						});
@@ -894,7 +985,7 @@
 				for(let i = 0; i < vm.tableRepairs2.length; i++) { //添加公寓维修项目编号
 					if(this.tableRepairs2[i].checkValue == true) {
 						vm.cxkjCommunityListMaintain.push({
-							communityMaintainDataId: this.tableRepairs2[i].inputValue,
+							communityMaintainDataId: this.tableRepairs2[i].option2[i].dataId,
 							onSiteTime: this.tableRepairs2[i].date,
 							communityMaintainId: this.tableRepairs2[i].communityMaintainId
 						});
@@ -927,15 +1018,15 @@
 				if(this.waterEnergyPayDate) {
 					this.waterEnergyPayDate = new Date(this.waterEnergyPayDate).Format('yyyy-MM-dd');
 				}
-								console.log(this.cxkjCommunityListPayway);
-								console.log(this.cxkjCommunityListMaintain);
-								console.log(this.cxkjCommunityListConfig);
-//								console.log(this.serviceCost);
-//								console.log(this.waterEnergyPayDate);
-//								console.log(this.waterChargeType);
-//								console.log(this.waterPrice);
-//								console.log(this.energyChargeType);
-//								console.log(this.energyPrice);
+				console.log(this.cxkjCommunityListPayway);
+				console.log(this.cxkjCommunityListMaintain);
+				console.log(this.cxkjCommunityListConfig);
+				console.log(this.serviceCost);
+				console.log(this.waterEnergyPayDate);
+				console.log(this.waterChargeType);
+				console.log(this.waterPrice);
+				console.log(this.energyChargeType);
+				console.log(this.energyPrice);
 				if(vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
@@ -986,7 +1077,7 @@
 				for(let i = 0; i < vm.tableRepairs3.length; i++) {
 					if(this.tableRepairs3[i].checkValue == true) { //添加办公付款方式编号
 						vm.cxkjCommunityListPayway2.push({
-							dataId: this.tableRepairs3[i].inputValue,
+							dataId: i+1,
 							discount: this.tableRepairs3[i].date,
 							communityPayWayId: this.tableRepairs3[i].communityPayWayId
 						});
@@ -997,7 +1088,7 @@
 				for(let i = 0; i < vm.tableConferences.length; i++) {
 					if(this.tableConferences[i].checkValue == true) { //添加会议室套餐设置编号
 						vm.cxkjCommunityListMeetingSuit.push({
-							mettingSuitDataId: this.tableConferences[i].inputValue,
+							mettingSuitDataId: this.tableConferences[i].option4[i].dataId,
 							meetingSuitPrice: this.tableConferences[i].date,
 							meetingSuitUnitDataId: this.tableConferences[i].inputValue2,
 							communityMeetingSuitId: this.tableConferences[i].communityMeetingSuitId
@@ -1005,11 +1096,11 @@
 
 					}
 				}
-				//				console.log(vm.cxkjCommunityListMeetingSuit);
+				//console.log(vm.cxkjCommunityListMeetingSuit);
 				for(let i = 0; i < vm.tableRepairs5.length; i++) { //添加办公维修项目编号
 					if(this.tableRepairs5[i].checkValue == true) {
 						vm.cxkjCommunityListMaintain2.push({
-							communityMaintainDataId: this.tableRepairs5[i].inputValue,
+							communityMaintainDataId: this.tableRepairs5[i].option7[i].dataId,
 							onSiteTime: this.tableRepairs5[i].date,
 							communityMaintainId: this.tableRepairs5[i].communityMaintainId
 						});

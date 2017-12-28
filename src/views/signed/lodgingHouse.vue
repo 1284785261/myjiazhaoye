@@ -125,10 +125,10 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="expire"></Date-picker>
+									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire"></Date-picker>
 								</li>
 								<ul class="apartment">
 									<li v-for="(apps,index) in apartments">
@@ -450,10 +450,10 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="expire"></Date-picker>
+									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire"></Date-picker>
 								</li>
 								<ul class="apartment">
 									<li v-for="(apps,index) in apartments">
@@ -515,7 +515,7 @@
 							<table>
 								<tr>
 									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}</td>
+									<td style="color: red;">{{firstmoney}}元</td>
 								</tr>
 								<tr>
 									<td>首款支付方式:</td>
@@ -547,7 +547,7 @@
 													<span v-if="housetderta.waterType == 1">元/度</span>
 													<span v-if="housetderta.waterType == 2">元/人/月</span>
 												</span>
-												<div>
+												<div style="position: absolute;left: 194px;top: 8px;">
 													<span v-if="housetderta.waterType == 1">初始:</span>
 													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" />
 													<span v-if="housetderta.waterType">度</span>
@@ -559,9 +559,11 @@
 													<span v-if="housetderta.electricType == 1">元/度</span>
 													<span v-if="housetderta.electricType == 2">元/人/月</span>
 												</span>
-												<span v-if="housetderta.electricType == 1">初始:</span>
-												<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
-												<span v-if="housetderta.electricType">度</span>
+												<div style="position: absolute;left: 194px;top: 52px;">
+													<span v-if="housetderta.electricType == 1">初始:</span>
+													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
+													<span v-if="housetderta.electricType">度</span>
+												</div>
 											</li>
 										</ul>
 									</td>
@@ -721,6 +723,7 @@
 			warningModal
 		},
 		data() {
+			var _this = this;
 			return {
 				activeTabName:"workbench",
 				successModal: false,
@@ -776,8 +779,6 @@
 				}],
 				ieList: [],
 				value2: '',
-				onhrie: null, //起租日
-				expire: null, //到租日
 				apartments: [{
 						dats: '一年'
 					},
@@ -829,7 +830,19 @@
 				companylegalPerson: '',
 				host3: '',
 				imgPath: '',
-				loadList: []
+				loadList: [],
+				onhrie: null, //起租日
+				expire: null, //到租日
+				option1: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < Date.now() - 86400000;
+                    }
+				},
+				option2: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < _this.onhrie;
+                    }
+                },
 			}
 		},
 		mounted() {
@@ -846,38 +859,74 @@
 		computed: {
 			firstmoney: function() {
 				let vm = this
+
+				var date = new Date();
+				//获取年份
+				var year = date.getFullYear();
+				//获取当前月份
+				var mouth = date.getMonth() + 1;
+				var daym = date.getDate() - 1;
+				//定义当月的天数；
+				var days;
+				//当月份为二月时，根据闰年还是非闰年判断天数
+				if (mouth == 2) {
+					days = year % 4 == 0 ? 29 : 28;
+				}
+				else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
+					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+					days = 31;
+				}
+				else {
+					//其他月份，天数为：30.
+					days = 30;
+				}
+
 				if(this.value2 == '押二付一') {
 					let q = 0;
-					for(let i = 0; i < this.tableRepairs.length; i++) {
-						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+					if(vm.discount){
+						console.log(vm.discount / 100);
+						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+						console.log(fy);
+						console.log(fw);
+						for(let i = 0; i < this.tableRepairs.length; i++) {
+							if(parseInt(this.tableRepairs[i].date) > 0) {
+								q += parseFloat(this.tableRepairs[i].date).toFixed(4);
+							}
 						}
+						return (vm.housetderta.roomRent * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) + '元';
+					
 				} else if(this.value2 == '押一付一') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 2 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) + '元';
+					return (vm.housetderta.roomRent * 1 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '季付') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 3 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) + '元';
+					return (vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '年付') {
 					let q = 0;
+					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
+					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date);
+							q += parseInt(this.tableRepairs[i].date).toFixed(4);
 						}
 					}
-					return(vm.housetderta.roomRent * vm.discount * 12 / 100 + parseInt(vm.serve) + parseInt(q)).toFixed(2) + '元';
+					return (vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 11 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				}
 			},
 			twomoney: function() {
@@ -1412,7 +1461,7 @@
 					param.append('firstPayMoney', this.onemoney);
 				} else if(this.radio3 == '2') {
 					param.append('firstMoney', this.onemoney);
-					param.append('secondPayMoney', this.housetderta.twomoney);
+					param.append('secondPayMoney', this.twomoney);
 					param.append('secondPayDate', this.dat);
 				}
 				if(this.housetderta.roomElectric != '') {
