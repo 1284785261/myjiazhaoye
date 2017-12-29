@@ -657,3 +657,6 @@ export const CommunityServiceDel500122 =host3+'/cxkj-room/apis/pcManager/cxkjcom
 //文件上传
 
 export const SystemFileUpload100023 =host3+'/cxkj-room/apis/system/file/SystemFileUpload100023';//文件上传
+
+//重置密码
+export const passwordReurn =host3+'/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityEmployeePasswordReset200178'

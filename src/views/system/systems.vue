@@ -432,7 +432,7 @@
 	import { hostManagement, hostAllPosition, hostEmployee, hostoffEmployee, hostDeleteEmployee, hostEditEmployee } from '../api.js'; //员工接口
 	import { hostPositionManage, hostPowerPosit, hostPositionMan, hostAddPosition, hostEditPosition, hostOffPosition, hostDeletePosition } from '../api.js'; //职位管理
 	import { hostCommunityMan,hostAddCommunityMan,hostdelCommunityMan,hostOffManagement } from '../api.js'; //权限管理
-	import { hostUserRelation } from '../api.js'; //社区人员配备
+	import { hostUserRelation,passwordReurn } from '../api.js'; //社区人员配备
 	import qs from 'qs';
 
 	export default {
@@ -540,7 +540,8 @@
 				},
 				msg:'',
 				superior:'',   //上级部门id
-				superior2:''   //编辑上级部门ID
+				superior2:'',   //编辑上级部门ID
+        activeUserId:''
  			}
 		},
 		mounted() {
@@ -1106,7 +1107,7 @@
 								this.test = ''
 							}, 1000);
 						}
-						
+
 					}
 				}).catch((error) => {
 					console.log(error);
@@ -1184,7 +1185,7 @@
 				}else{
 					this.value5 = '根节点'
 				}
-				
+
 				this.id = item.departmentId;
 				this.parentId = item.parentId;
 			},
@@ -1275,8 +1276,8 @@
           /***重置密码***/
           updatePwd(item){
             this.isHide = true;
-             this.isShow10 = true
-			  alert(JSON.stringify(item))
+            this.isShow10 = true;
+            this.activeUserId = item.userId;debugger
           },
 			closem(item) {
 				this.isHide = true;
@@ -1831,8 +1832,20 @@
 			},
           /****确认重置密码***/
             qsm10(){
-            this.isShow10 = false
-            this.isHide = false
+            this.isShow10 = false;
+            this.isHide = false;
+            axios.post(passwordReurn,
+              qs.stringify({id: this.activeUserId})
+            ).then((response) => {
+              this.successMessage = '密码重置成功！';
+              this.successModal = true;
+              setTimeout(() => {
+                this.successModal = false;
+              }, 1500);
+            }).catch((error) => {
+              console.log(error);
+            })
+
            },
           /****取消重置密码*****/
           qb10(){
