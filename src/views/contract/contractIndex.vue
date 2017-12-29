@@ -305,7 +305,7 @@ export default {
     getRoomContract(data){
       var that = this;
       this.$http.get(roomContract,{params:data})
-        .then(function(res){debugger
+        .then(function(res){
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.roomContractList = pageBean.page;
@@ -368,13 +368,13 @@ export default {
       if(this.officeEndDate){
         data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
       }
-      this.getOfficeContract(data);debugger
+      this.getOfficeContract(data);
     },
 
     getPropertyContract(data){
       var that = this;
       this.$http.get(propertyContract,{params:data})
-        .then(function(res){debugger
+        .then(function(res){
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.propertyContractList = pageBean.page;
@@ -382,7 +382,7 @@ export default {
           }
           if(res.data.code == 10008){
             that.propertyContractList = [];
-            that.propertyTotalNum = 0;debugger
+            that.propertyTotalNum = 0;
           }
         })
     },

@@ -498,7 +498,7 @@
         if(this.waterEnergyEndDate){
           params.endDate = new Date(this.waterEnergyEndDate).Format("yyyy-MM-dd");
         }
-        debugger
+        
         this.getbillPayment(params);
       },
       filterBill(payStatus){

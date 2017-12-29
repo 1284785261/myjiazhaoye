@@ -168,15 +168,15 @@
     				})
     			)
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 	    				this.Datas = response.data.entity.page;
 	    				this.cxkjRoomListPriceVerify = this.Datas[0].cxkjRoomListPriceVerify;
 	    			}
-    				console.log(this.cxkjRoomListPriceVerify);
+    				// console.log(this.cxkjRoomListPriceVerify);
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		closeWarningModal() {
@@ -184,7 +184,7 @@
 			},
     		refer(){
     			let vm = this
-    			console.log(vm.radioq);
+    			// console.log(vm.radioq);
 //  			console.log(vm.Datas[0].priceManagerId);
     			axios.post(hostPriceInfo,
     				qs.stringify({
@@ -194,7 +194,7 @@
     				})
     			)
     			.then((response) =>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 	    				this.successMessage = '审核调价成功';
 						this.successModal = true;
@@ -211,7 +211,7 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     				this.warningMessage = '申核调价失败';
 					this.warningModal = true;
     			})

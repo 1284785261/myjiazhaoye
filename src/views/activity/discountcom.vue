@@ -228,12 +228,12 @@
 						activityId:this.activityId
 					})
 				).then((res) => {
-					//console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.result.activity;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 		    },
 			datas2(){
@@ -244,14 +244,14 @@
 						pageSize : this.pageSize
 					})
 				).then((res) => {
-					console.log(111111111111);
-					console.log(res);
+					// console.log(111111111111);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.couplist = res.data.result.couponList;
 						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			handleCurrentChange(val) {
@@ -272,7 +272,7 @@
 						amount: this.titl2
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.isHide = false;
 						this.successMessage = '推送成功'
@@ -287,7 +287,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '推送失败，服务器异常';
 					this.warningModal = true;
 				})

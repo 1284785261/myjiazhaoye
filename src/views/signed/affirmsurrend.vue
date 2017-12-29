@@ -355,7 +355,7 @@
 						throwLeaseId: this.throwLeaseId
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.ThrowLease = res.data.result;
 						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
@@ -365,10 +365,10 @@
 							this.$set(this.refund[i], "price", 0);
 						}
 						this.OtherInfo = JSON.parse(this.ThrowLease.refundableOtherInfo);
-						console.log(this.OtherInfo);
+						// console.log(this.OtherInfo);
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			water(val) {
@@ -418,15 +418,15 @@
 				}
 
 				param.append("refundMoney", this.zonmoney);
-				console.log(this.throwLeaseId);
-				console.log(this.ThrowLease.deposit);
-				console.log(this.ThrowLease.waterNum);
-				console.log(this.ThrowLease.energyNum);
-				console.log(this.ThrowLease.refundableRent);
-				console.log(this.money);
-				console.log(JSON.stringify(this.refundableMaterialsInfo));
-				console.log(JSON.stringify(this.refundableOtherInfo));
-				console.log(this.zonmoney);
+				// console.log(this.throwLeaseId);
+				// console.log(this.ThrowLease.deposit);
+				// console.log(this.ThrowLease.waterNum);
+				// console.log(this.ThrowLease.energyNum);
+				// console.log(this.ThrowLease.refundableRent);
+				// console.log(this.money);
+				// console.log(JSON.stringify(this.refundableMaterialsInfo));
+				// console.log(JSON.stringify(this.refundableOtherInfo));
+				// console.log(this.zonmoney);
 				axios.post(hostLeaseController, param).then((res) => {
 					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
@@ -442,7 +442,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '用户退租失败,服务器出现异常';
 					this.warningModal = true;
 				})
@@ -485,7 +485,7 @@
 //				console.log(JSON.stringify(this.refundableOtherInfo));
 //				console.log(this.zonmoney);
 				axios.post(hostLeaseController, param).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						vm.successMessage = '用户退租成功';
 						vm.successModal = true;
@@ -499,7 +499,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '用户退租失败,服务器出现异常';
 					this.warningModal = true;
 				})

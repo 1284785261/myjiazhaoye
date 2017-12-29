@@ -196,14 +196,14 @@
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
 		    	axios.post(hostRepairTabe, param).then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
 			    		this.totolNum = response.data.entity.totalNum;
 			    	}
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
 		  },
 		  	tba(value){
@@ -213,7 +213,7 @@
 		  		this.repairState = this.options2[this.options2.findIndex(item => item.data == value)].id;
 		  	},
 		  	handleCurrentChange(val) {
-				//console.log(`当前页: ${val}`);
+				// console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.handle();
 			},
@@ -242,7 +242,7 @@
 		    		param.append('keyWord',this.keyWord);
 		    	}
 		    	axios.post(hostRepairTabe, param).then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
 			    		this.totolNum = response.data.entity.totalNum;
@@ -253,7 +253,7 @@
 		    		}
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
 			}
     	},

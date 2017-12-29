@@ -125,7 +125,7 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       getPayStatic(data){
         var that = this;
@@ -144,13 +144,13 @@
             that.communityName = res.data.result.community.communityName;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       getbillPayment(data){
         var that = this;
         this.$http.get(createBillList,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.billPaymentList = pageBean.page;

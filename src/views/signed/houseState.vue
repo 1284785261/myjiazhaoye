@@ -117,7 +117,7 @@
     				})
     			)
     			.then((response)=>{
-    			console.log(response);
+    			// console.log(response);
     			if(response.status == 200 && response.data.code == 10000){
     				this.bigdata= response.data.entity;
 	    				for(var i=0;i<this.bigdata.length;i++){
@@ -129,7 +129,7 @@
     			}
  				})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		tsa(){

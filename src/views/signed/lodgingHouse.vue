@@ -884,11 +884,11 @@
 				if(this.value2 == '押二付一') {
 					let q = 0;
 					if(vm.discount){
-						console.log(vm.discount / 100);
+						// console.log(vm.discount / 100);
 						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
-						console.log(fy);
-						console.log(fw);
+						// console.log(fy);
+						// console.log(fw);
 						for(let i = 0; i < this.tableRepairs.length; i++) {
 							if(parseInt(this.tableRepairs[i].date) > 0) {
 								q += parseFloat(this.tableRepairs[i].date).toFixed(4);
@@ -955,7 +955,7 @@
 		filters: {
 			waterPrice(val) {
 				if(val != '0.00') {
-					//console.log(val);
+					// console.log(val);
 					return val.toFixed(2);
 				} else {
 					return '0.00';
@@ -963,7 +963,7 @@
 			},
 			energyPrice(val) {
 				if(val != '0.00') {
-					//console.log(val);
+					// console.log(val);
 					return val.toFixed(2);
 				} else {
 					return '0.00';
@@ -983,7 +983,7 @@
 					version: ''
 				})
 				this.datas();
-				console.log(this.ieList);
+				// console.log(this.ieList);
 			},
 			addRepairs() {
 				this.tableRepairs.push({
@@ -992,7 +992,7 @@
 					date: "",
 					deletect: "删除"
 				})
-				console.log(this.tableRepairs);
+				// console.log(this.tableRepairs);
 			},
 			addRepairs2() {
 				this.tableRepairs2.push({
@@ -1002,7 +1002,7 @@
 				})
 			},
 			delet(index) {
-				console.log(index);
+				// console.log(index);
 				this.tableRepairs.splice(index, 1);
 			},
 			User(val) {
@@ -1012,10 +1012,10 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							//console.log(this.userInfo);
+							// console.log(this.userInfo);
 							if(this.userInfo.userCertificate != 'null'){
 								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}
@@ -1040,14 +1040,14 @@
 								let id = this.userInfo.certificateId;
 								this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
 							}
-							console.log(this.userInfo);
+							// console.log(this.userInfo);
 							
 						} else {
-							console.log('该手机未注册用户')
+							// console.log('该手机未注册用户')
 						};
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			User2(index, val) {
@@ -1057,8 +1057,8 @@
 						})
 					)
 					.then((response) => {
-						console.log(222222222222);
-						console.log(response);
+						// console.log(222222222222);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.ieList[index].userId = response.data.result.userInfo.id;
 							this.ieList[index].version = response.data.result.userInfo.version;
@@ -1070,11 +1070,11 @@
 							let id = response.data.result.userInfo.certificateId;
 							this.ieList[index].value3 = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
 						} else {
-							console.log('该手机未注册用户')
+							// console.log('该手机未注册用户')
 						};
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			datas() {
@@ -1085,14 +1085,14 @@
 						})
 					)
 					.then((response) => {
-						console.log(111111111);
-						console.log(response);
+						// console.log(111111111);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options1 = response.data.result.rentRoomList;
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				axios.post(hostController, //  获取签约的合同及付款方式
 						qs.stringify({
@@ -1101,7 +1101,7 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.costInfo = response.data.result;
 							this.contract = this.costInfo.contractNumber;
@@ -1125,7 +1125,7 @@
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostWay, //证件类型
@@ -1134,7 +1134,7 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.aaduserInfo[0].options2 = response.data.entity;
 							this.options2 = response.data.entity;
@@ -1142,7 +1142,7 @@
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostWay, //物资类型
@@ -1151,25 +1151,25 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options4 = response.data.entity;
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			certificate(index, val) {
 				this.ieList[index].certificateType = this.options2[this.options2.findIndex(item => item.dataName == val)].dataId;
-				console.log(this.ieList);
+				// console.log(this.ieList);
 			},
 			closeWarningModal() {
 				this.warningModal = false;
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-				console.log(this.housetderta);
+				// console.log(this.housetderta);
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -1179,7 +1179,7 @@
 					this.tableRepairs2[i].date = arr[i].count;
 				}
 
-				console.log(this.tableRepairs2);
+				// console.log(this.tableRepairs2);
 			},
 			way(val) {
 				this.discount = this.options3[this.options3.findIndex(item => item.name == val)].discount;
@@ -1349,7 +1349,7 @@
 					})
 			},
 			ones(val) {
-				//console.log(val);
+				// console.log(val);
 				this.housetderta.firstmoneys = val;
 				if(val != null) {
 					if(this.radio3 == '1') {
@@ -1366,8 +1366,8 @@
 
 			},
 			dels(info, index) {
-				console.log(info);
-				console.log(index);
+				// console.log(info);
+				// console.log(index);
 				this.ieList.splice(index, 1);
 			},
 			alway(fires, val) {
@@ -1390,7 +1390,7 @@
 							"costAmount": this.tableRepairs[i].date
 						});
 					}
-					//console.log(arr);
+					// console.log(arr);
 				}
 				this.otherCostJson = JSON.stringify(arr);
 
@@ -1437,13 +1437,13 @@
 				this.furniture = JSON.stringify(arr3); //物资
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				console.log('参数');
-				//				console.log(this.communityId+'this.communityId');
-				//				console.log(this.contract+'this.contract');
-				//				console.log(this.housetderta.roomId+'this.housetderta.roomId');
-				//				console.log(this.housetderta.roomId+'this.housetderta.roomId');
-				console.log(JSON.stringify(fileList));
-				console.log('参数');
+				// console.log('参数');
+								// console.log(this.communityId+'this.communityId');
+								// console.log(this.contract+'this.contract');
+								// console.log(this.housetderta.roomId+'this.housetderta.roomId');
+								// console.log(this.housetderta.roomId+'this.housetderta.roomId');
+				// console.log(JSON.stringify(fileList));
+				// console.log('参数');
 				param.append('communityId', this.communityId);
 				param.append('contractNumber', this.contract);
 				param.append('buildingId', this.housetderta.roomId);
@@ -1482,7 +1482,7 @@
 				param.append('user.userCertificate', this.user.userCertificate);
 				param.append('credentialsImages', JSON.stringify(fileList));
 
-				console.log(this.user);
+				// console.log(this.user);
 				if(this.hints.company != '') {
 					param.append('intermediaryCompany', this.hints.company);
 				}
@@ -1500,9 +1500,9 @@
 				if(this.ieList.length) {
 					param.append('ieList', this.ieList);
 				}
-				console.log(this.param);
+				// console.log(this.param);
 				axios.post(hostSigController, param).then(res => {
-						console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 
 							vm.successModal = true;
@@ -1515,7 +1515,7 @@
 						}
 					})
 					.catch(error => {
-						console.log(error);
+						// console.log(error);
 					})
 
 			},
@@ -1529,7 +1529,7 @@
 							"costAmount": this.tableRepairs[i].date
 						});
 					}
-					//console.log(arr);
+					// console.log(arr);
 				}
 				this.otherCostJson = JSON.stringify(arr);
 
@@ -1597,8 +1597,8 @@
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
 				param.append('credentialsImages', JSON.stringify(fileList));
-				//				console.log(this.credentialsImagesArray);
-				//				console.log(this.credentialsTitle);
+								// console.log(this.credentialsImagesArray);
+								// console.log(this.credentialsTitle);
 				param.append('communityId', this.communityId);
 				param.append('contractNumber', this.contract);
 				param.append('buildingId', this.housetderta.roomId);
@@ -1638,7 +1638,7 @@
 				param.append('user.gender', this.user.gender);
 				param.append('user.certificateId', this.user.certificateId);
 				param.append('user.userCertificate', this.user.userCertificate);
-				console.log(this.user);
+				// console.log(this.user);
 				if(this.hints.company != '') {
 					param.append('intermediaryCompany', this.hints.company);
 				}
@@ -1658,11 +1658,11 @@
 				}
 				param.append('companyInfo', this.companyInfo);
 				param.append('companylegalPerson', this.companylegalPerson);
-				console.log(param);
+				// console.log(param);
 
 				axios.post(hostSignCompany, param).then(res => {
 						if(res.status == 200 && res.data.code == 10000) {
-							console.log(res);
+							// console.log(res);
 							vm.successModal = true;
 							setTimeout(() => {
 								vm.successModal = false;
@@ -1673,7 +1673,7 @@
 						}
 					})
 					.catch(error => {
-						console.log(error);
+						// console.log(error);
 					})
 
 			}

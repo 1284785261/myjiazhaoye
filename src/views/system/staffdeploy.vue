@@ -250,7 +250,7 @@
 							}
 						}
 					}).catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			datam() {
@@ -261,7 +261,7 @@
 					)
 					.then((response) => {
 
-						console.log(response);
+						// console.log(response);
 						if(response.data.code == 10000 && response.status == 200) {
 
 							if(response.data.entity.cxkjCommunityUserRelationShopowner.length) {
@@ -343,7 +343,7 @@
 
 						}
 					}).catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			loadfile(e) { //店长上传头像
@@ -369,7 +369,7 @@
 					}
 
 				}).catch(err => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			loadfile2(e, index) { //管家上传头像
@@ -398,7 +398,7 @@
 					}
 					//console.log(this.tableConferences);
 				}).catch(err => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			actives(value) {
@@ -413,7 +413,7 @@
 				else{
 					this.tableConferen.srcs = '';
 				}
-				console.log(this.tableConferen);
+				// console.log(this.tableConferen);
 			},
 			actives2(value, index) {
 				let str = value.split(' ');
@@ -472,12 +472,12 @@
 						repairDataId: this.ulsConfer2[i].repairDataId
 					});
 				}
-				console.log(this.cxkjCommunityUserRelationList);
+				// console.log(this.cxkjCommunityUserRelationList);
 				axios.post(hostAddUserRelation, {
 					cxkjCommunityUserRelationList: this.cxkjCommunityUserRelationList,
 					communityId: this.communityId
 				}).then((res) => {
-					console.log(res);
+					// console.log(res);
 					this.cxkjCommunityUserRelationList = [];
 					if(res.data.code == 10000 && res.status == 200) {
 						vm.successMessage = '操作成功';
@@ -492,7 +492,7 @@
 					}
 				}).catch((err) => {
 
-					console.log(err);
+					// console.log(err);
 					this.cxkjCommunityUserRelationList = [];
 				})
 			}

@@ -196,13 +196,13 @@
 						pageSize: pageSize
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.result.activityList;
 						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			closeWarningModal() {
@@ -211,7 +211,7 @@
 			zuofei(item){
 				this.isHide = true;
 				this.isShow1 = true;
-				console.log(item);
+				// console.log(item);
 				this.activityId = item.activityId;
 			},
 			qb1(){
@@ -228,7 +228,7 @@
 						activityStatus:3
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 &&res.data.code == 10000){
 						this.successMessage = '操作成功'
 						this.successModal = true;
@@ -242,7 +242,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '操作失败，服务器异常';
 					this.warningModal = true;
 				})

@@ -493,7 +493,7 @@
 			this.communityType = this.$route.query.type;
 			this.Name = this.$route.query.Name;
 			let arr = this.communityType.split(',');
-			console.log(arr);
+			// console.log(arr);
 			this.seting();
 			this.seting2();
 			this.befors();
@@ -565,8 +565,8 @@
 		    	}
 		    },
 		    moins2(value,index){
-		    	console.log(value);
-		    	console.log(index);
+		    	// console.log(value);
+		    	// console.log(index);
 		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 		    	if(str.test(value) == true){
 		    		this.tableConferences[index].date = value;
@@ -595,7 +595,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -634,7 +634,7 @@
 										
 									}
 								}
-								console.log(this.tableRepairs);
+								// console.log(this.tableRepairs);
 								
 								for(let i = 0; i < this.tableRepairs2.length;i++){        //公寓维修项目
 									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMaintain.length; m++) {
@@ -645,12 +645,12 @@
 										}
 									}
 								}
-								console.log(this.tableRepairs2);
+								// console.log(this.tableRepairs2);
 							}
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			compile() {
@@ -664,7 +664,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -693,7 +693,7 @@
 										}
 									}
 								}
-								console.log(this.tableConferences);
+								// console.log(this.tableConferences);
 								for(let i = 0; i < vm.tableRepairs5.length;i++){        //办公维修项目
 									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMaintain.length; m++) {
 										if(vm.tableRepairs5[i].option7[i].dataName == response.data.entity[0].cxkjCommunityListMaintain[m].systemData.dataName){
@@ -703,13 +703,13 @@
 										}
 									}
 								}
-								//console.log(this.tableRepairs5);
+								// console.log(this.tableRepairs5);
 							}
 
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			handleClick(tab, event) {
@@ -823,7 +823,7 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableRepairs2.length; i++) {
 							vm.tableRepairs2[i].option2 = response.data.entity;
-							console.log(vm.tableRepairs2);
+							// console.log(vm.tableRepairs2);
 						}
 						for(let i = 0; i < vm.tableRepairs5.length; i++) {
 							vm.tableRepairs5[i].option7 = response.data.entity;
@@ -831,7 +831,7 @@
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				axios.post(hostWay,
 						qs.stringify({
@@ -840,11 +840,11 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableConferences.length; i++) {
 							vm.tableConferences[i].option8 = response.data.entity;
-							// console.log(vm.tableConferences[i].option8);
+							console.log(vm.tableConferences[i].option8);
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			seting2() {
@@ -857,7 +857,7 @@
 						vm.option3 = response.data.entity;
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				axios.post(hostWay,
 						qs.stringify({
@@ -866,11 +866,11 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableConferences.length; i++) {
 							vm.tableConferences[i].option4 = response.data.entity;
-							//console.log(vm.tableConferences[i].option4);
+							console.log(vm.tableConferences[i].option4);
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				axios.post(hostWay,
 						qs.stringify({
@@ -880,20 +880,20 @@
 						vm.option5 = response.data.entity;
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 
 			// mus(vul, index) {
 			// 	//公寓付款方式
-			// 	console.log(vul);
+				// console.log(vul);
 			// 	for(let i = 0; i < this.tableRepairs[index].option1.length; i++) {
 			// 		if(vul == this.tableRepairs[index].option1[i].dataName) {
 			// 			this.tableRepairs[index].inputValue = this.tableRepairs[index].option1[i].dataId;
 
 			// 		}
 			// 	}
-			// 	//console.log(this.tableRepairs);
+				//console.log(this.tableRepairs);
 			// },
 			// mvs(val, index) {
 			// 	//公寓维修项目
@@ -903,14 +903,14 @@
 
 			// 		}
 			// 	}
-			// 	//console.log(this.tableRepairs2);
+				//console.log(this.tableRepairs2);
 			// },
 			// communit1(val, index) {
 			// 	//社区付款方式
 			// 	for(let i = 0; i < this.tableRepairs3[index].option6.length; i++) {
 			// 		if(val == this.tableRepairs3[index].option6[i].dataName) {
 			// 			this.tableRepairs3[index].inputValue = this.tableRepairs3[index].option6[i].dataId;
-			// 			//console.log(this.tableRepairs3);
+						//console.log(this.tableRepairs3);
 			// 		}
 			// 	}
 			// },
@@ -918,7 +918,7 @@
 			// 	for(let i = 0; i < this.tableConferences[index].option4.length; i++) {
 			// 		if(val == this.tableConferences[index].option4[i].dataName) {
 			// 			this.tableConferences[index].inputValue = this.tableConferences[index].option4[i].dataId;
-			// 			//console.log(this.tableConferences);
+						//console.log(this.tableConferences);
 			// 		}
 			// 	}
 			// },
@@ -926,7 +926,7 @@
 				for(let i = 0; i < this.tableConferences[index].option8.length; i++) {
 					if(val == this.tableConferences[index].option8[i].dataName) {
 						this.tableConferences[index].inputValue2 = this.tableConferences[index].option8[i].dataId;
-						//console.log(this.tableConferences);
+						// console.log(this.tableConferences);
 					}
 				}
 			},
@@ -934,7 +934,7 @@
 			// 	for(let i = 0; i < this.tableRepairs5[index].option7.length; i++) {
 			// 		if(val == this.tableRepairs5[index].option7[i].dataName) {
 			// 			this.tableRepairs5[index].inputValue = this.tableRepairs5[index].option7[i].dataId;
-			// 			//console.log(this.tableRepairs5);
+						//console.log(this.tableRepairs5);
 			// 		}
 			// 	}
 			// },
@@ -944,11 +944,11 @@
 			// 	this.cxkjCommunityListMeetingSuit.splice(index2, 1);
 			// },
 			// deleteRepair(tableRepair, index) { //删除公寓付款方式
-			// 	//console.log(tableRepair);
+				//console.log(tableRepair);
 			// 	this.tableRepairs.splice(index, 1);
 			// 	let index2 = this.tableRepairs.findIndex(item => item == tableRepair);
 			// 	this.cxkjCommunityListPayway.splice(index2, 1);
-			// 	//console.log(this.cxkjCommunityListPayway);
+				//console.log(this.cxkjCommunityListPayway);
 			// },
 			// deleteRepair2(tableRepair, index) { //删除公寓维修项目
 			// 	this.tableRepairs2.splice(index, 1);
@@ -997,8 +997,8 @@
 						configDataId: this.option3[this.option3.findIndex(item => item.dataName == vm.checkList[i])].dataId
 					});
 				}
-				console.log(vm.cxkjCommunityListPayway);
-				console.log(vm.cxkjCommunityListMaintain);
+				// console.log(vm.cxkjCommunityListPayway);
+				// console.log(vm.cxkjCommunityListMaintain);
 				if(vm.radio1 == 1) {
 					this.waterChargeType = 1;
 					vm.waterPrice = vm.sect;
@@ -1018,15 +1018,15 @@
 				if(this.waterEnergyPayDate) {
 					this.waterEnergyPayDate = new Date(this.waterEnergyPayDate).Format('yyyy-MM-dd');
 				}
-				console.log(this.cxkjCommunityListPayway);
-				console.log(this.cxkjCommunityListMaintain);
-				console.log(this.cxkjCommunityListConfig);
-				console.log(this.serviceCost);
-				console.log(this.waterEnergyPayDate);
-				console.log(this.waterChargeType);
-				console.log(this.waterPrice);
-				console.log(this.energyChargeType);
-				console.log(this.energyPrice);
+				// console.log(this.cxkjCommunityListPayway);
+				// console.log(this.cxkjCommunityListMaintain);
+				// console.log(this.cxkjCommunityListConfig);
+				// console.log(this.serviceCost);
+				// console.log(this.waterEnergyPayDate);
+				// console.log(this.waterChargeType);
+				// console.log(this.waterPrice);
+				// console.log(this.energyChargeType);
+				// console.log(this.energyPrice);
 				if(vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
@@ -1045,7 +1045,7 @@
 							energyPrice: vm.energyPrice
 						})
 						.then((response) => {
-							console.log(response);
+							// console.log(response);
 							if(response.status == 200 && response.data.code == 10000) {
 								vm.successMessage = '公寓设置成功';
 								vm.disabled = true;
@@ -1063,7 +1063,7 @@
 							}
 						})
 						.catch((error) => {
-							console.log(error);
+							// console.log(error);
 							this.warningMessage = '公寓设置失败,服务器出现异常';
 							this.warningModal = true;
 						})
@@ -1081,7 +1081,7 @@
 							discount: this.tableRepairs3[i].date,
 							communityPayWayId: this.tableRepairs3[i].communityPayWayId
 						});
-						//console.log(vm.cxkjCommunityListPayway);
+						console.log(vm.cxkjCommunityListPayway);
 					}
 				}
 
@@ -1096,7 +1096,7 @@
 
 					}
 				}
-				//console.log(vm.cxkjCommunityListMeetingSuit);
+				console.log(vm.cxkjCommunityListMeetingSuit);
 				for(let i = 0; i < vm.tableRepairs5.length; i++) { //添加办公维修项目编号
 					if(this.tableRepairs5[i].checkValue == true) {
 						vm.cxkjCommunityListMaintain2.push({
@@ -1104,7 +1104,7 @@
 							onSiteTime: this.tableRepairs5[i].date,
 							communityMaintainId: this.tableRepairs5[i].communityMaintainId
 						});
-						//console.log(vm.cxkjCommunityListMaintain);
+						console.log(vm.cxkjCommunityListMaintain);
 					}
 				}
 				for(let i = 0; i < vm.checkList2.length; i++) {
@@ -1112,13 +1112,13 @@
 						configDataId: this.option5[this.option5.findIndex(item => item.dataName == vm.checkList2[i])].dataId
 					});
 				}
-//				console.log(list2);
-//				console.log(vm.cxkjCommunityListConfig2);
-//				console.log(vm.cxkjCommunityListPayway2);
-//				console.log(vm.cxkjCommunityListMaintain2);
-				//console.log(vm.cxkjCommunityListConfig2);
-//				console.log(vm.cxkjCommunityListMeetingSuit);
-//				console.log(vm.serviceCost2);
+				console.log(list2);
+				console.log(vm.cxkjCommunityListConfig2);
+				console.log(vm.cxkjCommunityListPayway2);
+				console.log(vm.cxkjCommunityListMaintain2);
+				console.log(vm.cxkjCommunityListConfig2);
+				console.log(vm.cxkjCommunityListMeetingSuit);
+				console.log(vm.serviceCost2);
 				if(vm.cxkjCommunityListPayway2.length == 0 || vm.cxkjCommunityListMaintain2.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
@@ -1133,7 +1133,7 @@
 							communityType: 1
 						})
 						.then((response) => {
-							console.log(response);
+							// console.log(response);
 							let code = parseInt(response.data.code)
 							if(code == 10000) {
 								this.successMessage = '办公设置成功';
@@ -1151,7 +1151,7 @@
 							}
 						})
 						.catch((error) => {
-							console.log(error);
+							// console.log(error);
 							this.warningMessage = '办公设置失败,服务器出现异常';
 							this.warningModal = true;
 						})

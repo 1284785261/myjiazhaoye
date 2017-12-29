@@ -104,11 +104,11 @@
 				param.append('pageNum',vm.pageNum);
 				param.append('pageSize',vm.pageSize);
                 axios.post(hostAllLiveList, param).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.Datas = res.data.pageBean.page;
 						this.totalNum = res.data.pageBean.totalNum;
-                        console.log(this.totalNum);
+                        // console.log(this.totalNum);
                         let arr = [];
                         for(let i = 0 ; i < this.Datas.length; i++){
                           if(this.Datas[i].communityFace){
@@ -119,7 +119,7 @@
                         }
                     }
                 }).catch((error)=>{
-                    console.log(error);
+                    // console.log(error);
                 })
             },
             handleCurrentChange(val) {
@@ -127,7 +127,7 @@
 				this.datas();
 			},
 			plays(id){
-				console.log(id);
+				// console.log(id);
 				document.getElementById('zbjs').style.display = 'block';
 				// this.url = "http://e.vhall.com/webinar/inituser/"+'858752857'+'test@vhall.com';
 				this.url = "http://e.vhall.com/webinar/inituser/"+ id +"?email="+'test@vhall.com'+"&name="+'his.signObj.username';

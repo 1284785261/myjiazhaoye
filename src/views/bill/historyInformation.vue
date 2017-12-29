@@ -98,7 +98,7 @@
             that.communityId = res.data.result.community.communityId;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //获取所有社区
@@ -122,7 +122,7 @@
             communityId:this.communityId
           })
         ) .then((response)=>{
-            console.log(response.data)
+            // console.log(response.data)
             let count = 0;
             if(response.status == 200 && response.data.code == 10000){
               let pageBean = response.data.pageBean;
@@ -138,7 +138,7 @@
             }
           })
           .catch((error)=>{
-            console.log(error);
+            // console.log(error);
           })
       },
       tsa(){

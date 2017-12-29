@@ -156,15 +156,15 @@
 		    			gatheringId:this.gatheringId
 		    		})
 		    	).then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 		    			vm.title = response.data.result;
-		    			console.log(vm.title);
+		    			// console.log(vm.title);
 		    		}
 		    		
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
 		    }
     	}

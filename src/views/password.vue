@@ -104,7 +104,7 @@
 							messageType: 0
 						})
 					).then((res) => {
-						console.log(res);
+						// console.log(res);
 						if(res.data.code == 10000 && res.status == 200) {
 							vm.tites = true;
 							vm.tis = '已发送'
@@ -114,7 +114,7 @@
 							this.warningModal = true;
 						}
 					}).catch((err) => {
-						console.log(err);
+						// console.log(err);
 						this.disabled = false;
 					})
 				}
@@ -143,7 +143,7 @@
 						verifyCode:this.codes
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.current += 1;
 					}
@@ -152,7 +152,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '验证手机失败';
 					this.warningModal = true;
 				})
@@ -163,7 +163,7 @@
 			},
 			Phone(value) { //验证手机号
 				let str = /^1(3|4|5|7|8)\d{9}$/;
-				console.log(str.test(value));
+				// console.log(str.test(value));
 				if(this.phone) {
 					if(str.test(value) == true) {
 						this.phone = value;
@@ -204,7 +204,7 @@
 						confirmNewPassword:this.test2
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.current += 1;
 						setTimeout(() => {
@@ -216,7 +216,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '重置密码失败';
 					this.warningModal = true;
 				})

@@ -121,7 +121,7 @@
     				communityId:vm.communityId
     			}))
     			.then((response) => {
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 	    				vm.Datas = response.data.result.community;
 	    				vm.Name = response.data.result.community.communityName;
@@ -134,7 +134,7 @@
     				}
     			})
     			.catch((error) => {
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		getXML(item){
@@ -192,13 +192,13 @@
     		},
     		contract:function(){
     			this.mv = this.Datas.communityContract.split(',');
-    			console.log(111111111);
-//  			console.log(mv);
+    			// console.log(111111111);
+ 				// console.log(mv);
 				for(let i=0;i < this.mv.length; i++){
 					this.contart.push(this.mv[i].substring(this.mv[i].lastIndexOf("/")+1,this.mv[i].length));
 
 				}
-    			console.log(this.contart);
+    			// console.log(this.contart);
     		}
     	}
     }

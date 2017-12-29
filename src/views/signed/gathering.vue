@@ -224,14 +224,14 @@
 				param.append("pageSize", this.pageSize);
 				param.append("communityId", this.communityId);
 				axios.post(hostPayment, param).then((response) => {
-					console.log(response);
+					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.Datas = response.data.result.gatheringList;
 						this.totalNum = response.data.result.totalNum;
-						console.log(this.Datas);
+						// console.log(this.Datas);
 					}
 				}).catch((error) => {
-					console.log(error);
+					// console.log(error);
 				})
 			},
 			mvvs() {
@@ -247,8 +247,8 @@
 							gatheringMoney: this.money
 						})
 					).then((response) => {
-						console.log(11111);
-						console.log(response);
+						// console.log(11111);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = !this.isHide;
 							this.successMessage = '发起收款成功';
@@ -292,13 +292,13 @@
 				param.append("pageSize", this.pageSize);
 				param.append("communityId", this.communityId);
 				axios.post(hostPayment, param).then((response) => {
-					console.log(response);
+					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.Datas = response.data.result.gatheringList;
 						this.totalNum = response.data.result.totalNum;
 					}
 				}).catch((error) => {
-					console.log(error);
+					// console.log(error);
 					this.warningMessage = '搜索失败，服务器异常';
 					this.warningModal = true;
 				})

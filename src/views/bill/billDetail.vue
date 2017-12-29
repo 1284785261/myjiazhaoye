@@ -147,7 +147,7 @@
       getRoomBillDetail(data){
         var vm = this;
         this.$http.get(roomBillDetail,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               vm.billDetailList = res.data.entity;
             }
@@ -157,7 +157,7 @@
       getOfficeBillDetail(data){
         var vm = this;
         this.$http.get(officeBillDetail,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               vm.billDetailList = res.data.entity;
             }

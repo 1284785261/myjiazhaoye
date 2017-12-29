@@ -210,7 +210,7 @@
         this.selectList()
       },
       deleteService(index){
-          console.log(this.enterpriseList);
+        //   console.log(this.enterpriseList);
           this.enterpriseList[0].splice(index, 1);
       },
       selectList(){
@@ -232,7 +232,7 @@
             }
           }
         }).catch(err => {
-          console.log(err)
+        //   console.log(err)
         })
       },
       /** 新增企业服务 **/
@@ -241,10 +241,10 @@
       },
       /** 新增服务 **/
       addService(indexs){
-        console.log(indexs);
-        console.log(this.seleArea);
-        console.log(this.enterpriseList);
-        console.log(this.enterpriseList[indexs]);
+        // console.log(indexs);
+        // console.log(this.seleArea);
+        // console.log(this.enterpriseList);
+        // console.log(this.enterpriseList[indexs]);
         let index = this.enterpriseList[indexs].findIndex(item => item == this.newService);
        
         if(!this.newService){
@@ -253,7 +253,7 @@
         } else if(index<0){
           let list = this.enterpriseList[indexs];
           list.push(this.newService);
-          console.log(list);
+        //   console.log(list);
           vm.$set(vm.enterpriseList,indexs,list)
           this.newService = "";
         }else {
@@ -264,14 +264,14 @@
       /** 删除企业服务 **/
       goToDelete(item,index){
         let vm = this
-        console.log('ID')
-        console.log(item.serviceId)
-        console.log('ID')
+        // console.log('ID')
+        // console.log(item.serviceId)
+        // console.log('ID')
         vm.$http.post(CommunityServiceDel500122,qs.stringify({serviceId:item.serviceId}))
           .then(res => {
-            console.log("删除")
-            console.log(res.data)
-            console.log("删除")
+            // console.log("删除")
+            // console.log(res.data)
+            // console.log("删除")
             if(res.data.code == '10000'){
               vm.complainList.splice(index,1)
               vm.enterpriseList.splice(index,1)
@@ -296,7 +296,7 @@
         this.param.append('file',file);
         this.param.append('module','user');
         this.$http.post(vm.host3,vm.param).then(res =>{
-            console.log(res);
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
                 vm.complainList[index].enterpriseLogo = res.data.result.virtualPath;
                 vm.loading = false;
@@ -304,7 +304,7 @@
             
             
         }).catch(err=>{
-            console.log(err)
+            // console.log(err)
         })
       },
       /** 保存 **/
@@ -324,9 +324,9 @@
         param.append('enterpriseArea', vm.complainList[index].enterpriseArea)
         param.append('enterpriseType', vm.enterpriseList[index])
         vm.$http.post(CommunityServiceUpdate500121,param).then(res => {
-          console.log('保存')
-          console.log(res.data)
-          console.log('保存')
+        //   console.log('保存')
+        //   console.log(res.data)
+        //   console.log('保存')
           if(res.data.code != '10000'){
             vm.warningMessage = res.data.content
             vm.warningModal = true
@@ -334,7 +334,7 @@
             vm.$set(vm.complainList[index], 'update', false)
           }
         }).catch(err => {
-          console.log(err)
+        //   console.log(err)
           vm.warningMessage = '报存失败'
           vm.warningModal = true
         })

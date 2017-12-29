@@ -161,7 +161,7 @@
 						refundInfo:this.tesr
 					})
 					).then((response)=>{
-						console.log(response);
+						// console.log(response);
 						if(response.data.code == 10000 && response.status == 200){
 							this.successModal = true;
 							setTimeout(()=>{
@@ -174,7 +174,7 @@
 							this.warningModal = true;
 						}
 					}).catch((error)=>{
-						console.log(error);
+						// console.log(error);
 					})
 				}
 				

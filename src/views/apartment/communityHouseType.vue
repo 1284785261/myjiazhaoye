@@ -190,13 +190,13 @@
 
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       deleteHouse(index){
         var that = this;
         if(this.cxkjCommunityListHousetype[index].housetypeId){
-          this.$http.post(deleteHouseType,qs.stringify({housetypeId:this.cxkjCommunityListHousetype[index].housetypeId})).then(function(res){debugger
+          this.$http.post(deleteHouseType,qs.stringify({housetypeId:this.cxkjCommunityListHousetype[index].housetypeId})).then(function(res){
             if(res.data.code == 10000){
               that.cxkjCommunityListHousetype.splice(index,1);
               that.successMessage = "删除户型成功!";
@@ -206,7 +206,7 @@
               },1000)
             }
           }).catch(function(err){
-            console.log(err);
+            // console.log(err);
           })
         }else{
           this.cxkjCommunityListHousetype.splice(index,1);
@@ -249,10 +249,10 @@
                   return;
                 }
             }
-        }debugger
+        }
         this.$http.post(
           addHouseType,{cxkjCommunityListHousetype:data}
-        ).then(function(res){debugger
+        ).then(function(res){
             that.successMessage = "编辑户型成功!";
             that.successModal = true;
             setTimeout(function(){
@@ -260,7 +260,7 @@
                 history.go(-1);
             },1000)
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       closeWarningModal(){

@@ -131,7 +131,7 @@
 			}
     	},
     	mounted(){
-			console.log(this.jurisdiction('JIAREN_UPDATE'));
+			// console.log(this.jurisdiction('JIAREN_UPDATE'));
     		this.communityId = this.$route.query.id;
     		this.demand();
     	},
@@ -158,7 +158,7 @@
 		    },
 		  	types(value){
 				this.State = this.options[this.options.findIndex(item => item.name == value)].id;
-				console.log(this.State);
+				// console.log(this.State);
 		  	},
 		  	demand(){
 		  		let pageNum = this.pageNum || 1;
@@ -173,9 +173,9 @@
 						param.append('isclose',this.State);
 					}
 		    	}
-		    	console.log(this.State);
+		    	// console.log(this.State);
 		    	axios.post(hostPostList, param).then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.pageBean.page;
 			    		this.totolNum = response.data.pageBean.totalNum;
@@ -189,7 +189,7 @@
 		    		}
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
 		  	},
 		  	checkAllGroupChange2(value){
@@ -207,7 +207,7 @@
 		  		}else {
 		  			this.single2 = false;
 				}
-				console.log(value);  
+				// console.log(value);  
 		  	},
 		  	handleCheckAll2() { //全选
 				this.single2 = !this.single2;
@@ -238,10 +238,10 @@
 						this.postIdArray.push(this.Datas[i].postId);
 					}
 				}
-				console.log(this.postIdArray);
+				// console.log(this.postIdArray);
 				param.append('postIdArray',vm.postIdArray);
 				axios.post(hostOrOpenAll,param).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 &&  res.data.code == 10000){
 						vm.successMessage = '批量删除帖子成功';
 						vm.successModal = true;
@@ -255,7 +255,7 @@
 							this.warningModal = true;
 						}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '批量删除帖子失败';
 					this.warningModal = true;
 				})
@@ -266,17 +266,17 @@
 				this.isShow4 = false;
 			},
 			close(item){
-				console.log(item);
+				// console.log(item);
 				let vm = this;
 				
 				if(item.isClose == 0){
 					let param = new FormData();
 					this.postIdArray.push(item.postId);
-					//console.log(vm.postIdArray)
+					// console.log(vm.postIdArray)
 					param.append('postIdArray',vm.postIdArray);
 					param.append('isclose',1);
 					axios.post(hostOpenAllPost,param).then((res)=>{
-						//console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							vm.successMessage = '关闭帖子成功';
 							vm.successModal = true;
@@ -290,7 +290,7 @@
 							this.warningModal = true;
 						}
 					}).catch((err)=>{
-						console.log(err);
+						// console.log(err);
 						this.warningMessage = '关闭帖子失败，服务器异常';
 						this.warningModal = true;
 					})
@@ -298,11 +298,11 @@
 				else if(item.isClose == 1){
 					let param = new FormData();
 					this.postIdArray.push(item.postId);
-					console.log(vm.postIdArray)
+					// console.log(vm.postIdArray)
 					param.append('postIdArray',vm.postIdArray);
 					param.append('isclose',0);
 					axios.post(hostOpenAllPost,param).then((res)=>{
-						console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							vm.successMessage = '开放帖子成功';
 							vm.successModal = true;
@@ -316,7 +316,7 @@
 							this.warningModal = true;
 						}
 					}).catch((err)=>{
-						console.log(err);
+						// console.log(err);
 						this.warningMessage = '关闭帖子失败，服务器异常';
 						this.warningModal = true;
 					})

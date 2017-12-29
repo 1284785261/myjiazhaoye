@@ -123,7 +123,7 @@
     				adId:this.id
     			}))
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
     					vm.imageUrl = response.data.entity.bannerPic;
 	    				vm.links = response.data.entity.imgUrl;
@@ -135,7 +135,7 @@
     				
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		}
     	},
@@ -166,11 +166,11 @@
     					vm.loading = false;
     					vm.imageUrl = res.data.result.virtualPath;
     				}
-    				console.log(res);
-    				console.log(imgUser);
+    				// console.log(res);
+    				// console.log(imgUser);
     				//vm.userImg(imgUser)
     			}).catch(err=>{
-    				console.log(err)
+    				// console.log(err)
     			})
     		},
     		closeWarningModal() {
@@ -179,21 +179,21 @@
     		adds:function(){
     				let vm= this
     				let param = new FormData();
-    				console.log(this.links);
-    				console.log(this.title);
-    				console.log(this.radio);
-    				console.log(this.listNumber);
+    				// console.log(this.links);
+    				// console.log(this.title);
+    				// console.log(this.radio);
+    				// console.log(this.listNumber);
     				param.append('bannerPic',vm.imageUrl);
     				
 	    			param.append("imgUrl",this.links);
 	    			param.append("imgExplain",this.title);
 	    			param.append("isClose",this.radio);
 	    			param.append("listNumber",this.listNumber);
-					//console.log(this.param);
+					console.log(this.param);
 					if(this.id != null){
 						param.append('adId',this.id);
 						this.$http.post(hostAlter, param).then(res => {
-		    				console.log(res);
+		    				// console.log(res);
 		    				if(res.status == 200 && res.data.code == 10000){
 		    					
 		    					this.successMessage = '修改成功';
@@ -209,7 +209,7 @@
 		    				}
 		    			})
 		    			.catch(error =>{
-		    				console.log(error);
+		    				// console.log(error);
 		    				this.warningMessage = '修改失败';
               				this.warningModal = true;
 		    			})
@@ -221,7 +221,7 @@
 		    			}
 						else{
 							this.$http.post(hostAddadvert, param).then(res => {
-		    				console.log(res);
+		    				// console.log(res);
 		    				if(res.status == 200 && res.data.code == 10000){
 		    					this.successMessage = '添加成功';
 								this.successModal = true;
@@ -237,7 +237,7 @@
 		    				
 			    			})
 			    			.catch(error =>{
-			    				console.log(error);
+			    				// console.log(error);
 			    				this.warningMessage = '添加失败';
               					this.warningModal = true;
 			    			})

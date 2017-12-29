@@ -220,12 +220,12 @@
 						activityId:this.activityId
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.entity;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 		    },
 			datas2(){
@@ -236,13 +236,13 @@
 						pageSize : this.pageSize
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.couplist = res.data.result.couponList;
 						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			handleCurrentChange(val) {

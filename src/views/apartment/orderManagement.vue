@@ -197,13 +197,13 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       //获取会议室订单数据，type=0
       getOfficeOrder(data){
         var that = this;
         this.$http.get(allOrder,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
                 var pageBean = res.data.pageBean;
                 that.officeOrderList = pageBean.page;
@@ -224,8 +224,8 @@
               that.stationOrderList = pageBean.page;
               that.stationTotalNum = pageBean.totalNum;
             }
-            console.log("station==>")
-            console.log(res)
+            // console.log("station==>")
+            // console.log(res)
             if(res.data.code == 10008){
               that.stationOrderList = [];
               that.stationTotalNum = 0;

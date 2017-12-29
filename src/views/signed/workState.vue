@@ -182,7 +182,7 @@
       			communityId:this.communityId          //工位数据
       		})
       	).then((response)=>{
-      		console.log(response);
+      		// console.log(response);
       		if(response.status == 200 && response.data.code == 10000){
     				vm.station = response.data.entity;
 //    			vm.conferenceroom=response.data.entity.cxkjCommunityListMeeting;
@@ -198,7 +198,7 @@
       		}
       	})
       	.catch((error)=>{
-      		console.log(error);
+      		// console.log(error);
       	})
       	
       	
@@ -213,7 +213,7 @@
       		}
       	})
       	.catch((error)=>{
-      		console.log(error);
+      		// console.log(error);
       	})
       	axios.post(hostStatusof,          //办公室数据
       		qs.stringify({
@@ -226,7 +226,7 @@
       		}
       	})
       	.catch((error)=>{          
-      		console.log(error);
+      		// console.log(error);
       	})
       },
       violence(event,index){
@@ -276,7 +276,7 @@
       		}
       	})
       	.catch((error)=>{
-      		console.log(error);
+      		// console.log(error);
       	})
       },
       bomb(event,index){
@@ -315,7 +315,7 @@
       		}
       	})
       	.catch((error)=>{
-      		console.log(error);
+      		// console.log(error);
       	})
       },
       date(AddDayCount){//设置时间显示

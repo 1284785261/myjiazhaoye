@@ -129,7 +129,7 @@
 				this.SignList =[];
 				this.totalNum= 0;
 				this.isAicat = index;
-				console.log(index);
+				// console.log(index);
 				let param = new FormData();
 				if(index == 0){
 					let param = new FormData();
@@ -139,21 +139,21 @@
 					if(this.start){
 						this.start = new Date(this.start).Format('yyyy-MM-dd');
 						param.append('startTime',this.start);
-						console.log(this.start);
+						// console.log(this.start);
 					}
 					if(this.over){
 						this.over = new Date(this.over).Format('yyyy-MM-dd');
 						param.append('endTime',this.over);
-						console.log(this.over);
+						// console.log(this.over);
 					}
 					axios.post(hostSignContr, param).then((res)=>{
-						console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000){
 							this.SignList = res.data.result.signList;
 							this.totalNum = res.data.result.totalNum;
 						}
 					}).catch((err)=>{
-						console.log(err);
+						// console.log(err);
 					})
 				}else if(index == 1){
 					this.signType = 0;
@@ -173,23 +173,23 @@
 				if(this.start){
 					this.start = new Date(this.start).Format('yyyy-MM-dd');
 					param.append('startTime',this.start);
-					console.log(this.start);
+					// console.log(this.start);
 				}
 					param.append('signType',this.signType);
-					console.log(this.signType);
+					// console.log(this.signType);
 				if(this.over){
 					this.over = new Date(this.over).Format('yyyy-MM-dd');
 					param.append('endTime',this.over);
-					console.log(this.over);
+					// console.log(this.over);
 				}
 				axios.post(hostSignContr, param).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.SignList = res.data.result.signList;
 						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			handleCurrentChange(val){

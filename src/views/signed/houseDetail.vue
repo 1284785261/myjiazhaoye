@@ -371,7 +371,7 @@
     				})
     			)
     			.then((response) => {
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
     					this.Datas = response.data.entity;
     					if(this.Datas.roomLockWaterElect){
@@ -380,7 +380,7 @@
     				}
     			})
     			.catch((error) => {
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		closeWarningModal() {
@@ -403,7 +403,7 @@
     					reason:this.texs
     				})
 	    			).then((response) =>{
-	    				console.log(response);
+	    				// console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
 	    					this.successMessage = '申请调价成功';
 							this.successModal = true;
@@ -421,7 +421,7 @@
 	    				
 	    			})
 	    			.catch((error)=>{
-	    				console.log(error);
+	    				// console.log(error);
 	    				this.warningMessage = '申请调价失败';
 						this.warningModal = true;
 						this.isHide = false;

@@ -151,7 +151,7 @@
         vm.$http.post(SytemData,qs.stringify({
           parentId:67
         })).then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == '10000'){
             vm.floors = res.data.entity
           }
@@ -162,7 +162,7 @@
         vm.$http.post(SytemData,qs.stringify({
           parentId:79
         })).then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == '10000'){
             vm.Area = res.data.entity
           }

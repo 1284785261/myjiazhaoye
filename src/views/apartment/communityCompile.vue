@@ -223,7 +223,7 @@
               communityId:vm.communityId
             }))
             .then((response)=>{
-              console.log(response);
+              // console.log(response);
               if(response.status == 200 && response.data.code == 10000) {
                 vm.communityName = response.data.result.community.communityName;
                 vm.province = response.data.result.community.province.areaName;
@@ -272,49 +272,49 @@
               }
             })
             .catch((error)=>{
-              console.log(error);
+              // console.log(error);
             })
         }
       },
       handleRemove(file, fileList3) { //删除文件
-        //console.log(file,fileList);
+        // console.log(file,fileList);
         if(file.response.code == 10000){
           this.pdfName.remove(file.response.result.virtualPath);
-          //console.log(this.pdfName);
+          // console.log(this.pdfName);
         }
       },
       success(response) { //上传文件成功
         if(response.code == 10000) {
           this.pdfName.push(response.result.virtualPath);
-          console.log(this.pdfName);
+          // console.log(this.pdfName);
         }
 
       },
       error(err) { //上传文件失败
-        console.log(err);
+        // console.log(err);
       },
       handlePreview(file) {
-        console.log(file);
+        // console.log(file);
       },
       Complie() {
         let vm = this
         let param = new FormData(); //创建form对象
-        console.log(this.pdfName);
+        // console.log(this.pdfName);
         vm.communityContract = this.pdfName.join(',');
         vm.disabled = false;
-        console.log(vm.communityContract);
-//				console.log(vm.communityOpeningDate)
-//				console.log(vm.communityPhone)
-//				console.log(vm.communityContractNum)
-//				console.log(vm.communityLeaseBegin)
-//				console.log(vm.communityLeaseEnd)
-//				console.log(vm.communityFreeLeaseBegin)
-//				console.log(vm.communityFreeLeaseEnd)
-        console.log(vm.areaId)
-        console.log(vm.communityAddress)
-        console.log(vm.communityType)
-        console.log(vm.parentId)
-        console.log(vm.areas)
+        // console.log(vm.communityContract);
+				// console.log(vm.communityOpeningDate)
+				// console.log(vm.communityPhone)
+				// console.log(vm.communityContractNum)
+				// console.log(vm.communityLeaseBegin)
+				// console.log(vm.communityLeaseEnd)
+				// console.log(vm.communityFreeLeaseBegin)
+				// console.log(vm.communityFreeLeaseEnd)
+        // console.log(vm.areaId)
+        // console.log(vm.communityAddress)
+        // console.log(vm.communityType)
+        // console.log(vm.parentId)
+        // console.log(vm.areas)
         this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
         this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
         this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
@@ -365,7 +365,7 @@
             }
           })
             .catch(error => {
-              console.log(error);
+              // console.log(error);
               this.warningMessage = '添加失败,服务器出现异常';
               this.warningModal = true;
             })
@@ -375,23 +375,23 @@
         let vm = this
         vm.disabled2 = false;
         let param2 = new FormData(); //创建form对象
-        //console.log(this.pdfName);
+        // console.log(this.pdfName);
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
-          console.log(vm.communityName);
-          console.log(vm.communityContract);
-          console.log(vm.communityAddress)
-          console.log(vm.communityType)
-          console.log(vm.areaId)
-          console.log(vm.parentId)
-          console.log(vm.areas)
-          console.log(vm.communityContractNum);
-          console.log(vm.communityOpeningDate);
-          console.log(vm.communityPhone);
-          console.log(vm.communityLeaseBegin);
-          console.log(vm.communityLeaseEnd);
-          console.log(vm.communityFreeLeaseBegin);
-          console.log(vm.communityFreeLeaseEnd);
+          // console.log(vm.communityName);
+          // console.log(vm.communityContract);
+          // console.log(vm.communityAddress)
+          // console.log(vm.communityType)
+          // console.log(vm.areaId)
+          // console.log(vm.parentId)
+          // console.log(vm.areas)
+          // console.log(vm.communityContractNum);
+          // console.log(vm.communityOpeningDate);
+          // console.log(vm.communityPhone);
+          // console.log(vm.communityLeaseBegin);
+          // console.log(vm.communityLeaseEnd);
+          // console.log(vm.communityFreeLeaseBegin);
+          // console.log(vm.communityFreeLeaseEnd);
           this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
           this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
           this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
@@ -425,7 +425,7 @@
             this.warningModal = true;
           } else {
             this.$http.post(hostaddComplie, param2).then(res => {
-              console.log(res.data)
+              // console.log(res.data)
               if(res.status == 200 && res.data.code == 10000) {
                 this.successMessage = '修改成功';
                 this.successModal = true;
@@ -443,7 +443,7 @@
               }
             })
               .catch(error => {
-                console.log(error);
+                // console.log(error);
                 this.warningMessage = '修改失败,服务器出现异常';
                 this.warningModal = true;
               })
@@ -466,8 +466,8 @@
         this.httpPost(this.parentId, 2);
       },
       isActive3(value) {
-        console.log(value);
-        console.log(this.countyList);
+        // console.log(value);
+        // console.log(this.countyList);
         this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == value)].areaId;
 
       },
@@ -480,32 +480,32 @@
           })).then((response) => {
           if(num == 1) {
             vm.parents = response.data.result.areaList;
-            console.log(vm.parents);
+            // console.log(vm.parents);
           }
           else if(num == 2) {
             vm.countyList = response.data.result.areaList;
-            console.log(vm.countyList);
+            // console.log(vm.countyList);
           }
         })
           .catch((error) => {
-            console.log(126)
-            console.log(error);
+            // console.log(126)
+            // console.log(error);
           })
 
       },
       types(mw) {
-        console.log(mw);
+        // console.log(mw);
         this.communityType = '';
         for(var i = 0; i < mw.length; i++) {
           if(mw[i] == "公寓" && mw.length == 1) {
             this.communityType = '0';
-            //console.log('11'+this.communityType);
+            console.log('11'+this.communityType);
           } else if(mw[i] == "办公空间" && mw.length == 1) {
             this.communityType = '1';
-            //console.log('11'+this.communityType);
+            console.log('11'+this.communityType);
           } else if(mw.length >= 2) {
             this.communityType = '0,1';
-            //console.log('11'+this.communityType);
+            console.log('11'+this.communityType);
           }
         }
       }
@@ -516,12 +516,12 @@
         qs.stringify({
           'parentId': 0
         })).then((response) => {
-        //console.log(response);
+        console.log(response);
         this.parent = response.data.result.areaList;
-        //console.log(this.parent);
+        console.log(this.parent);
       })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         })
     },
     datas() {
@@ -530,7 +530,7 @@
           communityId: vm.communityId
         }))
         .then((response) => {
-          //console.log(response);
+          console.log(response);
           if(response.status == 200 && response.data.code == 10000) {
             vm.community = response.data.result.community;
 
@@ -538,7 +538,7 @@
 
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         })
     }
   }

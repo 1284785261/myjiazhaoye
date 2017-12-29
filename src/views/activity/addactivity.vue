@@ -200,7 +200,7 @@
 			},
 			actives(value) {
 				this.Activity.activityType = this.options[this.options.findIndex(item => item.dataName == value)].id;
-				console.log(this.Activity);
+				// console.log(this.Activity);
 			},
 			activit() {
 				let vm = this
@@ -218,12 +218,12 @@
 						arr.push(1);
 					}
 				}
-				console.log(arr);
+				// console.log(arr);
 				let str = arr.join(',');
 				this.Activity.endRule = str;
 				this.Activity.beginDate = new Date(this.Activity.beginDate).Format('yyyy-MM-dd');
 				this.Activity.endDate = new Date(this.Activity.endDate).Format('yyyy-MM-dd');
-				console.log(this.Activity);
+				// console.log(this.Activity);
 				param.append("activityType", vm.Activity.activityType);
 				param.append("activityTheme", vm.Activity.activityTheme);
 				param.append("activityContent", vm.Activity.activityContent);
@@ -245,7 +245,7 @@
 					param.append("signStatus", vm.radio4);
 				}
 				axios.post(hostActivityAdd, param).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.successMessage = '添加活动成功';
 						this.successModal = true;
@@ -258,19 +258,19 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '添加活动失败,服务器异常';
 					this.warningModal = true;
 				})
 
 			},
 			mvs(list) {
-				console.log(list);
+				// console.log(list);
 				if(!list.length) {
 					this.disabled = false;
 					this.disabled2 = false;
 					this.disabled3 = false;
-					console.log(111111);
+					// console.log(111111);
 				} else {
 					for(let i = 0; i < list.length; i++) {
 						if(list[i] == '到期结束' || list[i] == '送完即止') {

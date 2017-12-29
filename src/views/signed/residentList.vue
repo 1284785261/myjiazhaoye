@@ -89,7 +89,7 @@
         
     		this.communityId = this.$route.query.id;
     		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityHouseholdDownload200070?communityId='+this.communityId;
-    		//console.log(this.communityId);
+    		// console.log(this.communityId);
     		this.datas();
     	},
     	filters:{
@@ -125,7 +125,7 @@
     	},
     	methods:{
 		    handleCurrentChange(val) {
-//		        console.log(`当前页: ${val}`);
+		        // console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.datas();
 		    },
@@ -138,14 +138,14 @@
 		    			pageSize:this.pageSize
 		    		}))
 		    	.then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
 			    		this.totolNum = response.data.entity.totalNum;
 			    	}
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
 		  	}
 

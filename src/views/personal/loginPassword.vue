@@ -92,7 +92,7 @@
     	},
     	mounted(){
     		this.phone = sessionStorage.getItem("phone");
-    		//console.log(sessionStorage.getItem("phone"));
+    		// console.log(sessionStorage.getItem("phone"));
     	},
     	methods:{
     		amendwin(){
@@ -106,7 +106,7 @@
     				})
     			)
     			.then((response) => {
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.successMessage = '修改密码成功';
               			this.successModal = true;
@@ -122,7 +122,7 @@
     				}
     			})
     			.catch((error) => {
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		gain(){
@@ -137,7 +137,7 @@
     				})
     			)
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10004){
     					vm.inhide = true;
     					vm.chens = false;
@@ -146,7 +146,7 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     			let times = setInterval(function(){
     				vm.time--;
@@ -166,9 +166,9 @@
     	},
     	watch:{
     		word2:function(val){
-    			console.log(val);
+    			// console.log(val);
     			let vm = this;
-    			console.log(vm.word1);
+    			// console.log(vm.word1);
     			if(val != vm.word1){
     				vm.inhide = true;
 	    			

@@ -158,7 +158,7 @@
     	},
     	methods:{
     		handleCurrentChange(val) {
-				//console.log(`当前页: ${val}`);
+				// console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.handle();
 			},
@@ -170,14 +170,14 @@
     			param.append('pageSize',this.pageSize);
     			
     			axios.post(refundHandle,param).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.data = response.data.result.refundList;
     					this.totalNum = response.data.result.totalNum;
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		handle(){
@@ -202,14 +202,14 @@
     			param.append('pageSize',this.pageSize);
     			
     			axios.post(refundHandle,param).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.data = response.data.result.refundList;
     					this.totalNum = response.data.result.totalNum;
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		sectte(value){

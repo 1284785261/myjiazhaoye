@@ -109,7 +109,7 @@
     				})
     			)
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					vm.ins = true;
     					let times = setInterval(function(){
@@ -133,7 +133,7 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		closeWarningModal() {
@@ -148,7 +148,7 @@
     				})
     			)
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					vm.ins = true;
     					let times = setInterval(function(){
@@ -172,7 +172,7 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		yanz(){
@@ -184,7 +184,7 @@
     				})
     			)
     			.then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				let code = parseInt(response.data.code)
     				if(code == 10000){
     					clearInterval(times);
@@ -201,7 +201,7 @@
     				
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		yans(phones){
@@ -237,7 +237,7 @@
     					}
     				})
     				.catch((error) => {
-    					console.log(error);
+    					// console.log(error);
     				})
     			}
     			else{

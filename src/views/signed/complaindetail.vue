@@ -235,7 +235,7 @@
     		else{
     			this.statas = '1';
     		}
-    		console.log(this.statas);
+    		// console.log(this.statas);
     		
     	},
     	filters:{
@@ -285,7 +285,7 @@
     					complainId:this.complainId
     				})
     			).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.Datas = response.data.entity;
     					if(this.Datas.recordList != []){
@@ -302,7 +302,7 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
 		  	},
 		  	receive(){
@@ -313,7 +313,7 @@
     					complainStatus:1
     				})
     			).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					vm.successMessage = '确认接收成功';
 						vm.successModal = true;
@@ -329,13 +329,13 @@
 					}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
 		  	},
 		  	receive2(){
 		  		let vm = this
-		  		console.log(this.test);
-		  		console.log(this.dianz[0].complainRecordId);
+		  		// console.log(this.test);
+		  		// console.log(this.dianz[0].complainRecordId);
 		  		axios.post(hostEditDetails,
     				qs.stringify({
     					complainId:this.complainId,
@@ -344,7 +344,7 @@
     					complainRecordId:this.dianz[0].complainRecordId
     				})
     			).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					vm.successMessage = '确认处理成功';
 						vm.successModal = true;
@@ -360,7 +360,7 @@
 					}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
 		  	}
 

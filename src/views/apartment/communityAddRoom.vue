@@ -212,7 +212,7 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       init(){
         this.cacheFloorId = this.$route.query.floorId;
@@ -285,7 +285,7 @@
           }
 
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //获取房间信息（编辑房间时）
@@ -294,7 +294,7 @@
         this.$http.post(
           roomInfo,qs.stringify({roomId:this.roomId})
         ).then(function(res){
-          var roomObj = res.data.entity;debugger
+          var roomObj = res.data.entity;
           that.cxkjCommunityListRoom = [{
               communityId: roomObj.communityId,
               roomId:roomObj.roomId,
@@ -310,9 +310,9 @@
               waterPrice:roomObj.waterPrice || that.cun_waterPrice,
               energyPrice:roomObj.energyPrice || that.cun_energyPrice
           }];
-          console.log(that.cxkjCommunityListRoom)
+          // console.log(that.cxkjCommunityListRoom)
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //弹出编辑水费窗口
@@ -381,7 +381,7 @@
         ).then(function(res){
           that.roomTypes = res.data.entity;
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       addRoom(){
@@ -427,7 +427,7 @@
       createNewRoom(){
         var that = this;
         var data = this.extendDeep(this.cxkjCommunityListRoom);
-        debugger
+        
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
@@ -465,7 +465,7 @@
             }
           }
         }
-        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
+        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
           if(res.status == 200 && res.data.code === 10000){
             that.successMessage = "添加房间成功！";
             that.successModal = true;
@@ -478,13 +478,12 @@
             that.warningMessage =res.data.entity +  "房间号已经存在";
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       updateRoom(){
         var that = this;
         var data = this.extendDeep(this.cxkjCommunityListRoom);
-        debugger
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
@@ -523,7 +522,7 @@
           }
         }
 
-        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){debugger
+        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";
               that.successModal = true;
@@ -536,7 +535,7 @@
               that.warningMessage =res.data.entity +  "房间号已经存在";
             }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       closeRoomFurniture(){

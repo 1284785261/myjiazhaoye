@@ -87,7 +87,7 @@
     	methods:{
         getDoorRecord(data){
           var that = this;
-          this.$http.post(doorLockNotes,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(doorLockNotes,qs.stringify(data)).then(function(res){
             that.loading = false;
             if(res.status == 200 && res.data.code == 10000){
               let result = res.data.entity;

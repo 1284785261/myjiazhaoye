@@ -126,7 +126,7 @@
     	},
     	mounted(){
     		this.communityId = this.$route.query.id;
-    		console.log(this.communityId);
+    		// console.log(this.communityId);
     		this.datas();
     	},
     	methods:{
@@ -151,7 +151,7 @@
 	 				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
 		      },
 		      classify(index){
@@ -186,7 +186,7 @@
 	   				}
     			})
 		      	.catch((error)=>{
-		      		console.log(error);
+		      		// console.log(error);
 		      	})
 		      	
 		      }

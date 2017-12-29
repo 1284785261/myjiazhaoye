@@ -167,14 +167,14 @@
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
     			axios.post(hostlainTable, param).then((response)=>{
-    				console.log(response);
+    				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
     					this.Data = response.data.pageBean.page;
     					this.totalNum = response.data.pageBean.totalNum;
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		sectte(value){
@@ -202,7 +202,7 @@
 		    		param.append('keyWord',this.keyWord);
 		    	}
 		    	axios.post(hostlainTable, param).then((response)=>{
-		    		console.log(response);
+		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Data = response.data.pageBean.page;
     					this.totalNum = response.data.pageBean.totalNum;
@@ -213,7 +213,7 @@
 		    		}
 		    	})
 		    	.catch((error)=>{
-		    		console.log(error);
+		    		// console.log(error);
 		    	})
     		}
     	},

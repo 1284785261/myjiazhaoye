@@ -74,7 +74,7 @@
         administrationoffice:null,   //办公室数据
       }
     },
-    mounted(){debugger
+    mounted(){
       this.communityId = this.$route.query.communityId;
       this.getCommunityData();
       this.getCommunityInfo();
@@ -84,13 +84,13 @@
       //获取社区信息
       getCommunityInfo(){
         var that = this;
-        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+        this.$http.post(hostTitle,qs.stringify({communityId:this.communityId})).then(function(res){
           if(res.data.code == 10000){
             that.communityName = res.data.result.community.communityName;
             that.communityId = res.data.result.community.communityId;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       communityChange(communityId){
@@ -111,14 +111,14 @@
 
       datas(){//办公室数据
         let vm = this
-        axios.post(hostStatusof,qs.stringify({communityId:this.communityId})).then((response)=>{debugger
+        axios.post(hostStatusof,qs.stringify({communityId:this.communityId})).then((response)=>{
           if(response.status == 200 && response.data.code == 10000){
             vm.administrationoffice = response.data.entity;
           }else{
             vm.administrationoffice = [];
           }
         }).catch((error)=>{
-            console.log(error);
+            // console.log(error);
           })
       },
       toHistoryBill(officeId,officeHouseNum,officeWorkNum){

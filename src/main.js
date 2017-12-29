@@ -90,10 +90,10 @@ Vue.prototype.jurisdiction = function(val){
 axios.interceptors.request.use(
   config => {
 	const Token = sessionStorage.getItem('token')==""? "":sessionStorage.getItem('token');
-    console.log("请求....")
+    // console.log("请求....")
     config.headers['Authorization'] = Token;
     return config;
-    console.log(config);
+    // console.log(config);
   },
   err => {
     return Promise.reject(err)

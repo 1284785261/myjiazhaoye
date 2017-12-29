@@ -114,13 +114,13 @@
 	    		vm.user = null;
 	    		axios.get(hostAuthor)
 	    		.then((response)=>{
-					console.log(response);
+					// console.log(response);
 					
 	    			if(response.status == 200 && response.data.code == 10000){
 						vm.user = response.data.entity;
 						if(vm.user.communityNames){
 							vm.communityNames = vm.user.communityNames.split(",");
-							console.log(vm.communityNames);
+							// console.log(vm.communityNames);
 						}
 		    			sessionStorage.setItem("phone",this.user.userPhone);
 		    			if(response.data.entity.headPic != null){
@@ -133,7 +133,7 @@
 	    			}
 	    		})
 	    		.catch((error)=>{
-	    			console.log(error);
+	    			// console.log(error);
 	    		})
     		},
     		loadfile(e){
@@ -153,7 +153,7 @@
     				let imgUser = res.data.result.virtualPath
     				vm.userImg(imgUser)
     			}).catch(err=>{
-    				console.log(err)
+    				// console.log(err)
     			})
     		},
     		userImg(imgUser){
@@ -171,7 +171,7 @@
     				}
     			})
     			.catch(error => {
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		emss(){

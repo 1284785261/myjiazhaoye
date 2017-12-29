@@ -141,7 +141,7 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       //获取社区信息
       getCommunityInfo(){
@@ -151,7 +151,7 @@
             that.communityName = res.data.result.community.communityName;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       getPayStatic(data){

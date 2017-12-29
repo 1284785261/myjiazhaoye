@@ -344,9 +344,9 @@
 //            console.log("res.data")
             if(res.status == 200 && res.data.code == 10000){
               let pageBean = res.data.result;
-              console.log("pageBean")
-              console.log(pageBean.waterList)
-              console.log("pageBean")
+              // console.log("pageBean")
+              // console.log(pageBean.waterList)
+              // console.log("pageBean")
               that.waterHistoryBillList = pageBean.waterList;
               that.waterHistoryBillTotalNum = pageBean.totalNum;
             }

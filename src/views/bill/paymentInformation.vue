@@ -125,12 +125,12 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       getPayStatic(data){
         var that = this;
         this.$http.get(statisticsInfoOfUser,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.communityPayStatic = res.data.entity;
             }
@@ -139,7 +139,7 @@
       getbillPayment(data){
         var that = this;
         this.$http.get(billPayment,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.billPaymentList = pageBean.page;

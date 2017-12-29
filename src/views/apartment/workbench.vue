@@ -303,14 +303,14 @@
 			datam() {
 
 				let Model = sessionStorage.getItem('communityId');
-				console.log(Model);
+				// console.log(Model);
 				if(Model){
 					axios.post(hostgCxkjCommun, //获取管家收款数据
 						qs.stringify({
 							communityId: Model
 						})
 					).then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.datas[0].num = response.data.result.yesterdayPay + '.00';
 							this.datas[1].num = response.data.result.todayWaitPay + '.00';
@@ -318,7 +318,7 @@
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostaCommunityCo, //获取今日待办数据
@@ -326,14 +326,14 @@
 							communityId: Model
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				}
 				
@@ -341,21 +341,21 @@
 			datas2(){
 				axios.post(hostUserMessagey)
 				.then((res)=>{
-					//console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						// this.nums = res.data.entity.messageCount;
 						sessionStorage.setItem('nums', res.data.entity.messageCount);
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			title() {
 				let vm = this
 				let Model = sessionStorage.getItem('communityId');
-				//console.log(Model);
+				// console.log(Model);
 				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.cityList = response.data.result.communityList;
 							if(Model) {
@@ -369,21 +369,21 @@
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			mtsbv(){
 				axios.post(hostReadMessage).then((res)=>{
-					//console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						// for(let k in res.data.entity){
 						// 	vm.$set(this.messsaget,k,res.data.entity[k])
 						// }
 						this.messsaget = res.data.entity;
-						console.log(this.messsaget);
+						// console.log(this.messsaget);
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 
 				axios.post(hostPcMessage,
@@ -391,7 +391,7 @@
 						pageSize:5
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.myInfos = res.data.entity.page;
 						for(let i = 0;i < this.myInfos.length;i++){
@@ -404,24 +404,24 @@
 						}
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			temp(val) {
-				//console.log(val);
+				// console.log(val);
 				let vm = this
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
 				
 				this.mtsbv();
 				this.communityId = Index;
 				sessionStorage.setItem('communityId', Index);
-				//console.log(this.communityId);
+				// console.log(this.communityId);
 				axios.post(hostgCxkjCommun, //获取管家收款数据
 						qs.stringify({
 							communityId: Index
 						})
 					).then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.datas[0].num = response.data.result.yesterdayPay + '.00';
 							this.datas[1].num = response.data.result.todayWaitPay + '.00';
@@ -429,7 +429,7 @@
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostaCommunityCo, //获取今日待办数据
@@ -437,33 +437,32 @@
 							communityId: Index
 						})
 					).then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},	
 			share(value){
-				console.log(value);
+				// console.log(value);
 				
 				axios.post(hostessageUpdate,
 					qs.stringify({
 						messageType:parseInt(value)
 					})
 				).then((res)=>{
-					console.log(res.data);
-//					debugger
-					console.log(res);
+					// console.log(res.data);					
+					// console.log(res);
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			eliminate(value){
-				//console.log(value);
+				// console.log(value);
 				this.share(value);
 				this.$router.push('/bill/billManagement');
 				this.datas2();

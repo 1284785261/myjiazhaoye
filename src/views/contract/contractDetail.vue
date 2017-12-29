@@ -331,7 +331,7 @@
               var arr = [];
               //默认显示第一张公寓图片
               that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
-              console.log(that.contractDetailData.communityWork)
+              // console.log(that.contractDetailData.communityWork)
               if(that.contractDetailData.credentialsImages){
                 that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
               }

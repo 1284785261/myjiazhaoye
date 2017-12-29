@@ -254,7 +254,7 @@
         if(this.memberPhone){
           params.userPhoneLike = this.memberPhone;
         }
-        this.getmemberTable(params);debugger
+        this.getmemberTable(params);
       },
       //黑名单列表
       getBlackMemberTable(params){
@@ -381,7 +381,7 @@
         }else{
           this.checkAllStatus = false;
         }
-        console.log(flag)
+        // console.log(flag)
       }
     },
     filters:{

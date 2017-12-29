@@ -88,14 +88,14 @@
 						powerId: this.powerId
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.loderList = res.data.entity.powerItemList;
 						this.name = res.data.entity.powerName;
 						
 						if(res.data.entity.powerItem){
 							this.lins = res.data.entity.powerItem.split(",");
-							console.log(this.lins);
+							// console.log(this.lins);
 						}
 						let a = 0;
 						let arr = [];
@@ -107,7 +107,7 @@
 								this.$set(this.loderList[i].powerItemChildList[m], "sing", false);
 							}
 						}
-						console.log(this.loderList);
+						// console.log(this.loderList);
 						for(let i = 0; i < this.loderList.length; i++) {
 							for(let s = 0; s < this.loderList[i].powerItemChildList.length;s++){
 								for(let m = 0; m < this.lins.length; m++){
@@ -127,14 +127,14 @@
 								}
 							}
 						}
-						console.log(this.loderList);
+						// console.log(this.loderList);
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			handleCheckAll(item,index) { //权限全选
-				console.log(item);
+				// console.log(item);
 				item.singd = ! item.singd;
 				if(this.loderList[index].singd == true) {
 					for(let i = 0; i < this.loderList[index].powerItemChildList.length; i++) {
@@ -147,8 +147,8 @@
 				}
 			},
 			checkAllGroupChange(item, index) { //权限单选
-				console.log(item);
-				console.log(index);
+				// console.log(item);
+				// console.log(index);
 				var flag = true;
 				for(let i = 0; i < item.powerItemChildList.length; i++) {
 					if(item.powerItemChildList[i].sing != this.sings) {
@@ -174,7 +174,7 @@
 						}
 					}					
 				}
-				console.log(this.list2);
+				// console.log(this.list2);
 				let str = '';
 				str = this.list2.join(",");
 				axios.post(hostAddToManagement,
@@ -183,7 +183,7 @@
 						powerItem:str
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.successMessage = '设置权限成功';
 						this.successModal = true;
@@ -203,7 +203,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 					this.warningMessage = '操作失败,服务器错误';
 					this.warningModal = true;
 				})

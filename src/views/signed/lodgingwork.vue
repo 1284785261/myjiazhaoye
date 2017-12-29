@@ -458,7 +458,7 @@
 				if(this.value2 == '押二付一') {
 					let q = 0;
 					if(vm.discount){
-						console.log(days);
+						// console.log(days);
 						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
 						for(let i = 0; i < this.tableRepairs.length; i++) {
@@ -532,7 +532,7 @@
 					date: "",
 					deletect: "删除"
 				})
-				console.log(this.tableRepairs);
+				// console.log(this.tableRepairs);
 			},
 			addRepairs2() {
 				this.tableRepairs2.push({
@@ -540,13 +540,13 @@
 					inputValue: "",
 					date: "",
 				})
-				console.log(this.tableRepairs2);
+				// console.log(this.tableRepairs2);
 			},
 			deleteRepair(item) {
 				this.tableRepairs.splice(item, 1);
 			},
 			handleRemove(file, fileList) {
-				console.log(file, fileList);
+				// console.log(file, fileList);
 			},
 			handlePictureCardPreview(file) {
 				this.dialogImageUrl = file.url;
@@ -560,15 +560,15 @@
 						})
 					)
 					.then((response) => {
-						console.log(111111111);
-						console.log(response);
+						// console.log(111111111);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options1 = response.data.result.rentRoomList;
-							console.log(this.options1);
+							// console.log(this.options1);
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostController, //  获取签约的合同及付款方式
@@ -578,8 +578,8 @@
 						})
 					)
 					.then((response) => {
-						console.log(22222222222222);
-						console.log(response);
+						// console.log(22222222222222);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.costInfo = response.data.result;
 							this.contract = this.costInfo.contractNumber;
@@ -603,7 +603,7 @@
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 
 				axios.post(hostWay, //证件类型
@@ -612,7 +612,7 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.aaduserInfo[0].options2 = response.data.entity;
 							this.options2 = response.data.entity;
@@ -620,7 +620,7 @@
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 				axios.post(hostWay, //物资类型
 						qs.stringify({
@@ -628,19 +628,19 @@
 						})
 					)
 					.then((response) => {
-						//console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options4 = response.data.entity;
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			room(val) {
-				console.log(val);
+				// console.log(val);
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-				console.log(this.housetderta);
+				// console.log(this.housetderta);
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -651,7 +651,7 @@
 				}
 			},
 			delet(index){
-				console.log(index);
+				// console.log(index);
 				this.tableRepairs.splice(index,1);
 			},
 			User(val) {
@@ -661,10 +661,10 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							console.log(this.userInfo);
+							// console.log(this.userInfo);
 							if(this.userInfo.userCertificate != 'null'){
 								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}else{
@@ -689,11 +689,11 @@
 							}
 							
 						} else {
-							console.log('该手机未注册用户')
+							// console.log('该手机未注册用户')
 						};
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			closeWarningModal() {
@@ -754,7 +754,7 @@
               })
 			},
 			ones(val) {
-				//console.log(val);
+				// console.log(val);
 				this.housetderta.firstmoneys = val;
 				if(val != null) {
 					if(this.radio3 == '1') {
@@ -814,10 +814,10 @@
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				console.log(this.communityId);
-				console.log(this.contract)
-				console.log(this.housetderta.roomId)
-				console.log(this.housetderta.version)
+				// console.log(this.communityId);
+				// console.log(this.contract)
+				// console.log(this.housetderta.roomId)
+				// console.log(this.housetderta.version)
 				param.append('communityId',this.communityId);
 				param.append('contractNumber',this.contract);
 				param.append('buildingId',this.housetderta.roomId);
@@ -848,7 +848,7 @@
 				param.append('user.gender',this.user.gender);
 				param.append('user.certificateId',this.user.certificateId);
 				param.append('user.userCertificate',this.user.userCertificate);
-				console.log(this.user);
+				// console.log(this.user);
 				param.append('materials',this.materials);
 				param.append('furniture',this.furniture);
 				if(this.otherCostJson){
@@ -858,7 +858,7 @@
 				param.append('companylegalPerson',this.companylegalPerson);
 		        axios.post(hostSignOffice,param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
-						console.log(res);
+						// console.log(res);
 						vm.successModal = true;
 						setTimeout(()=>{
 							vm.successModal = false;
@@ -870,7 +870,7 @@
 		        	}
 				})
 				.catch(error=>{
-					console.log(error);
+					// console.log(error);
 				})
 		       
 			}

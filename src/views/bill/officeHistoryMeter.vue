@@ -132,7 +132,7 @@
       getRoomContract(data){
         var that = this;
         this.$http.get(OfficeBillHistoryList500105,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.roomContractList = pageBean.officeList;

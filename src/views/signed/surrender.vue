@@ -194,15 +194,15 @@
 				}
 				param.append("pageNum", this.pageNum);
 				param.append("pageSize", this.pageSize);
-				console.log(param);
+				// console.log(param);
 				axios.post(hostThrowLease, param).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200) {
 						this.surrList = res.data.result.leaseList;
 						this.totalNum = res.data.result.totalNum;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			handleCurrentChange(val) {

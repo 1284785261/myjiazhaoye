@@ -165,7 +165,7 @@
     	mounted(){
 			this.throwLeaseId = this.$route.query.id;
 			this.Name = this.$route.query.Name;
-			console.log(this.throwLeaseId);
+			// console.log(this.throwLeaseId);
 			this.datas();
     	},
     	filters:{
@@ -190,7 +190,7 @@
 						throwLeaseId: this.throwLeaseId
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.ThrowLease = res.data.result;
 						if(this.ThrowLease.refundableMaterialsInfo){
@@ -206,10 +206,10 @@
 							this.refundableEnergyInfo = JSON.parse(this.ThrowLease.refundableEnergyInfo);
 						}
 						
-						console.log(this.refundableEnergyInfo);
+						// console.log(this.refundableEnergyInfo);
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
     	},

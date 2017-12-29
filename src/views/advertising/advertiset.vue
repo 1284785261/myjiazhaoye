@@ -108,7 +108,7 @@
 				this.warningModal = false;
 			},
 			handleCurrentChange(val) {
-				//console.log(`当前页: ${val}`);
+				// console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				this.datas();
 			},
@@ -121,16 +121,16 @@
 							pageNum: pageNum,
 							pageSize: pageSize
 						})).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.Datas = response.data.pageBean.page;
 							this.totalNum = response.data.pageBean.totalNum;
 						} else {
-							console.log('获取数据异常');
+							// console.log('获取数据异常');
 						}
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			qb5(){
@@ -150,7 +150,7 @@
 							adIds: this.id
 						}))
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 
 							this.successMessage = '删除成功';
@@ -167,7 +167,7 @@
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 						this.warningMessage = '删除失败';
               			this.warningModal = true;
 					})

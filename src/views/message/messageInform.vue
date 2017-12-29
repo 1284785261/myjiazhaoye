@@ -182,7 +182,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title = response.data.pageBean.page;
 							vm.totalNum = response.data.pageBean.totalNum;
@@ -190,7 +190,7 @@
 						//console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
     		},
     		closeWarningModal() {
@@ -208,7 +208,7 @@
 						})
 					).then((response) => {
 						
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title2 = response.data.pageBean.page;
 							vm.totalNum2 = response.data.pageBean.totalNum;
@@ -216,7 +216,7 @@
 						//console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
     		},
     		range(){
@@ -231,12 +231,12 @@
     				}
     			})
     			.catch((error)=>{
-    				console.log(error);
+    				// console.log(error);
     			})
     		},
     		mvvs(val){
     			this.areaId = this.options[this.options.findIndex(item => item.communityName == val)].communityId;
-    			console.log(this.areaId);
+    			// console.log(this.areaId);
     		},
     		issue(){
     			let vm = this
@@ -271,7 +271,7 @@
 	    				
 	    			})
 	    			.catch((error)=>{
-	    				console.log(error);
+	    				// console.log(error);
 	    				this.warningMessage = '发布失败,服务器出现异常';
 						this.warningModal = true;
 	    			})

@@ -273,7 +273,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.houseResource = res.data.result;
-              console.log(that.houseResource)
+              // console.log(that.houseResource)
             }
           })
       },
@@ -284,7 +284,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.businessData = res.data.result;
-              console.log(that.businessData)
+              // console.log(that.businessData)
             }
           })
       },
@@ -295,7 +295,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.billData = res.data.result;
-              console.log(that.billData)
+              // console.log(that.billData)
             }
           })
       },
@@ -306,7 +306,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.financeData = res.data.result;
-              console.log(that.financeData)
+              // console.log(that.financeData)
             }
           })
       },

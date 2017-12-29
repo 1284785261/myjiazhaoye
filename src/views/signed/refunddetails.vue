@@ -142,12 +142,12 @@
 						refundId:this.id
 					})
 				).then((response)=>{
-					console.log(response);
+					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						this.data = response.data.result;
 					}
 				}).catch((error)=>{
-					console.log(error);
+					// console.log(error);
 				})
 			},
 			mts(){

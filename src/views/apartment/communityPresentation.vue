@@ -285,18 +285,18 @@
 //					message: vm.content,
 //					type: 'success'
 //				});
-				console.log(vm.content)
+				// console.log(vm.content)
 				param.append("communityId",vm.communityId);
 				param.append("communityInfo",vm.content);
-				console.log(100);
-				console.log(this.filelist1.join(','));
-				console.log(this.filelist2.join(','));
-				console.log(this.filelist3.join(','));
+				// console.log(100);
+				// console.log(this.filelist1.join(','));
+				// console.log(this.filelist2.join(','));
+				// console.log(this.filelist3.join(','));
 				param.append('communityFlat', this.filelist1.join(','));
 				param.append('communityFace', this.filelist2.join(','));
 				param.append('communityWork', this.filelist3.join(','));
 				this.$http.post( hostPresent, param).then((response) =>{
-					console.log(response);
+					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
 						this.successMessage = '操作成功';
 						this.successModal = true;
@@ -313,7 +313,7 @@
 					}
 				})
 				.catch((error) =>{
-					console.log(error);
+					// console.log(error);
 					this.warningMessage = '操作失败,服务器出现异常';
 					this.warningModal = true;
 				})
@@ -326,15 +326,15 @@
 				this.$router.push('/apartment/communityManagement');
 			},
             handleSuccess (res, file) {
-            	//console.log(res);
+            	console.log(res);
             	if(res.code == 10000){
             		file.url = imgPath + res.result.virtualPath;
             		let len = res.result.virtualPath.split("/");
 	                file.name = len[len.length-1];
             		this.filelist1.push(res.result.virtualPath);
             	}
-            	console.log(this.uploadList);
-            	//console.log(this.filelist1);
+            	// console.log(this.uploadList);
+            	// console.log(this.filelist1);
             },
             closeWarningModal() {
 				this.warningModal = false;
@@ -365,15 +365,15 @@
 				this.visible = true;
 			},
 			handleSuccess2 (res, file) {
-            	//console.log(res);
+            	console.log(res);
             	if(res.code == 10000){
             		file.url = imgPath + res.result.virtualPath;
             		let len = res.result.virtualPath.split("/");
 	                file.name = len[len.length-1];
             		this.filelist2.push(res.result.virtualPath);
             	}
-            	console.log(this.uploadList2);
-            	//console.log(this.filelist1);
+            	// console.log(this.uploadList2);
+            	// console.log(this.filelist1);
             },
             handleFormatError2 (file) {
                 this.$Notice.warning({
@@ -401,15 +401,15 @@
 				this.visible = true;
 			},
 			handleSuccess3 (res, file) {
-            	//console.log(res);
+            	console.log(res);
             	if(res.code == 10000){
             		file.url = imgPath + res.result.virtualPath;
             		let len = res.result.virtualPath.split("/");
 	                file.name = len[len.length-1];
             		this.filelist3.push(res.result.virtualPath);
             	}
-            	console.log(this.uploadList3);
-            	//console.log(this.filelist1);
+            	// console.log(this.uploadList3);
+            	// console.log(this.filelist1);
             },
             handleFormatError3 (file) {
                 this.$Notice.warning({
@@ -434,20 +434,20 @@
             },
 			handleRemove4(item){
 				let fileIndex = this.uploadList1.findIndex(items => items == item);
-				console.log(this.filelist1)
-				console.log(this.uploadList1);
+				// console.log(this.filelist1)
+				// console.log(this.uploadList1);
 				
 				this.uploadList1.splice(fileIndex,1);
 				this.filelist1.splice(fileIndex,1);
-				console.log(this.filelist1)
-				console.log(this.uploadList1);
+				// console.log(this.filelist1)
+				// console.log(this.uploadList1);
 			},
 			handleRemove1(item){
 				let fileIndex = this.uploadList.findIndex(items => items == item);
 				this.uploadList.splice(fileIndex,1);
 				this.filelist1.splice(fileIndex,1);
-				console.log(this.filelist1);
-				console.log(this.uploadList);
+				// console.log(this.filelist1);
+				// console.log(this.uploadList);
 			},
 			handleRemove2(item){
 				let fileIndex = this.uploadList5.findIndex(items => items == item);
@@ -463,14 +463,14 @@
 				let fileIndex = this.uploadList2.findIndex(items => items == item);
 				this.uploadList2.splice(fileIndex,1);
 				this.filelist2.splice(fileIndex,1);
-				console.log(this.uploadList2);
+				// console.log(this.uploadList2);
 				
 			},
 			handleRemove6(item){
 				let fileIndex = this.uploadList3.findIndex(items => items == item);
 				this.uploadList3.splice(fileIndex,1);
 				this.filelist3.splice(fileIndex,1);
-				console.log(this.uploadList3);
+				// console.log(this.uploadList3);
 				
 			},
 			uploadfile2(e){
@@ -487,7 +487,7 @@
 				else{
 					alert('最多可以上传5张图片');
 				}
-//				console.log(this.uploadList);
+				// console.log(this.uploadList);
 			},
 			uploadfile3(e){
 				let vm = this;
@@ -512,14 +512,14 @@
 						communityId:vm.communityId
 				}))
 				.then((response)=>{
-					//console.log(response);
+					// console.log(response);
 
 					if(response.status == 200 && response.data.code == 10000){
 						vm.community = response.data.result.community;
 					  if(response.data.result.community.communityInfo){
 
                         vm.defaultMsg=response.data.result.community.communityInfo
-                        console.log(vm.defaultMsg)
+                        // console.log(vm.defaultMsg)
 //                        vm.defaultMsg = response.data.result.community.communityInfo;
                       }
 					  else {
@@ -529,13 +529,13 @@
 						let arr = [];
 						let arr2 = [];
 						let arr3 = [];
-						//console.log(vm.community.communityWork);
+						// console.log(vm.community.communityWork);
 						arr2 = vm.community.communityFace.split(",");
 						arr3 = vm.community.communityWork.split(",");
 						arr = vm.community.communityFlat.split(",");
-//						console.log(arr);
-//						console.log(arr2);
-//						console.log(arr3);
+						// console.log(arr);
+						// console.log(arr2);
+						// console.log(arr3);
 //						let imgUrl=response.data.result.community.communityContract.split(",");
 						vm.uploadList1 = [];
 						if(arr.length && arr[0] != ''){
@@ -548,7 +548,7 @@
 	                              vm.uploadList1.push(item);
 	                              vm.filelist1.push(arr[k]);
 	                        }
-							//console.log(vm.uploadList1);
+							// console.log(vm.uploadList1);
 						}
 						
 						vm.uploadList2 = [];
@@ -579,7 +579,7 @@
 					
 				})
 				.catch((error)=>{
-					console.log(error);
+					// console.log(error);
 				})
 			}
 		}

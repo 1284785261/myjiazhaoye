@@ -378,7 +378,7 @@
 				}
 			},
 			imata(ms) {
-				//console.log(ms);
+				console.log(ms);
 				if(ms != null) {
 					var date = new Date(ms);
 					var Y = date.getFullYear() + '年';
@@ -465,7 +465,7 @@
 
 		mounted() {
 			//初始化数据
-			//console.log(111)
+			console.log(111)
 			//    		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
 			this.befor();
 			this.befors();
@@ -478,20 +478,20 @@
 		methods: {
 			classifys() {
 				axios.post(allCommunity).then((response) => { //获取社区分类数据
-						//console.log(111);
-						//console.log(response);
+						console.log(111);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.communitys = this.communitys.concat(response.data.entity);
 						}
 
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			befor() {
 				let vm = this
-				//console.log(1111)
+				console.log(1111)
 				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
@@ -503,15 +503,15 @@
 							
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			btns() { //模糊搜索数据
@@ -529,21 +529,21 @@
 							communityNewOpeningDate: vm.over,
 							communityLikeName: vm.vague
 						})).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.chack = true;
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			befors() {
 				let vm = this
-				//console.log(1111)
+				console.log(1111)
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 				axios.post(hostCommint, //请求已关闭社区数据列表
@@ -553,20 +553,20 @@
 							communityIsClose: 1
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			bitch() { //条件查询分页
 				let vm = this
-				//console.log(1111)
+				console.log(1111)
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
@@ -579,15 +579,15 @@
 							communityNewOpeningDate: vm.over,
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			btusy() { //已关闭社区页面模糊查询
@@ -608,21 +608,21 @@
 							communityLikeName: vm.vague
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.chack2 = true;
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			bitch2() { //查询分页-已关闭页面
 				let vm = this
-				//console.log(1111)
+				console.log(1111)
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
@@ -636,31 +636,31 @@
 							communityNewOpeningDate: vm.over
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						//console.log(this.commint);
+						console.log(this.commint);
 					})
 					.catch((error) => {
-						console.log(error);
+						// console.log(error);
 					})
 			},
 			hub(val) { //关闭社区按钮事件
 				this.isShow = !this.isShow;
-				//console.log(val);
+				console.log(val);
 				let vm = this
 				if(val.Close == 0) {
 					vm.community.Close = 1;
-					//					console.log('关闭')
-					//					console.log(vm.community.Close)
-					//					console.log('关闭')
+										console.log('关闭')
+										console.log(vm.community.Close)
+										console.log('关闭')
 				} else if(val.Close == 1) {
 					vm.community.Close = 0;
-					//					console.log('开放')
-					//					console.log(vm.community.Close)
-					//					console.log('开放')
+										console.log('开放')
+										console.log(vm.community.Close)
+										console.log('开放')
 				}
 				this.community.id = val.id;
 				this.community.Name = val.Name;
@@ -675,7 +675,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response)
+						// console.log(response)
 						if(response.status == 200 && response.data.code == 10000) {
 							
 							this.successMessage = '操作成功';
@@ -703,7 +703,7 @@
 				this.warningModal = false;
 			},
 			handleCurrentChange(val) { //分页事件
-				//console.log(`当前页: ${val}`);
+				console.log(`当前页: ${val}`);
 				this.pageNum = val;
 				if(this.chack == true) {
 					this.bitch();
@@ -713,7 +713,7 @@
 
 			},
 			handleCurrentChange2(val) {
-				//console.log(`当前页: ${val}`);
+				console.log(`当前页: ${val}`);
 				this.pageNum2 = val;
 
 				if(this.chack2 == true) {
@@ -744,11 +744,10 @@
 				if(this.searchKey) {
 					data.userNamePhone = this.searchKey;
 				}
-				console.log(data);
+				// console.log(data);
 				axios.post(hostComment,
 					qs.stringify(data)
 				).then((response) => {
-					//debugger
 					if(response.status == 200 && response.data.code == 10000) {
 						vm.tableEvaluates = response.data.entity.page;
 						vm.totalNum3 = response.data.entity.totalNum;
@@ -757,7 +756,7 @@
 						vm.totalNum3 = 0;
 					}
 				}).catch((error) => {
-					console.log(error);
+					// console.log(error);
 				})
 			},
 		},

@@ -154,7 +154,7 @@
 						repairId: this.repairId
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200) {
 						if(res.data.entity.user) {
 							this.User = res.data.entity.user;
@@ -172,10 +172,10 @@
 
 						this.dataName = this.cxkjCommunityRepair.systemData.dataName;
 
-						console.log(this.mts);
+						// console.log(this.mts);
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			follow() {
@@ -186,7 +186,7 @@
 						repairState: 1
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200) {
 						vm.successMessage = '确认跟进成功';
 						vm.successModal = true;
@@ -200,7 +200,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			conclude() {
@@ -212,7 +212,7 @@
 						repairRemark: this.test1
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200) {
 						vm.successMessage = '确认办结成功';
 						vm.successModal = true;
@@ -227,7 +227,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			details() {
@@ -238,7 +238,7 @@
 						repairRemark: this.test2
 					})
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200) {
 						vm.successMessage = '办结处理成功';
 						vm.successModal = true;
@@ -253,7 +253,7 @@
 						this.warningModal = true;
 					}
 				}).catch((err) => {
-					console.log(err);
+					// console.log(err);
 				})
 			}
 		},

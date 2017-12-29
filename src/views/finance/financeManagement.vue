@@ -592,7 +592,7 @@
         this.$http.post(invoiceDetail,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.invoiceDetailData = res.data.result.invoice;
-              console.log(that.invoiceDetailData );
+              // console.log(that.invoiceDetailData );
             }
           })
       },
@@ -615,7 +615,7 @@
           that.ExpressSelect = res.data.entity;
           that.expressCompany = that.ExpressSelect[0].dataName;
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //打开寄发票窗口
@@ -670,7 +670,7 @@
 //      getOfficeContract(data){
 //        var that = this;
 //        this.$http.get(officeContract,{params:data})
-//          .then(function(res){debugger
+//          .then(function(res){
 //            if(res.status == 200 && res.data.code == 10000){
 //              var pageBean = res.data.pageBean;
 //              that.officeContractList = pageBean.page;
@@ -706,7 +706,7 @@
         var that = this;
         this.$http.get(refundHandle,{params:data})
           .then(function(res){
-            console.log(res);
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
               that.refundHandleList = pageBean.refundList;
@@ -741,7 +741,7 @@
         if(this.refundStatus != -1){
             data.refundStatus = this.refundStatus;
         }
-        console.log(data);
+        // console.log(data);
         this.getrefundHandle(data);
       },
 

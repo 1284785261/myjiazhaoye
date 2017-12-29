@@ -121,7 +121,7 @@ import qs from 'qs';
       			}
       		))
       	.then((res)=>{
-          console.log(res);
+          // console.log(res);
           
       			if(parseInt(res.data.code)==10000){
               sessionStorage.setItem("token",res.data.result.token);
@@ -133,11 +133,11 @@ import qs from 'qs';
       		else{
       			that.title = res.data.content;//把错误信息赋给当前的title
       			that.isShow = true;
-      			console.log(that.isShow);
+      			// console.log(that.isShow);
       		}
       	})
       	.catch((error)=>{
-      		console.log(error);
+      		// console.log(error);
       	})
       }
 

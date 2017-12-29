@@ -108,7 +108,7 @@
         this.$http.post(eemberInformation,qs.stringify(params)).then(function(res){
           if(res.status == 200 && res.data.code == 10000){
             vm.userData = res.data.entity;
-            console.log(vm.userData.cxkjContractSign)
+            // console.log(vm.userData.cxkjContractSign)
           }
 
         })

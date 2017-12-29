@@ -555,14 +555,14 @@
       getCommunityListRoom(){
         var that = this;
         this.$http.post(Apartment, {"communityId": this.communityId})
-          .then(function (res) {debugger
+          .then(function (res) {
             if(res.status == 200 && res.statusText=="OK"){
               that.rootData = res.data.entity;
             }else{
 
             }
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
 

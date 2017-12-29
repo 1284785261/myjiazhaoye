@@ -208,11 +208,11 @@ export default {
           params: data
         })
         .then(function(res) {
-          console.log(res);
+          // console.log(res);
           if (res.status == 200 && res.data.code == 10000) {
             that.complainData = res.data.entity;
             let strs = that.complainData.complainImage.split(",");
-            console.log(strs);
+            // console.log(strs);
             that.images = strs;
           }
         });
@@ -258,7 +258,7 @@ export default {
         });
     },
     handleView(name) {
-	console.log(name);
+	// console.log(name);
       this.imgName = name;
       this.visible = true;
     },

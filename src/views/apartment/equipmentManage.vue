@@ -606,7 +606,7 @@
         //获取水表列表
         getWaterList(){
           var that = this;
-          this.$http.post(waterTable,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+          this.$http.post(waterTable,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
               that.waterList = rootData.page;
@@ -638,7 +638,7 @@
             manufacturer:this.doorLockSupplier,
             waterMeterSn:this.waterMeterSn,
           };
-          this.$http.post(addWaterUrl,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(addWaterUrl,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.addWaterModal = !that.addWaterModal;
@@ -673,7 +673,7 @@
             manufacturer:this.activeWater.manufacturer,
             waterMeterSn:this.activeWater.waterMeterSn,
           };
-          this.$http.post(updateWaterUrl,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(updateWaterUrl,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.updateWaterModal = !that.updateWaterModal;
@@ -714,7 +714,7 @@
         },
         shutWaterSure(){
           var that = this;
-          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){debugger
+          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = false;
               that.shutWaterModal = false;
@@ -736,7 +736,7 @@
         },
         openWaterSure(){
           var that = this;
-          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){debugger
+          this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = false;
               that.shutWaterModal = false;
@@ -786,13 +786,13 @@
             that.suppliers = res.data.entity;
             that.doorLockSupplier = that.suppliers[0].dataId;
           }).catch(function(err){
-            console.log(err);
+            // console.log(err);
           })
         },
         getTemporaryPwd(roomLockId){
           var that = this;
           that.instas3();
-          this.$http.post(temporaryPwd,qs.stringify({roomLockId:roomLockId})).then(function(res){debugger
+          this.$http.post(temporaryPwd,qs.stringify({roomLockId:roomLockId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.password = res.data.entity.password;
             }
@@ -800,7 +800,7 @@
         },
         sendMessege(){
           var that = this;
-          this.$http.post(sendMessege,qs.stringify({phone:this.phone,password:this.password})).then(function(res){debugger
+          this.$http.post(sendMessege,qs.stringify({phone:this.phone,password:this.password})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.phone = "";
               that.isHid = !that.isHid;
@@ -836,7 +836,7 @@
             password:this.doorLockPwd
           };
           this.addLockFlag = true;//锁定提交按钮
-          this.$http.post(addDoorLock,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(addDoorLock,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.addDoorLockFlag = !that.addDoorLockFlag;
@@ -888,7 +888,7 @@
         //解除门锁
         deleteDoorLock(){
           var that = this;
-          this.$http.post(deleteDL,qs.stringify({roomLockId:this.activeDoorLock.roomLockId})).then(function(res){debugger
+          this.$http.post(deleteDL,qs.stringify({roomLockId:this.activeDoorLock.roomLockId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.isHide4 = !that.isHide4;
@@ -907,7 +907,7 @@
         //确定冻结门锁
         sureFreezeUp(){
           var that = this;
-          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){debugger
+          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.freezeUpDoorLock = !that.freezeUpDoorLock;
@@ -932,7 +932,7 @@
         //确定解冻门锁
         sureUnFreezeUp(){
           var that = this;
-          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){debugger
+          this.$http.post(unLockDL,qs.stringify({roomLockId:this.activeRoomLockId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.unFreezeUpDoorLock = !that.unFreezeUpDoorLock;
@@ -946,7 +946,7 @@
         //获取电表列表
         getElectricityTable(){
           var that = this;
-          this.$http.post(electricityTable,qs.stringify({communityId:this.communityId})).then(function(res){debugger
+          this.$http.post(electricityTable,qs.stringify({communityId:this.communityId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
               that.electricityList = rootData.page;
@@ -973,7 +973,7 @@
             manufacturer:this.doorLockSupplier,
             electricityMeterSn:this.electricityMeterSn,
           };
-          this.$http.post(pushElectricity,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(pushElectricity,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.addElectricity = !that.addElectricity;
@@ -1009,7 +1009,7 @@
             manufacturer:this.activeElectricity.manufacturer,
             electricityMeterSn:this.activeElectricity.electricityMeterSn,
           };
-          this.$http.post(electricitUpdate,qs.stringify(data)).then(function(res){debugger
+          this.$http.post(electricitUpdate,qs.stringify(data)).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = !that.isHid;
               that.updateElectricity = !that.updateElectricity;
@@ -1055,7 +1055,7 @@
         //确定关闭电表
         shutElectricitySure(){
           var that = this;
-          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){debugger
+          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = false;
               that.isHide11 = false;
@@ -1073,7 +1073,7 @@
         //确定开启电表
         openElectricitySure(){
           var that = this;
-          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){debugger
+          this.$http.post(openElectricity,qs.stringify({roomElectricitymeterRelationId:this.activeElectricity.roomElectricitymeterRelationId,roomId:this.activeElectricity.roomId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = false;
               that.openElectricityModal = false;
@@ -1135,7 +1135,7 @@
         },
 
     		handleClick(tab, event) {
-		        console.log(tab, event);
+		        // console.log(tab, event);
 		    },
 
 

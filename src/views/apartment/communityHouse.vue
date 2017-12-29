@@ -464,7 +464,7 @@
             that.communityName = res.data.result.community.communityName;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //编辑房间
@@ -487,7 +487,7 @@
             that.placeData = res.data.entity;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //查询办公室信息
@@ -508,7 +508,7 @@
             }
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       //查询会议室信息
@@ -519,7 +519,7 @@
             that.CommunityListMeeting = res.data.entity;
           }
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
       closeWarningModal(){
@@ -574,7 +574,7 @@
                 that.warningModal = true;
               }
             }).catch(function(error){
-            console.log(error);
+            // console.log(error);
           })
         }else{
           this.showErrorInfo = true;
@@ -605,7 +605,7 @@
                 that.warningModal = true;
               }
             }).catch(function(error){
-            console.log(error);
+            // console.log(error);
           })
         }else{
           this.showErrorInfo = true;
@@ -640,7 +640,7 @@
               that.successModal = false;
             },1000)
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       closeSeleteOffieModal(){
@@ -673,7 +673,7 @@
             }
             that.loading = false;
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       getCommunityListRoomTrue(){
@@ -687,7 +687,7 @@
             }
             that.loading = false;
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       //获取社区办公室配置
@@ -704,7 +704,7 @@
 //          //获取办公配置信息后再查办公室信息
 //          that.getOfficeInfo();
 //        }).catch(function(err){
-//          console.log(err);
+        //  console.log(err);
 //        })
 //      },
 
@@ -713,7 +713,7 @@
         var that = this;
         this.$http.post(
           IntroduceInfo,qs.stringify({communityId:this.communityId,communityType:1})
-        ).then(function(res){debugger
+        ).then(function(res){
           var communitySettingInfo = res.data.entity[0];
           //获取家电数据
           var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
@@ -725,12 +725,12 @@
             that.checkBoxObj[that.checkBoxArr[i].dataName] = that.checkBoxArr[i].dataId;
             that.officeConfigure[that.checkBoxArr[i].dataId] = that.checkBoxArr[i].dataName;
           }
-          console.log(that.checkBoxArr)
-          console.log(that.officeConfigure)
+          // console.log(that.checkBoxArr)
+          // console.log(that.officeConfigure)
           //获取办公配置信息后再查办公室信息
           that.getOfficeInfo();
         }).catch(function(err){
-          console.log(err);
+          // console.log(err);
         })
       },
 
@@ -751,7 +751,7 @@
               that.successModal = false;
             },1000)
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       canCommunityPlace(){
@@ -771,7 +771,7 @@
               },1000)
             }
           }).catch(function(err){
-            console.log(err);
+            // console.log(err);
           })
         }
        this.CommunityListOffice.splice(index,1);
@@ -828,7 +828,7 @@
             }
           }
         }
-        console.log(paramsOffice);
+        // console.log(paramsOffice);
 
         this.$http.post(Office, {cxkjCommunityListOffice:paramsOffice})
           .then(function (res) {
@@ -839,7 +839,7 @@
             },1000)
             that.getOfficeInfo();
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       deepCopy(source){
@@ -863,7 +863,7 @@
               },1000)
             }
           }).catch(function(err){
-            console.log(err);
+            // console.log(err);
           })
         }else{
           this.CommunityListMeeting.splice(index,1);
@@ -905,7 +905,7 @@
             },1000)
             that.getMeetingInfo();
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       cancleCommunityMeeting(){
@@ -925,7 +925,7 @@
               that.successModal = false;
             },1000)
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       copyFloor(floorId){
@@ -939,7 +939,7 @@
             },1000);
             that.getCommunityListRoom();
           }).catch(function(error){
-          console.log(error);
+          // console.log(error);
         })
       },
       successInfo(successMessage){

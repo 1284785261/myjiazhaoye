@@ -210,7 +210,7 @@
 		mounted() {
 			this.communityId = this.$route.query.communityId;
             this.isOffice = parseInt(this.$route.query.isOffice);
-			 console.log(this.isOffice+'isOffice')
+			//  console.log(this.isOffice+'isOffice')
 			this.Names = this.$route.query.Name;
 			 let vm = this
 			this.getAppointmentList({
@@ -225,13 +225,12 @@
 						params: data
 					})
 					.then(function(res) {
-//						debugger
-						console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							var pageBean = res.data.pageBean;
 							that.appointmentListData = pageBean.page;
 							that.appointmentTotalNum = pageBean.totalNum;
-							console.log(that.appointmentListData);
+							// console.log(that.appointmentListData);
 						}
 						if(res.data.code == 10008) {
 							that.appointmentListData = [];
@@ -252,8 +251,7 @@
 						reason: this.reason,
 						userIntention: this.userIntention
 					}))
-					.then(function(res) {
-//						debugger
+					.then(function(res) {				
 						if(res.status == 200 && res.data.code == 10000) {
 							that.ishide = !that.ishide;
 							that.ishide2 = !that.ishide2;
@@ -297,18 +295,18 @@
 			adddian2(Id) {
 				this.ishide = !this.ishide;
 				this.ishide3 = !this.ishide3;
-				//console.log(Id);
+				// console.log(Id);
 				axios.post(hostAppointment,
 					qs.stringify({
 						appointmentId:Id
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.ListDatadetail = res.data.entity;
 					}
 				}).catch((err)=>{
-					console.log(err);
+					// console.log(err);
 				})
 			},
 			closs(){

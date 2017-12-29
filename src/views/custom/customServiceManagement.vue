@@ -166,11 +166,11 @@
         if(vm.keyWord){
           url += `&keyWord=${vm.keyWord}`
         }
-        console.log(url)
+        // console.log(url)
         window.open(url)
       },
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       },
       getCommunityData(){
         var that = this;
