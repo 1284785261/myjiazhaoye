@@ -350,7 +350,7 @@
       closeBankModal(){
         this.bankModal=false;
       },
-      preViewPc(index){debugger
+      preViewPc(index){
         this.activeViewIndex = index;
         this.preViewSrc = this.contractDetailData.credentialsImages[index].filePath;
         this.preView = true;
@@ -629,13 +629,25 @@
   .preview-modal-content{
     width:720px;
     height:540px;
+   
     .pre-view{
       width: 100%;
       height: 100%;
       text-align: center;
+       position: relative;
+      // overflow: hidden;
       img{
-        height: 100%;
-        background-size:initial;
+        // width: 100%;
+        // height: 100%;
+        max-width: 720px;
+        max-height:540px;
+        // background-size:initial;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%)
+
+
       }
     }
     .next-btn,.pre-btn{
@@ -651,10 +663,12 @@
     .next-btn{
       left: -80px;
       top: 250px;
+      cursor: pointer;
     }
     .pre-btn{
       right: -80px;
       top: 250px;
+      cursor: pointer;
     }
   }
 

@@ -31,7 +31,7 @@
 										<td>创建人</td>
 										<td>创建日期</td>
 										<td>状态</td>
-										<td width="110px">操作 </td>
+										<td width="190px">操作 </td>
 									</thead>
 									<tr v-for="(item,index) in data2">
 										<td>

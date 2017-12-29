@@ -22,7 +22,7 @@
 									<span>开业日期：</span>
 									<Date-picker type="date" placeholder="选择日期" v-model="start"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期" v-model="over"></Date-picker>
+									<Date-picker type="date"  :options="option1" placeholder="选择日期" v-model="over"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search">
@@ -126,9 +126,9 @@
 							<div class="form-search-criteria">
 								<div class="form-item">
 									<span>开业日期：</span>
-									<Date-picker type="date" placeholder="选择日期" v-model="start"></Date-picker>
+									<Date-picker type="date" placeholder="选择日期" v-model="start1"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期" v-model="over"></Date-picker>
+									<Date-picker type="date" :options="option2" placeholder="选择日期" v-model="over1"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search">
@@ -240,7 +240,7 @@
 									<span>评价时间：</span>
 									<Date-picker type="date" placeholder="选择日期" v-model="createtimes"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" placeholder="选择日期" v-model="commentDate"></Date-picker>
+									<Date-picker type="date" :options="option3" placeholder="选择日期" v-model="commentDate"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search" style="margin-left: 0;">
@@ -320,6 +320,7 @@
 			warningModal
 		},
 		data() {
+			let _this = this;
 			return {
 				currentPage1: 1,
 				communitys: [{
@@ -346,6 +347,8 @@
 				}, //确定后需要的参数
 				start: null, //模糊查询开业开始时间
 				over: null, //模糊查询开业关闭时间
+				start1: null, //ganbi模糊查询开业开始时间
+				over1: null, //模糊查询开业关闭时间
 				vague: null, //模糊查询内容
 				valu: null,
 				createtimes: null,
@@ -358,6 +361,21 @@
 				warningModal: false,
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.start;
+					}
+				},
+				option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.start1;
+					}
+				},
+				option3: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.createtimes;
+					}
+				},
 			}
 		},
 		filters: { //过滤器
@@ -478,8 +496,7 @@
 		methods: {
 			classifys() {
 				axios.post(allCommunity).then((response) => { //获取社区分类数据
-						console.log(111);
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.communitys = this.communitys.concat(response.data.entity);
 						}
@@ -491,7 +508,6 @@
 			},
 			befor() {
 				let vm = this
-				console.log(1111)
 				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
@@ -508,7 +524,7 @@
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -529,13 +545,13 @@
 							communityNewOpeningDate: vm.over,
 							communityLikeName: vm.vague
 						})).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.chack = true;
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -543,7 +559,6 @@
 			},
 			befors() {
 				let vm = this
-				console.log(1111)
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 				axios.post(hostCommint, //请求已关闭社区数据列表
@@ -553,12 +568,12 @@
 							communityIsClose: 1
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -566,7 +581,6 @@
 			},
 			bitch() { //条件查询分页
 				let vm = this
-				console.log(1111)
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
 				this.start = new Date(this.start).Format('yyyy-MM-dd');
@@ -579,12 +593,12 @@
 							communityNewOpeningDate: vm.over,
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -596,25 +610,25 @@
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 
-				this.start = new Date(this.start).Format('yyyy-MM-dd');
-				this.over = new Date(this.over).Format('yyyy-MM-dd');
+				this.start1 = new Date(this.start1).Format('yyyy-MM-dd');
+				this.over1 = new Date(this.over1).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize,
 							communityIsClose: 1,
-							communityOpeningDate: vm.start,
-							communityNewOpeningDate: vm.over,
+							communityOpeningDate: vm.start1,
+							communityNewOpeningDate: vm.over1,
 							communityLikeName: vm.vague
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.chack2 = true;
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -625,23 +639,23 @@
 				console.log(1111)
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
-				this.start = new Date(this.start).Format('yyyy-MM-dd');
-				this.over = new Date(this.over).Format('yyyy-MM-dd');
+				this.start1 = new Date(this.start1).Format('yyyy-MM-dd');
+				this.over1 = new Date(this.over1).Format('yyyy-MM-dd');
 				axios.post(hostCommint,
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize,
 							communityIsClose: 1,
-							communityOpeningDate: vm.start,
-							communityNewOpeningDate: vm.over
+							communityOpeningDate: vm.start1,
+							communityNewOpeningDate: vm.over1
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						console.log(this.commint);
+						// console.log(this.commint);
 					})
 					.catch((error) => {
 						// console.log(error);
@@ -649,18 +663,12 @@
 			},
 			hub(val) { //关闭社区按钮事件
 				this.isShow = !this.isShow;
-				console.log(val);
+				// console.log(val);
 				let vm = this
 				if(val.Close == 0) {
 					vm.community.Close = 1;
-										console.log('关闭')
-										console.log(vm.community.Close)
-										console.log('关闭')
 				} else if(val.Close == 1) {
 					vm.community.Close = 0;
-										console.log('开放')
-										console.log(vm.community.Close)
-										console.log('开放')
 				}
 				this.community.id = val.id;
 				this.community.Name = val.Name;

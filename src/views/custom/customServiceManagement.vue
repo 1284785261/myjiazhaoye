@@ -42,7 +42,7 @@
             <span>投诉时间：</span>
             <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
             <span class="inline-block spanBar">-</span>
-            <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+            <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
           </div>
           <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="complainTotalNum > 0">
             <tr>
@@ -102,6 +102,7 @@
       footerBox
     },
     data(){
+      let _this = this;
       return{
         status:[{
           value:-1,
@@ -140,6 +141,11 @@
         complainCurrent:1,
         ComplainListDownLoad200177:'',
         pageNum:1,
+        option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.roomStartDate;
+					}
+				},
       }
     },
     mounted(){

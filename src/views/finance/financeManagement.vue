@@ -25,7 +25,7 @@
                   <span>交易日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="financeStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="financeEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="financeEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <span>交易对象:</span>
@@ -137,7 +137,7 @@
                   <span>申请时间：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="billInvoiceStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="billInvoiceEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="billInvoiceEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <span>收件人:</span>
@@ -226,7 +226,7 @@
                   <span>发起时间：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="refundHandStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option3" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
                 </div>
               </div>
               <table class="table ivu-table" v-if="refundHandTotalNum > 0">
@@ -391,6 +391,7 @@
       footerBox
     },
     data () {
+      let _this = this;
       return {
         financeType:-1,
         financeTypeSelect:[{
@@ -486,7 +487,22 @@
           dataName:"寄付",
           dataId:1
         }],
-      expressPayType:0,
+        expressPayType:0,
+        option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.financeStartDate;
+					}
+				},
+				option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.billInvoiceStartDate;
+					}
+				},
+				option3: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.refundHandStartDate;
+					}
+				},
       }
     },
     mounted(){

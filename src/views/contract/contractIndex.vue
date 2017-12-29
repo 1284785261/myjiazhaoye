@@ -23,7 +23,7 @@
                   <span>签约日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
@@ -90,7 +90,7 @@
                   <span>签约日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
@@ -161,7 +161,7 @@
                   <span>签约时间：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="propertyStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="propertyEndDate"></Date-picker>
+                  <Date-picker type="date" :options="option3" placeholder="选择日期" v-model="propertyEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search" style="margin-left: 0;">
@@ -236,6 +236,7 @@ export default {
     footerBox
   },
   data () {
+    let _this = this;
     return {
       activeName:"room",
       RoomContractSelects:[{
@@ -275,6 +276,21 @@ export default {
       propertyStartDate:"",//物业签约开始时间
       propertyEndDate:"",//物业签约结束时间
       propertySearchKey:"",//物业搜索关键字
+      option1: {
+          disabledDate (date) {
+              return date && date.valueOf() < _this.roomStartDate;
+          }
+      },
+      option2: {
+          disabledDate (date) {
+              return date && date.valueOf() < _this.officeStartDate;
+          }
+      },
+      option3: {
+          disabledDate (date) {
+              return date && date.valueOf() < _this.propertyStartDate;
+          }
+      },
       }
    },
   mounted(){
@@ -339,7 +355,7 @@ export default {
     getOfficeContract(data){
       var that = this;
       this.$http.get(officeContract,{params:data})
-        .then(function(res){debugger
+        .then(function(res){
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.officeContractList = pageBean.page;

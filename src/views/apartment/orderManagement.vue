@@ -26,7 +26,7 @@
                   <span>订单日期：</span>
                   <Date-picker type="date" v-model="stationStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" v-model="stationEndDate" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" :options="option1" v-model="stationEndDate" placeholder="选择日期"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
@@ -86,7 +86,7 @@
                   <span>账单时间：</span>
                   <Date-picker type="date" v-model="officeStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" v-model="officeEndDate" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" :options="option2" v-model="officeEndDate" placeholder="选择日期"></Date-picker>
                 </div>
                 <div class="form-item">
                   <div class="form-search">
@@ -160,6 +160,7 @@
       footerBox
     },
     data(){
+      let _this = this;
       return{
         activeName2: 'first',
         communitySelectList:[{
@@ -188,6 +189,16 @@
         stationKeyWord:"",
         stationCurrent:1,
         stationCommunity:-1,
+        option1: {
+            disabledDate (date) {
+                return date && date.valueOf() < _this.stationStartDate;
+            }
+        },
+        option2: {
+            disabledDate (date) {
+                return date && date.valueOf() < _this.officeStartDate;
+            }
+        },
       }
     },
     mounted(){

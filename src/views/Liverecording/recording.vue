@@ -16,7 +16,7 @@
                         <span class="bsf">直播时间：</span>
                         <Date-picker type="datetime" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="start" class="dev"></Date-picker>
 						<span style="margin: 0px 5px;">-</span>
-						<Date-picker type="datetime" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="over" class="dev"></Date-picker>
+						<Date-picker type="datetime" :options="option2" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="over" class="dev"></Date-picker>
                         <a class="sous" @click="sousuos">搜索</a>
                     </div>
 					<div style="width:100%;height:100%;clear:both;padding: 0 20px;">
@@ -67,6 +67,7 @@
     		footerBox
     	},
     	data(){
+			let _this = this;
     		return{
 				activeTabName:"recording",
     			communityId:null,
@@ -82,7 +83,12 @@
 				url:'',
 				start:'',
 				over:'',
-				pageNum:1
+				pageNum:1,
+				option2: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < _this.start;
+                    }
+                },
     		}
     	},
     	mounted(){

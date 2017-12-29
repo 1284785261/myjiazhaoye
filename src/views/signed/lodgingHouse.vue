@@ -840,7 +840,7 @@
 				},
 				option2: {
                     disabledDate (date) {
-                        return date && date.valueOf() < _this.onhrie;
+                        return date && date.valueOf() <= _this.onhrie;
                     }
                 },
 			}
