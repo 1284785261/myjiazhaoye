@@ -35,7 +35,7 @@
             </div>
             <div class="form-item">
               <a class="dcs" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</a>
-              <a class="dcs" @click="DerivedForm">导出</a>
+              <a class="dcs" :href="url">导出</a>
             </div>
           </div>
           <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
@@ -141,6 +141,7 @@
         complainCurrent:1,
         ComplainListDownLoad200177:'',
         pageNum:1,
+        url:'',
         option1: {
 					disabledDate (date) {
 						return date && date.valueOf() < _this.roomStartDate;
@@ -152,28 +153,29 @@
       this.ComplainListDownLoad200177 = ComplainListDownLoad200177
       this.getCommunityData();
       this.getComplainData({pageNum:1});
+      this.DerivedForm()
     },
     methods:{
       DerivedForm(){
         let vm = this
-        let url=ComplainListDownLoad200177+`?pageNum=${vm.pageNum}`
+        vm.url=ComplainListDownLoad200177+`?pageNum=${vm.pageNum}`
         if(vm.roomCommunity>=0){
-          url += `&communityId=${vm.roomCommunity}`
+          vm.url += `&communityId=${vm.roomCommunity}`
         }
         if(vm.selectStatus>=0){
-          url += `&complainStatus=${vm.selectStatus}`
+          vm.url += `&complainStatus=${vm.selectStatus}`
         }
         if(vm.roomStartDate){
-          url += `&beginDate=${vm.roomStartDate}`
+          vm.url += `&beginDate=${vm.roomStartDate}`
         }
         if(vm.roomEndDate){
-          url += `&beginDate=${vm.roomEndDate}`
+          vm.url += `&beginDate=${vm.roomEndDate}`
         }
         if(vm.keyWord){
-          url += `&keyWord=${vm.keyWord}`
+          vm.url += `&keyWord=${vm.keyWord}`
         }
         // console.log(url)
-        window.open(url)
+//        window.open(url)
       },
       handleClick(tab, event) {
         // console.log(tab, event);
@@ -223,6 +225,7 @@
         }
         this.pageNum = page || 1
         this.getComplainData(data);
+        this.DerivedForm()
       },
 
       toAddComplain(){
