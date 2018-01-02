@@ -10,6 +10,7 @@
         </div>
         <div class="ivu-bar-title">
           <h3 v-if="!PreViewContract"><i class="icon icon-iden"></i>合同详情</h3>
+
           <h3 v-else><i class="icon icon-iden"></i>预览合同</h3>
         </div>
         <div id="contract-detail-wrap">
@@ -33,12 +34,13 @@
               <div class="order-detail-wrap-head-btn" @click="openBankModal()" v-if="contractDetailData.contractState == 7">
                 查看银行账户信息
               </div>
-              <div class="order-detail-wrap-head-btn" @click="PreViewContract = true">
-                预览合同
-              </div>
-              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 4">
-                打印合同
-              </div>
+               <div class="order-detail-wrap-head-btn" @click='Preview'>预览/打印</div>
+              <!--<div class="order-detail-wrap-head-btn" @click="PreViewContract = true">-->
+                <!--预览合同-->
+              <!--</div>-->
+              <!--<div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 4">-->
+                <!--打印合同-->
+              <!--</div>-->
               <!-- <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 1">
                 修改合同
               </div> -->
@@ -290,7 +292,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {contractDetai,imgPath} from '../api.js';
+  import {contractDetai,imgPath,PdfDocmentUpload200173} from '../api.js';
 
 
   export default {
@@ -302,6 +304,7 @@
     mounted(){
       this.init();
       this.imgPath = imgPath;
+      this.PdfDocmentUpload200173=PdfDocmentUpload200173+'?contractSignId='+parseInt(this.$route.query.contractSignId)
     },
     data(){
         //customerType	1:个人租客 2:公司租客
@@ -315,6 +318,7 @@
         preView:false,
         preViewSrc:"",
         PreViewContract:false,//预览合同
+        PdfDocmentUpload200173:''
       }
     },
     methods:{
@@ -322,6 +326,9 @@
         this.contractSignId = this.$route.query.contractSignId;
         this.isOffice = this.$route.query.isOffice;
         this.getContractDetail({contractSignId:this.contractSignId,isOffice:this.isOffice});
+      },
+      Preview(){
+        window.open(this.PdfDocmentUpload200173,"","width=900,height=900");
       },
       getContractDetail(data){
         let that = this;
