@@ -14,7 +14,7 @@
                 <div id="corporate-service-list">
                     <div class="corporate-service-content">
                         <div class="corporate-service-type">
-                            <span>服务类型</span>
+                            <span>服务类型：</span>
                             <Select v-model="enterpriseType" style="width:200px" @on-change="selectType" v-if="selefloors.length>1">
                                 <Option v-for="item in selefloors" :key="item.dataId" :label="item.dataName"
                                         :value="item.dataId">{{ item.dataName }}
@@ -22,7 +22,7 @@
                             </Select>
                         </div>
                         <div class="corporate-service-range">
-                            <span>服务范围</span>
+                            <span>服务范围：</span>
                             <Select v-model="enterpriseArea" style="width:200px" @on-change="selectArea" v-if="seleArea.length>1">
                                 <Option v-for="item in seleArea" :key="item.dataId" :label="item.dataName"
                                         :value="item.dataId">{{ item.dataName }}
@@ -148,8 +148,8 @@
         enterpriseType: '',
         enterpriseArea: '',
         complainList: [],
-        seleArea:[{dataId:'',dataName:'全部'}],
-        selefloors:[{dataId:'',dataName:'全部'}],
+        seleArea:[],
+        selefloors:[],
         Area: [],
         imgPath:'',
         enterpriseList: [],
@@ -186,8 +186,10 @@
         })).then(res => {
 
           if (res.data.code == '10000') {
-            vm.floors = res.data.entity
-            vm.selefloors = res.data.entity
+            vm.floors = res.data.entity;
+            vm.selefloors = res.data.entity;
+            vm.selefloors.unshift({dataId:'-1',dataName:'全部'});
+            // console.log(vm.selefloors);
           }
         })
       },
@@ -200,7 +202,8 @@
             vm.Area = res.data.entity
             sessionStorage.setItem('Area',JSON.stringify(res.data.entity))
             vm.seleArea = res.data.entity
-            vm.seleArea.push()
+            vm.seleArea.unshift({dataId:'-1',dataName:'全部'});
+             console.log(vm.seleArea);
           }
         })
       },
@@ -216,10 +219,24 @@
       },
       selectList(){
         let vm = this
+        let types = '';
+        let Areas = '';
+        if(vm.enterpriseType == '-1'){
+           types = '';
+        }
+        else{
+             types = vm.enterpriseType;
+        }
+        if(vm.enterpriseArea == '-1'){
+            Areas = '';
+        }
+        else{
+             Areas = vm.enterpriseArea;
+        }
         vm.$http.post(CommunityServiceList500119, qs.stringify({
           pageNum: vm.pageNum,
-          enterpriseType: vm.enterpriseType,
-          enterpriseArea: vm.enterpriseArea
+          enterpriseType: types,
+          enterpriseArea: Areas
         })).then(res => {
           if (res.data.code == '10000') {
             vm.complainTotalNum = res.data.result.totalNum

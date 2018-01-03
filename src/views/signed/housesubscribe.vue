@@ -17,11 +17,11 @@
 						<span class="bsc">预约时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="beginDate" class="mvs"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="endDate" class="mvs"></Date-picker>
+						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="endDate" class="mvs"></Date-picker>
 						<span class="bsc">看房时间：</span>
 						<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择日期" class="dev" v-model="visitBeginDate"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择日期" class="dev" v-model="visitEndDate"></Date-picker>
+						<Date-picker type="datetime" :options="option2" format="yyyy-MM-dd HH:mm" placeholder="请选择日期" class="dev" v-model="visitEndDate"></Date-picker>
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
 							<Input v-model="keyWord" placeholder="搜索联系人或联系电话"></Input>
@@ -182,6 +182,7 @@
 			successModal
 		},
 		data() {
+			let _this = this;
 			return {
 				activeTabName: "workbench",
 				currentPage3: 1,
@@ -204,7 +205,17 @@
 				communityId:'',
 				Names:'',
 				ListDatadetail:{},
-                isOffice:''
+				isOffice:'',
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.beginDate;
+					}
+				},
+				option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.visitBeginDate;
+					}
+				},
 			}
 		},
 		mounted() {

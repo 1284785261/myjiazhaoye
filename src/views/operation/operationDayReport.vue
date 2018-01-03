@@ -216,6 +216,7 @@
     },
     data(){
       return{
+        activeTabName:"operationReport",
         startDate:"",
         houseResource:[],
         businessData:[],

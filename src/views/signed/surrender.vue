@@ -27,7 +27,7 @@
 						<span class="bsc">申请时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" class="dev" v-model="startDate"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="date" placeholder="请选择日期" class="dev" v-model="endDate"></Date-picker>
+						<Date-picker type="date" :options="option1" placeholder="请选择日期" class="dev" v-model="endDate"></Date-picker>
 						<div class="form-item" style="margin-left: 30px;">
 							<div class="form-search">
 								<i class="iconfont icon-sousuo"></i>
@@ -96,6 +96,7 @@
 			footerBox
 		},
 		data() {
+			let _this = this
 			return {
 				activeTabName:"workbench",
 				currentPage3: 1,
@@ -136,7 +137,12 @@
 				}],
 				value2: '全部',
 				surrList: {},
-				Name:''
+				Name:'',
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.startDate;
+					}
+				},
 			}
 		},
 		mounted() {

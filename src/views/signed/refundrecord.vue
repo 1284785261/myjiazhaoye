@@ -26,7 +26,7 @@
 						<span class="bsc">退款时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
+						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
 							<Input v-model="keyWord" placeholder="搜索退款对象/手机号"></Input>
@@ -96,6 +96,7 @@
     		footerBox
     	},
     	data(){
+			let _this = this
     		return{
 				activeTabName:"workbench",
 				currentPage3: 1,
@@ -126,7 +127,12 @@
 		        keyWord:'',
 		        start:'',
 		        over:'',
-		        Name:''
+				Name:'',
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.start;
+					}
+				},
 			}
     	},
     	mounted(){

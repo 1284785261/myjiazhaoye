@@ -23,7 +23,7 @@
 						<span class="zhut">发起时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
 						<span class="inline-block spanBar zhut2">—</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
+						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
 							<Input v-model="values" placeholder="搜索收款对象/手机号"></Input>
@@ -125,6 +125,7 @@
 			warningModal
 		},
 		data() {
+			let _this = this
 			return {
 				activeTabName:"workbench",
 				currentPage3: 1,
@@ -156,7 +157,12 @@
 				warningModal: false,
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
-				Name:''
+				Name:'',
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.communityLeaseBegin;
+					}
+				},
 			}
 		},
 		mounted() {

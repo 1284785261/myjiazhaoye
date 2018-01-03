@@ -89,6 +89,7 @@
           width: 320px;
           text-align: center;
           padding-top: 25px;
+          cursor: pointer;
           span{
             color: #038be2;
             font-size: 22px;

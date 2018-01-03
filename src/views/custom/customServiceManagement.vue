@@ -211,7 +211,7 @@
         if(this.roomCommunity != -1){
           data.communityId = this.roomCommunity;
         }
-        if(this.selectStatus != ''){
+        if((this.selectStatus || this.selectStatus == '0') && this.selectStatus != '-1'){
           data.complainStatus = this.selectStatus;
         }
         if(this.roomSearchKey){

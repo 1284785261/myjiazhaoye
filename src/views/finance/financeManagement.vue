@@ -30,7 +30,7 @@
                 <div class="form-item">
                   <span>交易对象:</span>
                   <div style="display: inline-block">
-                    <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey"></Input>
+                    <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey" @on-blur="love(financeSearchKey)"></Input>
                   </div>
                 </div>
                 <div class="form-item">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-item">
                   <Button style="width:120px;height: 36px;" @click="financeSearch()">查询</Button>
-                  <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
+                  <a :href="host3" class="dts1">导出</a>
                 </div>
               </div>
               <div class="big-content-wrap" v-if="financeTotalNum > 0">
@@ -142,12 +142,12 @@
                 <div class="form-item">
                   <span>收件人:</span>
                   <div style="display: inline-block">
-                    <Input v-model="billInvoiSearchKey" size="large" placeholder="请输入收件人"></Input>
+                    <Input v-model="billInvoiSearchKey" size="large" placeholder="请输入收件人" @on-blur="love2(billInvoiSearchKey)"></Input>
                   </div>
                 </div>
                 <div class="form-item">
                   <Button style="width:120px;height: 36px;" @click="billInvoiceSearch()">查询</Button>
-                  <Button style="width:120px;height: 36px;margin-left: 20px;">导出</Button>
+                  <a :href="host4" class="dts1">导出</a>
                 </div>
               </div>
               <table class="table ivu-table" v-if="billInvoiceTotalNum > 0">
@@ -382,7 +382,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {allCommunity,billInvoice,refundHandle,invoiceDetail,sendbillInvoice,invoiceDetailSend,refundMoneyToUser,financeList,SytemData} from '../api.js';
+  import {allCommunity,billInvoice,refundHandle,invoiceDetail,sendbillInvoice,invoiceDetailSend,refundMoneyToUser,financeList,SytemData,host} from '../api.js';
 
   export default {
     components:{
@@ -502,7 +502,9 @@
 					disabledDate (date) {
 						return date && date.valueOf() < _this.refundHandStartDate;
 					}
-				},
+        },
+        host3:'',
+        host4:''
       }
     },
     mounted(){
@@ -511,10 +513,54 @@
       this.getrefundHandle({pageNum:1});
       this.getFinanceList({pageNum:1});
       this.getExpress();
+      this.host3 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityFinanceListDownLoad200180?';
+      this.host4 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjBillInvoiceListDownLoad200181?';
+    },
+    watch: {
+        financeType (val,oldval){  
+          // console.log(val,oldval);
+          this.host3 +='&financeType='+val;
+        },
+        financeStartDate(val,olaval){
+          let atr =  new Date(val).Format("yyyy-MM-dd");
+          this.host3 +='&startDate='+atr;
+        },
+        financeEndDate(val,olaval){
+          let atr2 =  new Date(val).Format("yyyy-MM-dd");
+          this.host3 +='&endDate='+atr2;
+        },
+        // financeSearchKey(val,olaval){
+        //   this.host3 +='&keyWord='+val;
+        //    console.log(this.host3);
+        // },
+        payType(val,olaval){
+           this.host3 +='&payType='+val;
+        },
+        billInvoiceStartDate(val,olaval){
+          let atr =  new Date(val).Format("yyyy-MM-dd");
+          this.host4 += '&startDate=' + atr;
+          console.log(this.host4);
+        },
+        billInvoiceEndDate(val,olaval){
+          let atr2 =  new Date(val).Format("yyyy-MM-dd");
+          this.host4 += '&endDate=' + atr2;
+        }
+        // billInvoiSearchKey(val,olaval){
+        //   this.host4 += '&keyWord=' + val;
+        //   console.log(this.host4);
+        // }
     },
     methods: {
       closeBillModal(){
         this.openBillMoal = false;
+      },
+      love(val){
+        this.host3 +='&keyWord='+val;
+        console.log( this.host3);
+      },
+      love2(val){
+        this.host4 += '&keyWord=' + val;
+        console.log( this.host4);
       },
       getCommunityData(){
         var that = this;
@@ -597,6 +643,24 @@
           data.endDate = new Date(this.billInvoiceEndDate).Format("yyyy-MM-dd");
         }
         this.getBillInvoice(data);
+      },
+      refundHandSearch(page){
+        var data = {
+          pageNum:page || 1
+        }
+        if(page){
+            this.activeBillPage = page;
+        }
+        if(this.billInvoiSearchKey){
+          data.keyWord = this.billInvoiSearchKey;
+        }
+        if(this.refundHandStartDate){
+          data.startDate = new Date(this.refundHandStartDate).Format("yyyy-MM-dd");
+        }
+        if(this.refundHandEndDate){
+          data.endDate = new Date(this.refundHandEndDate).Format("yyyy-MM-dd");
+        }
+        this.getrefundHandle(data);
       },
       openBill(invoiceId){
         this.openBillMoal =true;
@@ -851,6 +915,30 @@
       .form-item{
         margin-right: 60px;
         margin-top: 15px;
+        .dts1{
+          margin-left: 20px;
+          width: 120px;
+          height: 36px;
+          display: inline-block;
+          font-weight: 400;
+          text-align: center;
+          vertical-align: middle;
+          cursor: pointer;
+          border: 1px solid transparent;
+          white-space: nowrap;
+          line-height: 36px;
+          font-size: 12px;
+          border-radius: 4px;
+          transition: color .2s linear,background-color .2s linear,border .2s linear;
+          color: #495060;
+          background-color: #f7f7f7;
+          border-color: #dddee1;
+          &:hover{
+            color: #57a3f3;
+            background-color: #fff;
+            border-color: #57a3f3;
+          }
+        }
       }
       .select-status{
         .ivu-select{

@@ -109,7 +109,7 @@
 								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li>
-								<router-link to="/">今日直播时间<span><span>18:00-19:00</span></span>
+								<router-link to="/Liverecording/recording">今日直播时间<span><span>18:00-19:00</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.complaintCount != 0">
 								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>

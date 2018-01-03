@@ -33,7 +33,7 @@
 						<span class="bsc">报修时间：</span>
 						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
+						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
 						<div class="form-search">
 							<i class="iconfont icon-sousuo"></i>
 							<Input v-model="keyWord" placeholder="搜索报修对象/手机号"></Input>
@@ -105,7 +105,8 @@
     		menuBox,
     		footerBox
     	},
-    	data(){
+		data(){
+			let _this = this
     		return{
 				activeTabName:"workbench",
 				currentPage3: 1,
@@ -148,7 +149,12 @@
 		        isOffice:null,
 		        start:null,
 		        over:null,
-		        keyWord:null
+				keyWord:null,
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.start;
+					}
+				},
 			}
     	},
     	mounted(){
