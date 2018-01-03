@@ -82,7 +82,7 @@
               <td>
                 <Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
                 <span class="inline-block spanBar">-</span>
-                <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
+                <Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
               </td>
             </tr>
             <tr>
@@ -92,7 +92,7 @@
               <td>
                 <Date-picker type="date" placeholder="请选择日期" v-model="communityFreeLeaseBegin"></Date-picker>
                 <span class="inline-block spanBar">-</span>
-                <Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="communityFreeLeaseEnd"></Date-picker>
+                <Date-picker type="date" placeholder="请选择日期" v-model="communityFreeLeaseEnd"></Date-picker>
               </td>
             </tr>
             <tr>
@@ -150,7 +150,6 @@
       warningModal
     },
     data() {
-      let _this = this;
       return {
         data: {
           module: 'community'
@@ -196,17 +195,7 @@
         fileList3: [],
         disabled:false,
         disabled2:false,
-        imgPath:'',
-        option1: {
-            disabledDate (date) {
-                return date && date.valueOf() <= _this.communityLeaseBegin;
-            }
-        },
-        option2: {
-            disabledDate (date) {
-                return date && date.valueOf() <= _this.communityFreeLeaseBegin;
-            }
-        },
+        imgPath:''
       }
     },
     mounted() {

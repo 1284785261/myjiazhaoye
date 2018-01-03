@@ -41,7 +41,7 @@
                   <th>创建日期</th>
                   <th>状态</th>
                   <th>备注</th>
-                  <th>操作</th>
+                  <th>操作{{memberCurrent}}</th>
                 </tr>
                 <tr v-for="(item,index) in  memberList">
                   <td>{{item.userName || item.userAliase}}</td>
