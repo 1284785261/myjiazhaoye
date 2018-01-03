@@ -184,6 +184,7 @@
         vm.$http.post(SytemData, qs.stringify({
           parentId: 67
         })).then(res => {
+
           if (res.data.code == '10000') {
             vm.floors = res.data.entity
             vm.selefloors = res.data.entity
@@ -221,6 +222,7 @@
           enterpriseArea: vm.enterpriseArea
         })).then(res => {
           if (res.data.code == '10000') {
+            vm.complainTotalNum = res.data.result.totalNum
             vm.complainList = res.data.result.serviceList
             for (let k in vm.complainList) {
               vm.$set(vm.complainList[k], 'update', false)
