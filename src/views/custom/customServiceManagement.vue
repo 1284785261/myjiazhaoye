@@ -211,7 +211,7 @@
         if(this.roomCommunity != -1){
           data.communityId = this.roomCommunity;
         }
-        if(this.selectStatus != ''){
+        if((this.selectStatus || this.selectStatus == "0") && this.selectStatus != -1){
           data.complainStatus = this.selectStatus;
         }
         if(this.roomSearchKey){
@@ -223,6 +223,7 @@
         if(this.roomEndDate){
           data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
         }
+        console.log(data.complainStatus);
         this.pageNum = page || 1
         this.getComplainData(data);
         this.DerivedForm()

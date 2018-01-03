@@ -216,7 +216,7 @@
             if(res.status == 200 && res.data.code == 10000){
               that.detailData = res.data.entity;
             }
-            // console.log(that.detailData)
+            console.log(that.detailData)
           })
       },
       useOrder(){

@@ -4,12 +4,12 @@
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
-const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
+//const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
-//const host3 = 'http://192.168.20.191:8080';
+const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 // const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨

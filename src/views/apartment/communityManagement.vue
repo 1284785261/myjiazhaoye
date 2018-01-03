@@ -747,7 +747,7 @@
 					data.createtime = new Date(this.createtimes).Format("yyyy-MM-dd");
 				}
 				if(this.commentDate) {
-					data.commentDate = new Date(this.commentDate).Format("yyyy-MM-dd");
+					data.commentEndDate = new Date(this.commentDate).Format("yyyy-MM-dd");
 				}
 				if(this.searchKey) {
 					data.userNamePhone = this.searchKey;
