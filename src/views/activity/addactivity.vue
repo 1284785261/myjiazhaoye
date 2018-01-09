@@ -30,7 +30,8 @@
 						<tr>
 							<td>活动时间：</td>
 							<td>
-								<Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate"></Date-picker> -- <Date-picker type="date" placeholder="请选择结束时间" v-model="Activity.endDate"></Date-picker>
+								<Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate">
+								</Date-picker> -- <Date-picker type="date" :options="option1" placeholder="请选择结束时间" v-model="Activity.endDate"></Date-picker>
 							</td>
 						</tr>
 						<tr>
@@ -72,7 +73,7 @@
 						</tr>
 					</table>
 					<div class="sxb" v-if="radio3 == '1'">
-						<span>注册时间：</span><Date-picker type="date" placeholder="请选择" v-model="Activity.beginRegisterTime" style="width:110px;margin-right:10px;"></Date-picker>--<Date-picker type="date" placeholder="请选择" v-model="Activity.endRegisterTime" style="width:110px;;margin-left:10px;"></Date-picker><br>
+						<span>注册时间：</span><Date-picker type="date" placeholder="请选择" v-model="Activity.beginRegisterTime" style="width:110px;margin-right:10px;"></Date-picker>--<Date-picker type="date" :options="option2" placeholder="请选择" v-model="Activity.endRegisterTime" style="width:110px;;margin-left:10px;"></Date-picker><br>
 						<span style="line-height:60px;">是否有签约记录：</span>
 						<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
   						<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
@@ -107,6 +108,7 @@
 			warningModal
 		},
 		data() {
+			let _this = this;
 			return {
 				activeTabName:"activitys",
 				successModal: false,
@@ -144,7 +146,17 @@
 				disabled: false,
 				disabled2: false,
 				disabled3: false,
-				disabled4: false
+				disabled4: false,
+				option1: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.Activity.beginDate;
+					}
+				},
+				option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.Activity.beginRegisterTime;
+					}
+				},
 			}
 		},
 		mounted() {

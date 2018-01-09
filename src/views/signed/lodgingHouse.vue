@@ -515,7 +515,7 @@
 							<table>
 								<tr>
 									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}元</td>
+									<td style="color: red;">{{firstmoney}}</td>
 								</tr>
 								<tr>
 									<td>首款支付方式:</td>
@@ -630,13 +630,28 @@
 														</template>
 													</div>
 												</div>
+												<div class="uplodas">
+													<div v-if="!uploadList6[0]">
+														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile6" />
+														<Icon type="camera" class="icons"></Icon>
+														<span class="titew">上传营业执照</span>
+													</div>
+													<div class="demo-upload-list" v-if="uploadList6[0]" v-loading.body="loadList[3]">
+														<template>
+															<img :src="imgPath+uploadList6[0]" v-if="uploadList6[0]">
+															<div class="demo-upload-list-cover">
+																<Icon type="ios-trash-outline" @click.native="handleRemove6()"></Icon>
+															</div>
+														</template>
+													</div>
+												</div>
 												<div class="uplodas" v-if="radio4 == '1'">
 													<div v-if="!uploadList3[0]">
 														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传合同</span>
 													</div>
-													<div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[3]">
+													<div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[4]">
 														<template>
 															<img :src="imgPath+uploadList3[0]" v-if="uploadList3[0]">
 															<div class="demo-upload-list-cover">
@@ -801,6 +816,7 @@
 				uploadList2: [0],
 				uploadList3: [0],
 				uploadList4: [0],
+				uploadList6: [0],
 				finished: false,
 				imgName: '',
 				dat: null,
@@ -1229,6 +1245,10 @@
 				this.uploadList4 = []
 				this.uploadList4[0] = 0
 			},
+			handleRemove6(){
+				this.uploadList6 = []
+				this.uploadList6[0] = 0
+			},
 			uploadfile(e) {
 				let vm = this;
 				let file = e.target.files[0];
@@ -1318,8 +1338,7 @@
 						alert(err)
 					})
 			},
-			
-			uploadfile3(e) {
+			uploadfile6(e){
 				let vm = this;
 				let file = e.target.files[0];
 				if(!file) {
@@ -1334,6 +1353,35 @@
 						if(parseInt(res.data.code) == 10000) {
 							setTimeout(function() {
 								vm.$set(vm.loadList, 3, false)
+							}, 2000)
+							if(vm.uploadList6.length < 2) {
+								//                      this.filelist1.push(file);
+								vm.uploadList6[0] = res.data.result.virtualPath;
+								vm.uploadList6.push('营业执照');
+							} else {
+								alert('最多可以上传1张图片');
+								return
+							}
+						}
+					}).catch(err => {
+						alert(err)
+					})
+			},
+			uploadfile3(e) {
+				let vm = this;
+				let file = e.target.files[0];
+				if(!file) {
+					return
+				}
+				vm.$set(vm.loadList, 4, true)
+				let param = new FormData();
+				param.append('file', file)
+				param.append('module', 'user')
+				vm.$http.post(vm.host3, param)
+					.then(res => {
+						if(parseInt(res.data.code) == 10000) {
+							setTimeout(function() {
+								vm.$set(vm.loadList, 4, false)
 							}, 2000)
 							if(vm.uploadList3.length < 2) {
 								//                      this.filelist1.push(file);
@@ -1547,24 +1595,6 @@
 				for(let i = 0; i < arr2.length; i++) {
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				//				if(this.filelist1.length){
-				//					for(let i = 0;i<this.filelist1.length;i++){
-				//						this.param.append('credentialsImagesArray',this.filelist1[i]);
-				//						this.param.append('credentialsTitle','经办人身份证');
-				//					}
-				//				}
-				//				if(this.filelist2.length){
-				//					for(let i = 0;i<this.filelist2.length;i++){
-				//						this.param.append('credentialsImagesArray',this.filelist2[i]);
-				//						this.param.append('credentialsTitle','委托书照片');
-				//					}
-				//				}
-				//				if(this.filelist3.length){
-				//					for(let i = 0;i<this.filelist3.length;i++){
-				//						this.param.append('credentialsImagesArray',this.filelist3[i]);
-				//						this.param.append('credentialsTitle','合同照片');
-				//					}
-				//				}
 				let fileList = []
 				if(this.uploadList.length) {
 					fileList.push({
@@ -1584,13 +1614,19 @@
 						"fileTitle": this.uploadList2[1]
 					});
 				}
-				
+				if(this.uploadList6.length) {
+					fileList.push({
+						"filePath": this.uploadList6[0],
+						"fileTitle": this.uploadList6[1]
+					});
+				}
 				if(this.uploadList3.length) {
 					fileList.push({
 						"filePath": this.uploadList3[0],
 						"fileTitle": this.uploadList3[1]
 					});
 				}
+				
 				//furniture
 				let param = new FormData();
 				this.furniture = JSON.stringify(arr3);

@@ -3,7 +3,7 @@
 		<menu-box></menu-box>
 		<div class="right-content" id="rightwork">
 			<right-header></right-header>
-			<div class="wordbench-box" style="min-height:1000px;">
+			<div class="wordbench-box" style="min-height:1020px;">
 				<div class="main-home">
 					<div class="home-item">
 						<!--<h3>{{user.name}}<span>{{user.quanxian | quanxian}}</span></h3>-->
@@ -20,16 +20,7 @@
 				</div>
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="height:330px;">
-						<h3><i class="icon icon-info"></i>我的消息</h3>
-						<ul class="info-list">
-							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
-								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link><span class="date">{{myInfo.createtime | time}}</span></li>
-						</ul>
-					</div>
-					</Col>
-					<Col span="12">
-					<div class="modular-box">
+					<div class="modular-box" style="min-height:430px;">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens">
 							<li>
@@ -48,7 +39,7 @@
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
 								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
-								<a @click="eliminate(2)">公寓租金账单</a>
+								<a @click="eliminateg(2)">公寓租金账单</a>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
 								<Badge :count="messsaget[6]" v-if='messsaget[6]'></Badge>
@@ -60,7 +51,59 @@
 							</li>
 							<li v-if="jurisdiction('CONTRACT_QUERY')">
 								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
-								<a @click="eliminate4(4)">合同管理</a>
+								<a @click="eliminateg4(4)">合同管理</a>
+							</li>
+							<li>
+								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
+							</li>
+							<li>
+								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
+								<a @click="eliminate8(8)">发起退款</a>
+							</li>
+							<li>
+								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
+								<a @click="eliminate7(7)">发起收款</a>
+							</li>
+							<li>
+								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
+								<a @click="eliminate13(13)">用户投诉</a>
+							</li>
+						</ul>
+					</div>
+					</Col>
+					<Col span="12">
+					<div class="modular-box" style="min-height:430px;">
+						<h3><i class="icon icon-info"></i>联合办公管理</h3>
+						<ul class="apartment-list workbens">
+							<li>
+								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
+								<a @click="eliminat(5,1)">看房预约</a>
+							</li>
+							<li>
+								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
+							</li>
+							<li>
+								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}">办公空间状态</router-link>
+								<!-- <router-link to="/apartment/workbench" v-else>办公空间状态</router-link> -->
+							</li>
+							<li v-if="jurisdiction('LIVE_QUERY')">
+								<router-link  to="/Liverecording/recording">直播管理</router-link>
+							</li>
+							<li v-if="jurisdiction('BILL_QUERY')">
+								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
+								<a @click="eliminateb(2)">办公租金账单</a>
+							</li>
+							<li v-if="jurisdiction('ORDER_QUERY')">
+								<Badge :count="messsaget[3]" v-if='messsaget[3]'></Badge>
+								<a @click="eliminate3(3)">办公订单</a>
+							</li>
+							<li>
+								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
+								<a @click="eliminate12(12)">用户报修</a>
+							</li>
+							<li v-if="jurisdiction('CONTRACT_QUERY')">
+								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
+								<a @click="eliminateb4(4)">合同管理</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
@@ -84,7 +127,16 @@
 
 				<Row>
 					<Col span="12">
-					<div class="modular-box">
+					<div class="modular-box" style="height:330px;">
+						<h3><i class="icon icon-info"></i>我的消息</h3>
+						<ul class="info-list">
+							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
+								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link><span class="date">{{myInfo.createtime | time}}</span></li>
+						</ul>
+					</div>
+					</Col>
+					<Col span="12">
+					<div class="modular-box" style="height:330px;">
 						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
 							<li v-if="remains.appointmentCount != 0">
@@ -120,58 +172,7 @@
 						</div>
 					</div>
 					</Col>
-					<Col span="12">
-					<div class="modular-box" style="height: 447px;">
-						<h3><i class="icon icon-info"></i>联合办公管理</h3>
-						<ul class="apartment-list workbens">
-							<li>
-								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
-								<a @click="eliminat(5,1)">看房预约</a>
-							</li>
-							<li>
-								<router-link :to="{path:'/signed/lodgingwork',query:{communityId:communityId,Name:selectModel1}}">联合办公签约</router-link>
-							</li>
-							<li>
-								<router-link :to="{path:'/signed/workState',query:{id:communityId,Name:selectModel1}}" v-if="type == 1">办公空间状态</router-link>
-								<router-link to="/apartment/workbench" v-else>办公空间状态</router-link>
-							</li>
-							<li v-if="jurisdiction('LIVE_QUERY')">
-								<router-link  to="/Liverecording/recording">直播管理</router-link>
-							</li>
-							<li v-if="jurisdiction('BILL_QUERY')">
-								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
-								<a @click="eliminate(2)">办公租金账单</a>
-							</li>
-							<li v-if="jurisdiction('ORDER_QUERY')">
-								<Badge :count="messsaget[3]" v-if='messsaget[3]'></Badge>
-								<a @click="eliminate3(3)">办公订单</a>
-							</li>
-							<li>
-								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
-								<a @click="eliminate12(12)">用户报修</a>
-							</li>
-							<li v-if="jurisdiction('CONTRACT_QUERY')">
-								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
-								<a @click="eliminate4(4)">合同管理</a>
-							</li>
-							<li>
-								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
-							</li>
-							<li>
-								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
-								<a @click="eliminate8(8)">发起退款</a>
-							</li>
-							<li>
-								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
-								<a @click="eliminate7(7)">发起收款</a>
-							</li>
-							<li>
-								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
-								<a @click="eliminate13(13)">用户投诉</a>
-							</li>
-						</ul>
-					</div>
-					</Col>
+					
 				</Row>
 			</div>
 			<footer-box></footer-box>
@@ -219,8 +220,10 @@
 					name: '',
 					quanxian: ''
 				},
-				type:0,
-				messsaget:null
+				type:'',
+				messsaget:null,
+				show1:false,
+				show2:false
 			}
 		},
 		mounted() {
@@ -326,7 +329,7 @@
 							communityId: Model
 						})
 					).then((response) => {
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
@@ -341,7 +344,7 @@
 			datas2(){
 				axios.post(hostUserMessagey)
 				.then((res)=>{
-					// console.log(res);
+					//console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						// this.nums = res.data.entity.messageCount;
 						sessionStorage.setItem('nums', res.data.entity.messageCount);
@@ -355,7 +358,7 @@
 				let Model = sessionStorage.getItem('communityId');
 				// console.log(Model);
 				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
-						// console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.cityList = response.data.result.communityList;
 							if(Model) {
@@ -391,7 +394,7 @@
 						pageSize:5
 					})
 				).then((res)=>{
-					// console.log(res);
+					//console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.myInfos = res.data.entity.page;
 						for(let i = 0;i < this.myInfos.length;i++){
@@ -411,7 +414,22 @@
 				// console.log(val);
 				let vm = this
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
-				
+				vm.type = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityType;
+				let arr = vm.type.split(',');
+				for(let i=0;i<arr.length;i++){
+					if(arr[i] == 0 && arr.length == 1){
+						this.show1 = true;
+						this.show2 = false;
+					}
+					else if(arr[i] == 1 && arr.length == 1){
+						this.show1 = false;
+						this.show2 = true;
+					}
+					else if(arr.length == 2){
+						this.show1 = true;
+						this.show2 = true;
+					}
+				}
 				this.mtsbv();
 				this.communityId = Index;
 				sessionStorage.setItem('communityId', Index);
@@ -461,10 +479,18 @@
 					// console.log(err);
 				})
 			},
-			eliminate(value){
+			eliminateg(value){
 				// console.log(value);
 				this.share(value);
-				this.$router.push('/bill/billManagement');
+				sessionStorage.setItem("billManagement_communityId",this.communityId);
+				this.$router.push({path:'/bill/billManagement',query:{name:'first'}});
+				this.datas2();
+			},
+			eliminateb(value){
+				// console.log(value);
+				this.share(value);
+				sessionStorage.setItem("billManagement_communityId",this.communityId);
+				this.$router.push({path:'/bill/billManagement',query:{name:'second'}});
 				this.datas2();
 			},
 			eliminat(value,num){
@@ -475,6 +501,7 @@
 			},
 			eliminate6(value){
 				this.share(value);
+				sessionStorage.setItem("billManagement_communityId",this.communityId);
 				this.$router.push({name:'billManagement',query:{tab:'third'}});
 				this.datas2();
 			},
@@ -483,8 +510,15 @@
 				this.$router.push({path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1}});
 				this.datas2();
 			},
-			eliminate4(value){
+			eliminateg4(value){
 				this.share(value);
+				sessionStorage.setItem("contractIndexTab",'room');
+				this.$router.push('/contract/contractIndex');
+				this.datas2();
+			},
+			eliminateb4(value){
+				this.share(value);
+				sessionStorage.setItem("contractIndexTab",'office');
 				this.$router.push('/contract/contractIndex');
 				this.datas2();
 			},

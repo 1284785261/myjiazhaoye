@@ -77,7 +77,7 @@
                   </div>
                   <div class="invoice-detail-info-item">
                     <span>发票内容 :</span>
-                    <span>{{invoiceDetailData.invoiceContent}}</span>
+                    <span>{{invoiceDetailData.invoiceContent | contents}}</span>
                   </div>
                 </div>
               </li>
@@ -181,6 +181,14 @@
       timefilter(value,format){
         if(value){
           return new Date(value).Format(format)
+        }
+      },
+      contents(value){
+        if(value == true){
+          return '是服务费发票';
+        }
+        else{
+          return '不是服务费发票';
         }
       }
     },

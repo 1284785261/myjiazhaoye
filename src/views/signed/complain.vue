@@ -193,7 +193,7 @@
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
 		    	
-		    	if(this.State && this.State != -1){
+		    	if((this.State && this.State != -1) || this.State == 0){
 		    		param.append('complainStatus',this.State);
 		    	}
 		    	if(this.over){

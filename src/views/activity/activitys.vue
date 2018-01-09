@@ -20,7 +20,7 @@
 					<div v-if="Userlist != null">
 						<table v-if="Userlist != null">
 							<thead>
-								<td>序号</td>
+								<td width="80px">序号</td>
 								<td>活动ID</td>
 								<td>开始日期</td>
 								<td>活动主题</td>

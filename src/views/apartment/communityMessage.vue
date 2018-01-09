@@ -45,9 +45,21 @@
 		        			<td>租期：</td>
 		        			<td>{{ lease }}</td>
 		        		</tr>
-		        		<tr>
-		        			<td>免租期：</td>
-		        			<td>{{ freelease }}</td>
+		        		<tr v-if="Datas.propertySignDate">
+		        			<td>物业合同签约时间：</td>
+		        			<td>{{ Datas.propertySignDate }}</td>
+		        		</tr>
+						<tr v-if="Datas.propertyContactName">
+		        			<td>业主姓名：</td>
+		        			<td>{{ Datas.propertyContactName }}</td>
+		        		</tr>
+						<tr v-if="Datas.propertyContactPhone">
+		        			<td>业主联系电话：</td>
+		        			<td>{{ Datas.propertyContactPhone }}</td>
+		        		</tr>
+						<tr v-if="Datas.propertyRent">
+		        			<td>社区月租金：</td>
+		        			<td>{{ Datas.propertyRent }} 元</td>
 		        		</tr>
 		        		<tr>
 		        			<td style="vertical-align: top;">物业合同：{{contract}}</td>

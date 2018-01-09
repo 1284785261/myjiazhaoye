@@ -181,10 +181,10 @@
 			datas() {
 				let param = new FormData();
 				param.append("communityId", this.communityId);
-				if(this.isOffice && this.isOffice != -1) {
+				if((this.isOffice && this.isOffice != '-1') || this.isOffice == 0) {
 					param.append("isOffice", this.isOffice);
 				}
-				if(this.refundStatus && this.refundStatus != -1) {
+				if((this.refundStatus && this.refundStatus != '-1') || this.refundStatus == 0) {
 					param.append("refundStatus", this.refundStatus);
 				}
 				if(this.startDate) {
@@ -220,6 +220,7 @@
 			},
 			select2(val) {
 				this.refundStatus = this.options2[this.options2.findIndex(item => item.dataName == val)].id;
+				console.log(this.refundStatus);
 			},
 			sous(){
 				this.datas();

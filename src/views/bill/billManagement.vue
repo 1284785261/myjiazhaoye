@@ -311,11 +311,14 @@
       if(tab){
           this.activeName2 = tab;
       }
-      if(this.$route.query.tab){
+      else if(this.$route.query.tab){
         this.activeName2 = this.$route.query.tab;
       }
+      else if(this.$route.query.name){
+        this.activeName2 = this.$route.query.name;
+      }
       this.getCommunityData();
-
+      
 
     },
     methods:{

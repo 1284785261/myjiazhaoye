@@ -291,7 +291,7 @@
 				if(this.values) {
 					param.append("keyWord", this.values);
 				}
-				if(this.gatheringState &&this.gatheringState != -1) {
+				if((this.gatheringState &&this.gatheringState != -1) || this.gatheringState == 0) {
 					param.append("gatheringState", this.gatheringState);
 				}
 				param.append("pageNum", this.pageNum);

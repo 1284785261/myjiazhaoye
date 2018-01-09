@@ -134,7 +134,7 @@
 									<div class="form-search">
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="vague" placeholder="搜索社区名称"></Input>
-										<input type="button" value="搜索" @click="btusy">
+										<input type="button" value="搜索" @click="btusy2">
 									</div>
 								</div>
 							</div>
@@ -363,6 +363,8 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				option1: {
 					disabledDate (date) {
+						console.log(111);
+						console.log(_this.start);
 						return date && date.valueOf() < _this.start;
 					}
 				},
@@ -535,13 +537,13 @@
 				vm.commint = [];
 				let pageNum = vm.pageNum || 1;
 				let pageSize = vm.pageSize || 3;
-				this.start = new Date(this.start).Format('yyyy-MM-dd');
+				let start = new Date(this.start).Format('yyyy-MM-dd');
 				this.over = new Date(this.over).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize,
-							communityOpeningDate: vm.start,
+							communityOpeningDate: start,
 							communityNewOpeningDate: vm.over,
 							communityLikeName: vm.vague
 						})).then((response) => {
@@ -604,20 +606,20 @@
 						// console.log(error);
 					})
 			},
-			btusy() { //已关闭社区页面模糊查询
+			btusy2() { //已关闭社区页面模糊查询
 				let vm = this
 				vm.commint2 = [];
 				let pageNum = vm.pageNum2 || 1;
 				let pageSize = vm.pageSize || 3;
 
-				this.start1 = new Date(this.start1).Format('yyyy-MM-dd');
+				let start1 = new Date(this.start1).Format('yyyy-MM-dd');
 				this.over1 = new Date(this.over1).Format('yyyy-MM-dd');
 				axios.post(hostCommint, //请求数据列表
 						qs.stringify({
 							pageNum: pageNum,
 							pageSize: pageSize,
 							communityIsClose: 1,
-							communityOpeningDate: vm.start1,
+							communityOpeningDate: start1,
 							communityNewOpeningDate: vm.over1,
 							communityLikeName: vm.vague
 						})

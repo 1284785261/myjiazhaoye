@@ -125,8 +125,10 @@
 										<td>{{item.communityName}}</td>
 										<td v-if="item.province == item.city">{{item.province}}{{item.district}}{{item.address}}</td>
 										<td v-else>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</td>
-										<td>{{item.userName}}</td>
-										<td>{{item.userPhone}}</td>
+										<td v-if="item.userName">{{item.userName}}</td>
+										<td v-else>--</td>
+										<td v-if="item.userPhone">{{item.userPhone}}</td>
+										<td v-else>--</td>
 										<td>{{item.employeeNum}}</td>
 										<td>
 											<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">委派人员</router-link>

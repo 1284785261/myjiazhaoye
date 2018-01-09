@@ -1112,7 +1112,6 @@
 						configDataId: this.option5[this.option5.findIndex(item => item.dataName == vm.checkList2[i])].dataId
 					});
 				}
-				console.log(list2);
 				console.log(vm.cxkjCommunityListConfig2);
 				console.log(vm.cxkjCommunityListPayway2);
 				console.log(vm.cxkjCommunityListMaintain2);

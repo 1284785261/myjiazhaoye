@@ -185,18 +185,20 @@
                 </tr>
                 <tr v-for="property in propertyContractList">
                   <td>{{property.communityContractNum}}</td>
-                  <td>{{property.propertySignDate | timefilter("yyyy-MM-dd")}}</td>
+                  <td v-if="property.propertySignDate">{{property.propertySignDate | timefilter("yyyy-MM-dd")}}</td>
+                  <td v-else>--</td>
                   <td>
                     <p>{{property.communityName}}</p>
                     <p>租期：{{property.communityLeaseBegin | timefilter("yyyy.MM.dd")}}-{{property.communityLeaseEnd | timefilter("yyyy.MM.dd")}}</p>
                   </td>
                   <td>{{property.communityFreeLeaseBegin | timefilter("yyyy.MM.dd")}}-{{property.communityFreeLeaseEnd | timefilter("yyyy.MM.dd")}}</td>
-                  <td>{{property.propertyContactName}}</td>
-                  <td>{{property.propertyContactPhone}}</td>
-                  <td>{{property.propertyRent}}</td>
+                  <td v-if="property.propertyContactName">{{property.propertyContactName}}</td><td v-else>--</td>
+                  <td v-if="property.propertyContactPhone">{{property.propertyContactPhone}}</td><td v-else>--</td>
+                  <td v-if="property.propertyRent">{{property.propertyRent}}</td><td v-else>--</td>
                   <td>
                     <span v-if="property.propertySignStatus == 0" style="color: #3dc4b2;">履约中</span>
-                    <span v-else-if="property.contractState == 1" style="color: #96a5af;">已完结</span>
+                    <span v-else-if="property.propertySignStatus == 1" style="color: #96a5af;">已完结</span>
+                    <span v-else>--</span>
                   </td>
                   <td>
                     <router-link :to="{name:'communityMessage',query:{id:property.communityId}}">社区信息</router-link>
@@ -394,6 +396,7 @@ export default {
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.propertyContractList = pageBean.page;
+            console.log(that.propertyContractList);
             that.propertyTotalNum = pageBean.totalNum;
           }
           if(res.data.code == 10008){

@@ -10,7 +10,6 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>活动详情</h3>
-		          <span>佳兆业航运WEWA空间</span>
 		        </div>
 		    	<div id="lookactivity">
 		    		<table class="looks" v-if="Userlist">
@@ -68,8 +67,8 @@
 		    		</table>
 					<h3 class="zhts">活动状态:<span>{{Userlist.activityStatus | Status3}}</span></h3>
 		    		<p></p>
-		    		<h3>领取记录</h3>
-		    		<table class="lqjv">
+		    		<h3 v-if="couplist != null ">领取记录</h3>
+		    		<table class="lqjv" v-if="couplist != null ">
 		    			<thead>
 		    				<td>序号</td>
 		    				<td>手机号</td>
@@ -89,7 +88,7 @@
 							<td v-else>--</td>
 		    			</tr>
 		    		</table>
-					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum>
+					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum v-if="couplist != null ">
 					</el-pagination>
 					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus =='0' || Userlist.activityStatus =='1' && jurisdiction('ACTIVITY_UPDATE')">推送优惠券</router-link>
 		    	</div> 

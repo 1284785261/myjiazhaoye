@@ -34,7 +34,7 @@
               <div class="order-detail-wrap-head-btn" @click="openBankModal()" v-if="contractDetailData.contractState == 7">
                 查看银行账户信息
               </div>
-               <div class="order-detail-wrap-head-btn" @click='Preview'>预览/打印</div>
+               <a class="order-detail-wrap-head-btn" @click='Preview'>预览/打印</a>
               <!--<div class="order-detail-wrap-head-btn" @click="PreViewContract = true">-->
                 <!--预览合同-->
               <!--</div>-->
@@ -44,12 +44,8 @@
               <!-- <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 1">
                 修改合同
               </div> -->
-              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 9 || contractDetailData.contractState == 6">
-                查看退租详情
-              </div>
-              <div class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 5">
-                查看退租申请
-              </div>
+              <router-link :to="{path:'/signed/surredendetal',query:{id:contractDetailData.throwLeaseId,Name:contractDetailData.communityName}}" class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 9 || contractDetailData.contractState == 6">查看退租详情</router-link>
+              <router-link :to="{path:'/signed/affirmsurrend',query:{id:contractDetailData.throwLeaseId,Name:contractDetailData.communityName}}" class="order-detail-wrap-head-btn" v-if="contractDetailData.contractState == 5">查看退租申请</router-link>
               <div class="right-content-info">
                 <h3 v-if="contractDetailData.contractState == 1">待确认</h3><!--修改合同,预览合同-->
                 <h3 v-else-if="contractDetailData.contractState == 2" style="color: rgb(255,102,18)">待付款</h3>
@@ -175,7 +171,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">2017-09-21</td>
+                      <td class="td2">{{contractDetailData.refundTime | time}}</td>
                     </tr>
                   </table>
                 </td>
@@ -185,7 +181,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">工作调动</td>
+                      <td class="td2">{{contractDetailData.refundInfo}}</td>
                     </tr>
                   </table>
                 </td>
@@ -333,6 +329,7 @@
       getContractDetail(data){
         let that = this;
         this.$http.get(contractDetai,{params:data}).then(function(res){
+          console.log(res);
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
               var arr = [];
@@ -387,6 +384,9 @@
         if(value){
           return new Date(value).Format(format)
         }
+      },
+      time(value){
+        return new Date(value).Format('yyyy-MM-dd');
       }
     },
   }

@@ -189,7 +189,7 @@
     		handle(){
     			let param = new FormData();
     			let pageNum = this.pageNum;
-    			if(this.State != '' && this.State != -1){
+    			if((this.State && this.State != -1) || this.State == 0){
     				param.append('refundStatus',this.State);
     			}
     			if(this.start != ''){

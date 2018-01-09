@@ -42,11 +42,11 @@
                     </tr>
                     <tr>
                       <td><span>会员手机 :</span><span>{{userData.userPhone}}</span></td>
-                      <td><span>会员年龄 :</span><span>{{userData.userBirthday}}岁</span></td>
+                      <td><span>会员年龄 :</span><span>{{userData.createtime | times}}</span></td>
                     </tr>
                     <tr>
                       <td><span>会员邮箱 :</span><span>{{userData.userEMail}}</span></td>
-                      <td><span>会员身份证 :</span><span>{{userData.userIdCard}}</span></td>
+                      <td><span>会员身份证 :</span><span>{{userData.userCertificate}}</span></td>
                     </tr>
                   </table>
                 </div>
@@ -106,6 +106,7 @@
       getUserInfo(params){
           var vm  = this;
         this.$http.post(eemberInformation,qs.stringify(params)).then(function(res){
+          console.log(res);
           if(res.status == 200 && res.data.code == 10000){
             vm.userData = res.data.entity;
             // console.log(vm.userData.cxkjContractSign)
@@ -134,6 +135,29 @@
       timefilter(value,format){
         if(value){
           return new Date(value).Format(format)
+        }
+      },
+      times(value){
+        if(value){
+          var myDate = new Date();
+          var myDate2 = new Date(value);
+          let date1 = new Date(myDate).Format("yyyy-MM-dd");
+          let date2 = new Date(value).Format("yyyy-MM-dd");
+          date1 = date1.split('-');
+          date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+          date2 = date2.split('-');
+          date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+          console.log(date1);
+          console.log(date2);
+          var timesu = parseInt(myDate.getFullYear()) - parseInt(myDate2.getFullYear()) - 1;
+          if(timesu > 0){
+            return timesu + '年';
+          }
+          else{
+            return Math.abs(date1 - date2) + '个月';
+          }
+         
+          
         }
       }
     },

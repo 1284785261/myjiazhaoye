@@ -14,7 +14,7 @@
 		        <div class="message-tis industry">
                     <div class="form-search">
                         <i class="iconfont icon-sousuo"></i>
-                        <Input v-model="vague" placeholder="搜索投诉人或联系电话"></Input>
+                        <Input v-model="vague" placeholder="搜索申请人或联系电话"></Input>
                         <input type="button" value="搜索" @click="btns">
                     </div>
 		        	<table>
@@ -31,16 +31,19 @@
                         </thead>
                         <tr v-for="(item,index) in Datas">
                             <td>{{index+1}}</td>
-                            <td>{{item.companyName}}</td>
+                            <td v-if="item.companyName">{{item.companyName}}</td>
+							<td v-else>--</td>
                             <td>{{item.communityName}}</td>
                             <td>{{item.userName}}</td>
-                            <td>{{item.manangerName}}</td>
+                            <td v-if="item.manangerName">{{item.manangerName}}</td>
+							<td v-else>--</td>
                             <td>{{item.userPhone}}</td>
                             <td>{{item.createTime | time}}</td>
                             <td v-if="item.status == 0" style="color:#ff1212;">{{item.status | status}}</td>
 							<td v-else-if="item.status == 1" style="color:#1fbba6;">{{item.status | status}}</td>
 							<td v-else-if="item.status == 2" style="color:#ff6612;">{{item.status | status}}</td>
-                            <td>{{item.remark}}</td>
+                            <td v-if="item.remark">{{item.remark}}</td>
+							<td v-else>--</td>
 
                         </tr>
                     </table>
@@ -179,7 +182,7 @@
 				border: none;
 				position: relative;
 				left: -5px;
-				top: 2px;
+				top: 1px;
 			}
 		}
 </style>

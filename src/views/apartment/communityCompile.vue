@@ -63,7 +63,7 @@
                 <div class="form-item">
                 	<!--<Date-picker type="month" placeholder="选择月" style="width: 200px"></Date-picker>-->
                 	<!--<Date-picker type="datetime" format="dd" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker>-->
-                  <Date-picker type="date" placeholder="选择日期" v-model="communityOpeningDate"></Date-picker>
+                  <Date-picker type="date" placeholder="选择开业日期" v-model="communityOpeningDate"></Date-picker>
                 </div>
               </td>
             </tr>
@@ -94,6 +94,26 @@
                 <span class="inline-block spanBar">-</span>
                 <Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="communityFreeLeaseEnd"></Date-picker>
               </td>
+            </tr>
+            <tr>
+              <td>物业合同签约日期：</td>
+              <td>
+                <div class="form-item">
+                  <Date-picker type="date" placeholder="选择签约日期" v-model="propertySignDate"></Date-picker>
+                </div>
+                </td>
+            </tr>
+            <tr>
+              <td>业主姓名：</td>
+              <td><input type="text" placeholder="请输入业主姓名" class="complie_name3" v-model="propertyContactName" maxlength="20"></td>
+            </tr>
+            <tr>
+              <td>业主联系电话：</td>
+              <td><input type="text" placeholder="请输入业主联系电话" class="complie_name3" v-model="propertyContactPhone" maxlength="20"></td>
+            </tr>
+            <tr>
+              <td>社区月租金：</td>
+              <td><input type="text" placeholder="请输入社区月租金" class="complie_name3" v-model="propertyRent" maxlength="20"></td>
             </tr>
             <tr>
               <td valign="top" style="line-height: 30px;">
@@ -189,6 +209,10 @@
         communityFreeLeaseBegin: null, //免租期开始时间
         communityFreeLeaseEnd: null, //免租期结束时间
         communityContract: '', //物业合同
+        propertySignDate:'',
+        propertyContactName:'',
+        propertyContactPhone:'',
+        propertyRent:'',
         communityId:'',
         communityLatitude:null,
         communityLongitude:null,
@@ -331,6 +355,7 @@
         this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
         this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
         this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
+        this.propertySignDate = new Date(this.propertySignDate).Format('yyyy-MM-dd');
         param.append("communityName", vm.communityName);
         param.append("communityProvince", vm.areaId);
         param.append("communityCity", vm.parentId);
@@ -345,6 +370,10 @@
         param.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
         param.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
         param.append('communityContract',vm.communityContract);
+        param.append('propertySignDate',vm.propertySignDate);
+        param.append('propertyContactName',vm.propertyContactName);
+        param.append('propertyContactPhone',vm.propertyContactPhone);
+        param.append('propertyRent',vm.propertyRent);
         if(vm.coordinate){
           vm.communityLongitude = vm.coordinate.substring(0,vm.coordinate.indexOf(","));
           vm.communityLatitude = vm.coordinate.substring(vm.coordinate.indexOf(",")+1);
@@ -408,6 +437,7 @@
           this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
           this.communityFreeLeaseBegin = new Date(this.communityFreeLeaseBegin).Format('yyyy-MM-dd');
           this.communityFreeLeaseEnd = new Date(this.communityFreeLeaseEnd).Format('yyyy-MM-dd');
+          this.propertySignDate = new Date(this.propertySignDate).Format('yyyy-MM-dd');
           param2.append("communityId",vm.communityId);
           param2.append("communityName", vm.communityName);
           param2.append("communityProvince", vm.areaId);
@@ -422,7 +452,11 @@
           param2.append("communityLeaseEnd", vm.communityLeaseEnd);
           param2.append("communityFreeLeaseBegin", vm.communityFreeLeaseBegin);
           param2.append("communityFreeLeaseEnd", vm.communityFreeLeaseEnd);
-          param2.append('communityContract',vm.communityContract)
+          param2.append('communityContract',vm.communityContract);
+          param2.append('propertySignDate',vm.propertySignDate);
+          param2.append('propertyContactName',vm.propertyContactName);
+          param2.append('propertyContactPhone',vm.propertyContactPhone);
+          param2.append('propertyRent',vm.propertyRent);
           if(vm.coordinate){
             vm.communityLongitude = vm.coordinate.substring(0,vm.coordinate.indexOf(","));
             vm.communityLatitude = vm.coordinate.substring(vm.coordinate.indexOf(",")+1);
@@ -463,7 +497,7 @@
 
       },
       openMap(){
-        window.open("http://api.map.baidu.com/lbsapi/getpoint/index.html","_blank","width=400,height=500,,scrollbars=no,location=no,top=300,left=400");
+        window.open("http://api.map.baidu.com/lbsapi/getpoint/index.html","_blank","width=600,height=500,,scrollbars=no,location=no,top=300,left=400");
       },
       closeWarningModal() {
         this.warningModal = false;

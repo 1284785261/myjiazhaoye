@@ -10,7 +10,7 @@
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>确认退租</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<span v-if="Name">{{Name}}</span>
 				</div>
 				<div id="addirmsurrend" v-if="ThrowLease.isOffice == 0">
 					<div class="addirmsurrend1">
@@ -245,11 +245,13 @@
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				refundableMaterialsInfo: [],
-				refundableOtherInfo: []
+				refundableOtherInfo: [],
+				Name:''
 			}
 		},
 		mounted() {
 			this.throwLeaseId = this.$route.query.id;
+			this.Name = this.$route.query.Name;
 			this.datas();
 			if(this.ThrowLease.isOffice == 1 ){
 				this.ishide = true;
