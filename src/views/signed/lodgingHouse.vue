@@ -1117,23 +1117,24 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
+						 console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.costInfo = response.data.result;
 							this.contract = this.costInfo.contractNumber;
 							this.serve = this.costInfo.costInfo.serviceCost;
 							this.options3 = this.costInfo.paywayList;
+							console.log(this.options3);
 							for(let i = 0; i < vm.options3.length; i++) {
 								if(this.options3[i].data_id == '1') {
 									vm.options3[i].name = '押二付一';
 								}
-								if(this.options3[i].data_id == 2) {
+								else if(this.options3[i].data_id == '2') {
 									vm.options3[i].name = '押一付一';
 								}
-								if(this.options3[i].data_id == 3) {
+								else if(this.options3[i].data_id == '3') {
 									vm.options3[i].name = '季付';
 								}
-								if(this.options3[i].data_id == 4) {
+								else if(this.options3[i].data_id == '4') {
 									vm.options3[i].name = '年付';
 								}
 							}
@@ -1198,8 +1199,28 @@
 				// console.log(this.tableRepairs2);
 			},
 			way(val) {
-				this.discount = this.options3[this.options3.findIndex(item => item.name == val)].discount;
-				this.cyclePayType = this.options3[this.options3.findIndex(item => item.name == val)].data_id;
+				let vm = this
+				let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
+				let date2 = new Date(this.expire).Format("yyyy-MM-dd");
+				date1 = date1.split('-');
+				date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+				date2 = date2.split('-');
+				date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+				if(Math.abs(date2 - date1) < 3 && val  == '季付'){
+					vm.warningModal = true;
+					vm.warningMessage = '签约方式选择季付或年付，租期不能小于三个月或者一年';
+					vm.value2 = this.options3[0].name;
+				}
+				else if(Math.abs(date2 - date1) < 12 && val  == '年付'){
+					vm.warningModal = true;
+					vm.warningMessage = '签约方式选择季付或年付，租期不能小于三个月或者一年';
+					vm.value2 = this.options3[0].name;
+				}
+				else{
+					this.discount = this.options3[this.options3.findIndex(item => item.name == val)].discount;
+					this.cyclePayType = this.options3[this.options3.findIndex(item => item.name == val)].data_id;
+				}
+				
 
 			},
 			save() {

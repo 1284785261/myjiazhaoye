@@ -193,8 +193,8 @@
     				param.append('refundStatus',this.State);
     			}
     			if(this.start != ''){
-    				this.start = new Date(this.start).Format('yyyy-MM-dd');
-    				param.append('startDate',this.start);
+    				let start = new Date(this.start).Format('yyyy-MM-dd');
+    				param.append('startDate',start);
     			}
     			if(this.over != ''){
     				this.over = new Date(this.over).Format('yyyy-MM-dd');

@@ -61,8 +61,8 @@
                   <td>
                     <span v-if="station.orderState == 1">待支付</span>
                     <span v-if="station.orderState == 2" style="color: #ccc;">已支付</span>
-                    <span v-if="station.orderState == 3" style="color: green;">已使用</span>
-                    <span v-if="station.orderState == 4" >已取消</span>
+                    <span v-if="station.orderState == 3" style="color: green;">未使用</span>
+                    <span v-if="station.orderState == 4" >已使用</span>
                   </td>
                   <td><router-link :to="{name:'orderDetail',query:{id:station.officeOrderId,type:station.type}}">查看详情</router-link></td>
                 </tr>
@@ -124,8 +124,8 @@
                   <td>
                     <span v-if="office.orderState == 1">待支付</span>
                     <span v-if="office.orderState == 2" style="color: #ccc;">已支付</span>
-                    <span v-if="office.orderState == 3" style="color: green;">已使用</span>
-                    <span v-if="office.orderState == 4" >已取消</span>
+                    <span v-if="office.orderState == 3" style="color: green;">未使用</span>
+                    <span v-if="office.orderState == 4" >已使用</span>
                   </td>
                   <td><router-link :to="{name:'orderDetail',query:{id:office.officeOrderId,type:office.type}}">查看详情</router-link></td>
                 </tr>

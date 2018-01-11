@@ -140,17 +140,15 @@
                     <span v-else-if="detailData.payType == 4">其他方式</span>
                   </td>
                 </tr>
-                <tr v-if="detailData.orderState != 1">
-                  <td>优惠券 :</td>
-                  <td>暂无</td>
-                </tr>
+      
                 <tr v-if="detailData.orderState != 1">
                   <td>实付 :</td>
                   <td style="color: red;font-size: 20px;">{{detailData.payMoney}}元</td>
                 </tr>
-                <tr v-if="detailData.orderState == 4">
-                  <td>使用时间 :</td>
-                  <td>2017-07-01 14:33:59</td>
+                
+                <tr>
+                  <td>给管家的留言 :</td>
+                  <td>{{detailData.message}}</td>
                 </tr>
               </table>
             </li>

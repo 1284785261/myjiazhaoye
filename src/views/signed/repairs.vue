@@ -241,8 +241,8 @@
 		    		param.append('endtime',this.over);
 		    	}
 		    	if(this.start){
-		    		this.start = new Date(this.start).Format('yyyy-MM-dd');
-		    		param.append('starttime',this.start);
+		    		let start = new Date(this.start).Format('yyyy-MM-dd');
+		    		param.append('starttime',start);
 		    	}
 		    	if(this.keyWord){
 		    		param.append('keyWord',this.keyWord);

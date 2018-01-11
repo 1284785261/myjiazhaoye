@@ -188,8 +188,8 @@
 					param.append("refundStatus", this.refundStatus);
 				}
 				if(this.startDate) {
-					this.startDate = new Date(this.startDate).Format('yyyy-MM-dd');
-					param.append("startDate", this.startDate);
+					let startDate = new Date(this.startDate).Format('yyyy-MM-dd');
+					param.append("startDate", startDate);
 				}
 				if(this.endDate) {
 					this.endDate = new Date(this.endDate).Format('yyyy-MM-dd');

@@ -281,8 +281,8 @@
 				let vm = this;
 				let param = new FormData();
 				if(this.communityLeaseBegin) {
-					this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
-					param.append("startDate", this.communityLeaseBegin);
+					let communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
+					param.append("startDate", communityLeaseBegin);
 				}
 				if(this.communityLeaseEnd) {
 					this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');

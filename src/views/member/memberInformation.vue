@@ -147,8 +147,6 @@
           date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
           date2 = date2.split('-');
           date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
-          console.log(date1);
-          console.log(date2);
           var timesu = parseInt(myDate.getFullYear()) - parseInt(myDate2.getFullYear()) - 1;
           if(timesu > 0){
             return timesu + '年';

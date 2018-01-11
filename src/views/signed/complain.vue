@@ -201,8 +201,8 @@
 		    		param.append('endDate',this.over);
 		    	}
 		    	if(this.start){
-		    		this.start = new Date(this.start).Format('yyyy-MM-dd');
-		    		param.append('beginDate',this.start);
+		    		let start = new Date(this.start).Format('yyyy-MM-dd');
+		    		param.append('beginDate',start);
 		    	}
 		    	if(this.keyWord){
 		    		param.append('keyWord',this.keyWord);

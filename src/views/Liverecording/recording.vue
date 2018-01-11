@@ -100,8 +100,8 @@
 				let param = new FormData();
 				let vm = this;
 				if(this.start != ''){
-					this.start = new Date(this.start).Format('yyyy-MM-dd hh:mm');
-					param.append('beginTimeParam',this.start);
+					let start = new Date(this.start).Format('yyyy-MM-dd hh:mm');
+					param.append('beginTimeParam',start);
 				}
 				if(this.over != ''){
 					this.over = new Date(this.over).Format('yyyy-MM-dd hh:mm');
