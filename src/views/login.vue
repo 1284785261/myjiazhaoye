@@ -39,7 +39,8 @@
           </Form-item>
         </Form>
       </div>
-      <span style="position: absolute;left: 358px;bottom: 27px;color:#fff;" @click="open3">版本号：{{pcVersion}}</span>
+        <!--@click="open3"-->
+      <span style="position: absolute;left: 358px;bottom: 27px;color:#fff;" >版本号：{{pcVersion}}</span>
         <!--<el-button type="text" @click="open3">版本号：{{pcVersion}}</el-button>-->
       <p class="Copy">Copyright © 2017 佳兆业创享空间科技（深圳）有限公司版权所有 粤ICP备16035093号</p>
     </div>
@@ -51,6 +52,7 @@
 
 import {hostlogin,pcVersion} from './api.js';
 import qs from 'qs';
+
 
 
   export default {
@@ -82,34 +84,34 @@ import qs from 'qs';
       modelShow(){
 
       },
-      open3() {
-        this.$prompt('请输入口令', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-//          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-//          inputErrorMessage: '邮箱格式不正确'
-        }).then(({ value }) => {
-          if(value == 527){
-            this.$message({
-              type: 'success',
-              message: '进入测试版'
-            });
-            sessionStorage.setItem('urlType','测试')
-            window.location.reload();
-          }else {
-            this.$message({
-              type: 'info',
-              message: '口令错误'
-            });
-          }
-
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
-        });
-      },
+//      open3() {
+//        this.$prompt('请输入口令', '提示', {
+//          confirmButtonText: '确定',
+//          cancelButtonText: '取消'
+////          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+////          inputErrorMessage: '邮箱格式不正确'
+//        }).then(({ value }) => {
+//          if(value == 527){
+//            this.$message({
+//              type: 'success',
+//              message: '进入测试版'
+//            });
+//            sessionStorage.setItem('urlType','测试')
+//            window.location.reload();
+//          }else {
+//            this.$message({
+//              type: 'info',
+//              message: '口令错误'
+//            });
+//          }
+//
+//        }).catch(() => {
+//          this.$message({
+//            type: 'info',
+//            message: '取消输入'
+//          });
+//        });
+//      },
       handleSubmit:function() {
       	var that = this;
       	this.$http.post(hostlogin,
