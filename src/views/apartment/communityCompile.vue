@@ -122,13 +122,13 @@
               <td class="bargain">
                 <!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
                 <!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-                <el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview"  on-exceed="handle" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' >
+                <el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' >
                   <el-button size="small" type="primary" style="font-size: 14px;color: #8fa6bf;">点击上传</el-button>
                   <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传pdf/png文件</div>
                 </el-upload>
-                  <ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
-                      <li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;">查看</li>
-                  </ul>
+								<ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
+									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;">查看</li>
+								</ul>
               </td>
             </tr>
           </table>
@@ -248,7 +248,7 @@
 	    },
     	openItem(item){
     		 window.open(imgPath+item,"","width=600,height=600");
-
+		    
     	},
       befor(){
         let vm = this
@@ -317,9 +317,6 @@
           this.pdfName.remove(file.response.result.virtualPath);
           // console.log(this.pdfName);
         }
-      },
-      handle(){
-
       },
       success(response) { //上传文件成功
         if(response.code == 10000) {
