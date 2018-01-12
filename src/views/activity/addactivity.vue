@@ -34,6 +34,10 @@
 								</Date-picker> -- <Date-picker type="date" :options="option1" placeholder="请选择结束时间" v-model="Activity.endDate"></Date-picker>
 							</td>
 						</tr>
+						<tr class="scope">
+							<td>适用范围：</td>
+							<td><span>7</span><a @click="scope">选择适用范围</a></td>
+						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
 							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="100"></textarea></td>
@@ -83,8 +87,21 @@
 			</div>
 			<footer-box></footer-box>
 		</div>
+		<div class="community-house-modal" v-if="formula" @click="formulas()"></div>
+		<div v-if="formula">
+			<div>
+				<p>选择适用范围</p>
+			</div>
+			<div>
+				<!-- <Checkbox v-model="singdng" @click.prevent.native="handleCheckAll(item,index)"><span>全部</span></Checkbox> -->
+				<ul>
+					<!-- <li><Checkbox v-model="sing" @on-change="checkAllGroupChange(item,inde)"><span></span></Checkbox></li> -->
+				</ul>
+			</div>
+		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
+		
 	</div>
 </template>
 
@@ -157,6 +174,8 @@
 						return date && date.valueOf() < _this.Activity.beginRegisterTime;
 					}
 				},
+				singdng:false,
+				formula:false
 			}
 		},
 		mounted() {
@@ -213,6 +232,9 @@
 			actives(value) {
 				this.Activity.activityType = this.options[this.options.findIndex(item => item.dataName == value)].id;
 				// console.log(this.Activity);
+			},
+			scope(){
+				this.formula = true;
 			},
 			activit() {
 				let vm = this

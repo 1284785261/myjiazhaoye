@@ -127,16 +127,22 @@
 
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="min-height:330px;">
+					<div class="modular-box" style="min-height:380px;">
 						<h3><i class="icon icon-info"></i>我的消息</h3>
-						<ul class="info-list">
-							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
-								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link><span class="date">{{myInfo.createtime | time}}</span></li>
+						<ul class="info-list" v-if="myInfos != []">
+							<li v-for="myInfo in myInfos"> 
+								<span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
+								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link>
+								<span class="date">{{myInfo.createtime | time}}</span>
+							</li>
 						</ul>
+						<div class="muvs" v-else>
+							<img src="../../../static/images/temp/ms_06.png" />
+						</div>
 					</div>
 					</Col>
 					<Col span="12">
-					<div class="modular-box" style="min-height:330px;">
+					<div class="modular-box" style="min-height:380px;">
 						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
 							<li v-if="remains.appointmentCount != 0">
@@ -161,7 +167,7 @@
 								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.beginHour">
-								<router-link to="/Liverecording/recording">今日直播时间<span><span>{{remains.beginHour}}</span></span>
+								<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.complaintCount != 0">
 								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
@@ -331,7 +337,7 @@
 							communityId: Model
 						})
 					).then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
@@ -360,7 +366,7 @@
 				let Model = sessionStorage.getItem('communityId');
 				// console.log(Model);
 				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
-						console.log(response);
+						//console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.cityList = response.data.result.communityList;
 							if(Model) {
@@ -393,7 +399,8 @@
 
 				axios.post(hostPcMessage,
 					qs.stringify({
-						pageSize:5
+						pageSize:5,
+						userType:1
 					})
 				).then((res)=>{
 					//console.log(res);

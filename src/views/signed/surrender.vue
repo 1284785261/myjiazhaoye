@@ -55,7 +55,8 @@
 								<td>{{item.userName}}</td>
 								<td>{{item.userPhone}}</td>
 								<td>{{item.beginDate | times}}-{{item.endDate | times}}</td>
-								<td style="color: red;">{{item.surplusDay}}天</td>
+								<td style="color: red;" v-if="item.surplusDay > 0">{{item.surplusDay}}天</td>
+								<td v-else>--</td>
 								<td>{{item.cyclePayMoney | Money}} 已付{{item.payStage}}/{{item.stage}}</td>
 								<td :class="[{'kust':item.refundStatus == 0},{'kust1':item.refundStatus == 2}]">{{item.refundStatus | Status}}</td>
 								<td>

@@ -149,6 +149,16 @@
 							<div class="clear"></div>
 
 						</div>
+						<div class="formulasb" v-if="formula">
+							<h3>计算方式</h3>
+							<div>
+								<p v-if ="this.deposit != 0">押金：{{deposit}}元</p>
+								<p>房费：{{roommonry}}元 = {{roommonryg}}</p>
+								<p>服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+								<p>其他费用：{{cyclePayOtherCost}}元</p>
+								<p>合计：{{firstmoney}}</p>
+							</div>
+						</div>
 					</div>
 					<div class="ivu-floor loadin5">
 						<table>
@@ -416,6 +426,13 @@
 						return date && date.valueOf() <= _this.onhrie;
 					}
 				},
+				formula:false,
+				deposit:0,
+				roommonryg:'',
+				fwmonryg:'',
+				roommonry:'',
+				fwmonry:'',
+				cyclePayOtherCost:0
 			}
 		},
 		mounted() {
@@ -461,11 +478,14 @@
 						// console.log(days);
 						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+						this.roommonry = parseFloat(fy).toFixed(2);
+						this.fwmonry = parseFloat(fw).toFixed(2);
 						for(let i = 0; i < this.tableRepairs.length; i++) {
 							if(parseInt(this.tableRepairs[i].date) > 0) {
-								q += parseFloat(this.tableRepairs[i].date).toFixed(4);
+								q += parseFloat(this.tableRepairs[i].date);
 							}
 						}
+						this.cyclePayOtherCost = q;
 						return(vm.housetderta.roomRent * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
 					
@@ -473,31 +493,40 @@
 					let q = 0;
 					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+					this.roommonry = parseFloat(fy).toFixed(2);
+					this.fwmonry = parseFloat(fw).toFixed(2);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date).toFixed(4);
+							q += parseFloat(this.tableRepairs[i].date);
 						}
 					}
+					this.cyclePayOtherCost = q;
 					return(vm.housetderta.roomRent * 1 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '季付') {
 					let q = 0;
 					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+					this.roommonry = parseFloat(fy).toFixed(2);
+					this.fwmonry = parseFloat(fw).toFixed(2);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date).toFixed(4);
+							q += parseFloat(this.tableRepairs[i].date);
 						}
 					}
+					this.cyclePayOtherCost = q;
 					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				} else if(this.value2 == '年付') {
 					let q = 0;
 					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
 					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
+					this.roommonry = parseFloat(fy).toFixed(2);
+					this.fwmonry = parseFloat(fw).toFixed(2);
 					for(let i = 0; i < this.tableRepairs.length; i++) {
 						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseInt(this.tableRepairs[i].date).toFixed(4);
+							q += parseFloat(this.tableRepairs[i].date);
 						}
 					}
+					this.cyclePayOtherCost = q;
 					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 11 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				}
 			},
@@ -701,6 +730,7 @@
 			},
 			way(val) {
 				let vm = this
+				this.formula = true;
 				let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
 				let date2 = new Date(this.expire).Format("yyyy-MM-dd");
 				date1 = date1.split('-');
@@ -721,6 +751,38 @@
 					this.discount = this.options3[this.options3.findIndex(item => item.name == val)].discount;
 					this.cyclePayType = this.options3[this.options3.findIndex(item => item.name == val)].data_id;
 				}
+
+				if(val == '押二付一'){
+					this.deposit = parseInt(this.housetderta.roomRent) * 2;
+				}else if(val == '押一付一'){
+					this.deposit = parseInt(this.housetderta.roomRent);
+				}else if(val == '季付'){
+					this.deposit = 0;
+				}else if(val == '年付'){
+					this.deposit = 0;
+				}
+				var date = new Date();
+				//获取年份
+				var year = date.getFullYear();
+				//获取当前月份
+				var mouth = date.getMonth() + 1;
+				var daym = date.getDate() - 1;
+				//定义当月的天数；
+				var days;
+				//当月份为二月时，根据闰年还是非闰年判断天数
+				if (mouth == 2) {
+					days = year % 4 == 0 ? 29 : 28;
+				}
+				else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
+					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+					days = 31;
+				}
+				else {
+					//其他月份，天数为：30.
+					days = 30;
+        		}
+				this.roommonryg = this.housetderta.roomRent+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.discount+'%折扣';
+				this.fwmonryg = this.serve+'/'+days +'*('+days+'-'+daym+')天';
 			},
 			apart(index) {
 				this.activ = index;
@@ -909,14 +971,25 @@
     }
   }
   .ivu-icon-ios-calendar-outline {
-			color: #038be2;
-			font-family: "iconfont" !important;
-			font-size: 18px;
-			font-style: normal;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-			&:before {
-				content: "\e60c";
-			}
+		color: #038be2;
+		font-family: "iconfont" !important;
+		font-size: 18px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		&:before {
+			content: "\e60c";
 		}
+	}
+	.formulasb{
+		position: absolute;
+		left:800px;
+		top:5%;
+		h3{
+			line-height: 50px;
+		}
+		p{
+			line-height: 28px;
+		}
+	}
 </style>

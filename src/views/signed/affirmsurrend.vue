@@ -20,7 +20,9 @@
 							<li style="margin-left: 66px;"><span>承租人：{{ThrowLease.userName}}</span></li>
 							<li><span>联系电话：{{ThrowLease.userPhone}}</span></li>
 							<li><span>租期：{{ThrowLease.beginDate | time}} - {{ThrowLease.endDate | time}}</span></li>
-							<li><span style="color: red;">剩余{{ThrowLease.surplusDay}}天</span></li>
+							<li><span style="color: red;" v-if="ThrowLease.surplusDay > 0 ">剩余{{ThrowLease.surplusDay}}天</span>
+								<span style="color: red;" v-else>剩余0天</span>
+							</li>
 							<li><span>合租人数：{{ThrowLease.enterCount}}人</span></li>
 						</ul>
 

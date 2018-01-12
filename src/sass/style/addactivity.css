@@ -44,6 +44,19 @@
 	padding-left: 10px;
 	font-size: 12px;
 }
+#addactivity table .scope span{
+	margin-left: 20px;
+}
+#addactivity table .scope a{
+	width: 200px;
+	height: 30px;
+	border: 1px solid #dcdcdc;
+	text-align: center;
+	line-height: 28px;
+	display: inline-block;
+	border-radius: 10px;
+	margin-left: 30px;
+}
 #addactivity table tr td .mt{
 	border: none;
 	border: 1px solid #DCDCDC;

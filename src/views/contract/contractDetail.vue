@@ -420,6 +420,7 @@
 					//其他月份，天数为：30.
 					days = 30;
         }
+        console.log(this.contractDetailData);
         this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.cyclePayDiscount / 100)).toFixed(2);
         this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.cyclePayDiscount+'%折扣';
         this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
