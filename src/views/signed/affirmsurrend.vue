@@ -45,26 +45,26 @@
 							<h3>退租前水电费结算</h3>
 							<table v-show="alters2 =='编辑'">
 								<tr>
-									<td>水表读数：<span>{{ThrowLease.waterNum}}</span></td>
-									<td>用水量：<span>{{ThrowLease.waterCount}}m³</span></td>
-									<td>水费：<span>{{ThrowLease.waterSumPrice | des}}元</span></td>
+									<td>水表读数：<span>{{ThrowLease.waterNum}} m³</span></td>
+									<td>用水量：<span>{{ThrowLease.waterCount}} m³</span></td>
+									<td>水费：<span>{{ThrowLease.waterSumPrice | des}} 元</span></td>
 								</tr>
 								<tr>
-									<td>电表读数：<span>{{ThrowLease.energyNum}}</span></td>
-									<td>用电量：<span>{{ThrowLease.energyCount}}度</span></td>
-									<td>电费：<span>{{ThrowLease.energySumPrice | des}}元</span></td>
+									<td>电表读数：<span>{{ThrowLease.energyNum}} 度</span></td>
+									<td>用电量：<span>{{ThrowLease.energyCount}} 度</span></td>
+									<td>电费：<span>{{ThrowLease.energySumPrice | des}} 元</span></td>
 								</tr>
 							</table>
 							<table v-show="alters2 =='保存'">
 								<tr>
-									<td>水表读数：<input type="text" v-model="ThrowLease.waterNum"></td>
-									<td>用水量：<input type="text" v-model="ThrowLease.waterCount" @blur="water(ThrowLease.waterCount)">m³</td>
-									<td>水费：<input type="text" v-model="ThrowLease.waterSumPrice">元</td>
+									<td>水表读数：<input type="text" v-model="ThrowLease.waterNum" @blur="waterNum(ThrowLease.waterNum)">m³</td>
+									<td>用水量：<input type="text" v-model="ThrowLease.waterCount" @blur="water(ThrowLease.waterCount)" :disabled='disabled1'>m³</td>
+									<td>水费：<input type="text" v-model="ThrowLease.waterSumPrice" :disabled='disabled1'>元</td>
 								</tr>
 								<tr>
-									<td>电表读数：<input type="text" v-model="ThrowLease.energyNum"></td>
-									<td>用电量：<input type="text" v-model="ThrowLease.energyCount" @blur="energ(ThrowLease.energyCount)">度</td>
-									<td>电费：<input type="text" v-model="ThrowLease.energySumPrice">元</td>
+									<td>电表读数：<input type="text" v-model="ThrowLease.energyNum" @blur="energyNum(ThrowLease.energyNum)">度</td>
+									<td>用电量：<input type="text" v-model="ThrowLease.energyCount" @blur="energ(ThrowLease.energyCount)" :disabled='disabled2'>度</td>
+									<td>电费：<input type="text" v-model="ThrowLease.energySumPrice" :disabled='disabled2'>元</td>
 								</tr>
 							</table>
 							<p>应扣水电费:<span style="color: red;margin-left: 10px;">{{refundableWaterEnergyMoney}}元</span></p>
@@ -246,7 +246,9 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				refundableMaterialsInfo: [],
 				refundableOtherInfo: [],
-				Name:''
+				Name:'',
+				disabled1:true,
+				disabled2:true
 			}
 		},
 		mounted() {
@@ -325,7 +327,6 @@
 					costName: '',
 					costAmount: ''
 				})
-				console.log(this.OtherInfo);
 			},
 			alter1() {
 				this.alters1 = '保存';
@@ -381,6 +382,21 @@
 				}
 
 			},
+			waterNum(val){
+				if(parseInt(val) <= parseInt(this.ThrowLease.roomWater)){
+					this.warningMessage = '水表读数需大于初始值'+ this.ThrowLease.roomWater;
+					this.warningModal = true;
+				}
+				else{
+					this.ThrowLease.waterCount = parseInt(val) - parseInt(this.ThrowLease.roomWater);
+					if(this.ThrowLease.waterChargeModel == 1) {
+						this.ThrowLease.waterSumPrice = this.ThrowLease.waterCount * this.ThrowLease.waterPrice;
+					} else if(this.ThrowLease.waterChargeModel == 2) {
+						this.ThrowLease.waterSumPrice = this.ThrowLease.enterCount * this.ThrowLease.waterPrice;
+					}
+					this.disabled1 = false;
+				}
+			},
 			energ(val) {
 				if(this.ThrowLease.electricChargeModel == 1) {
 					this.ThrowLease.energySumPrice = val * this.ThrowLease.energyPrice;
@@ -388,6 +404,21 @@
 					this.ThrowLease.energySumPrice = this.ThrowLease.enterCount * this.ThrowLease.energyPrice;
 				}
 
+			},
+			energyNum(val){
+				if(parseInt(val) <= parseInt(this.ThrowLease.roomElectric)){
+					this.warningMessage = '电表读数需大于初始值'+ this.ThrowLease.roomElectric;
+					this.warningModal = true;
+				}
+				else{
+					this.ThrowLease.energyCount = parseInt(val) - parseInt(this.ThrowLease.roomElectric);
+					if(this.ThrowLease.electricChargeModel == 1) {
+						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
+					} else if(this.ThrowLease.electricChargeModel == 2) {
+						this.ThrowLease.energySumPrice = this.ThrowLease.enterCount * this.ThrowLease.energyPrice;
+					}
+					this.disabled2 = false;
+				}
 			},
 			promise() {         //公寓确认退租
 				let vm = this

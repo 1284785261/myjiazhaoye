@@ -132,20 +132,22 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">中介公司 :<span v-if="contractDetailData.intermediaryCompany">{{contractDetailData.intermediaryCompany}}</span>
-                      <span>无</span>
+                      <span  v-else>无</span>
                       </td>
                       <td class="td2">中介人 :<span v-if="contractDetailData.intermediaryName">{{contractDetailData.intermediaryName}}</span>
-                      <span>无</span>
+                      <span v-else>无</span>
                       </td>
                       <td class="td2">中介费 :<span style="color: red;" v-if="contractDetailData.intermediaryMoney">{{contractDetailData.intermediaryMoney}}元</span>
-                      <span style="color: red;">0元</span>
+                      <span style="color: red;" v-else>0元</span>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr class="tr1">
-                <td class="td1">首款<br><span v-if="contractDetailData.cyclePayType==1">押二付一</span><span v-else-if="contractDetailData.cyclePayType==2">押一付一</span>，<span v-if="contractDetailData.firstMoneyPayType == 2">两次付清</span><span v-else-if="contractDetailData.firstMoneyPayType == 1">一次性付清</span>:</td>
+                <td class="td1">首款<br>
+                <span v-if="contractDetailData.cyclePayType==1">押二付一</span><span v-else-if="contractDetailData.cyclePayType==2">押一付一</span><span v-else-if="contractDetailData.cyclePayType==3">季付</span><span v-else-if="contractDetailData.cyclePayType==4">年付</span>，
+                <span v-if="contractDetailData.firstMoneyPayType == 2">两次付清</span><span v-else-if="contractDetailData.firstMoneyPayType == 1">一次性付清</span>:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2 span-padding">
@@ -155,13 +157,14 @@
                       <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
                     <tr class="tr2 span-padding" v-if="contractDetailData.otherCostJson && contractDetailData.otherCostJson.length">
-                      <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}:{{item.costAmount}}元</td>
+                      <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}：{{item.costAmount}}元</td>
                       <td class="td2" >其他费用总额 :<span>{{contractDetailData.cyclePayOtherCost}}元</span></td>
                     </tr>
                     <tr class="tr2">
                       <td class="td2" v-if="contractDetailData.firstMoneyPayType == 2">第一次支付 :<span>{{contractDetailData.firstMoney}}元</span></td>
                       <td class="td2" v-if="contractDetailData.firstMoneyPayType == 2">第二次支付 :<span>{{contractDetailData.secondPayMoney}}元</span></td>
                       <td class="td2">合计 :<span style="color: red;">{{contractDetailData.firstPayMoney}}元</span></td>
+                      <td class="td2"><a @click="tm">计算方式</a></td>
                     </tr>
                   </table>
                 </td>
@@ -281,6 +284,19 @@
         <Icon type="ios-close-empty"></Icon>
       </div>
     </div>
+    <div class="community-house-modal" v-if="formula" @click="formulas()"></div>
+    <div class="contract-modal-content formulas" v-if="formula">
+        <h3>计算方式</h3>
+        <div>
+          <p>押金：{{contractDetailData.deposit}}元</p>
+          <p>房费：{{roommonry}}元 = {{roommonryg}}</p>
+          <p>服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+          <p>其他费用：{{contractDetailData.cyclePayOtherCost}}元</p>
+          <p v-for="item in contractDetailData.otherCostJson">{{item.costName}}：{{item.costAmount}}元</p>
+          <p>合计：{{contractDetailData.firstPayMoney}}元</p>
+        </div>
+        <a @click="qud">确定</a>
+    </div>
   </div>
 </template>
 
@@ -312,9 +328,14 @@
         contractDetailData:{},
         bankModal:false,
         preView:false,
+        formula:false,
         preViewSrc:"",
         PreViewContract:false,//预览合同
-        PdfDocmentUpload200173:''
+        PdfDocmentUpload200173:'',
+        roommonry:'',
+        fwmonry:'',
+        roommonryg:'',
+        fwmonryg:''
       }
     },
     methods:{
@@ -377,6 +398,39 @@
         }else{
           this.preViewSrc = this.contractDetailData.credentialsImages[0].filePath;
         }
+      },
+      tm(){
+        var date = new Date();
+				//获取年份
+				var year = date.getFullYear();
+				//获取当前月份
+				var mouth = date.getMonth() + 1;
+				var daym = date.getDate() - 1;
+				//定义当月的天数；
+				var days;
+				//当月份为二月时，根据闰年还是非闰年判断天数
+				if (mouth == 2) {
+					days = year % 4 == 0 ? 29 : 28;
+				}
+				else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
+					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+					days = 31;
+				}
+				else {
+					//其他月份，天数为：30.
+					days = 30;
+        }
+        this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.cyclePayDiscount / 100)).toFixed(2);
+        this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.cyclePayDiscount+'%折扣';
+        this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
+        this.fwmonryg = this.contractDetailData.serviceCost+'/'+days +'*('+days+'-'+daym+')天';
+        this.formula = true;
+      },
+      qud(){
+        this.formula = false;
+      },
+      formulas(){
+        this.formula = false;
       }
     },
     filters:{
@@ -676,6 +730,29 @@
       right: -80px;
       top: 250px;
       cursor: pointer;
+    }
+  }
+  .formulas{
+    h3{
+      text-align: center;
+      line-height: 50px;
+    }
+    p{
+      margin-left: 20%;
+      line-height: 28px;
+    }
+    a{
+      display: inline-block;
+      width: 128px;
+      height: 36px;
+      border: 1px solid rgb(53,154,240);
+      text-align: center;
+      line-height: 34px;
+      border-radius: 5px;
+      position: absolute;
+      left:50%;
+      bottom: 5%;
+      transform: translate(-50%,0);
     }
   }
 

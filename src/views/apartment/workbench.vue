@@ -3,7 +3,7 @@
 		<menu-box></menu-box>
 		<div class="right-content" id="rightwork">
 			<right-header></right-header>
-			<div class="wordbench-box" style="min-height:1020px;">
+			<div class="wordbench-box woram">
 				<div class="main-home">
 					<div class="home-item">
 						<!--<h3>{{user.name}}<span>{{user.quanxian | quanxian}}</span></h3>-->
@@ -14,7 +14,7 @@
 					<ul class="list-data">
 						<li v-for="data in datas" :class="data.classD">
 							<span class="title">{{data.title}}</span>
-							<span class="num"><em>￥</em>{{data.num}}</span>
+							<span class="num"><em>{{data.prc}}</em>{{data.num}}</span>
 						</li>
 					</ul>
 				</div>
@@ -22,7 +22,7 @@
 					<Col span="12">
 					<div class="modular-box" style="min-height:430px;">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
-						<ul class="apartment-list workbens">
+						<ul class="apartment-list workbens" v-if="show1">
 							<li>
 								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
 								<a @click="eliminat(5,0)">看房预约</a>
@@ -74,7 +74,7 @@
 					<Col span="12">
 					<div class="modular-box" style="min-height:430px;">
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
-						<ul class="apartment-list workbens">
+						<ul class="apartment-list workbens" v-if="show2">
 							<li>
 								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
 								<a @click="eliminat(5,1)">看房预约</a>
@@ -127,7 +127,7 @@
 
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="height:330px;">
+					<div class="modular-box" style="min-height:330px;">
 						<h3><i class="icon icon-info"></i>我的消息</h3>
 						<ul class="info-list">
 							<li v-for="myInfo in myInfos"> <span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
@@ -136,7 +136,7 @@
 					</div>
 					</Col>
 					<Col span="12">
-					<div class="modular-box" style="height:330px;">
+					<div class="modular-box" style="min-height:330px;">
 						<h3><i class="icon icon-info"></i>今日待办</h3>
 						<ul class="remain-list" v-if="remains != null">
 							<li v-if="remains.appointmentCount != 0">
@@ -160,8 +160,8 @@
 							<li v-if="remains.expireCount != 0">
 								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li>
-								<router-link to="/Liverecording/recording">今日直播时间<span><span>18:00-19:00</span></span>
+							<li v-if="remains.beginHour">
+								<router-link to="/Liverecording/recording">今日直播时间<span><span>{{remains.beginHour}}</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.complaintCount != 0">
 								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
@@ -202,11 +202,13 @@
 				datas: [{
 					classD: "backOrange",
 					title: "昨日收款",
-					num: ""
+					num: "",
+					prc:'￥'
 				}, {
 					classD: "backGreen",
 					title: "待收账单",
-					num: ""
+					num: "",
+					prc:'￥'
 				}, {
 					classD: "backBlue",
 					title: "昨日业绩",
@@ -563,7 +565,8 @@
 		margin-left: 240px;
 	    position: relative;
 	    padding-bottom: 160px;
-	    height: 100%;
+		height: 100%;
+		background-color: #f0f0f0!important;
 	}
 	.workbens li{
 		position: relative;
@@ -575,5 +578,9 @@
 	}
 	.workbens .ivu-badge .ivu-badge-count{
 		padding: 0;
+	}
+	.woram{
+		min-height:1020px;
+		background-color: #f0f0f0;
 	}
 </style>
