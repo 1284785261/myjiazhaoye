@@ -11,8 +11,8 @@
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>活动详情</h3>
 		        </div>
-		    	<div id="lookactivity">
-		    		<table class="looks" v-if="Userlist">
+		    	<div id="lookactivity" v-if="Userlist">
+		    		<table class="looks">
 						<tr>
 		    				<td>活动类型：</td>
 		    				<td>{{Userlist.activityType | activityType}}</td>
@@ -64,8 +64,16 @@
 							<td v-if="Userlist.signStatus">{{Userlist.signStatus | Status2}}</td>
 							<td v-else>无</td>
 						</tr>
+						<tr class="scope">
+							<td>适用范围：</td>
+							<td><span>{{quantity}}</span><a @click="scope">选择适用范围</a></td>
+						</tr>
+						<tr>
+							<td>活动触发位置：</td>
+							<td>{{Userlist.position | position}}</td>
+						</tr>
 		    		</table>
-					<h3 class="zhts">活动状态:<span>{{Userlist.activityStatus | Status3}}</span></h3>
+					<h3 class="zhts" v-if="Userlist && Userlist.activityStatus">活动状态:<span>{{Userlist.activityStatus | Status3}}</span></h3>
 		    		<p></p>
 		    		<h3 v-if="couplist != null ">领取记录</h3>
 		    		<table class="lqjv" v-if="couplist != null ">
@@ -90,14 +98,32 @@
 		    		</table>
 					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum v-if="couplist != null ">
 					</el-pagination>
-					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus =='0' || Userlist.activityStatus =='1' && jurisdiction('ACTIVITY_UPDATE')">推送优惠券</router-link>
+					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus == '0' || Userlist.activityStatus == '1' && jurisdiction('ACTIVITY_UPDATE')">推送优惠券</router-link>
 		    	</div> 
 		        
 		    
 			</div>
 			<footer-box></footer-box>
 		</div>
-		
+		<div class="community-house-modalum" v-if="formula" @click="formulas()"></div>
+		<div v-if="formula" class="community-formulam">
+			<div>
+				<p>选择适用范围</p>
+			</div>
+			<div style="width: 720px;height: 480px;overflow:auto; overflow-x:auto;">
+				<Checkbox v-model="singdng" @on-change="checkAll(singdng)" disabled="disabled"><span class="quanbu">全部：</span></Checkbox>
+				<table>
+					<tr v-for= "(item,index) in formulaList">
+						<td style="width: 140px;vertical-align: text-top;">
+							<Checkbox v-model="item.singdng" @click.prevent.native="handleCheckAll(item,index)" disabled="disabled"><span class="quanbu">{{item.cityName}}：</span></Checkbox>
+						</td>
+						<td>
+							<Checkbox v-for="ite in item.communityList" v-model="ite.sing" @on-change="checkAllGroupChange(item,inde)" disabled="disabled"><span>{{ite.communityName}}</span></Checkbox>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 		
 	</div>
 </template>
@@ -108,7 +134,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostActivityInfo,hostActivityContro } from '../api.js';
+    import { hostActivityInfo,hostActivityContro,hostActivityformula } from '../api.js';
     import qs from 'qs';
     
     export default{
@@ -126,13 +152,20 @@
 				pageNum:'1',
 				pageSize:5,
 				currentPage3: 1,
-				totalNum:0
+				totalNum:0,
+				formula:false,
+				quantity:0,
+				formulaList:[],
+				sings:true,
+				single:false,
+				singdng:false
     		}
     	},
     	mounted(){
     		this.activityId = this.$route.query.id;
-    		this.datas();
+			this.datas();
 			this.datas2();
+			
     	},
     	filters:{
     		time(val) {
@@ -142,6 +175,14 @@
 			},
 			time2(val) {
 				return new Date(val).Format('yyyy-MM-dd hh:mm:ss');
+			},
+			position(val){
+				if(val == 1){
+					return '注册后';
+				}
+				else{
+					return '无'
+				}
 			},
 			Status(val){
 				if(val == '1'){
@@ -196,7 +237,7 @@
 					return '￥' + parseFloat(val).toFixed(2);
 				}
 				else{
-					return '￥' + 0;
+					return '￥' + parseFloat(0).toFixed(2);
 				}
 			},
 			activityType(val){
@@ -212,21 +253,94 @@
 				}
 			}
     	},
-    	methods:{
+		methods:{
 		    datas(){
+				let vm = this
+				axios.get(hostActivityformula).then((res)=>{
+					// console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.formulaList = res.data.pageBean;
+						for(let i= 0;i<vm.formulaList.length;i++){
+							this.$set(vm.formulaList[i],'singdng',false);
+							for(let m = 0; m < vm.formulaList[i].communityList.length; m++){
+								this.$set(vm.formulaList[i].communityList[m], "sing", false);
+							}
+							
+						}
+
+						axios.post(hostActivityInfo,
+							qs.stringify({
+								activityId:this.activityId
+							})
+						).then((res) => {
+							//console.log(res);
+							if(res.status == 200 && res.data.code == 10000) {
+								this.quantity = res.data.result.communityAmount;
+								let communityAmount = res.data.result.communityIds;
+								console.log(communityAmount);
+								for(let i= 0;i < vm.formulaList.length;i++){
+									for(let m = 0; m < vm.formulaList[i].communityList.length; m++){
+										for(let s = 0; s < communityAmount.length ; s++){
+											if(communityAmount[s] == vm.formulaList[i].communityList[m].communityId){
+												this.$set(this.formulaList[i].communityList[m], "sing", true);
+											}
+										}
+									}
+									
+								}
+								console.log(vm.formulaList);
+							}
+						}).catch((err) => {
+							// console.log(err);
+						})
+								// console.log(this.formulaList);
+							}
+				}).catch((err) => {
+					// console.log(err);
+				})
+
+
 				axios.post(hostActivityInfo,
 					qs.stringify({
 						activityId:this.activityId
 					})
 				).then((res) => {
-					// console.log(res);
+					//console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
-						this.Userlist = res.data.entity;
+						this.Userlist = res.data.result.activity;
 					}
 				}).catch((err) => {
 					// console.log(err);
 				})
-		    },
+			},
+			handleCheckAll(item,index) { //权限全选
+				item.singd = ! item.singd;
+				if(this.loderList[index].singd == true) {
+					for(let i = 0; i < this.loderList[index].powerItemChildList.length; i++) {
+						this.$set(this.loderList[index].powerItemChildList[i], "sing", true);
+					}
+				} else {
+					for(let i = 0; i < this.loderList[index].powerItemChildList.length; i++) {
+						this.$set(this.loderList[index].powerItemChildList[i], "sing", false);
+					}
+				}
+			},
+			checkAllGroupChange(item, index) { //权限单选
+				// console.log(item);
+				// console.log(index);
+				var flag = true;
+				for(let i = 0; i < item.powerItemChildList.length; i++) {
+					if(item.powerItemChildList[i].sing != this.sings) {
+						flag = false;
+						break;
+					}
+				}
+				if(item.powerItemChildList.length) {
+					item.singd = flag;
+				} else {
+					item.singd = false;
+				}
+			},
 			datas2(){
 				axios.post(hostActivityContro,
 					qs.stringify({
@@ -248,6 +362,12 @@
 				this.pageNum = val;
 				this.datas2();
 			},
+			scope(){
+				this.formula = true;
+			},
+			formulas(){
+				this.formula = false;
+			},
     	}
     }
 </script>
@@ -255,5 +375,63 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+  #lookactivity{
+	  .scope{
+		  a{
+			  width: 200px;
+				height: 30px;
+				border: 1px solid #dcdcdc;
+				text-align: center;
+				line-height: 28px;
+				display: inline-block;
+				border-radius: 10px;
+				margin-left: 30px;
+		  }
+	  }
+  }
+  	.community-house-modalum{
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		position: fixed;
+		overflow: auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 999;
+	}
+	.community-formulam{
+		width: 720px;
+		height: 540px;
+		background-color: #fff;
+		border-radius: 5px;
+		margin: auto;
+		position: fixed;
+		z-index: 9999;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		p{
+			width: 100%;
+			height: 60px;
+			text-align: center;
+			line-height: 60px;
+			border-bottom:1px solid #dcdcdc; 
+			background-color: #038be2;
+			font-size: 20px;
+			color: #fff;
+		}
+		.ivu-checkbox-wrapper{
+			font-size: 14px;
+			margin-left: 20px;
+			line-height: 60px;
+			.quanbu{
+				margin-left: 16px;
+				font-size: 14px;
+			}
+		}
+	}
+	
 </style>

@@ -188,16 +188,16 @@
 				else if(val == '2'){
 					return '长期有效'
 				}
-				else if(val == '0,1'){
+				else if(val == '0,1' || val == '1,0'){
 					return '到期结束+送完即止'
 				}
-				else if(val == '0,2'){
+				else if(val == '0,2' || val == '2,0'){
 					return '到期结束+长期有效'
 				}
-				else if(val == '1,2'){
+				else if(val == '1,2' || val == '2,1'){
 					return '送完即止+长期有效'
 				}
-				else if(val == '0,1,2'){
+				else if(val == '0,1,2' || val == '1,0,2' || val == '2,1,0'){
 					return '到期结束+送完即止+长期有效'
 				}
 			},

@@ -270,7 +270,7 @@ const AddToManagement = '/cxkj-room/apis/pcManager/cxkjcommunityPower/CxkjCommun
 const Activity = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityList500126'
 
 //活动管理-详情
-const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityInfo200094'
+const ActivityInfo = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityDetail500129'
 
 //活动管理-活动范围
 const ActivityArea = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjCommunityActivityArea200095'
@@ -372,6 +372,9 @@ const AllLiveList = '/cxkj-room/apis/pc/live/CxkjAllLiveList300132'
 
 //工商列表
 const Companyb = '/cxkj-room/apis/pc/cxkjcommunitycompany/CxkjCommunityCompanyList500146'
+
+//获取活动发布范围
+const Activityformula = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjGetAllScope300137'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -495,6 +498,7 @@ export const hostessageUpdate = host3 + essageUpdate;
 export const hostOrOpenAll = host3 + OrOpenAll;
 export const hostAllLiveList = host3 + AllLiveList;
 export const hostCompanyb= host3 + Companyb;
+export const hostActivityformula = host3 +Activityformula;
 export const host = host3;
 //export default {
 //hosts:function(){

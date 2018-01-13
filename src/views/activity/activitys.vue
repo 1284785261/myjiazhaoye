@@ -39,8 +39,8 @@
 								<td>{{item.activityTheme}}</td>
 								<td>{{item.activityContent}}</td>
 								<td>{{item.endRule | endRule}}</td>
-								<td v-if="">{{item.userName}}</td>
-								<td v-if="itemcreatetime">{{item.createtime | time}}</td>
+								<td v-if="item.userName">{{item.userName}}</td>
+								<td v-if="item.createTime">{{item.createTime | time}}</td>
 								<td v-else>--</td>
 								<td :class="[{'ats':item.activityStatus == 0},{'ats2':item.activityStatus == 3},{'ats3':item.activityStatus == 2}]">{{item.activityStatus | Status}}</td>
 								<td>
@@ -134,9 +134,7 @@
 		},
 		filters: {
 			time(val) {
-				if(val) {
 					return new Date(val).Format('yyyy-MM-dd');
-				}
 			},
 			Status(val){
 				if(val == '0'){
@@ -196,7 +194,7 @@
 						pageSize: pageSize
 					})
 				).then((res) => {
-					// console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.Userlist = res.data.result.activityList;
 						this.totalNum = res.data.result.totalNum;

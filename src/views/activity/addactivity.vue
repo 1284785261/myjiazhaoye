@@ -36,7 +36,7 @@
 						</tr>
 						<tr class="scope">
 							<td>适用范围：</td>
-							<td><span>7</span><a @click="scope">选择适用范围</a></td>
+							<td><span>{{quantity}}</span><a @click="scope">选择适用范围</a></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
@@ -81,22 +81,36 @@
 						<span style="line-height:60px;">是否有签约记录：</span>
 						<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
   						<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
+						<span style="display:block;" v-if="radio4 == '0'"> 
+							<el-checkbox-group v-model="checkList3" @change="liste(checkList3)">
+								活动触发位置：
+								<el-checkbox label="注册后"></el-checkbox>
+							</el-checkbox-group>
+						</span>
 					</div>
 					<a class="refund" @click="activit">发布活动</a>
 				</div>
 			</div>
 			<footer-box></footer-box>
 		</div>
-		<div class="community-house-modal" v-if="formula" @click="formulas()"></div>
-		<div v-if="formula">
+		<div class="community-house-modalu" v-if="formula" @click="formulas()"></div>
+		<div v-if="formula" class="community-formula">
 			<div>
 				<p>选择适用范围</p>
 			</div>
-			<div>
-				<!-- <Checkbox v-model="singdng" @click.prevent.native="handleCheckAll(item,index)"><span>全部</span></Checkbox> -->
-				<ul>
-					<!-- <li><Checkbox v-model="sing" @on-change="checkAllGroupChange(item,inde)"><span></span></Checkbox></li> -->
-				</ul>
+			<div style="width: 720px;height: 480px;overflow:auto; overflow-x:auto;">
+				<Checkbox v-model="singdng" @on-change="checkAll(singdng)"><span class="quanbu">全部：</span></Checkbox>
+				<table>
+					<tr v-for= "(item,index) in formulaList">
+						<td style="width: 140px;vertical-align: text-top;">
+							<Checkbox v-model="item.singdng" @click.prevent.native="handleCheckAll(item,index)"><span class="quanbu">{{item.cityName}}：</span></Checkbox>
+						</td>
+						<td>
+							<Checkbox v-for="ite in item.communityList" v-model="ite.sing" @on-change="checkAllGroupChange(item,inde)"><span>{{ite.communityName}}</span></Checkbox>
+						</td>
+					</tr>
+				</table>
+				<a class="lxbs" @click="lxbs">确定</a>
 			</div>
 		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
@@ -113,7 +127,7 @@
 	import axios from 'axios';
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
-	import { hostActivityArea, hostActivityAdd, hostRangeRandom } from '../api.js';
+	import { hostActivityArea, hostActivityAdd, hostRangeRandom,hostActivityformula } from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -174,17 +188,39 @@
 						return date && date.valueOf() < _this.Activity.beginRegisterTime;
 					}
 				},
+				sings:true,
 				singdng:false,
-				formula:false
+				sing:false,
+				formula:false,
+				formulaList:[],
+				checkList3:[],
+				communityIds:[],
+				position:-1,
+				quantity:0
 			}
 		},
 		mounted() {
-
+			this.titles();
 		},
 		filters: {
 
 		},
 		methods: {
+			titles(){
+				axios.get(hostActivityformula).then((res)=>{
+					//console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.formulaList = res.data.pageBean;
+						for(let i= 0;i<this.formulaList.length;i++){
+							this.$set(this.formulaList[i],'singdng',false);
+							for(let m = 0; m < this.formulaList[i].communityList.length; m++){
+								this.$set(this.formulaList[i].communityList[m], "sing", false);
+							}
+						}
+						//console.log(this.formulaList);
+					}
+				})
+			},
 			shuzi(value){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 					if(str.test(value) == true){
@@ -236,6 +272,82 @@
 			scope(){
 				this.formula = true;
 			},
+			formulas(){
+				this.formula = false;
+			},
+			liste(value){
+				console.log(value);
+			},
+			checkAll(value){
+				//console.log(value);
+				if(value == false){
+					for(let i= 0;i<this.formulaList.length;i++){
+						this.$set(this.formulaList[i],'singdng',false);
+						for(let m = 0 ;m<this.formulaList[i].communityList.length;m++){
+							this.$set(this.formulaList[i].communityList[m], "sing", false);
+						}
+					}
+				}else{
+					for(let i= 0;i<this.formulaList.length;i++){
+						this.$set(this.formulaList[i],'singdng',true);
+						for(let m = 0 ;m<this.formulaList[i].communityList.length;m++){
+							this.$set(this.formulaList[i].communityList[m], "sing", true);
+						}
+					}
+				}
+			},
+			handleCheckAll(item,index) { //权限全选
+				console.log(item);
+				item.singdng = ! item.singdng;
+				if(this.formulaList[index].singdng == true) {
+					for(let i = 0; i < this.formulaList[index].communityList.length; i++) {
+						this.$set(this.formulaList[index].communityList[i], "sing", true);
+					}
+				} else {
+					for(let i = 0; i < this.formulaList[index].communityList.length; i++) {
+						this.$set(this.formulaList[index].communityList[i], "sing", false);
+					}
+				}
+			},
+			checkAllGroupChange(item, index) { //权限单选
+				// console.log(item);
+				// console.log(index);
+				var flag = true;
+				for(let i = 0; i < item.communityList.length; i++) {
+					if(item.communityList[i].sing != this.sings) {
+						flag = false;
+						break;
+					}
+				}
+				if(item.communityList.length) {
+					item.singdng = flag;
+				} else {
+					item.singdng = false;
+				}
+			},
+			lxbs(){
+				this.quantity = 0;
+				this.communityIds = [];
+				for(let i = 0;i<this.formulaList.length;i++){
+					for(let m = 0;m<this.formulaList[i].communityList.length;m++){
+						if(this.formulaList[i].communityList[m].sing == true){
+							this.quantity+=1;
+							this.communityIds.push(this.formulaList[i].communityList[m].communityId);
+						}
+					}
+				}
+				this.formula = false;
+				console.log(this.communityIds);
+			},
+			liste(val){
+				console.log(val[0]);
+				if(val[0] == '注册后'){
+					this.position = 1;
+				}
+				else{
+					this.position = -1;
+				}
+			},
 			activit() {
 				let vm = this
 				let arr = [];
@@ -268,6 +380,8 @@
 					param.append("beginQuota", vm.Activity.beginQuota);
 					param.append("endQuota", vm.Activity.endQuota);
 				}
+				param.append("communityIds",vm.communityIds);
+				param.append("position",vm.position);
 				param.append("activityTotalMoney", vm.Activity.activityTotalMoney);
 				param.append("validityDate", vm.Activity.validityDate);
 				param.append("joinStatus", vm.radio3);
@@ -278,24 +392,30 @@
 					param.append("endRegisterTime", vm.Activity.endRegisterTime);
 					param.append("signStatus", vm.radio4);
 				}
-				axios.post(hostActivityAdd, param).then((res) => {
-					// console.log(res);
-					if(res.status == 200 && res.data.code == 10000) {
-						this.successMessage = '添加活动成功';
-						this.successModal = true;
-						setTimeout(() => {
-							this.successModal = false;
-							vm.$router.push('/activity/activitys');
-						}, 2000);
-					} else {
-						this.warningMessage = res.data.content;
-						this.warningModal = true;
-					}
-				}).catch((err) => {
-					// console.log(err);
+				if(vm.communityIds.length < 1){
 					this.warningMessage = '添加活动失败,服务器异常';
 					this.warningModal = true;
-				})
+				}else{
+					axios.post(hostActivityAdd, param).then((res) => {
+					// console.log(res);
+						if(res.status == 200 && res.data.code == 10000) {
+							this.successMessage = '添加活动成功';
+							this.successModal = true;
+							setTimeout(() => {
+								this.successModal = false;
+								vm.$router.push('/activity/activitys');
+							}, 2000);
+						} else {
+							this.warningMessage = res.data.content;
+							this.warningModal = true;
+						}
+					}).catch((err) => {
+						// console.log(err);
+						this.warningMessage = '添加活动失败,服务器异常';
+						this.warningModal = true;
+					})
+				}
+				
 
 			},
 			mvs(list) {
@@ -350,4 +470,71 @@
 			content: "\e60c";
 		}
 	}
+	.community-house-modalu{
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		position: fixed;
+		overflow: auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 999;
+	}
+	.community-formula{
+		width: 720px;
+		height: 540px;
+		background-color: #fff;
+		border-radius: 5px;
+		margin: auto;
+		position: fixed;
+		z-index: 9999;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		p{
+			width: 100%;
+			height: 60px;
+			text-align: center;
+			line-height: 60px;
+			border-bottom:1px solid #dcdcdc; 
+			background-color: #038be2;
+			font-size: 20px;
+			color: #fff;
+		}
+		.ivu-checkbox-wrapper{
+			font-size: 14px;
+			margin-left: 20px;
+			line-height: 60px;
+			// .ivu-checkbox{
+			// 	.ivu-checkbox-inner{
+			// 		width: 16px;
+			// 		height: 16px;
+			// 	}
+				
+			// }
+			.quanbu{
+				margin-left: 16px;
+				font-size: 14px;
+			}
+		}
+		.lxbs{
+			width: 140px;
+			height: 36px;
+			background-color: #038be2;
+			text-align: center;
+			display: inline-block;
+			line-height: 36px;
+			color: white;
+			font-size: 16px;
+			border-radius: 5px;
+			margin-left: 50%;
+			transform: translate(-50%,0);
+			margin-bottom: 30px;
+		}
+		
+	}
+
 </style>
