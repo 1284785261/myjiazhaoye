@@ -36,7 +36,7 @@
 						</tr>
 						<tr class="scope">
 							<td>适用范围：</td>
-							<td><span>{{quantity}}</span><a @click="scope">选择适用范围</a></td>
+							<td><span>{{quantity}}个社区</span><a @click="scope">选择适用范围</a></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
@@ -231,7 +231,7 @@
 					}
 			},
 			shuzi2(value){
-				if(parseFloat(value) > parseFloat(this.Activity.beginQuota)){
+				if(parseFloat(value) >= parseFloat(this.Activity.beginQuota)){
 					let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 					if(str.test(value) == true){
 						this.Activity.endQuota = value;
@@ -279,7 +279,6 @@
 				console.log(value);
 			},
 			checkAll(value){
-				//console.log(value);
 				if(value == false){
 					for(let i= 0;i<this.formulaList.length;i++){
 						this.$set(this.formulaList[i],'singdng',false);
@@ -310,8 +309,6 @@
 				}
 			},
 			checkAllGroupChange(item, index) { //权限单选
-				// console.log(item);
-				// console.log(index);
 				var flag = true;
 				for(let i = 0; i < item.communityList.length; i++) {
 					if(item.communityList[i].sing != this.sings) {
@@ -369,14 +366,13 @@
 				this.Activity.endRule = str;
 				this.Activity.beginDate = new Date(this.Activity.beginDate).Format('yyyy-MM-dd');
 				this.Activity.endDate = new Date(this.Activity.endDate).Format('yyyy-MM-dd');
-				// console.log(this.Activity);
 				param.append("activityType", vm.Activity.activityType);
 				param.append("activityTheme", vm.Activity.activityTheme);
 				param.append("activityContent", vm.Activity.activityContent);
 				param.append("beginDate", vm.Activity.beginDate);
 				param.append("endRule", vm.Activity.endRule);
 				param.append("endDate", vm.Activity.endDate);
-				if(parseFloat(vm.Activity.endQuota) > parseFloat(vm.Activity.beginQuota)){
+				if(parseFloat(vm.Activity.endQuota) >= parseFloat(vm.Activity.beginQuota)){
 					param.append("beginQuota", vm.Activity.beginQuota);
 					param.append("endQuota", vm.Activity.endQuota);
 				}

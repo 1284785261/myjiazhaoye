@@ -3,9 +3,10 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-// const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
-const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
-
+const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+// const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
+export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.2.180113_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180113_test': '1.1.18.2.180113_release';//pc版本号 默认运营
+// export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.1.180111_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.1.180111_release': '1.1.18.1.180111_test';//pc版本号 默认测试
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
@@ -13,7 +14,7 @@ const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:805
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
-//const host3 = 'http://192.168.20.217:8081';//周昭滨2
+// const host3 = 'http://192.168.20.217:8081';//周昭滨2
 
 //查看合同pdf文件
 export const PdfDocmentUpload200173= `${host3}/cxkj-room/apis/appMgr/sign/CxkjCommunityDocmentUploadPC200179`//合同查看pdf文件
@@ -376,7 +377,7 @@ const Companyb = '/cxkj-room/apis/pc/cxkjcommunitycompany/CxkjCommunityCompanyLi
 //获取活动发布范围
 const Activityformula = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjGetAllScope300137'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
-export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
+// export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
 export const ComplainListDownLoad200177 = host3 + '/cxkj-room/apis/pc/communityMgrDownload/CxkjComplainListDownLoad200177';  //投诉管理导出报表
 export const hostAuthor = host3 + Author;
@@ -667,3 +668,9 @@ export const SystemFileUpload100023 =host3+'/cxkj-room/apis/system/file/SystemFi
 
 //重置密码
 export const passwordReurn =host3+'/cxkj-room/apis/pcManager/cxkjcommunityEmployee/CxkjCommunityEmployeePasswordReset200178'
+
+// const Activityformula = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjGetAllScope300137'
+// export const hostActivityformula = host3 +Activityformula;
+
+
+
