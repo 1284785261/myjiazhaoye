@@ -48,7 +48,7 @@
                   <td>使用时间 :</td>
                   <td v-for="(item,index) in detailData.orderDateList">{{item.beginDate | timefilter("yyyy.MM.dd")}}-{{item.endDate | timefilter("yyyy.MM.dd")}}</td>
                 </tr>
-                <tr v-if="detailData.orderState != 3 && detailType==0">
+                <tr v-if="detailType==0">
                   <td>预定时间 :</td>
                   <td>{{detailData.meetingTimes}}小时</td>
                 </tr>
@@ -61,7 +61,7 @@
                   <td>价格 :</td>
                   <td>{{detailData.meetingRent}}元/小时</td>
                 </tr>
-                <tr v-if="detailData.orderState != 3"s>
+                <tr>
                   <td>小计 :</td>
                   <td v-if="detailType==1" style="color: red">{{detailData.rentSubtotal || detailData.count*detailData.placeRent}}元</td>
                   <td v-if="detailType==0" style="color: red">{{detailData.meetingTimes*detailData.meetingRent}}元</td>
@@ -81,7 +81,7 @@
                 </tr>
               </table>
             </li>
-            <li v-if="detailData.orderState != 3">
+            <li>
               <h3><i class="icon icon-iden"></i>联系人信息</h3>
               <table>
                 <tr>
@@ -115,7 +115,7 @@
                 </tr>
               </table>
             </li>
-            <li v-if="detailData.orderState != 3">
+            <li>
               <h3><i class="icon icon-iden"></i>订单信息</h3>
               <table>
                 <tr>
@@ -146,7 +146,7 @@
                   <td style="color: red;font-size: 20px;">{{detailData.payMoney}}元</td>
                 </tr>
                 
-                <tr>
+                <tr v-if="detailData.orderState == 4">
                   <td>给管家的留言 :</td>
                   <td>{{detailData.message}}</td>
                 </tr>

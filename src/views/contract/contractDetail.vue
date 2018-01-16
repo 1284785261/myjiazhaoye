@@ -96,7 +96,7 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2">
                       <td class="td2">姓名 :<span>{{contractDetailData.userName}}</span></td>
-                      <td class="td2">证件类型 :身份证</td>
+                      <td class="td2">证件类型 : {{contractDetailData.certificateType}}</td>
                       <td class="td2">证件号码 :<span>{{contractDetailData.userCertificate}}</span></td>
                       <td class="td2">联系方式 :<span>{{contractDetailData.userPhone}}</span></td>
                     </tr>

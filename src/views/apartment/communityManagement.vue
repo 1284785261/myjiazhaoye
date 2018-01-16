@@ -133,7 +133,7 @@
 								<div class="form-item">
 									<div class="form-search">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="vague" placeholder="搜索社区名称"></Input>
+										<Input v-model="vague2" placeholder="搜索社区名称"></Input>
 										<input type="button" value="搜索" @click="btusy2">
 									</div>
 								</div>
@@ -349,13 +349,12 @@
 				over: null, //模糊查询开业关闭时间
 				start1: null, //ganbi模糊查询开业开始时间
 				over1: null, //模糊查询开业关闭时间
-				vague: null, //模糊查询内容
+				vague: null, //模糊查询内容,
+				vague2: null, //模糊查询内容
 				valu: null,
 				createtimes: null,
 				commentDate: null,
 				communityId: null,
-				chack: false,
-				chack2: false,
 				searchKey: '',
 				successModal: false,
 				warningModal: false,
@@ -363,8 +362,6 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
 				option1: {
 					disabledDate (date) {
-						console.log(111);
-						console.log(_this.start);
 						return date && date.valueOf() < _this.start;
 					}
 				},
@@ -398,7 +395,6 @@
 				}
 			},
 			imata(ms) {
-				console.log(ms);
 				if(ms != null) {
 					var date = new Date(ms);
 					var Y = date.getFullYear() + '年';
@@ -485,10 +481,9 @@
 
 		mounted() {
 			//初始化数据
-			console.log(111)
 			//    		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
-			this.befor();
-			this.befors();
+			this.btns();
+			this.btusy2();
 			this.classifys();
 			this.btusys();	
 			this.comment({
@@ -502,103 +497,42 @@
 						if(response.status == 200 && response.data.code == 10000) {
 							this.communitys = this.communitys.concat(response.data.entity);
 						}
-
 					})
 					.catch((error) => {
 						// console.log(error);
 					})
 			},
-			befor() {
+			btns() { //社区管理模糊搜索数据
 				let vm = this
 				vm.commint = [];
-				let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 3;
-				axios.post(hostCommint, //请求数据列表
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityIsClose: 0
-							
-						})
-					).then((response) => {
-						// console.log(response);
+				let param = new FormData();
+				if(this.pageNum){
+					param.append('pageNum',vm.pageNum);
+				}
+				if(this.pageSize){
+					param.append('pageSize',vm.pageSize);
+				}
+				if(this.start){
+					let start = new Date(this.start).Format('yyyy-MM-dd');
+					param.append('communityOpeningDate',start);
+				}
+				if(this.over){
+					this.over = new Date(this.over).Format('yyyy-MM-dd');
+					param.append('communityNewOpeningDate',this.over);
+				}
+				param.append('communityIsClose',0);
+				if(this.vague){
+					param.append('communityLikeName',vm.vague);
+				}
+				axios.post(hostCommint, param).then((response) => {//请求数据列
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
 						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-			},
-			btns() { //模糊搜索数据
-				let vm = this
-				vm.commint = [];
-				let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 3;
-				let start = new Date(this.start).Format('yyyy-MM-dd');
-				this.over = new Date(this.over).Format('yyyy-MM-dd');
-				axios.post(hostCommint, //请求数据列表
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityOpeningDate: start,
-							communityNewOpeningDate: vm.over,
-							communityLikeName: vm.vague
-						})).then((response) => {
-						// console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							vm.chack = true;
-							vm.commint = response.data.result.communityData.page;
-							vm.totalNum = response.data.result.communityData.totalNum;
-						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-			},
-			befors() {
-				let vm = this
-				let pageNum = vm.pageNum2 || 1;
-				let pageSize = vm.pageSize || 3;
-				axios.post(hostCommint, //请求已关闭社区数据列表
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityIsClose: 1
-						})
-					).then((response) => {
-						// console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							vm.commint2 = response.data.result.communityData.page;
-							vm.totalNum2 = response.data.result.communityData.totalNum;
-						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-			},
-			bitch() { //条件查询分页
-				let vm = this
-				let pageNum = vm.pageNum || 1;
-				let pageSize = vm.pageSize || 3;
-				this.start = new Date(this.start).Format('yyyy-MM-dd');
-				this.over = new Date(this.over).Format('yyyy-MM-dd');
-				axios.post(hostCommint,
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityOpeningDate: vm.start,
-							communityNewOpeningDate: vm.over,
-						})
-					).then((response) => {
-						// console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							vm.commint = response.data.result.communityData.page;
-							vm.totalNum = response.data.result.communityData.totalNum;
+						else {
+							vm.commint = [];
+							vm.totalNum = 0;
 						}
 						// console.log(this.commint);
 					})
@@ -609,53 +543,34 @@
 			btusy2() { //已关闭社区页面模糊查询
 				let vm = this
 				vm.commint2 = [];
-				let pageNum = vm.pageNum2 || 1;
-				let pageSize = vm.pageSize || 3;
-
-				let start1 = new Date(this.start1).Format('yyyy-MM-dd');
-				this.over1 = new Date(this.over1).Format('yyyy-MM-dd');
-				axios.post(hostCommint, //请求数据列表
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityIsClose: 1,
-							communityOpeningDate: start1,
-							communityNewOpeningDate: vm.over1,
-							communityLikeName: vm.vague
-						})
-					).then((response) => {
+				let param = new FormData();
+				if(this.pageNum2){
+					param.append('pageNum',vm.pageNum2);
+				}
+				if(this.pageSize){
+					param.append('pageSize',vm.pageSize);
+				}
+				if(this.start1){
+					let start = new Date(this.start1).Format('yyyy-MM-dd');
+					param.append('communityOpeningDate',start);
+				}
+				if(this.over1){
+					let over = new Date(this.over1).Format('yyyy-MM-dd');
+					param.append('communityNewOpeningDate',over);
+				}
+				param.append('communityIsClose',1);
+				if(this.vague2){
+					param.append('communityLikeName',vm.vague2);
+				}
+				axios.post(hostCommint, param).then((response) => {//请求数据列表
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							vm.chack2 = true;
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
 						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-			},
-			bitch2() { //查询分页-已关闭页面
-				let vm = this
-				console.log(1111)
-				let pageNum = vm.pageNum2 || 1;
-				let pageSize = vm.pageSize || 3;
-				this.start1 = new Date(this.start1).Format('yyyy-MM-dd');
-				this.over1 = new Date(this.over1).Format('yyyy-MM-dd');
-				axios.post(hostCommint,
-						qs.stringify({
-							pageNum: pageNum,
-							pageSize: pageSize,
-							communityIsClose: 1,
-							communityOpeningDate: vm.start1,
-							communityNewOpeningDate: vm.over1
-						})
-					).then((response) => {
-						// console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							vm.commint2 = response.data.result.communityData.page;
-							vm.totalNum2 = response.data.result.communityData.totalNum;
+						else {
+							vm.commint2 = [];
+							vm.totalNum2 = 0;
 						}
 						// console.log(this.commint);
 					})
@@ -713,24 +628,12 @@
 				this.warningModal = false;
 			},
 			handleCurrentChange(val) { //分页事件
-				console.log(`当前页: ${val}`);
 				this.pageNum = val;
-				if(this.chack == true) {
-					this.bitch();
-				} else {
-					this.befor();
-				}
-
+				this.btns();
 			},
 			handleCurrentChange2(val) {
-				console.log(`当前页: ${val}`);
 				this.pageNum2 = val;
-
-				if(this.chack2 == true) {
-					this.bitch2();
-				} else {
-					this.befors();
-				}
+				this.btusy2();
 
 			},
 			handleCurrentChange3(val) {

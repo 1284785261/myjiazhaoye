@@ -66,7 +66,7 @@
                   </li>
                   <li>
                     <p>利润</p>
-                    <h1 style="color: #1fbba6">￥{{pageBean.inMoney-pageBean.outMoney || 0}}</h1>
+                    <h1 style="color: #1fbba6">￥{{profit}}</h1>
                   </li>
                 </ul>
               </div>
@@ -550,6 +550,11 @@
         //   console.log(this.host4);
         // }
     },
+    computed:{
+        profit:function(){
+          return parseFloat(this.pageBean.inMoney - this.pageBean.outMoney).toFixed(2);
+        }
+    },
     methods: {
       closeBillModal(){
         this.openBillMoal = false;
@@ -577,6 +582,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
+              console.log(that.pageBean);
               that.financeList = that.pageBean.financeList;
               that.financeTotalNum = that.pageBean.totalNum;
             }

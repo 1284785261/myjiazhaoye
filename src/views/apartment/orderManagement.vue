@@ -215,6 +215,7 @@
         var that = this;
         this.$http.get(allOrder,{params:data})
           .then(function(res){
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
                 var pageBean = res.data.pageBean;
                 that.officeOrderList = pageBean.page;
@@ -230,6 +231,8 @@
         var that = this;
         this.$http.get(allOrder,{params:data})
           .then(function(res){
+            console.log(data);
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.stationOrderList = pageBean.page;
