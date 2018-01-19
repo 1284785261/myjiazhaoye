@@ -14,7 +14,7 @@
 		        <div class="message-tis recording">
 		        	<div class="tos">
                         <span class="bsf">直播时间：</span>
-                        <Date-picker type="datetime" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="start" class="dev"></Date-picker>
+                        <Date-picker type="datetime" :options="option3" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="start" class="dev"></Date-picker>
 						<span style="margin: 0px 5px;">-</span>
 						<Date-picker type="datetime" :options="option2" placeholder="请选择日期" format="yyyy-MM-dd HH:mm" v-model="over" class="dev"></Date-picker>
                         <a class="sous" @click="sousuos">搜索</a>
@@ -85,8 +85,15 @@
 				over:'',
 				pageNum:1,
 				option2: {
-                    disabledDate (date) {
+                    disabledDate(date){
                         return date && date.valueOf() < _this.start;
+                    }
+				},
+				option3: {
+                    disabledDate(date){
+						if(_this.over){
+							return date &&  _this.over < date.valueOf();
+						}
                     }
                 },
     		}

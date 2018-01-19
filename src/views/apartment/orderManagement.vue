@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-item">
                   <span>订单日期：</span>
-                  <Date-picker type="date" v-model="stationStartDate" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" :options="option3" v-model="stationStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" :options="option1" v-model="stationEndDate" placeholder="选择日期"></Date-picker>
                 </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="form-item">
                   <span>账单时间：</span>
-                  <Date-picker type="date" v-model="officeStartDate" placeholder="选择日期"></Date-picker>
+                  <Date-picker type="date" :options="option4" v-model="officeStartDate" placeholder="选择日期"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" :options="option2" v-model="officeEndDate" placeholder="选择日期"></Date-picker>
                 </div>
@@ -199,6 +199,20 @@
                 return date && date.valueOf() < _this.officeStartDate;
             }
         },
+        option3: {
+            disabledDate(date){
+						if(_this.stationEndDate){
+							return date &&  _this.stationEndDate < date.valueOf();
+						}
+            }
+        },
+        option4: {
+            disabledDate(date){
+						if(_this.officeEndDate){
+							return date &&  _this.officeEndDate < date.valueOf();
+						}
+            }
+        },
       }
     },
     mounted(){
@@ -215,7 +229,7 @@
         var that = this;
         this.$http.get(allOrder,{params:data})
           .then(function(res){
-            // console.log(res);
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
                 var pageBean = res.data.pageBean;
                 that.officeOrderList = pageBean.page;

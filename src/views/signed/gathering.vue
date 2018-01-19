@@ -21,7 +21,7 @@
 							</el-option>
 						</el-select>
 						<span class="zhut">发起时间：</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
+						<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
 						<span class="inline-block spanBar zhut2">—</span>
 						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="communityLeaseEnd"></Date-picker>
 						<div class="form-search">
@@ -163,6 +163,13 @@
 						return date && date.valueOf() < _this.communityLeaseBegin;
 					}
 				},
+				option2: {
+                    disabledDate(date){
+						if(_this.communityLeaseEnd){
+							return date &&  _this.communityLeaseEnd < date.valueOf();
+						}
+                    }
+                },
 			}
 		},
 		mounted() {

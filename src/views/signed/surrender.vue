@@ -25,7 +25,7 @@
 							</el-option>
 						</el-select>
 						<span class="bsc">申请时间：</span>
-						<Date-picker type="date" placeholder="请选择日期" class="dev" v-model="startDate"></Date-picker>
+						<Date-picker type="date" :options="option2" placeholder="请选择日期" class="dev" v-model="startDate"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" :options="option1" placeholder="请选择日期" class="dev" v-model="endDate"></Date-picker>
 						<div class="form-item" style="margin-left: 30px;">
@@ -144,6 +144,13 @@
 						return date && date.valueOf() < _this.startDate;
 					}
 				},
+				option2: {
+                    disabledDate(date){
+						if(_this.endDate){
+							return date &&  _this.endDate < date.valueOf();
+						}
+                    }
+                },
 			}
 		},
 		mounted() {

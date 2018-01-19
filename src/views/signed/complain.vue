@@ -23,7 +23,7 @@
 						    </el-option>
 					 	 </el-select>
 						<span class="bsc">投诉时间：</span>
-						<Date-picker type="date" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
+						<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="start" class="dev"></Date-picker>
 						<span class="inline-block spanBar">-</span>
 						<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="over" class="dev"></Date-picker>
 						<div class="form-search">
@@ -129,6 +129,13 @@
 						return date && date.valueOf() < _this.start;
 					}
 				},
+				option2: {
+                    disabledDate(date){
+						if(_this.over){
+							return date &&  _this.over < date.valueOf();
+						}
+                    }
+                },
 			}
     	},
     	mounted(){

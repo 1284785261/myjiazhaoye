@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-item">
                   <span>签约日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  <Date-picker type="date" :options="option4" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
                   <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
                 </div>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="form-item">
                   <span>签约日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
+                  <Date-picker type="date" :options="option5" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
                   <span class="inline-block spanBar">-</span>
                   <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
                 </div>
@@ -159,7 +159,7 @@
                 </div>
                 <div class="form-item">
                   <span>签约时间：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="propertyStartDate"></Date-picker>
+                  <Date-picker type="date" :options="option6" placeholder="选择日期" v-model="propertyStartDate"></Date-picker>
                   <span class="inline-block spanBar">--</span>
                   <Date-picker type="date" :options="option3" placeholder="选择日期" v-model="propertyEndDate"></Date-picker>
                 </div>
@@ -240,59 +240,80 @@ export default {
   data () {
     let _this = this;
     return {
-      activeName:"room",
-      RoomContractSelects:[{
-        communityId: -1,
-        communityName: '全部'
-      }],//下拉选
-      roomCommunity:-1,//当前选中
-      roomContractList:[],//公寓合同数据
-      roomTotalNum:0,//公寓合同总条数
-      roomContractCurrent:1,//公寓合同当前页
-      roomStartDate:"",//公寓签约开始时间
-      roomEndDate:"",//公寓签约结束时间
-      roomSearchKey:"",//公寓搜索关键字
+        activeName:"room",
+        RoomContractSelects:[{
+          communityId: -1,
+          communityName: '全部'
+        }],//下拉选
+        roomCommunity:-1,//当前选中
+        roomContractList:[],//公寓合同数据
+        roomTotalNum:0,//公寓合同总条数
+        roomContractCurrent:1,//公寓合同当前页
+        roomStartDate:"",//公寓签约开始时间
+        roomEndDate:"",//公寓签约结束时间
+        roomSearchKey:"",//公寓搜索关键字
 
 
-      officeContractSelects:[{
-        communityId: -1,
-        communityName: '全部'
-      }],
-      officeContractList:[],
-      officeCommunity:-1,//联合办公当前选中社区
-      officeTotalNum:0,//联合办公合同总条数
-      officeContractCurrent:1,//联合办公合同当前页
-      officeStartDate:"",//联合办公签约开始时间
-      officeEndDate:"",//联合办公签约结束时间
-      officeSearchKey:"",//联合办公搜索关键字
+        officeContractSelects:[{
+          communityId: -1,
+          communityName: '全部'
+        }],
+        officeContractList:[],
+        officeCommunity:-1,//联合办公当前选中社区
+        officeTotalNum:0,//联合办公合同总条数
+        officeContractCurrent:1,//联合办公合同当前页
+        officeStartDate:"",//联合办公签约开始时间
+        officeEndDate:"",//联合办公签约结束时间
+        officeSearchKey:"",//联合办公搜索关键字
 
 
-      propertyContractSelects:[{
-        communityId: -1,
-        communityName: '全部'
-      }],
-      propertyContractList:[],
-      propertyCommunity:-1,//物业当前选中社区
-      propertyTotalNum:0,//物业合同总条数
-      propertyContractCurrent:1,//物业合同当前页
-      propertyStartDate:"",//物业签约开始时间
-      propertyEndDate:"",//物业签约结束时间
-      propertySearchKey:"",//物业搜索关键字
-      option1: {
-          disabledDate (date) {
-              return date && date.valueOf() < _this.roomStartDate;
-          }
-      },
-      option2: {
-          disabledDate (date) {
-              return date && date.valueOf() < _this.officeStartDate;
-          }
-      },
-      option3: {
-          disabledDate (date) {
-              return date && date.valueOf() < _this.propertyStartDate;
-          }
-      },
+        propertyContractSelects:[{
+          communityId: -1,
+          communityName: '全部'
+        }],
+        propertyContractList:[],
+        propertyCommunity:-1,//物业当前选中社区
+        propertyTotalNum:0,//物业合同总条数
+        propertyContractCurrent:1,//物业合同当前页
+        propertyStartDate:"",//物业签约开始时间
+        propertyEndDate:"",//物业签约结束时间
+        propertySearchKey:"",//物业搜索关键字
+        option1: {
+            disabledDate (date) {
+                return date && date.valueOf() < _this.roomStartDate;
+            }
+        },
+        option2: {
+            disabledDate (date) {
+                return date && date.valueOf() < _this.officeStartDate;
+            }
+        },
+        option3: {
+            disabledDate (date) {
+                return date && date.valueOf() < _this.propertyStartDate;
+            }
+        },
+        option4: {
+            disabledDate(date){
+              if(_this.roomEndDate){
+                return date &&  _this.roomEndDate < date.valueOf();
+              }
+            }
+        },
+        option5: {
+            disabledDate(date){
+              if(_this.officeEndDate){
+                return date &&  _this.officeEndDate < date.valueOf();
+              }
+            }
+        },
+        option6: {
+            disabledDate(date){
+              if(_this.propertyEndDate){
+                return date &&  _this.propertyEndDate < date.valueOf();
+              }
+            }
+        },
       }
    },
   mounted(){

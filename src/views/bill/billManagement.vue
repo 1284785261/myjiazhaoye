@@ -42,6 +42,7 @@
               <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
                 <tr>
                   <th>账单日期</th>
+                  <th>办公室</th>
                   <th>公寓房间</th>
                   <th>租期</th>
                   <th>承租人</th>
@@ -108,8 +109,8 @@
               <table class="office-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="officeTotalNum > 0">
                 <tr>
                   <th>账单时间</th>
-                  <th>会议室</th>
-                  <th>使用时间</th>
+                  <th>办公室</th>
+                  <th>租期</th>
                   <th width="150px">联系人</th>
                   <th>联系电话</th>
                   <th>订单金额/元</th>

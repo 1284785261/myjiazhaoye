@@ -40,7 +40,7 @@
           </div>
           <div class="form-item" style="display: block;padding-bottom: 20px;padding-left: 20px;">
             <span>投诉时间：</span>
-            <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+            <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
             <span class="inline-block spanBar">-</span>
             <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
           </div>
@@ -146,7 +146,14 @@
 					disabledDate (date) {
 						return date && date.valueOf() < _this.roomStartDate;
 					}
-				},
+        },
+        option2: {
+          disabledDate(date){
+						if(_this.roomEndDate){
+							return date &&  _this.roomEndDate < date.valueOf();
+						}
+          }
+        },
       }
     },
     mounted(){

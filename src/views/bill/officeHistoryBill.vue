@@ -174,7 +174,10 @@
         return Y + M + D;
       },
       rentArrears(val){
-        return '已欠租'+ val +'天';
+        if(val > 0){
+          return '已欠租'+ val +'天';
+        }
+        
       }
     },
     created(){

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -202,8 +202,8 @@
 
 <script>
   import menuBox from '../../components/menuBox.vue';
-  import  rightHeader from '../../components/rightHeader.vue';
-  import  footerBox from '../../components/footerBox.vue';
+  import rightHeader from '../../components/rightHeader.vue';
+  import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
   import {report500110,BusinessReport500111,OrderReport500112,OrderReport500113} from '../api.js';
 

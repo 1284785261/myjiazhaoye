@@ -9,267 +9,272 @@
           <span>您现在的位置：</span>
           <router-link  class="active" to="/apartment/communityManagement">财务管理</router-link>
         </div>
-        <div id="finance-index-wrap">
-          <Tabs type="card">
+          <Tabs type="card" style="box-shadow: 0 0 0px #0CC;">
             <Tab-pane label="财务管理">
-              <div class="finance-header-kong">
-                <div class="img-content-wrap">
-                  <img src="../../../static/images/icon/finance_money.png" alt="">
-                  <span>收支流水</span>
-                  <div class="triangle"></div>
-                  <div class="triangle-fugai"></div>
-                </div>
-              </div>
-              <div class="form-search-criteria">
-                <div class="form-item">
-                  <span>交易日期：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="financeStartDate"></Date-picker>
-                  <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="financeEndDate"></Date-picker>
-                </div>
-                <div class="form-item">
-                  <span>交易对象:</span>
-                  <div style="display: inline-block">
-                    <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey" @on-blur="love(financeSearchKey)"></Input>
+              <div class="message-tix">
+                <div class="finance-header-kong">
+                  <div class="img-content-wrap">
+                    <img src="../../../static/images/icon/finance_money.png" alt="">
+                    <span>收支流水</span>
+                    <div class="triangle"></div>
+                    <div class="triangle-fugai"></div>
                   </div>
                 </div>
-                <div class="form-item">
-                  <span>交易方式:</span>
-                  <div style="display: inline-block">
-                    <Select v-model="payType" style="width:200px">
-                      <Option v-for="item in  payTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
+                <div class="form-search-criteriam">
+                  <div class="form-item">
+                    <span>交易日期：</span>
+                    <Date-picker type="date" :options="option4" placeholder="选择日期" v-model="financeStartDate"></Date-picker>
+                    <span class="inline-block spanBar">--</span>
+                    <Date-picker type="date" :options="option1" placeholder="选择日期" v-model="financeEndDate"></Date-picker>
+                  </div>
+                  <div class="form-item">
+                    <span>交易对象:</span>
+                    <div style="display: inline-block;">
+                      <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey" @on-blur="love(financeSearchKey)"></Input>
+                    </div>
+                  </div>
+                  <div class="form-item">
+                    <span>交易方式:</span>
+                    <div style="display: inline-block;">
+                      <Select v-model="payType" style="width:200px">
+                        <Option v-for="item in  payTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-search-criteriam" style="padding-top: 0">
+                  <div class="form-item">
+                    <span>资金流向:</span>
+                    <Select v-model="financeType" style="width:200px">
+                      <Option v-for="item in  financeTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
                     </Select>
                   </div>
+                  <div class="form-item">
+                    <Button style="width:120px;height: 36px;" @click="financeSearch()">查询</Button>
+                    <a :href="host3" class="dts1">导出</a>
+                  </div>
                 </div>
-              </div>
-              <div class="form-search-criteria" style="padding-top: 0">
-                <div class="form-item">
-                  <span>资金流向:</span>
-                  <Select v-model="financeType" style="width:200px">
-                    <Option v-for="item in  financeTypeSelect" :value="item.value" :key="item.value">{{ item.lable }}</Option>
-                  </Select>
+                <div class="big-content-wrap" v-if="financeTotalNum > 0">
+                  <ul>
+                    <li>
+                      <p>收入金额</p>
+                      <h1>￥{{pageBean.inMoney || 0}}</h1>
+                    </li>
+                    <li>
+                      <p>支出金额</p>
+                      <h1 style="color: red;">￥{{pageBean.outMoney ||　0}}</h1>
+                    </li>
+                    <li>
+                      <p>利润</p>
+                      <h1 style="color: #1fbba6">￥{{profit}}</h1>
+                    </li>
+                  </ul>
                 </div>
-                <div class="form-item">
-                  <Button style="width:120px;height: 36px;" @click="financeSearch()">查询</Button>
-                  <a :href="host3" class="dts1">导出</a>
+                <table class="table ivu-table" v-if="financeTotalNum > 0">
+                  <tr>
+                    <th >交易日期</th>
+                    <th>流水号</th>
+                    <th>社区</th>
+                    <th>订单信息</th>
+                    <th>费用类型</th>
+                    <th>用户</th>
+                    <th>交易方式</th>
+                    <th>资金流向</th>
+                    <th>费用金额/元</th>
+                    <th>币种</th>
+                  </tr>
+                  <tr v-for="item in financeList">
+                    <td>{{item.payDate | timefilter("yyyy-MM-dd")}}</td>
+                    <td>{{item.payNo}}</td>
+                    <td>{{item.communityName}}</td>
+                    <td>{{item.financeInfo}}</td>
+                    <td>
+                      <span v-if="item.costType == 0">退款</span>
+                      <span v-if="item.costType == 1">公寓租金</span>
+                      <span v-if="item.costType == 2">办公租金</span>
+                      <span v-if="item.costType == 3">会议室定金</span>
+                      <span v-if="item.costType == 4">工位定金</span>
+                      <span v-if="item.costType == 5">水电账单</span>
+                      <span v-if="item.costType == 6">其它</span>
+                    </td>
+                    <td>{{item.userName}}</td>
+                    <td>
+                      <span v-if="item.payType == 1">支付宝</span>
+                      <span v-if="item.payType == 2">微信</span>
+                      <span v-if="item.payType == 3">银联</span>
+                      <span v-if="item.payType == 4">其他方式</span>
+                    </td>
+                    <td>
+                      <span v-if="item.financeType == 0">支出</span>
+                      <span v-if="item.financeType == 1">收入</span>
+                    </td>
+                    <td>{{item.financeMoney}}</td>
+                    <td>
+                      <span v-if="item.currency == 0">人民币</span>
+                      <span v-if="item.currency == 2">港币</span>
+                      <span v-if="item.currency == 3">美元</span>
+                    </td>
+                  </tr>
+                </table>
+                <div class="blank-background-img" v-if="financeTotalNum == 0">
+                  <img src="../../../static/images/blank/order_space.png" >
+                  <h2>暂无内容~</h2>
                 </div>
+                <Page :total="financeTotalNum"  :page-size="10" show-elevator show-total @on-change="financeSearch" v-if="financeTotalNum > 0"></Page>
               </div>
-              <div class="big-content-wrap" v-if="financeTotalNum > 0">
-                <ul>
-                  <li>
-                    <p>收入金额</p>
-                    <h1>￥{{pageBean.inMoney || 0}}</h1>
-                  </li>
-                  <li>
-                    <p>支出金额</p>
-                    <h1 style="color: red;">￥{{pageBean.outMoney ||　0}}</h1>
-                  </li>
-                  <li>
-                    <p>利润</p>
-                    <h1 style="color: #1fbba6">￥{{profit}}</h1>
-                  </li>
-                </ul>
-              </div>
-              <table class="table ivu-table" v-if="financeTotalNum > 0">
-                <tr>
-                  <th >交易日期</th>
-                  <th>流水号</th>
-                  <th>社区</th>
-                  <th>订单信息</th>
-                  <th>费用类型</th>
-                  <th>用户</th>
-                  <th>交易方式</th>
-                  <th>资金流向</th>
-                  <th>费用金额/元</th>
-                  <th>币种</th>
-                </tr>
-                <tr v-for="item in financeList">
-                  <td>{{item.payDate | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{item.payNo}}</td>
-                  <td>{{item.communityName}}</td>
-                  <td>{{item.financeInfo}}</td>
-                  <td>
-                    <span v-if="item.costType == 0">退款</span>
-                    <span v-if="item.costType == 1">公寓租金</span>
-                    <span v-if="item.costType == 2">办公租金</span>
-                    <span v-if="item.costType == 3">会议室定金</span>
-                    <span v-if="item.costType == 4">工位定金</span>
-                    <span v-if="item.costType == 5">水电账单</span>
-                    <span v-if="item.costType == 6">其它</span>
-                  </td>
-                  <td>{{item.userName}}</td>
-                  <td>
-                    <span v-if="item.payType == 1">支付宝</span>
-                    <span v-if="item.payType == 2">微信</span>
-                    <span v-if="item.payType == 3">银联</span>
-                    <span v-if="item.payType == 4">其他方式</span>
-                  </td>
-                  <td>
-                    <span v-if="item.financeType == 0">支出</span>
-                    <span v-if="item.financeType == 1">收入</span>
-                  </td>
-                  <td>{{item.financeMoney}}</td>
-                  <td>
-                    <span v-if="item.currency == 0">人民币</span>
-                    <span v-if="item.currency == 2">港币</span>
-                    <span v-if="item.currency == 3">美元</span>
-                  </td>
-                </tr>
-              </table>
-              <div class="blank-background-img" v-if="financeTotalNum == 0">
-                <img src="../../../static/images/blank/order_space.png" >
-                <h2>暂无内容~</h2>
-              </div>
-              <Page :total="financeTotalNum"  :page-size="10" show-elevator show-total @on-change="financeSearch" v-if="financeTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="发票管理">
-              <div class="finance-header-kong">
-                <div class="img-content-wrap" style="position: relative">
-                  <img src="../../../static/images/icon/finance_bill_03.png" alt="">
-                  <span>发票申请</span>
-                  <div class="triangle"></div>
-                  <div class="triangle-fugai"></div>
-                </div>
-              </div>
-              <div class="form-search-criteria">
-                <div class="form-item">
-                  <span>申请时间：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="billInvoiceStartDate"></Date-picker>
-                  <span class="inline-block spanBar">-</span>
-                  <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="billInvoiceEndDate"></Date-picker>
-                </div>
-                <div class="form-item">
-                  <span>收件人:</span>
-                  <div style="display: inline-block">
-                    <Input v-model="billInvoiSearchKey" size="large" placeholder="请输入收件人" @on-blur="love2(billInvoiSearchKey)"></Input>
+              <div class="message-ti">
+                <div class="finance-header-kong">
+                  <div class="img-content-wrap" style="position: relative">
+                    <img src="../../../static/images/icon/finance_bill_03.png" alt="">
+                    <span>发票申请</span>
+                    <div class="triangle"></div>
+                    <div class="triangle-fugai"></div>
                   </div>
                 </div>
-                <div class="form-item">
-                  <Button style="width:120px;height: 36px;" @click="billInvoiceSearch()">查询</Button>
-                  <a :href="host4" class="dts1">导出</a>
+                <div class="form-search-criteriam">
+                  <div class="form-item">
+                    <span>申请时间：</span>
+                    <Date-picker type="date" :options="option5" placeholder="选择日期" v-model="billInvoiceStartDate"></Date-picker>
+                    <span class="inline-block spanBar">-</span>
+                    <Date-picker type="date" :options="option2" placeholder="选择日期" v-model="billInvoiceEndDate"></Date-picker>
+                  </div>
+                  <div class="form-item">
+                    <span>收件人:</span>
+                    <div style="display: inline-block">
+                      <Input v-model="billInvoiSearchKey" size="large" placeholder="请输入收件人" @on-blur="love2(billInvoiSearchKey)"></Input>
+                    </div>
+                  </div>
+                  <div class="form-item">
+                    <Button style="width:120px;height: 36px;" @click="billInvoiceSearch()">查询</Button>
+                    <a :href="host4" class="dts1">导出</a>
+                  </div>
                 </div>
+                <table class="table ivu-table" v-if="billInvoiceTotalNum > 0">
+                  <tr>
+                    <th>申请时间</th>
+                    <th>所属社区</th>
+                    <th>订单类型</th>
+                    <th>房间信息</th>
+                    <th>收件人</th>
+                    <th>发票抬头</th>
+                    <th>发票类型</th>
+                    <th>金额/元</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                  <tr v-for="item in billInvoiceList">
+                    <td>{{item.createTime | timefilter("yyyy-MM-dd")}}</td>
+                    <td>{{item.communityName}}</td>
+                    <td>
+                      <span v-if="item.orderType == 0">公寓租金账单</span>
+                      <span v-if="item.orderType == 1">办公租金账单</span>
+                      <span v-if="item.orderType == 2">水电账单</span>
+                      <span v-if="item.orderType == 3">工位订单</span>
+                      <span v-if="item.orderType == 4">会议室订单</span>
+                    </td>
+                    <td>{{item.roomInfo}}</td>
+                    <td>{{item.consignee}}</td>
+                    <td>{{item.invoiceHeader}}</td>
+                    <td>
+                      <span v-if="item.invoiceType == 0">增值发票</span>
+                      <span v-if="item.invoiceType == 1">普通发票</span>
+                    </td>
+                    <td>{{item.invoiceMoney}}</td>
+                    <td>
+                      <span v-if="item.invoiceState == 0">待开票</span>
+                      <span v-if="item.invoiceState == 1">已开票</span>
+                      <span v-if="item.invoiceState == 2">已寄出</span>
+                      <span v-if="item.invoiceState == 3">已收件</span>
+                    </td>
+                    <td>
+                      <a  @click="openBill(item.invoiceId)" v-if="item.invoiceState == 0 && jurisdiction('FINANCE_UPDATE')">开发票</a>
+                      <a v-if="item.invoiceState == 1 && jurisdiction('FINANCE_UPDATE')" @click="sendBill(item.invoiceId)">寄出</a>
+                      <router-link :to="{name:'invoiceDetail',query:{invoiceId:item.invoiceId}}" v-if="item.invoiceState == 2 || item.invoiceState == 3">查看详情</router-link>
+                    </td>
+                  </tr>
+                </table>
+                <div class="blank-background-img" v-if="billInvoiceTotalNum == 0">
+                  <img src="../../../static/images/blank/order_space.png" >
+                  <h2>暂无发票内容~</h2>
+                </div>
+                <Page :total="billInvoiceTotalNum" :current="billInvoiceCurrent" :page-size="10" show-elevator show-total @on-change="billInvoiceSearch" v-if="billInvoiceTotalNum > 0"></Page>
               </div>
-              <table class="table ivu-table" v-if="billInvoiceTotalNum > 0">
-                <tr>
-                  <th>申请时间</th>
-                  <th>所属社区</th>
-                  <th>订单类型</th>
-                  <th>房间信息</th>
-                  <th>收件人</th>
-                  <th>发票抬头</th>
-                  <th>发票类型</th>
-                  <th>金额/元</th>
-                  <th>状态</th>
-                  <th>操作</th>
-                </tr>
-                <tr v-for="item in billInvoiceList">
-                  <td>{{item.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{item.communityName}}</td>
-                  <td>
-                    <span v-if="item.orderType == 0">公寓租金账单</span>
-                    <span v-if="item.orderType == 1">办公租金账单</span>
-                    <span v-if="item.orderType == 2">水电账单</span>
-                    <span v-if="item.orderType == 3">工位订单</span>
-                    <span v-if="item.orderType == 4">会议室订单</span>
-                  </td>
-                  <td>{{item.roomInfo}}</td>
-                  <td>{{item.consignee}}</td>
-                  <td>{{item.invoiceHeader}}</td>
-                  <td>
-                    <span v-if="item.invoiceType == 0">增值发票</span>
-                    <span v-if="item.invoiceType == 1">普通发票</span>
-                  </td>
-                  <td>{{item.invoiceMoney}}</td>
-                  <td>
-                    <span v-if="item.invoiceState == 0">待开票</span>
-                    <span v-if="item.invoiceState == 1">已开票</span>
-                    <span v-if="item.invoiceState == 2">已寄出</span>
-                    <span v-if="item.invoiceState == 3">已收件</span>
-                  </td>
-                  <td>
-                    <a  @click="openBill(item.invoiceId)" v-if="item.invoiceState == 0 && jurisdiction('FINANCE_UPDATE')">开发票</a>
-                    <a v-if="item.invoiceState == 1 && jurisdiction('FINANCE_UPDATE')" @click="sendBill(item.invoiceId)">寄出</a>
-                    <router-link :to="{name:'invoiceDetail',query:{invoiceId:item.invoiceId}}" v-if="item.invoiceState == 2 || item.invoiceState == 3">查看详情</router-link>
-                  </td>
-                </tr>
-              </table>
-              <div class="blank-background-img" v-if="billInvoiceTotalNum == 0">
-                <img src="../../../static/images/blank/order_space.png" >
-                <h2>暂无发票内容~</h2>
-              </div>
-              <Page :total="billInvoiceTotalNum" :current="billInvoiceCurrent" :page-size="10" show-elevator show-total @on-change="billInvoiceSearch" v-if="billInvoiceTotalNum > 0"></Page>
             </Tab-pane>
 
             <Tab-pane label="退款处理">
-              <div class="form-search-criteria">
-                <div class="form-item">
-                  <b>社区：</b>
-                  <Select v-model="refundHandCommunity" style="width:200px">
-                    <Option v-for="community in  propertyContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
-                </div>
-                <div class="form-item select-status">
-                  <b>状态：</b>
-                  <Select v-model="refundStatus" style="width:200px">
-                    <Option v-for="item in  refundStatusList" :value="item.status" :key="item.status">{{ item.statusName }}</Option>
-                  </Select>
-                </div>
-                <div class="form-item">
-                  <div class="form-search" style="margin-left: 0;">
-                    <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="refundHandSearchKey" placeholder="搜索退款对象姓名或手机"></Input>
-                    <input type="button" value="搜索" @click="refundHandSearch2()">
+              <div class="message-ti">
+                <div class="form-search-criteria">
+                  <div class="form-item">
+                    <b>社区：</b>
+                    <Select v-model="refundHandCommunity" style="width:200px">
+                      <Option v-for="community in  propertyContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                    </Select>
+                  </div>
+                  <div class="form-item select-status">
+                    <b>状态：</b>
+                    <Select v-model="refundStatus" style="width:200px">
+                      <Option v-for="item in  refundStatusList" :value="item.status" :key="item.status">{{ item.statusName }}</Option>
+                    </Select>
+                  </div>
+                  <div class="form-item">
+                    <div class="form-search" style="margin-left: 0;">
+                      <i class="iconfont icon-sousuo"></i>
+                      <Input v-model="refundHandSearchKey" placeholder="搜索退款对象姓名或手机"></Input>
+                      <input type="button" value="搜索" @click="refundHandSearch2()">
+                    </div>
+                  </div>
+                  <div class="form-item" style="display: block;margin-top: 20px;">
+                    <span>发起时间：</span>
+                    <Date-picker type="date" :options="option6" placeholder="选择日期" v-model="refundHandStartDate"></Date-picker>
+                    <span class="inline-block spanBar">--</span>
+                    <Date-picker type="date" :options="option3" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
                   </div>
                 </div>
-                <div class="form-item" style="display: block;margin-top: 20px;">
-                  <span>发起时间：</span>
-                  <Date-picker type="date" placeholder="选择日期" v-model="refundHandStartDate"></Date-picker>
-                  <span class="inline-block spanBar">--</span>
-                  <Date-picker type="date" :options="option3" placeholder="选择日期" v-model="refundHandEndDate"></Date-picker>
+                <table class="table ivu-table" v-if="refundHandTotalNum > 0">
+                  <tr>
+                    <th width="50px;">退款单号</th>
+                    <th>所属社区</th>
+                    <th>退款对象</th>
+                    <th>手机号</th>
+                    <th>退款金额/元</th>
+                    <th>发起时间</th>
+                    <th>负责管家</th>
+                    <th>状态</th>
+                    <th style="width: 160px;">操作</th>
+                  </tr>
+                  <tr v-for="(item,index) in refundHandleList">
+                    <td>{{item.refundSn}}</td>
+                    <td>{{item.communityName}}</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.userPhone}}</td>
+                    <td>{{item.refundMoney}}</td>
+                    <td>{{item.createTime | timefilter("yyyy-MM-dd") }}</td>
+                    <td>{{item.managerName}}</td>
+                    <td>
+                      <span v-if="item.refundStatus == 0" style="color: rgb(255,102,18)">待审核</span>
+                      <span v-if="item.refundStatus == 1" style="color: black;">待退款</span>
+                      <span v-if="item.refundStatus == 2">已退款</span>
+                      <span v-if="item.refundStatus == 3">审核不通过</span>
+                    </td>
+                    <td>
+                      <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}">查看详情</router-link>
+                      <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}" v-if="item.refundStatus == 0 && jurisdiction('FINANCE_UPDATE')">审核</router-link>
+                      <a v-if="item.refundStatus == 1 && jurisdiction('FINANCE_UPDATE')" @click="sureRefund(index,item.refundId)">退款</a>
+                    </td>
+                  </tr>
+                </table>
+                <div class="blank-background-img" v-if="refundHandTotalNum == 0">
+                  <img src="../../../static/images/blank/order_space.png" >
+                  <h2>暂无退款内容~</h2>
                 </div>
+                <Page :total="refundHandTotalNum" :current="refundHandCurrent" :page-size="10" show-elevator show-total @on-change="refundHandSearch" v-if="refundHandTotalNum > 0"></Page>
               </div>
-              <table class="table ivu-table" v-if="refundHandTotalNum > 0">
-                <tr>
-                  <th width="50px;">退款单号</th>
-                  <th>所属社区</th>
-                  <th>退款对象</th>
-                  <th>手机号</th>
-                  <th>退款金额/元</th>
-                  <th>发起时间</th>
-                  <th>负责管家</th>
-                  <th>状态</th>
-                  <th style="width: 160px;">操作</th>
-                </tr>
-                <tr v-for="(item,index) in refundHandleList">
-                  <td>{{item.refundSn}}</td>
-                  <td>{{item.communityName}}</td>
-                  <td>{{item.userName}}</td>
-                  <td>{{item.userPhone}}</td>
-                  <td>{{item.refundMoney}}</td>
-                  <td>{{item.createTime | timefilter("yyyy-MM-dd") }}</td>
-                  <td>{{item.managerName}}</td>
-                  <td>
-                    <span v-if="item.refundStatus == 0" style="color: rgb(255,102,18)">待审核</span>
-                    <span v-if="item.refundStatus == 1" style="color: black;">待退款</span>
-                    <span v-if="item.refundStatus == 2">已退款</span>
-                    <span v-if="item.refundStatus == 3">审核不通过</span>
-                  </td>
-                  <td>
-                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}">查看详情</router-link>
-                    <router-link :to="{name:'refundDetail',query:{refundId:item.refundId}}" v-if="item.refundStatus == 0 && jurisdiction('FINANCE_UPDATE')">审核</router-link>
-                    <a v-if="item.refundStatus == 1 && jurisdiction('FINANCE_UPDATE')" @click="sureRefund(index,item.refundId)">退款</a>
-                  </td>
-                </tr>
-              </table>
-              <div class="blank-background-img" v-if="refundHandTotalNum == 0">
-                <img src="../../../static/images/blank/order_space.png" >
-                <h2>暂无退款内容~</h2>
-              </div>
-              <Page :total="refundHandTotalNum" :current="refundHandCurrent" :page-size="10" show-elevator show-total @on-change="refundHandSearch" v-if="refundHandTotalNum > 0"></Page>
             </Tab-pane>
           </Tabs>
-        </div>
+
       </div>
       <footer-box></footer-box>
     </div>
@@ -502,6 +507,27 @@
 					disabledDate (date) {
 						return date && date.valueOf() < _this.refundHandStartDate;
 					}
+        },
+        option4: {
+          disabledDate(date){
+						if(_this.financeEndDate){
+							return date &&  _this.financeEndDate < date.valueOf();
+						}
+          }
+				},
+				option5: {
+          disabledDate(date){
+						if(_this.billInvoiceEndDate){
+							return date &&  _this.billInvoiceEndDate < date.valueOf();
+						}
+          }
+				},
+				option6: {
+          disabledDate(date){
+						if(_this.refundHandEndDate){
+							return date &&  _this.refundHandEndDate < date.valueOf();
+						}
+          }
         },
         host3:'',
         host4:''
@@ -858,13 +884,26 @@
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityManagement.scss';
-
-  #finance-index-wrap{
-    min-height: 1100px;
+  #right-content{
+    height: 100%!important;
+    .message-tix{
+        width: 100%;
+        min-height: 1000px;
+        background-color: #fff;
+        overflow: hidden;
+        box-shadow: 0 2px 1px #ccc!important;
+    }
+  }
+  .ivu-tabs-tabpane{
     width: 100%;
+    height: 100%;
     background-color: #fff;
-    box-shadow: 0 3px 1px #ccc;
-    .blank-background-img{
+    box-shadow: 0 2px 1px #ccc;
+  }
+  .ivu-tabs-card{
+    // box-shadow: 0 0 0px #0CC!important;
+  }
+  .blank-background-img{
       text-align: center;
       img{
         padding-top: 150px;
@@ -872,9 +911,6 @@
       h2{
         color: #999;
       }
-    }
-    .ivu-tabs-card{
-      box-shadow:none;
     }
     .finance-header-kong{
       height: 60px;
@@ -915,7 +951,7 @@
 
       }
     }
-    .form-search-criteria{
+    .form-search-criteriam{
       padding: 5px 0 21px 20px;
       .form-item{
         margin-right: 60px;
@@ -982,7 +1018,8 @@
       height: 34px;
       border-radius: 5px;
       border: 1px solid #038be2;
-      text-align: center;line-height: 34px;
+      text-align: center;
+      line-height: 34px;
       font-size: 12px;
       font-weight: bold;
       span{
@@ -999,7 +1036,7 @@
     .ivu-tabs-bar{
       background-color: rgb(240,240,240);
     }
-  }
+  
 
   .zhezhao{
     width: 100%;
