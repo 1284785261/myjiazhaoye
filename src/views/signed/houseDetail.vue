@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <span>{{name}}</span>
 		        </div>
 		    	<div id="houseDetail">
 		    		<div class="housedetail1">
@@ -61,8 +61,10 @@
 		    					<span >{{Datas.cxkjContractSign.user.userName}}</span>
 		    					<span>联系电话：{{Datas.cxkjContractSign.user.userPhone}}</span>
 		    				</td>
-		    				<td v-else><span >无</span>
-		    					<span>联系电话：无</span></td>
+		    				<td v-else>
+								<span >无</span>
+		    					<span>联系电话：无</span>
+							</td>
 		    			</tr>
 		    			<tr>
 		    				<td>
@@ -71,9 +73,8 @@
 		    				<td>
 		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
 		    					<p v-else>押金：无<span>租金：无</span></p>
-		    					<p >预存：300.00元<span v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost | cyclePayMoney}}</span>
-		    						<span v-else> 服务费：无</span>
-		    					</p>
+		    					<p v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost | cyclePayMoney}}</p>
+								<p v-else>服务费：无</p>
 		    				</td>
 		    			</tr>
 		    			<tr>
@@ -199,7 +200,8 @@
     			roomid:null,
     			Datas:null,
     			money:null,
-    			texs:null,
+				texs:null,
+				name:null,
     			communityId:null,
     			successModal: false,
 				warningModal: false,
@@ -348,7 +350,8 @@
     	},
     	mounted(){
     		this.roomid = this.$route.query.id;
-    		this.communityId = this.$route.query.ids;
+			this.communityId = this.$route.query.ids;
+			this.name = this.$route.query.name;
     		this.datas();
     	},
     	methods:{

@@ -860,7 +860,6 @@
   @import '../../sass/page/_communityManagement.scss';
 
   #finance-index-wrap{
-    height: 100%;
     min-height: 1100px;
     width: 100%;
     background-color: #fff;

@@ -15,53 +15,6 @@
 				<div class="ivu-warp-Community">
 					<div class="ivu-main-img">
 						<h4>社区图片：</h4>
-						<div class="item-img" v-if="hides1">
-							<span class="fl">公寓：</span>
-							<div class="demo-upload-list" v-for="item in uploadList1">
-								<template>
-									<img :src="item.url">
-									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
-										<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
-									</div>
-								</template>
-							</div>
-							<div class="demo-upload-list" v-for="item in uploadList">
-								<template v-if="item.status === 'finished'">
-									<img :src="item.url">
-									<div class="demo-upload-list-cover">
-										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
-										<Icon type="ios-trash-outline" @click.native="handleRemove1(item)"></Icon>
-									</div>
-								</template>
-								<template v-else>
-									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-								</template>
-				
-							</div>
-							<Upload
-						        ref="upload"
-						        :show-upload-list="false"
-						        :default-file-list="defaultList"
-						        :on-success="handleSuccess"
-						        :format="['jpg','jpeg','png']"
-						        :max-size="2048"
-						        :on-format-error="handleFormatError"
-						        :on-exceeded-size="handleMaxSize"
-						        :before-upload="handleBeforeUpload"
-						        multiple
-						        type="drag"
-						        :action='host3'
-						        :data='data'
-						        style="display: inline-block;width:160px;">
-						        <div style="width: 160px;height:120px;line-height: 120px;">
-						            <Icon type="camera" size="20"></Icon>
-						        </div>
-						  </Upload>
-							<Modal v-model="visible">
-								<img :src="imgName" v-if="visible">
-							</Modal>
-						</div>
 						<div class="item-img">
 							<span class="fl">社区门面：</span>
 							<div class="demo-upload-list" v-for="item in uploadList2">
@@ -111,6 +64,54 @@
 								<img :src="imgName" v-if="visible">
 							</Modal>
 						</div>
+						<div class="item-img" v-if="hides1">
+							<span class="fl">公寓：</span>
+							<div class="demo-upload-list" v-for="item in uploadList1">
+								<template>
+									<img :src="item.url">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove4(item)"></Icon>
+									</div>
+								</template>
+							</div>
+							<div class="demo-upload-list" v-for="item in uploadList">
+								<template v-if="item.status === 'finished'">
+									<img :src="item.url">
+									<div class="demo-upload-list-cover">
+										<Icon type="ios-eye-outline" @click.native="handleView1(item)"></Icon>
+										<Icon type="ios-trash-outline" @click.native="handleRemove1(item)"></Icon>
+									</div>
+								</template>
+								<template v-else>
+									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+								</template>
+				
+							</div>
+							<Upload
+						        ref="upload"
+						        :show-upload-list="false"
+						        :default-file-list="defaultList"
+						        :on-success="handleSuccess"
+						        :format="['jpg','jpeg','png']"
+						        :max-size="2048"
+						        :on-format-error="handleFormatError"
+						        :on-exceeded-size="handleMaxSize"
+						        :before-upload="handleBeforeUpload"
+						        multiple
+						        type="drag"
+						        :action='host3'
+						        :data='data'
+						        style="display: inline-block;width:160px;">
+						        <div style="width: 160px;height:120px;line-height: 120px;">
+						            <Icon type="camera" size="20"></Icon>
+						        </div>
+						  </Upload>
+							<Modal v-model="visible">
+								<img :src="imgName" v-if="visible">
+							</Modal>
+						</div>
+						
 						<div class="item-img" v-if="hides2">
 							<span class="fl">办公区：</span>
 							<div class="demo-upload-list" v-for="item in uploadList3">

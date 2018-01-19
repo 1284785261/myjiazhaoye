@@ -29,7 +29,7 @@
             <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
-                <Input v-model="roomSearchKey" placeholder="搜索联系人或联系电话"></Input>
+                <Input v-model="roomSearchKey" placeholder="搜索投诉人或注册手机号"></Input>
                 <input type="button" value="搜索" @click="search()">
               </div>
             </div>
@@ -193,6 +193,7 @@
         var that = this;
         this.$http.get(complainList,{params:data})
           .then(function(res){
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.complainList = pageBean.page;
@@ -223,6 +224,7 @@
         if(this.roomEndDate){
           data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
         }
+        console.log(this.roomSearchKey);
         this.pageNum = page || 1
         this.getComplainData(data);
         this.DerivedForm()

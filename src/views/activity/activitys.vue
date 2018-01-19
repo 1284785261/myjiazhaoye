@@ -24,12 +24,12 @@
 								<td>活动ID</td>
 								<td>开始日期</td>
 								<td>活动主题</td>
-								<td width="400px">活动详情</td>
+								<td>活动详情</td>
 								<td>活动规则</td>
 								<td>发起人</td>
 								<td>发起日期</td>
 								<td>状态</td>
-								<td style="width:100px;">操作</td>
+								<td style="width:140px;">操作</td>
 	
 							</thead>
 							<tr v-for="(item,index) in Userlist">
@@ -46,6 +46,7 @@
 								<td>
 									<router-link :to="{path:'/activity/lookactivity',query:{id:item.activityId}}" style="padding:5px;">查看 </router-link>
 									<a @click="zuofei(item)" v-if="item.activityStatus != 3 && jurisdiction('ACTIVITY_DELETE')" style="padding:5px;"> 作废</a>
+									<a style="padding:5px;" v-if="item.activityStatus != 3 && jurisdiction('ACTIVITY_DELETE')" @click="binding(item)">绑定</a>
 								</td>
 							</tr>
 						</table>
@@ -69,6 +70,22 @@
 		</div>
 		<div class="scherm" v-show="isHide">
 		</div>
+		<div class="scherm" v-show="isHide2" @click="mt">
+		</div>
+		<div class="lose2" v-show="isShow2">
+			<p>新增活动推广入口</p>
+			<table>
+				<tr>
+					<td>活动ID：</td>
+					<td>{{ids}}</td>
+				</tr>
+				<tr>
+					<td>URL：</td>
+					<td><Input v-model="acitveurl"  placeholder="请填写活动URL"></Input></td>
+				</tr>
+			</table>
+			<a @click="generalize">确定</a>
+		</div>
 	</div>
 </template>
 
@@ -80,7 +97,7 @@
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
 	import axios from 'axios';
-	import { hostActivity,hostActivityModify } from '../api.js';
+	import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
 	import qs from 'qs';
 
 	export default {
@@ -100,8 +117,6 @@
 				warningMessage: '添加部门失败，请检查是否重复',
 				currentPage3: 1,
 				radio: '1',
-				ishide: false,
-				ishide2: false,
 				ishide3: false,
 				options8: [{
 					value: '选项1',
@@ -125,8 +140,13 @@
 				pageNum: '1',
 				Userlist: null,
 				isHide:false,
+				isHide2:false,
 				isShow1:false,
-				activityId:''
+				isShow2:false,
+				activityId:'',
+				acitveurl:'',
+				ids:'',
+				idss:''
 			}
 		},
 		mounted() {
@@ -212,6 +232,42 @@
 				// console.log(item);
 				this.activityId = item.activityId;
 			},
+			binding(item){
+				this.ids = item.activityNum;
+				this.idss = item.activityId;
+				this.isHide2 = true;
+				this.isShow2 = true;
+			},
+			generalize(){
+				let param = new FormData();
+				if(this.idss){
+					param.append('activityId',this.idss);
+				}
+				if(this.acitveurl){
+					param.append('inviteUrl',this.acitveurl);
+				}
+				axios.post(hostActivityInvite, param).then((res)=>{
+					if(res.status == 200 && res.data.code == 10000){
+						this.isHide2 = false;
+						this.isShow2 = false;
+						this.successMessage = '设置成功'
+						this.successModal = true;
+						setTimeout(() => {
+							this.successModal = false;
+						}, 1000);
+					}
+					else{
+						this.warningMessage = res.data.content;
+						this.warningModal = true;
+					}
+				}).catch((err)=>{
+					console.log(err);
+				})
+			},
+			mt(){
+				this.isHide2 = false;
+				this.isShow2 = false;
+			},
 			qb1(){
 				this.isHide = false;
 				this.isShow1 = false;
@@ -236,7 +292,7 @@
 						}, 1000);
 					}
 					else{
-						this.warningMessage = response.data.content;
+						this.warningMessage = res.data.content;
 						this.warningModal = true;
 					}
 				}).catch((err)=>{

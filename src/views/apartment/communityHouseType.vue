@@ -213,16 +213,18 @@
         }
       },
       addHouse(){
-        this.cxkjCommunityListHousetype.push({
-          communityId:this.communityId,
-          housetypeName:"",
-          housetypeArea:"",
-          roomId:"",
-          housetypeHall:"",
-          housetypeHygienism:"",
-          housetypeWindow:"",
-          housetypeOrientations:""
-        })
+        for(let i = 0; i < this.numberLine;i++){
+          this.cxkjCommunityListHousetype.push({
+            communityId:this.communityId,
+            housetypeName:"",
+            housetypeArea:"",
+            roomId:"",
+            housetypeHall:"",
+            housetypeHygienism:"",
+            housetypeWindow:"",
+            housetypeOrientations:""
+          })
+        }
       },
       copyHouse(index){
         var copyObj = this.deepCopy(this.cxkjCommunityListHousetype[index]);

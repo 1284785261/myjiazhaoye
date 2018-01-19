@@ -38,7 +38,7 @@
               <tr>
                 <td><b>投诉人 :</b></td>
                 <td>
-                  <Input v-model="userName" placeholder="搜索联系人或联系电话" style="width: 220px;"></Input>
+                  <Input v-model="userName" placeholder="请输入投诉人联系电话" style="width: 220px;"></Input>
                 </td>
               </tr>
               <tr>

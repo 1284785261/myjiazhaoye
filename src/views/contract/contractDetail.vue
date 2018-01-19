@@ -154,7 +154,6 @@
                       <td class="td2">押金 :<span>{{contractDetailData.deposit}}元</span></td>
                       <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
-                      <td class="td2">优惠券代扣 :<span>暂无</span></td>
                     </tr>
                     <tr class="tr2 span-padding" v-if="contractDetailData.otherCostJson && contractDetailData.otherCostJson.length">
                       <td class="td2" v-for="item in contractDetailData.otherCostJson">{{item.costName}}：{{item.costAmount}}元</td>

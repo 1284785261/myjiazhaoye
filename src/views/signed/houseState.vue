@@ -31,14 +31,14 @@
 					        			<p v-else></p>
 					        			<span v-if="its.cxkjContractSign != null && its.cxkjContractSign.RentArrears != null">{{its.cxkjContractSign.RentArrears}}</span>
 					        			<span v-else></span>
-					        			<span v-if="its.cxkjContractSign != null">租期剩余{{its.cxkjContractSign.endDay}}天</span>
+					        			<span v-if="its.cxkjContractSign != null && its.cxkjContractSign.endDay > 0">租期剩余{{its.cxkjContractSign.endDay}}天</span>
 					        			<span v-else></span>
 					        			<p>￥{{its.roomRent}}.00
 					        				<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]">{{its.roomStatus | states(its.roomStatus)}}</i>
 					        			</p>
 			        			</div>
 			        			
-				        		<router-link :to="{path:'/signed/houseDetail',query:{id:its.roomId,ids:communityId}}" class="sex">
+				        		<router-link :to="{path:'/signed/houseDetail',query:{id:its.roomId,ids:communityId,name:Name}}" class="sex">
 				        				<span>房间</span>
 				        				<span>点击弹出房间信息</span>
 				        		</router-link>
