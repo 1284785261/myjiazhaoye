@@ -439,6 +439,12 @@ export default new Router({
       component:resolve =>
         require(['../views/Industry/industry.vue'],resolve)
     },
+    {
+      path:'/operation/inviteRecord',		//工商注册
+      name:'inviteRecord',
+      component:resolve =>
+        require(['../views/operation/inviteRecord.vue'],resolve)
+    },
 
 
 

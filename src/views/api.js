@@ -10,7 +10,7 @@ export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.2.180113_re
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
-、、const host3 = 'http://192.168.20.191:8080';
+//const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
@@ -665,6 +665,9 @@ export const CommunityServiceAdd500120 =host3+'/cxkj-room/apis/pcManager/cxkjcom
 export const CommunityServiceUpdate500121 =host3+'/cxkj-room/apis/pcManager/cxkjcommunityservice/CxkjCommunityServiceUpdate500121';//企业服务修改
 export const CommunityServiceDel500122 =host3+'/cxkj-room/apis/pcManager/cxkjcommunityservice/CxkjCommunityServiceDel500122';//企业服务删除
 
+//邀请记录
+export const CxkjInviteFriendList300139 =host3+'/cxkj-room/apis/pc/inviteFriend/CxkjInviteFriendList300139';
+export const CxkjDownloadInviteFriend300142 =host3+'/cxkj-room/apis/pc/inviteFriend/CxkjDownloadInviteFriend300142'
 
 //文件上传
 

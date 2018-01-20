@@ -15,10 +15,15 @@
                 <span>日报</span>
               </div>
             </div>
-            <div class="report-item">
+            <div class="report-item" style="border-right: 1px solid #ccc;">
               <div class="img-content-wrap isActive" @click="goToMonth()">
                 <img src="../../../static/images/icon/operation_yue_03.png" alt="月报">
                 <span>月报</span>
+              </div>
+            </div>
+            <div class="report-item">
+              <div class="img-content-wrap isActive" @click="goToInvite()">
+                <span>邀请记录</span>
               </div>
             </div>
           </div>
@@ -59,6 +64,9 @@
       },
       goToMonth(){
           this.$router.push({name:"operationMonthReport"})
+      },
+      goToInvite(){
+          this.$router.push({name:"inviteRecord"})
       }
     }
   }
@@ -80,7 +88,7 @@
       box-shadow: 0 3px 1px #ccc;
       .report-item{
         height: 100%;
-        width: 50%;
+        width: 33.33%;
         display: inline-block;
         float: left;
         .img-content-wrap{
