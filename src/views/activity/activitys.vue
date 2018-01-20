@@ -235,6 +235,7 @@
 			binding(item){
 				this.ids = item.activityNum;
 				this.idss = item.activityId;
+				this.acitveurl = item.inviteUrl?item.inviteUrl:'';
 				this.isHide2 = true;
 				this.isShow2 = true;
 			},
@@ -258,7 +259,12 @@
 					}
 					else{
 						this.warningMessage = res.data.content;
+//                         this.successModal = false
 						this.warningModal = true;
+                      this.isHide2 = false;
+                      this.isShow2 = false;
+                      return
+
 					}
 				}).catch((err)=>{
 					console.log(err);
