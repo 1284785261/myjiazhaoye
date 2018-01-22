@@ -10,7 +10,7 @@ export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.2.180113_re
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
-//const host3 = 'http://192.168.20.191:8080';
+// const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
@@ -603,14 +603,23 @@ export const unsentWaterEnergyBillList =host3+'/cxkj-room/apis/pc/waterEnergyBil
 export const editUsedWaterEnergy =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjEditUsedWaterEnergy300094';//编辑水电账单
 
 //设备管理
-export const shutdown =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationTable200138';//智能门锁
-export const temporaryPwd =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationPassword200139';//临时密码
-export const sendMessege =host3+'/cxkj-center/apis/user/CxkjCenterSendPassword200146';//发送短信
-export const addDoorLock =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationAdd200140';//添加门锁
-export const updateDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUpdate200141';//修改门锁配置
-export const deleteDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationDelete200142';//解除门锁
-export const unLockDL =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
-export const doorLockNotes =host3+'/cxkj-room/apis/pc/roomLock/CxkjRoomLockRelationRecord200144';//开锁记录
+
+/**
+ * 智能门锁
+ **/
+export const shutdown =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationTable200138';//智能门锁
+export const temporaryPwd =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationPassword200139';//临时密码
+export const sendMessege =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjCenterSendPassword200146';//发送短信
+export const addDoorLock =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationAdd200140';//添加门锁
+export const updateDL =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationUpdate200141';//修改门锁配置
+export const deleteDL =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationDelete200142';//解除门锁
+export const unLockDL =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationUnlock200143';//冻结/解冻门锁
+export const doorLockNotes =host3+'/cxkj-intelligence/apis/pc/roomLock/CxkjRoomLockRelationRecord200144';//开锁记录
+
+
+
+
+
 export const electricityTable =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityTable200137';//电表管理
 export const pushElectricity =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityAdd200145';//添加电表
 export const electricityDelete =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityDelete200155';//解除电表
