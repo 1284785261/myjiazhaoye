@@ -59,6 +59,12 @@
                           </template>
                         </el-table-column>
                         <el-table-column
+                          label="短租">
+                          <template scope="scope">
+                            <span>是</span>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
                           label="水表/水费">
                           <template scope="scope">
                             <span v-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.waterStatus != 0 || scope.row.roomLockWaterElect.waterStatus != 1 || scope.row.roomLockWaterElect.waterStatus != 2)">

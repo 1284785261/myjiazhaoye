@@ -27,6 +27,7 @@
               <th v-if="cxkjCommunityListRoom[0].electricType == 1">电表/电费</th>
               <th>电表读数</th>
               <th>租金（元/月）</th>
+              <th>短租</th>
               <th v-if="!isEidRoom" style="width: 110px;">操作</th>
             </tr>
             <tr v-for="(room,index) in cxkjCommunityListRoom">
@@ -68,6 +69,9 @@
               <td v-if="room.electricType == 1"><Input v-model="room.roomElectric"  placeholder="请填写电表读数"></Input></td>
               <td>
                 <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
+              </td>
+              <td>
+                <el-checkbox></el-checkbox>
               </td>
               <td v-if="!isEidRoom">
                 <a @click="copyRoom(index)">复制</a><a style="padding-left: 10px" @click="deleteRoom(index)">删除</a>
@@ -427,7 +431,7 @@
       createNewRoom(){
         var that = this;
         var data = this.extendDeep(this.cxkjCommunityListRoom);
-        
+
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){

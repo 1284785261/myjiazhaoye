@@ -55,8 +55,9 @@
                   <el-option v-for="item in orientations" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </td>
-              <td style="width: 120px;">
+              <td style="width: 160px;">
                 <a @click="copyHouse(index)">复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
+                <a style="padding-left: 5px" @click="service(index)">增值服务</a>
               </td>
             </tr>
           </table>
@@ -71,6 +72,34 @@
       </div>
       <footer-box></footer-box>
     </div>
+
+    <div class="add-service-content-madal" v-if="addServiceModal" @click="closeAddServiceModal()"></div>
+    <div class="add-service-content" v-if="addServiceModal">
+      <div class="add-service-content-title">
+        <span>增值服务</span>
+      </div>
+      <div class="modal-content-meddle">
+        <ul>
+          <li v-for="(item,index) in services">
+            <i @click="deleteService(index)"><Icon type="ios-close-outline" ></Icon></i>
+            <span style="padding-left: 5px;">{{item.name}}</span>
+            <span style="padding-left: 5px;">￥{{item.price}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="add-service-warp">
+        <p>
+          新增服务名称<Input v-model="name" style="display: inline-block;width: 140px;padding-left: 10px;padding-right: 10px;"/>
+          价格<Input v-model="price" style="display: inline-block;width: 100px;padding-left: 10px;padding-right: 10px;"/>
+          <i @click="addSercive"><Icon type="ios-plus-outline" style="font-size: 36px; font-weight: 700;position: relative;top: 10px;" ></Icon></i>
+        </p>
+      </div>
+      <div class="modal-close-btn" @click="closeAddServiceModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
+
     <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
     <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
@@ -172,7 +201,11 @@
         successModal:false,
         successMessage:"户型创建成功！",
         warningModal:false,
-        warningMessage:"信息填写不完整，请填写完整后重新提交！"
+        warningMessage:"信息填写不完整，请填写完整后重新提交！",
+        addServiceModal:false,
+        services:[{name:"咖啡",price:10},{name:"早餐",price:10},{name:"唱吧",price:10}],
+        name:"",
+        price:"",
       }
     },
     methods:{
@@ -267,6 +300,20 @@
       },
       closeWarningModal(){
         this.warningModal = false;
+      },
+      addSercive(){
+        this.services.push({name:this.name,price:this.price});
+        this.name = "";
+        this.price = "";
+      },
+      deleteService(index){
+        this.services.splice(index,1);
+      },
+      service(index){
+        this.addServiceModal = true;
+      },
+      closeAddServiceModal(){
+        this.addServiceModal = false;
       },
       back(){
         window.history.go(-1);
@@ -377,6 +424,110 @@
         width: 90px;
         height: 30px;
         margin-top: 20px;
+      }
+    }
+  }
+  .add-service-content-madal{
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.4);
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .add-service-content{
+    width:500px;
+    height: 320px;
+    min-height:320px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .modal-content-meddle{
+      min-height: 120px;
+      width: 500px;
+      margin-bottom: 30px;
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      ul{
+        overflow: hidden;
+        min-height: 120px;
+        width: 460px;
+        li{
+          height: 46px;
+          line-height: 46px;
+          display: inline-block;
+          float: left;
+          margin-right: 10px;
+          .ivu-icon-ios-close-outline{
+            font-size: 26px;
+            position: relative;
+            top: 4px;
+          }
+        }
+      }
+    }
+    .add-service-content-title{
+      height: 60px;
+      width: 100%;
+      font-size: 20px;
+      color: #fff;
+      background-color:rgb(53,154,240);
+      text-align: center;
+      line-height: 60px;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .add-floor-table{
+      height: 175px;
+      width: 100%;
+      table{
+        margin: 0 auto;
+        padding-top: 40px;
+        tr td:nth-child(1){
+          font-weight: 700;
+          color: black;
+          text-align: right;
+        }
+        tr{
+          td{
+            padding: 10px;
+          }
+        }
+      }
+    }
+    .add-service-warp{
+      text-align: center;
+      .ivu-input{
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+    .modal-close-btn{
+      position: absolute;
+      top: -36px;
+      right: -36px;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background-color:rgba(0,0,0,0.7) ;
+      border-radius: 100%;
+      text-align: center;
+      font-size: 36px;
+      cursor: pointer;
+      i{
+        position: relative;
+        top: -8px;
       }
     }
   }
