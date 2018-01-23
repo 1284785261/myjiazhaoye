@@ -34,6 +34,9 @@
 							<li>
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
+							<li>
+								<router-link :to="{path:'/signed/shortTerm',query:{communityId:communityId,Name:selectModel1}}">短租房状态</router-link>
+							</li>
 							<li v-if="jurisdiction('LIVE_QUERY')">
 								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>

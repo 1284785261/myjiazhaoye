@@ -9,15 +9,34 @@
 		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
 		        </div>
 		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
+		          <h3><i class="icon icon-iden"></i>短租房状态</h3>
 		          <span>{{Name}}</span>
 		        </div>
-		    	<div id="houseState">
-		    		<div class="housestate1">
-		    			<router-link :to="{path:'/signed/residentList',query:{id:communityId}}">住户列表</router-link>
-		    			<router-link :to="{path:'/signed/priceAdmin',query:{id:communityId}}">调价管理</router-link>
+		    	<div id="shortTerm">
+		    		<div class="shortTerm1">
+		    			<div class="form-search-criteria">
+                            <div class="form-item">
+                                <b>社区：</b>
+                                <Select v-model="stationCommunity" style="width:150px">
+                                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                                </Select>
+                            </div>
+                            <div class="form-item">
+                                <b>更多查询：</b>
+                                <Select v-model="stationCommunity" style="width:80px">
+                                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                                </Select>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-search">
+                                    <i class="iconfont icon-sousuo"></i>
+                                    <Input v-model="stationKeyWord" placeholder="搜索联系人或联系电话"></Input>
+                                    <input type="button" @click="searchStation()" value="搜索">
+                                </div>
+                            </div>
+                        </div>
 		    		</div>
-		    		<div class="housestate2" v-for="(item,index) in bigdata">
+		    		<div class="shortTerm2" v-for="(item,index) in bigdata">
 			        	<div class="state1">
 			        		<span>{{item.floorName}}</span><span>层</span><span>{{item.cxkjCommunityListRoomSize}}间</span>
 			        		<i :class="[item.hais ? clas:clas2]" @click="shrink(index,item.hais)"></i>
@@ -26,7 +45,9 @@
 			        	<ul class="state2 transition-box" v-show='item.hais'>
 			        		<li v-for="its in item.cxkjCommunityListRoom" >
 			        			<div>
+                                        
 					        			<p>{{its.roomNum}}</p>
+                                        <span class="short">短租</span>
 					        			<p v-if="its.cxkjCommunityHousetype != null">{{its.cxkjCommunityHousetype.housetypeName}}</p>
 					        			<p v-else></p>
 					        			<span v-if="its.cxkjContractSign != null && its.cxkjContractSign.RentArrears != null">{{its.cxkjContractSign.RentArrears}}</span>
@@ -38,7 +59,7 @@
 					        			</p>
 			        			</div>
 			        			
-				        		<router-link :to="{path:'/signed/houseDetail',query:{id:its.roomId,ids:communityId,name:Name}}" class="sex">
+				        		<router-link :to="{path:'/signed/shortDetails',query:{id:its.roomId,ids:communityId,name:Name}}" class="sex">
 				        				<span>房间</span>
 				        				<span>点击弹出房间信息</span>
 				        		</router-link>
@@ -57,7 +78,7 @@
 
 <script>
 	
-	import '../../sass/style/houseState.css';
+	import '../../sass/style/shortTerm.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
@@ -148,4 +169,47 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
+  #shortTerm{
+    .form-search-criteria{
+        position: relative;
+        padding: 21px 0 21px 20px;
+        .form-item{
+        display: inline-block;
+        margin-right: 20px;
+        .form-search{
+            position: relative;
+            margin-left: 50px;
+            .ivu-input-wrapper{
+            width: auto;
+            }
+            input[type="text"]{
+            width: 208px;
+            height: 36px;
+            border-radius: 0;
+            padding-left: 30px;
+            }
+            i{
+            position: absolute;
+            left: 5px;
+            top: 7px;
+            z-index: 99;
+            font-size: 18px;
+            color: #999;
+            }
+            input[type=button]{
+            width: 70px;
+            text-align: center;
+            height: 36px;
+            line-height: 36px;
+            background-color: #038be2;
+            color:#fff;
+            border:none;
+            position: relative;
+            left: -5px;
+            top: 1px;
+            }
+        }
+        }
+    }
+  }
 </style>
