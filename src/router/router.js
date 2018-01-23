@@ -445,9 +445,11 @@ export default new Router({
       component:resolve =>
         require(['../views/operation/inviteRecord.vue'],resolve)
     },
-
-
-
-
+    {
+      path:'/shortRent/shortRent',		//短租管理 - 入口
+      name:'shortRent',
+      component:resolve =>
+        require(['../views/shortRent/shortRent.vue'],resolve)
+    },
   ]
 })
