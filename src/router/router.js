@@ -469,6 +469,12 @@ export default new Router({
       component:resolve =>
         require(['../views/signed/shortDetails.vue'],resolve)
     },
+    {
+      path:'/signed/shortresident',		//工作台-短租房状态-住户列表
+      name:'shortresident',
+      component:resolve =>
+        require(['../views/signed/shortresident.vue'],resolve)
+    },
 
   ]
 })

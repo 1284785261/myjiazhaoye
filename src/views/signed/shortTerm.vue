@@ -15,8 +15,9 @@
 		    	<div id="shortTerm">
 		    		<div class="shortTerm1">
 		    			<div class="form-search-criteria">
+							<router-link :to="{path:'/signed/shortresident',query:{id:communityId}}">住户列表</router-link>
                             <div class="form-item">
-                                <b>社区：</b>
+                                <b>房型：</b>
                                 <Select v-model="stationCommunity" style="width:150px">
                                     <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                                 </Select>
@@ -172,7 +173,7 @@
   #shortTerm{
     .form-search-criteria{
         position: relative;
-        padding: 21px 0 21px 20px;
+        padding: 0 0 0px 30px;
         .form-item{
         display: inline-block;
         margin-right: 20px;

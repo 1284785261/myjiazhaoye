@@ -12,8 +12,8 @@
 		          <h3><i class="icon icon-iden"></i>住户列表</h3>
 		          <span>佳兆业航运WEWA空间</span>
 		        </div>
-		    	<div id="residentList">
-		    		<div class="residentlist">
+		    	<div id="shortresident">
+		    		<div class="shortresident">
 		    			<a  :href="host3">导出</a>
 		    		</div>
 		    		<table>
@@ -49,7 +49,7 @@
 
 <script>
 
-	import '../../sass/style/residentList.css';
+	import '../../sass/style/shortresident.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
@@ -70,7 +70,7 @@
     			currentPage3: 1,
     			communityId:null,
     			Datas:[],
-    			totalNum:0,
+    			totalNum:null,
     			pageNum:1,
           		host3:'',
           		pageSize:10

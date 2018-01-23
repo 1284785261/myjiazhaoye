@@ -48,11 +48,11 @@
 		    					<p>租期：无</p>
 		    				</td>
 		    				<td rowspan="3">
-		    					<a>一键换房</a>
+		    					<a @click="openroom">一键换房</a>
 		    					<a @click="openrelet">续租</a>
-                                <a>添加收款</a>
-                                <a>添加退款</a>
-		    					<a>退房确认</a>
+                                <a @click="opengathering">添加收款</a>
+                                <a @click="openrefund">添加退款</a>
+		    					<a @click="opencheckout">退房确认</a>
 		    					<a>开发票</a>
 		    				</td>
 		    			</tr>
@@ -88,7 +88,7 @@
 		    					<p v-else></p>
 		    				</td>
 		    				<td>
-		    					<a>增值服务操作</a>
+		    					<a @click="openservices">增值服务操作</a>
 		    				</td>
 		    			</tr>
 		    			<tr>
@@ -140,44 +140,10 @@
 		<div class="zhezha" v-show="isHide">
 			
 		</div>
-		<div class="checkIn" v-show="isHide1">
-			<p>房号：101<span style="margin-left: 40px;">标准大单间</span></p>
-            <p>房间信息：<span class="span1">格局：daodjaod </span><span class="span1">面积：35.00 m²</span></p>
-            <p>定房电话：<input class="ivu-input" style="width:130px;"> 定房姓名：王大妈</p>
-            <p>门市价：</p>
-            <p>入住时间：<Date-picker type="date" :options="option3" placeholder="选择日期"></Date-picker></p>
-            <p>预计退房日期：<Date-picker type="date" :options="option3" placeholder="选择日期"></Date-picker> 
-               入住天数： 
-                <Select v-model="stationCommunity" style="width:70px">
-                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                </Select>
-            </p>
-            <p>备注：<input class="ivu-input" style="width:300px;"> 
-                市场细分：
-                <Select v-model="stationCommunity" style="width:180px">
-                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                </Select>
-            </p>
-            <p>入住人：
-                <ul>
-                    <li>
-                        姓名：<input class="ivu-input " style="width:80px;">
-                        <el-radio class="radio" v-model="radio" label="1">男</el-radio>
-                        <el-radio class="radio" v-model="radio" label="2">女</el-radio>
-                        <Select v-model="stationCommunity" style="width:120px">
-                            <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                        </Select>
-                        <input class="ivu-input" style="width:250px;">
-                    </li>
-                </ul>
-            </p>
-            <a @click="checkIn()">提交</a>
-            <a @click="notcheckIn()">取消</a>
-            <span style="margin-left: 40px;color:red;">点击提交发送密码短信至登录人的手机中</span>
-		</div>
+		<check-In @notcheckIn="notcheckIn()" v-show="isHide1"></check-In>
         <div class="relet" v-show="isHide2">
             <i class="el-icon-circle-close"></i>
-            <ul>
+            <ul style="margin-top: 15px;">
                 <li>
                     <p>入住时间：1207/6/03 <span>已住天数：3天</span></p>
                 </li>
@@ -193,9 +159,58 @@
                     <Date-picker type="date" :options="option3" placeholder="选择日期"></Date-picker>
                 </li>
             </ul>
-            <a @click="checkIn()">提交</a>
-            <a @click="notcheckIn()">取消</a>
+            <a @click="relet()">提交</a>
+            <a @click="notrelet()">取消</a>
         </div>
+		<room-Change @notroomChange="notroomChange()" v-show="isHide3"></room-Change>
+		<div class="addgathering" v-show="isHide4">
+			<table>
+				<tr>
+					<td>收款金额：</td>
+					<td><input class="ivu-input" style="width:100px;"></td>
+				</tr>
+				<tr>
+					<td>收款原因：</td>
+					<td><input class="ivu-input" style="width:200px;"></td>
+				</tr>
+			</table>
+			<a @click="addgathering()">提交</a>
+            <a @click="closegathering()">取消</a>
+		</div>
+		<div class="addrefund" v-show="isHide5">
+			<table>
+				<tr>
+					<td>退款金额：</td>
+					<td><input class="ivu-input" style="width:100px;"></td>
+				</tr>
+				<tr>
+					<td>退款原因：</td>
+					<td><input class="ivu-input" style="width:200px;"></td>
+				</tr>
+			</table>
+			<a @click="addrefund()">提交</a>
+            <a @click="closerefund()">取消</a>
+		</div>
+		<div class="checkout" v-show="isHide6">
+			<div></div>
+			<h2>确认要退房吗？</h2>
+			<a @click="checkout()">确认退房</a>
+            <a @click="closecheckout()">取消</a>
+		</div>
+		<div class="addservices" v-show="isHide7">
+			<p>
+				增值服务
+			</p>
+			<el-checkbox-group v-model="checkList">
+				<el-checkbox label="双人早餐"></el-checkbox><span class="money">￥20</span>
+				<el-checkbox label="早餐"></el-checkbox><span class="money">￥20</span>
+				<el-checkbox label="唱吧"></el-checkbox><span class="money">￥20</span>
+				<el-checkbox label="自助餐"></el-checkbox><span class="money">￥20</span>
+				<el-checkbox label="咖啡"></el-checkbox><span class="money">￥20</span>
+			</el-checkbox-group>
+			<a @click="addservices()">提交</a>
+            <a @click="closeservices()">取消</a>
+		</div>
 	</div>
 </template>
 
@@ -207,6 +222,8 @@
     import footerBox from '../../components/footerBox.vue';
     import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
+	import checkIn from '../../components/checkIn.vue';
+	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
     import { hostRoominfo,hostPrice } from '../api.js';
     import qs from 'qs';
@@ -216,14 +233,20 @@
     		menuBox,
     		footerBox,
     		successModal,
-			warningModal
+			warningModal,
+			checkIn,
+			roomChange
     	},
     	data(){
     		return{
 				activeTabName:"workbench",
                 isHide:false,
                 isHide1:false,
-                isHide2:false,
+				isHide2:false,
+				isHide3:false,
+				isHide4:false,
+				isHide6:false,
+				isHide7:false,
     			roomid:null,
     			Datas:null,
     			money:null,
@@ -235,7 +258,8 @@
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
                 roomLockWaterElect:null,
-                radio: '1'
+				radio: '1',
+				checkList: []
 		   	}
     	},
     	filters:{
@@ -471,7 +495,51 @@
             openrelet(){
                 this.isHide = true;
                 this.isHide2 = true;
-            }
+			},
+			notrelet(){
+				this.isHide = false;
+                this.isHide2 = false;
+			},
+			notroomChange(){
+				this.isHide = false;
+                this.isHide3 = false;
+			},
+			openroom(){
+				this.isHide = true;
+                this.isHide3 = true;
+			},
+			opengathering(){
+				this.isHide = true;
+                this.isHide4 = true;
+			},
+			closegathering(){
+				this.isHide = false;
+                this.isHide4 = false;
+			},
+			openrefund(){
+				this.isHide = true;
+                this.isHide5 = true;
+			},
+			closerefund(){
+				this.isHide = false;
+                this.isHide5 = false;
+			},
+			opencheckout(){
+				this.isHide = true;
+                this.isHide6 = true;
+			},
+			closecheckout(){
+				this.isHide = false;
+                this.isHide6 = false;
+			},
+			openservices(){
+				this.isHide = true;
+                this.isHide7 = true;
+			},
+			closeservices(){
+				this.isHide = false;
+                this.isHide7 = false;
+			}
     	
     	},
     	created(){
