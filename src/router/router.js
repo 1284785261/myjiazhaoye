@@ -452,6 +452,12 @@ export default new Router({
         require(['../views/shortRent/shortRent.vue'],resolve)
     },
     {
+      path:'/shortRent/shortOrderDetails',		//短租管理 - 订单详情
+      name:'shortOrderDetails',
+      component:resolve =>
+        require(['../views/shortRent/shortOrderDetails.vue'],resolve)
+    },
+    {
       path:'/signed/shortTerm',		//工作台-短租房状态
       name:'shortTerm',
       component:resolve =>
@@ -463,5 +469,6 @@ export default new Router({
       component:resolve =>
         require(['../views/signed/shortDetails.vue'],resolve)
     },
+
   ]
 })

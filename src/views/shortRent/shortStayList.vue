@@ -9,67 +9,21 @@
                     </Option>
                 </Select>
             </div>
-            <div class="form-item">
-                入住率：
-            </div>
-            <div class="form-item">
-                总房数/已订房：
-            </div>
         </div>
         <div class="marginT30">
-            <div class="rentTypeBox" >
-                <div class="rentTypeTitle">标准大单间</div>
-                <div class="rentTypeMain">
-                    <ul>
-                        <li>已订/入住：10/6</li>
-                        <li>剩余：3</li>
-                    </ul>
-                    <i></i>
-                    <p @click="createOrderModelShow">创建订单</p>
-                </div>
-            </div>
-            <div class="rentTypeBox" >
-                <div class="rentTypeTitle">豪华大床房</div>
-                <div class="rentTypeMain">
-                    <ul>
-                        <li>已订/入住：10/6</li>
-                        <li>剩余：3</li>
-                    </ul>
-                    <i></i>
-                    <p>创建订单</p>
-                </div>
-            </div>
-        </div>
-        <div class="">
             <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="1">全部 <i v-if="!selectShow" class="el-icon-caret-bottom" ></i><i class="el-icon-caret-top" v-if="selectShow"></i></el-menu-item>
-                <el-submenu index="2">
-                    <template slot="title">今日预抵</template>
-                    <el-menu-item index="2-1">全部</el-menu-item>
-                    <el-menu-item index="2-2">待排房</el-menu-item>
-                    <el-menu-item index="2-3">已排房</el-menu-item>
-                </el-submenu>
-                <el-submenu index="3">
-                    <template slot="title">明日预抵</template>
-                    <el-menu-item index="3-1">全部</el-menu-item>
-                    <el-menu-item index="3-2">待排房</el-menu-item>
-                    <el-menu-item index="3-3">已排房</el-menu-item>
-                </el-submenu>
-                <el-submenu index="4">
-                    <template slot="title">待入住</template>
-                    <el-menu-item index="4-1">全部</el-menu-item>
-                    <el-menu-item index="4-2">待排房</el-menu-item>
-                    <el-menu-item index="4-3">已排房</el-menu-item>
-                </el-submenu>
-                <el-menu-item index="5">已入住</el-menu-item>
-                <el-menu-item index="6">已取消</el-menu-item>
-                <el-menu-item index="7">NoShow</el-menu-item>
+                <el-menu-item index="2">今日预离</el-menu-item>
+                <el-menu-item index="3">明日预离</el-menu-item>
+                <el-menu-item index="4">入住</el-menu-item>
+                <el-menu-item index="5">已退未结</el-menu-item>
+                <el-menu-item index="6">已结账</el-menu-item>
             </el-menu>
         </div>
         <div v-if="selectShow" class="selectShowClass">
             <ul class="selectStateUl">
                 <li>
-                   状态：
+                    状态：
                 </li>
                 <li>
                     <el-checkbox-group v-model="selectState.all">
@@ -78,16 +32,15 @@
                 </li>
                 <li>
                     <el-checkbox-group v-model="selectState.eta">
-                        <el-checkbox label="今日预抵" value="1"></el-checkbox>
-                        <el-checkbox label="明日预抵" value="2"></el-checkbox>
+                        <el-checkbox label="今日预离" value="1"></el-checkbox>
+                        <el-checkbox label="明日预离" value="2"></el-checkbox>
                     </el-checkbox-group>
                 </li>
                 <li>
                     <el-checkbox-group v-model="selectState.state">
-                        <el-checkbox label="待入住"></el-checkbox>
-                        <el-checkbox label="已入住"></el-checkbox>
-                        <el-checkbox label="已取消"></el-checkbox>
-                        <el-checkbox label="NoShow"></el-checkbox>
+                        <el-checkbox label="入住"></el-checkbox>
+                        <el-checkbox label="已退未结"></el-checkbox>
+                        <el-checkbox label="已结账"></el-checkbox>
                     </el-checkbox-group>
                 </li>
                 <li>
@@ -156,7 +109,6 @@
                     <th>到店日期</th>
                     <th>离店日期</th>
                     <th>预付款</th>
-                    <th>操作</th>
                 </tr>
                 <tr >
                     <td>已入住</td>
@@ -169,11 +121,6 @@
                     <td>2018/1/23</td>
                     <td>2018/1/15</td>
                     <td>900</td>
-                    <td>
-                        <a>排房</a>
-                        <a>入住</a>
-                        <a>查看详情</a>
-                    </td>
                 </tr>
             </table>
             <div class="block">
@@ -181,7 +128,7 @@
                 </el-pagination>
             </div>
         </div>
-        </div>
+    </div>
     </div>
 </template>
 

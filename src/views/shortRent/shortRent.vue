@@ -19,7 +19,7 @@
 
                     <Tab-pane label="入住列表">
                         <div class="message-ti">
-
+                            <short-stay-list></short-stay-list>
                         </div>
                     </Tab-pane>
 
@@ -57,6 +57,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import shortOrderList from './shortOrderList.vue';
+  import shortStayList from './shortStayList.vue';
   import axios from 'axios';
   import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
   import qs from 'qs';
@@ -68,7 +69,8 @@
       footerBox,
       successModal,
       warningModal,
-      shortOrderList
+      shortOrderList,
+      shortStayList
     },
     data() {
       return {
