@@ -38,11 +38,11 @@
                             <li>
                                 <span>联系人手机号：</span><em>13652141521</em>
                             </li>
-                            <li>
+                            <li class="contactInfoList">
                                 <span>入住人名称</span><em>证件类型</em><span>证件号码</span>
                             </li>
                             <li>
-                                <span>李杨</span><em>身份证</em><span>证件号码</span>
+                                <span>李杨</span><em>身份证</em><span>4212221331155510</span>
                             </li>
                         </ul>
                     </li>
@@ -50,43 +50,43 @@
                         <h3><i class="icon icon-iden"></i>订单信息</h3>
                         <ul class="userInfo">
                             <li>
-                                <span>订单编号：</span><em></em>
+                                <span>订单编号：</span><em>D123456</em>
                             </li>
                             <li>
-                                <span>房号：</span><em></em>
+                                <span>房号：</span><em>1003</em>
                             </li>
                             <li>
-                                <span>房型：</span><em></em>
+                                <span>房型：</span><em>标准大单间</em>
                             </li>
                             <li>
-                                <span>市场细分：</span><em></em>
+                                <span>市场细分：</span><em>APP用户</em>
                             </li>
                             <li>
-                                <span>门市价：</span><em></em>
+                                <span>门市价：</span><em>¥ 268</em>
                             </li>
                             <li>
-                                <span>增值服务收款：</span><em></em>
+                                <span>增值服务收款：</span><em>¥ 180</em>
                             </li>
                             <li>
-                                <span>其他收款：</span><em></em>
+                                <span>其他收款：</span><em>¥ 300</em>
                             </li>
                             <li>
-                                <span>退款金额：</span><em></em>
+                                <span>退款金额：</span><em>¥ 200</em>
                             </li>
                             <li>
-                                <span>预付金额：</span><em></em>
+                                <span>预付金额：</span><em>¥ 500</em>
                             </li>
                             <li>
-                                <span>总消费金额：</span><em></em>
+                                <span>总消费金额：</span><em>¥ 600</em>
                             </li>
                             <li>
-                                <span>入住状态：</span><em></em>
+                                <span>入住状态：</span><em>已离店</em>
                             </li>
                             <li>
-                                <span>入住时间：</span><em></em>
+                                <span>入住时间：</span><em>2018.1.23</em>
                             </li>
                             <li>
-                                <span>离店时间：</span><em></em>
+                                <span>离店时间：</span><em>2018.1.25</em>
                             </li>
                         </ul>
                     </li>
