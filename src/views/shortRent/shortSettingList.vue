@@ -41,7 +41,7 @@
           <td>
             <a>删除</a>
             <a>编辑</a>
-            <a>图片上传</a>
+            <a @click="openUploadModal">图片上传</a>
           </td>
         </tr>
       </table>
@@ -52,42 +52,40 @@
     </div>
 
 
-    <div class="new-bill-modal" v-if="newBillModal" ref="outBillModal" @click="closeNewBillModal()"></div>
-    <div class="new-bill-content newBillModal" v-if="newBillModal" ref="newBillModal">
-      <div class="new-bill-content-title">
-        <span>创建哑帐</span>
+    <div class="upload-modal" v-if="uploadModal" ref="outUploadModal" @click="closeUploadModal()"></div>
+    <div class="upload-content uploadModal" v-if="uploadModal" ref="uploadModal">
+      <div class="upload-content-title">
+        <span>短租户型图片上传</span>
       </div>
       <div class="modal-content-meddle">
         <div class="form-item">
-          <b>订单号: </b>
-          <Input style="width: 175px;"></Input>
         </div>
-        <div class="form-item">
-          <b>名称: </b>
-          <Input style="width: 175px;"></Input>
-        </div>
-        <div class="form-item">
-          <b>欠款: </b>
-          <Input style="width: 175px;"></Input>
-        </div>
-        <div class="form-item">
-          <b>入住时间：</b>
-          <Date-picker type="date" :options="createStartTimeOption" placeholder="选择日期" v-model="createStartTime1"></Date-picker>
-        </div>
-        <div class="form-item">
-          <b>离店时间: </b>
-          <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
-        </div>
-        <div class="form-item">
-          <b style="position: relative;top: -80px;">备注: </b>
-          <textarea style="width: 680px;height:100px;resize: none;margin-left: 5px;" ></textarea>
-        </div>
+        <el-upload
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-upload-list="false"
+          list-type="picture-card"
+          :format="['jpg','jpeg','png']"
+          :max-size="2048"
+          :on-format-error="handleFormatError"
+          :on-exceeded-size="handleMaxSize"
+          :before-upload="handleBeforeUpload"
+          :on-success="handleSuccess"
+          :on-preview="handlePictureCardPreview"
+          multiple
+          :limit="10"
+          type="drag"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible" size="tiny">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </div>
       <div class="form-btn-wrap">
-        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeNewBillModal" >提交</Button>
-        <Button type="primary" style="width: 120px;height: 36px;" @click="closeNewBillModal" >取消</Button>
+        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeUploadModal" >提交</Button>
+        <Button type="primary" style="width: 120px;height: 36px;" @click="closeUploadModal" >取消</Button>
       </div>
-      <div class="modal-close-btn" @click="closeNewBillModal()">
+      <div class="modal-close-btn" @click="closeUploadModal()">
         <Icon type="ios-close-empty"></Icon>
       </div>
     </div>
@@ -125,35 +123,14 @@
         stationSelectList:[],//社区列表
         stationCommunity:'',//被选中的社区
 
-
-
+        defaultList:[],//默认显示图片
         pageNum:1,//当前页数
         totalNum:0,//总条数
-        createStartTimeOption: {//创建开始时间验证
-          disabledDate(date){
-            if(_this.createEndTime){
-              return date &&  _this.createEndTime < date.valueOf();
-            }
-          }
-        },
-        createEndTimeOption: {//创建结束时间验证
-          disabledDate(date){
-            return date && date.valueOf() < _this.createStartTime;
-          }
-        },
-        payStartTimeOption: {//付账开始时间验证
-          disabledDate(date){
-            if(_this.payEndTime){
-              return date &&  _this.payEndTime < date.valueOf();
-            }
-          }
-        },
-        payEndTimeOption: {//付账结束时间验证
-          disabledDate(date){
-            return date && date.valueOf() < _this.payStartTime;
-          }
-        },
-        newBillModal:false,
+
+        dialogImageUrl:"",//预览图片URL
+        dialogVisible:false,
+
+        uploadModal:false,
       }
     },
     mounted() {
@@ -166,51 +143,45 @@
       handleCurrentChange3(){
 
       },
-      /**
-       * 导航菜单事件
-       **/
-      handleSelect(key, keyPath){
-        console.log(key)
-        if(key == 1){
-          this.selectShow = !this.selectShow
-        }
+
+
+      handleFormatError(){
+        debugger
       },
-      /**
-       * 点击创建订单显示弹框
-       **/
-      createOrderModelShow(){
-        this.createOrderModel = true
+      handleMaxSize(){
+        debugger
       },
-      /**
-       * 创建订单确定按钮
-       **/
-      setBliakMember(){
+      //文件上传前
+      handleBeforeUpload(){
 
       },
-      /**
-       * 取消创建订单按钮
-       **/
-      closeBlackModal(){
+      //文件上传成功时
+      handleSuccess(){
 
       },
+      handlePictureCardPreview(file){
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+
       /**
        * 打开创建哑帐弹框
        */
-      openNewBillModal(){
-        this.newBillModal = true;
-        setTimeout(() => {//将this.newBillModal = true;渲染完成后，否则找不到节点
+      openUploadModal(){
+        this.uploadModal = true;
+        setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {
-            document.querySelector("#app").firstChild.appendChild(this.$refs.newBillModal);
-            document.querySelector("#app").firstChild.appendChild(this.$refs.outBillModal);
+            document.querySelector("#app").firstChild.appendChild(this.$refs.uploadModal);
+            document.querySelector("#app").firstChild.appendChild(this.$refs.outUploadModal);
           })
         }, 0)
       },
       /**
        * 关闭创建哑帐弹框
        */
-      closeNewBillModal(){
-        document.querySelector("#app").firstChild.removeChild(this.$refs.newBillModal);
-        document.querySelector("#app").firstChild.removeChild(this.$refs.outBillModal);
+      closeUploadModal(){
+        document.querySelector("#app").firstChild.removeChild(this.$refs.uploadModal);
+        document.querySelector("#app").firstChild.removeChild(this.$refs.outUploadModal);
       },
       goToNewShort(){
           this.$router.push({name:"newShortSetting"})
@@ -224,7 +195,7 @@
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/shortRent.scss';
 
-  .new-bill-modal{
+  .upload-modal{
     width:100%;
     height:100%;
     background-color:rgba(0,0,0,0.4);
@@ -237,9 +208,9 @@
     z-index: 999;
   }
 
-  .new-bill-content{
-    width: 800px;
-    height: 420px;
+  .upload-content{
+    width: 820px;
+    height: 520px;
     min-height:320px;
     background-color:#fff;
     border-radius: 5px;
@@ -250,7 +221,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    .new-bill-content-title{
+    .upload-content-title{
       height: 60px;
       width: 100%;
       font-size: 20px;
@@ -262,11 +233,11 @@
       border-top-left-radius: 5px;
     }
     .modal-content-meddle{
-      padding: 20px;
+      padding: 0 20px;
+      height: 340px;
       .form-item{
         display: inline-block;
-        margin-right: 30px;
-        margin-bottom: 20px;
+
       }
     }
     .form-btn-wrap{
@@ -288,6 +259,10 @@
         position: relative;
         top: -8px;
       }
+    }
+    //预览图片插件
+    .el-dialog{
+      width: 880px;
     }
   }
 </style>

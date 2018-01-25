@@ -14,6 +14,7 @@
         </div>
         <div id="house-type-management">
           <div style="height: 30px;width: 100%;"></div>
+          <Button type="primary" style="width: 120px;margin-left: 30px;margin-bottom: 10px;" @click="service()">增值服务</Button>
           <table class="house-type-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%">
             <tr>
               <th>序号</th>
@@ -57,7 +58,6 @@
               </td>
               <td style="width: 160px;">
                 <a @click="copyHouse(index)">复制</a><a style="padding-left: 10px" @click="deleteHouse(index)">删除</a>
-                <a style="padding-left: 5px" @click="service(index)">增值服务</a>
               </td>
             </tr>
           </table>
