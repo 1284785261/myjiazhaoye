@@ -475,6 +475,12 @@ export default new Router({
       component:resolve =>
         require(['../views/signed/shortresident.vue'],resolve)
     },
+    {
+      path:'/shortRent/newShortSetting',		//短租管理-新增短租配置
+      name:'newShortSetting',
+      component:resolve =>
+        require(['../views/shortRent/newShortSetting.vue'],resolve)
+    },
 
   ]
 })

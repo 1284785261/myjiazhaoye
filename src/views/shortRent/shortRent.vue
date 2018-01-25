@@ -30,6 +30,7 @@
 
                     <Tab-pane label="哑房账">
                         <div class="message-ti">
+                            <short-Room-Bill-list></short-Room-Bill-list>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="价格设置">
@@ -38,6 +39,7 @@
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
                         <div class="message-ti">
+                          <short-setting-list></short-setting-list>
                         </div>
                     </Tab-pane>
 
@@ -58,6 +60,8 @@
   import warningModal from '../../components/warningModal.vue';
   import shortOrderList from './shortOrderList.vue';
   import shortStayList from './shortStayList.vue';
+  import shortRoomBillList from './shortRoomBillList.vue';
+  import shortSettingList from './shortSettingList.vue';
   import axios from 'axios';
   import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
   import qs from 'qs';
@@ -70,7 +74,9 @@
       successModal,
       warningModal,
       shortOrderList,
-      shortStayList
+      shortStayList,
+      shortRoomBillList,
+      shortSettingList
     },
     data() {
       return {
