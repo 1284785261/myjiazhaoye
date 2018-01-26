@@ -35,6 +35,7 @@
                     </Tab-pane>
                     <Tab-pane label="价格设置">
                         <div class="message-ti">
+                            <short-price-set></short-price-set>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
@@ -62,6 +63,7 @@
   import shortStayList from './shortStayList.vue';
   import shortRoomBillList from './shortRoomBillList.vue';
   import shortSettingList from './shortSettingList.vue';
+  import shortPriceSet from './shortPriceSet.vue';
   import axios from 'axios';
   import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
   import qs from 'qs';
@@ -76,7 +78,8 @@
       shortOrderList,
       shortStayList,
       shortRoomBillList,
-      shortSettingList
+      shortSettingList,
+      shortPriceSet
     },
     data() {
       return {
