@@ -40,7 +40,7 @@
           <td>10003</td>
           <td>
             <a>删除</a>
-            <a>编辑</a>
+            <a @click="goToNewShort">编辑</a>
             <a @click="openUploadModal">图片上传</a>
           </td>
         </tr>
@@ -263,6 +263,9 @@
     //预览图片插件
     .el-dialog{
       width: 880px;
+    }
+    .el-upload__input{
+      display: none;
     }
   }
 </style>
