@@ -30,7 +30,7 @@
             </div>
             <div class="rentTypeBox" >
                 <div class="rentTypeTitle">豪华大床房</div>
-                <div class="rentTypeMain">
+                <div class="rentTypeMain" @click="createOrder()">
                     <ul>
                         <li>已订/入住：10/6</li>
                         <li>剩余：3</li>
@@ -171,7 +171,7 @@
                     <td>900</td>
                     <td>
                         <a @click="paifang">排房</a>
-                        <a @click="createOrder">入住</a>
+                        <a @click="checkIn">入住</a>
                         <a>查看详情</a>
                     </td>
                 </tr>
@@ -242,6 +242,69 @@
         <a @click="roomchange()">提交</a>
         <a @click="closeRoomChange()" style="left: 600px;">取消</a>
       </div>
+
+
+      <!--创建订单-->
+      <div class="create-order-modal" v-if="createOrderModal" ref="outCreateOrderModal" @click="closeCreateOrderModal()"></div>
+      <div class="create-order-content createOrderModal" v-if="createOrderModal" ref="createOrderModal">
+        <div class="create-order-content-title">
+          <span>创建订单</span>
+        </div>
+        <div class="modal-content-meddle">
+          <div class="form-item">
+            <b>预定时间：</b>
+            <Date-picker type="date" :options="createStartTimeOption" placeholder="选择日期" v-model="createStartTime1"></Date-picker>
+          </div>
+          <div class="form-item">
+            <b>入住时间: </b>
+            <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
+          </div>
+
+          <div class="form-item">
+            <b>离店时间: </b>
+            <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
+          </div>
+          <br/>
+          <div class="form-item">
+            <b>市场细分: </b>
+            <Select v-model="stationCommunity" style="width:200px">
+              <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+            </Select>
+          </div>
+          <div class="form-item">
+            <b>订单来源: </b>
+            <Select v-model="stationCommunity" style="width:200px">
+              <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+            </Select>
+          </div>
+          <div class="form-item">
+            <b>联系人: </b>
+            <Input style="width: 175px;"></Input>
+            <Button type="primary" style="">设为入住人</Button>
+          </div>
+          <div class="form-item">
+            <b>联系电话: </b>
+            <Input style="width: 175px;"></Input>
+          </div>
+          <div class="form-item">
+            <b>指定房号: </b>
+            <Input style="width: 175px;"></Input>
+          </div>
+          <div class="form-item">
+            <b>备注: </b>
+            <Input style="width: 175px;"></Input>
+          </div>
+        </div>
+        <div class="form-btn-wrap">
+          <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeCreateOrderModal" >提交</Button>
+          <Button type="primary" style="width: 120px;height: 36px;" @click="closeCreateOrderModal" >取消</Button>
+        </div>
+        <div class="modal-close-btn" @click="closeCreateOrderModal()">
+          <Icon type="ios-close-empty"></Icon>
+        </div>
+      </div>
+      <!--创建订单-->
+
     </div>
 </template>
 
@@ -328,8 +391,9 @@
         },
         createOrderModel:true,//创建订单弹框显示隐藏控制
         isHide:false,
-        outCheckInOrder:false,
-        roomChangeHide:false,
+        outCheckInOrder:false,//入住模态框
+        roomChangeHide:false,//排房弹框
+        createOrderModal:false,//创建订单弹窗控制
       }
     },
     mounted() {
@@ -374,8 +438,8 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.checkInOrder);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outCheckInOrder);
       },
-      //创建订单按钮
-      createOrder(){
+      //入住按钮
+      checkIn(){
         this.isHide = true;
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {
@@ -396,6 +460,21 @@
       closeRoomChange(){
         document.querySelector("#app").firstChild.removeChild(this.$refs.roomChange);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outRoomChangeHide);
+      },
+      //打开创建订单弹窗
+      createOrder(){
+        this.createOrderModal = true;
+        setTimeout(() => {
+          this.$nextTick(() => {
+            document.querySelector("#app").firstChild.appendChild(this.$refs.outCreateOrderModal);
+            document.querySelector("#app").firstChild.appendChild(this.$refs.createOrderModal);
+          })
+        }, 0)
+      },
+      //关闭创建订单弹窗
+      closeCreateOrderModal(){
+        document.querySelector("#app").firstChild.removeChild(this.$refs.createOrderModal);
+        document.querySelector("#app").firstChild.removeChild(this.$refs.outCreateOrderModal);
       }
     },
   }
@@ -555,5 +634,74 @@
       position: absolute;
       left: 200px;
       bottom: 20px;
+    }
+
+
+
+    .create-order-modal{
+      width:100%;
+      height:100%;
+      background-color:rgba(0,0,0,0.4);
+      position: fixed;
+      overflow: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 999;
+    }
+
+    .create-order-content{
+      width: 800px;
+      height: 460px;
+      min-height:320px;
+      background-color:#fff;
+      border-radius: 5px;
+      margin: auto;
+      position: fixed;
+      z-index:9999;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      .create-order-content-title{
+        height: 60px;
+        width: 100%;
+        font-size: 20px;
+        color: #fff;
+        background-color:rgb(53,154,240);
+        text-align: center;
+        line-height: 60px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+      }
+      .modal-content-meddle{
+        padding: 20px;
+        .form-item{
+          display: inline-block;
+          margin-right: 30px;
+          margin-bottom: 20px;
+        }
+      }
+      .form-btn-wrap{
+        text-align: center;
+      }
+      .modal-close-btn{
+        position: absolute;
+        top: -36px;
+        right: -36px;
+        width: 36px;
+        height: 36px;
+        color: #fff;
+        background-color:rgba(0,0,0,0.7) ;
+        border-radius: 100%;
+        text-align: center;
+        font-size: 36px;
+        cursor: pointer;
+        i{
+          position: relative;
+          top: -8px;
+        }
+      }
     }
 </style>
