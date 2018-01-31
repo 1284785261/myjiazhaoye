@@ -3,7 +3,7 @@
     <div>
       <div class="form-item">
         <b>社区：</b>
-        <Select v-model="stationCommunity" style="width:180px">
+        <Select v-model="communityId" style="width:180px">
           <Option v-for="community in  stationSelectList" :value="community.communityId"
                   :key="community.communityId">{{ community.communityName }}
           </Option>
@@ -11,10 +11,10 @@
       </div>
       <div class="form-item">
         <b>社区长租名称：</b>
-        <Input style="width: 225px;"></Input>
+        <Input style="width: 225px;" v-model="housetypeLikeName"></Input>
       </div>
       <div class="form-item">
-        <Button type="primary" style="width: 120px;height: 36px;" @click="" >查询</Button>
+        <Button type="primary" style="width: 120px;height: 36px;" @click="search()" >查询</Button>
       </div>
       <div class="form-item ">
         <Button type="primary" style="width: 120px;height: 36px;" @click="goToNewShort" >新增</Button>
@@ -31,22 +31,22 @@
           <th>房间信息</th>
           <th>操作</th>
         </tr>
-        <tr >
-          <td>已入住</td>
-          <td>123456</td>
-          <td>李杨</td>
-          <td>13651412541</td>
-          <td>标准大床房</td>
-          <td>10003</td>
+        <tr v-for="(item,index) in shortSettingList">
+          <td>{{item.communityName}}</td>
+          <td>{{item.housetypeName}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.roomSettingStr}}</td>
+          <td>{{item.serviceInfo}}</td>
+          <td>房型面积{{item.housetypeArea}}m²,{{item.bedNum}}{{item.bedLength}}</td>
           <td>
-            <a>删除</a>
-            <a @click="goToNewShort">编辑</a>
+            <a @click="deleteShort(item.housetypeId)">删除</a>
+            <a @click="goToNewShort(item.housetypeId)">编辑</a>
             <a @click="openUploadModal">图片上传</a>
           </td>
         </tr>
       </table>
       <div class="block">
-        <el-pagination @current-change="handleCurrentChange3" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
+        <el-pagination @current-change="search" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
         </el-pagination>
       </div>
     </div>
@@ -100,7 +100,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {} from '../api.js';
+  import {allCommunity,CxkjCommunityPmsRoomTypeTable200191,CxkjCommunityPmsRoomTypeDelete200190} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -121,22 +121,94 @@
         warningMessage: '',//失败弹框提示消息
         selectShow:false,//条件查询显示或隐藏
         stationSelectList:[],//社区列表
-        stationCommunity:'',//被选中的社区
-
+        communityId:null,//被选中的社区
         defaultList:[],//默认显示图片
         pageNum:1,//当前页数
         totalNum:0,//总条数
-
         dialogImageUrl:"",//预览图片URL
         dialogVisible:false,
-
         uploadModal:false,
+        housetypeLikeName:"",//长租房名称
+        shortSettingList:[],
       }
     },
     mounted() {
-
+      this.getCommunityData();
     },
     methods: {
+      //获取社区id
+      getCommunityData(){
+        var that = this;
+        var value = sessionStorage.getItem("communityId");
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.stationSelectList = res.data.entity;
+              if(value){
+                that.communityId = parseInt(value);
+              }else{
+                that.communityId = parseInt(that.stationSelectList[0].communityId);
+              }
+              //水电账单
+              that.getShortSettingList({communityId:this.communityId,pageNum:1,pageSize:1});
+            }
+          })
+      },
+      //获取短租列表信息
+      getShortSettingList(param){
+        let vm = this;
+        this.$http.post(
+          CxkjCommunityPmsRoomTypeTable200191,qs.stringify(param)
+        ).then(function(res){
+          if(res.data.code == 10000){
+            vm.shortSettingList = res.data.entity.page;
+            vm.totalNum = res.data.entity.totalNum;
+
+            for(let j =0;j<vm.shortSettingList.length;j++){
+              let configNew = vm.shortSettingList[j].configNew;
+              let roomSettingStr = "";
+              for(let i =0;i<configNew.length;i++){
+                roomSettingStr += configNew[i].dataName+",";
+              }
+              roomSettingStr = roomSettingStr.substring(0,roomSettingStr.length-1);
+              vm.shortSettingList[j].roomSettingStr = roomSettingStr;
+            }
+
+          }
+          if(res.data.code == 10008 || res.data.code == 10009){
+            vm.shortSettingList = [];
+            vm.totalNum = 0;
+          }
+
+        })
+      },
+      search(page){
+        //接口待修改
+        let params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+        if(this.housetypeLikeName){
+          params.housetypeLikeName = this.housetypeLikeName;
+        }
+        if(this.communityId){
+          params.communityId = this.communityId;
+        }
+
+        this.getShortSettingList(params);
+      },
+      //删除短租配置
+      deleteShort(housetypeId){
+        let vm = this;
+        this.$http.post(
+          CxkjCommunityPmsRoomTypeDelete200190,qs.stringify({housetypeId:housetypeId})
+        ).then(function(res){
+            if(res.data.code == 10000){
+              vm.search();
+            }
+        })
+      },
+
       /**
        * 分页插件
        **/
@@ -183,8 +255,8 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.uploadModal);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outUploadModal);
       },
-      goToNewShort(){
-          this.$router.push({name:"newShortSetting"})
+      goToNewShort(housetypeId){
+          this.$router.push({name:"newShortSetting",query:{housetypeId:housetypeId,communityId:this.communityId}})
       }
     },
   }

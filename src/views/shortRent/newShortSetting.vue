@@ -9,52 +9,51 @@
           <router-link class="active" to="/shortRent">短租管理</router-link>
         </div>
         <Tabs type="card">
-          <Tab-pane label="新增短租配置">
+          <Tab-pane  :label="tableName">
             <div class="setting-wrap">
               <ul>
                 <li class="setting-item">
                   <b>社区: </b>
-                  <Select v-model="stationCommunity" style="width:180px">
-                    <Option v-for="community in  stationSelectList" :value="community.communityId"
-                            :key="community.communityId">{{ community.communityName }}
+                  <Select v-model="communityId" style="width:180px" @on-change="changeCommunityId" :disabled="selectCom" >
+                    <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}
                     </Option>
                   </Select>
                 </li>
                 <li class="setting-item">
                   <b>长租房名称: </b>
-                  <Select v-model="stationCommunity" style="width:180px">
-                    <Option v-for="community in  stationSelectList" :value="community.communityId"
-                            :key="community.communityId">{{ community.communityName }}
+                  <Select v-model="housetypeId" style="width:180px" :disabled="selectCom">
+                    <Option v-for="lengthName in  lengthNameList" :value="lengthName.housetypeId"
+                            :key="lengthName.housetypeId">{{ lengthName.housetypeName }}
                     </Option>
                   </Select>
                 </li>
                 <li class="setting-item">
                   <b>短租房名称: </b>
-                  <Input style="width: 225px;"></Input>
+                  <Input style="width: 225px;" v-model="name"></Input>
                 </li>
                 <li class="setting-item">
                   <b>房间信息: </b>
                   <p style="display: inline-block">
-                    户型面积:<Input style="width: 100px;margin-right: 20px;"></Input>
-                    床数:<Input style="width: 100px;margin-right: 20px;"></Input>
-                    床:<Input style="width: 100px;"></Input>
+                    户型面积:<Input style="width: 100px;margin-right: 20px;" v-model="housetypeArea" :disabled="selectCom"></Input>
+                    床数:<Input style="width: 100px;margin-right: 20px;" v-model="bedNum"></Input>
+                    床:<Input style="width: 100px;" v-model="bedLength"></Input>
                   </p>
                 </li>
                 <li class="setting-item" style="position: relative">
                   <b style="position:absolute;">公寓设施: </b>
                   <div class="room-setting">
                     <el-checkbox-group v-model="selectListData">
-                      <el-checkbox v-for="select in checkBoxArr2" :label="select.dataName"></el-checkbox>
+                      <el-checkbox v-for="select in configMapSelects" :label="select.dataName"></el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </li>
                 <li class="setting-item">
                   <b style="position:absolute;">服务说明: </b>
-                  <textarea style="width: 600px;height:120px;resize: none;margin-left: 150px;" ></textarea>
+                  <textarea style="width: 600px;height:120px;resize: none;margin-left: 150px;" v-model="serviceInfo"></textarea>
                 </li>
                 <li class="setting-item">
                   <b></b>
-                  <Button type="primary" style="width: 120px;height: 36px;">提交</Button>
+                  <Button type="primary" style="width: 120px;height: 36px;" @click="submit">提交</Button>
                 </li>
               </ul>
             </div>
@@ -76,7 +75,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
+  import { CxkjCommunityPmsRoomTypeInfo200188,allCommunity,CxkjCommunityPmsRoom200187,CxkjCommunityPmsRoomTypesubmit200189,CxkjCommunityPmsType200186 } from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -89,17 +88,153 @@
     },
     data() {
       return {
+        tableName:"新增短租配置",
         stationSelectList:[],//社区列表
-        stationCommunity:'',//被选中的社区
-        selectListData:["空调"],
-        checkBoxArr2:[{dataName:"空调",dataId:1},{dataName:"空调1",dataId:2},{dataName:"空调3",dataId:3}],
+        communityId:'',//被选中的社区
+        selectListData:[],
+        configMapSelects:[],
 
+        housetypeId:"",
+        roomTypeInfo:[],//房间配置信息
+        name:"",//短租房名称
+        housetypeArea:"",//户型面积
+        bedNum:"",//床数
+        bedLength:"",//床长
+        communityName:"",//社区名称
+        serviceInfo:"",//短租服务介绍
+        lengthNameList:[],//长租名称下拉选
+        furniture:"",
+        isEdit:false,//是否为编辑（true：编辑，false：新增）
+        time:0,//次数
+        selectCom:false,
       }
     },
     mounted() {
+      this.housetypeId = parseInt(this.$route.query.housetypeId);
+      if(this.housetypeId){
+        this.isEdit = true;
+        this.tableName = "编辑短租配置";
+        this.selectCom = true;
+     }
+      this.getRoomTypeInfo();
+      this.getCommunityData();
     },
     methods: {
+      //获取社区id
+      getCommunityData(){
+        var that = this;
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.stationSelectList = res.data.entity;
+              if(that.$route.query.communityId){
+                that.communityId = parseInt(that.$route.query.communityId);
+              }else{
+                that.communityId = parseInt(that.stationSelectList[0].communityId);
+              }
+            }
+          })
+      },
+      //获取配置详情
+      getRoomTypeInfo(){
+        let vm  = this;
+        this.$http.post(
+          CxkjCommunityPmsRoomTypeInfo200188,qs.stringify({housetypeId:this.housetypeId})
+        ).then(function(res){
+          if(res.data.code == 10000){
+            vm.roomTypeInfo = res.data.entity;
+            vm.housetypeArea = vm.roomTypeInfo.housetypeArea;
+            vm.name = vm.roomTypeInfo.name;
+            vm.bedNum = vm.roomTypeInfo.bedNum;
+            vm.bedLength = vm.roomTypeInfo.bedLength;
+            vm.communityName = vm.roomTypeInfo.communityName;
+            vm.serviceInfo = vm.roomTypeInfo.serviceInfo;
 
+            vm.furniture = vm.roomTypeInfo.furniture;
+            let configMap = vm.roomTypeInfo.configMap;
+            let arr = vm.furniture.split(",");
+            for(let i =0;i<arr.length;i++){
+              for(let j =0;j<configMap.length;j++){
+                  if(arr[i] == configMap[j].dataId){
+                    vm.selectListData.push(configMap[j].dataName);
+                    break;
+                  }
+              }
+            }
+          }
+        })
+      },
+      //改变社区监听
+      changeCommunityId(CommunityId){
+        let vm = this;
+        this.$http.post(
+          CxkjCommunityPmsRoom200187,qs.stringify({communityId:CommunityId})
+        ).then(function(res){
+          if(res.data.code == 10000){
+            vm.lengthNameList = res.data.entity;
+            vm.configMapSelects = res.data.result.configMap;
+            vm.time++;
+            if(vm.time > 1){
+              vm.selectListData = [];
+            }
+          }
+        })
+      },
+
+      //提交按钮
+      submit(){
+        let furniture = "";
+        for(let i =0;i<this.selectListData.length;i++){
+          for(let j =0;j<this.configMapSelects.length;j++){
+            if(this.selectListData[i] == this.configMapSelects[j].dataName){
+              furniture += this.configMapSelects[j].dataId+",";
+              break;
+            }
+          }
+        }
+        if(furniture){
+          furniture = furniture.substring(0,furniture.length-1);
+        }
+        let param = {
+          communityId:this.communityId,
+          housetypeId:this.housetypeId,
+          furniture:furniture,
+          name:this.name,
+          serviceInfo:this.serviceInfo,
+          bedNum:this.bedNum,
+          bedLength:this.bedLength,
+        };
+        if(this.isEdit){
+          this.edit(param);
+        }else{
+          this.create(param);
+        }
+      },
+      //编辑
+      edit(param){
+        this.$http.post(
+          CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
+        ).then(function(res){
+
+        })
+      },
+      //新增
+      create(param){
+        let housetypeName = "";
+        for(let i =0;i<this.lengthNameList.length;i++){
+            if(this.lengthNameList[i].housetypeId == this.housetypeId){
+              housetypeName = this.lengthNameList[i].housetypeName;
+            }
+        }
+        param.housetypeId = this.housetypeId;
+        param.housetypeName = housetypeName;
+        param.housetypeArea = this.housetypeArea;
+        this.$http.post(
+          CxkjCommunityPmsType200186,qs.stringify(param)
+        ).then(function(res){
+
+        })
+      }
 
     },
   }
