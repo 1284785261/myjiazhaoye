@@ -133,8 +133,8 @@
 										<Icon type="ios-eye-outline" @click.native="handleView3(item)"></Icon>
 										<Icon type="ios-trash-outline" @click.native="handleRemove3(item)"></Icon>
 									</div>
-								</template v-else>
-								<template>
+								</template>
+								<template v-else>
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
 							</div>
@@ -184,8 +184,6 @@
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
 </template>
-<script>
-</script>
 <script>
 	import menuBox from '../../components/menuBox.vue';
 	import rightHeader from '../../components/rightHeader.vue';
@@ -591,8 +589,6 @@
 	@import '../../sass/base/_mixin.scss';
 	@import '../../sass/base/_public.scss';
 	@import '../../sass/page/_communityPresentation.scss';
-</style>
-<style>
 	#communityPesents .ivu-warp-Community {
 		width: 100%;
 		min-height: 1000px;
@@ -695,5 +691,4 @@
 	.edui-editor{
 		z-index: 100!important;
 	}
-	
 </style>

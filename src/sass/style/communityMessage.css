@@ -20,6 +20,9 @@
 .message-tis .cops tr td:nth-child(1){
 	text-align: right;
 }
+.message-tis .cops tr td:nth-child(2){
+	text-align: left;
+}
 .operation-box{
 	position: absolute;
 }

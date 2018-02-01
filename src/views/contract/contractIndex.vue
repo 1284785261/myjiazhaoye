@@ -497,6 +497,10 @@ export default {
     }
     .ivu-tabs-bar{
       background-color: rgb(240,240,240);
+      
+    }
+    .ivu-tabs-tabpane{
+      box-shadow:none;
     }
     .blank-background-img{
       text-align: center;

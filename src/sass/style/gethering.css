@@ -7,7 +7,7 @@
 	position: relative;
 }
 #gethering .residentlist{
-	height: 74px;
+	min-height: 74px;
 	width: 100%;
 	
 }
@@ -21,7 +21,7 @@
 	text-align: center;
 	line-height: 40px;
 	margin-left: 20px;
-	margin-top: 20px;
+	margin-top: 18px;
 	background: #f8f8f8;
 	float: left;
 }

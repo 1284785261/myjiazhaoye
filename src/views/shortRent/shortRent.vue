@@ -25,6 +25,7 @@
 
                     <Tab-pane label="产品日历">
                         <div class="message-ti">
+                            <short-product-calendar></short-product-calendar>
                         </div>
                     </Tab-pane>
 
@@ -35,12 +36,12 @@
                     </Tab-pane>
                     <Tab-pane label="价格设置">
                         <div class="message-ti">
-                            <short-price-set></short-price-set>
+                            <short-price-set @shortprice ="shortprice()"></short-price-set>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
                         <div class="message-ti">
-                          <short-setting-list></short-setting-list>
+                          <short-setting-list ></short-setting-list>
                         </div>
                     </Tab-pane>
 
@@ -48,7 +49,8 @@
             </div>
             <footer-box></footer-box>
         </div>
-
+        <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+	    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
     </div>
 </template>
 
@@ -64,6 +66,7 @@
   import shortRoomBillList from './shortRoomBillList.vue';
   import shortSettingList from './shortSettingList.vue';
   import shortPriceSet from './shortPriceSet.vue';
+  import shortProductCalendar from './shortProductCalendar.vue';
   import axios from 'axios';
   import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
   import qs from 'qs';
@@ -79,7 +82,8 @@
       shortStayList,
       shortRoomBillList,
       shortSettingList,
-      shortPriceSet
+      shortPriceSet,
+      shortProductCalendar
     },
     data() {
       return {
@@ -97,7 +101,12 @@
     mounted() {
     },
     methods: {
-
+        closeWarningModal() {
+            this.warningModal = false;
+        },
+        shortprice(){
+            this.successModal = true;
+        }
     },
   }
 </script>

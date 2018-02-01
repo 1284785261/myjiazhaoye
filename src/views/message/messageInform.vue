@@ -1,6 +1,6 @@
 <template>
 	<div class="hous">
-		<menu-box></menu-box>
+		<menu-box :active-tab-name="messageInform"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box wprdbench">
@@ -130,6 +130,7 @@
     	},
     	data(){
     		return{
+				activeTabName:"messageInform",
     			successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',

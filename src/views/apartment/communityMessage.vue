@@ -47,7 +47,7 @@
 		        		</tr>
 		        		<tr v-if="Datas.propertySignDate">
 		        			<td>物业合同签约时间：</td>
-		        			<td>{{ Datas.propertySignDate }}</td>
+		        			<td>{{ Datas.propertySignDate | Open(Datas.propertySignDate)}}</td>
 		        		</tr>
 						<tr v-if="Datas.propertyContactName">
 		        			<td>业主姓名：</td>

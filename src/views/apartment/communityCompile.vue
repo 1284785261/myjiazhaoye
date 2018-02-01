@@ -122,12 +122,12 @@
               <td class="bargain">
                 <!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
                 <!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-                <el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' >
+                <el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' :before-upload="beforeAvatarUpload">
                   <el-button size="small" type="primary" style="font-size: 14px;color: #8fa6bf;">点击上传</el-button>
                   <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传pdf/png文件</div>
                 </el-upload>
 								<ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
-									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;">查看</li>
+									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;line-height:30px;">查看</li>
 								</ul>
               </td>
             </tr>
@@ -279,6 +279,7 @@
                   item.status = 'finished'
                   vm.fileList3.push(item)
                 }
+                console.log(vm.fileList3);
                 if(response.data.result.community.communityType == '0'){
                   vm.checkList.push('公寓');
                   vm.communityType = '0';
@@ -301,6 +302,10 @@
                 vm.communityFreeLeaseEnd= response.data.result.community.communityFreeLeaseEnd;
                 vm.communityLongitude= response.data.result.community.communityLongitude;
                 vm.communityLatitude= response.data.result.community.communityLatitude;
+                vm.propertySignDate = response.data.result.community.propertySignDate;
+                vm.propertyContactName = response.data.result.community.propertyContactName;
+                vm.propertyContactPhone = response.data.result.community.propertyContactPhone;
+                vm.propertyRent = response.data.result.community.propertyRent;
                 if(vm.communityLongitude && vm.communityLatitude){
                   vm.coordinate =vm.communityLongitude +","+vm.communityLatitude;
                 }
@@ -312,24 +317,33 @@
         }
       },
       handleRemove(file, fileList3) { //删除文件
-        // console.log(file,fileList);
-        if(file.response.code == 10000){
-          this.pdfName.remove(file.response.result.virtualPath);
-          // console.log(this.pdfName);
-        }
+        let index = this.pdfName.findIndex(item => item == ('/files/community/'+file.name) || item == file.name);
+        this.pdfName.splice(index, 1);
       },
       success(response) { //上传文件成功
+        // console.log(response);
         if(response.code == 10000) {
           this.pdfName.push(response.result.virtualPath);
           // console.log(this.pdfName);
         }
-
       },
       error(err) { //上传文件失败
         // console.log(err);
       },
       handlePreview(file) {
         // console.log(file);
+      },
+      beforeAvatarUpload(file){
+        console.log(file);
+        const isJPG = file.type === 'image/png';
+        const isPDF = file.type === 'application/pdf';
+        if (isPDF || isJPG) {
+          
+        }
+        else{
+            this.$message.error('上传文件只能是 PNG 或 PDF 格式!');
+        }
+        return isPDF || isJPG;
       },
       Complie() {
         let vm = this
@@ -418,6 +432,7 @@
         // console.log(this.pdfName);
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
+          console.log(vm.communityContract);
           // console.log(vm.communityName);
           // console.log(vm.communityContract);
           // console.log(vm.communityAddress)

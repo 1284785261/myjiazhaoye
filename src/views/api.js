@@ -379,6 +379,18 @@ const Activityformula = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjGetAllScop
 
 //设置活动邀请好友链接
 const ActivityInvite = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjSetInviteUrl300143'
+
+//获取短租户型列表
+const RoomPriceTable = '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPriceTable200195'
+
+//编辑短租户型价格信息
+const RoomPriceEdit = '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPriceEdit200196'
+
+//删除短租户型价格
+const PmsRoomPriceDelete= '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPriceDelete200197'
+
+//新增短租户型价格
+const PmsRoomPrice = '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPrice200194'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -504,6 +516,10 @@ export const hostAllLiveList = host3 + AllLiveList;
 export const hostCompanyb= host3 + Companyb;
 export const hostActivityformula = host3 +Activityformula;
 export const hostActivityInvite = host3 + ActivityInvite;
+export const RoomPriceTable200195 = host3 + RoomPriceTable;
+export const RoomPriceEdit200196 = host3 + RoomPriceEdit;
+export const PmsRoomPriceDelete200197 = host3 + PmsRoomPriceDelete;
+export const PmsRoomPrice200194 =host3 + PmsRoomPrice;
 export const host = host3;
 //export default {
 //hosts:function(){

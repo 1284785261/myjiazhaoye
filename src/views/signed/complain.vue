@@ -62,7 +62,7 @@
 				      :current-page.sync="currentPage3"
 				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
-				      :total=totalNum>
+				      :total="totalNum">
 				    
 				    </el-pagination>
 		    	</div>
@@ -215,14 +215,14 @@
 		    		param.append('keyWord',this.keyWord);
 		    	}
 		    	axios.post(hostlainTable, param).then((response)=>{
-		    		// console.log(response);
+		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Data = response.data.pageBean.page;
     					this.totalNum = response.data.pageBean.totalNum;
 			    	}
 		    		else{
 		    			this.Data = {};
-		    			this.totolNum = 0;
+		    			this.totalNum = 0;
 		    		}
 		    	})
 		    	.catch((error)=>{

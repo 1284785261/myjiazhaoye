@@ -150,6 +150,7 @@
 .compile .cop .ivu-date-picker-editor .ivu-input {
 	width: 180px;
 	font-size: 14px;
+	padding-left: 10px;
 }
 
 .compile .cop .ivu-date-picker-editor .ivu-input::-webkit-input-placeholder {

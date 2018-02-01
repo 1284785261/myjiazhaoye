@@ -16,7 +16,7 @@
                 <div class="form-item">
                   <div class="form-search">
                     <i class="iconfont icon-sousuo"></i>
-                    <Input v-model="invitePhoneKey" placeholder="搜索联系人或联系电话"></Input>
+                    <Input v-model="invitePhoneKey" placeholder="搜索邀请人和邀请人手机号码"></Input>
                     <input type="button" @click="roomSearch()" value="搜索">
                   </div>
                 </div>
@@ -144,17 +144,20 @@
       },
       daochu(){
         let url  = CxkjDownloadInviteFriend300142+"?pageName="+this.inviteRecordCurrent;
-        if(this.invitePhoneKey){
-          url = url + "&inviteUserPhone="+this.invitePhoneKey;
+        if(this.inviteRecordList){
+            if(this.invitePhoneKey){
+              url = url + "&inviteUserPhone="+this.invitePhoneKey;
+            }
+            if(this.startDate){
+              url = url + "&beginDate="+new Date(this.startDate).Format("yyyy-MM-dd hh:mm");
+            }
+            if(this.endDate){
+              url = url + "&endDate="+new Date(this.endDate).Format("yyyy-MM-dd hh:mm");
+            }
+            debugger
+            window.open(url);
         }
-        if(this.startDate){
-          url = url + "&beginDate="+new Date(this.startDate).Format("yyyy-MM-dd hh:mm");
-        }
-        if(this.endDate){
-          url = url + "&endDate="+new Date(this.endDate).Format("yyyy-MM-dd hh:mm");
-        }
-        debugger
-        window.open(url);
+       
       }
 
     },

@@ -337,9 +337,9 @@
 		}
 		.form-search {
 			position: relative;
-			margin-top: 20px;
+			margin-top: 19px;
 			margin-bottom: 20px;
-			margin-left: 50px;
+			margin-left: 30px;
 			display: inline-block;
 			.ivu-input-wrapper {
 				width: auto;

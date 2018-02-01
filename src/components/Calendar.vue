@@ -679,7 +679,7 @@ export default {
           }
         }
       }
-      console.log(this.dateRange)
+      // console.log(this.dateRange)
       // console.log(this.dateRange[pan])
     }
   }

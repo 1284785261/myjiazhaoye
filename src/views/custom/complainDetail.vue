@@ -97,8 +97,8 @@
 										<td v-if="item.isReturnVisit == 1"><b>回访反馈 :</b></td>
 										<td>{{item.complainResult}}</td>
 									</tr>
-									<tr v-if="item.isReturnVisit == 0">
-										<td><b>反馈 :</b></td>
+									<tr v-if="item.isReturnVisit == 0 && item.userDegree">
+										<td><b>用户反馈 :</b></td>
 										<td><span v-if="item.userDegree==0">满意</span><span v-else-if="item.userDegree==1">不满意</span></td>
 									</tr>
 									<tr v-if="item.isReturnVisit == 0">
@@ -344,6 +344,7 @@ export default {
       }
       tr {
         td {
+          text-align: left;
           padding: 10px;
         }
         td:first-child {

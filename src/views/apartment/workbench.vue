@@ -50,7 +50,7 @@
 							</li>
 							<li>
 								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
-								<a @click="eliminate12(12)">用户报修</a>
+								<router-link :to="{path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1,type:0}}">用户报修</router-link>
 							</li>
 							<li v-if="jurisdiction('CONTRACT_QUERY')">
 								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
@@ -102,7 +102,7 @@
 							</li>
 							<li>
 								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
-								<a @click="eliminate12(12)">用户报修</a>
+								<router-link :to="{path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1,type:1}}">用户报修</router-link>
 							</li>
 							<li v-if="jurisdiction('CONTRACT_QUERY')">
 								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
@@ -169,7 +169,7 @@
 							<li v-if="remains.expireCount != 0">
 								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.beginHour">
+							<li v-if="remains.beginHour != 0">
 								<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
 								</router-link><i class="iconfont icon-you"></i></li>
 							<li v-if="remains.complaintCount != 0">
@@ -340,7 +340,7 @@
 							communityId: Model
 						})
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
@@ -515,11 +515,6 @@
 				this.share(value);
 				sessionStorage.setItem("billManagement_communityId",this.communityId);
 				this.$router.push({name:'billManagement',query:{tab:'third'}});
-				this.datas2();
-			},
-			eliminate12(value){
-				this.share(value);
-				this.$router.push({path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1}});
 				this.datas2();
 			},
 			eliminateg4(value){

@@ -15,7 +15,7 @@
 		    	<div id="repairs">
 		    		<div class="repairs1">
 		    			<span class="bsc">类型：</span>
-		    			<el-select v-model="value" placeholder="全部" @change="tba(value)">
+		    			<el-select v-model="value" @change="tba(value)">
 						    <el-option
 						      v-for="item in options1"
 						      :key="item.data"
@@ -23,7 +23,7 @@
 						    </el-option>
 					 	 </el-select>
 		    			<span class="bsc">状态：</span>
-		    			<el-select v-model="value2" placeholder="全部" @change="tba2(value2)">
+		    			<el-select v-model="value2" @change="tba2(value2)">
 						    <el-option
 						      v-for="item in options2"
 						      :key="item.data"
@@ -162,12 +162,21 @@
 						}
                     }
                 },
+				communitytype:null //社区类型
 			}
     	},
     	mounted(){
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
+			this.communitytype = this.$route.query.type;
+			if(this.communitytype == '0'){
+				this.value = '公寓'
+			}
+			else if(this.communitytype == '1'){
+				this.value = '办公室'
+			}
 			this.datas();
+			
     	},
     	filters:{
    			time(val) {
@@ -207,7 +216,10 @@
 		    	let param = new FormData();
 		    	param.append('communityId',this.communityId);
 		    	param.append('pageNum',pageNum);
-		    	param.append('pageSize',this.pageSize);
+				param.append('pageSize',this.pageSize);
+				if(this.communitytype != null){
+					param.append('isOffice',this.communitytype);
+				}
 		    	axios.post(hostRepairTabe, param).then((response)=>{
 		    		// console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
@@ -222,8 +234,8 @@
 		  	tba(value){
 		  		this.isOffice = this.options1[this.options1.findIndex(item => item.data == value)].id;
 		  	},
-		  	tba2(value){
-		  		this.repairState = this.options2[this.options2.findIndex(item => item.data == value)].id;
+		  	tba2(value2){
+		  		this.repairState = this.options2[this.options2.findIndex(item => item.data == value2)].id;
 		  	},
 		  	handleCurrentChange(val) {
 				// console.log(`当前页: ${val}`);

@@ -194,7 +194,7 @@
 		  	},
 		  	checkAllGroupChange2(value){
 		  		var flag = true;
-		  		
+				this.disabled = false;
 		  		for(let i = 0;i<this.Datas.length;i++){
 		  			if(this.Datas[i].sing != this.sings) {
 						flag = false;
@@ -203,7 +203,6 @@
 		  		}
 		  		if(this.Datas.length){
 					this.single2 = flag;
-		  			this.disabled = false;
 		  		}else {
 		  			this.single2 = false;
 				}
@@ -211,12 +210,13 @@
 		  	},
 		  	handleCheckAll2() { //全选
 				this.single2 = !this.single2;
-				this.disabled = false;
 				if(this.single2 == true) {
+					this.disabled = false;
 					for(let i = 0; i < this.Datas.length; i++) {
 						this.$set(this.Datas[i], "sing", true);
 					}
 				} else {
+					this.disabled = true;
 					for(let i = 0; i < this.Datas.length; i++) {
 						this.$set(this.Datas[i], "sing", false);
 					}
@@ -248,6 +248,7 @@
 						setTimeout(() => {
 							vm.successModal = false;
 							this.demand();
+							this.single2 = false;
 						}, 2000);
 					}
 					else{

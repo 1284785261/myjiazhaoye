@@ -42,7 +42,6 @@
               <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
                 <tr>
                   <th>账单日期</th>
-                  <th>办公室</th>
                   <th>公寓房间</th>
                   <th>租期</th>
                   <th>承租人</th>

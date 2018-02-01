@@ -281,7 +281,66 @@
 							</div>
 						</div>
 					</Tab-pane>
-
+					<Tab-pane label="短租评价">
+						<div class="message-ti">
+							<div class="form-search-criteria">
+								<div class="form-item">
+									<b>社区：</b>
+									<Select v-model="model1" style="width:200px">
+										<Option v-for="community in  communitys" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+									</Select>
+								</div>
+								<div class="form-item">
+									<b>房型：</b>
+									<Select v-model="model1" style="width:200px">
+										<Option v-for="community in  communitys" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+									</Select>
+								</div>
+								<div class="form-item">
+									<span>评价时间：</span>
+									<Date-picker type="date" :options="option6" placeholder="选择日期" v-model="createtimes"></Date-picker>
+									<span class="inline-block spanBar">-</span>
+									<Date-picker type="date" :options="option3" placeholder="选择日期" v-model="commentDate"></Date-picker>
+								</div>
+								<div class="form-item">
+									<div class="form-search" style="margin-left: 0;">
+										<i class="iconfont icon-sousuo"></i>
+										<Input v-model="searchKey" placeholder="搜索用户"></Input>
+										<input type="button" value="搜索" @click="btusys">
+										<!--<a class="exports" :href="host+communityId">导出</a>-->
+									</div>
+								</div>
+							</div>
+							<table class="table ivu-table">
+								<tr>
+									<th>评价时间</th>
+									<th style="text-align: center">社区</th>
+									<th style="text-align: center">用户</th>
+									<th style="text-align: center">订单/账单</th>
+									<th>评价内容</th>
+									<th>操作</th>
+								</tr>
+								<tr v-for="tableEvaluate in tableEvaluates">
+									<td><span class="text-default">{{tableEvaluate.createtime | createtime}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.cxkjCommunity">{{tableEvaluate.cxkjCommunity.communityName}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.userInfo">{{tableEvaluate.userInfo.userName}}</span></td>
+									<td style="text-align: center">
+										<span class="text-default" v-if="tableEvaluate.cxkjBill != null">{{tableEvaluate.cxkjBill.billName}}</span>
+										<span class="text-default" v-if="tableEvaluate.cxkjOfficeOrder != null">{{tableEvaluate.cxkjOfficeOrder.orderName}}</span>
+										<span class="text-default" v-else>--</span>
+									</td>
+									<td><span class="text-black">{{tableEvaluate.content}}</span></td>
+									<td>
+										<router-link :to="{path:'/apartment/commentdetails',query:{id:tableEvaluate.commentId}}">查看详情</router-link>
+									</td>
+								</tr>
+							</table>
+							<div class="block">
+								<el-pagination @current-change="handleCurrentChange3" :current-page="currentPage1" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum3>
+								</el-pagination>
+							</div>
+						</div>
+					</Tab-pane>
 				</Tabs>
 			</div>
 			<footer-box></footer-box>
@@ -395,7 +454,7 @@
 							return date &&  _this.commentDate < date.valueOf();
 						}
                     }
-                },
+				},
 			}
 		},
 		filters: { //过滤器
