@@ -71,7 +71,7 @@
                 <Input v-model="room.roomRent"  placeholder="请填写租金"></Input>
               </td>
               <td>
-                <el-checkbox></el-checkbox>
+                <Checkbox v-model="room.pmsRoom"></Checkbox>
               </td>
               <td v-if="!isEidRoom">
                 <a @click="copyRoom(index)">复制</a><a style="padding-left: 10px" @click="deleteRoom(index)">删除</a>
@@ -134,7 +134,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {api,Housetype,SytemData,addRoom,updateRoom,IntroduceInfo,roomInfo} from '../api.js';
+  import {api,Housetype,SytemData,addRoom,updateRoom,IntroduceInfo,roomInfo,CxkjCommunityRoom200184,CxkjCommunityRoomEdit200185} from '../api.js';
   import qs from 'qs';
 
 
@@ -242,7 +242,8 @@
               waterType:1,
               electricType:1,
               waterPrice:0,
-              energyPrice:0
+              energyPrice:0,
+              pmsRoom:false
             }
           ];
           for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
@@ -312,7 +313,8 @@
               waterType: roomObj.waterType || that.cun_waterChargeType,
               electricType: roomObj.electricType || that.cun_energyChargeType,
               waterPrice:roomObj.waterPrice || that.cun_waterPrice,
-              energyPrice:roomObj.energyPrice || that.cun_energyPrice
+              energyPrice:roomObj.energyPrice || that.cun_energyPrice,
+              pmsRoom:roomObj.pmsRoom || false,
           }];
           // console.log(that.cxkjCommunityListRoom)
         }).catch(function(err){
@@ -408,6 +410,7 @@
             electricType:that.cun_energyChargeType,
             waterPrice:that.cun_waterPrice,
             energyPrice:that.cun_energyPrice,
+            pmsRoom:false,
           })
         }
       },
@@ -431,7 +434,6 @@
       createNewRoom(){
         var that = this;
         var data = this.extendDeep(this.cxkjCommunityListRoom);
-
         for(var j =0;j<data.length;j++){
           for(var key in data[j]){
             if(data[j][key]===""){
@@ -469,8 +471,8 @@
             }
           }
         }
-        this.$http.post(addRoom,{cxkjCommunityListRoom:data}).then(function(res){
-          if(res.status == 200 && res.data.code === 10000){
+        this.$http.post(CxkjCommunityRoom200184,{cxkjCommunityListRoom:data}).then(function(res){
+            if(res.status == 200 && res.data.code === 10000){
             that.successMessage = "添加房间成功！";
             that.successModal = true;
             setTimeout(function(){
@@ -526,7 +528,7 @@
           }
         }
 
-        this.$http.post(updateRoom,{cxkjCommunityListRoom:data}).then(function(res){
+        this.$http.post(CxkjCommunityRoomEdit200185,qs.stringify(data[0])).then(function(res){
             if(res.status == 200 && res.data.code === 10000){
               that.successMessage = "编辑房间成功！";
               that.successModal = true;

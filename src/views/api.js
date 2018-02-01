@@ -688,5 +688,15 @@ export const passwordReurn =host3+'/cxkj-room/apis/pcManager/cxkjcommunityEmploy
 // const Activityformula = '/cxkj-room/apis/pc/cxkjcommunityActivity/CxkjGetAllScope300137'
 // export const hostActivityformula = host3 +Activityformula;
 
+//短租配置
+export const CxkjCommunityPmsRoomTypeTable200191 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsRoomTypeTable200191';
+export const CxkjCommunityPmsRoomTypeDelete200190 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsRoomTypeDelete200190';
+export const CxkjCommunityPmsRoomTypeInfo200188 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsRoomTypeInfo200188';
+export const CxkjCommunityPmsRoom200187 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsRoom200187';//根据社区编号查询短租户型
+export const CxkjCommunityPmsRoomTypesubmit200189 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsRoomTypeEdit200189';//编辑短租配置
+export const CxkjCommunityPmsType200186 =host3+'/cxkj-pms/apis/pc/pmsroomtype/CxkjCommunityPmsType200186'//新增短租配置
 
+//新版社区添加房间
+export const CxkjCommunityRoom200184 =host3+'/cxkj-room/apis/pc/cxkjcommunityroom/CxkjCommunityRoom200184'//社区添加房间
+export const CxkjCommunityRoomEdit200185 =host3+'/cxkj-room/apis/pc/cxkjcommunityroom/CxkjCommunityRoomEdit200185'//编辑房间
 

@@ -13,28 +13,28 @@
             <div class="setting-wrap">
               <ul>
                 <li class="setting-item">
-                  <b>社区: </b>
+                  <b><span style="color: red;">*</span>社区: </b>
                   <Select v-model="communityId" style="width:180px" @on-change="changeCommunityId" :disabled="selectCom" >
                     <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}
                     </Option>
                   </Select>
                 </li>
                 <li class="setting-item">
-                  <b>长租房名称: </b>
-                  <Select v-model="housetypeId" style="width:180px" :disabled="selectCom">
+                  <b><span style="color: red;">*</span>长租房名称: </b>
+                  <Select v-model="housetypeId" style="width:180px" @on-change="changeLengthName" :disabled="selectCom">
                     <Option v-for="lengthName in  lengthNameList" :value="lengthName.housetypeId"
                             :key="lengthName.housetypeId">{{ lengthName.housetypeName }}
                     </Option>
                   </Select>
                 </li>
                 <li class="setting-item">
-                  <b>短租房名称: </b>
+                  <b><span style="color: red;">*</span>短租房名称: </b>
                   <Input style="width: 225px;" v-model="name"></Input>
                 </li>
                 <li class="setting-item">
                   <b>房间信息: </b>
                   <p style="display: inline-block">
-                    户型面积:<Input style="width: 100px;margin-right: 20px;" v-model="housetypeArea" :disabled="selectCom"></Input>
+                    户型面积:<Input style="width: 100px;margin-right: 20px;" v-model="housetypeArea" :disabled="true"></Input>
                     床数:<Input style="width: 100px;margin-right: 20px;" v-model="bedNum"></Input>
                     床:<Input style="width: 100px;" v-model="bedLength"></Input>
                   </p>
@@ -58,12 +58,13 @@
               </ul>
             </div>
           </Tab-pane>
-
         </Tabs>
       </div>
       <footer-box></footer-box>
     </div>
 
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
 </template>
 
@@ -75,7 +76,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import { CxkjCommunityPmsRoomTypeInfo200188,allCommunity,CxkjCommunityPmsRoom200187,CxkjCommunityPmsRoomTypesubmit200189,CxkjCommunityPmsType200186 } from '../api.js';
+  import { CxkjCommunityPmsRoomTypeInfo200188,allCommunity,CxkjCommunityPmsRoom200187,CxkjCommunityPmsRoomTypesubmit200189,CxkjCommunityPmsType200186,host } from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -107,6 +108,10 @@
         isEdit:false,//是否为编辑（true：编辑，false：新增）
         time:0,//次数
         selectCom:false,
+        warningMessage:"",
+        successMessage:"",
+        successModal:false,
+        warningModal:false,
       }
     },
     mounted() {
@@ -153,6 +158,8 @@
             vm.furniture = vm.roomTypeInfo.furniture;
             let configMap = vm.roomTypeInfo.configMap;
             let arr = vm.furniture.split(",");
+
+            vm.selectListData = [];
             for(let i =0;i<arr.length;i++){
               for(let j =0;j<configMap.length;j++){
                   if(arr[i] == configMap[j].dataId){
@@ -163,6 +170,14 @@
             }
           }
         })
+      },
+      //改变长租名称监听
+      changeLengthName(housetypeId){
+        for(let i =0;i<this.lengthNameList.length;i++){
+            if(this.lengthNameList[i].housetypeId == housetypeId){
+                this.housetypeArea = this.lengthNameList[i].housetypeArea;
+            }
+        }
       },
       //改变社区监听
       changeCommunityId(CommunityId){
@@ -195,6 +210,13 @@
         if(furniture){
           furniture = furniture.substring(0,furniture.length-1);
         }
+        //防空判断
+
+        if(this.bedNum == "" || this.communityId == "" || this.name == ""){
+          this.warningMessage ="信息填入不完整，请补充完信息";
+          this.warningModal = true;
+          return;
+        }
         let param = {
           communityId:this.communityId,
           housetypeId:this.housetypeId,
@@ -212,14 +234,21 @@
       },
       //编辑
       edit(param){
+        let that = this;
         this.$http.post(
           CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
         ).then(function(res){
-
+          that.successMessage = "编辑短租配置成功！";
+          that.successModal = true;
+          setTimeout(function(){
+            that.successModal = false;
+            history.go(-1);
+          },1000)
         })
       },
       //新增
       create(param){
+        let that  = this;
         let housetypeName = "";
         for(let i =0;i<this.lengthNameList.length;i++){
             if(this.lengthNameList[i].housetypeId == this.housetypeId){
@@ -231,10 +260,20 @@
         param.housetypeArea = this.housetypeArea;
         this.$http.post(
           CxkjCommunityPmsType200186,qs.stringify(param)
-        ).then(function(res){
-
+        ).then(function(res){debugger
+          that.successMessage = "新增短租配置成功！";
+          that.successModal = true;
+          setTimeout(function(){
+            that.successModal = false;
+            history.go(-1);
+          },1000)
         })
-      }
+      },
+      //关闭提醒弹窗
+      closeWarningModal(){
+        this.warningModal = false;
+      },
+
 
     },
   }

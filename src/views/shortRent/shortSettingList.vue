@@ -41,7 +41,7 @@
           <td>
             <a @click="deleteShort(item.housetypeId)">删除</a>
             <a @click="goToNewShort(item.housetypeId)">编辑</a>
-            <a @click="openUploadModal">图片上传</a>
+            <a @click="openUploadModal(item.housetypeId)">图片上传</a>
           </td>
         </tr>
       </table>
@@ -61,7 +61,7 @@
         <div class="form-item">
         </div>
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
+          :action="host"
           :show-upload-list="false"
           list-type="picture-card"
           :format="['jpg','jpeg','png']"
@@ -82,7 +82,7 @@
         </el-dialog>
       </div>
       <div class="form-btn-wrap">
-        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeUploadModal" >提交</Button>
+        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="submitUpload" >提交</Button>
         <Button type="primary" style="width: 120px;height: 36px;" @click="closeUploadModal" >取消</Button>
       </div>
       <div class="modal-close-btn" @click="closeUploadModal()">
@@ -100,7 +100,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {allCommunity,CxkjCommunityPmsRoomTypeTable200191,CxkjCommunityPmsRoomTypeDelete200190} from '../api.js';
+  import {allCommunity,CxkjCommunityPmsRoomTypeTable200191,CxkjCommunityPmsRoomTypeDelete200190,CxkjCommunityPmsRoomTypesubmit200189,host,imgPath} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -115,6 +115,8 @@
       let _this = this;
       return {
         activeTabName: "shortRent",//右侧导航栏选中状态
+        host:"",
+        imgPath:"",//图片路径前缀
         successModal: false,//成功弹框显示控制
         warningModal: false,//失败弹框显示控制
         successMessage: '',//成功弹框提示消息
@@ -130,9 +132,13 @@
         uploadModal:false,
         housetypeLikeName:"",//长租房名称
         shortSettingList:[],
+        fileList:[],//图片数组
+        housetypeId:"",//编辑中的短租户型ID
       }
     },
     mounted() {
+      this.host = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
+      this.imgPath = imgPath;
       this.getCommunityData();
     },
     methods: {
@@ -227,10 +233,35 @@
       handleBeforeUpload(){
 
       },
-      //文件上传成功时
-      handleSuccess(){
+      handleRemove(){
 
       },
+      //文件上传成功时
+      handleSuccess(res, file){debugger
+        if(res.code == 10000){
+          file.url = imgPath + res.result.virtualPath;
+          let len = res.result.virtualPath.split("/");
+          file.name = len[len.length-1];
+          this.filelist.push(res.result.virtualPath);
+          debugger
+        }
+      },
+      //图片上传按钮
+      submitUpload(housetypeId){
+        let that = this;
+        let param = {
+          communityId:this.communityId,
+          housetypeId:this.housetypeId,
+          images:this.fileList,
+        };
+        this.$http.post(
+          CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
+        ).then(function(res){
+
+        })
+      },
+
+      //图片预览
       handlePictureCardPreview(file){
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
@@ -239,8 +270,9 @@
       /**
        * 打开创建哑帐弹框
        */
-      openUploadModal(){
+      openUploadModal(housetypeId){
         this.uploadModal = true;
+        this.housetypeId = housetypeId;//保存编辑中的房型ID
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {
             document.querySelector("#app").firstChild.appendChild(this.$refs.uploadModal);

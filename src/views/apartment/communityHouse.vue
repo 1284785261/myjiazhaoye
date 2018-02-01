@@ -61,7 +61,8 @@
                         <el-table-column
                           label="短租">
                           <template scope="scope">
-                            <span>是</span>
+                            <span v-if="scope.row.pmsRoom">是</span>
+                            <span v-else>否</span>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -671,7 +672,7 @@
         that.loading = true;
         this.$http.post(Apartment, {"communityId": this.communityId})
           .then(function (res) {
-            if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
+            if(res.status == 200 && res.data.code ==10000){
               that.rootData = res.data.entity;
               that.getCommunityListRoomTrue();
             }else{
@@ -686,7 +687,7 @@
         var that = this;
         this.$http.post(Apartment, {"communityId": this.communityId,status:1})
           .then(function (res) {
-            if(res.status == 200 && res.statusText=="OK" && res.data.code ==10000){
+            if(res.status == 200 && res.data.code ==10000){
               that.rootData = res.data.entity;
             }else{
 
