@@ -41,7 +41,7 @@
           <td>
             <a @click="deleteShort(item.housetypeId)">删除</a>
             <a @click="goToNewShort(item.housetypeId)">编辑</a>
-            <a @click="openUploadModal(item.housetypeId)">图片上传</a>
+            <a @click="openUploadModal(item.housetypeId,index)">图片上传</a>
           </td>
         </tr>
       </table>
@@ -62,7 +62,7 @@
         </div>
         <el-upload
           :action="host"
-          :show-upload-list="false"
+          :file-list="fileList"
           list-type="picture-card"
           :format="['jpg','jpeg','png']"
           :max-size="2048"
@@ -132,7 +132,8 @@
         uploadModal:false,
         housetypeLikeName:"",//长租房名称
         shortSettingList:[],
-        fileList:[],//图片数组
+        fileList:[{name:"hhhhh",url:"http://kaisa-cxkj.oss-cn-shenzhen.aliyuncs.com/test/files/default/fangchanzhengea2x180201144986.jpg"}],//预览图片
+        uploadFileList:[],
         housetypeId:"",//编辑中的短租户型ID
       }
     },
@@ -233,31 +234,49 @@
       handleBeforeUpload(){
 
       },
-      handleRemove(){
-
+      handleRemove(file,all){
+        for(let i =0;i<this.fileList.length;i++){
+            if(this.fileList[i].name == file.name){
+              this.fileList.splice(i,1);
+            }
+        }
+        for(let i =0;i<this.uploadFileList.length;i++){
+          if(this.uploadFileList[i].name == file.name){
+            this.uploadFileList.splice(i,1);
+          }
+        }
       },
       //文件上传成功时
-      handleSuccess(res, file){debugger
+      handleSuccess(res, file){
         if(res.code == 10000){
           file.url = imgPath + res.result.virtualPath;
           let len = res.result.virtualPath.split("/");
           file.name = len[len.length-1];
-          this.filelist.push(res.result.virtualPath);
-          debugger
+          this.fileList.push({name:file.name,url:this.imgPath+res.result.virtualPath});
+          this.uploadFileList.push({name:file.name,url:res.result.virtualPath});
         }
       },
       //图片上传按钮
       submitUpload(housetypeId){
         let that = this;
+        let fileStr ="";
+        for(let i =0;i<this.uploadFileList.length;i++){
+          fileStr += this.uploadFileList[i].url+",";
+        }
+        fileStr = fileStr.substring(0,fileStr.length-1);
         let param = {
           communityId:this.communityId,
           housetypeId:this.housetypeId,
-          images:this.fileList,
+          images:fileStr,
         };
         this.$http.post(
           CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
         ).then(function(res){
-
+          if(res.data.code == 10000){
+            that.closeUploadModal();
+            that.search();
+            that.$emit("successUpload");
+          }
         })
       },
 
@@ -270,7 +289,19 @@
       /**
        * 打开创建哑帐弹框
        */
-      openUploadModal(housetypeId){
+      openUploadModal(housetypeId,index){
+        let images = this.shortSettingList[index].images;
+        this.fileList = [];
+        this.uploadFileList = [];
+        if(images &&　images.indexOf(",")!=-1){//大于一个照片
+          let imagesArr = images.split(",");
+          for(let i =0;i<imagesArr.length;i++){
+            let len = imagesArr[i].split("/");
+            this.fileList.push({name:len[len.length-1],url:this.imgPath+imagesArr[i]});
+            this.uploadFileList.push({name:len[len.length-1],url:imagesArr[i]});
+          }
+        }
+
         this.uploadModal = true;
         this.housetypeId = housetypeId;//保存编辑中的房型ID
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点

@@ -41,7 +41,7 @@
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
                         <div class="message-ti">
-                          <short-setting-list ></short-setting-list>
+                          <short-setting-list @successUpload ="successUpload()"></short-setting-list>
                         </div>
                     </Tab-pane>
 
@@ -105,8 +105,17 @@
             this.warningModal = false;
         },
         shortprice(){
-            this.successModal = true;
-        }
+          this.successModal = true;
+        },
+        successUpload(){
+          let vm = this;
+          vm.successMessage = "上传图片成功!";
+          vm.successModal = false;
+          setTimeout(function(){
+            vm.successModal = false;
+           },1500)
+
+        },
     },
   }
 </script>
