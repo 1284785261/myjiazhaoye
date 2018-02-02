@@ -3,11 +3,11 @@
     <div>
       <div class="form-item item-margin-bottom">
         <b>名称：</b>
-        <Input style="width: 225px;"></Input>
+        <Input style="width: 225px;" v-model="debtNameKey"></Input>
       </div>
       <div class="form-item item-margin-bottom">
         <b>哑房单号：</b>
-        <Input style="width: 225px;"></Input>
+        <Input style="width: 225px;" v-model="debtNumKey"></Input>
       </div>
       <div class="form-item item-margin-bottom">
         <b>状态：</b>
@@ -24,13 +24,7 @@
         <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime"></Date-picker>
       </div>
       <div class="form-item item-margin-bottom">
-        <b>结账时间：</b>
-        <Date-picker type="date" :options="payStartTimeOption" placeholder="选择日期" v-model="payStartTime"></Date-picker>
-        <span>--</span>
-        <Date-picker type="date" :options="payEndTimeOption" placeholder="选择日期" v-model="payEndTime"></Date-picker>
-      </div>
-      <div class="form-item item-margin-bottom">
-        <Button type="primary" style="width: 120px;height: 36px;" @click="" >查询</Button>
+        <Button type="primary" style="width: 120px;height: 36px;" @click="search" >查询</Button>
       </div>
       <div class="form-item item-margin-bottom">
         <Button type="primary" style="width: 120px;height: 36px;" @click="openNewBillModal" >创建哑账</Button>
@@ -48,25 +42,23 @@
           <th>入住日期</th>
           <th>创建人</th>
           <th>结账时间</th>
-          <th>结账人</th>
           <th>备注</th>
         </tr>
-        <tr >
-          <td>已入住</td>
-          <td>123456</td>
-          <td>李杨</td>
-          <td>13651412541</td>
-          <td>标准大床房</td>
-          <td>10003</td>
-          <td>李杨</td>
-          <td>2018/1/23</td>
-          <td>2018/1/15</td>
-          <td>900</td>
-          <td>900</td>
+        <tr v-for="(item,index) in roomBillList">
+          <td>{{item.debtNum}}</td>
+          <td>{{item.orderNum}}</td>
+          <td>{{item.debtName}}</td>
+          <td>{{item.totalMoney}}</td>
+          <td>{{item.debtState}}</td>
+          <td>{{item.createTime}}</td>
+          <td>{{item.inTime}}</td>
+          <td>{{item.createName}}</td>
+          <td>{{item.remark}}</td>
+          <td>{{item.remark}}</td>
         </tr>
       </table>
       <div class="block">
-        <el-pagination @current-change="handleCurrentChange3" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
+        <el-pagination @current-change="search" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
         </el-pagination>
       </div>
     </div>
@@ -80,31 +72,31 @@
       <div class="modal-content-meddle">
         <div class="form-item">
           <b>订单号: </b>
-          <Input style="width: 175px;"></Input>
+          <Input style="width: 175px;" v-model="orderNum"></Input>
         </div>
         <div class="form-item">
           <b>名称: </b>
-          <Input style="width: 175px;"></Input>
+          <Input style="width: 175px;" v-model="debtName"></Input>
         </div>
         <div class="form-item">
           <b>欠款: </b>
-          <Input style="width: 175px;"></Input>
+          <Input style="width: 175px;" v-model="totalMoney"></Input>
         </div>
         <div class="form-item">
           <b>入住时间：</b>
-          <Date-picker type="date" :options="createStartTimeOption" placeholder="选择日期" v-model="createStartTime1"></Date-picker>
+          <Date-picker type="date" :options="inTimeOption" placeholder="选择日期" v-model="inTime"></Date-picker>
         </div>
         <div class="form-item">
           <b>离店时间: </b>
-          <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
+          <Date-picker type="date" :options="leaveTimeOption" placeholder="选择日期" v-model="leaveTime"></Date-picker>
         </div>
         <div class="form-item">
           <b style="position: relative;top: -80px;">备注: </b>
-          <textarea style="width: 680px;height:100px;resize: none;margin-left: 5px;" ></textarea>
+          <textarea style="width: 680px;height:100px;resize: none;margin-left: 5px;" v-model="remark"></textarea>
         </div>
       </div>
       <div class="form-btn-wrap">
-        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeNewBillModal" >提交</Button>
+        <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="createRoomBill" >提交</Button>
         <Button type="primary" style="width: 120px;height: 36px;" @click="closeNewBillModal" >取消</Button>
       </div>
       <div class="modal-close-btn" @click="closeNewBillModal()">
@@ -122,7 +114,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {} from '../api.js';
+  import {CxkjGetOrderDebtList300183,CxkjCreateOrderDebt300184} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -142,18 +134,41 @@
         successMessage: '',//成功弹框提示消息
         warningMessage: '',//失败弹框提示消息
         selectShow:false,//条件查询显示或隐藏
-        stateSelectList:[{name:"全部",id:-1},{name:"已办结",id:1},{name:"未办结",id:2}],//状态列表
+        stateSelectList:[{name:"全部",id:-1},{name:"未办结",id:0},{name:"已办结",id:1}],//状态列表
         roomState:-1,//哑房被选中状态
+        roomBillList:[],//哑帐列表
+
+        orderNum:"",//账单ID
+        debtName:"",//名称
+        totalMoney:"",//欠款
+        inTime:"",//入住日期
+        leaveTime:"",//离店日期
+        remark:"",//备注
+        inTimeOption: {//创建开始时间验证
+          disabledDate(date){
+            if(_this.leaveTime){
+              return date &&  _this.leaveTime < date.valueOf();
+            }
+          }
+        },
+        leaveTimeOption: {//创建结束时间验证
+          disabledDate(date){
+            return date && date.valueOf() < _this.inTime;
+          }
+        },
+
+        debtNameKey:"",//条件搜素名称
+        debtNumKey:"",// 条件搜索哑房单号
+        roomState:-1,//状态
 
         createStartTime:"",//查询条件创建开始时间
         createEndTime:"",//查询条件创建结束时间
         createStartTime1:"",//查询条件创建开始时间
         createEndTime1:"",//查询条件创建结束时间
-        payStartTime:"",//付账开始时间
-        payEndTime:"",//付账结束时间
 
         pageNum:1,//当前页数
         totalNum:0,//总条数
+
         createStartTimeOption: {//创建开始时间验证
           disabledDate(date){
             if(_this.createEndTime){
@@ -166,23 +181,11 @@
             return date && date.valueOf() < _this.createStartTime;
           }
         },
-        payStartTimeOption: {//付账开始时间验证
-          disabledDate(date){
-            if(_this.payEndTime){
-              return date &&  _this.payEndTime < date.valueOf();
-            }
-          }
-        },
-        payEndTimeOption: {//付账结束时间验证
-          disabledDate(date){
-            return date && date.valueOf() < _this.payStartTime;
-          }
-        },
         newBillModal:false,
       }
     },
     mounted() {
-
+      this.getRoomBillList({pageNum:1,communityId:this.communityId});
     },
     methods: {
       /**
@@ -229,6 +232,71 @@
             document.querySelector("#app").firstChild.appendChild(this.$refs.outBillModal);
           })
         }, 0)
+      },
+      //获取哑帐列表
+      getRoomBillList(params){
+        let vm = this;
+        this.$http.get(CxkjGetOrderDebtList300183,qs.stringify(params)).then(res=>{
+          if(res.data.code == 10000){debugger
+            vm.roomBillList = res.data.pageBean.page;
+            vm.totalNum = res.data.pageBean.totalNum;
+          }else{
+            vm.roomBillList = [];
+            vm.totalNum = 0;
+          }
+        })
+      },
+      search(page){
+        //接口待修改
+        let params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+        if(this.debtNameKey){
+          params.debtName = this.debtNameKey;
+        }
+        if(this.debtNumKey){
+          params.debtNum = this.debtNumKey;
+        }
+        if(this.debtNumKey){
+          params.debtNum = this.debtNumKey;
+        }
+        if(this.roomState != -1){
+          params.debtState = this.roomState;
+        }
+        if(this.createStartTime){
+          params.beginDate = new Date(this.createStartTime).Format("yyyy-MM-dd hh:mm:ss")
+        }
+        if(this.createEndTime){
+          params.endDate = new Date(this.createEndTime).Format("yyyy-MM-dd hh:mm:ss")
+        }
+
+        this.getRoomBillList(params);
+      },
+      //提交创建哑帐按钮
+      createRoomBill(){
+        let vm = this;
+        let param = {
+          orderNum:this.orderNum,
+          debtName:this.debtName,
+          totalMoney:this.totalMoney,
+          inTime:new Date(this.inTime).Format("yyyy-MM-dd hh:mm:ss"),
+          leaveTime:new Date(this.leaveTime).Format("yyyy-MM-dd hh:mm:ss"),
+          remark:this.remark,
+        };
+        this.$http.post(
+          CxkjCreateOrderDebt300184,qs.stringify(param)
+        ).then(function(res){
+            if(res.data.code == 10000){
+                vm.closeNewBillModal();
+                this.orderNum = "";
+                this.debtName = "";
+                this.totalMoney = "";
+                this.inTime = "";
+                this.leaveTime = "";
+                this.remark = "";
+            }
+        });
       },
       /**
        * 关闭创建哑帐弹框

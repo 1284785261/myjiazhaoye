@@ -111,7 +111,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {addHouseType,Housetype,deleteHouseType} from '../api.js';
+  import {addHouseType,Housetype,deleteHouseType,CxkjCommunityPmsRoomService200192,CxkjCommunityPmsRoomServiceInfo200193} from '../api.js';
   import qs from 'qs';
 
 
@@ -203,7 +203,7 @@
         warningModal:false,
         warningMessage:"信息填写不完整，请填写完整后重新提交！",
         addServiceModal:false,
-        services:[{name:"咖啡",price:10},{name:"早餐",price:10},{name:"唱吧",price:10}],
+        services:[],
         name:"",
         price:"",
       }
@@ -301,16 +301,41 @@
       closeWarningModal(){
         this.warningModal = false;
       },
+      //添加增值服务
       addSercive(){
+        if(this.name =="" || this.price == ""){
+            return;
+        }
         this.services.push({name:this.name,price:this.price});
+        this.$http.post(
+          CxkjCommunityPmsRoomService200192,{cxkjPmsRoomServiceList:this.services,communityId:this.communityId}
+        ).then(function(res){
+
+        });
         this.name = "";
         this.price = "";
       },
       deleteService(index){
         this.services.splice(index,1);
+        this.$http.post(
+          CxkjCommunityPmsRoomService200192,{cxkjPmsRoomServiceList:this.services,communityId:this.communityId}
+        ).then(function(res){
+
+        });
       },
+      //打开增值服务弹框
       service(index){
+        let vm = this;
         this.addServiceModal = true;
+        this.$http.post(
+          CxkjCommunityPmsRoomServiceInfo200193,qs.stringify({communityId:this.communityId})
+        ).then(function(res){
+          if(res.data.code == 10000){
+              vm.services = res.data.entity;
+          }
+        }).catch(function(err){
+
+        });
       },
       closeAddServiceModal(){
         this.addServiceModal = false;

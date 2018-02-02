@@ -716,3 +716,9 @@ export const CxkjCommunityPmsType200186 =host3+'/cxkj-pms/apis/pc/pmsroomtype/Cx
 export const CxkjCommunityRoom200184 =host3+'/cxkj-room/apis/pc/cxkjcommunityroom/CxkjCommunityRoom200184'//社区添加房间
 export const CxkjCommunityRoomEdit200185 =host3+'/cxkj-room/apis/pc/cxkjcommunityroom/CxkjCommunityRoomEdit200185'//编辑房间
 
+export const CxkjCommunityPmsRoomService200192 =host3+'/cxkj-pms/apis/pc/pmsroomservice/CxkjCommunityPmsRoomService200192'//新增编辑增值服务
+export const CxkjCommunityPmsRoomServiceInfo200193 =host3+'/cxkj-pms/apis/pc/pmsroomservice/CxkjCommunityPmsRoomServiceInfo200193'//获取增值服务信息
+
+export const CxkjGetOrderDebtList300183 =host3+'/cxkj-pms/apis/pc/pmsorderdebt/CxkjGetOrderDebtList300183'//哑房账列表
+export const CxkjCreateOrderDebt300184 =host3+'/cxkj-pms/apis/pc/pmsorderdebt/CxkjCreateOrderDebt300184'//创建哑账
+
