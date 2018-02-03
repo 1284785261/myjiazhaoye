@@ -11,16 +11,16 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="价格套系" name="first">
             <div class="pricecombo">
-                <a class="addprice" @click="addPrice">添加</a>
-                <a class="addprice" :href="host3">导出</a>
+                <a class="addprice" @click="addPrice" :disabled="disabledbutton">添加</a>
+                <a class="addprice" :href="host3" :disabled="disabledbutton">导出</a>
                 <table class="pricelist" v-if="shortHousetype != []">
                     <tr v-if="longHousetype">
                         <td></td>
                         <td>长租房户型</td>
                         <td v-for="item in longHousetype">{{item.housetypeName}}</td>
-                        <td rowspan="2" style="background:rgb(216, 216, 216);">操作</td>
+                        <td rowspan="2" style="background:#f8f8f9;">操作</td>
                     </tr>
-                    <tr style="height:56px;background:rgb(216, 216, 216);" v-if="shortHousetype">
+                    <tr style="height:56px;background:#f8f8f9;" v-if="shortHousetype">
                         <td>代号</td>
                         <td>短租房户型</td>
                         <td v-for="item in shortHousetype">{{item.pmsRoomTypename}}</td>
@@ -52,7 +52,7 @@
             <div style="height: 600px;">
             <calendar class="event-calendar" v-model="value"  :disabled-days-of-week="disabled" :format="format" :clear-button="clear" :placeholder="placeholder" :pane="2" :has-input="false" :on-day-click="onDayClick3" :change-pane="changePane">
                 <div class="event" v-for="(evt, index) in events" :key="index" :slot="evt.date">
-                    ${{evt.content}} <i :class="{low : evt.low}" v-if="evt.low">↓</i>
+                    {{evt.content}} <i :class="{low : evt.low}" v-if="evt.low">↓</i>
                 </div>
             </calendar>
             <p>{{date3}}</p>
@@ -92,7 +92,7 @@
     import successModal from '../../components/successModal.vue';
     import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
-    import {allCommunity,RoomPriceTable200195,RoomPriceEdit200196,PmsRoomPriceDelete200197,host,PmsRoomPrice200194} from '../api.js';
+    import {allCommunity,RoomPriceTable200195,RoomPriceEdit200196,PmsRoomPriceDelete200197,host,PmsRoomPrice200194,RoomDayPriceInfo200201} from '../api.js';
     import qs from 'qs';
     export default {
         components: {
@@ -124,6 +124,9 @@
                 shortPriceroom:[],      //短租房价格
                 cxkjPmsRoomPriceList:[], //短租价格修改数据
                 host3:'', //导出短租价格表信息地址
+                disabledbutton:true, //禁用添加按钮
+                DayPrice:null,   //获取价格日历的全部数据
+                checkList:[]
             }
         },
         created () {
@@ -156,10 +159,11 @@
                         }else{
                             vm.stationCommunity = parseInt(vm.stationSelectList[0].communityId);
                         }
-                        this.priceCommunity(vm.stationCommunity);
+                        vm.priceCommunity(vm.stationCommunity);
                     }
                 })
             },
+            //公共获取价格数据方法
             priceCommunity(value){
                 let vm = this
                 vm.longHousetype = [];
@@ -170,8 +174,11 @@
                         communityId:value
                     })
                 ).then((res)=>{
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
+                        vm.disabledbutton = false;
                         if(res.data.entity.roomTypeMap){
+                            
                             for(let i = 0;i < res.data.entity.roomTypeMap.length;i++){
                                 vm.longHousetype.push({housetypeName:res.data.entity.roomTypeMap[i].housetypeName});
                                 vm.shortHousetype.push({pmsRoomTypename:res.data.entity.roomTypeMap[i].pmsRoomTypename,roomTypeId:res.data.entity.roomTypeMap[i].roomTypeId});
@@ -194,6 +201,7 @@
                         }
                         
                     }else{
+                        vm.disabledbutton = true;
                         vm.longHousetype = [];
                         vm.shortHousetype = [];
                         vm.shortPriceroom = [];
@@ -203,6 +211,7 @@
             //切换社区获取价格套系数据
             selectCommunity(value){
                 this.priceCommunity(value);
+                
             },
             //添加短租户型价格
             addPrice(){
@@ -318,14 +327,16 @@
             },
             //删除户型价格
             desRoomPrice(item){
+                let vm = this
                 // console.log(item.pmsRoomPriceIds);
+                this.shortPriceroom.splice(this.shortPriceroom.length-1,1);
                 axios.post(PmsRoomPriceDelete200197,
                 qs.stringify({
                     pmsRoomPriceIds:item.pmsRoomPriceIds
                 })).then((res)=>{
                     // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
-                        this.priceCommunity(this.stationCommunity);
+                        vm.priceCommunity(this.stationCommunity);
                     }
                 }).catch((err)=>{
                     // console.log(err);
@@ -400,12 +411,6 @@
             },
             filled (v) {
                 return String(v).replace(/^(\d)$/, '0$1')
-            },
-            onDayClick1 (date, str) {
-                this.date1 = str
-            },
-            onDayClick2 (date, str) {
-                this.date2 = this.getDateInfo(str) || str
             },
             onDayClick3 (date, str) {
                 this.date3 = str
@@ -495,17 +500,48 @@
             },
             getEventContent (year, month, pane) {
                 const data = []
+                let Dates = '';
+                if(month+1 < 10){
+                    Dates = year +'-0'+(month+1)+'-01';
+                }
+                else{
+                    Dates = year +'-'+(month+1)+'-01';
+                }
+                
+                // console.log(Dates);
+                // console.log(pane);
                 for (let p = 0; p < pane; p++) {
                     let date = new Date(year, month + p)
                     let monthCounts = this.getDayCount(date.getFullYear(), date.getMonth())
+                    // console.log(monthCounts);
                     for (let i = 1; i <= monthCounts; i++) {
-                    data.push({
-                        date: this.stringify(new Date(year, month + p, i)),
-                        content: this.random(100, 1000),
-                        low: this.random(1)
-                    })
+                        data.push({
+                            date: this.stringify(new Date(year, month + p, i)),
+                            content: '',
+                            priceInfo:''
+                        })
                     }
                 }
+                axios.post(RoomDayPriceInfo200201,
+                qs.stringify({
+                    communityId:this.stationCommunity,
+                    startDate:Dates
+                })).then((res)=>{
+                    console.log(11111111111);
+                    console.log(res);
+                    if(res.status == 200 && res.data.code == 10000){
+                        this.DayPrice = res.data.entity;
+                        for(let i = 0;i<data.length;i++){
+                            for(let j=0;j<this.DayPrice.length;j++){
+                                if(data[i].date == this.DayPrice[j].dayNum){
+                                    data[i].content = this.DayPrice[j].code;
+                                    data[i].priceInfo = this.DayPrice[j].priceInfo;
+                                }
+                            }
+                        }
+                    }
+                })
+                console.log(data);
                 return data
             }
         }

@@ -49,6 +49,36 @@
             </div>
             <footer-box></footer-box>
         </div>
+        <div class="scherm" v-show="isHide">
+          </div>
+          <div class="setmeal" v-show="isHide">
+              <p>设置</p>
+              <i class="el-icon-circle-close" @click="inst5"></i>
+              <span class="state">开始时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
+              <span class="out">结束时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
+
+              <el-checkbox-group v-model="checkList">
+                  <span style="margin-left:10px;line-height: 38px;">开始时间：</span>
+                  <el-checkbox label="一"></el-checkbox>
+                  <el-checkbox label="二"></el-checkbox>
+                  <el-checkbox label="三"></el-checkbox>
+                  <el-checkbox label="四"></el-checkbox>
+                  <el-checkbox label="五"></el-checkbox>
+                  <el-checkbox label="六"></el-checkbox>
+                  <el-checkbox label="日"></el-checkbox>
+              </el-checkbox-group>
+              <Checkbox v-model="single2" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
+              <div class="form-item">
+                  <b>套系名称：</b>
+                  <Select v-model="stationCommunity" style="width:90px" @on-change="selectCommunity(stationCommunity)">
+                      <Option v-for="community in  stationSelectList" :value="community.communityId"
+                              :key="community.communityId">{{ community.communityName }}
+                      </Option>
+                  </Select>
+              </div>
+              <a class="commlun">确定</a>
+              <a class="commlun commlun2">关闭</a>
+          </div>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 	    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
     </div>
@@ -95,6 +125,7 @@
         currentPage3: 1,
         radio: '1',
         ishide3: false,
+        isHide:false
 
       }
     },
@@ -171,5 +202,91 @@
     }
 
 
-
+    .setmeal{
+        width: 526px;
+        height: 240px;
+        background: white;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        z-index: 9999;
+        .el-icon-circle-close{
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            font-size: 20px;
+            line-height: 50px;
+            cursor: pointer;
+        }
+        p{
+            height: 50px;
+            line-height: 50px;
+            width: 100%;
+            padding-left: 10px;
+            background: #038be2;
+            color: white;
+            font-size: 16px;
+        }
+        .ivu-date-picker{
+            width: 156px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .state{
+            line-height: 60px;
+            margin-left: 10px;
+        }
+        .out{
+            margin-left: 10px;
+            line-height: 60px;
+        }
+        .el-checkbox{
+            margin-left: 8px;
+        }
+        .all{
+            position: absolute;
+            right: 26px;
+            top: 118px;
+            font-size: 14px;
+            .ivu-checkbox-inner{
+                width: 18px;
+                height: 18px;
+            }
+        }
+        .form-item{
+            b{
+                margin-left: 10px;
+                font-weight: initial;
+            }
+        }
+        .commlun{
+            position: absolute;
+            left: 104px;
+            bottom: 9px;
+            width: 110px;
+            height: 32px;
+            display: block;
+            text-align: center;
+            line-height: 32px;
+            font-size: 16px;
+            color: white;
+            background: #038BE2;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .commlun2{
+            left: 300px;
+        }
+    }
+    .scherm {
+        width: 100%;
+        height: 100%;
+        background: #000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        opacity: 0.5;
+    }
 </style>
