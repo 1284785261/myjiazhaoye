@@ -3,7 +3,7 @@
         <div>
             <div class="form-item">
                 <b>社区：</b>
-                <Select v-model="stationCommunity" style="width:180px">
+                <Select v-model="communityId" style="width:180px">
                     <Option v-for="community in  stationSelectList" :value="community.communityId"
                             :key="community.communityId">{{ community.communityName }}
                     </Option>
@@ -158,26 +158,29 @@
                     <th>预付款</th>
                     <th>操作</th>
                 </tr>
-                <tr >
-                    <td>已入住</td>
-                    <td>123456</td>
-                    <td>李杨</td>
-                    <td>13651412541</td>
-                    <td>标准大床房</td>
-                    <td>10003</td>
-                    <td>李杨</td>
-                    <td>2018/1/23</td>
-                    <td>2018/1/15</td>
-                    <td>900</td>
+                <tr v-for="(item,index) in shortOrderList">
+                    <td>
+                      <span v-if="item.isIn==0">未入住</span>
+                      <span v-if="item.isIn==1">已入住</span>
+                    </td>
+                    <td>{{item.orderId}}</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.contactPhone}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.roomNum}}</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.arriveTime}}</td>
+                    <td>{{item.leaveTime}}</td>
+                    <td>{{item.payMoney}}</td>
                     <td>
                         <a @click="paifang">排房</a>
                         <a @click="checkIn">入住</a>
-                        <a>查看详情</a>
+                        <a @click="orderDetail">查看详情</a>
                     </td>
                 </tr>
             </table>
             <div class="block">
-                <el-pagination @current-change="handleCurrentChange3" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
+                <el-pagination @current-change="search" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
                 </el-pagination>
             </div>
         </div>
@@ -252,51 +255,47 @@
         </div>
         <div class="modal-content-meddle">
           <div class="form-item">
-            <b>预定时间：</b>
-            <Date-picker type="date" :options="createStartTimeOption" placeholder="选择日期" v-model="createStartTime1"></Date-picker>
-          </div>
-          <div class="form-item">
             <b>入住时间: </b>
-            <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
+            <Date-picker type="date" :options="bookBeginDateOption" placeholder="选择日期" v-model="bookBeginDate"></Date-picker>
           </div>
 
           <div class="form-item">
             <b>离店时间: </b>
-            <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime1"></Date-picker>
+            <Date-picker type="date" :options="bookEndDateOption" placeholder="选择日期" v-model="bookEndDate"></Date-picker>
           </div>
           <br/>
           <div class="form-item">
             <b>市场细分: </b>
-            <Select v-model="stationCommunity" style="width:200px">
-              <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+            <Select v-model="marketType" style="width:200px">
+              <Option v-for="community in  marketTypeList" :value="community.id" :key="community.id">{{ community.name }}</Option>
             </Select>
           </div>
           <div class="form-item">
             <b>订单来源: </b>
-            <Select v-model="stationCommunity" style="width:200px">
-              <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+            <Select v-model="sourceType" style="width:200px">
+              <Option v-for="community in  sourceTypeList" :value="community.id" :key="community.id">{{ community.name }}</Option>
             </Select>
           </div>
           <div class="form-item">
             <b>联系人: </b>
-            <Input style="width: 175px;"></Input>
+            <Input style="width: 175px;" v-model="bookName"></Input>
             <Button type="primary" style="">设为入住人</Button>
           </div>
           <div class="form-item">
             <b>联系电话: </b>
-            <Input style="width: 175px;"></Input>
+            <Input style="width: 175px;" v-model="bookPhone"></Input>
           </div>
           <div class="form-item">
-            <b>指定房号: </b>
-            <Input style="width: 175px;"></Input>
+            <b>房间数量: </b>
+            <Input style="width: 175px;" v-model="roomCount"></Input>
           </div>
           <div class="form-item">
             <b>备注: </b>
-            <Input style="width: 175px;"></Input>
+            <Input style="width: 175px;" v-model="remark"></Input>
           </div>
         </div>
         <div class="form-btn-wrap">
-          <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="closeCreateOrderModal" >提交</Button>
+          <Button type="primary" style="width: 120px;height: 36px;margin-right: 150px;" @click="setBliakMember" >提交</Button>
           <Button type="primary" style="width: 120px;height: 36px;" @click="closeCreateOrderModal" >取消</Button>
         </div>
         <div class="modal-close-btn" @click="closeCreateOrderModal()">
@@ -315,7 +314,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {} from '../api.js';
+  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -327,6 +326,7 @@
       warningModal,
     },
     data() {
+      let _this = this;
       return {
         activeTabName: "shortRent",//右侧导航栏选中状态
         successModal: false,//成功弹框显示控制
@@ -335,7 +335,7 @@
         warningMessage: '',//失败弹框提示消息
         selectShow:false,//条件查询显示或隐藏
         stationSelectList:[],//社区列表
-        stationCommunity:'',//被选中的社区
+        communityId:'',//被选中的社区
         selectState:{//状态查询控制
           all:true,
           eta:[],
@@ -394,12 +394,71 @@
         outCheckInOrder:false,//入住模态框
         roomChangeHide:false,//排房弹框
         createOrderModal:false,//创建订单弹窗控制
+
+        shortOrderList:[],
+
+        bookBeginDate:"",//创建订单入住时间
+        bookEndDate:"",//创建订单离店时间
+        marketType:0,//市场细分
+        marketTypeList:[{name:"门市散客",id:0},{name:"内部员工",id:1},{name:"协议单位",id:2}],//市场细分下拉选
+        sourceType:0,//订单来源
+        sourceTypeList:[{name:"门店上门",id:0},{name:"门店电话",id:1},{name:"APP平台",id:2},{name:"OTA",id:3}],//订单来源下拉选
+        roomNum:"",//房间号
+        remark:"",//备注
+        bookPhone:"",//联系电话
+        bookName:"",//联系人
+        roomCount:1,//房间数量
+
+        bookBeginDateOption: {//入住时间验证
+          disabledDate(date){
+            if(_this.bookEndDate){
+              return date &&  _this.bookEndDate < date.valueOf();
+            }
+          }
+        },
+        bookEndDateOption: {//离店时间验证
+          disabledDate(date){
+            return date && date.valueOf() < _this.bookBeginDate;
+          }
+        },
+
       }
     },
     mounted() {
-
+      this.communityId = sessionStorage.getItem("communityId");
+      this.getCommunityData();
+      this.getShortOrderList({pageNum:1,communityId:this.communityId})
     },
     methods: {
+      //获取社区id
+      getCommunityData(){
+        var that = this;
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.stationSelectList = res.data.entity;
+              if(that.$route.query.communityId){
+                that.communityId = parseInt(that.$route.query.communityId);
+              }else{
+                that.communityId = parseInt(that.stationSelectList[0].communityId);
+              }
+            }
+          })
+      },
+      //获取
+      getShortOrderList(params){
+        let vm = this;
+        this.$http.get(CxkjGetOrderList300181,{params:params}).then(res=>{
+          if(res.data.code == 10000){
+            vm.shortOrderList = res.data.pageBean.page;
+            vm.totalNum = res.data.pageBean.totalNum;
+          }else{
+            vm.shortOrderList = [];
+            vm.totalNum = 0;
+          }
+        })
+      },
+
       /**
        * 分页插件
        **/
@@ -425,13 +484,69 @@
        * 创建订单确定按钮
        **/
       setBliakMember(){
+        let vm  = this;
+        if(this.bookName == "" || this.bookPhone == "" || this.bookBeginDate == "" || this.bookEndDate=="" || this.roomCount=="" || this.roomNum){
+          //信息填写不完整
+          return;
+        }
+        let param = {
+          bookName:this.bookName,
+          bookPhone:this.bookPhone,
+          bookBeginDate:new Date(this.bookBeginDate).Format("yyyy-MM-dd"),
+          bookEndDate:new Date(this.bookEndDate).Format("yyyy-MM-dd"),
+          marketType:this.marketType,
+          sourceType:this.sourceType,
+          roomCount:this.roomCount,
+          remark:this.remark,
+          roomTypeId:286,
+          communityId:this.communityId
+        };debugger
+        this.$http.post(CxkjCreateOrder300193,qs.stringify(param)).then(res=>{
+          if(res.data.code == 10000){
+              vm.bookName = "";
+              vm.bookPhone = "";
+              vm.remark = "";
+              vm.closeCreateOrderModal();
+          }
+        })
+      },
+      //条件搜索
+      search(page){
+        //接口待修改
+        let params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+//        if(this.debtNameKey){
+//          params.debtName = this.debtNameKey;
+//        }
+//        if(this.debtNumKey){
+//          params.debtNum = this.debtNumKey;
+//        }
+//        if(this.debtNumKey){
+//          params.debtNum = this.debtNumKey;
+//        }
+//        if(this.roomState != -1){
+//          params.debtState = this.roomState;
+//        }
+//        if(this.createStartTime){
+//          params.beginDate = new Date(this.createStartTime).Format("yyyy-MM-dd hh:mm:ss")
+//        }
+//        if(this.createEndTime){
+//          params.endDate = new Date(this.createEndTime).Format("yyyy-MM-dd hh:mm:ss")
+//        }
 
+        this.getShortOrderList(params);debugger
       },
       /**
        * 取消创建订单按钮
        **/
       closeBlackModal(){
 
+      },
+      //查看详情按钮
+      orderDetail(){
+        this.$router.push({name:"shortOrderDetails"});
       },
 
       notcheckIn(){

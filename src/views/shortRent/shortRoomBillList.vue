@@ -24,7 +24,7 @@
         <Date-picker type="date" :options="createEndTimeOption" placeholder="选择日期" v-model="createEndTime"></Date-picker>
       </div>
       <div class="form-item item-margin-bottom">
-        <Button type="primary" style="width: 120px;height: 36px;" @click="search" >查询</Button>
+        <Button type="primary" style="width: 120px;height: 36px;" @click="search()" >查询</Button>
       </div>
       <div class="form-item item-margin-bottom">
         <Button type="primary" style="width: 120px;height: 36px;" @click="openNewBillModal" >创建哑账</Button>
@@ -37,11 +37,12 @@
           <th>订单号</th>
           <th>名称</th>
           <th>欠款</th>
-          <th>状态</th>
+
           <th>创建时间</th>
           <th>入住日期</th>
+          <th>离店时间</th>
           <th>创建人</th>
-          <th>结账时间</th>
+          <th>状态</th>
           <th>备注</th>
         </tr>
         <tr v-for="(item,index) in roomBillList">
@@ -49,11 +50,14 @@
           <td>{{item.orderNum}}</td>
           <td>{{item.debtName}}</td>
           <td>{{item.totalMoney}}</td>
-          <td>{{item.debtState}}</td>
-          <td>{{item.createTime}}</td>
-          <td>{{item.inTime}}</td>
+          <td>{{item.createTime | timefilter('yyyy-MM-dd')}}</td>
+          <td>{{item.inTime | timefilter('yyyy-MM-dd')}}</td>
+          <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
           <td>{{item.createName}}</td>
-          <td>{{item.remark}}</td>
+          <td>
+            <span v-if="item.debtState==0">未办结</span>
+            <span v-if="item.debtState==1">已办结</span>
+          </td>
           <td>{{item.remark}}</td>
         </tr>
       </table>
@@ -137,7 +141,7 @@
         stateSelectList:[{name:"全部",id:-1},{name:"未办结",id:0},{name:"已办结",id:1}],//状态列表
         roomState:-1,//哑房被选中状态
         roomBillList:[],//哑帐列表
-
+        conmunityId:"",
         orderNum:"",//账单ID
         debtName:"",//名称
         totalMoney:"",//欠款
@@ -185,6 +189,7 @@
       }
     },
     mounted() {
+      this.communityId = sessionStorage.getItem("communityId");
       this.getRoomBillList({pageNum:1,communityId:this.communityId});
     },
     methods: {
@@ -236,7 +241,7 @@
       //获取哑帐列表
       getRoomBillList(params){
         let vm = this;
-        this.$http.get(CxkjGetOrderDebtList300183,qs.stringify(params)).then(res=>{
+        this.$http.get(CxkjGetOrderDebtList300183,{params:params}).then(res=>{
           if(res.data.code == 10000){debugger
             vm.roomBillList = res.data.pageBean.page;
             vm.totalNum = res.data.pageBean.totalNum;
@@ -271,7 +276,7 @@
           params.endDate = new Date(this.createEndTime).Format("yyyy-MM-dd hh:mm:ss")
         }
 
-        this.getRoomBillList(params);
+        this.getRoomBillList(params);debugger
       },
       //提交创建哑帐按钮
       createRoomBill(){
@@ -304,6 +309,13 @@
       closeNewBillModal(){
         document.querySelector("#app").firstChild.removeChild(this.$refs.newBillModal);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outBillModal);
+      }
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
       }
     },
   }
