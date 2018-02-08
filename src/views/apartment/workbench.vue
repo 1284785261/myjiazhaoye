@@ -71,6 +71,9 @@
 								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
+							<li>
+								<router-link to="/signed/H5invitation">H5邀请</router-link>
+							</li>
 						</ul>
 					</div>
 					</Col>
@@ -570,7 +573,7 @@
 		margin-left: 240px;
 	    position: relative;
 	    padding-bottom: 160px;
-		height: 100%;
+		min-height: 1300px;
 		background-color: #f0f0f0!important;
 	}
 	.workbens li{

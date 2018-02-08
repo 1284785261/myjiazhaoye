@@ -36,7 +36,7 @@
                     </Tab-pane>
                     <Tab-pane label="价格设置">
                         <div class="message-ti">
-                            <short-price-set @shortprice ="shortprice()"></short-price-set>
+                            <short-price-set @setPrice="setPrice"></short-price-set>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
@@ -53,11 +53,11 @@
           </div>
           <div class="setmeal" v-show="isHide">
               <p>设置</p>
-              <i class="el-icon-circle-close" @click="inst5"></i>
-              <span class="state">开始时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
-              <span class="out">结束时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="communityLeaseBegin"></Date-picker>
+              <i class="el-icon-circle-close" @click="coloseSet"></i>
+              <span class="state">开始时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="stateDatas" disabled></Date-picker>
+              <span class="out">结束时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="endDatas" disabled></Date-picker>
 
-              <el-checkbox-group v-model="checkList">
+              <el-checkbox-group v-model="checkList" @change="allcheckList(checkList)">
                   <span style="margin-left:10px;line-height: 38px;">开始时间：</span>
                   <el-checkbox label="一"></el-checkbox>
                   <el-checkbox label="二"></el-checkbox>
@@ -67,17 +67,17 @@
                   <el-checkbox label="六"></el-checkbox>
                   <el-checkbox label="日"></el-checkbox>
               </el-checkbox-group>
-              <Checkbox v-model="single2" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
+              <Checkbox v-model="single" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
               <div class="form-item">
                   <b>套系名称：</b>
-                  <Select v-model="stationCommunity" style="width:90px" @on-change="selectCommunity(stationCommunity)">
-                      <Option v-for="community in  stationSelectList" :value="community.communityId"
-                              :key="community.communityId">{{ community.communityName }}
+                  <Select v-model="codes" style="width:90px">
+                      <Option v-for="code in  codeList" :value="code"
+                              :key="code">
                       </Option>
                   </Select>
               </div>
-              <a class="commlun">确定</a>
-              <a class="commlun commlun2">关闭</a>
+              <a class="commlun" @click="sublitSetprice">确定</a>
+              <a class="commlun commlun2" @click="coloseSet">关闭</a>
           </div>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 	    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
@@ -98,7 +98,7 @@
   import shortPriceSet from './shortPriceSet.vue';
   import shortProductCalendar from './shortProductCalendar.vue';
   import axios from 'axios';
-  import { hostActivity,hostActivityModify,hostActivityInvite } from '../api.js';
+  import { hostActivity,hostActivityModify,hostActivityInvite,PmsRoomPriceCode200199,PmsRoomDayPrices200200 } from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -125,19 +125,309 @@
         currentPage3: 1,
         radio: '1',
         ishide3: false,
-        isHide:false
-
+        isHide:false,
+        codeList:[],
+        codes:'',
+        stateDatas:'',//价格设置开始时间
+        endDatas:'',//价格设置结束时间
+        checkList:[],//开始时间组
+        single:false, //全选值
+        dayNumList:[],//选中日历日期
+        communityIds:'' //设置日历组件社区ID
       }
     },
     mounted() {
+        this.codem();
     },
     methods: {
+
+        //获取套系的种类
+        codem(){
+            if(sessionStorage.getItem('priceID')){
+                let ID = sessionStorage.getItem('priceID')
+                axios.post(PmsRoomPriceCode200199,
+                qs.stringify({
+                    communityId:ID
+                })).then((res)=>{
+                    console.log(res);
+                    if(res.status == 200 && res.data.code == 10000){
+                        this.codeList = res.data.result.pmsRoomPriceCodeList;
+
+                    }
+                    else{
+                        this.codeList = []
+                    }
+                })
+            }
+            else{
+                let ID = sessionStorage.getItem('communityId')
+                axios.post(PmsRoomPriceCode200199,
+                qs.stringify({
+                    communityId:ID
+                })).then((res)=>{
+                    console.log(res);
+                    if(res.status == 200 && res.data.code == 10000){
+                        this.codeList = res.data.result.pmsRoomPriceCodeList;
+                    }
+                    else{
+                        this.codeList = []
+                    }
+                })
+            }
+            
+        },
+        //全选时间事件
+        handleCheckAll2(){
+            
+            this.single = !this.single;
+            if(this.single == true){
+                this.checkList.push('一');
+                this.checkList.push('二');
+                this.checkList.push('三');
+                this.checkList.push('四');
+                this.checkList.push('五');
+                this.checkList.push('六');
+                this.checkList.push('日');
+                // console.log(this.dayNumList);
+                for(let i = 0;i<this.checkList.length;i++){
+                    let DataSour = new Date(this.stateDatas);
+                    let data = new Date(this.stateDatas).Format("yyyy-MM-dd");
+                    let now = data.split('-');
+                    now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
+                    if(this.checkList[i] =='一'){
+                        let Daysum = DataSour.getDay()+1 - 1;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                        console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='二'){
+                    let Daysum = DataSour.getDay()+1 - 2;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                        console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='三'){
+                    let Daysum = DataSour.getDay()+1 - 3;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='四'){
+                    let Daysum = DataSour.getDay()+1 - 4;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='五'){
+                        let Daysum = DataSour.getDay()+1 - 5;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                        console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='六'){
+                        let Daysum = DataSour.getDay()+1 - 6;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                        console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(this.checkList[i] =='日'){
+                        console.log(DataSour.getDay()+1);
+                        let Daysum = DataSour.getDay()+1 - 7;
+                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                        console.log(new Date(now).Format("yyyy-MM-dd"));
+                    }
+                }
+            }else{
+                this.checkList = [];
+                this.dayNumList = [];
+            }
+            
+        },
+        //选中星期得到日期
+        allcheckList(list){
+            console.log(list);
+            if(list.length >= 7){
+                this.single = true;
+            }
+            else{
+                this.single = false;
+            }
+            this.dayNumList = [];
+            for(let i = 0;i<list.length;i++){
+                let DataSour = new Date(this.stateDatas);
+                let data = new Date(this.stateDatas).Format("yyyy-MM-dd");
+                let now = data.split('-');
+                now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
+                if(list[i] =='一'){
+                    let Daysum = DataSour.getDay()+1 - 1;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='二'){
+                   let Daysum = DataSour.getDay()+1 - 2;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='三'){
+                   let Daysum = DataSour.getDay()+1 - 3;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                   console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='四'){
+                   let Daysum = DataSour.getDay()+1 - 4;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                   console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='五'){
+                    let Daysum = DataSour.getDay()+1 - 5;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='六'){
+                    let Daysum = DataSour.getDay()+1 - 6;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                }else if(list[i] =='日'){
+                    console.log(DataSour.getDay()+1);
+                    let Daysum = DataSour.getDay()+1 - 7;
+                    console.log(Daysum);
+                    if(Daysum > 0){
+                        now.setDate(now.getDate() - Daysum);
+                    }else{
+                        now.setDate(now.getDate() - Daysum);
+                    }
+                    this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    console.log(new Date(now).Format("yyyy-MM-dd"));
+                }
+            }
+            console.log(this.dayNumList);
+
+        },
+        //获取价格设置组件传递的日期
+        setPrice(dataIf){
+            console.log(dataIf);
+            this.isHide = dataIf.isHide;
+            this.stateDatas = dataIf.date3;
+            this.communityIds = dataIf.communityId;
+            this.codem();
+            let tmpdate = new Date(this.stateDatas);
+            console.log(tmpdate.getDay());
+            if(tmpdate.getDay() == 0){
+                this.checkList.push('一');
+            }else if(tmpdate.getDay() == 1){
+                this.checkList.push('二');
+            }else if(tmpdate.getDay() == 2){
+                this.checkList.push('三');
+            }else if(tmpdate.getDay() == 3){
+                this.checkList.push('四');
+            }else if(tmpdate.getDay() == 4){
+                this.checkList.push('五');
+            }else if(tmpdate.getDay() == 5){
+                this.checkList.push('六');
+            }else if(tmpdate.getDay() == 6){
+                this.checkList.push('日');
+            }
+        },
+        //提交设置套系日历方法
+        sublitSetprice(){
+            console.log(this.communityIds);
+            axios.post(PmsRoomDayPrices200200,
+            qs.stringify({
+                communityId:this.communityIds,
+                code:this.codes,
+                dayNumList:this.dayNumList
+            })).then((res)=>{
+                console.log(res);
+                if(res.status == 200 && res.data.code == 10000){
+                    this.isHide = false;
+                    this.successMessage = '价格设置成功';
+                    this.successModal = true;
+                    this.checkList = [];
+                    this.codes = ''
+                    setTimeout(() => {
+                        this.successModal = false;
+                    }, 2000);
+                }else{
+                    this.isHide = false;
+                    this.warningMessage = res.data.content;
+					this.warningModal = true;
+                }
+            }).catch((err)=>{
+                console.log(err);
+            })
+        },
+        //关闭价格设置窗口
+        coloseSet(){
+            this.isHide = false;
+        },
         closeWarningModal() {
             this.warningModal = false;
+            this.isHide = true;
         },
-        shortprice(){
-          this.successModal = true;
-        },
+        // shortpriceshortprice(){
+        //   this.successModal = true;
+        // },
         successUpload(){
           let vm = this;
           vm.successMessage = "上传图片成功!";
@@ -208,7 +498,7 @@
         background: white;
         position: absolute;
         left: 50%;
-        top: 50%;
+        top: 35%;
         transform: translate(-50%,-50%);
         z-index: 9999;
         .el-icon-circle-close{
@@ -252,6 +542,13 @@
             .ivu-checkbox-inner{
                 width: 18px;
                 height: 18px;
+            }
+            .ivu-checkbox-inner::after{
+                width: 7px;
+                height: 11px;
+                position: absolute;
+                top: 0px;
+                left: 5px;
             }
         }
         .form-item{

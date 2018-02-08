@@ -1,6 +1,6 @@
 <template>
 	<div id="housesubscrib">
-		<menu-box :active-tab-name="activeTabName"></menu-box>
+		<menu-box :active-tab-name="workbench"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">

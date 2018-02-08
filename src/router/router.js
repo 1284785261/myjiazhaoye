@@ -481,6 +481,12 @@ export default new Router({
       component:resolve =>
         require(['../views/shortRent/newShortSetting.vue'],resolve)
     },
+    {
+      path:'/signed/H5invitation',		//工作台-H5邀请
+      name:'H5invitation',
+      component:resolve =>
+        require(['../views/signed/H5invitation.vue'],resolve)
+    },
 
   ]
 })

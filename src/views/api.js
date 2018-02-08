@@ -391,6 +391,20 @@ const PmsRoomPriceDelete= '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPr
 
 //新增短租户型价格
 const PmsRoomPrice = '/cxkj-pms/apis/pc/pmsroomprice/CxkjCommunityPmsRoomPrice200194'
+
+//H5邀请列表
+const H5User= '/cxkj-room/apis/app/userappointment/CxkjUserAppointmentTable200204'
+
+//短租价格套系代号
+const PmsRoomPriceCode = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomPriceCode200199'
+
+//
+const RoomDayPriceInfo = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomDayPriceInfo200201'
+//短租变价日志
+const RoomDayRecord = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomDayRecordTable200202'
+
+//编辑价格日历
+const PmsRoomDayPrices = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomDayPrice200200'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -520,6 +534,11 @@ export const RoomPriceTable200195 = host3 + RoomPriceTable;
 export const RoomPriceEdit200196 = host3 + RoomPriceEdit;
 export const PmsRoomPriceDelete200197 = host3 + PmsRoomPriceDelete;
 export const PmsRoomPrice200194 =host3 + PmsRoomPrice;
+export const H5User200204 = host3 + H5User;
+export const PmsRoomPriceCode200199 = host3 + PmsRoomPriceCode;
+export const RoomDayRecord200202 = host3 + RoomDayRecord;
+export const RoomDayPriceInfo200201 = host3 + RoomDayPriceInfo;
+export const PmsRoomDayPrices200200 = host3 + PmsRoomDayPrices;
 export const host = host3;
 //export default {
 //hosts:function(){

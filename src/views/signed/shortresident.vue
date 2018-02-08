@@ -70,7 +70,7 @@
     			currentPage3: 1,
     			communityId:null,
     			Datas:[],
-    			totalNum:null,
+    			totalNum:0,
     			pageNum:1,
           		host3:'',
           		pageSize:10

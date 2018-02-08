@@ -42,7 +42,7 @@
                             <a @click="compileRoomPrice(item,index)" v-if="item.typeCompile == 0">编辑</a>
                             <a @click="saveRoomPrice(item,index)" v-if="item.typeCompile == 1">保存</a>
                             <a @click="addRoomPrice(item,index)" v-if="item.typeCompile == 2">保存</a>
-                            <a @click="desRoomPrice(item)">删除</a>
+                            <a @click="desRoomPrice(item,index)">删除</a>
                         </td>
                     </tr>
                 </table>
@@ -55,7 +55,6 @@
                     {{evt.content}} <i :class="{low : evt.low}" v-if="evt.low">↓</i>
                 </div>
             </calendar>
-            <p>{{date3}}</p>
             </div>
             <lorem :len="3"></lorem>
             
@@ -68,18 +67,18 @@
                         <td>任务</td>
                         <td>操作人</td>
                         <td>内容</td>
-                        <td>开始时间</td>
-                        <td>结束时间</td>
+                        <td>操作时间</td>
                     </thead>
-                    <tr>
-                        <td>111111</td>
-                        <td>111111</td>
-                        <td>111111</td>
-                        <td>111111</td>
-                        <td>111111</td>
-                        <td>111111</td>
+                    <tr v-for="item in priceDayRecord">
+                        <td>{{item.id}}</td>
+                        <td>套餐设置</td>
+                        <td>{{item.userName}}</td>
+                        <td>{{item.content}}</td>
+                        <td>{{item.dayNum}}</td>
                     </tr>
                 </table>
+                <el-pagination @current-change="handleCurrentChange" :current-page="currentPage3" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total="totalNum">
+				</el-pagination>
             </div>
         </el-tab-pane>
     </el-tabs>
@@ -92,7 +91,7 @@
     import successModal from '../../components/successModal.vue';
     import warningModal from '../../components/warningModal.vue';
     import axios from 'axios';
-    import {allCommunity,RoomPriceTable200195,RoomPriceEdit200196,PmsRoomPriceDelete200197,host,PmsRoomPrice200194,RoomDayPriceInfo200201} from '../api.js';
+    import {allCommunity,RoomPriceTable200195,RoomPriceEdit200196,PmsRoomPriceDelete200197,host,PmsRoomPrice200194,RoomDayPriceInfo200201,RoomDayRecord200202} from '../api.js';
     import qs from 'qs';
     export default {
         components: {
@@ -106,7 +105,6 @@
                 disabled: [],
                 value: this.stringify(new Date()),
                 value2: '',
-                date3: '',
                 events: [],
                 lurevents: [],
                 format: 'yyyy-MM-dd',
@@ -126,7 +124,18 @@
                 host3:'', //导出短租价格表信息地址
                 disabledbutton:true, //禁用添加按钮
                 DayPrice:null,   //获取价格日历的全部数据
-                checkList:[]
+                checkList:[],
+                priceDayRecord:[], //变价日志数据
+                pageSize:10,
+                currentPage3:1,
+                totalNum:0,
+                pageNum:1,
+                dataIf:{
+                    isHide:true,
+                    date3:'',
+                    communityId:''
+                }
+                
             }
         },
         created () {
@@ -163,6 +172,26 @@
                     }
                 })
             },
+            //获取变价日志的数据
+            getRoomDayRecord(value){
+                axios.post(RoomDayRecord200202,
+                    qs.stringify({
+                        communityId:value,
+                        pageNum:this.pageNum,
+                        pageSize:this.pageSize
+                    })
+                ).then((res)=>{
+                    if(res.status == 200 && res.data.code == 10000){
+                        this.priceDayRecord = res.data.entity.page;
+                        this.totalNum = res.data.entity.totalNum;
+                    }
+                })
+            },
+            //分页变价日志数据
+            handleCurrentChange(val) {
+                this.pageNum = val;
+                this.getRoomDayRecord(this.stationCommunity);
+		    },
             //公共获取价格数据方法
             priceCommunity(value){
                 let vm = this
@@ -211,7 +240,9 @@
             //切换社区获取价格套系数据
             selectCommunity(value){
                 this.priceCommunity(value);
-                
+                this.getRoomDayRecord(value);
+                sessionStorage.setItem('priceID',value);
+                this.dataIf.communityId = value;
             },
             //添加短租户型价格
             addPrice(){
@@ -290,11 +321,6 @@
                     }
                    
                 }
-                // console.log(vm.stationCommunity);
-                // console.log(vm.shortPriceroom[index].code);
-                // console.log(vm.shortPriceroom[index].name);
-                // console.log(vm.cxkjPmsRoomPriceList);
-                // console.log(vm.shortPriceroom[index].pmsRoomPriceIds);
                 axios.post(RoomPriceEdit200196,     
                     {
                         communityId:vm.stationCommunity,
@@ -326,10 +352,10 @@
                 })
             },
             //删除户型价格
-            desRoomPrice(item){
+            desRoomPrice(item,index){
                 let vm = this
                 // console.log(item.pmsRoomPriceIds);
-                this.shortPriceroom.splice(this.shortPriceroom.length-1,1);
+                this.shortPriceroom.splice(index,1);
                 axios.post(PmsRoomPriceDelete200197,
                 qs.stringify({
                     pmsRoomPriceIds:item.pmsRoomPriceIds
@@ -347,40 +373,6 @@
 			},
             handleClick(tab, event) {
                 // console.log(tab, event);
-            },
-            getBus () {
-                return this.bus
-            },
-            onDrawDate (e) {
-                let date = e.date
-                if (new Date().getTime() > date.getTime()) {
-                    e.allowSelect = false
-                }
-            },
-            onDrawDate2 (e) {
-            // console.info(e)
-            // let date = e.date
-            // if (new Date().getTime() > date.getTime()) {
-            //   e.allowSelect = false
-            // }
-            },
-            getDateInfo (v) {
-                var iDiff = -1
-                var sNowDate = this.stringify(new Date())
-                var sDateName = ['今天', '明天', '后天']
-                switch (true) {
-                    case v === sNowDate:
-                    iDiff = 0
-                    break
-                    case v === this.siblings(sNowDate, 1):
-                    iDiff = 1
-                    break
-                    case v === this.siblings(sNowDate, 2):
-                    iDiff = 2
-                    break
-                }
-                !this._dateMap && this.isHoliday && (this._dateMap = this._createDateMap())
-                return (this._dateMap && this._dateMap[v]) || sDateName[iDiff]
             },
             _createDateMap () {
                 var oTmp = {}
@@ -404,16 +396,12 @@
                 if (!this.isDate(v)) return null
                 return v.getFullYear() + '-' + this.filled(v.getMonth() * 1 + 1) + '-' + this.filled(v.getDate())
             },
-            siblings (v, n) {
-                var REG = /\d+/g
-                v = v.match(REG)
-                return this.stringify(new Date(v[0], v[1] - 1, v[2] * 1 + n * 1))
-            },
             filled (v) {
                 return String(v).replace(/^(\d)$/, '0$1')
             },
             onDayClick3 (date, str) {
-                this.date3 = str
+                this.dataIf.date3 = str
+                this.$emit("setPrice",this.dataIf);
             },
             changePane (year, month, pane) {
                 this.events = []
@@ -421,66 +409,6 @@
             setTimeout(() => {
                 this.events = this.getEventContent(year, month, pane)
             }, 200)
-            },
-            onDayClick4 (date, str) {
-                this.date4 = str
-            },
-            changePane2 (year, month, pane) {
-                var Today = new Date()
-                var ty = parseInt(Today.getFullYear())
-                var tm = parseInt(Today.getMonth())
-                var td = parseInt(Today.getDate())
-                var days = []
-                for (var i = 0; i < pane; i++) {
-                    var date = new Date(year, month + i)
-                    var r = new lunar.Calendar(date.getFullYear(), date.getMonth(), ty, tm, td)
-                    days = days.concat([].slice.call(r, 0))
-                }
-                for (var j = 0; j < days.length; j++) {
-                    days[j].date = this.stringify(new Date(days[j].sYear, days[j].sMonth - 1, days[j].sDay))
-                    days[j].content = this.foramtDay(days[j])
-                }
-                this.lurevents = days
-            },
-            foramtDay (el) {
-            /* eslint-disable */
-                var S = "",
-                    J, I;
-                if (el.lDay == 1) {
-                    S = "<b>" + (el.isLeap ? "\u95f0" : "") + el.lMonth + "\u6708" + (lunar.monthDays(el.lYear, el.lMonth) == 29 ? "\u5c0f" : "\u5927") + "</b>";
-                } else {
-                    S = lunar.cDay(el.lDay);
-                }
-                I = el.lunarFestival;
-                if (el.lMonth == "4" && I.indexOf("\u7aef\u5348\u8282") != -1) {
-                    I = "";
-                    el.lunarFestival = ""
-                }
-                if (I.length > 0) {
-                    if (I.length > 7) {
-                        // I = I.substr(0, 5) + "\u2026"
-                        I = I.split(' ')[0]
-                    }
-                    I = I.fontcolor("#909090");
-                } else {
-                    // I = el.solarFestival;
-                    // if (I.length > 0) {
-                    //     J = (I.charCodeAt(0) > 0 && I.charCodeAt(0) < 128) ? 9 : 5;
-                    //     if (I.length > J + 1) {
-                    //         I = I.substr(0, J - 1) + "\u2026"
-                    //     }
-                    //     I = I.fontcolor("#909090");
-                    // } else {
-                    //     I = el.solarTerms;
-                    //     if (I.length > 0) {
-                    //         I = I.fontcolor("#ff7200") // 节日
-                    //     }
-                    // }
-                }
-                if (I.length > 0) {
-                    S = I
-                }
-                return S;
             },
             getDayCount (year, month) {
                 const dict = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -501,19 +429,10 @@
             getEventContent (year, month, pane) {
                 const data = []
                 let Dates = '';
-                if(month+1 < 10){
-                    Dates = year +'-0'+(month+1)+'-01';
-                }
-                else{
-                    Dates = year +'-'+(month+1)+'-01';
-                }
-                
-                // console.log(Dates);
-                // console.log(pane);
                 for (let p = 0; p < pane; p++) {
                     let date = new Date(year, month + p)
                     let monthCounts = this.getDayCount(date.getFullYear(), date.getMonth())
-                    // console.log(monthCounts);
+                    console.log(monthCounts);
                     for (let i = 1; i <= monthCounts; i++) {
                         data.push({
                             date: this.stringify(new Date(year, month + p, i)),
@@ -522,26 +441,36 @@
                         })
                     }
                 }
-                axios.post(RoomDayPriceInfo200201,
-                qs.stringify({
-                    communityId:this.stationCommunity,
-                    startDate:Dates
-                })).then((res)=>{
-                    console.log(11111111111);
-                    console.log(res);
-                    if(res.status == 200 && res.data.code == 10000){
-                        this.DayPrice = res.data.entity;
-                        for(let i = 0;i<data.length;i++){
-                            for(let j=0;j<this.DayPrice.length;j++){
-                                if(data[i].date == this.DayPrice[j].dayNum){
-                                    data[i].content = this.DayPrice[j].code;
-                                    data[i].priceInfo = this.DayPrice[j].priceInfo;
+
+                if(month+1 < 10){
+                    Dates = year +'-0'+(month+1)+'-01';
+                }
+                else{
+                    Dates = year +'-'+(month+1)+'-01';
+                }
+                this.getPriceInfo(data,Dates);
+                console.log(data);
+                return data
+            },
+            getPriceInfo(data,Dates){
+                this.$http.post(RoomDayPriceInfo200201,
+                    qs.stringify({
+                        communityId:this.stationCommunity,
+                        startDate:Dates
+                    })).then((res)=>{
+                        console.log(res);
+                        if(res.status == 200 && res.data.code == 10000){
+                            this.DayPrice = res.data.entity;
+                            for(let i = 0;i<data.length;i++){
+                                for(let j=0;j<this.DayPrice.length;j++){
+                                    if(data[i].date == this.DayPrice[j].dayNum){
+                                        data[i].content = this.DayPrice[j].code;
+                                        data[i].priceInfo = this.DayPrice[j].priceInfo;
+                                    }
                                 }
                             }
                         }
-                    }
-                })
-                console.log(data);
+                    })
                 return data
             }
         }
@@ -606,6 +535,19 @@
                     }
                 }
             }
+        }
+        .el-pagination {
+            width: 100%;
+            text-align: center;
+            margin-top: 100px;
+        }
+        
+        .el-pagination .el-pager .number {
+            margin: 0 5px;
+            border: 1px solid #DCDCDC;
+        }
+        .el-pagination button {
+            border: 1px solid #DCDCDC!important;
         }
     }
     .pricejournal{

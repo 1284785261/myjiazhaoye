@@ -41,7 +41,7 @@
 					</div>
 					<div class="ivu-floor loadin2">
 						<p>经办人信息:</p>
-						<table v-for="userInfos in aaduserInfo">
+						<table v-for="(userInfos,index) in aaduserInfo">
 							<tr>
 								<td>已注册手机号:</td>
 								<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
@@ -60,7 +60,7 @@
 							<tr>
 								<td>证件类型:</td>
 								<td>
-									<el-select v-model="value" placeholder="请选择证件类型">
+									<el-select v-model="value" placeholder="请选择证件类型" @change="selectCommunity(value,index)">
 										<el-option v-for="item in userInfos.options2" :key="item.dataName" :value="item.dataName">
 										</el-option>
 									</el-select>
@@ -341,11 +341,14 @@
 				onemoney: 0,
 				userInfo: null,
 				aaduserInfo: [{
+					id: '',
 					userCertificate: '',
+					certificateId:'',
 					username: '',
 					phone: null,
 					radio2: '2',
 					options2: [],
+					version: '',
 				}],
 				value2: '',
 				onhrie: null, //起租日
@@ -388,15 +391,6 @@
 				filelist8: [],
 				dat: null,
 				cyclePayType: '',
-				user: {
-					id: '',
-					version: '',
-					userPhone: '',
-					userName: '',
-					gender: '',
-					certificateId: '',
-					userCertificate: ''
-				},
 				credentialsImagesArray: [],
 				credentialsTitle: [],
 				otherCostJson: '',
@@ -581,6 +575,12 @@
 				this.dialogImageUrl = file.url;
 				this.dialogVisible = true;
 			},
+			selectCommunity(value,index){
+				console.log(value,index);
+				console.log(this.aaduserInfo);
+				this.aaduserInfo[index].certificateId = this.aaduserInfo[index].options2[this.aaduserInfo[index].options2.findIndex(item => item.dataName == value)].dataId;
+				console.log(this.aaduserInfo[index].certificateId);
+			},
 			datas() {
 				let vm = this
 				axios.post(hostOfficeList, //获取未出租的办公室列表
@@ -667,9 +667,9 @@
 					})
 			},
 			room(val) {
-				// console.log(val);
+				//console.log(val);
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-				// console.log(this.housetderta);
+				console.log(this.housetderta);
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -693,24 +693,27 @@
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							// console.log(this.userInfo);
+							console.log(this.userInfo);
 							if(this.userInfo.userCertificate != 'null'){
 								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}else{
 								this.aaduserInfo[0].userCertificate = ''
 							}
-							this.aaduserInfo[0].username = this.userInfo.userName + '';
-							this.aaduserInfo[0].radio2 = this.userInfo.gender + '';
-							this.user.id = this.userInfo.id;
-							this.user.version = this.userInfo.version;
-							this.user.userPhone = this.userInfo.userPhone;
-							this.user.userName = this.userInfo.userName;
-							this.user.gender = this.userInfo.gender;
-							this.user.certificateId = this.userInfo.certificateId;
+							if(this.userInfo.userName){
+								this.aaduserInfo[0].username = this.userInfo.userName;
+							}
+							if(this.userInfo.gender){
+								this.aaduserInfo[0].radio2 = this.userInfo.gender + '';
+							}
+							
+							this.aaduserInfo[0].id = this.userInfo.id;
+							this.aaduserInfo[0].version = this.userInfo.version;
+							this.aaduserInfo[0].phone = this.userInfo.userPhone;
+							this.aaduserInfo[0].certificateId = this.userInfo.certificateId;
 							if(this.userInfo.userCertificate != 'null'){
-								this.user.userCertificate = this.userInfo.userCertificate;
+								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}else{
-								this.user.userCertificate = ''
+								this.aaduserInfo[0].userCertificate = ''
 							}
 							if(this.userInfo.certificateId != null){
 								let id = this.userInfo.certificateId;
@@ -917,17 +920,14 @@
 					param.append('secondPayMoney',this.housetderta.twomoney);
 					param.append('secondPayDate',this.dat);
 				}
-				
-				param.append('waterChargeModel',this.housetderta.waterType);
-				param.append('electricChargeModel',this.housetderta.electricType);
 				param.append('isPaper',this.radio4);
-				param.append('user.id',this.user.id);
-				param.append('user.version',this.user.version);
-				param.append('user.userPhone',this.user.userPhone);
-				param.append('user.userName',this.user.userName);
-				param.append('user.gender',this.user.gender);
-				param.append('user.certificateId',this.user.certificateId);
-				param.append('user.userCertificate',this.user.userCertificate);
+				param.append('user.id',this.aaduserInfo[0].id);
+				param.append('user.version',this.aaduserInfo[0].version);
+				param.append('user.userPhone',this.aaduserInfo[0].phone);
+				param.append('user.userName',this.aaduserInfo[0].username);
+				param.append('user.gender',this.aaduserInfo[0].radio2);
+				param.append('user.certificateId',this.aaduserInfo[0].certificateId);
+				param.append('user.userCertificate',this.aaduserInfo[0].userCertificate);
 				// console.log(this.user);
 				param.append('materials',this.materials);
 				param.append('furniture',this.furniture);
@@ -935,7 +935,7 @@
 					param.append('otherCostJson',this.otherCostJson);
 				}
 				param.append('companyInfo',this.companyInfo);
-				param.append('companylegalPerson',this.companylegalPerson);
+				param.append('companyLegalPerson',this.companylegalPerson);
 		        axios.post(hostSignOffice,param).then(res =>{
 		        	if(res.status == 200 && res.data.code == 10000){
 						// console.log(res);
@@ -946,6 +946,7 @@
 						},3000);
 					}
 		        	else{
+						vm.warningModal = '签约失败';
 		        		vm.warningModal = true;
 		        	}
 				})
