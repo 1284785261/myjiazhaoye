@@ -742,4 +742,6 @@ export const CxkjGetOrderDebtList300183 =host3+'/cxkj-pms/apis/pc/pmsorderdebt/C
 export const CxkjCreateOrderDebt300184 =host3+'/cxkj-pms/apis/pc/pmsorderdebt/CxkjCreateOrderDebt300184'//创建哑账
 export const CxkjGetOrderList300181 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderList300181'//订单列表
 export const CxkjCreateOrder300193 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjCreateOrder300193'//创建订单
+export const CxkjGetRoomTypeBookDataList300194 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetRoomTypeBookDataList300194'//户型列表
+export const CxkjGetOrderDetail300182 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderDetail300182'//订单列表
 

@@ -33,16 +33,16 @@
                         <h3><i class="icon icon-iden"></i>用户信息</h3>
                         <ul class="userInfo">
                             <li>
-                                <span>联系人名称：</span><em>李杨</em>
+                                <span>联系人名称：</span><em>{{detailData.bookName}}</em>
                             </li>
                             <li>
-                                <span>联系人手机号：</span><em>13652141521</em>
+                                <span>联系人手机号：</span><em>{{detailData.bookPhone}}</em>
                             </li>
                             <li class="contactInfoList">
                                 <span>入住人名称</span><em>证件类型</em><span>证件号码</span>
                             </li>
-                            <li>
-                                <span>李杨</span><em>身份证</em><span>4212221331155510</span>
+                            <li v-for="item in detailData.personnelList">
+                                <span>{{item.name}}</span><em>{{item.dataName}}</em><span>{{item.certificateNumber}}</span>
                             </li>
                         </ul>
                     </li>
@@ -50,16 +50,19 @@
                         <h3><i class="icon icon-iden"></i>订单信息</h3>
                         <ul class="userInfo">
                             <li>
-                                <span>订单编号：</span><em>D123456</em>
+                                <span>订单编号：</span><em>{{detailData.orderNum}}</em>
                             </li>
                             <li>
-                                <span>房号：</span><em>1003</em>
+                                <span>房号：</span><em v-if="detailData.roomInfoList">{{detailData.roomInfoList[0].roomNum}}</em>
                             </li>
                             <li>
-                                <span>房型：</span><em>标准大单间</em>
+                                <span>房型：</span><em v-if="detailData.roomInfoList">{{detailData.roomInfoList[0].name}}</em>
                             </li>
                             <li>
-                                <span>市场细分：</span><em>APP用户</em>
+                                <span>市场细分：</span>
+                                <em v-if="detailData.marketType == 0">门市散客</em>
+                                <em v-if="detailData.marketType == 1">内部员工</em>
+                                <em v-if="detailData.marketType == 2">协议单位</em>
                             </li>
                             <li>
                                 <span>门市价：</span><em>¥ 268</em>
@@ -74,7 +77,7 @@
                                 <span>退款金额：</span><em>¥ 200</em>
                             </li>
                             <li>
-                                <span>预付金额：</span><em>¥ 500</em>
+                                <span>预付金额：</span><em>¥ {{detailData.payMoney}}</em>
                             </li>
                             <li>
                                 <span>总消费金额：</span><em>¥ 600</em>
@@ -83,10 +86,10 @@
                                 <span>入住状态：</span><em>已离店</em>
                             </li>
                             <li>
-                                <span>入住时间：</span><em>2018.1.23</em>
+                                <span>入住时间：</span><em>{{detailData.arriveTime | timefilter('yyyy-MM-dd')}}</em>
                             </li>
                             <li>
-                                <span>离店时间：</span><em>2018.1.25</em>
+                                <span>离店时间：</span><em>{{detailData.leaveTime | timefilter('yyyy-MM-dd')}}</em>
                             </li>
                         </ul>
                     </li>
@@ -104,7 +107,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {} from '../api.js';
+  import {CxkjGetOrderDetail300182} from '../api.js';
 
 
   export default {
@@ -118,15 +121,32 @@
         activeTabName: "shortRent",//右侧导航栏选中状态
         detailData:{
           orderState:4
-        }
+        },
+        orderDatail:{},
+        id:"",
       }
     },
     mounted(){
-
+      this.id = this.$route.query.orderId;
+      this.getOrderDetail({id:this.id});
     },
     methods:{
-
-    }
+      getOrderDetail(params){
+        let vm = this;
+        this.$http.get(CxkjGetOrderDetail300182,{params:params}).then(res=>{
+          if(res.data.code == 10000){
+            vm.detailData = res.data.entity;debugger
+          }
+        })
+      },
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
+    },
   }
 </script>
 
