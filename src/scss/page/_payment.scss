@@ -1,0 +1,544 @@
+.payment-tablelist{
+  margin: 46px auto 0;
+  width: 1000px;
+  h1{
+    line-height: 40px;
+    padding: 0 18px;
+    b{
+      margin-right: 40px;
+    }
+  }
+  .table03{
+    .img-box img{
+      vertical-align: middle;
+    }
+    .red{
+      color: #ff4900;
+    }
+  }
+}
+
+.order-payment-wrap{
+  padding: 36px 0;
+  border: 1px solid #dcdcdc;
+}
+
+.order-payment{
+  margin: 0 auto;
+  width: 880px;
+  h1{
+    line-height: 40px;
+    padding: 0 18px;
+    b{
+      margin-right: 40px;
+      font-weight: normal;
+    }
+    .num{
+      color: #999;
+    }
+  }
+  h2{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 18px;
+    font-size: 16px;
+    background: #f2f2f2;
+  }
+  .recharge-denomination{
+    @include clearfix();
+    li{
+      margin-right: 20px;
+      float: left;
+      width: 160px;
+      &:nth-child(5n){
+        margin-right: 0;
+      }
+      a{
+        display: block;
+        height: 120px;
+        background: url(../images/temp/recharge.png) no-repeat;
+        text-align: center;
+        overflow: hidden;
+      }
+      .num{
+        margin: 15px 0 24px;
+        line-height: 34px;
+        font-size: 34px;
+        color: #ff7656;
+      }
+      .span-txt{
+        display: inline-block;
+        width: 120px;
+        height: 30px;
+        line-height: 30px;
+        background: #ff7656;
+        color: #fff;
+        font-size: 16px;
+      }
+      .selected{
+        background: url(../images/temp/rechargeh.png) no-repeat;
+        .num{
+          color: #fff;
+        }
+        .span-txt{
+          background: #fff;
+          color: #ff7656;
+        }
+      }
+    }
+  }
+  .payment-total{
+    margin-top: 44px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: right;
+    .price{
+      font-size: 24px;
+      color: #ff4900;
+    }
+  }
+  .payment-mode{
+    margin: 50px 0 40px;
+    text-align: center;
+    .payment-mode-l{
+      position: relative;
+      top: 2px;
+      display: inline-block;
+      height: 50px;
+      line-height: 50px;
+      font-size: 16px;
+    }
+    .payment-mode-r{
+      vertical-align: top;
+      display: inline-block;
+      @include clearfix();
+      a{
+        float: left;
+        position: relative;
+        display: inline-block;
+        width: 160px;
+        height: 50px;
+        border: 1px solid #dcdcdc;
+        img{
+          width: 100%;
+          height: 100%;
+          vertical-align: middle;
+        }
+        .icon-comfirm02{
+          display: none;
+          position: absolute;
+          right: -3px;
+          bottom: 0;
+          width: 25px;
+          height: 25px;
+          background: url(../images/icons/comfirm02.png) no-repeat;
+        }
+      }
+      .active{
+        border: 1px solid #ff4900;
+        .icon-comfirm02{
+          display: block;
+        }
+      }
+      .disable{
+        margin-bottom: 20px;
+        position: relative;
+        cursor: default;
+        .tips{
+          position: absolute;
+          top: 50px;
+          left: 0;
+          display: block;
+          width: 100%;
+          line-height: 26px;
+          text-align: center;
+          color: #ff4900;
+        }
+      }
+    }
+  }
+}
+
+.payment-page{
+  margin: 0 auto;
+  width: 1000px;
+  .top-tips{
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 20px;
+    height: 31px;
+    line-height: 38px;
+    .time{
+      margin: 0 2px;
+      display: inline-block;
+      width: 20px;
+      height: 31px;
+      line-height: 31px;
+      text-align: center;
+      background: #ff4900;
+      color: #fff;
+      font-size: 28px;
+      @include border-radius(4px);
+    }
+  }
+  h1{
+    margin-bottom: 15px;
+    padding: 0 30px 0 160px;
+    line-height: 20px;
+    font-size: 12px;
+    .time{
+      margin-left: 20px;
+      color: #999;
+    }
+  }
+  .order-info{
+    h2{
+      line-height: 32px;
+      padding: 0 30px 0 160px;
+      background: #f2f2f2;
+      color: #666;
+    }
+    .order-info-main{
+      padding: 30px 160px;
+      background: #fffaee;
+      @include clearfix();
+      .order-info-l{
+        float: left;
+        width: 210px;
+        img{
+          width: 100%;
+        }
+      }
+      .order-info-r{
+        margin-left: 56px;
+        float: left;
+        width: 365px;
+      }
+    }
+    .order-info-header{
+      margin-bottom: 26px;
+      line-height: 20px;
+      padding-bottom: 5px;
+      font-size: 12px;
+      color: #999;
+      border-bottom: 1px dashed #dcdcdc;
+      @include clearfix();
+      .tit{
+        margin-right: 14px;
+        font-size: 16px;
+        color: #333;
+      }
+      .address{
+        float: right;
+      }
+    }
+    dl{
+      @include clearfix();
+      dt{
+        float: left;
+        width: 60px;
+        line-height: 30px;
+        vertical-align: top;
+      }
+      dd{
+        float: left;
+        width: 305px;
+        line-height: 30px;
+      }
+    }
+    .num-ul{
+      @include clearfix();
+      li{
+        margin: 0 9px 10px 0;
+        float: left;
+        width: 148px;
+        span{
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          padding: 0 8px;
+          background: #52b6f1;
+          color: #fff;
+        }
+        &:nth-child(2n){
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+    .price-box{
+      margin-top: 38px;
+      text-align: right;
+    }
+    .price-box{
+      font-size: 16px;
+      span{
+        font-size: 24px;
+        color: #ff4900;
+      }
+    }
+  }
+  .payment-pwd{
+    display: none;
+    margin-bottom: 60px;
+    text-align: center;
+    .payment-pwd-name{
+      display: inline-block;
+      line-height: 42px;
+      vertical-align: top;
+    }
+    .input-box-wrap{
+      display: inline-block;
+    }
+    .input-box{
+      width: 242px;
+      height: 42px;
+      .input-txt{
+        padding: 0 16px 0 16px;
+        input{
+          height: 40px;
+          line-height: 36px;
+        }
+      }
+    }
+    .message-tips{
+      text-align: left;
+    }
+    .to-setpwd{
+      a{
+        color: #3399fe;
+      }
+    }
+  }
+}
+
+//pop
+.payment-tips{
+  @include border-radius(5px);
+  background: #fff;
+  .tips-header{
+    height: 46px;
+    line-height: 46px;
+    padding: 0 30px;
+    background: #fff8e9;
+    border-bottom: 1px solid #e5e5e5;
+    @include border-radius(5px 5px 0 0);
+    font-size: 16px;
+    color: #ef7a00;
+  }
+  #HCloseBtn{
+    top: 10px !important;
+    right: 30px !important;
+  }
+  .tips-detail{
+    padding: 68px 10px 50px;
+    text-align: center;
+    .img-box,.txt-box{
+      display: inline-block;
+      height: 45px;
+    }
+    .img-box{
+      vertical-align: top;
+      img{
+        height: 100%;
+      }
+    }
+    .txt-box{
+      margin-left: 30px;
+      text-align: left;
+      .p01{
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+.comp-payment-page{
+  .comp-payment-page-top{
+    h2{
+      font-size: 20px;
+      line-height: 20px;
+      text-align: center;
+    }
+    .con-main{
+      margin: 0 auto;
+      width: 500px;
+      min-height: 400px;
+      padding: 35px 0;
+    }
+    .con{
+      margin: 0 auto;
+      width: 640px;
+      //height: 425px;
+      padding: 10px 0;
+      background:  #cce2fa;
+    }
+    .con-main-wrap{
+      background: url(../images/payment01.jpg) repeat-y;
+    }
+    .con-header{
+      position: relative;
+      height: 50px;
+      line-height: 50px;
+      font-size: 20px;
+      border-bottom: 1px dashed #f19042;
+      .time{
+        margin-left: 8px;
+        color: #999;
+        font-size: 12px;
+      }
+      h3{
+        vertical-align: top;
+        display: inline-block;
+        max-width: 190px;
+        height: 100%;
+        @include text-overflow();
+      }
+      .address{
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 14px;
+        color: #666;
+        .icon-yeguoditu{
+          margin-right: 3px;
+          font-size: 14px;
+          color: #ff4900;
+        }
+      }
+    }
+    .table01{
+      td{
+        vertical-align: top;
+        font-size: 18px;
+        color: #666;
+        line-height: 34px;
+        p{
+          color: #666;
+        }
+        .num{
+          display: inline-block;
+          width: 68px;
+        }
+      }
+      .ftd{
+        color: #4e4c4b;
+      }
+      .vt{
+        vertical-align: top;
+      }
+    }
+    .con-bottom{
+      margin-top: 35px;
+      text-align: center;
+      background: #fff0ce;
+      height: 34px;
+      line-height: 34px;
+      font-size: 14px;
+      color: #4e4c4b;
+      a{
+        color: #ff4900;
+      }
+    }
+  }
+
+  .page-h1{
+    height: 42px;
+    line-height: 42px;
+    border-bottom: 1px solid #dcdcdc;
+    .tit{
+      display: inline-block;
+      height: 42px;
+      font-size: 16px;
+      color: #666;
+      border-bottom: 1px solid #ef7a00;
+      .icon-vip,.icon-yeguoditu{
+        margin-right: 5px;
+        color: #ff4b03;
+        font-size: 20px;
+      }
+
+    }
+    .address{
+      margin-left: 28px;
+      font-size: 12px;
+      color: #666;
+    }
+  }
+
+  .collection-list{
+    padding: 0;
+    border: 0;
+    li{
+      margin: 0 33px 0 0;
+      width: 378px;
+      height: 392px;
+      &:nth-child(3n){
+        margin: 0 0 28px 0;
+      }
+      .img-box{
+        margin-bottom: 25px;
+        height: 282px;
+      }
+      .txt-box{
+        h1{
+          margin-bottom: 5px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .venuelocation{
+    @include clearfix();
+    .venuelocation-map{
+      float: left;
+      width: 802px;
+      height: 500px;
+      padding: 9px;
+      border: 1px solid #dcdcdc;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .venuelocation-r{
+      float: right;
+      width: 360px;
+      height: 500px;
+      border: 1px solid #dcdcdc;
+      .venuelocation-header{
+        height: 35px;
+        line-height: 35px;
+        padding: 0 18px;
+        background: #ffebbf;
+        font-size: 14px;
+      }
+      .venuelocation-r-mode{
+        padding: 19px;
+        line-height: 20px;
+        p{
+          margin-bottom: 15px;
+          color: #666;
+        }
+        ul{
+          @include clearfix();
+        }
+        li{
+          margin: 0 10px 20px 0;
+          float: left;
+          height: 24px;
+          line-height: 22px;
+          padding: 0 9px;
+          text-align: center;
+          color: #3399fe;
+          border: 1px solid #dcdcdc;
+          @include border-radius(3px);
+        }
+      }
+    }
+  }
+}
+
+.text-overflow{
+  @include text-overflow();
+}

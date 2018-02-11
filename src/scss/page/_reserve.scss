@@ -1,0 +1,411 @@
+.reserve {
+  overflow: hidden;
+  .tit {
+    margin-top: 30px;
+    line-height: 70px;
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+    h2 {
+      @include inline-block;
+      border-bottom: 2px solid $color;
+      font-size: 30px;
+      color: $color;
+    }
+  }
+  .reserve-ul {
+    @include inline-block;
+    @include clearfix();
+    width: 110%;
+    padding: 35px 0;
+    li {
+      @include inline-block;
+      width: 575px;
+      float: left;
+      margin-right: 45px;
+      margin-bottom: 10px;
+      a {
+        @include inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-bottom-left-radius: 35px;
+        border-top-right-radius: 35px;
+        border-bottom-right-radius: 3px;
+        border-top-left-radius: 3px;
+        position: relative;
+        &:after {
+          @include inline-block;
+          content: " ";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &:hover {
+        a:after {
+          @include inline-block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('../images/temp/add.png');
+          background-size: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+        span {
+          color: $color;
+        }
+      }
+
+      img {
+        width: 100%;
+      }
+      > span {
+        @include inline-block;
+        width: 100%;
+        line-height: 65px;
+        text-align: center;
+        font-size: 24px;
+      }
+    }
+    .close {
+      a {
+        cursor: default;
+      }
+      a:after {
+        @include inline-block;
+        background-image: url('../images/temp/close.png');
+        background-size: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      &:hover {
+        a:after {
+          @include inline-block;
+          background-image: url('../images/temp/close.png') !important;
+          background-size: 100%;
+        }
+      }
+    }
+  }
+}
+
+//Լ�˶�
+.appointment {
+  background: #f4f4f4;
+  > .tit {
+    background: #fff;
+    height: 88px;
+    padding-top: 20px;
+    border-bottom: 1px solid #dbdbdb;
+    strong {
+      @include inline-block;
+      vertical-align: super;
+      border-bottom: 3px solid $color;
+      font-size: 30px;
+      font-weight: bold;
+      color: $color;
+      line-height: 65px;
+      margin-right: 60px;
+    }
+    span {
+      color: $color10;
+    }
+    em {
+      color: $color;
+    }
+    b {
+      color: #e6e6e6;
+      padding: 0 15px;
+    }
+  }
+  .con {
+    @include inline-block;
+    width: 100%;
+    @include clearfix();
+    margin-top: 20px;
+  }
+  .con_left {
+    width: 900px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    .con_tit {
+      @include clearfix();
+      padding: 15px 20px;
+      border-bottom: 1px solid #e6e6e6;
+      .form-input-control {
+        @include inline-block;
+        position: relative;
+        margin-left: 140px;
+        width: 240px;
+        input {
+          @include border-left-radius(20px);
+          @include border-right-radius(20px);
+          width: 100%;
+          height: 30px;
+          line-height: 30px;
+          border: 1px solid #e6e6e6;
+          font-size: 12px;
+          padding-right: 30px;
+          padding-left: 10px;
+        }
+        button{
+          @include inline-block;
+          cursor: pointer;
+          width: 45px;
+          height: 30px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: url("../images/icons/search_icon.png") no-repeat center center;
+        }
+      }
+    }
+    .con_item {
+      ul {
+        width: 100%;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        vertical-align: middle;
+      }
+      li {
+        @include inline-block;
+        width: 100%;
+        height: 140px;
+        background: #fff;
+        padding: 0 20px;
+        overflow: hidden;
+        transition-property: all;
+        transition-duration: 0.5s;
+        &:hover {
+          border-color: #ffb50a;
+          background: #fff8e9;
+          h3 {
+            color: #ef7a00;
+          }
+        }
+        a {
+          @include inline-block;
+          border-bottom: 1px dashed #dcdcdc;
+          padding: 19px 0;
+          width: 100%;
+        }
+        &:last-child{
+          a{
+
+          }
+        }
+      }
+
+      .tit {
+        @include inline-block;
+        position: relative;
+        width: 750px;
+        padding-left: 20px;
+        h3 {
+          @include inline-block;
+          max-width: 440px;
+          font-size: 18px;
+          padding: 15px 0;
+          @include text-truncate;
+          span {
+            font-size: 13px;
+            background: url("../images/icons/tag.png") no-repeat center;
+            display: inline-block;
+            vertical-align: text-bottom;
+            color: #fff;
+            height: 25px;
+            width: 60px;
+            text-align: center;
+            line-height: 25px;
+            padding-right: 5px;
+          }
+        }
+      }
+      .tag{
+        width: 290px;
+        text-align: left;
+        position: absolute;
+        top:15px;
+        right: 0;color: #fff;
+
+        span{
+          @include inline-block;
+          @include border-radius(3px);
+          padding: 5px;
+          font-size: 12px;
+          margin: 0 3px;
+        }
+        .new{
+          text-transform:uppercase;
+          background: #ff7656;
+        }
+        .selection{
+          background: #52b7f1;
+        }
+        .top{
+            background: #cdcdcd;
+        }
+      }
+      .info {
+        font-size: 13px;
+        padding: 15px 0;
+        > span {
+          color: #999;
+          vertical-align: middle;
+        }
+        .right > span {
+
+          margin-left: 15px;
+        }
+      }
+    }
+    .page{
+      padding: 47px 15px;
+      text-align: center;
+    }
+  }
+  .con_right{
+    width: 280px;
+    >div{
+      margin-bottom: 20px;
+    }
+    .post{
+      background: #fffcf4;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      border: 1px solid #dcdcdc;
+      a{
+        @include inline-block;
+        width:100%;
+        height: 100%;
+        color: #ffb50a;
+        font-size: 20px;
+      }
+      .icon{
+        vertical-align: sub;
+        margin-right: 10px;
+      }
+    }
+    .news{
+
+      h2{
+        height: 50px;
+        padding: 15px 10px;
+        background: #ffb50a;
+        color: #fff;
+        font-size: 18px;
+      }
+      p{
+        background: #fff;
+        color: $color6;
+        padding: 20px;
+        line-height: 24px;
+        font-size: 13px;
+        letter-spacing: 1px;
+        span{
+          color: #ffb50a;
+        }
+      }
+    }
+
+  }
+}
+
+.booking-space{
+  .space-header{
+    border-bottom: 2px solid #908f8c;
+    .title{
+      position: relative;
+      bottom: -2px;
+      display: inline-block;
+      width: 140px;
+      height: 50px;
+      line-height: 50px;
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+      background: $color5;
+    }
+  }
+  .row-part{
+    margin-right: -30px;
+  }
+  .list-con{
+    margin-bottom: 20px;
+    ul{
+      @include clearfix();
+    }
+    li{
+      margin-bottom: 30px;
+      float: left;
+      width: 33.333%;
+      padding-right: 30px;
+    }
+    a{
+      display: block;
+      height: 400px;
+      padding: 18px;
+      border: 1px solid #dcdcdc;
+      transition-property: all;
+      transition-duration: 0.5s;
+      &:hover {
+        border-color: $color5;
+        box-shadow: 3px 3px 7px rgba(0, 0, 0, .3);
+        color: $color5;
+        .info p{
+          color: #333;
+        }
+      }
+    }
+    .img-box{
+      margin-bottom: 15px;
+      height: 255px;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    h2{
+      margin-bottom: 10px;
+      line-height: 26px;
+      font-size: 16px;
+      span{
+        margin-right: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+    .info{
+      position: relative;
+      p{
+        margin-right: 90px;
+        height: 26px;
+        line-height: 26px;
+        @include text-overflow();
+        color: #333;
+        .s01{
+          color: #666;
+        }
+      }
+      .btn{
+        position: absolute;
+        right: 0;
+        top: 7px;
+        width: 80px;
+        height: 40px;
+        line-height: 38px;
+        text-align: center;
+        border: 1px solid $color5;
+        color: $color5;
+        font-size: 18px;
+        @include border-radius(5px);
+      }
+    }
+  }
+}

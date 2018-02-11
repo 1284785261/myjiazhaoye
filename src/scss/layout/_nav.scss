@@ -1,0 +1,371 @@
+.selected-mask{
+  position: fixed;
+  @include inline-block;
+  width: 100%;
+  height: 100%;
+  background:rgba(0,0,0,.5);
+  left: 0;
+  top: 0;
+  display: none;
+}
+.venues-booking {
+  position: absolute;
+  width: 1040px;
+  height: 630px;
+  display: block;
+  margin-left: -550px;
+  margin-top: -255px;
+  left: 50%;
+  top: 50%;
+  z-index: 9999;
+}
+.venues-booking-content-tit{
+  position: absolute;
+  width: 1040px;
+  height: 630px;
+  display: block;
+  margin-left: -550px;
+  margin-top: -315px;
+  left: 50%;
+  top: 50%;
+  z-index: 9;
+  h2 {
+    line-height: 60px;
+    color: #ef7a00;
+    font-size: 16px;
+    padding: 0 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fff8e9;
+  }
+}
+.venues-booking-content {
+  background: #fff;
+  @include clearfix();
+  @include border-radius(0 0 5px 5px);
+  overflow: hidden;
+  >h2{
+    line-height: 60px;
+    color: #ef7a00;
+    font-size: 16px;
+    padding: 0 20px;
+    @include clearfix();
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #dcdcdc;
+    background: #fff8e9;
+  }
+}
+
+.venues-booking-content .booking-date {
+  width: 100%;
+  //height: 80px;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.venues-booking-content .booking-date ul {
+  text-align: left
+}
+
+.venues-booking-content .booking-date ul li {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  margin-right: 3px;
+  display: inline-block;
+  max-width: 115px;
+  color: #52b7f1;
+  font-size: 12px;
+  border: 1px solid #aaa;
+ @include border-radius(3px);
+  &:first-child{}
+}
+
+.venues-booking-content .booking-date ul li.active {
+  background-color: #ffb50a;
+  border-color: #ffb50a;
+  a{
+    color: white;
+  }
+}
+
+.venues-booking-content .booking-date ul li.title {
+  display: inline-block;
+  width: 70px;
+  font-size: 12px;
+  color: #666666;
+  text-align: right;
+  border: 0;
+}
+
+.venues-booking-content .left-time-list {
+  width: 65px;
+  background: #fff;
+  padding-right: 5px;
+  float: left
+}
+
+.venues-booking-content .left-time-list ul {
+  padding-top: 25px;
+  padding-bottom: 14px;
+  text-align: right
+}
+
+.venues-booking-content .left-time-list ul li {
+  width: 100%;
+  height: 35px;
+  font-size: 12px;
+  color: #666666
+}
+
+.venues-booking-content .main-booking {
+  float: right;
+  width: 1040px;
+  @include clearfix();
+}
+
+.venues-booking-content .main-booking .main-booking-detail {
+  float: left;
+  width: 770px;
+  background-color: #f3f3f3;
+  overflow-y: scroll;
+  .pull-left{
+    position: relative;
+    overflow-x: auto;
+  }
+  .reserve-area{
+    width: 673px;
+    border: 1px solid #dcdcdc;
+  }
+}
+
+.venues-booking-content .main-booking .main-booking-detail table {
+  height: 100%;
+  margin-left: 6px
+}
+
+.venues-booking-content .main-booking .main-booking-detail table thead tr th.heads {
+  height: 28px;
+  text-align: center;
+}
+
+.venues-booking-content .main-booking .main-booking-detail table thead tr th.heads span {
+  max-width: 56px;
+  display: block;
+  font-size: 12px;
+  color: #222222;
+  overflow: hidden;
+  padding: 8px 0 8px 0;
+  word-wrap: break-word;
+  word-break: normal;
+  input{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    text-align: center;
+    color: #222222;
+  }
+}
+
+.venues-booking-content .main-booking .main-booking-detail table tbody tr.rows td.single {
+  min-width: 54px;
+  height: 25px;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer
+}
+
+.venues-booking-content .main-booking td.single span {
+  @include inline-block;
+  width: 50px;
+  height: 25px;
+  line-height: 25px;
+  border: 1px solid #aaaaaa;
+  border-radius: 3px;
+  font-size: 12px;
+  //color: #666666;
+  overflow: hidden
+}
+
+.venues-booking-content .main-booking-detail span.can-order {
+  background-color: white
+}
+
+.venues-booking-content .main-booking-detail span.can-not-order {
+  background-color: #aaaaaa
+}
+
+.venues-booking-content .main-booking .main-booking-detail table tbody tr.rows td.single span.highlight {
+  background-color: #e7ecf9;
+  color: #52b7f1;
+  border-color: #52b7f1
+}
+
+.venues-booking-content .main-booking .main-booking-detail table tbody tr.rows td.single span.mark {
+  background-color: #d0d8f3;
+  line-height: 27px;
+}
+
+.venues-booking-content .main-booking .main-booking-detail table tbody tr.rows td.single span.half-mark {
+  background-color: #8f98b5
+}
+
+.venues-booking-content .main-booking .main-booking-detail table tbody tr.rows td.single span.chosen {
+  border: 1px solid #52b7f1;
+  background-color: #52b7f1;
+  color: white
+}
+
+.venues-booking-content .main-booking .right-order-plane {
+  float: right;
+  width: 260px;
+  padding: 5px 15px;
+}
+
+.venues-booking-content .main-booking .right-order-plane .title {
+  height: 40px;
+  color: #666;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+.venues-booking-content .main-booking .right-order-plane .title ul {
+  height: 100%;
+  border-bottom: 1px dashed #dcdcdc;
+  white-space: nowrap;
+  float: left
+}
+
+.venues-booking-content .main-booking .right-order-plane .title li {
+  display: inline-block;
+  max-width: 90px;
+  padding-left: 5px;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.venues-booking-content .main-booking .right-order-plane .title li span {
+  display: block;
+  overflow: hidden;
+  width: 16px;
+  height: 16px
+}
+
+.venues-booking-content .main-booking .right-order-plane .title li span.can-order {
+  border: 1px solid #aaaaaa;
+  background-color: white
+}
+
+.venues-booking-content .main-booking .right-order-plane .title li span.can-not-order {
+  border: 1px solid #aaaaaa;
+  background-color: #aaaaaa
+}
+
+.venues-booking-content .main-booking .right-order-plane .title li span.chosen {
+  border: 1px solid #52b7f1;
+  background-color: #52b7f1
+}
+
+.venues-booking-content .main-booking .right-order-plane .info {
+
+  overflow: hidden;
+  padding-top: 15px
+}
+
+.venues-booking-content .main-booking .right-order-plane .info dl {
+  line-height: 20px
+}
+
+.venues-booking-content .main-booking .right-order-plane .info dt {
+  display: block;
+  width: 50px;
+  float: left;
+  font-size: 14px;
+  color: #666666
+}
+
+.venues-booking-content .main-booking .right-order-plane .info dd {
+  font-size: 14px;
+  text-align: left
+}
+
+.venues-booking-content .main-booking .right-order-plane .info ul.selected-booking {
+  margin-top: 30px
+}
+
+.venues-booking-content .main-booking .right-order-plane .info li {
+  margin: 5px 0;
+  border: 1px dashed #cdcdcd;
+  border-radius: 3px;
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.venues-booking-content .main-booking .right-order-plane .info li span.delete-icon {
+  width: 28px;
+  line-height: 20px;
+  height: 20px;
+  margin: 5px 0;
+  border-width: 0 0 0 1px;
+  border-style: solid;
+  border-color: #aaaaaa;
+  float: right;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  color: #aaaaaa
+}
+
+.venues-booking-content .main-booking .right-order-plane .info .court-display {
+  margin-top: 50px;
+  margin-left: 5px;
+  font-size: 14px;
+  color: #222222
+}
+
+.venues-booking-content .main-booking .right-order-plane .info .court-display span.number {
+  padding: 5px;
+  color: #ffb50a;
+  font-size: 18px;
+}
+
+.venues-booking-content .main-booking .right-order-plane .info .court-display span.append-msg {
+  display: none
+}
+
+.venues-booking-content .main-booking .right-order-plane .info .price-display {
+  margin: 20px 20px 20px 5px;
+}
+
+.venues-booking-content .main-booking .right-order-plane .info .price-display span.number {
+  padding: 5px;
+  color: #52b7f1
+}
+
+.venues-booking-content .main-booking .right-order-plane .info a.submit-button {
+  display: block;
+  width: 200px;
+  height: 40px;
+  line-height: 38px;
+  border-radius: 5px;
+  text-align: center;
+  outline: 0;
+  margin: 10px auto;
+  font-size: 14px;
+  cursor: pointer;
+  background: #ffb50a;
+  color: #fff;
+  border: 1px solid #ffb50a;
+  transition-property:all;
+  transition-duration:0.2s;
+  &:hover{
+    background: #fff;
+    color: #ffb50a;
+  }
+}
+
+.venues-booking-content .main-booking .right-order-plane .info a.active {
+
+}

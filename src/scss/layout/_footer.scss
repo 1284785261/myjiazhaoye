@@ -1,0 +1,139 @@
+@charset "utf-8";
+footer{
+  >p{
+    text-align: center;
+  }
+}
+.footer-link{
+  width: 100%;
+  padding: 20px 0 40px;
+  border-top: 1px solid #ffb50a;
+  .box-1200{
+    @include clearfix();
+    p>span{
+      @include inline-block;
+      color: #ffffff;
+      margin-top: -45px;
+      background: #b2ab39;
+      width: 120px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 20px;
+    }
+  }
+
+  ul{
+    @include inline-block;
+    float: left;
+    margin-right: 15px;
+    li{
+      a{
+        @include inline-block;
+        font-size: 14px;
+        color: #d0cfbb;
+        line-height: 25px;
+        &:hover{
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  dl{
+    width: 156px;
+    @include inline-block;
+    vertical-align: top;
+    dt{
+      text-align: left;
+      line-height: 35px;
+    }
+    &:nth-child(3),&:nth-child(4){
+      dd>a:hover{
+        color: #666;
+        cursor: default;
+      }
+    }
+  }
+  .kf-dl{
+    width: auto;
+  }
+
+  dd{
+    a{
+      display: block;
+      line-height: 26px;
+      font-size: 12px;
+      color: #666;
+      &:hover{
+        color: $color1;
+      }
+    }
+    span{
+      margin-right: 5px;
+    }
+    em{
+      color: $color1;
+    }
+    strong{
+      font-size: 18px;
+      font-weight: bold;
+      color: $color1;
+    }
+    img{
+      width: auto;
+      max-width: 100%;
+    }
+  }
+  .text-center{
+    float: right;
+  }
+  .share{
+    margin-right: 100px;
+    float: right;
+  }
+}
+.footer-nav{
+  background:$color6;
+  text-align: left;
+  padding-top: 15px;
+  p{
+    height: 15px;
+    span{
+      @include inline-block;
+      padding: 15px;
+      background: #ffb50a;
+      color: #fff;
+      margin-top: -45px;
+    }
+  }
+  a{
+    @include inline-block;
+    padding: 0 7px;
+    border-right: 1px solid #545454;
+    border-left: 1px solid #747474;
+    color: #fff;
+    margin: 10px -2px;
+    &:nth-child(2){
+      border-left: none;
+    }
+    &:last-child{
+      border-right: none;
+    }
+  }
+}
+.copy{
+  .box-1200{
+  text-align: center;
+  border-top: 1px solid #dbdbdb;
+  font-size: 12px;
+  padding: 15px 0;
+  p{
+    color:#999;
+    line-height: 20px;
+  }
+  }
+}
+.record{
+  text-align: center;
+  margin-top: 10px;
+}

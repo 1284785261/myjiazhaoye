@@ -1,0 +1,21 @@
+.date-part2{
+  @include inline-block;
+  @include clearfix();
+  .s01{
+    margin: 0 9px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+  }
+  .date-box{
+    float: left;
+    width: 180px;
+    height: 30px;
+    background: #fff;
+    input{
+      width: 100%;
+      background: url(../images/date.png) no-repeat 153px 4px;
+      cursor: pointer;
+    }
+  }
+}

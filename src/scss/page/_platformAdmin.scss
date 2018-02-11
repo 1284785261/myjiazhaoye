@@ -1,0 +1,137 @@
+@charset "UTF-8";
+/*平台管理*/
+//广告审核
+.examine_img{
+  .management>.form-control{
+    background: #f9f9f9;
+    form{
+      padding:30px 20px 13px 20px;
+    }
+  }
+
+  .area1{
+    border: none;
+    td{
+      border: none;
+      a{
+        display: block;
+        padding: 3px 0;
+      }
+    }
+    thead{
+      border-top: 1px solid #dcdcdc;
+      border-left: 1px solid #dcdcdc;
+    }
+    tbody tr{
+      border-bottom: 1px dashed #dcdcdc;
+    }
+  }
+  .table-padding{
+    border: 1px solid #dcdcdc;
+    margin-top: 20px;
+    .table-layout{
+      border-left: none;
+    }
+  }
+    .img{
+      width: 140px;
+      img{
+        width: 100%;
+      }
+    }
+  .banner_ad{
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .area2{
+    >div{
+      display: none;
+    }
+    td{
+      a{
+        display: block;
+        padding: 3px 0;
+      }
+    }
+  }
+}
+
+//场馆设置
+.venues_set{
+  .curse_img{
+    img{
+      max-width: 100%;
+      width: auto;
+    }
+  }
+  .btn-preview3{
+    vertical-align: initial;
+  }
+  .btns{
+    margin: 30px 0 -5px 0;
+    a{
+      margin-left: 5px;
+    }
+  }
+  .management{
+    >div{
+      display: none;
+    }
+  }
+  .project{
+    border: 1px solid #dcdcdc;
+    dt{
+      display: table-cell;
+      vertical-align: top;
+      width: 100px;
+      height: 70px;
+      line-height: 70px;
+      text-align: center;
+      font-size: 16px;
+      background: #f0f0f0;
+      border-right: 1px solid #dcdcdc;
+      .icon{
+        margin-right: 5px;
+      }
+    }
+    dd{
+      display: table-cell;
+      width: 1090px;
+      line-height: 70px;
+      padding-left: 10px;
+      a:last-child{
+        color: #999;
+      }
+      a{
+        @include inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 15px;
+        margin: 0 5px;
+        @include border-radius(5px);
+        &:hover{
+          color: $color5;
+        }
+        &:nth-child(n+12){
+          display: none;
+        }
+      }
+      .none{
+        display: inline-block !important;
+      }
+      a.show_more{
+        display: inline-block !important;
+
+      }
+      .active{
+        border:1px solid  $color5;
+        color: $color5;
+      }
+    }
+    .icon-icon_down,.icon-icon_up{
+      vertical-align: initial;
+    }
+  }
+}

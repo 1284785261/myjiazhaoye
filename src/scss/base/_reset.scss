@@ -1,0 +1,126 @@
+@charset "utf-8";
+//html{color:#000;background:#fff;}
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*:after,*:before{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,button,textarea,p,blockquote,th,td,form,iframe{margin:0;padding:0;}
+body{font:14px/1 Microsoft YaHei,Helvetica,Arial,"\5b8b\4f53",sans-serif; word-wrap: break-word;}
+img{border:none;}
+em,strong,i{font-style:normal;font-weight:normal;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body ,input{
+	line-height: 1;
+    color: #333;
+}
+ol, ul {
+	list-style: none;
+}
+h1,h2,h3,h4,h5,h6{
+  font-size: 100%;
+  font-weight: normal;
+
+}
+blockquote, q {
+	quotes: none;
+    &:before, &:after {
+        content: '';
+        content: none;
+    }
+}
+a{
+  text-decoration: none;
+  color: #333;
+  &:hover{
+    color: #ef7a00;
+  }
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+input,button{
+  outline:none;
+  font-family: inherit;
+}
+button,input,textarea {
+  border: none;
+}
+.box-1200{
+  width: 1200px;
+  margin: 0 auto;
+}
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+.text-right{
+  text-align: right;
+}
+.text-left{
+  text-align: left;
+}
+.text-center{
+  text-align: center;
+}
+textarea{
+  overflow: auto;
+}
+input[type='text'],input[type='tel'],input[type='password']{
+  padding: 2px 5px;
+}
+.w430{
+  min-width: 430px;
+}
+.w120{
+  width: 120px;
+}
+.w190{
+  width: 190px;
+ }
+.w200{
+  min-width: 200px;
+}
+.w280{
+  width: 280px;
+}
+
+.w80{
+  width: 80px !important;
+}
+/** 常用 **/
+.cl{ clear: both; overflow: hidden; height: 0; line-height: 0; font-size: 0;}
+.fl{ float:left;}
+.fr{ float:right;}
+.w100{ width:100%;}
+.mar-l10{ margin-left: 10px;}
+.mar-l20{ margin-left: 20px;}
+.mar-l30{ margin-left: 30px;}
+.mar-r10{ margin-right: 10px;}
+.mar-r20{ margin-right: 20px;}
+.mar-r30{ margin-right: 30px;}
+.mar-t10{ margin-top: 10px;}
+.mar-t20{ margin-top: 20px;}
+.mar-t30{ margin-top: 30px;}
+.mar-b10{ margin-bottom: 10px;}
+.mar-b15{ margin-bottom: 15px;}
+.mar-b20{ margin-bottom: 20px;}
+.mar-b30{ margin-bottom: 30px;}
+.mar-b40{ margin-bottom: 40px;}
+.red{ color: #ef0000;}
+.orange{ color: #ef7a00;}
+.gray{ color: #666;}
+.green{ color: #00b400;}
+/** 常用 **/

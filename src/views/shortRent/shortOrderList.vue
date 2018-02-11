@@ -62,23 +62,36 @@
                    状态：
                 </li>
                 <li>
-                    <el-checkbox-group v-model="selectState.all">
-                        <el-checkbox label="全部"></el-checkbox>
-                    </el-checkbox-group>
+                    <!--<el-checkbox-group  mode="horizontal" @select="handleSelect">-->
+                        <!--<el-checkbox label="全部" value="0"></el-checkbox>-->
+                        <!--<el-checkbox label="今日预抵" value="1"></el-checkbox>-->
+                        <!--<el-checkbox label="明日预抵" value="2"></el-checkbox>-->
+                        <!--<el-checkbox label="待入住" value="3"></el-checkbox>-->
+                        <!--<el-checkbox label="已入住" value="4"></el-checkbox>-->
+                        <!--<el-checkbox label="已取消" value="5"></el-checkbox>-->
+                    <!--</el-checkbox-group>-->
+                    <el-radio-group v-model="selectState" @change="handleSelect">
+                        <el-radio :label="0">全部</el-radio>
+                        <el-radio :label="1">今日预抵</el-radio>
+                        <el-radio :label="2">明日预抵</el-radio>
+                        <el-radio :label="3">待入住</el-radio>
+                        <el-radio :label="4">已入住</el-radio>
+                        <el-radio :label="5">已取消</el-radio>
+                    </el-radio-group>
                 </li>
-                <li>
-                    <el-checkbox-group v-model="selectState.eta">
-                        <el-checkbox label="今日预抵" value="1"></el-checkbox>
-                        <el-checkbox label="明日预抵" value="2"></el-checkbox>
-                    </el-checkbox-group>
-                </li>
-                <li>
-                    <el-checkbox-group v-model="selectState.state">
-                        <el-checkbox label="待入住"></el-checkbox>
-                        <el-checkbox label="已入住"></el-checkbox>
-                        <el-checkbox label="已取消"></el-checkbox>
-                    </el-checkbox-group>
-                </li>
+                <!--<li>-->
+                    <!--<el-checkbox-group v-model="selectState.eta">-->
+                        <!--<el-checkbox label="今日预抵" value="1"></el-checkbox>-->
+                        <!--<el-checkbox label="明日预抵" value="2"></el-checkbox>-->
+                    <!--</el-checkbox-group>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<el-checkbox-group v-model="selectState.state">-->
+                        <!--<el-checkbox label="待入住"></el-checkbox>-->
+                        <!--<el-checkbox label="已入住"></el-checkbox>-->
+                        <!--<el-checkbox label="已取消"></el-checkbox>-->
+                    <!--</el-checkbox-group>-->
+                <!--</li>-->
                 <li>
                     <el-button>查询</el-button>
                 </li>
@@ -325,11 +338,12 @@
         selectShow:false,//条件查询显示或隐藏
         stationSelectList:[],//社区列表
         communityId:'',//被选中的社区
-        selectState:{//状态查询控制
-          all:true,
-          eta:[],
-          state:[]
-        },
+//        selectState:{//状态查询控制
+//          all:true,
+//          eta:[],
+//          state:[]
+//        },
+        selectState:'0',
         dateUl:{//条件查询时间查询
           bookingTime:{//预订起止时间
             startTime:'',
@@ -440,7 +454,7 @@
       }
     },
     mounted() {
-      sessionStorage.setItem("communityId",100114);
+//      sessionStorage.setItem("communityId",'');
       this.getCommunityData();
     },
     methods: {
@@ -503,7 +517,7 @@
       /**
        * 导航菜单事件
        **/
-      handleSelect(key, keyPath){debugger
+      handleSelect(key, keyPath){
         console.log(key)
         if(key == 1){
           this.selectShow = !this.selectShow

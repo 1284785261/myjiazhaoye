@@ -26,23 +26,28 @@
                     状态：
                 </li>
                 <li>
-                    <el-checkbox-group v-model="selectState.all">
-                        <el-checkbox label="全部"></el-checkbox>
-                    </el-checkbox-group>
+                    <el-radio-group v-model="selectState" @change="handleSelect">
+                        <el-radio :label="0">全部</el-radio>
+                        <el-radio :label="1">今日预抵</el-radio>
+                        <el-radio :label="2">明日预抵</el-radio>
+                        <el-radio :label="3">待入住</el-radio>
+                        <el-radio :label="4">已入住</el-radio>
+                        <el-radio :label="5">已取消</el-radio>
+                    </el-radio-group>
                 </li>
-                <li>
-                    <el-checkbox-group v-model="selectState.eta">
-                        <el-checkbox label="今日预离" value="1"></el-checkbox>
-                        <el-checkbox label="明日预离" value="2"></el-checkbox>
-                    </el-checkbox-group>
-                </li>
-                <li>
-                    <el-checkbox-group v-model="selectState.state">
-                        <el-checkbox label="入住"></el-checkbox>
-                        <el-checkbox label="已退未结"></el-checkbox>
-                        <el-checkbox label="已结账"></el-checkbox>
-                    </el-checkbox-group>
-                </li>
+                <!--<li>-->
+                    <!--<el-checkbox-group v-model="selectState.eta">-->
+                        <!--<el-checkbox label="今日预离" value="1"></el-checkbox>-->
+                        <!--<el-checkbox label="明日预离" value="2"></el-checkbox>-->
+                    <!--</el-checkbox-group>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<el-checkbox-group v-model="selectState.state">-->
+                        <!--<el-checkbox label="入住"></el-checkbox>-->
+                        <!--<el-checkbox label="已退未结"></el-checkbox>-->
+                        <!--<el-checkbox label="已结账"></el-checkbox>-->
+                    <!--</el-checkbox-group>-->
+                <!--</li>-->
                 <li>
                     <el-button>查询</el-button>
                 </li>
@@ -160,11 +165,12 @@
         selectShow:false,//条件查询显示或隐藏
         stationSelectList:[],//社区列表
         stationCommunity:'',//被选中的社区
-        selectState:{//状态查询控制
-          all:true,
-          eta:[],
-          state:[]
-        },
+//        selectState:{//状态查询控制
+//          all:true,
+//          eta:[],
+//          state:[]
+//        },
+        selectState:'0',
         dateUl:{//条件查询时间查询
           bookingTime:{//预订起止时间
             startTime:'',

@@ -1,0 +1,71 @@
+.weixinPay{
+  .weixinPay-info-wrap{
+    padding: 30px 0;
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    background: #f2f2f2;
+  }
+  .weixinPay-info{
+    margin: 0 auto;
+    width: 1200px;
+  }
+  .weixinPay-table{
+    font-size: 14px;
+    .p01{
+      line-height: 20px;
+      padding: 6px 0;
+    }
+    .price b{
+      font-size: 24px;
+    }
+  }
+}
+
+.weixinPay-main{
+  margin: 0 auto;
+  width: 1200px;
+  .tab{
+    height: 36px;
+    li{
+      float: left;
+      height: 36px;
+      a{
+        display: block;
+        width: 160px;
+        height: 100%;
+        line-height: 35px;
+        text-align: center;
+        background: #e4e4e4;
+        border-right: 1px solid #dcdcdc;
+        font-size: 14px;
+        &:hover{
+          background: #fff;
+        }
+      }
+      &:last-child a{
+        border-right: 0;
+      }
+    }
+    .cur a{
+      background: #fff;
+      color: #ef7a00;
+    }
+    ul{
+      display: inline-block;
+      border: solid #dcdcdc;
+      border-width: 1px 1px 0 1px;
+      @include clearfix();
+    }
+  }
+  .tabcon{
+    padding: 50px;
+    border: 1px solid #dcdcdc;
+    .weixin{
+      margin: 0 auto;
+      width: 260px;
+      .img-box{
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

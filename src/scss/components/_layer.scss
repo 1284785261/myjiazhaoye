@@ -1,0 +1,16 @@
+body{
+  .xubox_main{
+    @include border-radius(5px);
+  }
+  .xubox_page{
+    position: static;
+  }
+  .xubox_setwin .xubox_close1{
+    right: 0;
+    top: 3px;
+    background-position: -125px -189px;
+    &:hover{
+      background-position: -155px -189px;
+    }
+  }
+}

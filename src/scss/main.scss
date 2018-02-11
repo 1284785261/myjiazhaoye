@@ -1,0 +1,61 @@
+@charset "utf-8";
+/*初始化*/
+@import "base/reset";
+/*引用其他类库*/
+@import "vendors/animate";
+/*工具模块*/
+@import "help/variables";
+@import "help/mixin";
+@import "help/verify";
+@import "help/function";
+@import "help/sprites";
+@import "help/css3";
+/*布局模块*/
+@import "layout/icheck";
+@import "layout/nav";
+@import "layout/footer";
+@import "layout/slide";
+@import "components/current";
+@import "layout/map";
+@import "layout/mbCenter";
+@import "layout/float";
+/*组件模块*/
+@import "components/search";
+@import "components/select";
+@import "components/page";
+@import "components/table";
+@import "components/button";
+@import "components/fixedMenu";
+@import "components/share";
+@import "components/pop";
+@import "components/fonts";
+@import "components/comment";
+@import "components/datetimepicker";
+@import "components/dropdowns";
+@import "components/layer";
+
+/*独立样式*/
+@import "page/index";
+@import "page/login";
+@import "page/register";
+@import "page/forgetPassword";
+@import "page/areaAdmin";
+@import "page/notFind404";
+@import "page/merchant";
+@import "page/dataTime";
+@import "page/reserve";
+@import "page/reserveDetial";
+@import "page/order";
+@import "page/courses";
+@import "page/platformAdmin";
+
+@import "page/merchant";
+@import "page/publish";
+@import "page/personalData";
+@import "page/teamRegister";
+@import "page/payment";
+@import "page/personalCenter";
+@import "page/aboutUs";
+@import "page/weixinPay";
+@import "page/Sitemanagement";
+

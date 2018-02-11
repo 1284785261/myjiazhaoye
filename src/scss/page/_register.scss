@@ -1,0 +1,131 @@
+@charset "utf-8";
+/*注册*/
+.register{
+  width: 980px;
+  height: 500px;
+  border-top: 2px solid #b8b8b8;
+  margin: 20px auto 0;
+  position: relative;
+  background: #FFF;
+  font-family: "微软雅黑";
+  .LG{
+    position: absolute;
+    top:0;
+    left:50px;
+    width: 200px;
+    height: 92px;
+    background: url(../images/registerN.png) no-repeat;
+  }
+  .BG{
+    position: absolute;
+    right:0;
+    top:60px;
+    width: 373px;
+    height: 348px;
+    background: url(../images/registerL.png) no-repeat;
+  }
+  .text{
+    width: 600px;
+    height: 270px;
+    position: absolute;
+    top:120px;
+    left:50px;
+    label{
+      color: #767676;
+      display: block;
+    }
+    input{
+      border:1px solid #dcdcdc;
+      width: 250px;
+      height: 30px;
+    }
+    b{
+      color: red;
+    }
+    input:hover{
+      border:1px solid #b2ab39;
+    }
+    .tel{
+      input{
+        width: 160px;
+      }
+      .icon-iconfont-102{
+        color: #f6a407;
+      }
+    }
+  }
+  .icon-iconfont-font40{
+    color:#7fb045;
+  }
+  .BgColor{
+    @include inline-block;
+    color: #b2ab39;
+    line-height: 30px;
+    vertical-align: middle;
+  }
+  .checkBox{
+    cursor: pointer;
+    input{
+      width: 12px;
+      height: 12px;
+      vertical-align: middle;
+      margin-right: 2px;
+    }
+  }
+  #btn{
+    display: block;
+    width: 250px;
+    height: 40px;
+    border:none;
+    background: #b2ab39;
+    text-align: center;
+    line-height: 40px;
+    color:#FFF;
+    border-radius: 5px;
+    font-size:20px;
+    margin-left: 90px;
+    cursor: pointer;
+    margin-top: -15px;
+  }
+  .Bottom{
+    width: 980px;height: 77px;
+    background: url(../images/registerBg.png) no-repeat;
+    position: absolute;
+    bottom: -77px;left:0;
+  }
+  .form-control{
+    position: relative;
+    margin-bottom: 25px;
+    button{
+      font-family: "微软雅黑";
+      display:inline-block;
+      width:80px;
+      height:30px;
+      border:1px solid #dcdcdc;
+      border-radius: 5px;
+      line-height: 27px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 12px;
+      vertical-align: middle;
+      background: #dcdcdc;
+      color: #4c4c4c;
+      margin-left: 8px;
+    }
+
+    label{
+      span{
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+      }
+    }
+    >span{
+      position: absolute;
+      top: 35px;
+      left: 90px;
+      font-size: 12px;
+      color: red;
+    }
+  }
+}

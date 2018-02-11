@@ -1,0 +1,305 @@
+.merchant-top{
+    height: 80px;
+    .login-top-l{
+        margin-top: 16px;
+        >span{
+            @include inline-block;
+            color: $color1;
+            margin-top: 17px;
+        }
+    }
+    .login-top-l .logo-box{
+        margin-right: 28px;
+        border-right: 0;
+        padding-right: 0;
+    }
+    .line-left{
+        height: 45px;
+        line-height: 45px;
+        padding-left: 20px;
+        text-align: center;
+        border-left: 1px solid #dcdcdc;
+    }
+    .to-center{
+        margin-top: 6px;
+        float: left;
+        display: inline-block;
+        width: 150px;
+        height: 42px;
+        line-height: 36px;
+        text-align: center;
+        background: url(../images/temp/top_btn.png) no-repeat;
+        font-size: 14px;
+        &:hover{
+            background: url(../images/temp/top_btn2.png) no-repeat;
+        }
+    }
+    .merchant-nav{
+        margin-left: 16px;
+        float: left;
+        height: 76px;
+        li{
+            float: left;
+            width: 122px;
+        }
+        a{
+            display: block;
+            height: 76px;
+            line-height: 73px;
+            font-size: 18px;
+            text-align: center;
+            border-top: 3px solid #fff;
+        }
+        .cur,a:hover{
+            color: $color1;
+            border-top: 3px solid #ffb50a;
+        }
+    }
+    .merchant-top-r{
+        float: right;
+        padding-top: 30px;
+        >a,span{
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+            .icon{
+                position: relative;
+                top: -2px;
+            }
+            
+        }
+        span{
+            margin: 0 10px;
+        }
+        .user-name{
+            color: $color1;
+        }
+        .signout-a,.Out{
+            .icon-tuichu1{
+                position: relative;
+                top: 1px;
+                margin-left: 3px;
+                color: $color1;
+            }
+        }
+        .phone-a{
+            position: relative;
+            margin-left: 20px;
+            img{
+                position: absolute;
+                width: 128px;
+                height: 0;
+                @include opacity(0);
+                top:30px;
+                left: 50%;
+                margin-left: -64px;
+                -moz-box-shadow: rgba(0, 0, 0, 0.4) 0 0 25px;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 0 25px;
+                box-shadow: rgba(0, 0, 0, 0.4) 0 0 25px;
+                -moz-transition-property: all;
+                -o-transition-property: all;
+                -webkit-transition-property: all;
+                transition-property: all;
+                -moz-transition-duration: 1s;
+                -o-transition-duration: 1s;
+                -webkit-transition-duration: 1s;
+                transition-duration: 1s;
+                z-index: 9;
+              }
+              &:hover{
+                  img{
+                      height: 158px;
+                      @include opacity(1);
+                  }
+              }
+        }
+    }
+    .sportsList{
+        top: 80px;
+        background-color: #F9F9F9;
+        border: 1px solid #dcdcdc;
+        padding: 30px 0 80px;
+        .box-1200{
+            width: auto;
+            padding: 0 6px;
+            ul li{
+                margin: 0 19px;
+            }
+        }
+        li span{
+            margin-top: 0;
+        }
+    }
+}
+
+.merchant-top-ad-wrap{
+    height: 80px;
+    background: $color1;
+    .merchant-top-ad{
+        margin: 0 auto;
+        width: 1200px;
+        @include clearfix();
+        h1{
+            float: left;
+            line-height: 80px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            font-family: "宋体";
+            .icon{
+                position: relative;
+                top: 4px;
+                margin-right: 10px;
+                vertical-align: sub;
+            }
+            .icon-home{
+                width: 36px;
+                height: 36px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .merchant-top-adr{
+            float: right;
+        }
+    }
+}
+
+.merchant-banner-wrap{
+    position: relative;
+    top: -1px;
+    height: 441px;
+    .banner{
+        height: 441px;
+        .index_banner{
+            .tempWrap,.bd{
+                height: 100%;
+            }
+            height: 100%;
+            ul,li,a{
+                height: 100%;
+            }
+        }
+        ul{
+            @include clearfix();
+        }
+    }
+}
+.merchant-list-select-wrap{
+    background: #fff;
+    .merchant-list-select{
+        position: relative;
+        margin: 0 auto; 
+        width: 1200px;
+        padding: 39px 0 12px;
+        @include clearfix();
+        h2{
+            float: left;
+            width: 96px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 18px;
+            color: #222;
+        }
+        ul{
+            float: left;
+            width: 760px;
+            li{
+                margin: 0 14px 6px 0;
+                float: left;
+                height: 25px;
+            }
+            a{
+                display: inline-block;
+                height: 25px;
+                line-height: 23px;
+                padding: 0 11px;
+                border: 1px solid #fff;
+                font-size: 14px;
+                color: #666;
+                @include border-radius(3px);
+                &:hover{
+                    color: $color1;
+                }
+            }
+            .cur{
+                color: #ffb50a;
+                border: 1px solid #ffb50a;
+                &:hover{
+                    color: #ffb50a;
+                }
+            }
+            .icon-down,.icon-up{
+                margin-left: 3px;
+                width: 11px;
+                height: 10px;
+                background: url(../images/down.png) no-repeat;
+            }
+            .icon-up{
+                background: url(../images/more_up.png) no-repeat;
+            }
+        }
+        .search-box{
+            position: absolute;
+            right: 0;
+            top: 36px;
+        }
+    }
+    
+}
+
+.merchant-list-wrap{
+    background: #f4f4f4;
+    .merchant-list{
+        padding: 10px 0;
+        .home_page .area3{
+            overflow: hidden;
+            ul{
+                margin-left: 0;
+                width: 110%;
+            }
+            li{
+                margin: 10px 20px 10px 0;
+                width: 224px;
+                /*&:nth-child(5n){
+                    margin: 10px 0 10px 0;
+                }*/
+            }
+            @include clearfix();
+        }
+        .page{
+            margin: 40px 0 46px;
+        }
+    }
+}
+
+/** search-box **/
+.search-box{
+    position: relative;
+    width: 320px;
+    height: 30px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    @include border-radius(12px);
+    .input-txt{
+        margin: 0 38px 0 14px;
+        height: 100%;
+        input{
+            width: 100%;
+            height: 28px;
+            line-height: 24px;
+            border: 0;
+        }
+    }
+    .search-btn{
+        position: absolute;
+        right: 13px;
+        top: 7px;
+        width: 16px;
+        height: 15px;
+        border: 0;
+        background: url(../images/search.png) no-repeat;
+    }
+}

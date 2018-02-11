@@ -34,7 +34,7 @@
 							<li>
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
-							<li>
+							<li v-if="userType">
 								<router-link :to="{path:'/signed/shortTerm',query:{communityId:communityId,Name:selectModel1}}">短租房状态</router-link>
 							</li>
 							<li v-if="jurisdiction('LIVE_QUERY')">
@@ -237,10 +237,15 @@
 				type:'',
 				messsaget:null,
 				show1:false,
-				show2:false
+				show2:false,
+              userType
 			}
 		},
 		mounted() {
+
+          if(sessionStorage.getItem('userType') && sessionStorage.getItem('userType') == '测试'){
+            this.userType = true
+          }
 			this.communityId = sessionStorage.getItem('communityId');
 			this.title();
 			this.mtsbv();

@@ -1,0 +1,38 @@
+.placeholderWrap{
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+.placeholderWrap .placeval{
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  line-height: 28px;
+  text-align: left;
+  padding: 0 4px;
+  z-index: 6;
+  color: #ccc;
+  overflow: hidden;
+}
+.placeholderWrap input{
+  position: relative;
+  z-index: 4;
+  background: none;
+}
+
+.teachers-placeholder{
+  display: block;
+  margin-top: 5px;
+  input{
+    margin-top: 0 !important;
+  }
+}
+.teachers-placeholder02{
+  display: block;
+  margin: 5px 0 10px !important;
+  textarea{
+    margin: 0 !important;
+  }
+}

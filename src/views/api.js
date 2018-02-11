@@ -3,16 +3,16 @@
 //const host = 'http://115.29.138.230:8080';
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
-// const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
-const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
-//export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.2.180113_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180113_test': '1.1.18.2.180113_release';//pc版本号 默认运营
-export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.1.180111_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.1.180111_release': '1.1.18.1.180111_test';//pc版本号 默认测试
+const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+// const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
+export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_test': '1.1.18.22.180211_release';//pc版本号 默认运营
+// export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_release': '1.1.18.22.180211_test';//pc版本号 默认测试
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
-//const host3 = 'http://192.168.20.135:8091';//李志guang
+// const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8080';//周昭滨
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 

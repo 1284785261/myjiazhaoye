@@ -1,0 +1,18 @@
+/*
+//ап╠М
+.reserve{
+	ul{
+		@include inline-block;
+		@include clearfix();
+		width: 110%;
+		li{
+		@include inline-block;
+		width: 432px;
+		float: left;
+		@include border-bottom-left-radius(15px);
+		@include border-top-right-radius(15px);
+		margin-right: 45px;
+		
+		}
+	}
+}*/

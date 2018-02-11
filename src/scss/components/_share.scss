@@ -1,0 +1,69 @@
+@charset "utf-8";
+.share{
+	@include inline-block;
+  height: 45px;
+  line-height: 45px;
+  margin-right: 10px;
+  padding: 0 10px;
+  .bdsharebuttonbox{
+    zoom: 1;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+    span{
+	@include inline-block;
+	width: 50px;
+	text-align: center;
+	margin-right: 10px;
+	a{
+		display: block;
+		float: none;
+		padding: 0;
+		margin: 0 auto;
+		height: 24px;
+		width: 24px;
+	}
+	p{
+		font-size: 12px;
+		line-height: 25px;
+	}
+    }
+    .bds_tsina{
+    	background: url('../images/icons/wb.png') center;
+    }
+    .bds_tqq{
+    	background: url('../images/icons/wb2.png');
+    }
+    .bds_qzone{
+    	background: url('../images/icons/kj.png');
+    }
+    .popup_weixin{
+    	background: url('../images/icons/wx.png');
+    }
+	.bds_more{
+	  background: url('../images/icons/more.png');
+	}
+	.bds_renren{
+	  background: url('../images/icons/rr.png');
+	}
+  }
+}
+.define_share{
+  color: #666;
+  padding-left: 20px;
+  background: url('../images/icons/share.png') no-repeat center left;
+  .bdsharebuttonbox{
+	margin-top:0;
+	a{
+	  width: 20px;
+	  height: 20px;
+	  background-size: 100% !important;
+	}
+  }
+}
+
+/** bdshare **/
+.bd_weixin_popup{
+  @include box-sizing(content-box);
+  font-family: Arial, Helvetica, STHeiti;
+}

@@ -1,0 +1,198 @@
+.courses{
+  padding-top: 30px;
+  .breadcrumb_sub{
+    border-right: 1px solid #dcdcdc;
+    border-left: 1px solid #dcdcdc;
+    padding:0 20px;
+    border-top: 1px solid $color1;
+    p{
+      line-height: 55px;
+      font-size: 16px;
+    }
+    span{
+      color: $color11;
+    }
+    .search-box{
+      margin-top: 12px;
+    }
+  }
+  .project{
+    border: 1px solid #dcdcdc;
+    .icon-yundong{
+      width: 20px;
+      height: 20px;
+      background: url(../images/icons/sport.png) no-repeat;
+    }
+    .icon-site{
+      width: 20px;
+      height: 20px;
+      background: url(../images/icons/site.png) no-repeat;
+    }
+    dl{
+      border-bottom: 1px solid #dcdcdc;
+      &:last-child{
+        border-bottom: 0;
+      }
+    }
+    dt{
+      display: table-cell;
+      vertical-align: top;
+      width: 100px;
+      height: 70px;
+      line-height: 70px;
+      text-align: center;
+      font-size: 16px;
+      background: #f0f0f0;
+      border-right: 1px solid #dcdcdc;
+      .icon{
+        margin-right: 5px;
+      }
+    }
+    dd{
+     display: table-cell;
+      width: 1090px;
+      line-height: 70px;
+      padding-left: 10px;
+      a{
+        @include inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 15px;
+        margin: 0 5px;
+        @include border-radius(5px);
+        &:hover{
+          color: $color5;
+        }
+        &:nth-child(n+13){
+          display: none;
+        }
+      }
+      .none{
+        display: inline-block !important;
+      }
+      a.show_more{
+        display: inline-block !important;
+        color: #999;
+      }
+      .active{
+        background: $color5;
+        color: #fff;
+        &:hover{
+          color: #fff;
+        }
+      }
+    }
+    .icon-icon_down,.icon-icon_up{
+      vertical-align: initial;
+    }
+  }
+  .con{
+    @include clearfix();
+    margin-top: 30px;
+  }
+  .con_left{
+    width: 900px;
+    .con_tit{
+      border-bottom: 2px solid #908f8c;
+      strong{
+      @include inline-block;
+      width: 140px;
+      height: 50px;
+        margin-bottom: -2px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 20px;
+      background: $color5;
+      color: #fff;
+    }
+    }
+    .con_item{
+      ul{
+
+      }
+      li{
+        @include clearfix();
+        border-bottom: 1px dashed #dcdcdc;
+        padding: 20px 0;
+        img{
+          width: 260px;
+          height: 195px;
+          border: 1px solid #dcdcdc;
+          &:hover{
+            border-color: $color5;
+          }
+        }
+
+      }
+      .con_center{
+        width: 430px;
+        margin-left: 30px;
+        h3{
+          width: 100%;
+          font-size: 20px;
+          line-height: 40px;
+
+        }
+        p{
+          line-height: 25px;
+          font-size: 12px;
+          em{
+            color: #333;
+            @include inline-block;
+            vertical-align: top;
+            max-width: 350px;
+            max-height: 50px;
+            overflow: hidden;
+          }
+          strong{
+            font-size: 14px;
+            color: $color1;
+          }
+          span{
+            @include inline-block;
+            vertical-align: top;
+            color: #666;
+          }
+        }
+        .comment_nub{
+          line-height: 40px;
+          color: $color5;
+        }
+
+      }
+      .price{
+        text-align: right;
+        >div{
+          line-height: 50px;
+          margin: 20px 0;
+          color: $color1;
+          text-align: center;
+        }
+        strong{
+          font-size: 30px;
+        }
+        .btn-show:hover{
+          color: #fff;
+          background: $color5;
+          border-color: $color5;
+        }
+      }
+    }
+    .page{
+      margin: 45px 0;
+    }
+  }
+  .con_right{
+    width: 280px;
+    .header_bg{
+      line-height: 50px;
+      height: 50px;
+      background: $color5;
+      padding: 0 20px;
+      font-size: 18px;
+      h3{
+        color: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,173 @@
+.personalData{
+  padding: 38px 0;
+  border: 1px solid #dcdcdc;
+}
+.personalData-main{
+  margin: 0 auto;
+  width: 800px;
+  .personalData-header{
+    margin-bottom: 36px;
+    @include box-sizing(content-box);
+    height: 48px;
+    border-bottom: 1px solid #dcdcdc;
+    h1{
+      position: relative;
+      bottom: -1px;
+      display: inline-block;
+      height: 48px;
+      line-height: 48px;
+      font-size: 16px;
+      border-bottom: 2px solid #ef7a00;
+    }
+  }
+}
+
+.headPortrait-part{
+  .upload{
+    .upload-btn{
+      width: 162px;
+      height: 32px;
+      border: 1px solid #3fa7e1;
+      color: #3fa7e1;
+      font-size: 14px;
+      background: #fff;
+      @include border-radius(3px);
+    }
+    .upload-box{
+      width: 162px;
+      height: 32px;
+      a{
+        height: 32px;
+        line-height: 30px;
+        border: 1px solid #3fa7e1;
+        color: #3fa7e1;
+        background: #fff;
+        font-size: 14px;
+
+      }
+    }
+    .index_img{
+      @include inline-block;
+    }
+  }
+
+  .chooce-pic{
+    padding: 20px 20px 12px;
+    background: #f2f2f2;
+    ul{
+      @include clearfix();
+    }
+    h2{
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #222;
+      line-height: 25px;
+    }
+    li{
+       margin: 0 15px 8px 0;
+      float: left;
+      height: 100px;
+      a{
+        position: relative;
+        display: block;
+        width: 100px;
+        height: 100%;
+      }
+      .add{
+        .img-box{
+          background: url(../images/add.png) center center no-repeat #f2f2f2;
+        }
+      }
+      .icon-selected{
+        display: none;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin-right: 0;
+        width: 25px;
+        height: 25px;
+        background: url(../images/icons/comfirm02.png) no-repeat;
+      }
+      .selected .icon-selected{
+        display: block;
+      }
+    }
+    .headPortrait-box-wrap{
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
+.headPortrait-box-wrap{
+  width: 164px;
+  height: 164px;
+  padding: 3px;
+  @include border-radius(8px);
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  .img-box{
+    width: 100% !important;
+    height: 100% !important;
+    @include border-radius(8px);
+    overflow: hidden;
+    text-align: center;
+    img{
+      width: auto;
+      max-width: 100%;
+    }
+  }
+}
+.selected .headPortrait-box-wrap{
+  border: 1px solid #ffae00;
+}
+
+.txt-input{
+  width: 260px;
+  height: 30px;
+  .input-txt{
+    padding: 0 10px;
+    input{
+      height: 28px;
+      line-height: 24px;
+      vertical-align: top;
+    }
+  }
+  .dw{
+    position: absolute;
+    top: 0;
+    left: 8px;
+    display: inline-block;
+    line-height: 30px;
+  }
+}
+
+.form_control{
+  .message-tips{
+    padding-left: 310px;
+    text-align: left;
+  }
+}
+
+.product-sp{
+  .price .input-txt{
+    padding: 0 15px 0 20px;
+  }
+  .message-tips-wrap{
+    @include clearfix();
+  }
+  .op{
+    a{
+      display: inline-block;
+      width: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 28px;
+      color: #999;
+      &:hover{
+        color: $color1;
+      }
+    }
+  }
+}
+

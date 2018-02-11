@@ -1,0 +1,408 @@
+@charset "utf-8";
+#HCloseBtn{
+  @include border-radius(50%);
+  background: transparent;
+  border: 2px solid #999;
+  span{
+    color: #999;
+  }
+}
+//验证弹框
+#pop_01,#pop_02{
+  display: none;
+  padding: 20px 10px;
+  @include border-radius(5px);
+  p{
+    line-height: 70px;
+    &:first-child{
+      font-size: 18px;
+      font-weight: bold;
+    }
+    a{
+      margin:0 10px;
+    }
+  }
+  i{
+    display: block;
+    margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 1px;
+    img{
+      width: 100%;
+    }
+  }
+}
+#pop_02{
+  i{
+    display: block;
+    margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    img{
+      width: 100%;
+    }
+  }
+  p{
+    line-height: 55px;
+    a{
+      //width: 150px;
+    }
+  }
+}
+
+//取消订单弹框
+#popDelete{
+  display: none;
+  @include border-radius(5px);
+  .tit{
+    line-height: 60px;
+    @include border-top-radius(7px);
+    background: #fff8e9;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 0 20px;
+    font-size: 16px;
+    text-align: left;
+    color: #333;
+    strong{
+      font-weight: bold;
+    }
+  }
+  .con{
+    padding: 20px;
+    h5{
+      line-height: 40px;
+      border-bottom: 1px solid #dcdcdc;
+      font-size: 16px;
+      span{
+        @include inline-block;
+        border-bottom: 2px solid $color1;
+      }
+    }
+    p{
+      line-height: 55px;
+      color: $color9;
+      span{
+        @include inline-block;
+        min-width: 120px;
+        margin-right: 10px;
+      }
+      em{
+        color: #222;
+      }
+    }
+  }
+  .select_nub,.remind{
+    color: #333;
+    >span{
+      @include inline-block;
+      vertical-align: top;
+      width: 70px;
+      line-height: 30px;
+      text-align: right;
+    }
+
+  }
+  .remind{
+    margin: 10px 0;
+    >ul{
+      @include inline-block;
+      vertical-align: top;
+      width: 470px;
+      li{
+        font-size: 12px;
+        line-height: 30px;
+        text-align: left;
+        color: #666;
+      }
+    }
+  }
+  .btns{
+    padding-left: 70px;
+    a{
+      margin-right: 20px;
+    }
+  }
+  .btn-close{
+    @include inline-block;
+    color: #dcdcdc;
+    float: right;
+    i{
+      font-size: 30px;
+    }
+  }
+}
+
+//关闭场地弹框
+#pop_close{
+  display: none;
+  padding: 50px 35px;
+  @include border-radius(5px);
+  text-align: center;
+  strong{
+    font-size: 18px;
+    font-weight: bold;
+    i{
+      color: #ff4800;
+      font-size: 30px;
+      vertical-align: sub;
+      margin-right: 10px;
+      font-weight: 100;
+    }
+  }
+  p{
+    line-height: 25px;
+    color: #ef0006;
+    margin: 21px 0;
+    margin-bottom: 25px;
+
+    a{
+      margin: 0 5px;
+      padding: 0 10px;
+    }
+  }
+}
+#pop_03{
+  display: none;
+  padding: 50px 35px;
+  @include border-radius(5px);
+  p{
+    line-height: 20px;
+    span{
+      color: $color11;
+    }
+  }
+  a{
+    margin:0 10px;
+  }
+}
+#pop_audit,#pop_audit_2{
+  display: none;
+  @include border-radius(5px);
+  text-align: center;
+  h3{
+    line-height: 60px;
+    color: $color1;
+    font-size: 16px;
+    background: #fff8e9;
+    border-bottom: 1px solid #dcdcdc;
+    text-align: left;
+    padding: 0 20px ;
+    @include border-top-radius(5px);
+  }
+  p{
+    line-height: 60px;
+    margin: 20px;
+    label{
+      margin-right:30px;
+    }
+    //input{
+    //  vertical-align: middle;
+    //  margin-right: 5px;
+    //}
+  }
+}
+
+#pop_5{
+  p{
+    line-height: 90px;
+    margin-top: 15px;
+  }
+  .btns{
+    a{
+      margin: 0 10px;
+    }
+  }
+ }
+.pop_box{
+  @include border-radius(5px);
+  h3{
+    line-height: 60px;
+    color: $color1;
+    font-size: 16px;
+    background: #fff8e9;
+    border-bottom: 1px solid #dcdcdc;
+    text-align: left;
+    padding: 0 20px ;
+    @include border-top-radius(5px);
+  }
+  .con{
+    padding:25px 40px;
+    .tit{
+      text-align: center;
+      line-height: 40px;
+      border-bottom: 1px dashed #dcdcdc;
+      @include clearfix();
+      strong{
+        font-weight: bold;
+      }
+    }
+    .pull-right{
+      color: #777;
+    }
+    .price{
+      color: #ef7a00;
+      line-height: 50px;
+      span{
+        color: #ff4800;
+        margin-left: 25px;
+      }
+    }
+    dl{
+      padding: 15px;
+      background: #fafafa;
+      dt{
+        display: inline-block;
+        vertical-align: top;
+        line-height: 25px
+      }
+      dd{
+        @include inline-block;
+      }
+      dt{
+        width: 45px;
+      }
+      dd{
+        width: 350px;
+        span{
+          @include inline-block;
+          padding: 0 10px;
+          text-align: center;
+          line-height: 25px
+        }
+      }
+    }
+    .btns{
+      margin-top: 30px;
+    }
+  }
+  .con2{
+    padding: 15px 170px;
+    p,h5{
+      line-height: 35px;
+    }
+    p{
+      border: 1px solid #dcdcdc;
+      @include border-radius(7px);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  }
+  .con3{
+    padding: 25px 85px;
+    p{
+      margin-bottom: 10px;
+      input[type='text']{
+        @include inline-block;
+        width: 150px;
+        border: 1px solid #dcdcdc;
+      }
+    }
+    .tarticle{
+      span{
+        @include inline-block;
+        float: left;
+        line-height: 35px;
+      }
+      label{
+        display: block;
+        margin-left: 70px;
+        line-height: 35px;
+      }
+    }
+  }
+  .line_hg{
+    line-height: 30px;
+    margin-bottom: 10px;
+    span:first-child{
+      @include inline-block;
+      width: 70px;
+    }
+    em{
+      color: #777;
+    }
+    .on{
+      color: $color;
+    }
+    strong{
+      font-weight: bold;
+    }
+    label{
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    textarea{
+      width: 340px;
+      height: 80px;
+      border: 1px solid #DCDCDC;
+      padding: 5px;
+    }
+    input[type='text'],input[type='password']{
+      vertical-align: middle;
+      height: 30px;
+      border: 1px solid #dcdcdc;
+    }
+  }
+  .table-layout{
+    margin-bottom: 15px;
+    margin-top: 10px;
+    th{
+      background: #f6f6f6;
+    }
+  }
+  .offset{
+    margin-left: 70px;
+    margin-top: 15px !important;
+    a{
+      margin-right: 15px;
+    }
+  }
+  .form-control{
+    padding-left: 150px;
+    .input-control{
+      line-height: 35px;
+      label{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        &:hover{
+          color: $color1;
+        }
+      }
+      input{
+        margin-left: -15px;
+      }
+    }
+    p{
+      margin-left: -12px;
+      line-height: 25px;
+      strong{
+        color: $color1;
+        font-weight: bold;
+      }
+    }
+  }
+}
+#popDelete04{
+  h5{
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .text-center{
+    margin-top: 20px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+

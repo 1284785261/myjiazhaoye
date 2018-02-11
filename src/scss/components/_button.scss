@@ -1,0 +1,335 @@
+@charset "utf-8";
+.btn-null {
+  @include btn(
+  $width: 160px,
+  $height: 35px,
+  $bgColor: $color1,
+  $fontSize: 18px,
+  $color: #ffffff,
+  $margin: null,
+  $radius: 5px,
+  $padding: 0 15px);
+}
+.btn-null2 {
+  @include btn(
+  $width: 120px,
+  $height: 30px,
+  $bgColor: $color1,
+  $fontSize: 14px,
+  $color: #ffffff,
+  $margin: null,
+  $radius: 5px,
+  $padding: 0 15px);
+}
+.btn-submit {
+  @include btn(
+  $width: 120px,
+  $height: 40px,
+  $bgColor: $color1,
+  $fontSize: 18px,
+  $color: #ffffff,
+  $margin: null,
+  $radius: 5px,
+  $padding: 0 15px);
+}
+
+.btn-submit01 {
+  @include btn(
+  $width: auto,
+  $height: 40px,
+  $bgColor: $color5,
+  $fontSize: 18px,
+  $color: #ffffff,
+  $margin: null,
+  $radius: 7px,
+  $padding: 0 38px);
+}
+.btn-shop{
+  @include btn($width:200px,
+  $height:50px,
+  $bgColor:$color1,
+  $fontSize:20px,
+  $color:#fff,
+  $margin:0,
+  $radius:8px,
+  $padding:0
+  );
+}
+.btn-add{
+  @include btn($width:200px,
+  $height:50px,
+  $bgColor:$color8,
+  $fontSize:20px,
+  $color:#fff,
+  $margin:0,
+  $radius:8px,
+  $padding:0
+  );
+}
+.btn-vip{
+  @include btn($width:140px,
+  $height:40px,
+  $bgColor:$color1,
+  $fontSize:18px,
+  $color:#fff,
+  $margin:0,
+  $radius:8px,
+  $padding:0
+  );
+}
+.btn-small01{
+  @include btn($width:auto,
+  $height:20px,
+  $bgColor:$color1,
+  $fontSize:12px,
+  $color:#fff,
+  $margin:0,
+  $radius:5px,
+  $padding:0 5px
+  );
+}
+.btn-small02{
+  @include btn($width:90px,
+  $height:30px,
+  $bgColor:$color5,
+  $fontSize:14px,
+  $color:#fff,
+  $margin:0,
+  $radius:5px,
+  $padding:0
+  );
+}
+.btn-small03{
+  @include btn($width:90px,
+  $height:30px,
+  $bgColor:#f2f2f2,
+  $fontSize:14px,
+  $color:#333,
+  $margin:0,
+  $radius:5px,
+  $padding:0
+  );
+}
+.btn-small04{
+  @include btn($width:90px,
+  $height:30px,
+  $bgColor:#f2f2f2,
+  $fontSize:14px,
+  $color:#777,
+  $margin:0,
+  $radius:5px,
+  $padding:0
+  );
+}
+
+.btn-del01{
+  @include btn($width:100%,
+  $height:40px,
+  $bgColor:$color5,
+  $fontSize:18px,
+  $color:#fff,
+  $margin:0,
+  $radius:5px,
+  $padding:0 25px
+  );
+}
+.btn-default02{
+  @include btn($width:auto,
+  $height:40px,
+  $bgColor:$color1,
+  $fontSize:18px,
+  $color:#fff,
+  $margin:0,
+  $radius:5px,
+  $padding:0 25px
+  );
+}
+.btn-save{
+  @include btn($width:140px,
+  $height:40px,
+  $bgColor:$color5,
+  $fontSize:18px,
+  $color:#fff,
+  $margin:0,
+  $radius:5px,
+  $padding:0 15px
+  );
+}
+.btn-preview2{
+  @include btn($width:140px,
+  $height:40px,
+  $bgColor:#f2f2f2,
+  $fontSize:18px,
+  $color:#777,
+  $margin:0,
+  $radius:5px,
+  $padding:0 15px
+  );
+}
+
+.btn-detail {
+  @include btn($width: 240px,
+  $height: 50px,
+  $bgColor: #ffb50a,
+  $fontSize: 18px,
+  $color: #fff,
+  $margin: 0,
+  $radius: 8px,
+  $padding: 0
+  );
+}
+.btn-show{
+  @include btn($width: 120px,
+  $height: 40px,
+  $bgColor: #6bbeec,
+  $fontSize: 16px,
+  $color: #fff,
+  $margin: 0,
+  $radius: 0,
+  $padding: 0
+  );
+}
+
+
+.btn-address01,.btn-address02{
+  display: inline-block;
+  width: 160px;
+  margin: 0;
+  line-height: 40px;
+  margin-left: 50px;
+  font-size: 18px;
+  text-align: center;
+  @include border-radius(8px);
+    input{
+      display: none;
+    }
+  i{
+    margin-right: 3px;
+  }
+}
+.btn-default03{
+  @include inline-block;
+  width: 90px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+  color: #666;
+  background: #f2f2f2;
+  @include border-radius(5px);
+  &:hover{
+    border-color: $color5;
+    background: $color5;
+    color: #fff;
+  }
+}
+
+
+.btn-small03{
+  border:1px solid #DCDCDC;
+  &:hover{
+    border-color: #333;
+  }
+}
+
+.btn-again{
+  @include inline-block;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #dcdcdc;
+  color: #666;
+  background: #fff;
+  margin: 5px 0;
+  @include border-radius(5px);
+  transition-duration:0.2s;
+  @include border-radius(5px);
+  &:hover{
+    border-color: $color1;
+    background: #fff;
+    color: $color1;
+  }
+}
+
+.btn-preview{
+  @include inline-block;
+  width: 70px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #dcdcdc;
+  background: #f2f2f2;
+  margin: 10px 0;
+  transition-property:all;
+  transition-duration:0.2s;
+  @include border-radius(5px);
+  &:hover{
+    border-color: $color1;
+    background: #fff;
+    color: $color1;
+  }
+}
+.btn-preview3{
+  @include inline-block;
+  width: 40px;
+  height: 20px;
+  line-height: 18px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #dcdcdc;
+  background: #f2f2f2;
+  transition-property:all;
+  transition-duration:0.2s;
+  @include border-radius(5px);
+  &:hover{
+    border-color: $color5;
+    background:$color5;
+    color: #fff;
+  }
+}
+.btn-preview4{
+  @include inline-block;
+  width: 140px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #dcdcdc;
+  background: #f2f2f2;
+  color: #666;
+  cursor: pointer;
+  transition-property:all;
+  transition-duration:0.2s;
+  @include border-radius(5px);
+  &:hover{
+    border-color: $color5;
+    background:$color5;
+    color: #fff;
+  }
+}
+
+.btn-box{
+  .btn-again02{
+    @include inline-block;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid #dcdcdc;
+    color: #666;
+    background: #fff;
+    margin: 5px 0;
+    @include border-radius(5px);
+    transition-duration:0.2s;
+    @include border-radius(5px);
+    &:hover{
+      border-color: $color1;
+      background: #fff;
+      color: $color1;
+    }
+  }
+}
+

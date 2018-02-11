@@ -1,0 +1,138 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+.icon-ask {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -51px 0px;
+  width: 21px;
+  height: 17px;
+}
+.icon-close2 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: 0px -26px;
+  width: 25px;
+  height: 24px;
+}
+.icon-date_icon {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -19px -50px;
+  width: 16px;
+  height: 16px;
+}
+.icon-icon_down {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -53px -67px;
+  width: 11px;
+  height: 10px;
+}
+.icon-icon_up {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -42px -67px;
+  width: 11px;
+  height: 10px;
+}
+.icon-login {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -14px -67px;
+  width: 14px;
+  height: 14px;
+}
+.icon-login02 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -35px -50px;
+  width: 14px;
+  height: 16px;
+}
+.icon-look {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -51px -17px;
+  width: 21px;
+  height: 17px;
+}
+.icon-map {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -72px -40px;
+  width: 13px;
+  height: 18px;
+}
+.icon-news {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -26px 0px;
+  width: 25px;
+  height: 24px;
+}
+.icon-out02 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -86px 0px;
+  width: 10px;
+  height: 11px;
+}
+.icon-phone {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -72px 0px;
+  width: 14px;
+  height: 20px;
+}
+.icon-phone2 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -72px -20px;
+  width: 14px;
+  height: 20px;
+}
+.icon-post {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: 0px 0px;
+  width: 26px;
+  height: 26px;
+}
+.icon-project {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: 0px -50px;
+  width: 19px;
+  height: 17px;
+}
+.icon-register {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -49px -50px;
+  width: 14px;
+  height: 16px;
+}
+.icon-register02 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: 0px -67px;
+  width: 14px;
+  height: 16px;
+}
+.icon-star {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -25px -26px;
+  width: 21px;
+  height: 17px;
+}
+.icon-star2 {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -51px -34px;
+  width: 18px;
+  height: 16px;
+}
+.icon-warning {
+  background-image: url(../images/sprites/sprite.png);
+  background-position: -28px -67px;
+  width: 14px;
+  height: 14px;
+}
