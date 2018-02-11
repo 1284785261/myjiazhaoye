@@ -242,7 +242,7 @@
       getRoomBillList(params){
         let vm = this;
         this.$http.get(CxkjGetOrderDebtList300183,{params:params}).then(res=>{
-          if(res.data.code == 10000){debugger
+          if(res.data.code == 10000){
             vm.roomBillList = res.data.pageBean.page;
             vm.totalNum = res.data.pageBean.totalNum;
           }else{
@@ -276,7 +276,7 @@
           params.endDate = new Date(this.createEndTime).Format("yyyy-MM-dd hh:mm:ss")
         }
 
-        this.getRoomBillList(params);debugger
+        this.getRoomBillList(params);
       },
       //提交创建哑帐按钮
       createRoomBill(){

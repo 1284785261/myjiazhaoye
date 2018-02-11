@@ -154,7 +154,7 @@ import qs from 'qs';
   }
   .titp{
   	position: absolute;
-    top: 51.6%;
+    top: 50%;
     display: inline-block;
     height: 20px;
     font-size: 12px;

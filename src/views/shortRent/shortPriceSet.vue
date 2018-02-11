@@ -432,7 +432,7 @@
                 for (let p = 0; p < pane; p++) {
                     let date = new Date(year, month + p)
                     let monthCounts = this.getDayCount(date.getFullYear(), date.getMonth())
-                    console.log(monthCounts);
+                    // console.log(monthCounts);
                     for (let i = 1; i <= monthCounts; i++) {
                         data.push({
                             date: this.stringify(new Date(year, month + p, i)),
@@ -449,7 +449,7 @@
                     Dates = year +'-'+(month+1)+'-01';
                 }
                 this.getPriceInfo(data,Dates);
-                console.log(data);
+                // console.log(data);
                 return data
             },
             getPriceInfo(data,Dates){
@@ -458,7 +458,7 @@
                         communityId:this.stationCommunity,
                         startDate:Dates
                     })).then((res)=>{
-                        console.log(res);
+                        // console.log(res);
                         if(res.status == 200 && res.data.code == 10000){
                             this.DayPrice = res.data.entity;
                             for(let i = 0;i<data.length;i++){

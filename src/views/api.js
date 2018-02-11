@@ -405,6 +405,9 @@ const RoomDayRecord = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomDay
 
 //编辑价格日历
 const PmsRoomDayPrices = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomDayPrice200200'
+
+//获取产品日历列表
+const PmsRoomProductCalendar = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomProductCalendar200207'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -539,6 +542,7 @@ export const PmsRoomPriceCode200199 = host3 + PmsRoomPriceCode;
 export const RoomDayRecord200202 = host3 + RoomDayRecord;
 export const RoomDayPriceInfo200201 = host3 + RoomDayPriceInfo;
 export const PmsRoomDayPrices200200 = host3 + PmsRoomDayPrices;
+export const PmsRoomProductCalendar200207 = host3 + PmsRoomProductCalendar;
 export const host = host3;
 //export default {
 //hosts:function(){

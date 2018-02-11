@@ -569,13 +569,13 @@
 			padding: 0 10px;
 		}
 	}
-	#rightwork{
-		margin-left: 240px;
-	    position: relative;
-	    padding-bottom: 160px;
-		min-height: 1300px;
-		background-color: #f0f0f0!important;
-	}
+	// #rightwork{
+	// 	margin-left: 240px;
+	//     position: relative;
+	//     padding-bottom: 160px;
+	// 	min-height: 1200px;
+	// 	background-color: #f0f0f0!important;
+	// }
 	.workbens li{
 		position: relative;
 	}
