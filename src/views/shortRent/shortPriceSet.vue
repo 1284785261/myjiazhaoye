@@ -209,9 +209,17 @@
                         if(res.data.entity.roomTypeMap){
                             
                             for(let i = 0;i < res.data.entity.roomTypeMap.length;i++){
+                              let index = vm.longHousetype.findIndex(item=> item.housetypeName == res.data.entity.roomTypeMap[i].housetypeName)
+                              console.log(index+'index')
+                              if(index<0){
                                 vm.longHousetype.push({housetypeName:res.data.entity.roomTypeMap[i].housetypeName});
                                 vm.shortHousetype.push({pmsRoomTypename:res.data.entity.roomTypeMap[i].pmsRoomTypename,roomTypeId:res.data.entity.roomTypeMap[i].roomTypeId});
+                              }
+
                             }
+                            console.log(vm.longHousetype)
+                            console.log(vm.shortHousetype)
+
                         }
                         if(res.data.entity.roomPriceMap){
                             vm.shortPriceroom = res.data.entity.roomPriceMap;

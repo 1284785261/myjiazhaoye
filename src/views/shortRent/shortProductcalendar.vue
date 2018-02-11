@@ -150,6 +150,9 @@
             getCommunity(){
                 let vm = this
                 let value = sessionStorage.getItem('communityId');
+              this.productList.weeks = [];
+              this.productList.datalist = [];
+              this.calenderProductLists.lists = [];
                 axios.get(allCommunity).then(function(res){
                     if(res.status == 200 && res.data.code == 10000){
                         vm.stationSelectList = res.data.entity;
@@ -158,9 +161,13 @@
                         }else{
                             vm.stationCommunity = parseInt(vm.stationSelectList[0].communityId);
                         }
-                        vm.productCalendarData(vm.stationCommunity);
+//                        vm.calendarTime = new Date();
+//                        vm.productCalendarData(vm.stationCommunity);
                     }
                 })
+//              this.productList.weeks = [];
+//              this.productList.datalist = [];
+//              this.calenderProductLists.lists = [];
             },
             inquire(){
                 this.productCalendarData(this.stationCommunity);
@@ -223,7 +230,7 @@
                             
                         }
                     }
-                        // console.log(this.calenderProductLists);
+                        console.log(this.calenderProductLists);
                     })
             },
             //切换社区事件
@@ -240,10 +247,16 @@
                 this.productList.weeks = [];
                 this.productList.datalist = [];
                 this.calenderProductLists.lists = [];
-                this.calendarDatas(value);
+//                this.calendarTime = new Date(value).Format("yyyy-MM-dd")
+              this.calendarTime = new Date(value).Format("yyyy-MM-dd");
+              this.productCalendarData(this.stationCommunity);
+
             },
             //遍历当前天后的14天数
             calendarDatas(value){
+//              this.productList.weeks = [];
+//              this.productList.datalist = [];
+//              this.calenderProductLists.lists = [];
                 for(let i= 0;i < 14;i++){
                     let DataSour = new Date(value);
                     let data = new Date(value).Format("yyyy-MM-dd");

@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted(){
-      if(sessionStorage.getItem('userType') && sessionStorage.getItem('userType') == '测试'){
+      if(sessionStorage.getItem('urlType') && sessionStorage.getItem('urlType') == '测试'){
         this.userType = true
       }
   },
