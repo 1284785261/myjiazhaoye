@@ -238,7 +238,7 @@
 				messsaget:null,
 				show1:false,
 				show2:false,
-              userType
+              userType:false
 			}
 		},
 		mounted() {
