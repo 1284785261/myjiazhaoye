@@ -44,6 +44,11 @@
                           <short-setting-list @successUpload ="successUpload()"></short-setting-list>
                         </div>
                     </Tab-pane>
+                    <Tab-pane label="社区房间状态">
+                        <div class="message-ti">
+                          <short-term-item @successUpload ="successUpload()"></short-term-item>
+                        </div>
+                    </Tab-pane>
 
                 </Tabs>
             </div>
@@ -97,6 +102,7 @@
   import shortSettingList from './shortSettingList.vue';
   import shortPriceSet from './shortPriceSet.vue';
   import shortProductCalendar from './shortProductCalendar.vue';
+  import shortTermItem from '../signed/shortTermItem.vue';
   import axios from 'axios';
   import { hostActivity,hostActivityModify,hostActivityInvite,PmsRoomPriceCode200199,PmsRoomDayPrices200200 } from '../api.js';
   import qs from 'qs';
@@ -113,7 +119,8 @@
       shortRoomBillList,
       shortSettingList,
       shortPriceSet,
-      shortProductCalendar
+      shortProductCalendar,
+      shortTermItem
     },
     data() {
       return {

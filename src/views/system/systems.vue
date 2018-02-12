@@ -229,6 +229,55 @@
 				    		</div>
 						</div>
 					</el-tab-pane>
+                    <el-tab-pane label="公司管理" v-if="jurisdiction('POWER_QUERY')">
+						<div class="systems">
+							<div class="adad">
+								<a @click="addCommunity" v-if="jurisdiction('POWER_INCREASE')"> + 新增</a>
+								<!--<a @click="delCommunity" v-if="jurisdiction('POWER_DELETE')">批量删除</a>-->
+								<a @click="opeCommunity" v-if="jurisdiction('POWER_UPDATE')">批量开放</a>
+								<a @click="cloCommunity" v-if="jurisdiction('POWER_UPDATE')">批量关闭</a>
+							</div>
+							<div v-if="Communitys != null">
+								<table>
+									<thead>
+										<td>
+											<Checkbox v-model="single4" @click.prevent.native="handleCheckAll4"></Checkbox>
+										</td>
+										<td>公司名称</td>
+										<td>上级公司</td>
+										<td>银行账号</td>
+										<td>微信账号</td>
+										<td>支付宝账号</td>
+										<td>创建人</td>
+										<td>创建日期</td>
+										<td>状态</td>
+										<td width="100px">操作 </td>
+									</thead>
+									<tr v-for="(item,index) in Communitys">
+										<td>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange4(item.sing,index)"></Checkbox>
+										</td>
+										<td>{{item.powerName}}</td>
+										<td>{{item.userName}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td>{{item.createtime | time}}</td>
+										<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
+										<td>
+											<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}" v-if="jurisdiction('POWER_UPDATE')">编辑</router-link>
+										</td>
+									</tr>
+								</table>
+								<el-pagination @current-change="handleCurrentChange5" :current-page="currentPage5" :page-size=pageSize5 layout=" prev, pager, next, total,jumper" :total=totalNum5>
+								</el-pagination>
+							</div>
+							<div v-else class="kbt">
+				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
+				    		</div>
+						</div>
+					</el-tab-pane>
 				</el-tabs>
 			</div>
 			<footer-box></footer-box>

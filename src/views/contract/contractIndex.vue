@@ -66,6 +66,7 @@
                     <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
+                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -138,6 +139,7 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
+                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -218,6 +220,27 @@
       </div>
       <footer-box></footer-box>
     </div>
+      <div class="black-member-modal" v-if="collectionShow" @click="closeWhileModal()"></div>
+      <div class="blackModelCenter" v-if="collectionShow">
+          <p>收款登记</p>
+          <div class="inputBox">
+              <span>银行流水号：</span><Input v-model="collection.bankWater" placeholder="银行流水号"></Input>
+          </div>
+          <div class="inputBox">
+              <span>凭证号：</span><Input v-model="collection.certificate" placeholder="凭证号"></Input>
+          </div>
+          <div class="inputBox">
+              <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额"></Input>
+          </div>
+          <div class="modal-btn">
+              <Button type="primary" @click="setWhileMember()">收款完成</Button>
+              <Button type="primary" @click="setWhileMember()">部分收款</Button>
+              <Button  @click="setWhileMember()">取消</Button>
+          </div>
+          <div class="modal-close-btn" @click="closeWhileModal()">
+              <Icon type="ios-close-empty"></Icon>
+          </div>
+      </div>
 
   </div>
 
@@ -252,8 +275,13 @@ export default {
         roomStartDate:"",//公寓签约开始时间
         roomEndDate:"",//公寓签约结束时间
         roomSearchKey:"",//公寓搜索关键字
-
-
+       collectionShow:false,//收款显示弹框
+       collection:{
+         contractSignId:'',//收款合同ID
+         bankWater:'',//收款银行流水
+         certificate:'',//收款凭证
+         paymentAmount:''//收款金额
+       },
         officeContractSelects:[{
           communityId: -1,
           communityName: '全部'
@@ -329,6 +357,19 @@ export default {
   methods: {
     changeTab(tab){
       sessionStorage.setItem("contractIndexTab",tab);
+    },
+    /**
+     * 收款弹框显示
+     **/
+    collectionModelShow(contractSignId){
+      this.collectionShow = true
+      this.collection.contractSignId = contractSignId
+    },
+    /**
+     * 收款弹框隐藏
+     **/
+    closeWhileModal(){
+      this.collectionShow = false
     },
     getCommunityData(){
       var that = this;

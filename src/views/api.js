@@ -14,11 +14,16 @@ export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_r
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 // const host3 = 'http://192.168.20.135:8091';//李志guang
-//const host3 = 'http://192.168.20.124:8080';//周昭滨
+// const host3 = 'http://192.168.20.124:8080';//周昭滨
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
+// const host3 = 'http://192.168.20.234:8081';//周昭滨2
 
 //查看合同pdf文件
 export const PdfDocmentUpload200173= `${host3}/cxkj-room/apis/appMgr/sign/CxkjCommunityDocmentUploadPC200179`//合同查看pdf文件
+
+
+// 查看合同pdf文件
+export const CxkjCommunityPmsRoomList500150= `${host3}/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomList500150`
 
 //用户登录接口
 
