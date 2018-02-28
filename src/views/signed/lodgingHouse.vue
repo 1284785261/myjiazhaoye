@@ -128,11 +128,11 @@
 									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire"></Date-picker>
+									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
 								</li>
 								<ul class="apartment">
 									<li v-for="(apps,index) in apartments">
-										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}}</a>
+										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}} {{apps.discount}}</a>
 									</li>
 								</ul>
 							</ul>
@@ -143,7 +143,15 @@
 								<p>租金和付款方式:</p>
 								<table>
 									<tr>
-										<td>首笔支付:</td>
+										<td>租金原价:</td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
+									</tr>
+									<tr>
+										<td>押金:</td>
+										<td><input type="text" placeholder="请输入月数" v-model="housetderta.roomRent" maxlength="10" style="width:120px;"><span>月</span></td>
+									</tr>
+									<tr>
+										<td>支付方式:</td>
 										<td>
 											<el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
 												<el-option v-for="item in options3" :key="item.name" :value="item.name">
@@ -152,12 +160,12 @@
 										</td>
 									</tr>
 									<tr>
-										<td>租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
-									</tr>
-									<tr>
 										<td>租金折扣/浮动比例:</td>
 										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
+									</tr>
+									<tr>
+										<td>折后租金:</td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
 									</tr>
 									<tr>
 										<td>服务费:</td>
@@ -462,11 +470,11 @@
 									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire"></Date-picker>
+									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
 								</li>
 								<ul class="apartment">
 									<li v-for="(apps,index) in apartments">
-										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}}</a>
+										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}}  {{apps.discount}}</a>
 									</li>
 								</ul>
 							</ul>
@@ -476,7 +484,15 @@
 								<p>租金和付款方式:</p>
 								<table>
 									<tr>
-										<td>首笔支付:</td>
+										<td>租金原价:</td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
+									</tr>
+									<tr>
+										<td>押金:</td>
+										<td><input type="text" placeholder="请输入月数" v-model="housetderta.roomRent" maxlength="10" style="width:120px;"><span>月</span></td>
+									</tr>
+									<tr>
+										<td>支付方式:</td>
 										<td>
 											<el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
 												<el-option v-for="item in options3" :key="item.name" :value="item.name">
@@ -485,12 +501,12 @@
 										</td>
 									</tr>
 									<tr>
-										<td>租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
+										<td>租金折扣/浮动比例:</td>
+										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
 									</tr>
 									<tr>
-										<td>租金折扣/浮动比例:</td>
-										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="10"><span>%</span></td>
+										<td>折后租金:</td>
+										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
 									</tr>
 									<tr>
 										<td>服务费:</td>
@@ -814,16 +830,20 @@
 				ieList: [],
 				value2: '',
 				apartments: [{
-						dats: '一年'
+						dats: '一年',
+						discount:'90%'
 					},
 					{
-						dats: '六个月'
+						dats: '六个月',
+						discount:'90%'
 					},
 					{
-						dats: '三个月'
+						dats: '三个月',
+						discount:'90%'
 					},
 					{
-						dats: '一个月'
+						dats: '一个月',
+						discount:'90%'
 					}
 				],
 				activ: '0',

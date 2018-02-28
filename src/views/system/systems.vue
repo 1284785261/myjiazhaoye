@@ -232,20 +232,19 @@
                     <el-tab-pane label="公司管理" v-if="jurisdiction('POWER_QUERY')">
 						<div class="systems">
 							<div class="adad">
-								<a @click="addCommunity" v-if="jurisdiction('POWER_INCREASE')"> + 新增</a>
+								<a @click="addCompanys" v-if="jurisdiction('POWER_INCREASE')"> + 新增</a>
 								<!--<a @click="delCommunity" v-if="jurisdiction('POWER_DELETE')">批量删除</a>-->
-								<a @click="opeCommunity" v-if="jurisdiction('POWER_UPDATE')">批量开放</a>
-								<a @click="cloCommunity" v-if="jurisdiction('POWER_UPDATE')">批量关闭</a>
+								<a @click="opeCompanys" v-if="jurisdiction('POWER_UPDATE')">批量开放</a>
+								<a @click="cloCompanys" v-if="jurisdiction('POWER_UPDATE')">批量关闭</a>
 							</div>
-							<div v-if="Communitys != null">
+							<div v-if="Companys != null">
 								<table>
 									<thead>
 										<td>
-											<Checkbox v-model="single4" @click.prevent.native="handleCheckAll4"></Checkbox>
+											<Checkbox v-model="single5" @click.prevent.native="handleCheckAll5"></Checkbox>
 										</td>
 										<td>公司名称</td>
 										<td>上级公司</td>
-										<td>银行账号</td>
 										<td>微信账号</td>
 										<td>支付宝账号</td>
 										<td>创建人</td>
@@ -253,24 +252,23 @@
 										<td>状态</td>
 										<td width="100px">操作 </td>
 									</thead>
-									<tr v-for="(item,index) in Communitys">
+									<tr v-for="(item,index) in Companys">
 										<td>
-											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange4(item.sing,index)"></Checkbox>
+											<Checkbox v-model="item.sing" @on-change="checkAllGroupChange5(item.sing,index)"></Checkbox>
 										</td>
-										<td>{{item.powerName}}</td>
+										<td>{{item.name}}</td>
+										<td>{{item.parentName}}</td>
+										<td>{{item.wxpayAppId}}</td>
+										<td>{{item.alipayAppId}}</td>
 										<td>{{item.userName}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td>{{item.createtime | time}}</td>
-										<td :class="{acts:item.powerStatus == 1}">{{item.powerStatus | Status}}</td>
+										<td>{{item.createTime | time}}</td>
+										<td :class="{acts:item.status == 0}">{{item.status | Status2}}</td>
 										<td>
-											<router-link :to="{path:'/system/allotjuris',query:{id:item.powerId}}" v-if="jurisdiction('POWER_UPDATE')">编辑</router-link>
+											<a v-if="jurisdiction('POWER_UPDATE')" @click="compileCompany(item.id)">编辑</a>
 										</td>
 									</tr>
 								</table>
-								<el-pagination @current-change="handleCurrentChange5" :current-page="currentPage5" :page-size=pageSize5 layout=" prev, pager, next, total,jumper" :total=totalNum5>
+								<el-pagination @current-change="handleCurrentChange6" :current-page="currentPage6" :page-size=pageSize6 layout=" prev, pager, next, total,jumper" :total=totalNum6>
 								</el-pagination>
 							</div>
 							<div v-else class="kbt">
@@ -354,10 +352,16 @@
             <a @click="qsm10">确定</a>
             <a @click="qb10">取消</a>
         </div>
+		<div class="lose" v-show="CompanyisShow">
+			<span>确认<i>{{titles}}</i>以下公司吗？</span>
+			<p></p>
+			<a @click="confirmCompany">确定</a>
+			<a @click="closeCompanys">取消</a>
+		</div>
 		<div class="addsection" v-show="isShowadd">
 			<i class="el-icon-circle-close" @click="inst"></i>
 			<p>新增部门</p>
-			<table>
+			<table class="mttable">
 				<tr>
 					<td>部门：</td>
 					<td><input type="text" placeholder="请设置部门" v-model="test" /></td>
@@ -377,7 +381,7 @@
 		<div class="addsection" v-show="amends">
 			<i class="el-icon-circle-close" @click="inst2"></i>
 			<p>编辑部门</p>
-			<table>
+			<table class="mttable">
 				<tr>
 					<td>部门：</td>
 					<td><input type="text" placeholder="请设置部门" v-model="test2" /></td>
@@ -397,7 +401,7 @@
 		<div class="addsection" v-show="staffs">
 			<i class="el-icon-circle-close" @click="inst3"></i>
 			<p>{{adds2}}</p>
-			<table>
+			<table class="mttable">
 				<tr>
 					<td>账号：</td>
 					<td><input type="text" placeholder="请输入手机账号" v-model="Employ.account" @blur='Phone(Employ.account)'/></td>
@@ -435,7 +439,7 @@
 		<div class="addsection" v-show="stafus">
 			<i class="el-icon-circle-close" @click="inst4"></i>
 			<p>{{adds3}}</p>
-			<table>
+			<table class="mttable">
 				<tr>
 					<td>职位名称：</td>
 					<td><input type="text" placeholder="请输入职位名称" v-model="posit.positionName" /></td>
@@ -456,13 +460,45 @@
 		<div class="addsection" v-show="addcommuni">
 			<i class="el-icon-circle-close" @click="inst5"></i>
 			<p>新增权限组</p>
-			<table>
+			<table class="mttable">
 				<tr>
 					<td>权限组：</td>
 					<td><input type="text" placeholder="请输入权限组名称" v-model="test3" /></td>
 				</tr>
 			</table>
 			<a class="tjss" @click="addcommunis">确定</a>
+		</div>
+		<div class="addsection" v-show="isShow11">
+			<i class="el-icon-circle-close" @click="closeCompany"></i>
+			<P>{{adds4}}</P>
+			<table class="Companymessage">
+				<tr>
+					<td>公司名：<input type="text" placeholder="请输入公司名" v-model="addCompany.name"></td>
+				</tr>
+				<tr>
+					<td>
+						上级公司：
+						<el-select v-model="superiorvalue" placeholder="请选择" @change="superiorCompany(superiorvalue)">
+							<el-option v-for="item in Companys" :key="item.id" :value="item.name">
+							</el-option>
+						</el-select>
+					</td>
+				</tr>
+			</table>
+			<table class="Companymessage1">
+				<tr>
+					<td>
+						微信号：<input type="text" style="margin-right:12px;margin-left: 4px;" placeholder="请输入微信号" v-model="addCompany.wxpayAppid"> 微信密钥：<input type="text" v-model="addCompany.wxpayMchid">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						支付宝：<input type="text" style="margin-left: 4px;" placeholder="请输入支付宝" v-model="addCompany.alipayAppid"> 支付宝密钥：<input type="text" v-model="addCompany.alipayPrivatekey">
+					</td>
+				</tr>
+			</table>
+			<a class="Companybutton" @click="addsCompany">确定</a>
+			<a class="Companybutton" @click="closeCompany">取消</a>
 		</div>
 		<div class="scherm" v-show="isHide">
 		</div>
@@ -483,6 +519,7 @@
 	import { hostManagement, hostAllPosition, hostEmployee, hostoffEmployee, hostDeleteEmployee, hostEditEmployee } from '../api.js'; //员工接口
 	import { hostPositionManage, hostPowerPosit, hostPositionMan, hostAddPosition, hostEditPosition, hostOffPosition, hostDeletePosition } from '../api.js'; //职位管理
 	import { hostCommunityMan,hostAddCommunityMan,hostdelCommunityMan,hostOffManagement } from '../api.js'; //权限管理
+	import { CompanyController500149,Company500150,addCompany500151,amendCompany500152,detailsCompany500153,batchCompany500154 } from '../api.js'; //公司管理
 	import { hostUserRelation,passwordReurn } from '../api.js'; //社区人员配备
 	import qs from 'qs';
 
@@ -506,12 +543,14 @@
 				currentPage3: 1,
 				currentPage4: 1,
 				currentPage5: 1,
+				currentPage6: 1,
 				titles: '批量开放',
 				single: false, //部门选择
 				sing: true,
 				single2: false, //员工选择
-				single3: false, //员工选择
+				single3: false, //职位选择
 				single4: false, //权限选择
+				single5: false, //公司选择
 				sings: true,
 				pageNum: '1',
 				pageSize: 10,
@@ -523,16 +562,20 @@
 				pageSize4: 10,
 				pageNum5: '1',
 				pageSize5: 10,
+				pageNum6: '1',
+				pageSize6: 10,
 				data: [], //部门的数据展示
 				data2: null, //员工的数据展示
 				users: null, //社区人员配备
 				Positions: null, //职位的数据展示
 				Communitys: null, //权限的数据展示
+				Companys:null, //公司的数据展示
 				totalNum: 0,
 				totalNum2: 0,
 				totalNum3: 0,
 				totalNum4: 0,
 				totalNum5: 0,
+				totalNum6: 0,
 				isHide: false,
 				isShow: false,
 				isShow1: false,
@@ -544,7 +587,8 @@
 				isShow7: false,
 				isShow8:false,
 				isShow9:false,
-                isShow10:false,
+				isShow10:false,
+				isShow11:false,
 				isShows: false,
 				isShowadd: false,
 				addcommuni:false,
@@ -569,6 +613,7 @@
 				closr: {},
 				adds2: '新增员工',
 				adds3: '新增职位',
+				adds4: '新增公司',
 				titls: '开启',
 				staffs: false,
 				stafus: false,
@@ -589,18 +634,30 @@
 					powerId: '',
 					positionId: ''
 				},
+				addCompany:{
+					name:'',
+					parentId:'',
+					wxpayAppid:'',
+					wxpayMchid:'',
+					alipayAppid:'',
+					alipayPrivatekey:''
+				},
 				msg:'',
 				superior:'',   //上级部门id
 				superior2:'',   //编辑上级部门ID
-        activeUserId:''
+				activeUserId:'',
+				superiorvalue:'',
+				CompanyID:'',
+				CompanyisShow:false
  			}
 		},
 		mounted() {
-			this.datat();
-			this.datas();
-			this.Users();
-			this.Position();
-			this.Community();
+			this.datat();   //获取员工信息
+			this.datas();	//获取部门信息
+			this.Users();	//获取社区人员配备信息
+			this.Position();	//获取职位信息
+			this.Community();	//获取权限信息
+			this.Company();  //获取公司信息
 		},
 		filters: {
 			Status(val) {
@@ -741,6 +798,33 @@
 					this.single4 = flag;
 				} else {
 					this.single4 = false;
+				}
+			},
+			handleCheckAll5(){   //公司全选
+				this.single5 = !this.single5;
+				if(this.single5 == true) {
+					for(let i = 0; i < this.Companys.length; i++) {
+						this.$set(this.Companys[i], "sing", true);
+					}
+				} else {
+					for(let i = 0; i < this.Companys.length; i++) {
+						this.$set(this.Companys[i], "sing", false);
+					}
+				}
+			},
+			checkAllGroupChange5(item, index){  //公司单选
+				// console.log(item);
+				var flag = true;
+				for(let i = 0; i < this.Companys.length; i++) {
+					if(this.Companys[i].sing != this.sings) {
+						flag = false;
+						break;
+					}
+				}
+				if(this.Companys.length) {
+					this.single5 = flag;
+				} else {
+					this.single5 = false;
 				}
 			},
 			select(val) {
@@ -935,6 +1019,12 @@
 					this.warningModal = true;
 				})
 			},
+			//新增公司
+			addCompanys(){
+				this.isHide = true;
+				this.isShow11 = true;
+				this.adds4 = '新增公司';
+			},
 			handleCurrentChange(val) {
 				this.pageNum = val;
 				this.datas();
@@ -954,6 +1044,10 @@
 			handleCurrentChange5(val) {
 				this.pageNum5 = val;
 				this.Community();
+			},
+			handleCurrentChange6(val) {
+				this.pageNum6 = val;
+				this.Company();
 			},
 			details() {
 				this.isHide = true;
@@ -1103,6 +1197,29 @@
 							this.$set(this.data[i], "sing", false);
 						}
 					}
+				}).catch((error) => {
+					// console.log(error);
+				})
+			},
+			//获取公司列表信息
+			Company(){           
+				let pageNum = this.pageNum6;
+				let pageSize = this.pageSize6;
+				axios.post(CompanyController500149,
+					qs.stringify({
+						pageNum: pageNum,
+						pageSize: pageSize,
+					})
+				).then((response) => {
+					// console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						this.Companys = response.data.pageBean.page;
+						this.totalNum6 = response.data.pageBean.totalNum;
+						for(let i = 0; i < this.Companys.length; i++) {
+							this.$set(this.Companys[i], "sing", false);
+						}
+					}
+					console.log(this.Companys);
 				}).catch((error) => {
 					// console.log(error);
 				})
@@ -1898,11 +2015,11 @@
             })
 
            },
-          /****取消重置密码*****/
-          qb10(){
-            this.isShow10 = false
-            this.isHide = false
-          },
+			/****取消重置密码*****/
+			qb10(){
+				this.isShow10 = false
+				this.isHide = false
+			},
 			qsm9(){
 				let mt = 0;
 				if(this.titles == '批量开放') {
@@ -1954,6 +2071,217 @@
 					this.warningMessage = '你没有选中要操作的权限组';
 					this.warningModal = true;
 				}
+			},
+			//弹出公司编辑窗口
+			compileCompany(ids){
+				this.isHide = true;
+				this.isShow11 = true;
+				this.adds4 = '编辑公司';
+				this.CompanyID = ids;
+				if(ids){
+					axios.post(detailsCompany500153,
+						qs.stringify({
+							id:ids
+						})
+					).then((res)=>{
+						// console.log(res);
+						if(res.status == 200 && res.data.code == 10000) {
+							let datas = res.data.entity;
+							this.addCompany.name = datas.name;
+							this.superiorvalue = datas.parentName;
+							this.addCompany.wxpayAppid = datas.wxpayAppId;
+							this.addCompany.wxpayMchid = datas.wxpayMchid;
+							this.addCompany.alipayAppid = datas.alipayAppId;
+							this.addCompany.alipayPrivatekey = datas.alipayPrivateKey;
+							// console.log(this.addCompany);
+						}
+					})
+				}
+			},
+			//关闭或者取消公司编辑窗口
+			closeCompany(){
+				this.isHide = false;
+				this.isShow11 = false;
+				this.superiorvalue = '';
+				this.addCompany.name = '';
+				this.addCompany.parentId = '';
+				this.addCompany.wxpayAppid = '';
+				this.addCompany.wxpayMchid = '';
+				this.addCompany.alipayAppid = '';
+				this.addCompany.alipayPrivatekey = '';
+			},
+			//选择上级公司获取公司ID
+			superiorCompany(id){
+				this.addCompany.parentId = this.Companys[this.Companys.findIndex(item => item.name == id)].id;
+			},
+			addsCompany(){
+				if(this.adds4 == '新增公司'){
+					axios.post(addCompany500151,
+						qs.stringify({
+							name:this.addCompany.name,
+							parentId:this.addCompany.parentId,
+							wxpayAppid:this.addCompany.wxpayAppid,
+							wxpayMchid:this.addCompany.wxpayMchid,
+							alipayAppid:this.addCompany.alipayAppid,
+							alipayPrivatekey:this.addCompany.alipayPrivatekey,
+						})
+					).then((res)=>{
+						// console.log(res);
+						if(res.status == 200 && res.data.code == 10000) {
+							this.isHide = false;
+							this.isShow11 = false;
+							this.successMessage = '新增公司成功'
+							this.successModal = true;
+
+							setTimeout(() => {
+								this.successModal = false;
+								this.Company();
+							}, 2000);
+						} else {
+							this.isHide = false;
+							this.isShow11 = false;
+							this.warningMessage = '新增公司信息不完整';
+							this.warningModal = true;
+						}
+					}).catch((err)=>{
+							this.isHide = false;
+							this.isShow11 = false;
+							this.warningMessage = '新增公司失败';
+							this.warningModal = true;
+					})
+					this.superiorvalue = '';
+					this.addCompany.name = '';
+					this.addCompany.parentId = '';
+					this.addCompany.wxpayAppid = '';
+					this.addCompany.wxpayMchid = '';
+					this.addCompany.alipayAppid = '';
+					this.addCompany.alipayPrivatekey = '';
+				}
+				else if(this.adds4 == '编辑公司'){
+					// console.log(this.addCompany);
+					axios.post(amendCompany500152,
+						qs.stringify({
+							id:this.CompanyID,
+							name:this.addCompany.name,
+							parentId:this.addCompany.parentId,
+							wxpayAppid:this.addCompany.wxpayAppid,
+							wxpayMchid:this.addCompany.wxpayMchid,
+							alipayAppid:this.addCompany.alipayAppid,
+							alipayPrivatekey:this.addCompany.alipayPrivatekey,
+						})
+					).then((res)=>{
+						// console.log(res);
+						if(res.status == 200 && res.data.code == 10000) {
+							this.isHide = false;
+							this.isShow11 = false;
+							this.successMessage = '编辑公司成功'
+							this.successModal = true;
+
+							setTimeout(() => {
+								this.successModal = false;
+								this.Company();
+							}, 2000);
+						} else {
+							this.isHide = false;
+							this.isShow11 = false;
+							this.warningMessage = '编辑公司失败';
+							this.warningModal = true;
+						}
+					}).catch((err)=>{
+							this.isHide = false;
+							this.isShow11 = false;
+							this.warningMessage = '编辑公司失败';
+							this.warningModal = true;
+					})
+				}
+			},
+			//批量开放公司
+			opeCompanys(){
+				this.isHide = true;
+				this.CompanyisShow = true;
+				this.titles = '批量开放'
+			},
+			//批量关闭公司
+			cloCompanys(){
+				this.isHide = true;
+				this.CompanyisShow = true;
+				this.titles = '批量关闭'
+			},
+			confirmCompany(){
+				let idArray = [];
+				for(let i = 0; i < this.Companys.length; i++) {
+					if(this.Companys[i].sing == true) {
+						idArray.push(this.Companys[i].id);
+					}
+				}
+				let idm = idArray.join(',');
+				// console.log(idm);
+				if(idArray.length>0){
+					if(this.titles == '批量开放'){
+						axios.post(batchCompany500154,
+							qs.stringify({
+								ids:idm,
+								status:0
+							})
+						).then((res)=>{
+							// console.log(res);
+							if(res.status == 200 && res.data.code == 10000) {
+								this.isHide = false;
+								this.CompanyisShow = false;
+								this.successMessage = '批量操作公司成功';
+								this.successModal = true;
+								setTimeout(() => {
+									this.successModal = false;
+									this.Company();
+								}, 2000);
+							} else {
+								this.isHide = false;
+								this.CompanyisShow = false;
+								this.Company();
+								this.warningMessage = '批量操作公司失败,开启和关闭不能同时操作';
+								this.warningModal = true;
+							}
+							
+						})
+					}
+					else if(this.titles == '批量关闭'){
+						axios.post(batchCompany500154,
+							qs.stringify({
+								ids:idm,
+								status:1
+							})
+						).then((res)=>{
+							// console.log(res);
+							if(res.status == 200 && res.data.code == 10000) {
+								this.isHide = false;
+								this.CompanyisShow = false;
+								this.successMessage = '批量操作公司成功';
+								this.successModal = true;
+								setTimeout(() => {
+									this.successModal = false;
+									this.Company();
+								}, 2000);
+							} else {
+								this.isHide = false;
+								this.CompanyisShow = false;
+								this.Company();
+								this.warningMessage = '批量操作公司失败,开启和关闭不能同时操作';
+								this.warningModal = true;
+							}
+						})
+					}
+				}else{
+					this.isHide = false;
+					this.CompanyisShow = false;
+					this.warningMessage = '你没有选中要操作的公司';
+					this.warningModal = true;
+				}
+				
+			},
+			//批量公司操作取消
+			closeCompanys(){
+				this.isHide = false;
+				this.CompanyisShow = false;
 			}
 		}
 	}

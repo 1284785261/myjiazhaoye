@@ -4,17 +4,17 @@
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','测试')
-const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
-// const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
-export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_test': '1.1.18.22.180211_release';//pc版本号 默认运营
-// export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_release': '1.1.18.22.180211_test';//pc版本号 默认测试
+//const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
+//export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_test': '1.1.18.22.180211_release';//pc版本号 默认运营
+export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_release': '1.1.18.22.180211_test';//pc版本号 默认测试
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 // const host3 = 'http://192.168.20.135:8091';//李志guang
-// const host3 = 'http://192.168.20.124:8080';//周昭滨
+//const host3 = 'http://192.168.20.124:8080';//周昭滨
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 // const host3 = 'http://192.168.20.234:8081';//周昭滨2
 
@@ -414,6 +414,24 @@ const PmsRoomDayPrices = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoom
 
 //获取产品日历列表
 const PmsRoomProductCalendar = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomProductCalendar200207'
+
+//获取公司管理列表
+const CompanyController = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyPage500149'
+
+//获取全部公司管理列表
+const Company = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyList500150'
+
+//添加公司
+const addCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyAdd500151'
+
+//编辑公司
+const amendCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyEdit500152'
+
+//公司详情
+const detailsCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyDetail500153'
+
+//公司批量操作
+const batchCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyBatch500154'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -549,6 +567,12 @@ export const RoomDayRecord200202 = host3 + RoomDayRecord;
 export const RoomDayPriceInfo200201 = host3 + RoomDayPriceInfo;
 export const PmsRoomDayPrices200200 = host3 + PmsRoomDayPrices;
 export const PmsRoomProductCalendar200207 = host3 + PmsRoomProductCalendar;
+export const CompanyController500149 = host3 + CompanyController;
+export const Company500150 = host3 + Company;
+export const addCompany500151 = host3 + addCompany;
+export const amendCompany500152 = host3 + amendCompany;
+export const detailsCompany500153 = host3 + detailsCompany;
+export const batchCompany500154 = host3 + batchCompany;
 export const host = host3;
 //export default {
 //hosts:function(){

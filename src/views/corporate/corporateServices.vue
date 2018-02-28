@@ -448,13 +448,10 @@
                 .table-heaher{
                     th{
                         border: solid 1px #ccc;
+                        padding-left: 10px;
                     }
                     th:nth-child(1){
                         border-left: none;
-                    }
-                    th:nth-child(2), th:nth-child(3){
-                        padding-left: 10px;
-                        padding-right: 10px;
                     }
                     th:nth-child(4){
                         border-right: none;

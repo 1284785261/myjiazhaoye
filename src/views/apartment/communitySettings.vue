@@ -129,7 +129,7 @@
 
 								<div class="ivu-floor floor02">
 									<div class="floor-main">
-										<span class="fl"><span class="btxs">*</span>家用电器：</span>
+										<span class="fl"><span class="btxs">*</span>家具/家电：</span>
 										<div class="floor-item form-item">
 											<el-checkbox-group v-model="checkList">
 												<el-checkbox v-for="item in option3" :label=item.dataName></el-checkbox>

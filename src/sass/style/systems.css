@@ -214,22 +214,22 @@
 	text-align: center;
 	line-height: 60px;
 }
-#housesubscrib .addsection table{
+#housesubscrib .addsection .mttable{
 	margin-left: 110px;
 	margin-top: 40px;
 }
-.addsection table tr{
+.addsection .mttable tr{
 	height: 50px;
 }
-#housesubscrib .addsection table tr td:nth-child(1){
+#housesubscrib .addsection .mttable tr td:nth-child(1){
 	text-align: right;
 	font-weight: bold;
 	font-size: 12px;
 }
-#housesubscrib .addsection table tr td:nth-child(2){
+#housesubscrib .addsection .mttable tr td:nth-child(2){
 	text-align: left;
 }
-#housesubscrib .addsection table tr td input{
+#housesubscrib .addsection .mttable tr td input{
 	width: 198px;
 	height: 34px;
 	border-radius: inherit;
@@ -250,6 +250,62 @@
 	margin-left: 180px;
 	margin-top: 40px;
 	margin-bottom: 40px;
+	cursor: pointer;
+}
+#housesubscrib .addsection .Companymessage{
+	margin-left: 10px;
+}
+#housesubscrib .addsection .Companymessage1{
+	margin-left: 22px;
+}
+#housesubscrib .addsection .Companymessage1 tr td{
+	text-align: left;
+}
+#housesubscrib .addsection .Companymessage tr td input{
+	width: 198px;
+	height: 34px;
+	border-radius: inherit;
+	border: 1px solid #dcdcdc;
+	color: #000;
+	padding-left: 10px;
+	font-weight: normal;
+}
+#housesubscrib .addsection .Companymessage1 tr td input{
+	width: 158px;
+	height: 34px;
+	border-radius: inherit;
+	border: 1px solid #dcdcdc;
+	color: #000;
+	padding-left: 10px;
+	font-weight: normal;
+}
+#housesubscrib .addsection .Companymessage tr td:nth-child(1){
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+}
+#housesubscrib .addsection .Companymessage tr td:nth-child(2){
+	text-align: left;
+}
+#housesubscrib .addsection .Companymessage1 tr{
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.addsection .Companymessage tr,.addsection .Companymessage1 tr{
+	height: 50px;
+}
+#housesubscrib .addsection .Companybutton{
+	width: 120px;
+	height: 36px;
+	display: inline-block;
+	line-height: 36px;
+	font-size: 16px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin: 40px;
 	cursor: pointer;
 }
 .systems .kbt{
