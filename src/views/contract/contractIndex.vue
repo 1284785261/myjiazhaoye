@@ -221,7 +221,7 @@
       <footer-box></footer-box>
     </div>
       <div class="black-member-modal" v-if="collectionShow" @click="closeWhileModal()"></div>
-      <div class="blackModelCenter" v-if="collectionShow">
+      <div class="blackModelCenter" v-if="collectionShow" style="height: 310px;">
           <p>收款登记</p>
           <div class="inputBox">
               <span>银行流水号：</span><Input v-model="collection.bankWater" placeholder="银行流水号"></Input>
@@ -230,17 +230,20 @@
               <span>凭证号：</span><Input v-model="collection.certificate" placeholder="凭证号"></Input>
           </div>
           <div class="inputBox">
-              <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额"></Input>
+              <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额" @on-change="moneyChange(collection.paymentAmount)"></Input>
           </div>
+          <h5 style="text-align: center;color: red;">{{messageError}}</h5>
           <div class="modal-btn">
-              <Button type="primary" @click="setWhileMember()">收款完成</Button>
-              <Button type="primary" @click="setWhileMember()">部分收款</Button>
+              <Button type="primary" @click="allIncome()">收款完成</Button>
+              <Button type="primary" @click="partIncome()">部分收款</Button>
               <Button  @click="setWhileMember()">取消</Button>
           </div>
           <div class="modal-close-btn" @click="closeWhileModal()">
               <Icon type="ios-close-empty"></Icon>
           </div>
       </div>
+      <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+      <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 
   </div>
 
@@ -252,13 +255,18 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract} from '../api.js';
+  import  successModal from '../../components/successModal.vue';
+  import  warningModal from '../../components/warningModal.vue';
+  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157} from '../api.js';
+  import qs from 'qs';
 
 export default {
   components:{
     rightHeader,
     menuBox,
-    footerBox
+    footerBox,
+    successModal,
+    warningModal
   },
   data () {
     let _this = this;
@@ -277,6 +285,7 @@ export default {
         roomSearchKey:"",//公寓搜索关键字
        collectionShow:false,//收款显示弹框
        collection:{
+         id:"",
          contractSignId:'',//收款合同ID
          bankWater:'',//收款银行流水
          certificate:'',//收款凭证
@@ -342,6 +351,13 @@ export default {
               }
             }
         },
+
+      successModal:false,
+      successMessage:"部分收款成功！",
+      warningModal:false,
+      warningMessage:"部分收款异常！",
+      isMoney:true,//判断输入是否合法
+      messageError:""
       }
    },
   mounted(){
@@ -359,17 +375,133 @@ export default {
       sessionStorage.setItem("contractIndexTab",tab);
     },
     /**
+     * 关闭错误提示
+     **/
+    closeWarningModal(){
+      this.warningModal = false;
+    },
+    /**
      * 收款弹框显示
      **/
-    collectionModelShow(contractSignId){
-      this.collectionShow = true
-      this.collection.contractSignId = contractSignId
+    collectionModelShow(billId){
+      let that = this;
+      this.collectionShow = true;
+      this.collection.billId = billId;
+      this.$http.post(CxkjBillGatheringDetail500155,qs.stringify({billId:billId})).then(function(res){
+        if(res.data.code == 10000){
+         let resutl = res.data.entity;
+          that.collection ={
+              id:resutl.id,
+              billId:resutl.billId,
+              bankWater:resutl.payNumbers,//收款银行流水
+              certificate:resutl.voucherNumbers,//收款凭证
+              paymentAmount:resutl.gatheringMoney//收款金额
+          }
+        }else{
+
+        }
+      })
     },
     /**
      * 收款弹框隐藏
      **/
     closeWhileModal(){
       this.collectionShow = false
+    },
+    /**
+     * 部分收款
+     */
+    partIncome(){
+      let that = this;
+      let params = this.process();
+      this.$http.post(CxkjBillGatheringDetailPart500156,qs.stringify(params)).then(function(res){
+        if(res.data.code == 10000){
+          that.collectionShow = false;
+          that.successMessage = "部分收款成功!";
+          that.successModal = true;
+          setTimeout(function(){
+            that.successModal = false;
+          },1000)
+        }else{
+          that.collectionShow = false;
+          that.warningMessage = "部分收款异常！";
+          that.warningModal = false;
+        }
+        //清空
+        that.clearData();
+      })
+    },
+    /**
+     * 组织收款参数
+     */
+    process(){
+      if(this.collection.bankWater == "" || this.collection.certificate=="" || this.collection.paymentAmount==""){
+        return;
+      }
+      if(!this.isMoney){
+        this.messageError = "请输入合法的金额！";
+        return;
+      }else{
+        this.messageError = "";
+      }
+      let params = {
+        id:this.collection.id,
+        billId:this.collection.billId,
+        payNumbers:this.collection.bankWater,
+        voucherNumbers:this.collection.certificate,
+        gatheringMoney:this.collection.paymentAmount
+      };
+      return params;
+    },
+    /**
+     * 清空数据
+    **/
+    clearData(){
+      this.collection ={
+        id:"",
+        billId:"",
+        bankWater:"",//收款银行流水
+        certificate:"",//收款凭证
+        paymentAmount:""//收款金额
+      }
+    },
+    /**
+     * 全部收款
+     * @param value
+     */
+    allIncome(){
+      let that = this;
+      let params = this.process();
+      this.$http.post(CxkjBillGatheringDetailWhole500157,qs.stringify(params)).then(function(res){
+        if(res.data.code == 10000){
+          that.collectionShow = false;
+          that.successMessage = "收款成功!";
+          that.successModal = true;
+          setTimeout(function(){
+            that.successModal = false;
+          },1000);
+          debugger
+        }else{
+          that.collectionShow = false;
+          that.warningMessage = "收款异常！";
+          that.warningModal = false;
+        }
+        //清空
+        that.clearData();
+      })
+    },
+
+    /**
+     * 金额正则
+     * @param value
+     */
+    moneyChange(value){
+      if(/(^[1-9](\d+)?(\.\d{1,2})?$)|(^(0){1}$)|(^\d\.\d{1,2}?$)/.test(value)){
+        this.isMoney = true;
+      }else{
+        this.isMoney = false;
+      }
+      this.messageError = "";
     },
     getCommunityData(){
       var that = this;
@@ -538,7 +670,7 @@ export default {
     }
     .ivu-tabs-bar{
       background-color: rgb(240,240,240);
-      
+
     }
     .ivu-tabs-tabpane{
       box-shadow:none;
