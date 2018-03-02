@@ -5,8 +5,8 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','测试')
 //const host3 = !sessionStorage.getItem('urlType')?'http://yunsoft.kaisaspace.com:8060':sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':'http://yunsoft.kaisaspace.com:8060'; //默认运营
-const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
-//export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_test': '1.1.18.22.180211_release';//pc版本号 默认运营
+ const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
+// export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_test': '1.1.18.22.180211_release';//pc版本号 默认运营
 export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180211_test':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180211_release': '1.1.18.22.180211_test';//pc版本号 默认测试
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8060';
@@ -779,3 +779,6 @@ export const CxkjCreateOrder300193 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjCreate
 export const CxkjGetRoomTypeBookDataList300194 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetRoomTypeBookDataList300194'//户型列表
 export const CxkjGetOrderDetail300182 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderDetail300182'//订单列表
 
+export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
+export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情
+export const CxkjBillGatheringDetailWhole500157 =host3+'/cxkj-room//apis/pc/cxkjbillgathering/CxkjBillGatheringDetailWhole500157'//完成收款
