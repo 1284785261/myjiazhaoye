@@ -18,6 +18,15 @@
               <td><input type="text" placeholder="请输入社区名称" class="complie_name" v-model="communityName" maxlength="20"></td>
             </tr>
             <tr>
+              <td><span class="btxs">*</span>所属公司：</td>
+              <td>
+                <el-select v-model="Companyvalue" placeholder="请选择所属公司" @change='selectCompany(Companyvalue)' style="width:290px;">
+                  <el-option v-for="item in allCompanys" :key="item.id" :label="item.name" :value="item.name">
+                  </el-option>
+                </el-select>
+              </td>
+            </tr>
+            <tr>
               <td><span class="btxs">*</span>地址：</td>
               <td>
                 <el-select v-model="province" placeholder="请选择省" @change='isActive(province)'>
@@ -158,7 +167,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import { hostComplie, hostParent, hostTitle ,host,imgPath,hostaddComplie} from '../api.js';
+  import { hostComplie, hostParent, hostTitle ,host,imgPath,hostaddComplie,Company500150} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -199,6 +208,7 @@
         checkList: [], //办公类型
         inputFunc: '',
         communityName: null, //社区名称
+        companyId:null,  //所属公司ID
         communityAddress: null, //详细地址
         communityOpeningDate: null, //开业日期
         communityType: '', //社区类型
@@ -230,7 +240,9 @@
 					disabledDate (date) {
 						return date && date.valueOf() <= _this.communityFreeLeaseBegin;
 					}
-				},
+        },
+        allCompanys:null, //获取全部公司的数据
+        Companyvalue:null
       }
     },
     mounted() {
@@ -240,7 +252,7 @@
         this.communityId = this.$route.query.id;
         this.befor();
       }
-
+      this.allCompany();
     },
     methods: {
     	gos(){
@@ -249,7 +261,21 @@
     	openItem(item){
     		 window.open(imgPath+item,"","width=600,height=600");
 		    
-    	},
+      },
+      //获取全部所属公司
+      allCompany(){
+        axios.post(Company500150).then((res)=>{
+          console.log(res);
+          if(res.status == 200 && res.data.code == 10000) {
+            this.allCompanys = res.data.pageBean;
+          }
+        })
+      },
+      //选择公司获取id
+      selectCompany(value){
+        this.companyId = this.allCompanys[this.allCompanys.findIndex(item => item.name == value)].id;
+        console.log(this.companyId);
+      },
       befor(){
         let vm = this
         if(this.communityId != ''){
@@ -258,13 +284,14 @@
               communityId:vm.communityId
             }))
             .then((response)=>{
-              // console.log(response);
+              console.log(response);
               if(response.status == 200 && response.data.code == 10000) {
                 vm.communityName = response.data.result.community.communityName;
                 vm.province = response.data.result.community.province.areaName;
                 vm.areaId = response.data.result.community.province.areaId;
                 vm.city = response.data.result.community.city.areaName;
                 vm.parentId = response.data.result.community.city.areaId;
+                vm.Companyvalue = response.data.result.community.companyName;
                 this.httpPost(this.parentId, 2);
                 vm.valuem = response.data.result.community.district.areaName;
                 vm.areas = response.data.result.community.district.areaId;
@@ -279,7 +306,7 @@
                   item.status = 'finished'
                   vm.fileList3.push(item)
                 }
-                console.log(vm.fileList3);
+                // console.log(vm.fileList3);
                 if(response.data.result.community.communityType == '0'){
                   vm.checkList.push('公寓');
                   vm.communityType = '0';
@@ -334,7 +361,7 @@
         // console.log(file);
       },
       beforeAvatarUpload(file){
-        console.log(file);
+        // console.log(file);
         const isJPG = file.type === 'image/png';
         const isPDF = file.type === 'application/pdf';
         if (isPDF || isJPG) {
@@ -372,6 +399,7 @@
         this.propertySignDate = new Date(this.propertySignDate).Format('yyyy-MM-dd');
         param.append("communityName", vm.communityName);
         param.append("communityProvince", vm.areaId);
+        param.append("companyId",vm.companyId);
         param.append("communityCity", vm.parentId);
         param.append("communityDistrict", vm.areas);
         param.append("communityAddress", vm.communityAddress);
@@ -395,11 +423,11 @@
         param.append('communityLongitude',vm.communityLongitude);
         param.append('communityLatitude',vm.communityLatitude);
         this.fullscreenLoading = true;
-        if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate=="") {
+        if(vm.parentId == '' || vm.areas == '' || vm.companyId == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate=="") {
           this.fullscreenLoading = false;
           this.warningMessage = '信息填入不完整，请补充完信息';
           this.warningModal = true;
-        } else {debugger
+        } else {
           this.$http.post(hostComplie, param).then(res => {
 
             if(res.status == 200 && res.data.code == 10000) {
@@ -432,7 +460,7 @@
         // console.log(this.pdfName);
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
-          console.log(vm.communityContract);
+          // console.log(vm.communityContract);
           // console.log(vm.communityName);
           // console.log(vm.communityContract);
           // console.log(vm.communityAddress)
@@ -456,6 +484,7 @@
           param2.append("communityId",vm.communityId);
           param2.append("communityName", vm.communityName);
           param2.append("communityProvince", vm.areaId);
+          param2.append("companyId",vm.companyId);
           param2.append("communityCity", vm.parentId);
           param2.append("communityDistrict", vm.areas);
           param2.append("communityAddress", vm.communityAddress);
@@ -479,7 +508,7 @@
           param2.append('communityLongitude',vm.communityLongitude);
           param2.append('communityLatitude',vm.communityLatitude);
           this.fullscreenLoading = true;
-          if(vm.parentId == '' || vm.areas == '' || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate == "") {
+          if(vm.parentId == '' || vm.areas == '' || vm.companyId == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate == "") {
             this.fullscreenLoading = false;
             this.warningMessage = '修改信息不完整，请补充完信息';
             this.warningModal = true;
@@ -559,13 +588,13 @@
         for(var i = 0; i < mw.length; i++) {
           if(mw[i] == "公寓" && mw.length == 1) {
             this.communityType = '0';
-            console.log('11'+this.communityType);
+            // console.log('11'+this.communityType);
           } else if(mw[i] == "办公空间" && mw.length == 1) {
             this.communityType = '1';
-            console.log('11'+this.communityType);
+            // console.log('11'+this.communityType);
           } else if(mw.length >= 2) {
             this.communityType = '0,1';
-            console.log('11'+this.communityType);
+            // console.log('11'+this.communityType);
           }
         }
       }
@@ -576,9 +605,9 @@
         qs.stringify({
           'parentId': 0
         })).then((response) => {
-        console.log(response);
+        // console.log(response);
         this.parent = response.data.result.areaList;
-        console.log(this.parent);
+        // console.log(this.parent);
       })
         .catch((error) => {
           // console.log(error);
@@ -590,7 +619,7 @@
           communityId: vm.communityId
         }))
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if(response.status == 200 && response.data.code == 10000) {
             vm.community = response.data.result.community;
 

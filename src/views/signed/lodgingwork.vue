@@ -91,7 +91,7 @@
 						<ul class="zq">
 							<li><span class="qzr">起租日：</span>
 								<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
-								<input type="text" placeholder="请输入月数" v-model="housetderta.roomRent" maxlength="10" style="width:120px;"><span>月</span>
+								<input type="text" placeholder="请输入月数" v-model="letMounted" maxlength="5" style="width:100px;height:36px;margin-right:5px;" @blur="countdatas(letMounted)"><span>月</span>
 							</li>
 							<li><span class="qzr">到期日：</span>
 								<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
@@ -113,7 +113,7 @@
 								</tr>
 								<tr>
 									<td>押金:</td>
-									<td><input type="text" placeholder="请输入月数" v-model="housetderta.roomRent" maxlength="10" style="width:120px;"><span>月</span></td>
+									<td><input type="text" placeholder="请输入月数" v-model="depositmonth" maxlength="10" style="width:120px;"><span>月</span></td>
 								</tr>
 								<tr>
 									<td>支付方式:</td>
@@ -126,11 +126,7 @@
 								</tr>
 								<tr>
 									<td>免租期:</td>
-									<td><input type="text" placeholder="请输入月数" v-model="housetderta.roomRent" maxlength="10" style="width:120px;"><span>月</span></td>
-								</tr>
-								<tr>
-									<td>租金折扣/浮动比例:</td>
-									<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="10"><span>%</span></td>
+									<td><input type="text" placeholder="请输入月数" v-model="freeMonth" maxlength="10" style="width:120px;" @blur="monitorfree(freeMonth)"><span>月</span><span v-if="giveMonth" style="margin-left:0;">(赠送日期：{{giveMonth}})</span></td>
 								</tr>
 								<tr>
 									<td>服务费:</td>
@@ -140,30 +136,28 @@
 						</div>
 						<div class="div2">
 							<p>其他费用:</p>
-							<div class="floor-item">
-								<table class="table ivu-table">
-									<tr v-for="(tableRepair,index) in tableRepairs">
+							<table>
+								<tr v-for="(tableRepair,index) in tableRepairs">
 
-										<td width="200px">
-											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10"/>
-										</td>
+									<td width="200px">
+										<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10"/>
+									</td>
 
-										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
-										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
-										<td></td>
-									</tr>
-								</table>
-								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
-							</div>
+									<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
+									<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
+									<td></td>
+								</tr>
+							</table>
 							<div class="clear"></div>
-
+							<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>						
 						</div>
 						<div class="formulasb" v-if="formula">
 							<h3>计算方式</h3>
 							<div>
 								<p v-if ="this.deposit != 0">押金：{{deposit}}元</p>
-								<p>房费：{{roommonry}}元 = {{roommonryg}}</p>
-								<p>服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+								<p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
+								<p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+								<p v-if="letcup">剩余月租金：{{residuerent}}元 = {{residuerentg}}</p>
 								<p>其他费用：{{cyclePayOtherCost}}元</p>
 								<p>合计：{{firstmoney}}</p>
 							</div>
@@ -435,7 +429,14 @@
 				fwmonryg:'',
 				roommonry:'',
 				fwmonry:'',
-				cyclePayOtherCost:0
+				residuerent:'',
+				residuerentg:'',
+				cyclePayOtherCost:0,
+				letMounted:null,
+				depositmonth:null,  //押金月数
+				freeMonth:null,  //免租期
+				giveMonth:'', //赠送日期段
+				letcup:true,
 			}
 		},
 		mounted() {
@@ -456,12 +457,21 @@
 
 				var date = new Date();
 				//获取年份
+				var datms = new Date(this.onhrie); //定义当前日期
+				var expiredate = new Date(this.expire); //定义到期日期
 				var year = date.getFullYear();
 				//获取当前月份
 				var mouth = date.getMonth() + 1;
-				var daym = date.getDate() - 1;
-				//定义当月的天数；
-				var days;
+				var daym = datms.getDate() - 1;
+
+				var expireyear = expiredate.getFullYear();
+				//获取到期日期月份
+				var expiremouth = expiredate.getMonth() + 1;
+				var expiredaym = expiredate.getDate();
+				
+				var days;//定义当月的天数；
+				var expiredays;//定义到期月的天数；
+
 				//当月份为二月时，根据闰年还是非闰年判断天数
 				if (mouth == 2) {
 					days = year % 4 == 0 ? 29 : 28;
@@ -474,63 +484,73 @@
 					//其他月份，天数为：30.
 					days = 30;
 				}
+				//到期月份总天数
+				if (expiremouth == 2) {
+					expiredays = expireyear % 4 == 0 ? 29 : 28;
+				}
+				else if (expiremouth == 1 || expiremouth == 3 || expiremouth == 5 || expiremouth == 7 || expiremouth == 8 || expiremouth == 10 || expiremouth == 12) {
+					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+					expiredays = 31;
+				}
+				else {
+					//其他月份，天数为：30.
+					expiredays = 30;
+				}
 
-				if(this.value2 == '押二付一') {
-					let q = 0;
-					if(vm.discount){
-						// console.log(days);
-						let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
-						let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
-						this.roommonry = parseFloat(fy).toFixed(2);
-						this.fwmonry = parseFloat(fw).toFixed(2);
-						for(let i = 0; i < this.tableRepairs.length; i++) {
-							if(parseInt(this.tableRepairs[i].date) > 0) {
-								q += parseFloat(this.tableRepairs[i].date);
-							}
-						}
-						this.cyclePayOtherCost = q;
-						return(vm.housetderta.roomRent * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+				//联合办公计算方式
+				let q = 0;
+				let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym))).toFixed(4);  //第一个月房费计算方式
+				let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);  //第一个月服务费计算方式
+				this.roommonry = parseFloat(fy).toFixed(2);
+				this.fwmonry = parseFloat(fw).toFixed(2);
+				for(let i = 0; i < this.tableRepairs.length; i++) {   //其他费用总和
+					if(parseInt(this.tableRepairs[i].date) > 0) {
+						q += parseFloat(this.tableRepairs[i].date);
 					}
-					
-				} else if(this.value2 == '押一付一') {
-					let q = 0;
-					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
-					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
-					this.roommonry = parseFloat(fy).toFixed(2);
-					this.fwmonry = parseFloat(fw).toFixed(2);
-					for(let i = 0; i < this.tableRepairs.length; i++) {
-						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseFloat(this.tableRepairs[i].date);
-						}
+				}
+				this.cyclePayOtherCost = q;
+				if(this.depositmonth > 0){
+					this.deposit = parseInt(this.housetderta.roomRent) * parseInt(this.depositmonth);
+				}else{
+					this.deposit = 0;
+				}
+				
+				this.roommonryg = this.housetderta.roomRent+'/'+days +'*'+'('+days +'-' + daym +')天';
+				this.fwmonryg = this.serve+'/'+days +'*('+days+'-'+daym+')天';
+				if(this.value2 == '月付') {
+					return(parseInt(vm.deposit) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+					this.residuerent = '';
+					this.residuerentg = '';	
+				} 
+				else if(this.value2 == '季付') {
+					if(this.letMounted >= 3){
+						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 2) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
+						this.residuerentg = vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 2) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+					}else if(this.letMounted >= 6){
+						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 3)).toFixed(2);
+						this.residuerentg = vm.housetderta.roomRent +'*3';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 3) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+					}	
+				}
+				else if(this.value2 == '半年付') {
+					if(this.letMounted >= 6){
+						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 5) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
+						this.residuerentg = vm.housetderta.roomRent +'*5+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 5) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
-					this.cyclePayOtherCost = q;
-					return(vm.housetderta.roomRent * 1 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
-				} else if(this.value2 == '季付') {
-					let q = 0;
-					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
-					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
-					this.roommonry = parseFloat(fy).toFixed(2);
-					this.fwmonry = parseFloat(fw).toFixed(2);
-					for(let i = 0; i < this.tableRepairs.length; i++) {
-						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseFloat(this.tableRepairs[i].date);
-						}
+					else if(this.letMounted == 12){
+						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 6)).toFixed(2);
+						this.residuerentg = vm.housetderta.roomRent +'*6';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 6) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
 					}
-					this.cyclePayOtherCost = q;
-					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 2 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
-				} else if(this.value2 == '年付') {
-					let q = 0;
-					let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym)) * (vm.discount / 100)).toFixed(4);
-					let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);
-					this.roommonry = parseFloat(fy).toFixed(2);
-					this.fwmonry = parseFloat(fw).toFixed(2);
-					for(let i = 0; i < this.tableRepairs.length; i++) {
-						if(parseInt(this.tableRepairs[i].date) > 0) {
-							q += parseFloat(this.tableRepairs[i].date);
-						}
+				} 
+				else if(this.value2 == '年付') {
+					if(this.letMounted == 12){
+						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 11) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
+						this.residuerentg = vm.housetderta.roomRent +'*11+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 11) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
-					this.cyclePayOtherCost = q;
-					return(vm.housetderta.roomRent * parseFloat(vm.discount / 100) * 11 + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 				}
 			},
 			twomoney: function() {
@@ -549,11 +569,17 @@
 					this.onemoney = parseFloat(val).toFixed(2);
 				}
 			},
-			discount:function(){
-				this.discount = this.discount.replace(/[^\d.]/,'');
-			},
 			serve:function(){
 				this.serve = this.serve.replace(/[^\d.]/,'');
+			},
+			freeMonth:function(){
+				this.freeMonth = this.freeMonth.replace(/[^\d]/,'');
+			},
+			letMounted:function(){
+				this.letMounted = this.letMounted.replace(/[^\d]/,'');
+			},
+			depositmonth:function(){
+				this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
 			}
 		},
 		methods: {
@@ -625,13 +651,13 @@
 							this.options3 = this.costInfo.paywayList;
 							for(let i = 0; i < vm.options3.length; i++) {
 								if(this.options3[i].data_id == '1') {
-									vm.options3[i].name = '押二付一';
+									vm.options3[i].name = '月付';
 								}
 								if(this.options3[i].data_id == '2') {
-									vm.options3[i].name = '押一付一';
+									vm.options3[i].name = '季付';
 								}
 								if(this.options3[i].data_id == '3') {
-									vm.options3[i].name = '季付';
+									vm.options3[i].name = '半年付';
 								}
 								if(this.options3[i].data_id == '4') {
 									vm.options3[i].name = '年付';
@@ -678,7 +704,7 @@
 			room(val) {
 				//console.log(val);
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-				console.log(this.housetderta);
+				// console.log(this.housetderta);
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -740,6 +766,22 @@
 			closeWarningModal() {
 				this.warningModal = false;
 			},
+			monitorfree(value){
+				if(parseInt(value) >= parseInt(this.letMounted)){
+					alert('免租期月不能大于租期月');
+					this.freeMonth = 0;
+				}
+				let nes = new Date(this.expire);
+				let Month;
+				nes.setMonth(nes.getMonth() + parseInt(value),nes.getDate()-1);
+				Month = nes;
+				if(Month && value > 0){
+					this.giveMonth = new Date(this.expire).Format("yyyy年MM月dd日") +'-'+ new Date(Month).Format("yyyy年MM月dd日");
+				}else{
+					this.giveMonth = null;
+				}
+				
+			},
 			way(val) {
 				let vm = this
 				this.formula = true;
@@ -751,69 +793,93 @@
 				date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
 				if(Math.abs(date2 - date1) < 3 && val  == '季付'){
 					vm.warningModal = true;
-					vm.warningMessage = '签约方式选择季付或年付，租期不能小于三个月或者一年';
+					vm.warningMessage = '签约方式选择季付，租期不能小于三个月';
+					vm.value2 = this.options3[0].name;
+				}
+				else if(Math.abs(date2 - date1) < 6 && val  == '半年付'){
+					vm.warningModal = true;
+					vm.warningMessage = '签约方式选择半年付，租期不能小于六个月';
 					vm.value2 = this.options3[0].name;
 				}
 				else if(Math.abs(date2 - date1) < 12 && val  == '年付'){
 					vm.warningModal = true;
-					vm.warningMessage = '签约方式选择季付或年付，租期不能小于三个月或者一年';
+					vm.warningMessage = '签约方式选择年付，租期不能小于十二个月';
 					vm.value2 = this.options3[0].name;
 				}
 				else{
-					this.discount = this.options3[this.options3.findIndex(item => item.name == val)].discount;
 					this.cyclePayType = this.options3[this.options3.findIndex(item => item.name == val)].data_id;
 				}
 
-				if(val == '押二付一'){
-					this.deposit = parseInt(this.housetderta.roomRent) * 2;
-				}else if(val == '押一付一'){
-					this.deposit = parseInt(this.housetderta.roomRent);
-				}else if(val == '季付'){
-					this.deposit = 0;
-				}else if(val == '年付'){
-					this.deposit = 0;
+				if(val == '月付'){
+					this.letcup = false;
+				}else{
+					this.letcup = true;
 				}
-				var date = new Date();
-				//获取年份
-				var year = date.getFullYear();
-				//获取当前月份
-				var mouth = date.getMonth() + 1;
-				var daym = date.getDate() - 1;
-				//定义当月的天数；
-				var days;
-				//当月份为二月时，根据闰年还是非闰年判断天数
-				if (mouth == 2) {
-					days = year % 4 == 0 ? 29 : 28;
-				}
-				else if (mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12) {
-					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
-					days = 31;
-				}
-				else {
-					//其他月份，天数为：30.
-					days = 30;
-        		}
-				this.roommonryg = this.housetderta.roomRent+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.discount+'%折扣';
-				this.fwmonryg = this.serve+'/'+days +'*('+days+'-'+daym+')天';
+
 			},
 			apart(index) {
 				this.activ = index;
 
-				if(this.onhrie != null) {
+				if(this.onhrie) {
 					var nes = new Date(this.onhrie);
 					if(index == 0) {
 						nes.setFullYear(nes.getFullYear() + 1);
+						nes.setMonth(nes.getMonth(),nes.getDate()-1);
 						this.expire = nes;
+						this.letMounted = 12;
 					} else if(index == 1) {
-						nes.setMonth(nes.getMonth() + 6);
+						nes.setMonth(nes.getMonth() + 6,nes.getDate()-1);
 						this.expire = nes;
+						this.letMounted = 6;
 					} else if(index == 2) {
-						nes.setMonth(nes.getMonth() + 3);
+						nes.setMonth(nes.getMonth() + 3,nes.getDate()-1);
 						this.expire = nes;
+						this.letMounted = 3;
 					} else if(index == 3) {
-						nes.setMonth(nes.getMonth() + 1);
+						nes.setMonth(nes.getMonth() + 1,nes.getDate()-1);
 						this.expire = nes;
+						this.letMounted = 1;
 					}
+					if(this.value2  == '季付' && this.letMounted < 3){
+						this.warningModal = true;
+						this.warningMessage = '签约方式选择季付，租期不能小于三个月';
+						this.activ = 2;
+						this.letMounted = 3;
+					}
+					else if(this.value2  == '半年付' && this.letMounted < 6){
+						this.warningModal = true;
+						this.warningMessage = '签约方式选择半年付，租期不能小于六个月';
+						this.activ = 1;
+						this.letMounted = 6;
+					}
+					else if(this.value2  == '年付' && this.letMounted < 12){
+						this.warningModal = true;
+						this.warningMessage = '签约方式选择年付，租期不能小于十二个月';
+						this.activ = 0;
+						this.letMounted = 12;
+					}
+				}
+				else{
+					alert('请填写起租日');
+				}
+			},
+			//计算月份得到到期日
+			countdatas(value){
+				if(this.onhrie || value){
+					var nes = new Date(this.onhrie);
+					// parseInt
+					nes.setMonth(nes.getMonth() + parseInt(value),nes.getDate()-1);
+					this.expire = nes;
+				}
+
+				if(value == 1){
+					this.activ = 3;
+				}else if(value == 3){
+					this.activ = 2;
+				}else if(value == 6){
+					this.activ = 1;
+				}else if(value == 12){
+					this.activ = 0;
 				}
 			},
 			handleRemoven(item) {
@@ -945,9 +1011,11 @@
 				}
 				param.append('companyInfo',this.companyInfo);
 				param.append('companyLegalPerson',this.companylegalPerson);
+				param.append('deposit',this.deposit);
+				param.append('freeMonth',this.freeMonth);
 		        axios.post(hostSignOffice,param).then(res =>{
-		        	if(res.status == 200 && res.data.code == 10000){
-						// console.log(res);
+					console.log(res);
+		        	if(res.status == 200 && res.data.code == 10000){	
 						vm.successModal = true;
 						setTimeout(()=>{
 							vm.successModal = false;
@@ -955,11 +1023,13 @@
 						},3000);
 					}
 		        	else{
-						vm.warningModal = '签约失败';
+						vm.warningMessage = '签约失败';
 		        		vm.warningModal = true;
 		        	}
 				})
 				.catch(error=>{
+					vm.warningMessage = '签约信息不完整，请检查信息是否填写完整';
+		        	vm.warningModal = true;
 					// console.log(error);
 				})
 		       

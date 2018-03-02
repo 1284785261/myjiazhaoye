@@ -181,7 +181,7 @@
 }
 .loadin4 .div1{
 	width: 100%;
-	height: 285px;
+	min-height: 285px;
 }
 .loadin4 .div1 p{
 	width: 103px;
@@ -192,10 +192,10 @@
 	line-height: 50px;
 }
 .loadin4 .div1 table{
+	float: left;
 	width: 600px;
 	min-height: 215px;
 	background: #f8f8f8;
-	margin-bottom: 70px;
 }
 .loadin4 .div1 table tr td:nth-child(1){
 	text-align: right;
@@ -219,7 +219,6 @@
 .loadin4 .div2{
 	width: 100%;
 	min-height: 50px;
-	position: relative;
 }
 .loadin4 .div2 p{
 	width: 64px;
@@ -230,12 +229,8 @@
 	line-height: 50px;
 	
 }
-.loadin4 .div2 .floor-item{
+.loadin4 .div2 table{
 	float: left;
-	width: 600px;
-	display: block;
-}
-.loadin4 .div2 .floor-item table{
 	width: 600px;
 	background: #f8f8f8;
 	
@@ -273,7 +268,7 @@
 	border: 1px solid #038BE2;
 	color: #038BE2;
 	text-align: center;
-	
+	margin-left: 150px;
 	
 }
 .loadin5 table tr td:nth-child(1){

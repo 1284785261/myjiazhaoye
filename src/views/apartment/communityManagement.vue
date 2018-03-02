@@ -80,13 +80,13 @@
 										<dl>
 											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span></p>
-												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span></p>
+												<!-- <p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+												<span v-else>办公付款方式：未设置</span></p> -->
 												<p v-else-if="item.communityType == 0,1">
 												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span><br>
-												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span>
+												<!-- <span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+												<span v-else>办公付款方式：未设置</span> -->
 												</p>
 											</dd>
 											<dd v-if="item.serviceCostMap">公寓服务费：
@@ -186,13 +186,13 @@
 										<dl>
 											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span></p>
-												<p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span></p>
+												<!-- <p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+												<span v-else>办公付款方式：未设置</span></p> -->
 												<p v-else-if="item.communityType == 0,1">
 												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
 												<span v-else>公寓付款方式：未设置</span><br>
-												<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span>
+												<!-- <span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+												<span v-else>办公付款方式：未设置</span> -->
 												</p>
 											</dd>
 											<dd v-if="item.serviceCostMap">公寓服务费：

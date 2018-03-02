@@ -2126,7 +2126,7 @@
 							alipayPrivatekey:this.addCompany.alipayPrivatekey,
 						})
 					).then((res)=>{
-						// console.log(res);
+						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							this.isHide = false;
 							this.isShow11 = false;
@@ -2140,7 +2140,7 @@
 						} else {
 							this.isHide = false;
 							this.isShow11 = false;
-							this.warningMessage = '新增公司信息不完整';
+							this.warningMessage = res.data.content;
 							this.warningModal = true;
 						}
 					}).catch((err)=>{
@@ -2184,7 +2184,7 @@
 						} else {
 							this.isHide = false;
 							this.isShow11 = false;
-							this.warningMessage = '编辑公司失败';
+							this.warningMessage = res.data.content;
 							this.warningModal = true;
 						}
 					}).catch((err)=>{

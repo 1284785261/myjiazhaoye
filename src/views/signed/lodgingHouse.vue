@@ -175,22 +175,21 @@
 							</div>
 							<div class="div2">
 								<p>其他费用:</p>
-								<div class="floor-item">
-									<table class="table ivu-table">
-										<tr v-for="(tableRepair,index) in tableRepairs">
+								<table>
+									<tr v-for="(tableRepair,index) in tableRepairs">
 
-											<td width="200px">
-												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
-											</td>
+										<td width="200px">
+											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
+										</td>
 
-											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
-											<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
-											<td></td>
-										</tr>
-									</table>
-									<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
-								</div>
+										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
+										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
+										<td></td>
+									</tr>
+								</table>
 								<div class="clear"></div>
+								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
+								
 
 							</div>
 							<div class="formulasb" v-if="formula">
@@ -516,23 +515,21 @@
 							</div>
 							<div class="div2">
 								<p>其他费用:</p>
-								<div class="floor-item">
-									<table class="table ivu-table">
-										<tr v-for="(tableRepair,index) in tableRepairs">
+								<table>
+									<tr v-for="(tableRepair,index) in tableRepairs">
 
-											<td width="200px">
-												<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
-											</td>
+										<td width="200px">
+											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
+										</td>
 
-											<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
-											<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
-											<td></td>
-										</tr>
-					
-									</table>
-									<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
-								</div>
+										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
+										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
+										<td></td>
+									</tr>
+								</table>
 								<div class="clear"></div>
+								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
+								
 
 							</div>
 							<div class="formulasb" v-if="formula">
