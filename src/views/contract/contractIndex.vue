@@ -66,7 +66,7 @@
                     <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.contractSignId)">收款</a>
+                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.billId,'room')">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -139,7 +139,7 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId)">收款</a>
+                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId,'office')">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -357,7 +357,8 @@ export default {
       warningModal:false,
       warningMessage:"部分收款异常！",
       isMoney:true,//判断输入是否合法
-      messageError:""
+      messageError:"",
+      paymentType:"room"//收款类型
       }
    },
   mounted(){
@@ -383,8 +384,9 @@ export default {
     /**
      * 收款弹框显示
      **/
-    collectionModelShow(billId){
+    collectionModelShow(billId,paymentType){
       let that = this;
+      this.paymentType = paymentType;
       this.collectionShow = true;
       this.collection.billId = billId;
       this.$http.post(CxkjBillGatheringDetail500155,qs.stringify({billId:billId})).then(function(res){
@@ -480,7 +482,12 @@ export default {
           setTimeout(function(){
             that.successModal = false;
           },1000);
-          debugger
+          if(that.paymentType == 'office'){
+              that.officeSearch();
+          }else{
+              that.roomSearch();
+          }
+
         }else{
           that.collectionShow = false;
           that.warningMessage = "收款异常！";
