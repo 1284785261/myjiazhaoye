@@ -499,8 +499,8 @@
 
 				//联合办公计算方式
 				let q = 0;
-				let fy = parseFloat(((vm.housetderta.roomRent / days) * (days-daym))).toFixed(4);  //第一个月房费计算方式
-				let fw = parseFloat(((vm.serve / days) * (days-daym))).toFixed(4);  //第一个月服务费计算方式
+				let fy = parseFloat(vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)).toFixed(4);  //第一个月房费计算方式
+				let fw = parseFloat(vm.serve * parseFloat((days-daym)/days).toFixed(10)).toFixed(4);  //第一个月服务费计算方式
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
 				for(let i = 0; i < this.tableRepairs.length; i++) {   //其他费用总和
@@ -526,8 +526,8 @@
 					if(this.letMounted >= 3 && this.letMounted < 6){
 						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 2) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
 						this.residuerentg = vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
-						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 2) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
-					}else if(this.letMounted >= 6 && this.letMounted <= 6){
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 2) + parseInt(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+					}else if(this.letMounted >= 6 && this.letMounted <= 12){
 						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 3)).toFixed(2);
 						this.residuerentg = vm.housetderta.roomRent +'*3';
 						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 3) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
@@ -537,7 +537,7 @@
 					if(this.letMounted >= 6 && this.letMounted < 12){
 						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 5) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
 						this.residuerentg = vm.housetderta.roomRent +'*5+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
-						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 5) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 5) + parseInt(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
 					else if(this.letMounted == 12){
 						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 6)).toFixed(2);
@@ -549,7 +549,7 @@
 					if(this.letMounted == 12){
 						this.residuerent = parseFloat(parseInt(vm.housetderta.roomRent * 11) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays).toFixed(2);
 						this.residuerentg = vm.housetderta.roomRent +'*11+'+ vm.housetderta.roomRent +'*'+expiredaym+'/'+expiredays+'天';
-						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 11) + parseInt(vm.housetderta.roomRent) * parseInt(expiredaym)/expiredays + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						return(parseInt(vm.deposit) + parseInt(vm.housetderta.roomRent * 11) + parseInt(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					}
 				}
 			},
@@ -772,11 +772,15 @@
 					this.freeMonth = 0;
 				}
 				let nes = new Date(this.expire);
+				let nem = new Date(this.expire);
 				let Month;
-				nes.setMonth(nes.getMonth() + parseInt(value),nes.getDate()-1);
+				let Months;
+				nem.setDate(nem.getDate()+1);
+				nes.setMonth(nes.getMonth() + parseInt(value));
 				Month = nes;
+				Months = nem;
 				if(Month && value > 0){
-					this.giveMonth = new Date(this.expire).Format("yyyy年MM月dd日") +'-'+ new Date(Month).Format("yyyy年MM月dd日");
+					this.giveMonth = new Date(Months).Format("yyyy年MM月dd日") +'-'+ new Date(Month).Format("yyyy年MM月dd日");
 				}else{
 					this.giveMonth = null;
 				}
@@ -803,7 +807,7 @@
 				}
 				else if(Math.abs(date2 - date1) < 12 && val  == '年付'){
 					vm.warningModal = true;
-					vm.warningMessage = '签约方式选择年付，租期不能小于十二个月';
+					vm.warningMessage = '签约方式选择年付，租期不能小于一年';
 					vm.value2 = this.options3[0].name;
 				}
 				else{

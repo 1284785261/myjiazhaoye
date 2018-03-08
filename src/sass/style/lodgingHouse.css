@@ -386,7 +386,8 @@
     height: 122px;
     width: 162px;
     margin-right: 10px;
-    margin-left: 10px;
+	margin-left: 10px;
+	margin-bottom: 20px;
 }
 .loadin6 table tr .boxs .uplodas div{
 	position: absolute;

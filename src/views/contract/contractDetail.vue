@@ -146,7 +146,7 @@
               </tr>
               <tr class="tr1">
                 <td class="td1">首款<br>
-                <span v-if="contractDetailData.cyclePayType==1">押二付一</span><span v-else-if="contractDetailData.cyclePayType==2">押一付一</span><span v-else-if="contractDetailData.cyclePayType==3">季付</span><span v-else-if="contractDetailData.cyclePayType==4">年付</span>，
+                <span v-if="contractDetailData.cyclePayType==1">月付</span><span v-else-if="contractDetailData.cyclePayType==2">季付</span><span v-else-if="contractDetailData.cyclePayType==3">半年付</span><span v-else-if="contractDetailData.cyclePayType==4">年付</span>，
                 <span v-if="contractDetailData.firstMoneyPayType == 2">两次付清</span><span v-else-if="contractDetailData.firstMoneyPayType == 1">一次性付清</span>:</td>
                 <td class="td1">
                   <table class="contract-detail-table2">
