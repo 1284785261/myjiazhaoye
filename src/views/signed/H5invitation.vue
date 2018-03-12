@@ -27,16 +27,20 @@
               </div>
               <table class="table ivu-table" v-if="inviteRecordList">
                 <tr>
-                  <th>预约社区</th>
-                  <th>预约用户名</th>
-                  <th>预约手机号码</th>
-                  <th>预约时间</th>
+                    <th>序号</th>
+                    <th>预约社区</th>
+                    <th>预约用户名</th>
+                    <th>预约手机号码</th>
+                    <th>首次预约时间</th>
+                    <th>最后预约时间</th>
                 </tr>
-                <tr v-for="item in inviteRecordList">
-                  <td>成都</td>
-                  <td>{{item.userName}}</td>
-                  <td>{{item.userPhone}}</td>
-                  <td>{{item.createtime|timefilter("yyyy-MM-dd hh:mm")}}</td>
+                <tr v-for="(item,index) in inviteRecordList">
+                    <td>{{index+1}}</td>
+                    <td>成都</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.userPhone}}</td>
+                    <td>{{item.createtime|timefilter("yyyy-MM-dd hh:mm")}}</td>
+                    <td>{{item.newtime|timefilter("yyyy-MM-dd hh:mm")}}</td>
                 </tr>
               </table>
               
@@ -67,7 +71,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
   import axios from 'axios';
-  import {propertyContract,CxkjInviteFriendList300139,H5User200204} from '../api.js';
+  import {propertyContract,CxkjInviteFriendList300139,H5User200205} from '../api.js';
 
   export default {
     components:{
@@ -122,8 +126,7 @@
           let endDate = new Date(this.endDate).Format("yyyy-MM-dd");
           param.append('endDate',endDate);
         }
-        axios.post(H5User200204, param).then(function(res){
-              console.log(res);
+        axios.post(H5User200205, param).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.inviteRecordList = res.data.entity.page;
               that.totalNum = res.data.entity.totalNum;
