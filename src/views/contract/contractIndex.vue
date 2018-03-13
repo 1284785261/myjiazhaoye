@@ -525,6 +525,7 @@ export default {
       var that = this;
       this.$http.get(roomContract,{params:data})
         .then(function(res){
+          // console.log(res);
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.roomContractList = pageBean.page;
@@ -597,7 +598,7 @@ export default {
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.propertyContractList = pageBean.page;
-            console.log(that.propertyContractList);
+            // console.log(that.propertyContractList);
             that.propertyTotalNum = pageBean.totalNum;
           }
           if(res.data.code == 10008){

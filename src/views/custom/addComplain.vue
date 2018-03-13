@@ -38,7 +38,7 @@
               <tr>
                 <td><b>投诉人 :</b></td>
                 <td>
-                  <Input v-model="userName" placeholder="请输入投诉人联系电话" style="width: 220px;"></Input>
+                  <Input v-model="userName" placeholder="请输入投诉人姓名" style="width: 220px;"></Input>
                 </td>
               </tr>
               <tr>
@@ -128,7 +128,17 @@
         };
         this.$http.post(addComplain,qs.stringify(data))
           .then(function(res){
-
+            console.log(res);
+              if(res.status == 200 && res.data.code == 10000){
+                that.successModal = true;
+                setTimeout(() => {
+                  that.successModal = false;
+                  that.$router.push('/custom/customServiceManagement');
+                }, 3000);
+              }
+              else{
+                that.warnningModal = false;
+              }
           })
       },
       closeWarningModal(){
