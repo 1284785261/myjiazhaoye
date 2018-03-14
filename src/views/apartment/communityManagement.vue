@@ -523,33 +523,13 @@
 				arr = val.split(','); 
 				for(let i = 0;i<arr.length;i++){
 					if(arr[i] == '1'){
-						arr2.push('押二付一');
+						arr2.push('月付');
 					}
 					if(arr[i] == '2'){
-						arr2.push('押一付一');
-					}
-					if(arr[i] == '3'){
 						arr2.push('季付');
 					}
-					if(arr[i] == '4'){
-						arr2.push('年付');
-					}
-				}
-				return arr2.join(',');
-			},
-			paymentOffice(val){
-				let arr = [];
-				let arr2 = [];
-				arr = val.split(','); 
-				for(let i = 0;i<arr.length;i++){
-					if(arr[i] == '1'){
-						arr2.push('押二付一');
-					}
-					if(arr[i] == '2'){
-						arr2.push('押一付一');
-					}
 					if(arr[i] == '3'){
-						arr2.push('季付');
+						arr2.push('半年付');
 					}
 					if(arr[i] == '4'){
 						arr2.push('年付');
@@ -557,6 +537,26 @@
 				}
 				return arr2.join(',');
 			}
+			// paymentOffice(val){
+			// 	let arr = [];
+			// 	let arr2 = [];
+			// 	arr = val.split(','); 
+			// 	for(let i = 0;i<arr.length;i++){
+			// 		if(arr[i] == '1'){
+			// 			arr2.push('押二付一');
+			// 		}
+			// 		if(arr[i] == '2'){
+			// 			arr2.push('押一付一');
+			// 		}
+			// 		if(arr[i] == '3'){
+			// 			arr2.push('季付');
+			// 		}
+			// 		if(arr[i] == '4'){
+			// 			arr2.push('年付');
+			// 		}
+			// 	}
+			// 	return arr2.join(',');
+			// }
 		},
 
 		mounted() {

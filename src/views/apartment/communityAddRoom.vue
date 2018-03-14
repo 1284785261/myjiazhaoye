@@ -12,7 +12,6 @@
         <div class="ivu-bar-title">
           <h3 v-if="isEidRoom"><i class="icon icon-iden"></i>编辑房间</h3>
           <h3 v-else><i class="icon icon-iden"></i>批量添加房间</h3>
-          <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="add-room-management">
           <div style="height: 30px;width: 100%;"></div>
@@ -781,7 +780,7 @@
   }
   .community-addroom-setting-madal-content{
     width:500px;
-    height:320px;
+    height:344px;
     background-color:#fff;
     border-radius: 5px;
     margin: auto;
@@ -794,9 +793,9 @@
     .modal-content-meddle{
       height: 120px;
       width: 100%;
-      margin-bottom: 40px;
+      margin-bottom: 80px;
       .el-checkbox-group{
-        width: 270px;
+        width: 360px;
         margin: 0 auto;
         padding-top: 40px;
         .el-checkbox{

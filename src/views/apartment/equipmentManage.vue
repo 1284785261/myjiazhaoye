@@ -649,6 +649,7 @@
               that.warningMessage = "添加水表失败！"
               that.warningModal = true;
             }
+            that.waterMeterSn = '';
           })
         },
         //打开修改水表配置对话框
@@ -847,6 +848,8 @@
               that.warningMessage = "添加门锁失败！"
               that.warningModal = true;
             }
+            that.doorLockSn ='';
+            that.doorLockPwd ='';
             that.addLockFlag = false;
           })
         },
@@ -984,6 +987,7 @@
               that.warningMessage = "添加电表失败！"
               that.warningModal = true;
             }
+            that.electricityMeterSn = '';
           })
         },
         //修改电表配置

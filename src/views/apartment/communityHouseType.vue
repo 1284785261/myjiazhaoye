@@ -10,7 +10,6 @@
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>管理户型</h3>
-          <span>佳兆业航运WEWA空间</span>
         </div>
         <div id="house-type-management">
           <div style="height: 30px;width: 100%;"></div>

@@ -131,9 +131,18 @@
               <td class="bargain">
                 <!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
                 <!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-                <el-upload class="upload-demo" :action='host3' :data='data' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList3" :on-success='success' :on-error='error' :before-upload="beforeAvatarUpload">
+                <el-upload class="upload-demo" 
+                :action='UploadUrl()' 
+                :data='data' 
+                :on-preview="handlePreview" 
+                :on-remove="handleRemove" 
+                :file-list="fileList3" 
+                :on-success='success' 
+                :on-error='error'
+                :headers="heads"
+                :before-upload="beforeAvatarUpload">
                   <el-button size="small" type="primary" style="font-size: 14px;color: #8fa6bf;">点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传pdf/png文件</div>
+                  <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传png/pdf文件</div>
                 </el-upload>
 								<ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
 									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;line-height:30px;">查看</li>
@@ -231,6 +240,9 @@
         disabled:false,
         disabled2:false,
         imgPath:'',
+        heads:{
+          'Access-Control-Allow-Origin':host
+        },
         option1: {
 					disabledDate (date) {
 						return date && date.valueOf() <= _this.communityLeaseBegin;
@@ -348,17 +360,20 @@
         this.pdfName.splice(index, 1);
       },
       success(response) { //上传文件成功
-        // console.log(response);
+        console.log(response);
         if(response.code == 10000) {
           this.pdfName.push(response.result.virtualPath);
           // console.log(this.pdfName);
         }
       },
       error(err) { //上传文件失败
-        // console.log(err);
+        console.log(err);
       },
       handlePreview(file) {
         // console.log(file);
+      },
+      UploadUrl(){
+        return this.host3;
       },
       beforeAvatarUpload(file){
         // console.log(file);

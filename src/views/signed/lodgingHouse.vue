@@ -132,7 +132,7 @@
 								</li>
 								<ul class="apartment">
 									<li v-for="(apps,index) in apartments">
-										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}} {{apps.discount}}%</a>
+										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}} <span v-if="apps.discount">{{apps.discount}}%</span></a>
 									</li>
 								</ul>
 							</ul>

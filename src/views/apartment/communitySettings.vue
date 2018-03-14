@@ -344,7 +344,7 @@
 					communityPayWayId: null,
 					deletect: "删除",
 					option1:{
-						dataName: '押二付一',
+						dataName: '月付',
 						dataId: 1
 					},
 					value1: ''
@@ -355,7 +355,7 @@
 					communityPayWayId: null,
 					deletect: "删除",
 					option1:{
-						dataName: '押一付一',
+						dataName: '季付',
 						dataId: 2
 					}, 
 					value1: ''
@@ -366,7 +366,7 @@
 					communityPayWayId: null,
 					deletect: "删除", 
 					option1:{
-						dataName: '季付',
+						dataName: '半年付',
 						dataId: 3
 					},
 					value1: ''
@@ -616,7 +616,7 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -644,6 +644,7 @@
 								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) { //公寓家电集合
 									vm.checkList.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
+								console.log(vm.checkList);
 								for(let i = 0; i< vm.leaseDiscount.length;i++){
 									for(let m = 0; m < response.data.entity[0].cxkjCommunityListLeasePayway.length; m++) { //公寓折扣方式集合
 										if(vm.leaseDiscount[i].option1.dataId == response.data.entity[0].cxkjCommunityListLeasePayway[m].dataId){
@@ -692,7 +693,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							if(response.data.entity[0]) {
 								if(response.data.entity[0].serviceCost) {
@@ -894,7 +895,7 @@
 					).then((response) => {
 						for(let i = 0; i < vm.tableConferences.length; i++) {
 							vm.tableConferences[i].option4 = response.data.entity;
-							console.log(vm.tableConferences[i].option4);
+							// console.log(vm.tableConferences[i].option4);
 						}
 					})
 					.catch((error) => {
