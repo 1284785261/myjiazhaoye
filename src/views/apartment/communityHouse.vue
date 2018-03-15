@@ -68,15 +68,17 @@
                         <el-table-column
                           label="水表/水费">
                           <template scope="scope">
-                            <span v-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.waterStatus != 0 || scope.row.roomLockWaterElect.waterStatus != 1 || scope.row.roomLockWaterElect.waterStatus != 2)">
+                            <span v-if="scope.row.roomLockWaterElect">
                               <span v-if="scope.row.roomLockWaterElect.waterStatus == 0">在线 </span>
-                              <span v-else-if="scope.row.roomLockWaterElect.waterStatus == 1">离线 </span>
-                              <span v-else-if="scope.row.roomLockWaterElect.waterStatus == 2">冻结 </span>
-                              <span v-else-if="!scope.row.roomLockWaterElect.waterStatus">未配置 </span>
+                              <span v-if="scope.row.roomLockWaterElect.waterStatus == 1">离线 </span>
+                              <span v-if="scope.row.roomLockWaterElect.waterStatus == 2">冻结 </span>
+                              <span v-else>未在线 </span>
                             </span>
-                            <span v-else>未配置 </span>
-                            <span v-if="scope.row.waterType ==1">按量计费</span>
-                            <span v-else>按人计费</span>
+                            <span>
+                              <span v-if="scope.row.waterType == 1">按量计费</span>
+                              <span v-else-if="scope.row.waterType == 2">按人计费</span>
+                              <span v-else>未配置</span>
+                            </span>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -84,27 +86,27 @@
                           <template scope="scope">
                             <span v-if="scope.row.roomLockWaterElect">
                               <span v-if="scope.row.roomLockWaterElect.electricityStatus==0">在线</span>
-                              <span v-else-if="scope.row.roomLockWaterElect.electricityStatus==1">离线</span>
-                              <span v-else-if="scope.row.roomLockWaterElect.electricityStatus==2">关闭</span>
-                              <span v-else-if="!scope.row.roomLockWaterElect.electricityStatus">未配置 </span>
+                              <span v-if="scope.row.roomLockWaterElect.electricityStatus==1">离线</span>
+                              <span v-if="scope.row.roomLockWaterElect.electricityStatus==2">关闭</span>
+                              <span v-else>未在线 </span>
                             </span>
-                            <span v-else-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.electricityStatus!=0 || scope.row.roomLockWaterElect.electricityStatus!=1 || scope.row.roomLockWaterElect.electricityStatus!=2)">
-                                未配置
+                            <span>
+                              <span v-if="scope.row.electricType == 1">按量计费</span>
+                              <span v-else-if="scope.row.electricType == 2">按人计费</span>
+                              <span v-else>未配置</span>
                             </span>
-                            <span v-if="scope.row.electricType ==1">按量计费</span>
-                            <span v-else-if="scope.row.electricType ==2">按人计费</span>
+                            
                           </template>
                         </el-table-column>
                         <el-table-column
                           label="智能门锁">
                           <template scope="scope">
-                            <span v-if="scope.row.roomLockWaterElect && (scope.row.roomLockWaterElect.lockStatus!=1 || scope.row.roomLockWaterElect.lockStatus!=2 || scope.row.roomLockWaterElect.lockStatus!=3)">
+                            <span v-if="scope.row.roomLockWaterElect">
                               <span v-if="scope.row.roomLockWaterElect.lockStatus==1">在线</span>
                               <span v-else-if="scope.row.roomLockWaterElect.lockStatus==2">离线</span>
                               <span v-else-if="scope.row.roomLockWaterElect.lockStatus==3">关闭</span>
-                              <span v-else-if="!scope.row.roomLockWaterElect.lockStatus">未配置</span>
+                              <span v-else>未配置</span>
                             </span>
-                            <span v-else>未配置 </span>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -674,6 +676,7 @@
           .then(function (res) {
             if(res.status == 200 && res.data.code ==10000){
               that.rootData = res.data.entity;
+              console.log(that.rootData);
               that.getCommunityListRoomTrue();
             }else{
 

@@ -94,7 +94,8 @@
               <span>家具配置</span>
             </div>
             <div class="modal-content-meddle">
-              <el-checkbox-group v-model="selectListData">
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" class="checkAlls">全选</el-checkbox>
+              <el-checkbox-group v-model="selectListData" @change="handleCheckedCitiesChange(selectListData)">
                 <el-checkbox v-for="select in checkBoxArr2" :label="select.dataName"></el-checkbox>
               </el-checkbox-group>
             </div>
@@ -208,12 +209,33 @@
         warningMessage:"房间信息填写不完整，请填写完整后重新提交！",
 
         roomId:null,
+        checkAll:false,
+        isIndeterminate:true,
       }
     },
     mounted(){
       this.init();
     },
     methods:{
+      handleCheckAllChange(value){
+        console.log(this.checkAll);
+        if(this.checkAll == true){
+          for(let i=0;i<this.checkBoxArr2.length;i++){
+            this.selectListData.push(this.checkBoxArr2[i].dataName);
+          }
+          
+        }else{
+          this.selectListData = [];
+        }
+        this.isIndeterminate = false;
+        // console.log(this.checkBoxArr2);
+      },
+      handleCheckedCitiesChange(value){
+        console.log(value);
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.checkBoxArr2.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkBoxArr2.length;
+      },
       handleClick(tab, event) {
         // console.log(tab, event);
       },
@@ -693,7 +715,7 @@
       }
     }
   }
-
+  
   #addroom-success-modal{
     width: 240px;
     height: 160px;
@@ -715,7 +737,10 @@
       }
     }
   }
-
+  .checkAlls{
+    margin-left: 70px;
+    margin-top: 30px;
+  }
   .community-room-modal{
     width:100%;
     height:100%;
@@ -793,11 +818,11 @@
     .modal-content-meddle{
       height: 120px;
       width: 100%;
-      margin-bottom: 80px;
+      margin-bottom: 110px;
       .el-checkbox-group{
         width: 360px;
         margin: 0 auto;
-        padding-top: 40px;
+        padding-top: 20px;
         .el-checkbox{
           margin-left: 0!important;
           width: 90px;

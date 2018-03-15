@@ -1096,6 +1096,8 @@
 									vm.successModal = false;
 									if(this.communityType == '0') {
 										vm.$router.push('/apartment/communityManagement');
+									}else if(this.communityType == '0,1'){
+										vm.activeName2 = 'second';
 									}
 
 								}, 2000);

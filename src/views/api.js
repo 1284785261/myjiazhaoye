@@ -14,7 +14,7 @@ export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.18.22
 //const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
-//const host3 = 'http://192.168.20.124:8080';//周昭滨
+//const host3 = 'http://192.168.20.124:8081';//周昭滨
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 // const host3 = 'http://192.168.20.234:8081';//周昭滨2
 
