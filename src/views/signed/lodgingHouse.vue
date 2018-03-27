@@ -255,7 +255,7 @@
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
 													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
-													<span v-if="housetderta.electricType">度</span>
+													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
 										</ul>
@@ -595,7 +595,7 @@
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
 													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
-													<span v-if="housetderta.electricType">度</span>
+													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
 										</ul>

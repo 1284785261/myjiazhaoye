@@ -364,7 +364,7 @@ const AppMgCxkjCo = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityList5
 const gCxkjCommun = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityManagerMoney500021'
 
 //工作台今日待办数据
-const aCommunityCo = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityManagerTodayTask500022'
+const aCommunityCo = '/cxkj-room/apis/appManager/cxkjcommunity/CxkjCommunityManagerTodayTask500147'
 
 //工作台消息显示
 const PcMessage = '/cxkj-room/apis/app/message/CxkjGetMessage300024'
@@ -435,7 +435,7 @@ const batchCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyBatch500154'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
-export const ComplainListDownLoad200177 = host3 + '/cxkj-room/apis/pc/communityMgrDownload/CxkjComplainListDownLoad200177';  //投诉管理导出报表
+export const ComplainListDownLoad200177 = host3 + '/cxkj-room/apis/pc/communityMgrDownload/CxkjComplainListDownLoad200177?';  //投诉管理导出报表
 export const hostAuthor = host3 + Author;
 export const hostCommint = host3+ Commint;
 export const hostComplie = host3 + Complie;

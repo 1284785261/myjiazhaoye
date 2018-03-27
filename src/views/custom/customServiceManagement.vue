@@ -133,8 +133,8 @@
         }],
         complainList:[],
         complainTotalNum:0,
-        selectStatus:'',
-        roomCommunity:'',
+        selectStatus:-1,
+        roomCommunity:-1,
         roomSearchKey:"",
         roomStartDate:"",
         roomEndDate:"",
@@ -157,33 +157,11 @@
       }
     },
     mounted(){
-      this.ComplainListDownLoad200177 = ComplainListDownLoad200177
+      this.url = ComplainListDownLoad200177
       this.getCommunityData();
       this.getComplainData({pageNum:1});
-      this.DerivedForm()
     },
     methods:{
-      DerivedForm(){
-        let vm = this
-        vm.url=ComplainListDownLoad200177+`?pageNum=${vm.pageNum}`
-        if(vm.roomCommunity>=0){
-          vm.url += `&communityId=${vm.roomCommunity}`
-        }
-        if(vm.selectStatus>=0){
-          vm.url += `&complainStatus=${vm.selectStatus}`
-        }
-        if(vm.roomStartDate){
-          vm.url += `&beginDate=${vm.roomStartDate}`
-        }
-        if(vm.roomEndDate){
-          vm.url += `&beginDate=${vm.roomEndDate}`
-        }
-        if(vm.keyWord){
-          vm.url += `&keyWord=${vm.keyWord}`
-        }
-        // console.log(url)
-//        window.open(url)
-      },
       handleClick(tab, event) {
         // console.log(tab, event);
       },
@@ -213,28 +191,35 @@
           })
       },
       search(page){
+        // let vm = this;
+        this.url = ComplainListDownLoad200177;
         var data = {
           pageNum:page || 1
         }
+        this.url +='pageNum='+this.pageNum;
         if(this.roomCommunity != -1){
           data.communityId = this.roomCommunity;
+          this.url +='&communityId='+data.communityId;
         }
         if((this.selectStatus || this.selectStatus == '0') && this.selectStatus != '-1'){
           data.complainStatus = this.selectStatus;
+          this.url +='&complainStatus='+data.complainStatus;
         }
         if(this.roomSearchKey){
           data.keyWord = this.roomSearchKey;
+          this.url +='&keyWord='+data.keyWord;
         }
         if(this.roomStartDate){
           data.beginDate = new Date(this.roomStartDate).Format("yyyy-MM-dd");
+          this.url +='&beginDate='+data.beginDate;
         }
         if(this.roomEndDate){
           data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
+          this.url +='&endDate='+data.endDate;
         }
-        console.log(this.roomSearchKey);
+        console.log(this.url);
         this.pageNum = page || 1
         this.getComplainData(data);
-        this.DerivedForm()
       },
 
       toAddComplain(){

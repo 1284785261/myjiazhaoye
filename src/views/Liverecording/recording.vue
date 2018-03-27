@@ -147,6 +147,7 @@
 			},
 			inst(){
 				document.getElementById('zbjs').style.display = 'none';
+				this.url = '';
 			},
 			sousuos(){
 				this.datas();

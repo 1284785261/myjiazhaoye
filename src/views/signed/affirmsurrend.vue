@@ -360,7 +360,7 @@
 						throwLeaseId: this.throwLeaseId
 					})
 				).then((res) => {
-					// console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.ThrowLease = res.data.result;
 						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
@@ -378,20 +378,22 @@
 			},
 			water(val) {
 				if(this.ThrowLease.waterChargeModel == 1) {
-					this.ThrowLease.waterSumPrice = val * this.ThrowLease.waterPrice;
+					this.ThrowLease.waterSumPrice = parseFloat(val) * parseFloat(this.ThrowLease.waterPrice);
 				} else if(this.ThrowLease.waterChargeModel == 2) {
 					this.ThrowLease.waterSumPrice = this.ThrowLease.enterCount * this.ThrowLease.waterPrice;
 				}
 
 			},
 			waterNum(val){
-				if(parseInt(val) <= parseInt(this.ThrowLease.roomWater)){
+				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomWater)){
 					this.warningMessage = '水表读数需大于初始值'+ this.ThrowLease.roomWater;
 					this.warningModal = true;
 				}
 				else{
-					this.ThrowLease.waterCount = parseInt(val) - parseInt(this.ThrowLease.roomWater);
+					this.ThrowLease.waterCount = parseFloat(val) - parseFloat(this.ThrowLease.roomWater);
 					if(this.ThrowLease.waterChargeModel == 1) {
+						console.log(this.ThrowLease.waterCount);
+						console.log(this.ThrowLease.waterPrice);
 						this.ThrowLease.waterSumPrice = this.ThrowLease.waterCount * this.ThrowLease.waterPrice;
 					} else if(this.ThrowLease.waterChargeModel == 2) {
 						this.ThrowLease.waterSumPrice = this.ThrowLease.enterCount * this.ThrowLease.waterPrice;
@@ -401,19 +403,19 @@
 			},
 			energ(val) {
 				if(this.ThrowLease.electricChargeModel == 1) {
-					this.ThrowLease.energySumPrice = val * this.ThrowLease.energyPrice;
+					this.ThrowLease.energySumPrice = parseFloat(val) * parseFloat(this.ThrowLease.energyPrice);
 				} else if(this.ThrowLease.electricChargeModel == 2) {
 					this.ThrowLease.energySumPrice = this.ThrowLease.enterCount * this.ThrowLease.energyPrice;
 				}
 
 			},
 			energyNum(val){
-				if(parseInt(val) <= parseInt(this.ThrowLease.roomElectric)){
+				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomElectric)){
 					this.warningMessage = '电表读数需大于初始值'+ this.ThrowLease.roomElectric;
 					this.warningModal = true;
 				}
 				else{
-					this.ThrowLease.energyCount = parseInt(val) - parseInt(this.ThrowLease.roomElectric);
+					this.ThrowLease.energyCount = parseFloat(val) - parseFloat(this.ThrowLease.roomElectric);
 					if(this.ThrowLease.electricChargeModel == 1) {
 						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
 					} else if(this.ThrowLease.electricChargeModel == 2) {

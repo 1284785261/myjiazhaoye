@@ -247,7 +247,7 @@
 										<td>上级公司</td>
 										<td>微信账号</td>
 										<td>支付宝账号</td>
-										<td>创建人</td>
+										<td>操作者</td>
 										<td>创建日期</td>
 										<td>状态</td>
 										<td width="100px">操作 </td>
@@ -488,12 +488,12 @@
 			<table class="Companymessage1">
 				<tr>
 					<td>
-						微信号：<input type="text" style="margin-right:12px;margin-left: 4px;" placeholder="请输入微信号" v-model="addCompany.wxpayAppid"> 微信密钥：<input type="text" v-model="addCompany.wxpayMchid">
+						微信号：<input type="text" style="margin-right:12px;margin-left: 4px;" placeholder="请输入微信号" v-model="addCompany.wxpayAppid"> 微信密钥：<input type="password" v-model="addCompany.wxpayMchid">
 					</td>
 				</tr>
 				<tr>
 					<td>
-						支付宝：<input type="text" style="margin-left: 4px;" placeholder="请输入支付宝" v-model="addCompany.alipayAppid"> 支付宝密钥：<input type="text" v-model="addCompany.alipayPrivatekey">
+						支付宝：<input type="text" style="margin-left: 4px;" placeholder="请输入支付宝" v-model="addCompany.alipayAppid"> 支付宝密钥：<input type="password" v-model="addCompany.alipayPrivatekey">
 					</td>
 				</tr>
 			</table>

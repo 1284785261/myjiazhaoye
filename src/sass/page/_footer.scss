@@ -1,15 +1,16 @@
 @charset "utf-8";
 
 .footer{
-   margin-top: 20px;
-   position: absolute;
-   left:0;
-   bottom: 0;
-   width: 100%;
-    background-color: #dcdcdc;
-    text-align: center;
+  // margin-top: 20px;
+  position: absolute;
+  left:0;
+  bottom: 20px;
+  width: 100%;
     p{
-      line-height: 60px;
+      width: 430px;
+      margin-left: 50%;
+      transform: translate(-50%,0);
+      line-height: 30px;
       text-align: center;
     }
 }

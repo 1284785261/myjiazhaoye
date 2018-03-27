@@ -44,7 +44,8 @@
                   <th>操作</th>
                 </tr>
                 <tr v-for="(item,index) in  memberList">
-                  <td>{{item.userName || item.userAliase}}</td>
+                  <td v-if="item.userName">{{item.userName}}</td>
+                  <td v-else style="color:red;">未填写</td>
                   <td>{{item.userPhone}}</td>
                   <td>
                     <span v-if="item.gender==1">男</span>
@@ -106,7 +107,8 @@
                   <td style="width:80px;">
                     <div @click="checkAllSelect(index,item.isChecked)"><Checkbox label="item.isChecked" v-model="item.isChecked"></Checkbox></div>
                   </td>
-                  <td>{{item.userName || item.userAliase}}</td>
+                  <td v-if="item.userName">{{item.userName}}</td>
+                  <td v-else style="color:red;">未填写</td>
                   <td>{{item.userPhone}}</td>
                   <td>
                     <span v-if="item.gender==1">男</span>
@@ -117,7 +119,8 @@
                     <span v-if="item.userBlacklist==1" style="color: red;">黑名单</span>
                     <span v-else>正常</span>
                   </td>
-                  <td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"--"}}</td>
+                  <td v-if="item.cxkjCenterBlacklist && item.cxkjCenterBlacklist.note">{{item.cxkjCenterBlacklist.note}}</td>
+                  <td v-else>--</td>
                   <td>
                     <a @click="openWhileModal(item.cxkjCenterBlacklist.blacklistId,index)" v-if="jurisdiction('MEMBER_UPDATE')">设为白名单</a>
                   </td>
@@ -268,6 +271,7 @@
               for(var i =0;i<that.blackMemberList.length;i++){
                 that.$set(that.blackMemberList[i],"isChecked",false);
               }
+              console.log(that.blackMemberList);
             }
             if(res.data.code == 10004){
               that.blackMemberList = [];

@@ -2,7 +2,7 @@
 
 .left-menu{
   height: 100%;
-  width: 240px;
+  width: 200px;
   position: absolute;
   left: 0;
   top: 0;
@@ -11,7 +11,7 @@
   .logo{
     height: 160px;
     img{
-      width: 240px;
+      width: 200px;
       height: 160px;
     }
   }
@@ -20,6 +20,7 @@
       height: 60px;
       line-height: 57px;
       position: relative;
+      background-color: #333333;
       &:after{
         content: "";
         position: absolute;
@@ -27,7 +28,7 @@
         bottom: 0;
         width: 100%;
         height: 2px;
-        background: url("/static/images/icon/menuBorder.png") repeat;
+        // background: url("/static/images/icon/menuBorder.png") repeat;
       }
       a{
         display: block;
@@ -35,10 +36,10 @@
         position: relative;
         padding:0 25px;
         &.router-link-active,&:hover,&.test{
-          color:#58beff;
-          background: rgba(0,0,0,0.2);
+          // color:#58beff;
+          background: url("/static/images/temp/logo_04.png") repeat;
           i{
-            color:#58beff;
+            // color:#58beff;
           }
           &:after{color:#58beff;}
         }
@@ -48,44 +49,33 @@
           position: relative;
           top: 2px;
         }
-        &:after{
-          content: "\e606";
-          font-family: "iconfont" !important;
-          position: absolute;
-          font-size: 16px;
-          color:#999;
-          line-height: 1;
-          right: 25px;
-          top:24px;
-        }
       }
     }
-    .active-tab{
-      a{
-        display: block;
-        @include fontSzie(16px,#dcdcdc);
+  }
+  .active-tab{
+    a{
+      display: block;
+      @include fontSzie(16px,#dcdcdc);
+      position: relative;
+      padding:0 25px;
+      color:#58beff;
+      background: url("/static/images/temp/logo_04.png") repeat;
+      i{
+        margin-right: 20px;
+        font-size: 26px;
         position: relative;
-        padding:0 25px;
-        color:#58beff;
-        background: rgba(0,0,0,0.2);
-        i{
-          margin-right: 20px;
-          font-size: 26px;
-          position: relative;
-          top: 2px;
-          color:#58beff;
-        }
-        &:after{
-          content: "\e606";
-          font-family: "iconfont" !important;
-          position: absolute;
-          font-size: 16px;
-          color:#58beff;
-          line-height: 1;
-          right: 25px;
-          top:24px;
-        }
+        top: 2px;
       }
+      // &:after{
+      //   content: "\e606";
+      //   font-family: "iconfont" !important;
+      //   position: absolute;
+      //   font-size: 16px;
+      //   color:#58beff;
+      //   line-height: 1;
+      //   right: 25px;
+      //   top:24px;
+      // }
     }
   }
 }

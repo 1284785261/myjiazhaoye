@@ -4,17 +4,6 @@
 			<Badge :count="nums">
 				<router-link to="/signed/messageInform"><Icon type="ios-bell-outline"></Icon></router-link>
 			</Badge>
-			<Dropdown trigger="hover" class="reset-dropdown">
-				<a href="javascript:void(0)"><i class="iconfont icon-shujuappxiazai"></i>下载管家APP</a>
-				<Dropdown-menu slot="list">
-					<div class="imgBox">
-						<div class="img">
-							<img src="/static/images/temp/code01.png">
-						</div>
-						<img src="/static/images/temp/code02.png">
-					</div>
-				</Dropdown-menu>
-			</Dropdown>
 			<Dropdown trigger="click">
 				<a href="javascript:void(0)">
 					<img :src=imgPath1 v-if="imgPath1 != ''"/>
@@ -28,6 +17,18 @@
 					</Dropdown-item>
 				</Dropdown-menu>
 			</Dropdown>
+			<Dropdown trigger="hover" class="reset-dropdown">
+				<a href="javascript:void(0)"><i class="iconfont icon-shujuappxiazai"></i>下载管家APP</a>
+				<Dropdown-menu slot="list">
+					<div class="imgBox">
+						<div class="img">
+							<img src="/static/images/temp/code01.png">
+						</div>
+						<img src="/static/images/temp/code02.png">
+					</div>
+				</Dropdown-menu>
+			</Dropdown>
+			
 		</div>
 	</div>
 </template>

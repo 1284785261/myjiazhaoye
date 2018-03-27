@@ -20,7 +20,24 @@
 				</div>
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="min-height:430px;">
+					<div class="modular-box" style="min-height:300px;">
+						<h3><i class="icon icon-info"></i>我的消息</h3>
+						<ul class="info-list" v-if="myInfos">
+							<li v-for="myInfo in myInfos"> 
+								<span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
+								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link>
+								<span class="date">{{myInfo.createtime | time}}</span>
+							</li>
+						</ul>
+						<div class="muvs" v-else>
+							<img src="../../../static/images/temp/nores_03.png" style="transform: translate(0,15%);" />
+						</div>
+					</div>
+					</Col>
+				</Row>
+				<Row>
+					<Col span="12">
+					<div class="modular-box" style="min-height:300px;margin-bottom: 20px;">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens" v-if="show1">
 							<li>
@@ -78,7 +95,7 @@
 					</div>
 					</Col>
 					<Col span="12">
-					<div class="modular-box" style="min-height:430px;">
+					<div class="modular-box" style="min-height:300px;">
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list workbens" v-if="show2">
 							<li>
@@ -130,62 +147,41 @@
 					</div>
 					</Col>
 				</Row>
-
-				<Row>
-					<Col span="12">
-					<div class="modular-box" style="min-height:380px;">
-						<h3><i class="icon icon-info"></i>我的消息</h3>
-						<ul class="info-list" v-if="myInfos != []">
-							<li v-for="myInfo in myInfos"> 
-								<span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
-								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link>
-								<span class="date">{{myInfo.createtime | time}}</span>
-							</li>
-						</ul>
-						<div class="muvs" v-else>
-							<img src="../../../static/images/temp/ms_06.png" />
-						</div>
-					</div>
-					</Col>
-					<Col span="12">
-					<div class="modular-box" style="min-height:380px;">
-						<h3><i class="icon icon-info"></i>今日待办</h3>
-						<ul class="remain-list" v-if="remains != null">
-							<li v-if="remains.appointmentCount != 0">
-								<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.appointmentCount}}人</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.roomCount != 0">
-								<router-link to="/bill/billManagement">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.officeCount != 0">
-								<router-link to="/bill/billManagement">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.waterEnergyCount != 0">
-								<router-link :to="{ name:'billManagement',query:{tab:'third'}}">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.repairCount != 0">
-								<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.repairCount}}人</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.rentCount != 0">
-								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">用户退房<span><span>{{remains.rentCount}}人</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.expireCount != 0">
-								<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.beginHour != 0">
-								<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-							<li v-if="remains.complaintCount != 0">
-								<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
-								</router-link><i class="iconfont icon-you"></i></li>
-						</ul>
-						<div class="muvs" v-else>
-							<img src="../../../static/images/temp/ms_06.png" />
-						</div>
-					</div>
-					</Col>
-					
-				</Row>
+			</div>
+			<div class="newdatas">
+				<h3>今日待办</h3>
+				<ul class="remain-list" v-if="remains">
+					<li v-if="remains.appointmentCount != 0">
+						<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.appointmentCount}}人</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.roomCount != 0">
+						<router-link to="/bill/billManagement">待收公寓租金<span>{{remains.roomCount}}笔<span>{{remains.roomMoney | roomMoney}}</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.officeCount != 0">
+						<router-link to="/bill/billManagement">待收联合办公租金<span>{{remains.officeCount}}笔<span>{{remains.officeMoney | officeMoney}}</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.waterEnergyCount != 0">
+						<router-link :to="{ name:'billManagement',query:{tab:'third'}}">待收水电账单<span>{{remains.waterEnergyCount}}笔<span>{{remains.waterEnergyMoney | waterEnergyMoney}}</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.repairCount != 0">
+						<router-link :to="{path:'/signed/repairs',query:{communityId:communityId,Name:selectModel1}}">用户报修<span><span>{{remains.repairCount}}人</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.rentCount != 0">
+						<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">用户退房<span><span>{{remains.rentCount}}人</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.expireCount != 0">
+						<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.beginHour != 0">
+						<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+					<li v-if="remains.complaintCount != 0">
+						<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
+						</router-link><i class="iconfont icon-you"></i></li>
+				</ul>
+				<div class="muvs" v-else>
+					<img src="../../../static/images/temp/nores_06.png" style="margin-left:50%;transform: translate(-50%,0);padding:40px 0;"/>
+				</div>
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -226,7 +222,7 @@
 					title: "昨日业绩",
 					num: ""
 				}],
-				myInfos: [],
+				myInfos: null,
 
 				remains: null,
 				communityId: null,
@@ -243,7 +239,7 @@
 		},
 		mounted() {
 
-          if(sessionStorage.getItem('urlType') && sessionStorage.getItem('urlType') == '测试'){
+          if(sessionStorage.getItem('urlType') && ( sessionStorage.getItem('urlType') == '测试'|| sessionStorage.getItem('urlType') == '研发')){
             this.userType = true
           }
 			this.communityId = sessionStorage.getItem('communityId');
@@ -475,7 +471,7 @@
 							communityId: Index
 						})
 					).then((response) => {
-						// console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
 						}
@@ -572,6 +568,7 @@
 		overflow: hidden;
 		.ivu-col-span-12 {
 			padding: 0 10px;
+			width: 70%;
 		}
 	}
 	// #rightwork{
@@ -595,5 +592,79 @@
 	.woram{
 		min-height:1020px;
 		background-color: #f0f0f0;
+	}
+	.infoState{
+		width: 120px;
+	}
+	.newdatas{
+		width: 28%;
+		position: absolute;
+		right: 0;
+		top: 200px;
+		margin-right: 20px;
+		padding-bottom: 20px;
+		background: #ffffff;
+		h3{
+				height: 50px;
+				line-height: 50px;
+				background: #00afcc;
+				font-size: 16px;
+				color: #ffffff;
+				padding-left: 18px;
+		}
+		.remain-list{
+			padding: 0 15px;
+			li{
+			line-height: 43px;
+			border-top: 1px dashed #dcdcdc;
+			position: relative;
+			padding-right: 25px;
+			&:first-child{
+				border-top: none;
+			}
+			&:hover{
+				background-color: #f7fbff;
+				a{
+				color:#00afcc;
+				&:after{
+					background-color: #329cf6;
+				}
+				}
+			}
+			a{
+				display: block;
+				color:#333;
+				padding-left: 20px;
+				&:after{
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 50%;
+				margin-top: -2.5px;
+				width: 5px;
+				height: 5px;
+				border-radius: 50%;
+				background-color: #999;
+				}
+				&>span{
+				position: absolute;
+				right:30px;
+				top: 0;
+				color:#00afcc;
+				span{
+					margin-left: 15px;
+					color:#f9ce34;
+				}
+				}
+			}
+			.icon-you{
+				position: absolute;
+				right: 0;
+				top: 0;
+				font-size: 18px;
+				color:#bebebe;
+			}
+			}
+		}
 	}
 </style>

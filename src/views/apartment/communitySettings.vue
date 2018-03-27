@@ -1087,6 +1087,7 @@
 							energyPrice: vm.energyPrice
 						})
 						.then((response) => {
+							debugger
 							// console.log(response);
 							if(response.status == 200 && response.data.code == 10000) {
 								vm.successMessage = '公寓设置成功';

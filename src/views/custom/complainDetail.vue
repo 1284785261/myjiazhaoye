@@ -56,7 +56,7 @@
 									<img :src='imgPath + item' style="width: 200px;height: 120px;" />
 								</li>
 							</ul> -->
-							<div class="ivu-warp-Communitys" v-show="images.length">
+							<div class="ivu-warp-Community" v-show="images.length">
 								
 									<div class="demo-upload-list" v-for="item in images">
 								<template>
@@ -357,54 +357,7 @@ export default {
         }
       }
     }
-    .ivu-warp-Communitys {
-      width: 100%;
-      min-height: 130px;
-      background: #fff;
-      overflow: hidden;
-      position: relative;
-
-      .demo-upload-list {
-        display: inline-block;
-        width: 160px;
-        height: 120px;
-        text-align: center;
-        line-height: 108px;
-        border: 1px solid #dcdcdc;
-        overflow: hidden;
-        padding: 3px;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        margin-right: 20px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-        .demo-upload-list-cover {
-          display: none;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: rgba(0, 0, 0, 0.6);
-          i {
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-          }
-		}
-		.ivu-modal-footer {
-			display: none;
-		}
-	
-		.ivu-modal-wrap .ivu-modal {
-			width: 800px!important;
-			height: 600px;
-		}
-
-		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-close {
+    .ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-close {
 			display: inline-block;
 			background: #333333;
 			width: 30px;
@@ -424,15 +377,53 @@ export default {
 		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body img {
 			width: 100%;
 			height: 550px;
-		}
-        
-	  }
-	  .demo-upload-list-cover{
-		i{
-		&:before{
-			display: none;
-		}
-		}
+		}  
+  }
+  .ivu-warp-Community {
+		width: 100%;
+		min-height: 130px;
+		background: #fff;
+    overflow: hidden;
+    border-bottom: none;
+    position: relative;
+    .demo-upload-list{
+      display: inline-block;
+      width: 160px;
+      height: 120px;
+      text-align: center;
+      line-height: 108px;
+      border: 1px solid #dcdcdc;
+      overflow: hidden;
+      padding: 3px;
+      background: #fff;
+      position: relative;
+      box-shadow: 0 1px 1px rgba(0,0,0,.2);
+      margin-right: 20px;
+    }
+    .demo-upload-list img{
+      width: 100%;
+      height: 100%;
+    }
+    .demo-upload-list-cover{
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover {
+      cursor: pointer;
+      display: block;
+    }
+	}
+	.demo-upload-list-cover{
+    i{
+      &:before{
+          display: none;
+        }
+    }
 		.ivu-icon-ios-eye-outline{
 			background-image: url("/static/images/icon/eye-outline.png");
 			width: 30px;
@@ -442,12 +433,40 @@ export default {
 			top: 50%;
 			margin-left: -15px;
 			margin-top: -15px;
-		}
+    }
 	}
-	}
-	.ivu-warp-Communitys .demo-upload-list:hover .demo-upload-list-cover {
-		display: block;
-	}
-  }
 }
+
+
+.ivu-modal-footer {
+  display: none;
+}
+
+.ivu-modal-wrap{
+  .ivu-modal {
+    width: 800px!important;
+    height: 600px;
+    .ivu-modal-content{
+      .ivu-modal-close {
+        display: inline-block;
+        background: #333333;
+        width: 30px;
+        border-radius: 50%;
+        text-align: center;
+        position: absolute;
+        top: -5%;
+        right: -5%;
+      }
+      .ivu-modal-body {
+        width: 800px;
+        height: 600px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 550px;
+        }
+      }
+    }
+  }
+} 
 </style>

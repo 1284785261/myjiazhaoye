@@ -1,7 +1,7 @@
 <template>
     <div class="left-menu" id="left-content">
         <div class="logo">
-          <img src="/static/images/temp/logo.jpg">
+          <img src="/static/images/temp/logo_01.png">
         </div>
       <ul class="menu-list">
         <li v-if="jurisdiction('WORKBENCH_QUERY')" :class="{'active-tab':activeTabName == 'workbench'}"><router-link :to="{ name: 'workbench' , params: { id: 123 }}"><i class="iconfont icon-gongzuotai"></i>工作台</router-link></li>
@@ -18,8 +18,8 @@
         <li v-if="jurisdiction('FINANCE_QUERY')" :class="{'active-tab':activeTabName == 'financeManagement'}"><router-link :to="{ name: 'financeManagement' , params: { id: 123 }}"><i class="iconfont icon-caiwuguanli"></i>财务管理</router-link></li>
         <li v-if="jurisdiction('AD_QUERY')" :class="{'active-tab':activeTabName == 'advertiset'}"><router-link :to="{ name: 'advertiset' , params: { id: 123 }}"><i class="iconfont icon-guanggao"></i>广告设置</router-link></li>
         <li v-if="jurisdiction('JIAREN_QUERY')"><router-link :to="{ name: 'invitationlist' , params: { id: 123 }}"><i class="iconfont icon-renshi"></i>佳里人</router-link></li>
-        <li v-if="jurisdiction('CUSTOMER_QUERY')" :class="{'active-tab':activeTabName == 'billManagement'}"><router-link :to="{ name: 'customServiceManagement' , params: { id: 123 }}"><i class="iconfont icon-kefu"></i>客服管理</router-link></li>
-        <li v-if="jurisdiction('STAFF_QUERY') || jurisdiction('DEPARTMENT_QUERY') || jurisdiction('STAFFING_QUERY') || jurisdiction('POSITION_QUERY') || jurisdiction('POWER_QUERY')" ><router-link :to="{ name: 'systems' , params: { id: 123 }}"><i class="iconfont icon-guanli"></i>系统管理</router-link></li>
+        <li v-if="jurisdiction('CUSTOMER_QUERY')" :class="{'active-tab':activeTabName == 'customServiceManagement'}"><router-link :to="{ name: 'customServiceManagement' , params: { id: 123 }}"><i class="iconfont icon-kefu"></i>客服管理</router-link></li>
+        <li v-if="jurisdiction('STAFF_QUERY') || jurisdiction('DEPARTMENT_QUERY') || jurisdiction('STAFFING_QUERY') || jurisdiction('POSITION_QUERY') || jurisdiction('POWER_QUERY')" :class="{'active-tab':activeTabName == 'systems'}"><router-link :to="{ name: 'systems' , params: { id: 123 }}"><i class="iconfont icon-guanli"></i>系统管理</router-link></li>
         <li v-if="jurisdiction('ACTIVITY_QUERY')" :class="{'active-tab':activeTabName == 'activitys'}"><router-link :to="{ name: 'activitys' , params: { id: 123 }}"><i class="iconfont icon-huodong"></i>活动管理</router-link></li>
         <li :class="{'active-tab':activeTabName == 'industry'}"><router-link :to="{ name: 'industry' , params: { id: 123 }}"><i class="iconfont icon-gongshangzhuce" style="font-size: 24px;"></i>工商注册</router-link></li>
       </ul>
@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted(){
-      if(sessionStorage.getItem('urlType') && sessionStorage.getItem('urlType') == '测试'){
+      if(sessionStorage.getItem('urlType') &&( sessionStorage.getItem('urlType') == '测试'|| sessionStorage.getItem('urlType') == '研发') ){
         this.userType = true
       }
   },

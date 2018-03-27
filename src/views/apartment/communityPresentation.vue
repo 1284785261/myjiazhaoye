@@ -350,14 +350,24 @@
                     desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
                 });
             },
-            handleBeforeUpload () {
+            handleBeforeUpload (file) {
+				const types = file.name;
+				let res = /^[^,，]*$/;
                 const check = this.uploadList.length+this.uploadList1.length < 5;
                 if (!check) {
                     this.$Notice.warning({
                         title: '最多只能上传 5 张图片。'
-                    });
-                }
-                return check;
+					});
+					return check;
+				}
+				if(!res.test(types)){
+					console.log(1);
+					this.$Notice.warning({
+                        title: '图片名字不能包含逗号。'
+					});
+					return res.test(types);
+				}
+                
             },
 			handleView2(name) {
 				this.imgName = name.url;
@@ -386,14 +396,25 @@
                     desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
                 });
             },
-            handleBeforeUpload2 () {
+            handleBeforeUpload2 (file) {
+				// ^[^,，]*$
+				const types = file.name;
+				let res = /^[^,，]*$/;
                 const check = this.uploadList2.length+this.uploadList5.length < 5;
                 if (!check) {
                     this.$Notice.warning({
                         title: '最多只能上传 5 张图片。'
-                    });
-                }
-                return check;
+					});
+					return check;
+				}
+				if(!res.test(types)){
+					console.log(1);
+					this.$Notice.warning({
+                        title: '图片名字不能包含逗号。'
+					});
+					return res.test(types);
+				}
+                
             },
 			handleView3(name) {
 				this.imgName = name.url;
@@ -422,14 +443,24 @@
                     desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
                 });
             },
-            handleBeforeUpload3 () {
+            handleBeforeUpload3 (file) {
+				const types = file.name;
+				let res = /^[^,，]*$/;
                 const check = this.uploadList3.length + this.uploadList6.length < 5;
                 if (!check) {
                     this.$Notice.warning({
                         title: '最多只能上传 5 张图片。'
-                    });
-                }
-                return check;
+					});
+					return check;
+				}
+				if(!res.test(types)){
+					console.log(1);
+					this.$Notice.warning({
+                        title: '图片名字不能包含逗号。'
+					});
+					return res.test(types);
+				}
+                
             },
 			handleRemove4(item){
 				let fileIndex = this.uploadList1.findIndex(items => items == item);

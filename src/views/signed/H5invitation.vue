@@ -36,7 +36,7 @@
                 </tr>
                 <tr v-for="(item,index) in inviteRecordList">
                     <td>{{index+1}}</td>
-                    <td>成都</td>
+                    <td>{{item.type}}</td>
                     <td>{{item.userName}}</td>
                     <td>{{item.userPhone}}</td>
                     <td>{{item.createtime|timefilter("yyyy-MM-dd hh:mm")}}</td>
@@ -130,6 +130,7 @@
             if(res.status == 200 && res.data.code == 10000){
               that.inviteRecordList = res.data.entity.page;
               that.totalNum = res.data.entity.totalNum;
+              console.log(that.inviteRecordList);
             }
             else{
               that.inviteRecordList = [];

@@ -177,7 +177,8 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2">{{contractDetailData.refundTime | time}}</td>
+                      <td class="td2" v-if="contractDetailData.refundTime">{{contractDetailData.refundTime | time}}</td>
+                      <td class="td2" v-else></td>
                     </tr>
                   </table>
                 </td>
@@ -230,7 +231,7 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2">
-                      <td class="td2"><b>{{contractDetailData.paidMonthCount}}/{{contractDetailData.stage}}月</b></td>
+                      <td class="td2"><b>{{contractDetailData.paidMonthCount}}/{{contractDetailData.stage}}期</b></td>
                     </tr>
                   </table>
                 </td>
@@ -357,6 +358,12 @@
           if(res.status == 200 && res.data.code == 10000){
               that.contractDetailData = res.data.entity;
               var arr = [];
+              // if(that.contractDetailData.endDate && that.contractDetailData.freeMonth > 0){
+              //   var nes = new Date(that.contractDetailData.endDate);
+              //     nes.setMonth(nes.getMonth()+that.contractDetailData.freeMonth);
+              //     let timsexpire = nes;
+              //   that.contractDetailData.endDate = timsexpire;
+              // }
               //默认显示第一张公寓图片
               that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
               // console.log(that.contractDetailData.communityWork)
@@ -636,7 +643,7 @@
   }
 
   .contract-modal-content{
-    max-width:600px;
+    min-width:600px;
     height:300px;
     background-color:#fff;
     border-radius: 5px;
@@ -701,7 +708,7 @@
     }
   }
   .preview-modal-content{
-    width:720px;
+    width:810px;
     height:540px;
    
     .pre-view{
@@ -746,6 +753,17 @@
     }
   }
   .formulas{
+    max-width:600px;
+    height:300px;
+    background-color:#fff;
+    border-radius: 5px;
+    margin: auto;
+    position: fixed;
+    z-index:9999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     h3{
       text-align: center;
       line-height: 50px;

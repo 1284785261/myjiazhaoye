@@ -8,25 +8,26 @@
     margin-left: -422.5px;
     top: 50%;
     margin-top: -300px;
-    width: 841px;
-    height: 600px;
-    .logo{
-      margin-left: 30px;
-      width: 361px;
-      img{
-        max-width: 100%;
-      }
-    }
+    width: 900px;
+    height: 620px;
   }
   .login-main{
-    background: url("/static/images/icon/loginBack02_02.png") no-repeat;
-    height: 447px;
+    height: 620px;
   }
   .pull-left{
-    width: 421px;
+    width: 290px;
+    height: 620px;
     float: left;
+    background: #484848;
+    background-color: rgba(0,0,0,0.5)!important;
     text-align: center;
-    padding-top: 112px;
+    padding-top: 83px;
+    .logins{
+      width: 191px;
+      height: 100px;
+      display: inline-block;
+      margin-bottom: 83px;
+    }
     .code{
       background: url("/static/images/icon/loginBack02_03.png") no-repeat;
       width: 191px;
@@ -40,7 +41,7 @@
       }
     }
     .btn-app{
-      margin-top: 30px;
+      margin-top: 28px;
     }
     a{
       display: inline-block;
@@ -48,63 +49,85 @@
       text-align: center;
       height: 40px;
       line-height: 38px;
-      border:1px solid #038be2;
-      color:#038be2;
+      color:#ffffff;
     }
+  }
+  .ivu-form-item-required{
+    width: 300px;
+    margin-left: 50%;
+    transform: translate(-50%,0);
   }
   .ivu-form{
     float: left;
-    width: 420px;
-    padding:50px;
+    width: 610px;
+    height: 620px;
+    background: #ffffff;
     .ivu-form-item{
       display: block;
       .ivu-input{
         height: 44px;
-      }
-      .ivu-input{
-        border-radius: 0;
+        // border: 1px solid #00afcc;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
       }
       .ivu-btn-primary{
         display: block;
-        width: 100%;
+        width: 300px;
+        margin-left: 50%;
+        transform: translate(-50%,0);
         height: 45px;
+        margin-top: 30px;
         line-height: 45px;
         font-size: 18px;
         padding: 0;
-        background-color: #038be2;
+        background-color: #00b9d3;
       }
-      .ivu-input-group-prepend{
-        width: 44px;
-        text-align: center;
-        height: 44px;
-        line-height: 43px;
-        padding: 0;
-        background-color: #038BE2;
-        border-radius: 0;
-        .iconfont{
-          font-size: 28px;
-          position: relative;
-          top: 6px;
-          color:white;
+      .ivu-input-group-with-prepend{
+
+        .ivu-input-group-prepend{
+          width: 44px;
+          text-align: center;
+          height: 44px;
+          line-height: 43px;
+          padding: 0;
+          background-color: #00afcc;
+          border-radius: 0;
+          .iconfont{
+            font-size: 28px;
+            position: relative;
+            top: 6px;
+            color:white;
+          }
         }
       }
+      
     }
     .ivu-item-title{
-      text-align: center;
-      h3{
-        font-size: 20px;
-        color:#038be2;
-        padding-bottom: 20px;
-        font-weight: normal;
-        background: url("/static/images/icon/loginBack02_04.png") bottom  no-repeat;
+      .ivu-form-item-content{
+        text-align: center;
+        h3{
+          margin-top: 150px;
+          margin-left: 50%;
+          transform: translate(-50%,0);
+          width: 300px;
+          font-size: 20px;
+          color:#666666;
+          padding-bottom: 20px;
+          font-weight: normal;
+          border-bottom: 2px solid #00afcc;
+        }
       }
+      
     }
     .ivu-form-bottom{
+      position: absolute;
+      left: 658px;
+      top: 328px;
       .ivu-form-item-content{
         text-align: right;
         &>a{
-          font-size: 14px;
-          color:#666;
+          font-size: 12px;
+          color:#c2c2c2;
         }
         &>a:hover{
             color: red;

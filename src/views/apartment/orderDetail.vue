@@ -14,17 +14,17 @@
         <div id="order-detail-wrap">
           <div class="order-detail-wrap-head">
             <img v-if="detailData.orderState==2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
-            <img v-else-if="detailData.orderState==4" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已使用">
+            <img v-else-if="detailData.orderState==4" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已取消">
             <img v-else-if="detailData.orderState==1" src="../../../static/images/icon/orderDetail_01.png" alt="订单详情-待支付">
-            <img v-else-if="detailData.orderState==3" src="../../../static/images/icon/orderDetail_04.png" alt="订单详情-未使用">
+            <img v-else-if="detailData.orderState==3" src="../../../static/images/icon/orderDetail_04.png" alt="订单详情-已使用">
             <div class="order-detail-wrap-head-content">
               <h3>
                 <label v-if="detailType==1">工位订单</label>
                 <label v-if="detailType==0">会议室订单</label>
-                <span v-if="detailData.orderState==2">已支付</span>
-                <span v-else-if="detailData.orderState==4">已使用</span>
-                <span v-else-if="detailData.orderState==1">待支付</span>
-                <span v-else-if="detailData.orderState==3">未使用</span>
+                <span v-if="detailData.orderState==1">待支付</span>
+                <span v-else-if="detailData.orderState==2">已支付</span>
+                <span v-else-if="detailData.orderState==3">已使用</span>
+                <span v-else-if="detailData.orderState==4">已取消</span>
               </h3>
             </div>
             <div v-if="detailData.orderState==2" class="order-detail-wrap-head-btn" @click="useOrder">
@@ -94,7 +94,7 @@
                 </tr>
               </table>
             </li>
-            <li v-if="detailData.orderState == 4 && detailData.content">
+            <li v-if="detailData.orderState == 3 && detailData.content">
               <h3><i class="icon icon-iden"></i>用户评价</h3>
               <table>
                 <tr>
@@ -146,7 +146,7 @@
                   <td style="color: red;font-size: 20px;">{{detailData.payMoney}}元</td>
                 </tr>
                 
-                <tr v-if="detailData.orderState == 4">
+                <tr>
                   <td>给管家的留言 :</td>
                   <td>{{detailData.message}}</td>
                 </tr>

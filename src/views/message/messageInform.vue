@@ -4,37 +4,40 @@
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box wprdbench">
-				<div class="ivu-site">
+				<!-- <div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
 		          <router-link  class="active" to="/apartment/communityManagement">消息中心</router-link>
-		        </div>
+		        </div> -->
 		        <el-tabs v-model="activeName2" type="card">
 				    <el-tab-pane label="通知消息" name="first">
 				    	<div id="messageInform1">
 				    		<table>
 				    			<thead>
 				    				<td width="15%">类型</td>
+									<td>发起端</td>
+									<td>接收端</td>
 				    				<td width="20%">时间</td>
 				    				<td>消息内容</td>
 				    			</thead>
 				    			<tr v-for="item in title">
 				    				<td>{{item.messageType | types(item.messageType)}}</td>
+									<td>发起端1</td>
+									<td>发起端2</td>
 				    				<td>{{item.createtime | time(item.createtime)}}</td>
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
 				    			
-				    		</table>
-				    		<el-pagination
-						      @current-change="handleCurrentChange"
-						      :current-page.sync="currentPage3"
-						      :page-size=pageSize1
-						      layout="prev, pager, next,total,jumper"
-						      :total=totalNum>
-						     
-						    </el-pagination>
-						    
-				    	</div> 
+				    		</table>   
+				    	</div>
+						<el-pagination
+							@current-change="handleCurrentChange"
+							:current-page.sync="currentPage3"
+							:page-size=pageSize1
+							layout="prev, pager, next,total,jumper"
+							:total=totalNum>
+							
+						</el-pagination>
 				    </el-tab-pane>
 				    <el-tab-pane label="系统消息管理" name="second">
 				    	<div id="messageInform1">
@@ -51,17 +54,16 @@
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
-				    		</table>
-				    		<el-pagination
-						      @current-change="handleCurrentChange2"
-						      :current-page.sync="currentPage"
-						      :page-size=pageSize2
-						      layout="prev, pager, next,total,jumper"
-						      :total=totalNum2>
-						     
-						    </el-pagination>
-						    
-				    	</div> 
+				    		</table>  
+				    	</div>
+						<el-pagination
+							@current-change="handleCurrentChange2"
+							:current-page.sync="currentPage"
+							:page-size=pageSize2
+							layout="prev, pager, next,total,jumper"
+							:total=totalNum2>
+							
+						</el-pagination> 
 				    </el-tab-pane>
 				    
 				</el-tabs>

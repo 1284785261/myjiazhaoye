@@ -106,7 +106,7 @@
 				param.append('pageSize',this.pageSize);
 
                 axios.post(hostCompanyb,param).then((res)=>{
-                    // console.log(res);
+                    //console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.Datas = res.data.result.companyList;
 						this.totalNum = res.data.result.totalNum;

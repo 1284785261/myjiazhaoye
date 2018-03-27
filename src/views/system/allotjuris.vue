@@ -195,7 +195,8 @@
 						setTimeout(() => {
 							this.successModal = false;
 							this.datas();
-							this.$router.push('/system/systems');
+							this.$router.push('/apartment/workbench');
+							location.reload();
 						}, 2000);
 					}
 					else{

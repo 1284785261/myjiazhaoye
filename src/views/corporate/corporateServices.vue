@@ -447,6 +447,7 @@
                 text-align: center;
                 .table-heaher{
                     th{
+                        text-align: center;
                         border: solid 1px #ccc;
                         padding-left: 10px;
                     }
@@ -536,6 +537,7 @@
     position: relative;
 }
 .active td .uploading{
+    cursor: pointer;
     position: absolute;
     left: 50%;
     top: 45%; 

@@ -21,7 +21,7 @@
       }
   }
   .ivu-dropdown{
-    width: 208px;
+    width: 180px;
     text-align: left;
     .ivu-dropdown-rel{
       padding-left: 25px;
@@ -52,7 +52,8 @@
         padding: 0 10px;
         li{
           @include height(45px);
-          padding: 0 0 0 25px;
+          height: 45px;
+          line-height: 30px;
           border-top: 1px dashed #dcdcdc;
           &:first-child{
             border-top: 0;
@@ -84,6 +85,8 @@
   .reset-dropdown{
     width: 160px;
     padding-left: 0;
+    margin-right: 20px;
+    border-right: 1px solid #dcdcdc;
     .ivu-dropdown-rel{
       padding-left:23px;
       a{
@@ -102,7 +105,7 @@
     .ivu-select-dropdown{
       border-radius: 0;
       text-align: center;
-      border-right: 1px solid #dcdcdc;
+      // border-right: 1px solid #dcdcdc;
       border-top-color: #038be2;
       &:after{
         content: "";

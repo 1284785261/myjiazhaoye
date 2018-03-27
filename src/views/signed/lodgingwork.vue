@@ -499,8 +499,8 @@
 
 				//联合办公计算方式
 				let q = 0;
-				let fy = parseFloat(vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)).toFixed(4);  //第一个月房费计算方式
-				let fw = parseFloat(vm.serve * parseFloat((days-daym)/days).toFixed(10)).toFixed(4);  //第一个月服务费计算方式
+				let fy = parseFloat(vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)).toFixed(2);  //第一个月房费计算方式
+				let fw = parseFloat(vm.serve * parseFloat((days-daym)/days).toFixed(10)).toFixed(2);  //第一个月服务费计算方式
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
 				for(let i = 0; i < this.tableRepairs.length; i++) {   //其他费用总和

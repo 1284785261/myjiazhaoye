@@ -144,7 +144,8 @@
 			    			<table v-for="item in dianz">
 			    				<tr>
 			    					<td>店长完成处理：</td>
-			    					<td>{{item.completeTime | time}}</td>
+			    					<td v-if="item.completeTime">{{item.completeTime | time}}</td>
+									<td v-else></td>
 			    				</tr>
 			    				<tr>
 			    					<td>处理结果：</td>

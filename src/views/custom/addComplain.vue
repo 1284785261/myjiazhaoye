@@ -1,6 +1,6 @@
 <template>
   <div>
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -85,6 +85,7 @@
     },
     data(){
       return{
+        activeTabName:'customServiceManagement',
         warningMessage:"投诉信息填写不完整，请填写完整后重新提交！",
         successMessage:"添加投诉成功！",
 
@@ -128,16 +129,17 @@
         };
         this.$http.post(addComplain,qs.stringify(data))
           .then(function(res){
-            console.log(res);
+            // console.log(res);
               if(res.status == 200 && res.data.code == 10000){
                 that.successModal = true;
                 setTimeout(() => {
-                  that.successModal = false;
+                  that.successModal = true;
                   that.$router.push('/custom/customServiceManagement');
                 }, 3000);
               }
               else{
-                that.warnningModal = false;
+                that.warningMessage = res.data.content;
+                that.warnningModal = true;
               }
           })
       },

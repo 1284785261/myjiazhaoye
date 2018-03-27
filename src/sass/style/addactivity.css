@@ -32,6 +32,7 @@
 #addactivity table{
 	position: relative;
 	margin-left: 85px;
+	text-align: left;
 	margin-top: 30px;
 }
 #addactivity table tr{

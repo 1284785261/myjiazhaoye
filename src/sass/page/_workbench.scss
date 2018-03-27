@@ -48,13 +48,13 @@
       padding-left: 20px;
       border-radius: 6px;
       &.backOrange{
-        background-color: #fa8564;
+        background-color: #ffc700;
       }
       &.backGreen{
-        background-color: #1fbba6;
+        background-color: #ffb133;
       }
       &.backBlue{
-        background-color: #329cf6;
+        background-color: #12b4c0;
       }
       .title{
         margin-top: 10px;
@@ -77,16 +77,17 @@
   border-radius: 6px;
   h3{
     line-height: 51px;
-    border-bottom: 1px solid #dcdcdc;
-    font-size: 16px;
+    color: #000000;
+    // border-bottom: 1px solid #dcdcdc;
+    font-size: 18px;
     i{
-      margin: 0 10px 0 15px;
+      margin: 0 10px 0 40px;
       position: relative;
       top: -2px;
     }
   }
   .info-list{
-    padding:0 15px 25px;
+    padding: 0px 55px 25px;
     li{
       border-bottom: 1px solid #dcdcdc;
       line-height: 50px;
@@ -131,12 +132,12 @@
     }
   }
   .apartment-list{
-    padding:16px 15px 20px;
+    padding:16px 40px 20px;
     @include clearfix;
     
     
     li{
-      width: 33.333%;
+      width: 24%;
       padding: 10px 15px;
       float: left;
       text-align: center;
@@ -169,64 +170,9 @@
       }
     }
   }
-  .remain-list{
-    padding: 0 15px;
-    li{
-      line-height: 43px;
-      border-top: 1px dashed #dcdcdc;
-      position: relative;
-      padding-right: 25px;
-      &:first-child{
-        border-top: none;
-      }
-      &:hover{
-        background-color: #f7fbff;
-        a{
-          color:#329cf6;
-          &:after{
-            background-color: #329cf6;
-          }
-        }
-      }
-      a{
-        display: block;
-        color:#333;
-        padding-left: 20px;
-        &:after{
-          content: "";
-          position: absolute;
-          left: 0;
-          top: 50%;
-          margin-top: -2.5px;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background-color: #999;
-        }
-        &>span{
-          position: absolute;
-          right:30px;
-          top: 0;
-          color:#038be2;
-          span{
-            margin-left: 15px;
-            color:#038be2;
-          }
-        }
-      }
-      .icon-you{
-        position: absolute;
-        right: 0;
-        top: 0;
-        font-size: 18px;
-        color:#bebebe;
-      }
-    }
-  }
+  
   .muvs{
       width: 100%;
-      min-height: 330px;
       text-align: center;
-      line-height: 330px;
   }
 }

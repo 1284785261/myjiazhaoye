@@ -30,7 +30,7 @@
                   <div class="form-item">
                     <span>交易对象:</span>
                     <div style="display: inline-block;">
-                      <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey" @on-blur="love(financeSearchKey)"></Input>
+                      <Input  size="large" placeholder="请输入交易对象" v-model="financeSearchKey"></Input>
                     </div>
                   </div>
                   <div class="form-item">
@@ -542,56 +542,14 @@
       this.host3 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityFinanceListDownLoad200180?';
       this.host4 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjBillInvoiceListDownLoad200181?';
     },
-    watch: {
-        financeType (val,oldval){  
-          // console.log(val,oldval);
-          this.host3 +='&financeType='+val;
-        },
-        financeStartDate(val,olaval){
-          let atr =  new Date(val).Format("yyyy-MM-dd");
-          this.host3 +='&startDate='+atr;
-        },
-        financeEndDate(val,olaval){
-          let atr2 =  new Date(val).Format("yyyy-MM-dd");
-          this.host3 +='&endDate='+atr2;
-        },
-        // financeSearchKey(val,olaval){
-        //   this.host3 +='&keyWord='+val;
-        //    console.log(this.host3);
-        // },
-        payType(val,olaval){
-           this.host3 +='&payType='+val;
-        },
-        billInvoiceStartDate(val,olaval){
-          let atr =  new Date(val).Format("yyyy-MM-dd");
-          this.host4 += '&startDate=' + atr;
-          console.log(this.host4);
-        },
-        billInvoiceEndDate(val,olaval){
-          let atr2 =  new Date(val).Format("yyyy-MM-dd");
-          this.host4 += '&endDate=' + atr2;
-        }
-        // billInvoiSearchKey(val,olaval){
-        //   this.host4 += '&keyWord=' + val;
-        //   console.log(this.host4);
-        // }
-    },
     computed:{
         profit:function(){
           return parseFloat(this.pageBean.inMoney - this.pageBean.outMoney).toFixed(2);
-        }
+        },
     },
     methods: {
       closeBillModal(){
         this.openBillMoal = false;
-      },
-      love(val){
-        this.host3 +='&keyWord='+val;
-        console.log( this.host3);
-      },
-      love2(val){
-        this.host4 += '&keyWord=' + val;
-        console.log( this.host4);
       },
       getCommunityData(){
         var that = this;
@@ -608,7 +566,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
-              console.log(that.pageBean);
+              // console.log(that.pageBean);
               that.financeList = that.pageBean.financeList;
               that.financeTotalNum = that.pageBean.totalNum;
             }
@@ -619,24 +577,32 @@
           })
       },
       financeSearch(page){
+        this.host3 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityFinanceListDownLoad200180?';
         var data = {
-          pageNum:page || 1,
+          pageNum:page || 1,  
         };
+        this.host3 +='&pageNum='+this.pageNum;
         if(this.financeType != -1){
           data.financeType = this.financeType;
+          this.host3 +='&financeType='+data.financeType;
         }
         if(this.payType != -1){
           data.payType = this.payType;
+          this.host3 +='&payType='+data.payType;
         }
         if(this.financeSearchKey){
           data.keyWord = this.financeSearchKey;
+          this.host3 +='&keyWord='+data.keyWord;
         }
         if(this.financeStartDate){
           data.startDate =  new Date(this.financeStartDate).Format("yyyy-MM-dd");
+          this.host3 +='&startDate='+data.startDate;
         }
         if(this.financeEndDate){
           data.endDate =  new Date(this.financeEndDate).Format("yyyy-MM-dd");
+          this.host3 +='&endDate='+data.endDate;
         }
+        console.log(this.host3);
         this.getFinanceList(data);
       },
 
@@ -659,20 +625,25 @@
           })
       },
       billInvoiceSearch(page){
+        this.host4 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjBillInvoiceListDownLoad200181?';
         var data = {
           pageNum:page || 1
         }
+        this.host4 +='&pageNum='+this.pageNum;
         if(page){
             this.activeBillPage = page;
         }
         if(this.billInvoiSearchKey){
           data.keyWord = this.billInvoiSearchKey;
+          this.host4 += '&keyWord=' + data.keyWord;
         }
         if(this.billInvoiceStartDate){
           data.startDate = new Date(this.billInvoiceStartDate).Format("yyyy-MM-dd");
+          this.host4 += '&startDate=' + data.startDate;
         }
         if(this.billInvoiceEndDate){
           data.endDate = new Date(this.billInvoiceEndDate).Format("yyyy-MM-dd");
+          this.host4 += '&endDate=' + data.endDate;
         }
         this.getBillInvoice(data);
       },

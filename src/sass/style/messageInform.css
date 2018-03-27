@@ -1,52 +1,60 @@
+.wprdbench{
+	min-height: 1000px;
+}
 .wprdbench .el-tabs__header{
-	border-bottom: 1px solid #038BE2;
+	/* border-bottom: 1px solid #038BE2; */
 	margin: 0;
+	background:#f7f7f7; 
 }
 .wprdbench .el-tabs{
-	box-shadow: 0 3px 1px #ccc; 
+	/* box-shadow: 0 3px 1px #ccc;  */
+}
+.wprdbench .el-tabs .el-tabs__nav{
+	border:1px solid #dcdcdc;
 }
 .wprdbench .el-tabs__header .el-tabs__item{
 	background: #f8f8f8;
-	width: 160px;
+	width: 158px;
 	height: 54px;
-	line-height: 54px;
+	line-height: 52px;
+	columns: #333333;
 	text-align: center;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	border-bottom: 1px solid #038BE2;
-	margin-right: 10px;
+	border-top: 3px solid #f7f7f7;
+	/* border-top-left-radius: 10px; */
+	/* border-top-right-radius: 10px; */
+	/* border-bottom: 1px solid #038BE2; */
 	font-size: 18px;
 }
 
 .wprdbench .el-tabs__header .is-active{
-	background: #038be2;
-	color: white;
-	border-bottom: 1px solid #038BE2!important;
-	border-top-left-radius: 10px!important;
-	border-top-right-radius: 10px!important;
+	background: #ffffff;
+	color: #00afcc;
+	border:none;
+	border-radius:0!important;
+	border-top: 3px solid #00afcc!important;
+	/* border-top-left-radius: 10px!important; */
+	/* border-top-right-radius: 10px!important; */
 }
 #messageInform1{
 	width: 100%;
-	min-height: 1000px;
 	background: #fff;
 	overflow: hidden;
 	position: relative;
+	padding-bottom: 40px;
 }
 #messageInform1 table{
-	width: 100%;
+	width: 90%;
+	margin-left: 5%;
 	min-height: 96px;
 	border-collapse: collapse;
 	margin-top: 30px;
-}
-.messageInform2 table{
-	margin-top: 20px;
+	padding: 20px 15px;
 }
 #messageInform1 table td{
 	height: 48px;
-	text-align: center;
 	color: #000;
 	font-size: 12px;
-	border: 1px solid #DCDCDC;
+	border-bottom: 1px solid #dcdcdc;
 }
 #messageInform1 table td:nth-child(3){
 	text-align: left;
@@ -54,23 +62,24 @@
 	
 	
 }
-#messageInform1 table tr td:nth-child(3){
-	color: #038be2;
-	font-weight: bold;
-}
 #messageInform1 table thead{
 	font-weight: bold;
-	background: #F8F8F8;
 }
-#messageInform1 .el-pagination{
+#messageInform1 table thead td{
+	color:#00afcc;
+}
+.wprdbench .el-pagination{
 	text-align: center;
 	margin-top: 40px;
 }
-#messageInform1 .el-pagination .el-pager .number{
+.wprdbench .el-pagination .el-pager .number{
 	margin: 0 5px;
 	border: 1px solid #DCDCDC;
 }
-#messageInform1 .el-pagination button{
+.wprdbench .el-pagination .el-pager .active{
+	background: #00afcc;
+}
+.wprdbench .el-pagination button{
 	border: 1px solid #DCDCDC;
 }
 #messageInform1 .issue{
