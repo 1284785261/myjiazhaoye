@@ -22,7 +22,9 @@
 	text-align: right;
 	padding-right: 10px;
 }
-
+.compile .cop tr td:nth-child(2) {
+	text-align: left;
+}
 .compile .cop tr td .complie_name {
 	width: 290px;
 	height: 35px;

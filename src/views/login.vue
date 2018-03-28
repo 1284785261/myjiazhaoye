@@ -449,7 +449,7 @@ import qs from 'qs';
   .gainnote:hover{
     color: #ffffff;
   }
-  .el-icon-circle-check,.el-icon-circle-cross{
+  .forgetPassword .el-icon-circle-check,.el-icon-circle-cross{
     position: absolute;
     right: -27px;
     top: 15px;

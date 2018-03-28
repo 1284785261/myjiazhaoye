@@ -232,6 +232,13 @@
 				},
 			}
 		},
+		watch:{
+			// communityId(val,oldval){
+			// 	if(val){
+			// 		this.handleCurrentChange();
+			// 	}
+			// }
+		},
 		mounted() {
 			this.communityId = this.$route.query.communityId;
             this.isOffice = parseInt(this.$route.query.isOffice);

@@ -2,14 +2,14 @@
 	<div>
 		<menu-box></menu-box>
 		<div class="right-content" id="rightwork">
-			<right-header></right-header>
+			<right-header @communityId="communityIdm"></right-header>
 			<div class="wordbench-box woram">
 				<div class="main-home">
 					<div class="home-item">
 						<!--<h3>{{user.name}}<span>{{user.quanxian | quanxian}}</span></h3>-->
-						<Select v-model="selectModel1" style="width:240px" @on-change="temp(selectModel1)">
+						<!-- <Select v-model="selectModel1" style="width:240px" @on-change="temp(selectModel1)">
 							<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>
-						</Select>
+						</Select> -->
 					</div>
 					<ul class="list-data">
 						<li v-for="data in datas" :class="data.classD">
@@ -150,7 +150,7 @@
 			</div>
 			<div class="newdatas">
 				<h3>今日待办</h3>
-				<ul class="remain-list" v-if="remains">
+				<ul class="remain-list" v-if="show3 == 1 && remains">
 					<li v-if="remains.appointmentCount != 0">
 						<router-link :to="{path:'/signed/housesubscribe',query:{communityId:communityId,Name:selectModel1}}">新增看房预约<span><span>{{remains.appointmentCount}}人</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
@@ -172,14 +172,14 @@
 					<li v-if="remains.expireCount != 0">
 						<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
-					<li v-if="remains.beginHour != 0">
+					<li v-if="remains.beginHour">
 						<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
 					<li v-if="remains.complaintCount != 0">
 						<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
 				</ul>
-				<div class="muvs" v-else>
+				<div class="muvs" v-else-if="show3 == 2">
 					<img src="../../../static/images/temp/nores_06.png" style="margin-left:50%;transform: translate(-50%,0);padding:40px 0;"/>
 				</div>
 			</div>
@@ -234,6 +234,7 @@
 				messsaget:null,
 				show1:false,
 				show2:false,
+				show3:1,
               userType:false
 			}
 		},
@@ -241,11 +242,13 @@
 
           if(sessionStorage.getItem('urlType') && ( sessionStorage.getItem('urlType') == '测试'|| sessionStorage.getItem('urlType') == '研发')){
             this.userType = true
-          }
-			this.communityId = sessionStorage.getItem('communityId');
-			this.title();
+		  }
+		  let Model = sessionStorage.getItem('communityId');
+		  if(Model){
+			this.communityId = Model;
+			this.title(Model);
+		  }
 			this.mtsbv();
-			this.datam();
 			this.datas2();
 		},
 		filters: {
@@ -317,12 +320,64 @@
 				}
 			}
 		},
+		watch:{
+			communityId(val,oldval){
+				if(val){
+					this.title(val);
+				}
+			}
+		},
 		methods: {
-			datam() {
-
-				let Model = sessionStorage.getItem('communityId');
-				// console.log(Model);
-				if(Model){
+			communityIdm(communityId){
+				if(communityId){
+					this.communityId = communityId;
+					this.title(communityId);
+					
+				}
+			},
+			datas2(){
+				axios.post(hostUserMessagey)
+				.then((res)=>{
+					//console.log(res);
+					if(res.data.code == 10000 && res.status == 200){
+						// this.nums = res.data.entity.messageCount;
+						sessionStorage.setItem('nums', res.data.entity.messageCount);
+					}
+				}).catch((err)=>{
+					// console.log(err);
+				})
+			},
+			title(Model) {
+				let vm = this
+					axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
+					//console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						this.cityList = response.data.result.communityList;
+						// console.log(this.cityList);
+						vm.type = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityType;
+						vm.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
+						let arr = vm.type.split(',');
+						// console.log(arr);
+						for(let i=0;i<arr.length;i++){
+							if(arr[i] == 0 && arr.length == 1){
+								this.show1 = true;
+								this.show2 = false;
+							}
+							else if(arr[i] == 1 && arr.length == 1){
+								this.show1 = false;
+								this.show2 = true;
+							}
+							else if(arr.length == 2){
+								this.show1 = true;
+								this.show2 = true;
+							}
+						}
+					}
+					})
+					.catch((error) => {
+						// console.log(error);
+					})
+					this.mtsbv();
 					axios.post(hostgCxkjCommun, //获取管家收款数据
 						qs.stringify({
 							communityId: Model
@@ -339,7 +394,7 @@
 						// console.log(error);
 					})
 
-				axios.post(hostaCommunityCo, //获取今日待办数据
+					axios.post(hostaCommunityCo, //获取今日待办数据
 						qs.stringify({
 							communityId: Model
 						})
@@ -347,48 +402,18 @@
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.remains = response.data.result;
-						}
-
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-				}
-				
-			},
-			datas2(){
-				axios.post(hostUserMessagey)
-				.then((res)=>{
-					//console.log(res);
-					if(res.data.code == 10000 && res.status == 200){
-						// this.nums = res.data.entity.messageCount;
-						sessionStorage.setItem('nums', res.data.entity.messageCount);
-					}
-				}).catch((err)=>{
-					// console.log(err);
-				})
-			},
-			title() {
-				let vm = this
-				let Model = sessionStorage.getItem('communityId');
-				// console.log(Model);
-				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
-						//console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							this.cityList = response.data.result.communityList;
-							if(Model) {
-								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
-							} else {
-								this.selectModel1 = this.cityList[0].communityName;
-								sessionStorage.setItem('communityId', this.cityList[0].communityId);
-								this.datam();
+							if(this.remains.appointmentCount == 0 && this.remains.roomCount == 0 && this.remains.officeCount == 0 && this.remains.waterEnergyCount == 0 && this.remains.repairCount == 0 && this.remains.rentCount == 0 && this.remains.expireCount == 0 && this.remains.beginHour == '' && this.remains.complaintCount == 0){
+								vm.show3 = 2;
+							}else{
+								vm.show3 = 1;
 							}
-
 						}
+
 					})
 					.catch((error) => {
 						// console.log(error);
 					})
+				
 			},
 			mtsbv(){
 				axios.post(hostReadMessage).then((res)=>{
@@ -426,61 +451,6 @@
 					// console.log(err);
 				})
 			},
-			temp(val) {
-				// console.log(val);
-				let vm = this
-				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
-				vm.type = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityType;
-				let arr = vm.type.split(',');
-				for(let i=0;i<arr.length;i++){
-					if(arr[i] == 0 && arr.length == 1){
-						this.show1 = true;
-						this.show2 = false;
-					}
-					else if(arr[i] == 1 && arr.length == 1){
-						this.show1 = false;
-						this.show2 = true;
-					}
-					else if(arr.length == 2){
-						this.show1 = true;
-						this.show2 = true;
-					}
-				}
-				this.mtsbv();
-				this.communityId = Index;
-				sessionStorage.setItem('communityId', Index);
-				// console.log(this.communityId);
-				axios.post(hostgCxkjCommun, //获取管家收款数据
-						qs.stringify({
-							communityId: Index
-						})
-					).then((response) => {
-						// console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							this.datas[0].num = response.data.result.yesterdayPay + '.00';
-							this.datas[1].num = response.data.result.todayWaitPay + '.00';
-							this.datas[2].num = response.data.result.yesterdayCount + '笔';
-						}
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-
-				axios.post(hostaCommunityCo, //获取今日待办数据
-						qs.stringify({
-							communityId: Index
-						})
-					).then((response) => {
-						console.log(response);
-						if(response.status == 200 && response.data.code == 10000) {
-							this.remains = response.data.result;
-						}
-
-					})
-					.catch((error) => {
-						// console.log(error);
-					})
-			},	
 			share(value){
 				// console.log(value);
 				
