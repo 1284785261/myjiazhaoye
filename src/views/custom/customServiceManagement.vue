@@ -55,16 +55,20 @@
               <th>工单号</th>
               <th>所属社区</th>
               <th>工单类型</th>
+              <th>社区类型</th>
               <th>投诉时间</th>
               <th>投诉人</th>
               <th>已注册手机号</th>
               <th>状态</th>
+              <th>关闭时间</th>
+              <th>处理时长</th>
               <th>操作</th>
             </tr>
             <tr v-for="(complain,index) in complainList">
               <td>{{complain.complainNum}}</td>
               <td>{{complain.communityName}}</td>
               <td>{{complain.complainType}}</td>
+              <td>{{complain.communityType}}</td>
               <td>{{complain.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
               <td>{{complain.userName}}</td>
               <td>{{complain.userPhone}}</td>
@@ -77,6 +81,8 @@
                 <span v-if="complain.complainStatus==4" style="color: #FF6612;">待回访</span>
                 <span v-if="complain.complainStatus==5">已回访</span>
               </td>
+              <td>{{complain.newTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
+              <td>{{complain.processingTime}}</td>
               <td>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 查看详情</router-link>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==3 &&  jurisdiction('CUSTOMER_UPDATE')"> 确认处理</router-link>
