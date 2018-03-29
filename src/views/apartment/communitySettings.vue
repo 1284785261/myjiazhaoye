@@ -161,33 +161,60 @@
 						<el-tab-pane label="办公设置" name="second" v-if="Type2">
 
 							<div class="vue-warp-settings">
-								<!--<div class="ivu-floor floor01">-->
-									<!--<div class="floor-main">-->
-										<!--<span class="fl"><span class="btxs">*</span>付款方式设置：</span>-->
-										<!--<div class="floor-item">-->
-											<!--<table class="table ivu-table">-->
-												<!--<tr v-for="(tableRepair,index) in tableRepairs3">-->
-													<!--<td style="width:30px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>-->
-													<!--<td style="width: 185px;">-->
-														<!--<input class="ivu-input" v-model="tableRepair.option6.dataName" style="width:168px;">-->
-														<!--&lt;!&ndash; <el-select v-model="tableRepair.value6" placeholder="请选择付款方式" @change="communit1(tableRepair.value6,index)">-->
-															<!--<el-option v-for="item in tableRepair.option6" :key="item.dataName" :value="item.dataName">-->
-															<!--</el-option>-->
-														<!--</el-select> &ndash;&gt;-->
-													<!--</td>-->
+								<div class="ivu-floor floor01">
+                                    <div class="floor-main">
+                                        <span class="fl"><span class="btxs">*</span>租期折扣：</span>
+                                        <div class="floor-item">
+                                            <table class="table ivu-table">
+                                                <tr v-for="(tableRepair,index) in officesDiscount">
+                                                    <td style="width:30px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
+                                                    <td style="width: 185px;">
+                                                        <input class="ivu-input" v-model="tableRepair.option1.dataName" style="width:168px;">
+                                                        <!-- <el-select v-model="tableRepair.value1" placeholder="请选择付款方式" @change="mus(tableRepair.value1,index)">
+                                                            <el-option v-for="item in tableRepair.option1" :key="item.dataName" :value="item.dataName">
+                                                            </el-option>
+                                                        </el-select> -->
+                                                    </td>
 
-													<!--<td style="width: 180px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="moins(tableRepair.date,index)"><span class="baifen">%</span></td>-->
-													<!--<td>-->
-														<!--&lt;!&ndash; <button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button> &ndash;&gt;-->
-													<!--</td>-->
-												<!--</tr>-->
-											<!--</table>-->
-											<!--&lt;!&ndash; <div class="add-formItem">-->
-												<!--<Button @click="addRepairs3"><Icon type="plus"></Icon>继续添加</Button>-->
-											<!--</div> &ndash;&gt;-->
-										<!--</div>-->
-									<!--</div>-->
-								<!--</div>-->
+                                                    <td style="width: 180px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="lease(tableRepair.date,index)"><span class="baifen">%</span></td>
+                                                    <td>
+                                                        <!-- <button class="btn_bar" @click="deleteRepair(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!-- <div class="add-formItem">
+                                                <Button @click="addRepairs"><Icon type="plus"></Icon>继续添加</Button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="ivu-floor floor01">
+									<div class="floor-main">
+										<span class="fl"><span class="btxs">*</span>付款方式设置：</span>
+										<div class="floor-item">
+											<table class="table ivu-table">
+												<tr v-for="(tableRepair,index) in tableRepairs3">
+													<td style="width:30px;"><label><span class="myRadio"><input type="checkbox" name="radio" v-model="tableRepair.checkValue"><i class="icon icon-radio"></i></span></label></td>
+													<td style="width: 185px;">
+														<input class="ivu-input" v-model="tableRepair.option1.dataName" style="width:168px;">
+														<!-- <el-select v-model="tableRepair.value6" placeholder="请选择付款方式" @change="communit1(tableRepair.value6,index)">
+															<el-option v-for="item in tableRepair.option6" :key="item.dataName" :value="item.dataName">
+															</el-option>
+														</el-select> -->
+													</td>
+
+													<td style="width: 180px;"><input class="ivu-input" v-model="tableRepair.date" placeholder="租金折扣/浮动比例" style="width: 140px" maxlength="5" @blur="moins(tableRepair.date,index)"><span class="baifen">%</span></td>
+													<td>
+														<!-- <button class="btn_bar" @click="deleteRepair3(tableRepair,index)">{{tableRepair.deletect}}</button> -->
+													</td>
+												</tr>
+											</table>
+											<!-- <div class="add-formItem">
+												<Button @click="addRepairs3"><Icon type="plus"></Icon>继续添加</Button>
+											</div>  -->
+										</div>
+									</div>
+								</div>
 								<div class="ivu-floor floor03">
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>会议室套餐设置：</span>
@@ -382,36 +409,111 @@
 					},
 					value1: ''
 				}],
+				tableRepairs3: [{ //办公付款方式
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option1:{
+						dataName: '月付',
+						dataId: 1
+					},
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option1:{
+						dataName: '季付',
+						dataId: 2
+					}, 
+					value1: ''
+				},{ 
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除", 
+					option1:{
+						dataName: '半年付',
+						dataId: 3
+					},
+					value1: ''
+				},{
+					checkValue: false,
+					inputValue: "",
+					date: "",
+					communityPayWayId: null,
+					deletect: "删除",
+					option1:{
+						dataName: '年付',
+						dataId: 4
+					},
+					value1: ''
+				}],
 				//公寓租期折扣
-              leaseDiscount: [{
-                checkValue: false,
-                date: "",
-                option1:{
-                  dataName: '1个月',
-                  dataId: 1
-                }
-              },{
-                checkValue: false,
-                date: "",
-                option1:{
-                  dataName: '3个月',
-                  dataId: 2
-                }
-              },{
-                checkValue: false,
-                date: "",
-                option1:{
-                  dataName: '六个月',
-                  dataId: 3
-                }
-              },{
-                checkValue: false,
-                date: "",
-                option1:{
-                  dataName: '一年',
-                  dataId: 4
-                }
-			  }],
+				leaseDiscount: [{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '1个月',
+					dataId: 1
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '3个月',
+					dataId: 2
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '六个月',
+					dataId: 3
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '一年',
+					dataId: 4
+					}
+				}],
+				//办公租期折扣
+				officesDiscount: [{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '1个月',
+					dataId: 1
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '3个月',
+					dataId: 2
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '六个月',
+					dataId: 3
+					}
+				},{
+					checkValue: false,
+					date: "",
+					option1:{
+					dataName: '一年',
+					dataId: 4
+					}
+				}],
 			    //公寓维修服务
 				tableRepairs2: [{
 					checkValue: "",
@@ -471,6 +573,7 @@
 				}],
 				activeName2: 'first',
 				cxkjCommunityListPayway: [], //公寓付款方式
+				cxkjCommunityListPayway2:[],//办公付款方式
 				cxkjCommunityListMaintain: [], //公寓维修项目
 				cxkjCommunityListMaintain2: [], //办公维修项目
 				cxkjCommunityListConfig: [], //公寓电器选择
@@ -576,15 +679,15 @@
 		    		this.tableRepairs2[index].date = '';
 		    	}
 		    },
-		    // moins(value,index){
-		    // 	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-		    // 	if(str.test(value) == true){
-		    // 		this.tableRepairs3[index].date = value;
-		    // 	}
-		    // 	else{
-		    // 		this.tableRepairs3[index].date = '';
-		    // 	}
-		    // },
+		    moins(value,index){
+		    	let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+		    	if(str.test(value) == true){
+		    		this.tableRepairs3[index].date = value;
+		    	}
+		    	else{
+		    		this.tableRepairs3[index].date = '';
+		    	}
+		    },
 		    moins2(value,index){
 		    	// console.log(value);
 		    	// console.log(index);
@@ -702,16 +805,24 @@
 								for(let i = 0; i < response.data.entity[0].cxkjCommunityListConfig.length; i++) { //办公物资集合
 									vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
-								// for(let i = 0; i < vm.tableRepairs3.length;i++){     //办公支付方式集合
-								// 	for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) { 
-								// 		if(vm.tableRepairs3[i].option6.dataId == response.data.entity[0].cxkjCommunityListPayway[m].dataId){
-								// 			vm.tableRepairs3[i].checkValue = true;
-								// 			vm.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
-								// 			vm.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
-								// 		}
+								for(let i = 0; i < vm.tableRepairs3.length;i++){     //办公支付方式集合
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) { 
+										if(vm.tableRepairs3[i].option1.dataId == response.data.entity[0].cxkjCommunityListPayway[m].dataId){
+											vm.tableRepairs3[i].checkValue = true;
+											vm.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
+											vm.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
+										}
 										
-								// 	}
-								// }
+									}
+								}
+								for(let i = 0; i< vm.officesDiscount.length;i++){
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListLeasePayway.length; m++) { //办公折扣方式集合
+										if(vm.officesDiscount[i].option1.dataId == response.data.entity[0].cxkjCommunityListLeasePayway[m].dataId){
+											vm.officesDiscount[i].checkValue = true;
+											vm.officesDiscount[i].date = response.data.entity[0].cxkjCommunityListLeasePayway[m].discount;
+										}
+									}
+								}
 								for(let i = 0; i < vm.tableConferences.length;i++){//办公套餐集合
 									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMeetingSuit.length; m++) { 
 										if(vm.tableConferences[i].option4[i].dataName == response.data.entity[0].cxkjCommunityListMeetingSuit[m].mettingSuitSystemData.dataName){
@@ -1120,16 +1231,26 @@
 				let vm = this
 				this.disabled2 = false;
 				let cxkjCommunityListConfig = [];
-				// for(let i = 0; i < vm.tableRepairs3.length; i++) {
-				// 	if(this.tableRepairs3[i].checkValue == true) { //添加办公付款方式编号
-				// 		vm.cxkjCommunityListPayway2.push({
-				// 			dataId: i+1,
-				// 			discount: this.tableRepairs3[i].date,
-				// 			communityPayWayId: this.tableRepairs3[i].communityPayWayId
-				// 		});
-				// 		console.log(vm.cxkjCommunityListPayway);
-				// 	}
-				// }
+				let cxkjCommunityListLeasePayway = [];
+
+				for(let i = 0;i< vm.officesDiscount.length;i++){
+					if(this.officesDiscount[i].checkValue == true){
+						cxkjCommunityListLeasePayway.push({
+							dataId:this.officesDiscount[i].option1.dataId,
+							discount:this.officesDiscount[i].date
+						})
+					}
+				}
+				for(let i = 0; i < vm.tableRepairs3.length; i++) {
+					if(this.tableRepairs3[i].checkValue == true) { //添加办公付款方式编号
+						vm.cxkjCommunityListPayway2.push({
+							dataId: i+1,
+							discount: this.tableRepairs3[i].date,
+							communityPayWayId: this.tableRepairs3[i].communityPayWayId
+						});
+						// console.log(vm.cxkjCommunityListPayway);
+					}
+				}
 
 				for(let i = 0; i < vm.tableConferences.length; i++) {
 					if(this.tableConferences[i].checkValue == true) { //添加会议室套餐设置编号
@@ -1163,7 +1284,7 @@
 				console.log(vm.cxkjCommunityListConfig2);
 				console.log(vm.cxkjCommunityListMeetingSuit);
 				console.log(vm.serviceCost2);
-				if(vm.cxkjCommunityListMaintain2.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0) {
+				if(vm.cxkjCommunityListMaintain2.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0 || cxkjCommunityListLeasePayway.length == 0 || vm.cxkjCommunityListPayway2.length == 0) {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {
@@ -1173,7 +1294,9 @@
 							cxkjCommunityListConfig: cxkjCommunityListConfig,
 							cxkjCommunityListMeetingSuit: vm.cxkjCommunityListMeetingSuit,
 							serviceCost: vm.serviceCost2,
-							communityType: 1
+							communityType: 1,
+							cxkjCommunityListLeasePayway:cxkjCommunityListLeasePayway,
+							cxkjCommunityListPayway:vm.cxkjCommunityListPayway2
 						})
 						.then((response) => {
 							// console.log(response);
