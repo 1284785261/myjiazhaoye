@@ -24,25 +24,33 @@
                 </td>
               </tr>
               <tr>
-                <td><b>投诉时间 :</b></td>
+                <td><b>反馈类型 :</b></td>
                 <td>
-                  <Date-picker type="datetime" format="yyyy-MM-dd HH时" placeholder="请选择投诉时间" v-model="complainTime"></Date-picker>
+                  <Select v-model="complainType" style="width:220px">
+                    <Option v-for="item in  complainTypeList" :value="item.value" :key="item.value">{{ item.lable }}</Option>
+                  </Select>
                 </td>
               </tr>
               <tr>
-                <td><b>注册手机号码 :</b></td>
+                <td><b>工单时间 :</b></td>
                 <td>
-                  <Input v-model="userPhone" placeholder="请输入用户注册手机号" style="width: 220px;"></Input>
+                  <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择投诉时间" v-model="complainTime"></Date-picker>
                 </td>
               </tr>
               <tr>
-                <td><b>投诉人 :</b></td>
+                <td><b>客户姓名 :</b></td>
                 <td>
                   <Input v-model="userName" placeholder="请输入投诉人姓名" style="width: 220px;"></Input>
                 </td>
               </tr>
               <tr>
-                <td class="position-relative"><b>投诉内容 :</b></td>
+                <td><b>客户联系方式 :</b></td>
+                <td>
+                  <Input v-model="userPhone" placeholder="请输入用户注册手机号" style="width: 220px;"></Input>
+                </td>
+              </tr>
+              <tr>
+                <td class="position-relative"><b>反馈内容 :</b></td>
                 <td>
                   <textarea name="remarks" style="width:420px;height: 150px;max-width: 700px;padding: 5px;" placeholder="请输入客户投诉内容" v-model="complainContent"></textarea>
                   <span>200字以内</span>
@@ -94,6 +102,21 @@
         userPhone:"",
         userName:"",
         complainTime:"",
+        complainTypeList:[
+          {
+            value:0,
+            lable:"咨询"
+          },
+          {
+            value:1,
+            lable:"建议"
+          },
+          {
+            value:2,
+            lable:"投诉"
+          },
+        ],
+        complainType:0,
 
         allCommunity:[],
         successModal:false,
@@ -119,13 +142,19 @@
           this.warnningModal = true;
           return;
         }
+        if (!(/^1[0-9]{10}$/).test(this.userPhone)){
+          this.warningMessage = "请输入正确的手机号码";
+          this.warnningModal = true;
+          return;
+        }
 
-        var data = {
+          var data = {
           communityId:this.roomCommunity,
           complainContent:this.complainContent,
           userPhone:this.userPhone,
           userName:this.userName,
           complainTime:new Date(this.complainTime).Format("yyyy-MM-dd hh"),
+          complainType:this.complainType
         };
         this.$http.post(addComplain,qs.stringify(data))
           .then(function(res){

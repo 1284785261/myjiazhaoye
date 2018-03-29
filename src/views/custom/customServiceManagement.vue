@@ -14,10 +14,16 @@
         </div>
         <div id="custom-service-management-wrap">
           <div class="form-search-criteria">
+            <!--<div class="form-item">-->
+              <!--<b>社区：</b>-->
+              <!--<Select v-model="roomCommunity" style="width:150px">-->
+                <!--<Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>-->
+              <!--</Select>-->
+            <!--</div>-->
             <div class="form-item">
-              <b>社区：</b>
-              <Select v-model="roomCommunity" style="width:150px">
-                <Option v-for="community in  RoomBillSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+              <b>类型：</b>
+              <Select v-model="selectComplainType" style="width:100px">
+                <Option v-for="item in  complainTypeList" :value="item.value" :key="item.value">{{ item.lable }}</Option>
               </Select>
             </div>
             <div class="form-item">
@@ -34,7 +40,7 @@
               </div>
             </div>
             <div class="form-item">
-              <a class="dcs" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加投诉</a>
+              <a class="dcs" @click="toAddComplain()" v-if="jurisdiction('CUSTOMER_INCREASE')">添加</a>
               <a class="dcs" :href="url">导出</a>
             </div>
           </div>
@@ -48,6 +54,7 @@
             <tr>
               <th>工单号</th>
               <th>所属社区</th>
+              <th>工单类型</th>
               <th>投诉时间</th>
               <th>投诉人</th>
               <th>已注册手机号</th>
@@ -57,6 +64,7 @@
             <tr v-for="(complain,index) in complainList">
               <td>{{complain.complainNum}}</td>
               <td>{{complain.communityName}}</td>
+              <td>{{complain.complainType}}</td>
               <td>{{complain.createTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
               <td>{{complain.userName}}</td>
               <td>{{complain.userPhone}}</td>
@@ -127,6 +135,25 @@
           lable:"已回访"
         },
         ],
+        complainTypeList:[
+          {
+            value:-1,
+            lable:"全部"
+          },
+          {
+            value:0,
+            lable:"咨询"
+          },
+          {
+            value:1,
+            lable:"建议"
+          },
+          {
+            value:2,
+            lable:"投诉"
+          },
+        ],
+        selectComplainType:-1,
         RoomBillSelects:[{
           communityId: -1,
           communityName: '全部'
@@ -201,7 +228,11 @@
           data.communityId = this.roomCommunity;
           this.url +='&communityId='+data.communityId;
         }
-        if((this.selectStatus || this.selectStatus == '0') && this.selectStatus != '-1'){
+        if(this.selectComplainType != -1){
+          data.complainType = this.selectComplainType;
+          this.url +='&complainType='+data.complainType;
+        }
+        if(this.selectStatus !=-1){
           data.complainStatus = this.selectStatus;
           this.url +='&complainStatus='+data.complainStatus;
         }
