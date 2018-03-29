@@ -347,11 +347,6 @@ export default new Router({
       component:resolve =>
         require(['../views/system/systems.vue'],resolve)
     },{
-      path:'/password',		//忘记密码
-      name:'password',
-      component:resolve =>
-        require(['../views/password.vue'],resolve)
-    },{
       path:'/corporate/corporateDetail',		//企业详情
       name:'corporateDetail',
       component:resolve =>

@@ -1,5 +1,8 @@
 <template>
 	<div class="header">
+		<Select v-model="selectModel1" style="width:240px;text-align: left;" @on-change="temp(selectModel1)">
+			<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>
+		</Select>
 		<div class="inline-block">
 			<Badge :count="nums">
 				<router-link to="/signed/messageInform"><Icon type="ios-bell-outline"></Icon></router-link>
@@ -35,7 +38,7 @@
 
 <script>
 	import axios from 'axios';
-	import { hostAuthor, imgPath,hostUserMessagey } from '../views/api.js';
+	import { hostAuthor, imgPath,hostUserMessagey,hostAppMgCxkjCo } from '../views/api.js';
 	import qs from 'qs'
 
 	export default {
@@ -56,10 +59,13 @@
 					path: "/"
 				}],
 				imgPath1: '',
-				nums:0
+				nums:0,
+				cityList: [],
+				selectModel1: null,
 			}
 		},
 		mounted() {
+			this.title();
 			this.nums = sessionStorage.getItem("nums") ? sessionStorage.getItem("nums"):0;
 			this.imgPath1 = sessionStorage.getItem("imgPath1")? sessionStorage.getItem("imgPath1"):'';
 			this.userID = sessionStorage.getItem("userID")? sessionStorage.getItem("userID"):'';
@@ -68,6 +74,7 @@
 			}else {
 				this.datas();
 			}
+			
 		
 		},
 		methods: {
@@ -75,7 +82,7 @@
 				let vm = this;
 				axios.get(hostAuthor)
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						if(response.data.entity.headPic != null) {
 							vm.imgPath1 = imgPath + response.data.entity.headPic;
@@ -98,6 +105,37 @@
 				})
 
 				
+			},
+			title() {
+				let vm = this
+				let Model = sessionStorage.getItem('communityId');
+
+				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
+						// console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+							this.cityList = response.data.result.communityList;
+							// console.log(this.cityList);
+							if(Model) {
+								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
+								this.$emit("communityId",Model);
+							} else {
+								this.selectModel1 = this.cityList[0].communityName;
+								sessionStorage.setItem('communityId', this.cityList[0].communityId);
+								this.$emit("communityId",this.cityList[0].communityId);
+							}
+
+						}
+					})
+					.catch((error) => {
+						// console.log(error);
+					})
+			},
+			temp(val){
+				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
+				console.log(Index);
+				sessionStorage.setItem('communityId', Index);
+				sessionStorage.setItem('communityName', val);
+				this.title();
 			}
 		}
 	}

@@ -21,8 +21,8 @@
 				    			</thead>
 				    			<tr v-for="item in title">
 				    				<td>{{item.messageType | types(item.messageType)}}</td>
-									<td>发起端1</td>
-									<td>发起端2</td>
+									<td>{{item.sender | sender}}</td>
+									<td>{{item.recipient | recipient}}</td>
 				    				<td>{{item.createtime | time(item.createtime)}}</td>
 				    				<td>{{item.content}}</td>
 				    			
@@ -185,7 +185,7 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						// console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title = response.data.pageBean.page;
 							vm.totalNum = response.data.pageBean.totalNum;
@@ -290,7 +290,7 @@
     				return '系统消息'
     			}
     			else if(val == 2){
-    				return '账单消息'
+    				return '租金账单消息'
     			}
     			else if(val == 3){
     				return '办公订单消息'
@@ -329,7 +329,7 @@
     				return '呼叫管家消息'
 				}
 				else if(val == 15){
-    				return '发票消息'
+    				return '申请发票消息'
     			}
     		},
     		time(val){
@@ -340,7 +340,64 @@
 				var H = (date.getHours()<10 ? '0'+date.getHours() : date.getHours()) +':';
 				var mm = (date.getMinutes()<10 ? '0'+date.getMinutes() : date.getMinutes());
 				return Y + M + D + H + mm;
-    		}
+			},
+			sender(val){
+				if(val){
+					if(val == '0'){
+						return 'app用户端'
+					}else if(val == '1'){
+						return 'app管家端'
+					}else if(val == '2'){
+						return 'pc端'
+					}else if(val == '3'){
+						return '系统消息'
+					}else if(val == '0,1'){
+						return 'app用户端,app管家端'
+					}else if(val == '0,2'){
+						return 'app用户端,pc端'
+					}else if(val == '0,3'){
+						return 'app用户端,系统消息'
+					}else if(val == '1,2'){
+						return 'app管家端,pc端'
+					}else if(val == '1,3'){
+						return 'app管家端,系统消息'
+					}else if(val == '2,3'){
+						return 'pc端,系统消息'
+					}else if(val == '0,1,2'){
+						return 'app用户端,app管家端,pc端'
+					}else if(val == '0,1,3'){
+						return 'app用户端,app管家端,系统消息'
+					}else if(val == '1,2,3'){
+						return 'app管家端,pc端,系统消息'
+					}else if(val == '0,1,2,3'){
+						return 'app用户端,app管家端,pc端,系统消息'
+					}
+					
+				}else{
+					return '--'
+				}
+			},
+			recipient(val){
+				if(val){
+					if(val == '0'){
+						return 'app用户端'
+					}else if(val == '1'){
+						return 'app管家端'
+					}else if(val == '2'){
+						return 'pc端'
+					}else if(val == '0,1'){
+						return 'app用户端,app管家端'
+					}else if(val == '0,2'){
+						return 'app用户端,pc端'
+					}else if(val == '1,2'){
+						return 'app管家端,pc端'
+					}else if(val == '0,1,2'){
+						return 'app用户端,app管家端,pc端'
+					}
+				}else{
+					return '--'
+				}
+			}
     	},
     	created(){
     		
