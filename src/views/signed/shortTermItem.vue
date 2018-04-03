@@ -47,7 +47,7 @@
 			        	<ul class="state2 transition-box" v-show='item.hais'>
 			        		<li v-for="its in item.communityRoomList" >
 			        			<div>
-                                        
+
 					        			<p>{{its.roomNum}}</p>
                                         <span class="short">{{its.isPmsRoom?'短租':'长租'}}</span>
 					        			<p v-if="its.housetypeName != null">{{its.housetypeName}}</p>
@@ -61,7 +61,7 @@
 					        				<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]"><em v-if="!its.isPmsRoom">{{its.roomStatus | states(its.roomStatus)}}</em><em v-if="its.isPmsRoom">{{its.roomStatus | shortstates(its.roomStatus)}}</em></i>
 					        			</p>
 			        			</div>
-			        			
+
 				        		<router-link :to="{path:'/signed/shortDetails',query:{id:its.roomId,ids:communityId,name:Name}}" class="sex">
 				        				<span>房间</span>
 				        				<span>点击弹出房间信息</span>
@@ -71,8 +71,8 @@
 			       		 </transition>
 		    		</div>
 		    	</div>
-		        
-		    
+
+
 			</div>
 			<!--<footer-box></footer-box>-->
 		<!--</div>-->
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/shortTerm.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -88,7 +88,7 @@
     import axios from 'axios';
     import { hostState,imgPath ,CxkjCommunityPmsRoomList500150} from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -142,7 +142,7 @@
     		this.Name = this.$route.query.Name;
     		//console.log(this.communityId);
     		this.datas();
-    		
+
     	},
     	methods:{
     		shrink(index,els){
@@ -166,7 +166,7 @@
 	    				}
 	    				//console.log("sdafadsa");
 	    				//console.log(this.bigdata);
-    				
+
     			}
     			console.log('this.bigdata')
     			console.log(this.bigdata)
@@ -179,12 +179,12 @@
     		tsa(){
     			this.hide = !this.hide;
     		}
-    		
-    	
+
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>

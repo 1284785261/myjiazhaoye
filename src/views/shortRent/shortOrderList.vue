@@ -10,10 +10,10 @@
                 </Select>
             </div>
             <div class="form-item">
-                入住率：
+              入住率：<span v-if="shortOrderInfo.occupancyRate">{{shortOrderInfo.occupancyRate}}</span><span v-else>0</span>
             </div>
             <div class="form-item">
-                总房数/已订房：
+                总房数/已订房：{{shortOrderInfo.totalCount}}/{{shortOrderInfo.bookedTotalCount}}
             </div>
         </div>
         <div class="marginT30">
@@ -165,7 +165,7 @@
                       <span v-if="item.isIn==0">未入住</span>
                       <span v-if="item.isIn==1">已入住</span>
                     </td>
-                    <td>{{item.orderId}}</td>
+                    <td>{{item.orderNum}}</td>
                     <td>{{item.userName}}</td>
                     <td>{{item.contactPhone}}</td>
                     <td>{{item.name}}</td>
@@ -316,7 +316,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194} from '../api.js';
+  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -415,7 +415,8 @@
         roomNumKey:"",//房号
         nameKey:"",//户型名称
         userAlias:"",//昵称
-
+        customOrderState:-1,
+        isRoom:-1,
 
         createOrderModel:true,//创建订单弹框显示隐藏控制
         isHide:false,
@@ -425,6 +426,7 @@
 
         shortOrderList:[],
         roomTypeList:[],//户型列表
+        shortOrderInfo:{},//入住率等信息
 
         bookBeginDate:"",//创建订单入住时间
         bookEndDate:"",//创建订单离店时间
@@ -470,7 +472,8 @@
               }else{
                 that.communityId = parseInt(that.stationSelectList[0].communityId);
               }
-              that.getShortOrderList({pageNum:1,communityId:that.communityId})
+              that.getShortOrderInfo({communityId:that.communityId});
+              that.getShortOrderList({pageNum:1,communityId:that.communityId});
               that.getRoomTypeBookDataList({pageNum:1,communityId:that.communityId});
             }
           })
@@ -485,6 +488,15 @@
           }else{
             vm.shortOrderList = [];
             vm.totalNum = 0;
+          }
+        })
+      },
+      //获取房间入住率等信息
+      getShortOrderInfo(params){
+        let vm = this;
+        this.$http.get(CxkjGetOccupancyRate300120,{params:params}).then(res=>{
+          if(res.data.code == 10000){
+            vm.shortOrderInfo = res.data.entity;
           }
         })
       },
@@ -519,8 +531,62 @@
        **/
       handleSelect(key, keyPath){
         console.log(key)
+        console.log(keyPath)
         if(key == 1){
           this.selectShow = !this.selectShow
+        }else{
+          this.selectShow = false;
+        }
+        let that = this;
+        that.isRoom = -1;//初始化
+        switch (keyPath[0]){
+          case "1":
+            break;
+          case "2":
+            that.customOrderState = 1;//1、今日预抵
+            if(keyPath[1] == "2-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "2-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "2-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "3":
+            that.customOrderState = 2;//明日预离
+            if(keyPath[1] == "3-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "3-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "3-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "4":
+            that.customOrderState = 3;//待入住
+            if(keyPath[1] == "4-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "4-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "4-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "5":
+            that.customOrderState = 4;//已入住
+            break;
+          case "6":
+            that.customOrderState = 5;//已取消
+            break;
+          case "7":
+            that.customOrderState = 6;//应到未到
+            break;
+          case "8":
+            that.customOrderState = -1;//全部
+            break;
+        }
+        if(keyPath[0] != 1){
+          that.search();
         }
       },
       /**
@@ -569,6 +635,12 @@
         }
         if(page){
             this.pageNum = page;
+        }
+        if(this.customOrderState != -1){
+          params.customOrderState = this.customOrderState;
+        }
+        if(this.isRoom != -1){
+          params.isRoom = this.isRoom;
         }
 //        if(this.roomState != -1){
 //          params.debtState = this.roomState;

@@ -157,7 +157,7 @@
                 that.communityId = parseInt(that.stationSelectList[0].communityId);
               }
               //水电账单
-              that.getShortSettingList({communityId:this.communityId,pageNum:1,pageSize:1});
+              that.getShortSettingList({communityId:that.communityId,pageNum:1,pageSize:1});
             }
           })
       },
