@@ -217,13 +217,11 @@
         var that = this;
         this.$http.get(complainList,{params:data})
           .then(function(res){
-            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.complainList = pageBean.page;
               that.complainTotalNum = pageBean.totalNum;
-            }
-            if(res.data.code == 10008){
+            }else{
               that.complainList = [];
               that.complainTotalNum = 0;
             }
