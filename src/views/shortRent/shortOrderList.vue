@@ -70,13 +70,14 @@
                         <!--<el-checkbox label="已入住" value="4"></el-checkbox>-->
                         <!--<el-checkbox label="已取消" value="5"></el-checkbox>-->
                     <!--</el-checkbox-group>-->
-                    <el-radio-group v-model="selectState" @change="handleSelect">
-                        <el-radio :label="0">全部</el-radio>
+                    <el-radio-group v-model="selectState" @change="selsctRadio">
+                        <el-radio :label="-1">全部</el-radio>
                         <el-radio :label="1">今日预抵</el-radio>
                         <el-radio :label="2">明日预抵</el-radio>
                         <el-radio :label="3">待入住</el-radio>
                         <el-radio :label="4">已入住</el-radio>
                         <el-radio :label="5">已取消</el-radio>
+                        <el-radio :label="6">应到未到</el-radio>
                     </el-radio-group>
                 </li>
                 <!--<li>-->
@@ -93,7 +94,7 @@
                     <!--</el-checkbox-group>-->
                 <!--</li>-->
                 <li>
-                    <el-button>查询</el-button>
+                    <el-button @click="search()">查询</el-button>
                 </li>
             </ul>
             <ul class="dateUl">
@@ -175,7 +176,7 @@
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.payMoney}}</td>
                     <td>
-                        <a @click="paifang">排房</a>
+                        <a @click="paifang(item.roomNum,item.orderId)">排房</a>
                         <a @click="checkIn">入住</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
@@ -316,7 +317,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120} from '../api.js';
+  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120,CxkjAssignRoom300196} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -530,13 +531,28 @@
        * 导航菜单事件
        **/
       handleSelect(key, keyPath){
-        console.log(key)
-        console.log(keyPath)
+
         if(key == 1){
           this.selectShow = !this.selectShow
         }else{
           this.selectShow = false;
-        }
+          //清空搜索条件
+          this.selectConditions = {
+            roomType:'',//房型
+            roomNumber:'',//房号
+            stayPhone:'',//入住人手机号
+            orderNumber:'',//订单号
+            singleNumber:'',//入住单号
+            nickname:''//客户昵称
+          }
+          this.bookBeginDateKey = "";
+          this.bookEndDateKey = "";
+          this.arriveBeginDateKey = "";
+          this.arriveEndDateKey = "";
+          this.leaveBeginDatekey = "";
+          this.leaveEndDateKey = "";
+          this.selectState = "";
+      }
         let that = this;
         that.isRoom = -1;//初始化
         switch (keyPath[0]){
@@ -588,6 +604,10 @@
         if(keyPath[0] != 1){
           that.search();
         }
+      },
+      //状态查询选择
+      selsctRadio(value){
+        this.customOrderState = value;
       },
       /**
        * 点击创建订单显示弹框
@@ -642,17 +662,50 @@
         if(this.isRoom != -1){
           params.isRoom = this.isRoom;
         }
-//        if(this.roomState != -1){
-//          params.debtState = this.roomState;
+
+//        let selectConditions = {
+//          roomType:'',//房型
+//            roomNumber:'',//房号
+//            stayPhone:'',//入住人手机号
+//            orderNumber:'',//订单号
+//            singleNumber:'',//入住单号
+//            nickname:''//客户昵称
 //        }
-//        if(this.createStartTime){
-//          params.beginDate = new Date(this.createStartTime).Format("yyyy-MM-dd hh:mm:ss")
-//        }
-//        if(this.createEndTime){
-//          params.endDate = new Date(this.createEndTime).Format("yyyy-MM-dd hh:mm:ss")
-//        }
+        if(this.selectConditions.roomType != ""){
+            params.name = this.selectConditions.roomType;
+        }
+        if(this.selectConditions.roomNumber != ""){
+          params.roomNum = this.selectConditions.roomNumber;
+        }
+        if(this.selectConditions.nickname != ""){
+          params.userAlias = this.selectConditions.nickname;
+        }
+
+        if(this.bookBeginDateKey != ""){
+          params.bookBeginDate = this.bookBeginDateKey
+        }
+        if(this.bookEndDateKey != ""){
+          params.bookEndDateKey = this.bookEndDateKey
+        }
+        if(this.arriveBeginDateKey != ""){
+          params.arriveBeginDateKey = this.arriveBeginDateKey
+        }
+        if(this.arriveEndDateKey != ""){
+          params.arriveEndDateKey = this.arriveEndDateKey
+        }
+        if(this.leaveBeginDatekey != ""){
+          params.leaveBeginDatekey = this.leaveBeginDatekey
+        }
+        if(this.leaveEndDateKey != ""){
+          params.leaveEndDateKey = this.leaveEndDateKey
+        }
 
         this.getShortOrderList(params);
+      },
+      getPaifangData(param){
+        this.$http.post(CxkjAssignRoom300196,qs.stringify(param)).then(res=>{
+
+        })
       },
       /**
        * 取消创建订单按钮
@@ -680,6 +733,7 @@
         }, 0)
       },
       paifang(){
+        this.getPaifangData();
         this.roomChangeHide = true;
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {

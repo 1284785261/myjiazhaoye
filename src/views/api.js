@@ -779,6 +779,7 @@ export const CxkjCreateOrder300193 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjCreate
 export const CxkjGetRoomTypeBookDataList300194 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetRoomTypeBookDataList300194'//户型列表
 export const CxkjGetOrderDetail300182 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderDetail300182'//订单列表
 export const CxkjGetOccupancyRate300120 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOccupancyRate300120'//获取社区入住率等信息
+export const UserInfo500053 =host3+'/cxkj-room/apis/pcManager/cxkjcontractsign/UserInfo500053'//用户信息
 
 export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
 export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情

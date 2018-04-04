@@ -35,7 +35,7 @@
             <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
-                <Input v-model="roomSearchKey" placeholder="搜索投诉人或注册手机号"></Input>
+                <Input v-model="roomSearchKey" placeholder="搜索投诉人或手机号号码"></Input>
                 <input type="button" value="搜索" @click="search()">
               </div>
             </div>
@@ -81,8 +81,14 @@
                 <span v-if="complain.complainStatus==4" style="color: #FF6612;">待回访</span>
                 <span v-if="complain.complainStatus==5">已回访</span>
               </td>
-              <td>{{complain.newTime | timefilter("yyyy-MM-dd hh:mm")}}</td>
-              <td>{{complain.processingTime}}</td>
+              <td>
+                <span v-if="complain.complainStatus==4 || complain.complainStatus==5">{{complain.newTime | timefilter("yyyy-MM-dd hh:mm")}}</span>
+                <span v-else></span>
+              </td>
+              <td>
+                <span v-if="complain.complainStatus==4 || complain.complainStatus==5">{{complain.processingTime}}</span>
+                <span v-else></span>
+              </td>
               <td>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}"> 查看详情</router-link>
                 <router-link :to="{name:'complainDetail',query:{id:complain.complainId}}" v-if="complain.complainStatus==3 &&  jurisdiction('CUSTOMER_UPDATE')"> 确认处理</router-link>

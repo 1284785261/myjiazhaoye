@@ -31,22 +31,22 @@
                   </Select>
                 </td>
               </tr>
+              <!--<tr>-->
+                <!--<td><b>工单时间 :</b></td>-->
+                <!--<td>-->
+                  <!--<Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择投诉时间" v-model="complainTime"></Date-picker>-->
+                <!--</td>-->
+              <!--</tr>-->
               <tr>
-                <td><b>工单时间 :</b></td>
+                <td><b>客户联系方式 :</b></td>
                 <td>
-                  <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择投诉时间" v-model="complainTime"></Date-picker>
+                  <Input v-model="userPhone" placeholder="请输入用户注册手机号" style="width: 220px;" @on-blur="getSignedUserInfo" ></Input>
                 </td>
               </tr>
               <tr>
                 <td><b>客户姓名 :</b></td>
                 <td>
-                  <Input v-model="userName" placeholder="请输入投诉人姓名" style="width: 220px;"></Input>
-                </td>
-              </tr>
-              <tr>
-                <td><b>客户联系方式 :</b></td>
-                <td>
-                  <Input v-model="userPhone" placeholder="请输入用户注册手机号" style="width: 220px;"></Input>
+                  <Input v-model="userName" placeholder="请输入投诉人姓名" style="width: 220px;" :disabled="userNameFlag"></Input>
                 </td>
               </tr>
               <tr>
@@ -80,7 +80,7 @@
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
-  import {allCommunity,addComplain} from '../api.js';
+  import {allCommunity,addComplain,UserInfo500053} from '../api.js';
 
 
   export default {
@@ -120,7 +120,8 @@
 
         allCommunity:[],
         successModal:false,
-        warnningModal:false
+        warnningModal:false,
+        userNameFlag:false,
       }
     },
     mounted(){
@@ -136,9 +137,40 @@
             }
           })
       },
+      // 获取用户信息
+      getSignedUserInfo () {
+        let that = this
+        if (this.userPhone === '') {
+          this.warningMessage = "手机号码不能为空";
+          this.warnningModal = true;
+          return;
+        } else if (!(/^1[0-9]{10}$/).test(this.userPhone)) {
+          this.warningMessage = "请填写正确的手机号码";
+          this.warnningModal = true;
+          return;
+        } else {
+          this.$http.post( UserInfo500053, qs.stringify({
+            userPhone:this.userPhone // 	用户手机号
+          })).then(res => {
+            let code = parseInt(res.data.code)
+            if(code == 10000){
+              let user = res.data.result.userInfo
+              that.userName = user.userName //	String	用户名称
+              that.userNameFlag = true;
+            }else{
+//              this.userPhone = ''
+              this.warningMessage = res.data.content;
+              this.warnningModal = true;
+              that.userNameFlag = false;
+            }
+          }).catch(function (error) {
+            console.log(error);
+          })
+        }
+      },
       sureAdd(){
         var that = this;
-        if(this.roomCommunity ==="" || this.complainContent ==="" || this.userPhone ==="" || this.complainTime==="" || this.userName===""){
+        if(this.roomCommunity ==="" || this.complainContent ==="" || this.userPhone ==="" || this.userName===""){
           this.warnningModal = true;
           return;
         }
@@ -153,7 +185,6 @@
           complainContent:this.complainContent,
           userPhone:this.userPhone,
           userName:this.userName,
-          complainTime:new Date(this.complainTime).Format("yyyy-MM-dd hh"),
           complainType:this.complainType
         };
         this.$http.post(addComplain,qs.stringify(data))
