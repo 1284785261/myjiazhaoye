@@ -132,10 +132,10 @@
                 </li>
             </ul>
             <ul class="selectUl">
-                <li>
-                    <span>订单号/渠道单号：</span>
-                    <input v-model="selectConditions.orderNumber">
-                </li>
+                <!--<li>-->
+                    <!--<span>订单号/渠道单号：</span>-->
+                    <!--<input v-model="selectConditions.orderNumber">-->
+                <!--</li>-->
                 <li>
                     <span>入住单号：</span>
                     <input v-model="selectConditions.singleNumber">
@@ -176,18 +176,19 @@
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.payMoney}}</td>
                     <td>
-                        <a @click="paifang(item.roomNum,item.orderId)">排房</a>
-                        <a @click="checkIn">入住</a>
+                        <a @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
+                        <a @click="checkIn(item.orderId,item)">入住</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
                 </tr>
             </table>
-            <div class="block">
+            <div class="block" style="margin-top: 40px;">
                 <el-pagination @current-change="search" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
                 </el-pagination>
             </div>
         </div>
 
+      <!--入住-->
       <div class="upload-modal" v-if="isHide" ref="outCheckInOrder" @click="notcheckIn()"></div>
       <div class="checkInOrder" ref="checkInOrder" v-if="isHide">
         <p>房号：101<span style="margin-left: 40px;">标准大单间</span></p>
@@ -210,10 +211,10 @@
         <p>入住人：
         <ul>
           <li>
-            姓名：<input class="ivu-input " style="width:80px;">
+            姓名：<input class="ivu-input " style="width:80px;" v-model="name">
             <el-radio class="radio" v-model="radio" label="1">男</el-radio>
             <el-radio class="radio" v-model="radio" label="2">女</el-radio>
-            <Select v-model="stationCommunity" style="width:120px">
+            <Select v-model="stationCommunity" style="width:120px;cccccccccccccccccccccccccccccccccccc">
               <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
             </Select>
             <input class="ivu-input" style="width:250px;">
@@ -224,31 +225,36 @@
         <a @click="notcheckIn()">取消</a>
         <span style="margin-left: 40px;color:red;">点击提交发送密码短信至登录人的手机中</span>
       </div>
+      <!--入住-->
 
+      <!--排房-->
       <div class="upload-modal" ref="outRoomChangeHide"  v-if="roomChangeHide" @click="closeRoomChange()"></div>
       <div class="roomchange" ref="roomChange" v-if="roomChangeHide">
         <ul class="state2 transition-box">
           <li>
-            <div>
+            <div v-for="(item,index) in paiFangList" :class="{'active-color':hasRoom(index)}" @click="selectRoom(index)">
               <p></p>
               <span class="short">短租</span>
-              <p></p>
+              <p style="font-size: 16px;">{{item.roomNum}}</p>
               <!-- <p v-else></p> -->
               <span></span>
               <!-- <span v-else></span> -->
-              <span>租期剩余天</span>
+              <span>{{item.name}}</span>
               <!-- <span v-else></span> -->
-              <p>￥.00
-                <!-- <i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]">{{its.roomStatus | states(its.roomStatus)}}</i> -->
+              <p>￥{{item.subTotal}}
+                <i v-if="item.roomStatus == 0">维护中</i>
+                <i v-if="item.roomStatus == 1">待出租</i>
+                <i v-if="item.roomStatus == 2">已出租</i>
+                <i v-if="item.roomStatus == 3">脏房</i>
               </p>
             </div>
 
           </li>
         </ul>
-        <a @click="roomchange()">提交</a>
+        <a @click="submit()">提交</a>
         <a @click="closeRoomChange()" style="left: 600px;">取消</a>
       </div>
-
+      <!--排房-->
 
       <!--创建订单-->
       <div class="create-order-modal" v-if="createOrderModal" ref="outCreateOrderModal" @click="closeCreateOrderModal()"></div>
@@ -282,7 +288,7 @@
           <div class="form-item">
             <b>联系人: </b>
             <Input style="width: 175px;" v-model="bookName"></Input>
-            <Button type="primary" style="">设为入住人</Button>
+            <Button type="primary" @click="settingInner">设为入住人</Button>
           </div>
           <div class="form-item">
             <b>联系电话: </b>
@@ -306,8 +312,10 @@
         </div>
       </div>
       <!--创建订单-->
-
+      <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+      <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
     </div>
+
 </template>
 
 <script>
@@ -317,7 +325,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120,CxkjAssignRoom300196} from '../api.js';
+  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120,CxkjGetRoomListOfForRoom300195,CxkjAssignRoom300196} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -345,20 +353,6 @@
 //          state:[]
 //        },
         selectState:'0',
-        dateUl:{//条件查询时间查询
-          bookingTime:{//预订起止时间
-            startTime:'',
-            endTime:''
-          },
-          toShowTime:{//到店起止时间
-            startTime:'',
-            endTime:''
-          },
-          leaveTime:{//离店起止时间
-            startTime:'',
-            endTime:''
-          }
-        },
         selectConditions:{
           roomType:'',//房型
           roomNumber:'',//房号
@@ -428,6 +422,13 @@
         shortOrderList:[],
         roomTypeList:[],//户型列表
         shortOrderInfo:{},//入住率等信息
+        paiFangList:[],//可供排房列表
+        activeIndex:0,
+        activeOrderId:null,
+        name:"",//入住人名称
+        activeRoomCount:0,//排房个数
+        roomList:[],//选中的房间
+        checkInObj:{},//入住
 
         bookBeginDate:"",//创建订单入住时间
         bookEndDate:"",//创建订单离店时间
@@ -461,6 +462,9 @@
       this.getCommunityData();
     },
     methods: {
+      closeWarningModal(){
+        this.warningModal = false;
+      },
       //获取社区id
       getCommunityData(){
         var that = this;
@@ -519,6 +523,59 @@
           vm.getShortOrderList({pageNum:1,communityId:vm.communityId})
           vm.getRoomTypeBookDataList({pageNum:1,communityId:vm.communityId});
         }
+      },
+      /**
+       * 设置为入住人
+       **/
+      settingInner(){
+        sessionStorage.setItem("bookName",this.bookName)
+      },
+      /**
+       * 选择房间
+       **/
+      selectRoom(index){
+        if(this.activeRoomCount>0){
+          if(this.roomList.length<this.activeRoomCount){
+            if(this.roomList.indexOf(index)!=-1){
+              this.roomList.splice(this.roomList.indexOf(index),1);
+            }else{
+              this.roomList.push(index);
+            }
+          }else{
+            if(this.roomList.indexOf(index)!=-1){
+              this.roomList.splice(this.roomList.indexOf(index),1);
+            }else{
+              this.roomList.splice(0,1);
+              this.roomList.push(index);
+            }
+          }
+        }
+      },
+      hasRoom(index){
+        for(let i=0;i<this.roomList.length;i++){
+            if(this.roomList[i] == index){
+              return true;
+              break;
+            }
+        }
+        return false;
+      },
+      /**
+       * 提交排房
+       **/
+      submit(){
+        let ids = [];
+        for(let i =0;i<this.roomList.length;i++){
+          ids.push(this.paiFangList[this.roomList[i]].id)
+        }
+
+        this.$http.post(CxkjAssignRoom300196,qs.stringify({id:this.activeOrderId,roomIds:ids})).then(res=>{debugger
+          if(res.data.code == 10000){
+            this.closeRoomChange();
+          }
+        })
+
+
       },
 
       /**
@@ -622,6 +679,7 @@
         let vm  = this;
         if(this.bookName == "" || this.bookPhone == "" || this.bookBeginDate == "" || this.bookEndDate=="" || this.roomCount=="" || this.roomNum){
           //信息填写不完整
+          vm.$emit("openWarningModal","信息填写不完整")
           return;
         }
         let param = {
@@ -641,9 +699,13 @@
               vm.bookName = "";
               vm.bookPhone = "";
               vm.remark = "";
+              let orderId = res.data.entity;
+              sessionStorage.setItem("orderId",orderId);
               vm.closeCreateOrderModal();
               vm.search(vm.pageNum);
-          }
+          }else{
+            vm.$emit("openWarningModal",res.data.content)
+         }
         })
       },
       //条件搜索
@@ -663,14 +725,6 @@
           params.isRoom = this.isRoom;
         }
 
-//        let selectConditions = {
-//          roomType:'',//房型
-//            roomNumber:'',//房号
-//            stayPhone:'',//入住人手机号
-//            orderNumber:'',//订单号
-//            singleNumber:'',//入住单号
-//            nickname:''//客户昵称
-//        }
         if(this.selectConditions.roomType != ""){
             params.name = this.selectConditions.roomType;
         }
@@ -699,12 +753,27 @@
         if(this.leaveEndDateKey != ""){
           params.leaveEndDateKey = this.leaveEndDateKey
         }
-
+        if(this.selectConditions.stayPhone != ""){
+          params.bookPhone = this.selectConditions.stayPhone;
+        }
+        if(this.selectConditions.singleNumber != ""){
+          params.orderNum = this.selectConditions.singleNumber;
+        }
         this.getShortOrderList(params);
       },
-      getPaifangData(param){
-        this.$http.post(CxkjAssignRoom300196,qs.stringify(param)).then(res=>{
-
+      getPaifangData(roomCount,orderId){
+        let vm = this;
+        this.activeRoomCount = roomCount;//缓存排房数量
+        this.activeOrderId = orderId;//缓存订单id
+        let param = {id:orderId,pageNum:1}
+        this.$http.get(CxkjGetRoomListOfForRoom300195,{params:param}).then(res=>{
+          if(res.data.code == 10000 && res.data.pageBean.page){
+            vm.paiFangList = res.data.pageBean.page;
+            vm.paifang();
+          }else{
+            vm.$emit("openWarningModal","没有房间信息!")
+            vm.paiFangList = [];
+          }
         })
       },
       /**
@@ -723,8 +792,14 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.outCheckInOrder);
       },
       //入住按钮
-      checkIn(){
+      checkIn(orderId,obj){
         this.isHide = true;
+        this.checkInObj = obj;
+        if(sessionStorage.getItem("orderId") && sessionStorage.getItem("orderId")==orderId){
+          this.name = sessionStorage.getItem("bookName");
+        }else{
+          this.name = "";
+        }
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {
             document.querySelector("#app").firstChild.appendChild(this.$refs.checkInOrder);
@@ -733,8 +808,9 @@
         }, 0)
       },
       paifang(){
-        this.getPaifangData();
+//        this.getPaifangData(orderId);
         this.roomChangeHide = true;
+        this.roomList = [];
         setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
           this.$nextTick(() => {
             document.querySelector("#app").firstChild.appendChild(this.$refs.roomChange);
@@ -791,6 +867,9 @@
       border-radius: 5px;
 
     }
+    .active-color{
+      background-color: #1dc0e9!important;
+    }
     .checkInOrder p{
       margin-left: 20px;
       line-height: 40px;
@@ -821,7 +900,7 @@
     .checkInOrder ul{
       position: absolute;
       left: 86px;
-      top: 282px;
+      top: 271px;
     }
 
     .roomchange{

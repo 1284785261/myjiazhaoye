@@ -794,6 +794,9 @@ export const CxkjGetRoomTypeBookDataList300194 =host3+'/cxkj-pms/apis/pc/pmsorde
 export const CxkjGetOrderDetail300182 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderDetail300182'//订单列表
 export const CxkjGetOccupancyRate300120 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetOccupancyRate300120'//获取社区入住率等信息
 export const UserInfo500053 =host3+'/cxkj-room/apis/pcManager/cxkjcontractsign/UserInfo500053'//用户信息
+export const CxkjGetRoomListOfForRoom300195 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetRoomListOfForRoom300195'//获取可供排房列表
+export const CxkjAssignRoom300196 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjAssignRoom300196'//排房
+export const CxkjGetPersonnelList300180 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetPersonnelList300180'//入住列表
 
 export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
 export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情

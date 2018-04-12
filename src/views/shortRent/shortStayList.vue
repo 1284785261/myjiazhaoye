@@ -3,7 +3,7 @@
         <div>
             <div class="form-item">
                 <b>社区：</b>
-                <Select v-model="stationCommunity" style="width:180px">
+                <Select v-model="communityId" style="width:180px">
                     <Option v-for="community in  stationSelectList" :value="community.communityId"
                             :key="community.communityId">{{ community.communityName }}
                     </Option>
@@ -26,7 +26,7 @@
                     状态：
                 </li>
                 <li>
-                    <el-radio-group v-model="selectState" @change="handleSelect">
+                    <el-radio-group v-model="selectState" @change="selsctRadio">
                         <el-radio :label="0">全部</el-radio>
                         <el-radio :label="1">今日预抵</el-radio>
                         <el-radio :label="2">明日预抵</el-radio>
@@ -49,28 +49,28 @@
                     <!--</el-checkbox-group>-->
                 <!--</li>-->
                 <li>
-                    <el-button>查询</el-button>
+                    <el-button @click="search()">查询</el-button>
                 </li>
             </ul>
             <ul class="dateUl">
-                <li>
-                    <span>预订起止时间：</span>
-                    <Date-picker type="date" :options="bookingStartTime" placeholder="选择日期" v-model="dateUl.bookingTime.startTime"></Date-picker>
-                    <span class="inline-block spanBar">--</span>
-                    <Date-picker type="date" :options="bookingEndTime" placeholder="选择日期" v-model="dateUl.bookingTime.endTime"></Date-picker>
-                </li>
-                <li>
-                    <span>到店起止时间：</span>
-                    <Date-picker type="date" :options="toShowStartTime" placeholder="选择日期" v-model="dateUl.toShowTime.startTime"></Date-picker>
-                    <span class="inline-block spanBar">--</span>
-                    <Date-picker type="date" :options="toShowEndTime" placeholder="选择日期" v-model="dateUl.toShowTime.endTime"></Date-picker>
-                </li>
-                <li>
-                    <span>离店起止时间：</span>
-                    <Date-picker type="date" :options="leaveStartTime" placeholder="选择日期" v-model="dateUl.leaveTime.startTime"></Date-picker>
-                    <span class="inline-block spanBar">--</span>
-                    <Date-picker type="date" :options="leaveEndTime" placeholder="选择日期" v-model="dateUl.leaveTime.endTime"></Date-picker>
-                </li>
+              <li>
+                <span>预订起止时间：</span>
+                <Date-picker type="date" :options="bookingStartTime" placeholder="选择日期" v-model="bookBeginDateKey"></Date-picker>
+                <span class="inline-block spanBar">--</span>
+                <Date-picker type="date" :options="bookingEndTime" placeholder="选择日期" v-model="bookEndDateKey"></Date-picker>
+              </li>
+              <li>
+                <span>到店起止时间：</span>
+                <Date-picker type="date" :options="toShowStartTime" placeholder="选择日期" v-model="arriveBeginDateKey"></Date-picker>
+                <span class="inline-block spanBar">--</span>
+                <Date-picker type="date" :options="toShowEndTime" placeholder="选择日期" v-model="arriveEndDateKey"></Date-picker>
+              </li>
+              <li>
+                <span>离店起止时间：</span>
+                <Date-picker type="date" :options="leaveStartTime" placeholder="选择日期" v-model="leaveBeginDatekey"></Date-picker>
+                <span class="inline-block spanBar">--</span>
+                <Date-picker type="date" :options="leaveEndTime" placeholder="选择日期" v-model="leaveEndDateKey"></Date-picker>
+              </li>
             </ul>
             <ul class="selectUl">
                 <li>
@@ -115,21 +115,24 @@
                     <th>离店日期</th>
                     <th>预付款</th>
                 </tr>
-                <tr >
-                    <td>已入住</td>
-                    <td>123456</td>
-                    <td>李杨</td>
-                    <td>13651412541</td>
-                    <td>标准大床房</td>
-                    <td>10003</td>
-                    <td>李杨</td>
-                    <td>2018/1/23</td>
-                    <td>2018/1/15</td>
-                    <td>900</td>
-                </tr>
+              <tr v-for="(item,index) in shortOrderList">
+                <td>
+                  <span v-if="item.isIn==0">未入住</span>
+                  <span v-if="item.isIn==1">已入住</span>
+                </td>
+                <td>{{item.orderNum}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.contactPhone}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.roomNum}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
+                <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
+                <td>{{item.payMoney}}</td>
+              </tr>
             </table>
             <div class="block">
-                <el-pagination @current-change="handleCurrentChange3" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
+                <el-pagination @current-change="search" :current-page="pageNum" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum>
                 </el-pagination>
             </div>
         </div>
@@ -144,7 +147,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {} from '../api.js';
+  import {allCommunity,CxkjGetPersonnelList300180} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -164,27 +167,13 @@
         warningMessage: '',//失败弹框提示消息
         selectShow:false,//条件查询显示或隐藏
         stationSelectList:[],//社区列表
-        stationCommunity:'',//被选中的社区
+        communityId:'',//被选中的社区
 //        selectState:{//状态查询控制
 //          all:true,
 //          eta:[],
 //          state:[]
 //        },
         selectState:'0',
-        dateUl:{//条件查询时间查询
-          bookingTime:{//预订起止时间
-            startTime:'',
-            endTime:''
-          },
-          toShowTime:{//到店起止时间
-            startTime:'',
-            endTime:''
-          },
-          leaveTime:{//离店起止时间
-            startTime:'',
-            endTime:''
-          }
-        },
         selectConditions:{
           roomType:'',//房型
           roomNumber:'',//房号
@@ -195,6 +184,16 @@
         },
         pageNum:1,//当前页数
         totalNum:0,//总条数
+        isRoom:-1,
+        customOrderState:-1,
+
+        //搜索条件
+        bookBeginDateKey:"",
+        bookEndDateKey:"",
+        arriveBeginDateKey:"",
+        arriveEndDateKey:"",
+        leaveBeginDatekey:"",
+        leaveEndDateKey:"",
         bookingStartTime: {//预订开始时间验证
           disabledDate(date){
           }
@@ -220,25 +219,176 @@
           }
         },
         createOrderModel:true,//创建订单弹框显示隐藏控制
+        shortOrderList:[],
       }
     },
     mounted() {
-
+      this.getCommunityData();
     },
     methods: {
-      /**
-       * 分页插件
-       **/
-      handleCurrentChange3(){
-
+      //获取社区id
+      getCommunityData(){
+        var that = this;
+        this.$http.get(allCommunity)
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.stationSelectList = res.data.entity;
+              if(sessionStorage.getItem("communityId")){
+                that.communityId = parseInt(sessionStorage.getItem("communityId"));
+              }else{
+                that.communityId = parseInt(that.stationSelectList[0].communityId);
+              }
+              that.getShortOrderList({pageNum:1,communityId:that.communityId});
+            }
+          })
       },
+      //获取
+      getShortOrderList(params){
+        let vm = this;
+        this.$http.get(CxkjGetPersonnelList300180,{params:params}).then(res=>{
+          if(res.data.code == 10000){
+            vm.shortOrderList = res.data.pageBean.page;
+            vm.totalNum = res.data.pageBean.totalNum;
+          }else{
+            vm.shortOrderList = [];
+            vm.totalNum = 0;
+          }
+        })
+      },
+      //状态查询选择
+      selsctRadio(value){
+        this.customOrderState = value;
+      },
+      //条件搜索
+      search(page){
+        //接口待修改
+        let params = {
+          pageNum:page || 1,
+          communityId:this.communityId,
+        }
+        if(page){
+          this.pageNum = page;
+        }
+        if(this.customOrderState != -1){
+          params.customOrderState = this.customOrderState;
+        }
+        if(this.isRoom != -1){
+          params.isRoom = this.isRoom;
+        }
+
+        if(this.selectConditions.roomType != ""){
+          params.name = this.selectConditions.roomType;
+        }
+        if(this.selectConditions.roomNumber != ""){
+          params.roomNum = this.selectConditions.roomNumber;
+        }
+        if(this.selectConditions.nickname != ""){
+          params.userAlias = this.selectConditions.nickname;
+        }
+
+        if(this.bookBeginDateKey != ""){
+          params.bookBeginDate = this.bookBeginDateKey
+        }
+        if(this.bookEndDateKey != ""){
+          params.bookEndDateKey = this.bookEndDateKey
+        }
+        if(this.arriveBeginDateKey != ""){
+          params.arriveBeginDateKey = this.arriveBeginDateKey
+        }
+        if(this.arriveEndDateKey != ""){
+          params.arriveEndDateKey = this.arriveEndDateKey
+        }
+        if(this.leaveBeginDatekey != ""){
+          params.leaveBeginDatekey = this.leaveBeginDatekey
+        }
+        if(this.leaveEndDateKey != ""){
+          params.leaveEndDateKey = this.leaveEndDateKey
+        }
+        if(this.selectConditions.stayPhone != ""){
+          params.bookPhone = this.selectConditions.stayPhone;
+        }
+        if(this.selectConditions.singleNumber != ""){
+          params.orderNum = this.selectConditions.singleNumber;
+        }
+        this.getShortOrderList(params);
+      },
+
       /**
        * 导航菜单事件
        **/
       handleSelect(key, keyPath){
-        console.log(key)
+
         if(key == 1){
           this.selectShow = !this.selectShow
+        }else{
+          this.selectShow = false;
+          //清空搜索条件
+          this.selectConditions = {
+            roomType:'',//房型
+            roomNumber:'',//房号
+            stayPhone:'',//入住人手机号
+            orderNumber:'',//订单号
+            singleNumber:'',//入住单号
+            nickname:''//客户昵称
+          }
+          this.bookBeginDateKey = "";
+          this.bookEndDateKey = "";
+          this.arriveBeginDateKey = "";
+          this.arriveEndDateKey = "";
+          this.leaveBeginDatekey = "";
+          this.leaveEndDateKey = "";
+          this.selectState = "";
+        }
+        let that = this;
+        that.isRoom = -1;//初始化
+        switch (keyPath[0]){
+          case "1":
+            break;
+          case "2":
+            that.customOrderState = 1;//1、今日预抵
+            if(keyPath[1] == "2-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "2-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "2-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "3":
+            that.customOrderState = 2;//明日预离
+            if(keyPath[1] == "3-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "3-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "3-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "4":
+            that.customOrderState = 3;//待入住
+            if(keyPath[1] == "4-1"){//全部
+              that.isRoom = -1;
+            }else if(keyPath[1] == "4-2"){//待排房
+              that.isRoom = 0;
+            }else if(keyPath[1] == "4-3"){//已排房
+              that.isRoom = 1;
+            }
+            break;
+          case "5":
+            that.customOrderState = 4;//已入住
+            break;
+          case "6":
+            that.customOrderState = 5;//已取消
+            break;
+          case "7":
+            that.customOrderState = 6;//应到未到
+            break;
+          case "8":
+            that.customOrderState = -1;//全部
+            break;
+        }
+        if(keyPath[0] != 1){
+          that.search();
         }
       },
       /**
@@ -259,6 +409,13 @@
       closeBlackModal(){
 
       },
+    },
+    filters:{
+      timefilter(value,format){
+        if(value){
+          return new Date(value).Format(format)
+        }
+      }
     },
   }
 </script>

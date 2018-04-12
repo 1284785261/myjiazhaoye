@@ -12,7 +12,7 @@
                     <Tab-pane label="订单列表">
                         <div class="message-ti">
                             <div class="finance-header-kong">
-                                <short-order-list></short-order-list>
+                                <short-order-list @openWarningModal="openWarningModal"></short-order-list>
                             </div>
                         </div>
                     </Tab-pane>
@@ -180,11 +180,16 @@
                     }
                 })
             }
-            
+
+        },
+        openWarningModal(message){
+            this.warningMessage = message;
+            this.warningModal = true;
+
         },
         //全选时间事件
         handleCheckAll2(){
-            
+
             this.single = !this.single;
             if(this.single == true){
                 this.checkList.push('一');
@@ -277,7 +282,7 @@
                 this.checkList = [];
                 this.dayNumList = [];
             }
-            
+
         },
         //选中星期得到日期
         allcheckList(list){
@@ -430,7 +435,7 @@
         },
         closeWarningModal() {
             this.warningModal = false;
-            this.isHide = true;
+//            this.isHide = true;
         },
         // shortpriceshortprice(){
         //   this.successModal = true;
