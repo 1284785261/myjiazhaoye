@@ -31,11 +31,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>配置：</td>
-<<<<<<< HEAD
 		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item }} </span></td>
-=======
-		    				<td><span v-for="item in roomconfiguration" :key="item">{{item }} </span></td>
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				
 		    			</tr>
 		    			<tr>
@@ -81,17 +77,8 @@
 		    				<td>
 		    				</td>
 		    				<td>
-<<<<<<< HEAD
 								<ul v-for="item in pmsRoomService">
 									<li><span>{{item.serviceName}} *{{item.count}} </span><span style="color:#ef751b;">￥{{item.totalMoney}}</span></li>
-=======
-		    					<!-- <p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
-		    					<p v-else></p>
-		    					<p v-if="Datas.waterEnergyBill != null">水电账单{{Datas.waterEnergyBill.payStatus | payStatus}}</p>
-		    					<p v-else></p> -->
-								<ul v-for="item in pmsRoomService">
-									<li><span>{{item.name}}</span><span>￥{{item.price}}</span></li>
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 								</ul>
 		    				</td>
 		    				<td>
@@ -104,16 +91,12 @@
 								<span v-if="lockWaterElectricity.lockStatus">{{lockWaterElectricity.lockStatus | Status}}</span>
 		    					<span v-else>离线</span>
 		    					<span v-if="lockWaterElectricity.sn">序列号：{{lockWaterElectricity.sn}}</span>
-<<<<<<< HEAD
 								<span v-else>序列号：暂无</span>
-=======
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    				<td v-else>
 		    					暂无
 		    				</td>
 		    				<td rowspan="3">
-<<<<<<< HEAD
 		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity" class="butsbr">开门记录</router-link>
 		    					<a class="butsbr">获取门锁密码</a>
 								<ul>
@@ -121,23 +104,14 @@
 									<li><a>设置为【脏房】</a></li>
 									<li><a>设置为【待出租】</a></li>
 								</ul>
-=======
-		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity">开门记录</router-link>
-		    					<a>获取门锁密码</a>
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
 		    				<td v-if="lockWaterElectricity">
-<<<<<<< HEAD
 		    					<span v-if="lockWaterElectricity.waterStatus">{{lockWaterElectricity.waterStatus | Status2}}</span>
 		    					<span v-if="lockWaterElectricity.waterMeterSn">序列号：{{lockWaterElectricity.waterMeterSn}}</span>
 								<span v-else>序列号：暂无</span>
-=======
-		    					<span>{{lockWaterElectricity.waterStatus | Status2}}</span>
-		    					<span>序列号：{{lockWaterElectricity.waterMeterSn}}</span>
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    					<p>{{lockWaterElectricity.waterType | type}} <b> {{lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
 		    				<td v-else>
@@ -147,16 +121,10 @@
 		    			<tr>
 		    				<td>电表状态：</td>
 		    				<td v-if="lockWaterElectricity">
-<<<<<<< HEAD
 		    					<span v-if="lockWaterElectricity.electricityStatus">{{roomLockWaterElect.electricityStatus | Status2}}</span>
 		    					<span v-if="lockWaterElectricity.electricityMeterSn">序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
 								<span v-else>序列号：暂无</span>
 		    					<p>{{lockWaterElectricity.electricType | type}} <b> {{lockWaterElectricity.energyPrice | Price}}</b>元/度</p>
-=======
-		    					<span>{{roomLockWaterElect.electricityStatus | Status2}}</span>
-		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
-		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    				<td v-else>
 		    					<span>暂无</span>
@@ -467,13 +435,8 @@
 						for(let i = 0;i<arr.length;i++){
 							this.roomconfiguration.push(arr[i].materialName);
 						}
-<<<<<<< HEAD
     					if(this.Datas.pmsOrder.pmsRoomService){
     						this.pmsRoomService = this.Datas.pmsOrder.pmsRoomService;
-=======
-    					if(this.Datas.pmsRoomService){
-    						this.pmsRoomService = this.Datas.pmsRoomService;
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
     					}
     				}
     			})
