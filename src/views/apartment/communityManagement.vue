@@ -93,12 +93,12 @@
 												<span v-if="item.serviceCostMap.roomServiceCost">{{item.serviceCostMap.roomServiceCost}}元/月</span>
 												<span v-else>未设置</span>
 											</dd>
-											
+
 											<dd v-if="item.serviceCostMap">办公室服务费：
 												<span v-if="item.serviceCostMap.officeServiceCost">{{item.serviceCostMap.officeServiceCost}}元/月</span>
 												<span v-else>未设置</span>
 											</dd>
-											
+
 											<dd>会议室套餐：<span>  {{item.meetingSuit | Fors(item.meetingSuit)}}</span></dd>
 											<dd>维修项：<span> {{item.maintain | Fors(item.maintain)}}</span></dd>
 										</dl>
@@ -199,7 +199,7 @@
 												<span v-if="item.serviceCostMap.roomServiceCost">{{item.serviceCostMap.roomServiceCost}}元/月</span>
 												<span v-else>未设置</span>
 											</dd>
-											
+
 											<dd v-if="item.serviceCostMap">办公室服务费：
 												<span v-if="item.serviceCostMap.officeServiceCost">{{item.serviceCostMap.officeServiceCost}}元/月</span>
 												<span v-else>未设置</span>
@@ -514,7 +514,7 @@
 			payment(val){
 				let arr = [];
 				let arr2 = [];
-				arr = val.split(','); 
+				arr = val.split(',');
 				for(let i = 0;i<arr.length;i++){
 					if(arr[i] == '1'){
 						arr2.push('月付');
@@ -534,7 +534,7 @@
 			// paymentOffice(val){
 			// 	let arr = [];
 			// 	let arr2 = [];
-			// 	arr = val.split(','); 
+			// 	arr = val.split(',');
 			// 	for(let i = 0;i<arr.length;i++){
 			// 		if(arr[i] == '1'){
 			// 			arr2.push('押二付一');
@@ -559,7 +559,7 @@
 			this.btns();
 			this.btusy2();
 			this.classifys();
-			this.btusys();	
+			this.btusys();
 			this.comment({
 				pageNum: 1
 			});
@@ -654,11 +654,6 @@
 			},
 			hub(val) { //关闭社区按钮事件
 				this.isShow = !this.isShow;
-<<<<<<< HEAD
-				console.log(val);
-=======
-				//console.log(val);
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 				let vm = this
 				if(val.Close == 0) {
 					vm.community.Close = 1;
@@ -680,7 +675,7 @@
 					.then((response) => {
 						// console.log(response)
 						if(response.status == 200 && response.data.code == 10000) {
-							
+
 							this.successMessage = '操作成功';
 							this.successModal = true;
 							setTimeout(() => {
@@ -774,7 +769,7 @@
 			font-size: 16px;
 		}
 	}
-	
+
 	.zhezhao {
 		width: 100%;
 		height: 100%;
@@ -787,7 +782,7 @@
 		opacity: 0.5;
 		z-index: 999;
 	}
-	
+
 	.lose {
 		z-index: 1000;
 		position: fixed;
@@ -800,27 +795,27 @@
 		transform: translate(-50%, -50%);
 		text-align: center;
 	}
-	
+
 	.lose span {
 		display: block;
 		font-size: 12px;
 		margin-top: 42px;
 		margin-bottom: 18px;
 	}
-	
+
 	.lose span i {
 		font-style: normal;
 		font-size: 10px;
 		margin: 0 5px;
 		color: #038be2;
 	}
-	
+
 	.lose p {
 		font-size: 12px;
 		font-weight: bold;
 		margin-bottom: 35px;
 	}
-	
+
 	.lose a {
 		display: inline-block;
 		width: 90px;
@@ -830,40 +825,40 @@
 		font-size: 12px;
 		border-radius: 5px;
 	}
-	
+
 	.lose a:nth-child(3) {
 		background: #038be2;
 		color: white;
 		margin-right: 20px;
 	}
-	
+
 	.lose a:nth-child(4) {
 		background: #f8f8f8;
 		color: #666;
 		border: 1px solid #dcdcdc;
 	}
-	
+
 	.message-ti {
 		position: relative;
 	}
-	
+
 	.message-ti .block {
 		position: absolute;
 		left: 50%;
 		margin-top: 120px;
 		transform: translate(-50%, -50%);
 	}
-	
+
 	.message-ti .block .el-pagination {
 		text-align: center;
 		margin-top: 40px;
 	}
-	
+
 	.message-ti .block .el-pagination .el-pager .number {
 		margin: 0 5px;
 		border: 1px solid #DCDCDC;
 	}
-	
+
 	.message-ti .block .el-pagination button {
 		border: 1px solid #DCDCDC;
 	}

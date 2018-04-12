@@ -31,7 +31,7 @@
 					</div>
 				</Dropdown-menu>
 			</Dropdown>
-			
+
 		</div>
 	</div>
 </template>
@@ -74,8 +74,8 @@
 			}else {
 				this.datas();
 			}
-			
-		
+
+
 		},
 		methods: {
 			datas() {
@@ -104,7 +104,7 @@
 					console.log(error);
 				})
 
-				
+
 			},
 			title() {
 				let vm = this
@@ -122,11 +122,6 @@
 							} else {
 								this.selectModel1 = this.cityList[0].communityName;
 								let haveper = this.cityList[0].havePer;
-<<<<<<< HEAD
-								console.log(1111111111);
-=======
-								// console.log(1111111111);
->>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 								// sessionStorage.setItem('communityId', this.cityList[0].communityId);
 								this.$emit("communityId",{'communityId':this.cityList[0].communityId,'havepers':haveper});
 							}
