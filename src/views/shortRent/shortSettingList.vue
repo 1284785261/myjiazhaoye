@@ -167,7 +167,6 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypeTable200191,qs.stringify(param)
         ).then(function(res){
-          console.log(res);
           if(res.data.code == 10000){
             vm.shortSettingList = res.data.entity.page;
             vm.totalNum = res.data.entity.totalNum;

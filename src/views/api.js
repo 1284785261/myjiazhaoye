@@ -442,6 +442,12 @@ const ShortRoomTypes = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomTy
 
 //获取短租房间的信息
 const ShortPmsRoomInfo = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomInfo200213'
+
+//短租详情添加收退款
+const ShortOrderFinance = '/cxkj-pms/apis/pc/pmsorder/CxkjCommunityPmsOrderFinanceAdd200214'
+
+//短租详情删除收退款
+const ShortFinanceUpdate = '/cxkj-pms/apis/pc/pmsorder/CxkjCommunityPmsOrderFinanceUpdate200215'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -587,6 +593,8 @@ export const MllCommunity300145 = host3 + MllCommunity;
 export const ShortRentstate200211 = host3 + ShortRentstate;
 export const ShortRoomTypes200208 = host3 + ShortRoomTypes;
 export const ShortPmsRoomInfo200213 = host3 + ShortPmsRoomInfo;
+export const ShortOrderFinance200214 = host3 + ShortOrderFinance;
+export const ShortFinanceUpdate200215 = host3 + ShortFinanceUpdate;
 export const host = host3;
 //export default {
 //hosts:function(){

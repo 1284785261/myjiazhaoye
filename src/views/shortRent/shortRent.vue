@@ -155,7 +155,7 @@
                 qs.stringify({
                     communityId:ID
                 })).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.codeList = res.data.result.pmsRoomPriceCodeList;
 
@@ -171,7 +171,7 @@
                 qs.stringify({
                     communityId:ID
                 })).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.codeList = res.data.result.pmsRoomPriceCodeList;
                     }
@@ -214,7 +214,7 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                        console.log(new Date(now).Format("yyyy-MM-dd"));
+
                     }else if(this.checkList[i] =='二'){
                     let Daysum = DataSour.getDay()+1 - 2;
                         console.log(Daysum);
@@ -224,7 +224,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                        console.log(new Date(now).Format("yyyy-MM-dd"));
                     }else if(this.checkList[i] =='三'){
                     let Daysum = DataSour.getDay()+1 - 3;
                         console.log(Daysum);
@@ -234,7 +233,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                     }else if(this.checkList[i] =='四'){
                     let Daysum = DataSour.getDay()+1 - 4;
                         console.log(Daysum);
@@ -244,7 +242,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                     }else if(this.checkList[i] =='五'){
                         let Daysum = DataSour.getDay()+1 - 5;
                         console.log(Daysum);
@@ -254,7 +251,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                        console.log(new Date(now).Format("yyyy-MM-dd"));
                     }else if(this.checkList[i] =='六'){
                         let Daysum = DataSour.getDay()+1 - 6;
                         console.log(Daysum);
@@ -264,7 +260,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                        console.log(new Date(now).Format("yyyy-MM-dd"));
                     }else if(this.checkList[i] =='日'){
                         console.log(DataSour.getDay()+1);
                         let Daysum = DataSour.getDay()+1 - 7;
@@ -275,7 +270,6 @@
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                        console.log(new Date(now).Format("yyyy-MM-dd"));
                     }
                 }
             }else{
@@ -308,7 +302,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='二'){
                    let Daysum = DataSour.getDay()+1 - 2;
                     console.log(Daysum);
@@ -318,7 +311,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='三'){
                    let Daysum = DataSour.getDay()+1 - 3;
                     console.log(Daysum);
@@ -328,7 +320,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                   console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='四'){
                    let Daysum = DataSour.getDay()+1 - 4;
                     console.log(Daysum);
@@ -338,7 +329,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                   console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='五'){
                     let Daysum = DataSour.getDay()+1 - 5;
                     console.log(Daysum);
@@ -348,7 +338,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='六'){
                     let Daysum = DataSour.getDay()+1 - 6;
                     console.log(Daysum);
@@ -358,7 +347,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='日'){
                     console.log(DataSour.getDay()+1);
                     let Daysum = DataSour.getDay()+1 - 7;
@@ -369,7 +357,6 @@
                         now.setDate(now.getDate() - Daysum);
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    console.log(new Date(now).Format("yyyy-MM-dd"));
                 }
             }
             // console.log(this.dayNumList);
@@ -426,7 +413,7 @@
 					this.warningModal = true;
                 }
             }).catch((err)=>{
-                console.log(err);
+                // console.log(err);
             })
         },
         //关闭价格设置窗口

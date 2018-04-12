@@ -67,9 +67,12 @@
 		    					支付：
 		    				</td>
 		    				<td>
+								<p>协议价：258.00元</p>
 		    					<p>罚款金额：</p>
 								<ul>
-									<li>aaa</li>
+									<li v-for="(item,index) in fineProject">
+										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span><i class="iconfont icon-jian" @click="ShortfineProject(item)"></i>
+									</li>
 								</ul>
 		    				</td>
 		    			</tr>
@@ -168,13 +171,15 @@
 		<room-Change @notroomChange="notroomChange()" v-show="isHide3"></room-Change>
 		<div class="addgathering" v-show="isHide4">
 			<table>
-				<tr>
+				<tr v-for="(item,index) in addcollectionProject">
 					<td>收款金额：</td>
-					<td><input class="ivu-input" style="width:100px;"></td>
-				</tr>
-				<tr>
+					<td><input class="ivu-input" style="width:100px;margin-right:20px;" v-model="item.money" @blur="jiage(item.money,index)"></td>
 					<td>收款原因：</td>
-					<td><input class="ivu-input" style="width:200px;"></td>
+					<td>
+						<input class="ivu-input" style="width:100px;" v-model="item.moneyWhy">
+						<i :class="item.classname" v-if="item.classname == 'iconfont icon-jia'" @click="addcollection"></i>
+						<i :class="item.classname" v-else @click="Reduction(index)"></i>
+					</td>
 				</tr>
 			</table>
 			<a @click="addgathering()">提交</a>
@@ -184,11 +189,11 @@
 			<table>
 				<tr>
 					<td>退款金额：</td>
-					<td><input class="ivu-input" style="width:100px;"></td>
+					<td><input class="ivu-input" style="width:100px;" v-model="addrefundProject[0].money" @blur="moneys(addrefundProject[0].money)"></td>
 				</tr>
 				<tr>
 					<td>退款原因：</td>
-					<td><input class="ivu-input" style="width:200px;"></td>
+					<td><input class="ivu-input" style="width:200px;" v-model="addrefundProject[0].moneyWhy"></td>
 				</tr>
 			</table>
 			<a @click="addrefund()">提交</a>
@@ -228,7 +233,7 @@
 	import checkIn from '../../components/checkIn.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { hostRoominfo,hostPrice,ShortPmsRoomInfo200213 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -262,9 +267,20 @@
 				warningMessage: '添加信息不完整，请检查添加社区信息',
                 lockWaterElectricity:null,
 				radio: '1',
+				orderId:'',//账单ID
 				checkList: [],
 				roomconfiguration:[],//房间配置信息
-				pmsRoomService:[]//房间增值服务信息
+				pmsRoomService:[],//房间增值服务信息
+				fineProject:[],//罚款项目
+				addcollectionProject:[{
+					money:'',
+					moneyWhy:'',
+					classname:'iconfont icon-jia'
+				}],//添加收款项目
+				addrefundProject:[{
+					money:'',
+					moneyWhy:''
+				}],//添加退款项目
 		   	}
     	},
     	filters:{
@@ -306,22 +322,6 @@
     				return '按合租人数'
     			}
     		},
-    		deposit(val){
-    			if(val == null){
-    				return '无'
-    			}
-    			else if(val !=null){
-    				return parseFloat(val).toFixed(2)+'元';
-    			}
-    		},
-    		cyclePayMoney(val){
-    			if(val == null){
-    				return '无'
-    			}
-    			else if(val !=null){
-    				return parseFloat(val).toFixed(2)+'元';
-    			}
-    		},
     		inTime(val){
 				var date = new Date(val);
 				var Y = date.getFullYear() + '/';
@@ -335,11 +335,6 @@
 				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
 				return Y + M + D;
-    		},
-    		serviceCost(val){
-    			if(val != null){
-    				return parseFloat(val).toFixed(2)+'元';
-    			}
     		},
     		orderState(val){
     			if(val == 1){
@@ -407,16 +402,26 @@
                 this.isHide = true;
     			this.isHide1 = true;
 			},
-			jiage(value){
+			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 				if(str.test(value) == true){
-					this.money = value;
+					this.addcollectionProject[index].money = value;
 				}
 				else{
-					this.money = '';
+					this.addcollectionProject[index].money = '';
+				}
+			},
+			moneys(value){
+				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+				if(str.test(value) == true){
+					this.addrefundProject[0].money = value;
+				}
+				else{
+					this.addrefundProject[0].money = '';
 				}
 			},
     		datas(){
+				this.roomconfiguration = [];
     			axios.post(ShortPmsRoomInfo200213,
     				qs.stringify({
     					roomId:this.roomid
@@ -426,6 +431,7 @@
     				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 						this.Datas = response.data.entity;
+						this.orderId = this.Datas.pmsOrder.orderId;
 						if(this.Datas.lockWaterElectricity){
 							this.lockWaterElectricity = this.Datas.lockWaterElectricity;
 						}
@@ -437,61 +443,124 @@
 						}
     					if(this.Datas.pmsOrder.pmsRoomService){
     						this.pmsRoomService = this.Datas.pmsOrder.pmsRoomService;
-    					}
+						}
+						if(this.Datas.pmsOrder.pmsOrderFinanceReceivablesInfo){
+							this.fineProject = this.Datas.pmsOrder.pmsOrderFinanceReceivablesInfo;
+						}
     				}
     			})
     			.catch((error) => {
     				// console.log(error);
     			})
-    		},
-    		closeWarningModal() {
-				this.warningModal = false;
-				this.isHide = ! this.isHide;
 			},
-    		checkIn(){
-    			if(this.money ==null ||this.texs == null){
-    				this.warningMessage = '信息填入不完整，请补充完信息';
-                    this.warningModal = true;
-                    this.isHide = false;
-                    this.isHide1 = false;
-    			}
-    			else{
-					this.isHide = false;
-    				axios.post(hostPrice,
-    				qs.stringify({
-    					communityId:this.communityId,
-    					roomId:this.roomid,
-    					newPrice:this.money,
-    					reason:this.texs
-    				})
-	    			).then((response) =>{
-	    				// console.log(response);
-	    				if(response.status == 200 && response.data.code == 10000){
-	    					this.successMessage = '申请调价成功';
-							this.successModal = true;
-							this.money = null;
-							this.texs = null;
-	    					setTimeout(() => {
-								this.successModal = false;
-							}, 2000);
-	    				}
-	    				else{
-	    					this.warningMessage = res.data.content;
-							this.warningModal = true;
-                            this.isHide = false;
-                            this.isHide1 = false;
-	    				}
-	    				
-	    			})
-	    			.catch((error)=>{
-	    				// console.log(error);
-	    				this.warningMessage = '申请调价失败';
-						this.warningModal = true;
-                        this.isHide = false;
-                        this.isHide1 = false;
-	    			})
+			//添加收款项目数组
+			addcollection(){
+				this.addcollectionProject.push({
+					money:'',
+					moneyWhy:'',
+					classname:'iconfont icon-jian'
+				})
+			},
+			//减少收款项目数组
+			Reduction(index){
+				this.addcollectionProject.splice(index,1);
+			},
+			//提交收款项目
+			addgathering(){
+				let cxkjPmsOrderFinanceLists =[];
+				let param = new FormData();
+				let vm = this;
+				for(let i = 0;i<this.addcollectionProject.length;i++){
+					param.append(`cxkjPmsOrderFinanceList[${i}].price`,this.addcollectionProject[i].money);
+					param.append(`cxkjPmsOrderFinanceList[${i}].content`,this.addcollectionProject[i].moneyWhy);
 				}
-    			
+				// console.log(cxkjPmsOrderFinanceLists);
+				param.append('orderId',this.orderId);
+				param.append('type',1);
+				axios.post(ShortOrderFinance200214, param).then((res)=>{
+					// console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						vm.isHide = false;
+						vm.isHide4 = false;
+						vm.successMessage = '添加收款成功';
+						vm.successModal = true;
+						setTimeout(() => {
+							vm.successModal = false;
+							this.datas();
+						}, 2000);
+					}else{
+						vm.isHide = false;
+						vm.isHide4 = false;
+						vm.warningMessage = res.data.content;
+						vm.warningModal = true;
+					}
+				}).catch((err)=>{
+					vm.isHide = false;
+					vm.isHide4 = false;
+					vm.warningMessage = '添加收款失败';
+					vm.warningModal = true;
+				})
+
+				this.addcollectionProject=[{
+					money:'',
+					moneyWhy:'',
+					classname:'iconfont icon-jia'
+				}]
+			},
+			//提交退款项目
+			addrefund(){
+				let param = new FormData();
+				let vm = this;
+				for(let i = 0;i<this.addrefundProject.length;i++){
+					param.append(`cxkjPmsOrderFinanceList[${i}].price`,this.addrefundProject[i].money);
+					param.append(`cxkjPmsOrderFinanceList[${i}].content`,this.addrefundProject[i].moneyWhy);
+				}
+				
+				param.append('orderId',this.orderId);
+				param.append('type',2);
+				axios.post(ShortOrderFinance200214, param).then((res)=>{
+					// console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						vm.isHide = false;
+						vm.isHide5 = false;
+						vm.successMessage = '添加退款成功';
+						vm.successModal = true;
+						setTimeout(() => {
+							vm.successModal = false;
+							// this.datas();
+						}, 2000);
+					}else{
+						vm.isHide = false;
+						vm.isHide5 = false;
+						vm.warningMessage = res.data.content;
+						vm.warningModal = true;
+					}
+				}).catch((err)=>{
+					vm.isHide = false;
+					vm.isHide5 = false;
+					vm.warningMessage = '添加退款失败';
+					vm.warningModal = true;
+				})
+				this.addrefundProject = [{
+					money:'',
+					moneyWhy:''
+				}]
+			},
+			ShortfineProject(val){
+				// console.log(val);
+				axios.post(ShortFinanceUpdate200215, 
+					qs.stringify({
+						id:val.id
+					})
+				).then((res)=>{
+					// console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.datas();
+					}
+				})
+			},
+    		closeWarningModal() {
+				this.warningModal = false;			
             },
             notcheckIn(){
                 this.isHide = false;
@@ -519,7 +588,12 @@
 			},
 			closegathering(){
 				this.isHide = false;
-                this.isHide4 = false;
+				this.isHide4 = false;
+				this.addcollectionProject=[{
+					money:'',
+					moneyWhy:'',
+					classname:'iconfont icon-jia'
+				}]
 			},
 			openrefund(){
 				this.isHide = true;
@@ -527,7 +601,11 @@
 			},
 			closerefund(){
 				this.isHide = false;
-                this.isHide5 = false;
+				this.isHide5 = false;
+				this.addrefundProject = [{
+					money:'',
+					moneyWhy:''
+				}]
 			},
 			opencheckout(){
 				this.isHide = true;
