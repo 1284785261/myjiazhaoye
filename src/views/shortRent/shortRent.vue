@@ -9,34 +9,9 @@
                     <router-link class="active" to="/shortRent">短租管理</router-link>
                 </div>
                 <Tabs type="card">
-                    <Tab-pane label="订单列表">
+                    <Tab-pane label="社区房间状态">
                         <div class="message-ti">
-                            <div class="finance-header-kong">
-                                <short-order-list @openWarningModal="openWarningModal"></short-order-list>
-                            </div>
-                        </div>
-                    </Tab-pane>
-
-                    <Tab-pane label="入住列表">
-                        <div class="message-ti">
-                            <short-stay-list></short-stay-list>
-                        </div>
-                    </Tab-pane>
-
-                    <Tab-pane label="产品日历">
-                        <div class="message-ti">
-                            <short-product-calendar></short-product-calendar>
-                        </div>
-                    </Tab-pane>
-
-                    <Tab-pane label="哑房账">
-                        <div class="message-ti">
-                            <short-Room-Bill-list></short-Room-Bill-list>
-                        </div>
-                    </Tab-pane>
-                    <Tab-pane label="价格设置">
-                        <div class="message-ti">
-                            <short-price-set @setPrice="setPrice"></short-price-set>
+                          <short-term-item @successUpload ="successUpload()"></short-term-item>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置">
@@ -44,11 +19,36 @@
                           <short-setting-list @successUpload ="successUpload()"></short-setting-list>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="社区房间状态">
+                    <Tab-pane label="价格设置">
                         <div class="message-ti">
-                          <short-term-item @successUpload ="successUpload()"></short-term-item>
+                            <short-price-set @setPrice="setPrice"></short-price-set>
                         </div>
                     </Tab-pane>
+                     <Tab-pane label="产品日历">
+                        <div class="message-ti">
+                            <short-product-calendar></short-product-calendar>
+                        </div>
+                    </Tab-pane>
+                    <Tab-pane label="入住列表">
+                        <div class="message-ti">
+                            <short-stay-list></short-stay-list>
+                        </div>
+                    </Tab-pane>
+                    <Tab-pane label="订单列表">
+                        <div class="message-ti">
+                            <div class="finance-header-kong">
+                                <short-order-list @openWarningModal="openWarningModal"></short-order-list>
+                            </div>
+                        </div>
+                    </Tab-pane>
+                    <Tab-pane label="哑房账">
+                        <div class="message-ti">
+                            <short-Room-Bill-list></short-Room-Bill-list>
+                        </div>
+                    </Tab-pane>
+                    
+                    
+                
 
                 </Tabs>
             </div>

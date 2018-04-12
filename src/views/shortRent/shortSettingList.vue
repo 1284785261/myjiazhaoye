@@ -157,7 +157,7 @@
                 that.communityId = parseInt(that.stationSelectList[0].communityId);
               }
               //水电账单
-              that.getShortSettingList({communityId:that.communityId,pageNum:1,pageSize:1});
+              that.getShortSettingList({communityId:that.communityId,pageNum:1,pageSize:10});
             }
           })
       },
@@ -167,6 +167,7 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypeTable200191,qs.stringify(param)
         ).then(function(res){
+          console.log(res);
           if(res.data.code == 10000){
             vm.shortSettingList = res.data.entity.page;
             vm.totalNum = res.data.entity.totalNum;
@@ -182,7 +183,7 @@
             }
 
           }
-          if(res.data.code == 10008 || res.data.code == 10009){
+          else{
             vm.shortSettingList = [];
             vm.totalNum = 0;
           }
