@@ -1,17 +1,17 @@
 
 <template>
   <div>
-    <menu-box :active-tab-name="room"></menu-box>
-    <div class="right-content" id="right-content">
-      <right-header></right-header>
-      <div class="wordbench-box">
-        <div class="ivu-site">
-          <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">H5邀请</router-link>
-        </div>
+    <!--<menu-box :active-tab-name="room"></menu-box>-->
+    <!--<div class="right-content" id="right-content">-->
+      <!--<right-header></right-header>-->
+      <!--<div class="wordbench-box">-->
+        <!--<div class="ivu-site">-->
+          <!--<span>您现在的位置：</span>-->
+          <!--<router-link  class="active" to="/apartment/communityManagement">H5邀请</router-link>-->
+        <!--</div>-->
         <div id="invite-index-wrap">
-          <Tabs type="card">
-            <Tab-pane label="H5邀请">
+          <!--<Tabs type="card">-->
+            <!--<Tab-pane label="H5邀请">-->
               <div class="form-search-criteria">
                 <div class="form-item">
                   <span>签约日期：</span>
@@ -36,7 +36,7 @@
                 </tr>
                 <tr v-for="(item,index) in inviteRecordList">
                     <td>{{index+1}}</td>
-                    <td>{{item.type}}</td>
+                    <td>{{item.type?item.type:'成都邀请函'}}</td>
                     <td>{{item.userName}}</td>
                     <td>{{item.userPhone}}</td>
                     <td>{{item.createtime|timefilter("yyyy-MM-dd hh:mm")}}</td>
@@ -47,19 +47,19 @@
               <!-- <Page :total="inviteRecordNum" :current="inviteRecordCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="inviteRecordNum > 0"></Page> -->
               <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
 					    </el-pagination>
-            </Tab-pane>
-            <div class="blank-background-img">
+            <!--</Tab-pane>-->
+            <div class="blank-background-img" v-if="!inviteRecordList.length">
                 <img src="../../../static/images/blank/contract_space.png" >
                 <h2>暂无邀请记录~</h2>
             </div>
-          </Tabs>
+          <!--</Tabs>-->
         </div>
 
       </div>
-      <footer-box></footer-box>
-    </div>
+      <!--<footer-box></footer-box>-->
+    <!--</div>-->
 
-  </div>
+  <!--</div>-->
 
 </template>
 

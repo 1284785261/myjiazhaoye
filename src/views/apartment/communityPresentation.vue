@@ -294,28 +294,43 @@
 				param.append('communityFlat', this.filelist1.join(','));
 				param.append('communityFace', this.filelist2.join(','));
 				param.append('communityWork', this.filelist3.join(','));
-				this.$http.post( hostPresent, param).then((response) =>{
-					// console.log(response);
-					if(response.status == 200 && response.data.code == 10000){
-						this.successMessage = '操作成功';
-						this.successModal = true;
-						setTimeout(() => {
-							this.successModal = false;
-							vm.disabled = true;
-							vm.$router.push('/apartment/communityManagement');
-						}, 2000);
-						//vm.$router.push({path:"/apartment/communityManagement"});
-					}
-					else{
-						this.warningMessage = response.data.content;
-						this.warningModal = true;
-					}
-				})
-				.catch((error) =>{
-					// console.log(error);
-					this.warningMessage = '操作失败,服务器出现异常';
+				if(!this.filelist2.length){
+					this.warningMessage = '图片上传信息不完整';
 					this.warningModal = true;
-				})
+					return
+				}if(!this.filelist1.length && (this.$route.query.type == '0' || this.$route.query.type == '0,1')){
+					this.warningMessage = '图片上传信息不完整';
+					this.warningModal = true;
+					return
+				}if(!this.filelist3.length && (this.$route.query.type == '1' || this.$route.query.type == '0,1')){
+					this.warningMessage = '图片上传信息不完整';
+					this.warningModal = true;
+					return
+				}
+				else{
+					this.$http.post( hostPresent, param).then((response) =>{
+						// console.log(response);
+						if(response.status == 200 && response.data.code == 10000){
+							this.successMessage = '操作成功';
+							this.successModal = true;
+							setTimeout(() => {
+								this.successModal = false;
+								vm.disabled = true;
+								vm.$router.push('/apartment/communityManagement');
+							}, 2000);
+							//vm.$router.push({path:"/apartment/communityManagement"});
+						}
+						else{
+							this.warningMessage = response.data.content;
+							this.warningModal = true;
+						}
+					})
+					.catch((error) =>{
+						// console.log(error);
+						this.warningMessage = '操作失败,服务器出现异常';
+						this.warningModal = true;
+					})
+				}
 			},
 			handleView1(name) {
 				this.imgName = name.url;

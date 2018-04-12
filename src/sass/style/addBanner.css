@@ -45,6 +45,9 @@
 	color: #000;
 	padding-right: 10px;
 }
+#addbanner table td:nth-child(2){
+	text-align: left;
+}
 #addbanner table tr td{
 	position: relative;
 }

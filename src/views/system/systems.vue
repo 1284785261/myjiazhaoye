@@ -369,7 +369,7 @@
 				<tr>
 					<td>上级部门：</td>
 					<td>
-						<el-select v-model="value4" placeholder="请选择" @change="selectm(value4)">
+						<el-select v-model="value4" placeholder="不填为根节点" @change="selectm(value4)">
 							<el-option v-for="item in options" :key="item.departmentId" :value="item.departmentName">
 							</el-option>
 						</el-select>

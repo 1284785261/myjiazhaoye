@@ -124,7 +124,6 @@
     },
     data() {
       return {
-        activeTabName:"shortRent",
         successModal: false,
         warningModal: false,
         successMessage: '添加部门成功',
@@ -368,18 +367,18 @@
                     console.log(new Date(now).Format("yyyy-MM-dd"));
                 }
             }
-            console.log(this.dayNumList);
+            // console.log(this.dayNumList);
 
         },
         //获取价格设置组件传递的日期
         setPrice(dataIf){
-            console.log(dataIf);
+            // console.log(dataIf);
             this.isHide = dataIf.isHide;
             this.stateDatas = dataIf.date3;
             this.communityIds = dataIf.communityId;
             this.codem();
             let tmpdate = new Date(this.stateDatas);
-            console.log(tmpdate.getDay());
+            // console.log(tmpdate.getDay());
             if(tmpdate.getDay() == 0){
                 this.checkList.push('一');
             }else if(tmpdate.getDay() == 1){
@@ -395,22 +394,23 @@
             }else if(tmpdate.getDay() == 6){
                 this.checkList.push('日');
             }
+            this.allcheckList(this.checkList);
         },
         //提交设置套系日历方法
         sublitSetprice(){
-            console.log(this.communityIds);
             axios.post(PmsRoomDayPrices200200,
             qs.stringify({
                 communityId:this.communityIds,
                 code:this.codes,
                 dayNumList:this.dayNumList
             })).then((res)=>{
-                console.log(res);
+                // console.log(res);
                 if(res.status == 200 && res.data.code == 10000){
                     this.isHide = false;
                     this.successMessage = '价格设置成功';
                     this.successModal = true;
                     this.checkList = [];
+                    this.dayNumList=[];
                     this.codes = ''
                     setTimeout(() => {
                         this.successModal = false;

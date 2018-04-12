@@ -179,7 +179,6 @@
         margin-right: 20px;
         .form-search{
             position: relative;
-            margin-left: 50px;
             .ivu-input-wrapper{
             width: auto;
             }

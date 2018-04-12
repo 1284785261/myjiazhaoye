@@ -380,7 +380,7 @@
 				this.warningModal = false;
 			},
             handleClick(tab, event) {
-                // console.log(tab, event);
+                this.selectCommunity(this.stationCommunity);
             },
             _createDateMap () {
                 var oTmp = {}
@@ -414,9 +414,9 @@
             changePane (year, month, pane) {
                 this.events = []
             // ajax data or ...
-            setTimeout(() => {
-                this.events = this.getEventContent(year, month, pane)
-            }, 200)
+                setTimeout(() => {
+                    this.events = this.getEventContent(year, month, pane)
+                }, 200)
             },
             getDayCount (year, month) {
                 const dict = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

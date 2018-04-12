@@ -242,6 +242,7 @@
       getRoomBillList(params){
         let vm = this;
         this.$http.get(CxkjGetOrderDebtList300183,{params:params}).then(res=>{
+          console.log(res);
           if(res.data.code == 10000){
             vm.roomBillList = res.data.pageBean.page;
             vm.totalNum = res.data.pageBean.totalNum;
@@ -289,9 +290,8 @@
           leaveTime:new Date(this.leaveTime).Format("yyyy-MM-dd hh:mm:ss"),
           remark:this.remark,
         };
-        this.$http.post(
-          CxkjCreateOrderDebt300184,qs.stringify(param)
-        ).then(function(res){
+        this.$http.post(CxkjCreateOrderDebt300184,qs.stringify(param)).then(function(res){
+          console.log(res);
             if(res.data.code == 10000){
                 vm.closeNewBillModal();
                 this.orderNum = "";

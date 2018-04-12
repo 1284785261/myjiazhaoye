@@ -296,11 +296,12 @@
         <span>办公物资设置</span>
       </div>
       <div class="select-office-modal-checkbox">
-        <el-checkbox-group v-model="selectListData">
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" class="checkAllsT">全选</el-checkbox>
+        <el-checkbox-group v-model="selectListData" @change="handleCheckedCitiesChange(selectListData)">
             <el-checkbox v-for="select in checkBoxArr" :label="select.dataName"></el-checkbox>
         </el-checkbox-group>
       </div>
-      <div class="modal-btn">
+      <div class="modal-btn" style="margin-top: 50px;">
         <Button type="primary" @click="seleteOffie()">确定</Button>
       </div>
       <div class="modal-close-btn" @click="closeSeleteOffieModal()">
@@ -381,7 +382,9 @@
         loading:false,
         hides1:true,
         hides2:true,
-        communittype:''
+        communittype:'',
+        checkAll:false,
+        isIndeterminate:false,
       }
     },
     mounted(){
@@ -442,7 +445,7 @@
         return obj;
       }
     },
-    methods: {
+    methods:{
       init(){
         this.CommunityListOffice = [];
         this.CommunityListMeeting = [];
@@ -464,6 +467,23 @@
       },
       handleClick(){
 
+      },
+      handleCheckAllChange(value){
+        console.log(this.checkAll);
+        this.selectListData=[];
+        if(this.checkAll){
+          for(let i=0;i<this.checkBoxArr.length;i++){
+            this.selectListData.push(this.checkBoxArr[i].dataName);
+          }
+        }else{
+          this.selectListData =[];
+        }
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value){
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.checkBoxArr.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkBoxArr.length;
       },
       //获取社区信息
       getCommunityInfo(){
@@ -664,6 +684,13 @@
           this.seleteOffieModal = true;
           this.officeSelectIndex = index;
           this.selectListData = this.CommunityListOffice[index].officeFurniture.split(" ");
+          if(this.selectListData.length == this.checkBoxArr.length){
+            this.checkAll = true;
+            this.isIndeterminate = false;
+          }else{
+            this.isIndeterminate = true;
+          }
+          console.log(this.selectListData);
         }else{
           this.warningMessage = "请先前往社区设置进行办公设置！";
           this.warningModal = true;
@@ -1112,7 +1139,7 @@
     }
   }
   #select-office-modal{
-    height: 280px;
+    min-height: 280px;
     width: 500px;
     .select-office-modal-checkbox{
       height: 120px;
@@ -1120,7 +1147,7 @@
       .el-checkbox-group{
         width: 270px;
         margin: 0 auto;
-        padding-top: 40px;
+        padding-top: 10px;
         .el-checkbox{
           margin-left: 0!important;
           width: 90px;
@@ -1208,5 +1235,10 @@
   }
   .required{
     color: red;
+  }
+  .checkAllsT{
+    margin-left: 115px;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
 </style>

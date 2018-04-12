@@ -38,7 +38,7 @@
 
 <script>
 	import axios from 'axios';
-	import { hostAuthor, imgPath,hostUserMessagey,hostAppMgCxkjCo } from '../views/api.js';
+	import { hostAuthor, imgPath,hostUserMessagey,hostAppMgCxkjCo,MllCommunity300145 } from '../views/api.js';
 	import qs from 'qs'
 
 	export default {
@@ -110,18 +110,21 @@
 				let vm = this
 				let Model = sessionStorage.getItem('communityId');
 
-				axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
+				axios.post(MllCommunity300145).then((response) => { //获取社区分类数据
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							this.cityList = response.data.result.communityList;
+							this.cityList = response.data.pageBean;
 							// console.log(this.cityList);
 							if(Model) {
 								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
-								this.$emit("communityId",Model);
+								let haveper = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].havePer;
+								this.$emit("communityId",{'communityId':Model,'havepers':haveper});
 							} else {
 								this.selectModel1 = this.cityList[0].communityName;
-								sessionStorage.setItem('communityId', this.cityList[0].communityId);
-								this.$emit("communityId",this.cityList[0].communityId);
+								let haveper = this.cityList[0].havePer;
+								// console.log(1111111111);
+								// sessionStorage.setItem('communityId', this.cityList[0].communityId);
+								this.$emit("communityId",{'communityId':this.cityList[0].communityId,'havepers':haveper});
 							}
 
 						}
@@ -132,7 +135,7 @@
 			},
 			temp(val){
 				let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
-				console.log(Index);
+				// console.log(val);
 				sessionStorage.setItem('communityId', Index);
 				sessionStorage.setItem('communityName', val);
 				this.title();

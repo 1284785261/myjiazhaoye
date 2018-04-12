@@ -33,10 +33,10 @@
                         <table class="corporate-service-table" cellspacing="0" width="100%">
                             <tr class="table-heaher">
                                 <th width="150px;">公司LOGO</th>
-                                <th>公司名称</th>
+                                <th width="150px;">公司名称</th>
                                 <th>联系电话</th>
                                 <th>服务项目</th>
-                                <th width="150px;">服务范围</th>
+                                <th width="200px;">企业说明</th>                                <th width="150px;">服务范围</th>
                                 <th>操作</th>
                             </tr>
                             <tr class="active" v-if="complainList.length" v-for="(item,index) in complainList">
@@ -84,7 +84,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 20px">
+          <td style="padding: 20px">
+                                <div v-if="!item.update">{{item.enterpriseBeizhu}}</div>
+                                <Input v-model="item.enterpriseBeizhu" placeholder="" style="width: 150px"
+                                       v-if="item.update"></Input>
+                              </td>                                <td style="padding: 20px">
                                     <div v-if="!item.update && item.enterpriseArea">{{item.enterpriseArea | enter}}</div>
                                     <div style="margin-bottom: 10px">
                                         <el-select v-model="item.enterpriseArea" filterable placeholder="请选择" v-if="item.update">
@@ -341,6 +345,7 @@
         param.append('enterpriseName', vm.complainList[index].enterpriseName)
         param.append('enterpriseTel', vm.complainList[index].enterpriseTel)
         param.append('enterpriseArea', vm.complainList[index].enterpriseArea)
+        param.append('enterpriseBeizhu', vm.complainList[index].enterpriseBeizhu)
         param.append('enterpriseType', vm.enterpriseList[index])
         vm.$http.post(CommunityServiceUpdate500121,param).then(res => {
         //   console.log('保存')

@@ -15,7 +15,7 @@
     </div>
     <div class="calendarselect">
         <span class="leftcalendar" @click="frontCalender"> <前14天 </span>
-        <Date-picker type="date" :options="bookingEndTime" confirm placeholder="选择日期" v-model="calendarTime" @on-ok="DataCalender(calendarTime)"></Date-picker>
+        <Date-picker type="date" confirm placeholder="选择日期" v-model="calendarTime" @on-ok="DataCalender(calendarTime)"></Date-picker>
         <span class="rightcalendar" @click="behindCalender">后14天></span>
     </div>
     <table v-if="calenderProductList">
@@ -53,22 +53,6 @@
         },
         data(){
             return{
-                options: [{
-                value: '选项1',
-                label: '黄金糕'
-                }, {
-                value: '选项2',
-                label: '双皮奶'
-                }, {
-                value: '选项3',
-                label: '蚵仔煎'
-                }, {
-                value: '选项4',
-                label: '龙须面'
-                }, {
-                value: '选项5',
-                label: '北京烤鸭'
-                }],
                 value: 0,
                 successModal: false,
                 warningModal: false,
@@ -93,11 +77,7 @@
                         name:'',
                         prices:[]
                     }]
-                },
-                bookingEndTime: {//预订结束时间验证
-                    disabledDate(date){
-                    }
-                },
+                }
 
             }
         },
@@ -195,7 +175,7 @@
                     roomTypeId:types
                 })
                 ).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.calenderProductList = res.data.entity;
                         for(let i = 0;i < this.calenderProductList.length;i++){
@@ -230,7 +210,7 @@
                             
                         }
                     }
-                        console.log(this.calenderProductLists);
+                        // console.log(this.calenderProductLists);
                     })
             },
             //切换社区事件
@@ -239,7 +219,7 @@
             },
             //切换房型事件
             selectcalender(value){
-                console.log(value);
+                // console.log(value);
                 this.roomTypeId = value;
             },
             

@@ -44,7 +44,7 @@ export default {
         width: 900px;
         min-height: 300px;
         background: #fff;
-        z-index: 999;
+        z-index: 10000;
         position: fixed;
         left: 50%;
         top: 50%;

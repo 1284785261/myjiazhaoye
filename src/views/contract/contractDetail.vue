@@ -430,20 +430,13 @@
 					//其他月份，天数为：30.
 					days = 30;
         }
-        console.log(this.contractDetailData);
-        if(this.isOffice == 0){
-          this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.datewayDiscount / 100) * (this.contractDetailData.paywayDiscount / 100)).toFixed(2);
-          this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
-          this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
-          this.fwmonryg = this.contractDetailData.serviceCost+'/'+days +'*('+days+'-'+daym+')天';
-          this.formula = true;
-        }else if(this.isOffice == 1){
-          this.roommonry = parseFloat((this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
-          this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天';
-          this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
-          this.fwmonryg = this.contractDetailData.serviceCost+'/'+days +'*('+days+'-'+daym+')天';
-          this.formula = true;
-        }
+        // console.log(this.contractDetailData);
+        this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.datewayDiscount / 100) * (this.contractDetailData.paywayDiscount / 100)).toFixed(2);
+        this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
+        this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
+        this.fwmonryg = this.contractDetailData.serviceCost+'/'+days +'*('+days+'-'+daym+')天';
+        this.formula = true;
+      
         
       },
       qud(){

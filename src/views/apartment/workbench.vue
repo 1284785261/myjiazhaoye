@@ -37,7 +37,7 @@
 				</Row>
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="min-height:300px;margin-bottom: 20px;">
+					<div class="modular-box" style="min-height:300px;margin-bottom: 20px;" v-if="havepers == 1">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens" v-if="show1">
 							<li>
@@ -88,14 +88,14 @@
 								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
-							<li>
-								<router-link to="/signed/H5invitation">H5邀请</router-link>
-							</li>
+					        <!--<li>-->
+								<!--<router-link to="/signed/H5invitation">H5邀请</router-link>-->
+							<!--</li>-->
 						</ul>
 					</div>
 					</Col>
 					<Col span="12">
-					<div class="modular-box" style="min-height:300px;">
+					<div class="modular-box" style="min-height:300px;" v-if="havepers === 1">
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list workbens" v-if="show2">
 							<li>
@@ -173,7 +173,7 @@
 						<router-link to="/contract/contractIndex">合同即将到期<span><span>{{remains.expireCount}}户</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
 					<li v-if="remains.beginHour">
-						<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour}}: 00</span></span>
+						<router-link to="/Liverecording/recording">今日直播时间<span><span> {{remains.beginHour | time}}</span></span>
 						</router-link><i class="iconfont icon-you"></i></li>
 					<li v-if="remains.complaintCount != 0">
 						<router-link :to="{path:'/signed/complain',query:{communityId:communityId,Name:selectModel1}}">待处理用户投诉<span><span>{{remains.complaintCount}}人</span></span>
@@ -194,7 +194,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostAppMgCxkjCo, hostgCxkjCommun, hostaCommunityCo, hostPcMessage,hostReadMessage,hostessageUpdate,hostUserMessagey } from '../api.js';
+	import { hostAppMgCxkjCo, hostgCxkjCommun, hostaCommunityCo, hostPcMessage,hostReadMessage,hostessageUpdate,hostUserMessagey,MllCommunity300145 } from '../api.js';
 	export default {
 		components: {
 			rightHeader,
@@ -235,7 +235,8 @@
 				show1:false,
 				show2:false,
 				show3:1,
-              userType:false
+				userType:false,
+				havepers:1
 			}
 		},
 		mounted() {
@@ -320,19 +321,19 @@
 				}
 			}
 		},
-		watch:{
-			communityId(val,oldval){
-				if(val){
-					this.title(val);
-				}
-			}
-		},
 		methods: {
-			communityIdm(communityId){
-				if(communityId){
-					this.communityId = communityId;
-					this.title(communityId);
-					
+			communityIdm(data){
+				// console.log(data);
+				this.havepers = data.havepers;
+				// console.log(this.havepers);
+				if(data.communityId && data.havepers == 1){
+					this.communityId = data.communityId;
+					this.title(data.communityId);
+				}else{
+					this.datas[0].num = '0.00';
+					this.datas[1].num = '0.00';
+					this.datas[2].num = '0笔';
+					this.show3 = 2;
 				}
 			},
 			datas2(){
@@ -349,10 +350,11 @@
 			},
 			title(Model) {
 				let vm = this
-					axios.post(hostAppMgCxkjCo).then((response) => { //获取社区分类数据
+				// console.log(Model);
+					axios.post(MllCommunity300145).then((response) => { //获取社区分类数据
 					//console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
-						this.cityList = response.data.result.communityList;
+						this.cityList = response.data.pageBean;
 						// console.log(this.cityList);
 						vm.type = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityType;
 						vm.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
@@ -385,8 +387,8 @@
 					).then((response) => {
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
-							this.datas[0].num = response.data.result.yesterdayPay + '.00';
-							this.datas[1].num = response.data.result.todayWaitPay + '.00';
+							this.datas[0].num = parseFloat(response.data.result.yesterdayPay).toFixed(2);
+							this.datas[1].num = parseFloat(response.data.result.todayWaitPay).toFixed(2);
 							this.datas[2].num = response.data.result.yesterdayCount + '笔';
 						}
 					})

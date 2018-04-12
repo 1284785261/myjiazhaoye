@@ -576,8 +576,6 @@
 				cxkjCommunityListPayway2:[],//办公付款方式
 				cxkjCommunityListMaintain: [], //公寓维修项目
 				cxkjCommunityListMaintain2: [], //办公维修项目
-				cxkjCommunityListConfig: [], //公寓电器选择
-				cxkjCommunityListConfig2: [], //办公物资选择
 				cxkjCommunityListMeetingSuit: [], //会议室套餐设置
 				serviceCost: '', //公寓服务费
 				serviceCost2: '',
@@ -855,8 +853,6 @@
 			handleClick(tab, event) {
 				this.cxkjCommunityListPayway = []; //公寓付款方式
 				this.cxkjCommunityListMaintain= []; //公寓维修项目
-				this.cxkjCommunityListConfig2= []; //办公物资选择
-				this.cxkjCommunityListConfig= []; //公寓电器选择
 				this.cxkjCommunityListMeetingSuit= []; //会议室套餐设置
 			},
 			closeWarningModal() {
@@ -1172,14 +1168,14 @@
 				}
 				// console.log(this.cxkjCommunityListPayway);
 				// console.log(this.cxkjCommunityListMaintain);
-				// console.log(this.cxkjCommunityListConfig);
+				console.log(cxkjCommunityListConfig);
 				// console.log(this.serviceCost);
 				// console.log(this.waterEnergyPayDate);
 				// console.log(this.waterChargeType);
 				// console.log(this.waterPrice);
 				// console.log(this.energyChargeType);
 				// console.log(this.energyPrice);
-				if( cxkjCommunityListLeasePayway.length == 0 || vm.cxkjCommunityListPayway.length == 0 || vm.cxkjCommunityListMaintain.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
+				if( cxkjCommunityListLeasePayway.length == 0 || vm.cxkjCommunityListPayway.length == 0 || vm.serviceCost == '' || vm.waterEnergyPayDate == '' || vm.waterChargeType == null || vm.waterPrice == '' || vm.energyChargeType == null || vm.energyPrice == '') {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {
@@ -1198,7 +1194,6 @@
 							energyPrice: vm.energyPrice
 						})
 						.then((response) => {
-							debugger
 							// console.log(response);
 							if(response.status == 200 && response.data.code == 10000) {
 								vm.successMessage = '公寓设置成功';
@@ -1279,12 +1274,10 @@
 						configDataId: this.option5[this.option5.findIndex(item => item.dataName == vm.checkList2[i])].dataId
 					});
 				}
-				console.log(vm.cxkjCommunityListConfig2);
-				console.log(vm.cxkjCommunityListMaintain2);
-				console.log(vm.cxkjCommunityListConfig2);
-				console.log(vm.cxkjCommunityListMeetingSuit);
-				console.log(vm.serviceCost2);
-				if(vm.cxkjCommunityListMaintain2.length == 0 || cxkjCommunityListConfig.length == 0 || vm.serviceCost2 == '' || vm.cxkjCommunityListMeetingSuit.length == 0 || cxkjCommunityListLeasePayway.length == 0 || vm.cxkjCommunityListPayway2.length == 0) {
+				// console.log(vm.cxkjCommunityListMaintain2);
+				// console.log(vm.cxkjCommunityListMeetingSuit);
+				// console.log(vm.serviceCost2);
+				if(vm.serviceCost2 == '' || cxkjCommunityListLeasePayway.length == 0 || vm.cxkjCommunityListPayway2.length == 0) {
 					this.warningMessage = '信息填入不完整，都不能为空';
 					this.warningModal = true;
 				} else {

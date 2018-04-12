@@ -57,7 +57,8 @@
 			    				<td>{{item.repairNo}}</td>
 			    				<td>{{item.createtime | time}}</td>
 			    				<td>{{item.isOffice | office}}</td>
-			    				<td>{{item.cxkjCommunityRoom.roomNum}}</td>
+			    				<td v-if="item.cxkjCommunityRoom && item.isOffice == 0">{{item.cxkjCommunityRoom.roomNum}}</td>
+								<td v-if="item.cxkjCommunityOffice && item.isOffice == 1">{{item.cxkjCommunityOffice.officeHouseNum}}</td>
 			    				<td>{{item.systemData.dataName}}</td>
 			    				<td>{{item.repairTime | time}}</td>
 			    				<td :class="[{'kust':item.repairState == 0},{'kust1':item.repairState == 1}]">{{item.repairState | state}}</td>
@@ -221,7 +222,7 @@
 					param.append('isOffice',this.communitytype);
 				}
 		    	axios.post(hostRepairTabe, param).then((response)=>{
-		    		// console.log(response);
+		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
 			    		this.totolNum = response.data.entity.totalNum;
@@ -267,7 +268,7 @@
 		    		param.append('userNamePhone',this.keyWord);
 		    	}
 		    	axios.post(hostRepairTabe, param).then((response)=>{
-		    		// console.log(response);
+		    		console.log(response);
 		    		if(response.status == 200 && response.data.code == 10000){
 			    		this.Datas = response.data.entity.page;
 			    		this.totolNum = response.data.entity.totalNum;

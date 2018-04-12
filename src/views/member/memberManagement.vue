@@ -136,6 +136,65 @@
               </div>
               <Page :total="blackMemberTotalNum"  :current="blackMemberCurrent"  :page-size="10" show-elevator show-total @on-change="blackPageSearch" v-if="blackMemberTotalNum > 0"></Page>
             </Tab-pane>
+              <Tab-pane label="H5邀请">
+                  <invitation></invitation>
+                  <!--<div class="form-search-criteria">-->
+                      <!--<div class="form-item">-->
+                          <!--<ul>-->
+                              <!--<li>-->
+                                  <!--<span>会员名称 :</span>-->
+                                  <!--<input type="text" placeholder="请输入会员名称" v-model="memberName">-->
+                              <!--</li>-->
+                              <!--<li>-->
+                                  <!--<span>会员手机号 :</span>-->
+                                  <!--<input type="text" placeholder="请输入会员手机号" v-model="memberPhone">-->
+                              <!--</li>-->
+                              <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                              <!--&lt;!&ndash;<span>会员等级 :</span>&ndash;&gt;-->
+                              <!--&lt;!&ndash;<input type="text" placeholder="请输入会员等级" v-model="memberGrade">&ndash;&gt;-->
+                              <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                          <!--</ul>-->
+                      <!--</div>-->
+                      <!--<div class="form-item">-->
+                          <!--<Button style="width: 120px;height: 35px;" @click="pageSearch()">查询</Button>-->
+                      <!--</div>-->
+                  <!--</div>-->
+                  <!--<table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="memberTotalNum > 0">-->
+                      <!--<tr>-->
+                          <!--<th>会员名称</th>-->
+                          <!--<th>会员手机号</th>-->
+                          <!--<th>性别</th>-->
+                          <!--<th>创建日期</th>-->
+                          <!--<th>状态</th>-->
+                          <!--<th>备注</th>-->
+                          <!--<th>操作</th>-->
+                      <!--</tr>-->
+                      <!--<tr v-for="(item,index) in  memberList">-->
+                          <!--<td v-if="item.userName">{{item.userName}}</td>-->
+                          <!--<td v-else style="color:red;">未填写</td>-->
+                          <!--<td>{{item.userPhone}}</td>-->
+                          <!--<td>-->
+                              <!--<span v-if="item.gender==1">男</span>-->
+                              <!--<span v-else>女</span>-->
+                          <!--</td>-->
+                          <!--<td>{{item.createtime| timefilter("yyyy-MM-dd hh:mm:ss")}}</td>-->
+                          <!--<td>-->
+                              <!--<span v-if="item.userBlacklist==1" style="color: red;">黑名单</span>-->
+                              <!--<span v-else>正常</span>-->
+                          <!--</td>-->
+                          <!--<td>{{item.cxkjCenterBlacklist?item.cxkjCenterBlacklist.note:"&#45;&#45;"}}</td>-->
+                          <!--<td>-->
+                              <!--<a @click="openBlackModal(item.id,index)" v-if="item.userBlacklist!=1 && jurisdiction('MEMBER_UPDATE')">设为黑名单</a>-->
+                              <!--<router-link :to="{name:'memberInformation',query:{id:item.id}}">详情</router-link>-->
+                          <!--</td>-->
+                      <!--</tr>-->
+                  <!--</table>-->
+                  <!--<div class="blank-background-img" v-if="memberTotalNum == 0">-->
+                      <!--<img src="../../../static/images/blank/member_space.png" >-->
+                      <!--<h2>暂无会员信息~</h2>-->
+                  <!--</div>-->
+                  <!--<Page :total="memberTotalNum" :current="memberCurrent" :page-size="10" show-elevator show-total @on-change="pageSearch" v-if="memberTotalNum > 0"></Page>-->
+              </Tab-pane>
           </Tabs>
         </div>
       </div>
@@ -182,6 +241,7 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import  invitation from '../signed/H5invitation.vue';
   import {memberTable,editBlacklist,eemberInformation,editWhilelist} from '../api.js';
   import qs from 'qs';
 
@@ -189,7 +249,8 @@
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      invitation
     },
     data () {
       return {

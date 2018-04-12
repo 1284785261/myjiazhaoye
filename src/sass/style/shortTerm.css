@@ -10,12 +10,12 @@
 	position: relative;
 }
 #shortTerm .shortTerm1{
-	height: 80px;
+	min-height: 80px;
 	
 }
 #shortTerm .shortTerm1 a{
 	width: 140px;
-	height: 40px;
+	height: 44px;
 	border: 1px solid #dcdcdc;
 	border-radius: 5px;
 	background: #f8f8f8;

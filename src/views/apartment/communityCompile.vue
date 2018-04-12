@@ -334,7 +334,7 @@
                 }
                 vm.communityOpeningDate = response.data.result.community.communityOpeningDate;
                 vm.communityPhone= response.data.result.community.communityPhone;
-                vm.communityContractNum= response.data.result.community.communityPhone;
+                vm.communityContractNum= response.data.result.community.communityContractNum;
                 vm.communityLeaseBegin= response.data.result.community.communityLeaseBegin;
                 vm.communityLeaseEnd= response.data.result.community.communityLeaseEnd;
                 vm.communityFreeLeaseBegin= response.data.result.community.communityFreeLeaseBegin;
@@ -438,10 +438,18 @@
         param.append('communityLongitude',vm.communityLongitude);
         param.append('communityLatitude',vm.communityLatitude);
         this.fullscreenLoading = true;
-        if(vm.parentId == '' || vm.areas == '' || vm.companyId == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate=="") {
+        if(!this.pdfName.length){
+          if(!vm.communityContract){
+            this.warningMessage = '信息填入不完整，请补充完信息';
+            this.warningModal = true;
+            return
+          }
+        }
+        if(!vm.parentId || !vm.areas || !vm.companyId || !vm.communityAddress || !vm.communityOpeningDate || !vm.communityType || !vm.communityPhone || !vm.communityContractNum || !vm.communityLeaseBegin || !vm.communityLeaseEnd || !vm.communityFreeLeaseBegin || !vm.communityFreeLeaseEnd || !vm.coordinate) {
           this.fullscreenLoading = false;
           this.warningMessage = '信息填入不完整，请补充完信息';
           this.warningModal = true;
+          return
         } else {
           this.$http.post(hostComplie, param).then(res => {
 
@@ -523,10 +531,18 @@
           param2.append('communityLongitude',vm.communityLongitude);
           param2.append('communityLatitude',vm.communityLatitude);
           this.fullscreenLoading = true;
-          if(vm.parentId == '' || vm.areas == '' || vm.companyId == null || vm.communityAddress == null || vm.communityOpeningDate == null || vm.communityType == '' || vm.communityPhone == null || vm.communityContractNum == null || vm.communityLeaseBegin == null || vm.communityLeaseEnd == null || vm.communityFreeLeaseBegin == null || vm.communityFreeLeaseEnd == null || vm.communityContract == '' || vm.coordinate == "") {
+          if(!this.pdfName.length){
+            if(!vm.communityContract){
+              this.warningMessage = '信息填入不完整，请补充完信息';
+              this.warningModal = true;
+              return
+            }
+          }
+          if(!vm.parentId || !vm.areas || !vm.companyId || !vm.communityAddress || !vm.communityOpeningDate || !vm.communityType || !vm.communityPhone || !vm.communityContractNum || !vm.communityLeaseBegin || !vm.communityLeaseEnd || !vm.communityFreeLeaseBegin || !vm.communityFreeLeaseEnd || !vm.coordinate) {
             this.fullscreenLoading = false;
-            this.warningMessage = '修改信息不完整，请补充完信息';
+            this.warningMessage = '信息填入不完整，请补充完信息';
             this.warningModal = true;
+            return
           } else {
             this.$http.post(hostaddComplie, param2).then(res => {
               // console.log(res.data)

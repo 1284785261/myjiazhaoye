@@ -1,6 +1,6 @@
 <template>
 	<div class="hous">
-		<menu-box :active-tab-name="messageInform"></menu-box>
+		<menu-box></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box wprdbench">
@@ -49,8 +49,8 @@
 				    				<td>消息内容</td>
 				    			</thead>
 				    			<tr v-for="item in title2">
-				    				<td>{{item.createtime | time(item.createtime)}}</td>
-				    				<td>{{item.communityName}}</td>
+				    				<td>{{item.createTime | time(item.createtime)}}</td>
+				    				<td>{{item.cityName}}</td>
 				    				<td>{{item.content}}</td>
 				    			
 				    			</tr>
@@ -132,7 +132,6 @@
     	},
     	data(){
     		return{
-				activeTabName:"messageInform",
     			successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
@@ -211,7 +210,7 @@
 						})
 					).then((response) => {
 						
-						// console.log(response);
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title2 = response.data.pageBean.page;
 							vm.totalNum2 = response.data.pageBean.totalNum;
@@ -263,6 +262,9 @@
 							this.isHide = !this.isHide;
 							setTimeout(() => {
 								this.successModal = false;
+								vm.value8 = '';
+								vm.titl1 = '';
+								vm.titl2 = '';
 								this.bean();
 								this.bean2();
 							}, 2000);	    					

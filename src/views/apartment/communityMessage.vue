@@ -22,11 +22,11 @@
 		        			<td>{{ Datas.companyName }}</td>
 		        		</tr>
 		        		<tr>
-		        			<td>社区地址：</td>
+		        			<td>地址：</td>
 		        			<td>{{ sites }}</td>
 		        		</tr>
                 <tr>
-                  <td>坐标地点：</td>
+                  <td>坐标地址：</td>
                   <td v-if="Datas.communityLongitude && Datas.communityLatitude">{{ Datas.communityLongitude+","+Datas.communityLatitude }}</td>
                 </tr>
 		        		<tr>
@@ -49,8 +49,12 @@
 		        			<td>租期：</td>
 		        			<td>{{ lease }}</td>
 		        		</tr>
+						<tr>
+							<td>免租期：</td>
+							<td>{{ freelease }}</td>
+						</tr>
 		        		<tr v-if="Datas.propertySignDate">
-		        			<td>物业合同签约时间：</td>
+		        			<td>物业合同签约日期：</td>
 		        			<td>{{ Datas.propertySignDate | Open(Datas.propertySignDate)}}</td>
 		        		</tr>
 						<tr v-if="Datas.propertyContactName">
@@ -189,10 +193,10 @@
     			var Y = date.getFullYear() + '-';
 				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
-				var date =new Date(this.Datas.communityLeaseEnd);
-    			var U = date.getFullYear() + '-';
-				var V = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-				var W = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				var date2 =new Date(this.Datas.communityLeaseEnd);
+    			var U = date2.getFullYear() + '-';
+				var V = (date2.getMonth() + 1 < 10 ? '0' + (date2.getMonth() + 1) : date2.getMonth() + 1) + '-';
+				var W = (date2.getDate() < 10 ? '0' + date2.getDate() : date2.getDate());
 				return Y + M + D +' - '+ U + V + W;
     		},
     		freelease:function(){
@@ -200,10 +204,10 @@
     			var Y = date.getFullYear() + '-';
 				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
-				var date =new Date(this.Datas.communityFreeLeaseEnd);
-    			var U = date.getFullYear() + '-';
-				var V = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-				var W = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+				var date2 =new Date(this.Datas.communityFreeLeaseEnd);
+    			var U = date2.getFullYear() + '-';
+				var V = (date2.getMonth() + 1 < 10 ? '0' + (date2.getMonth() + 1) : date2.getMonth() + 1) + '-';
+				var W = (date2.getDate() < 10 ? '0' + date2.getDate() : date2.getDate());
 				return Y + M + D +' - '+ U + V + W;
     		},
     		contract:function(){

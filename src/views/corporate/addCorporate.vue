@@ -43,7 +43,11 @@
                 <td><Input placeholder="请填写企业电话" style="width: 300px;" v-model="enterpriseTel"></Input></td>
 
               </tr>
-              <!--<tr>-->
+      <tr>
+                <td>企业说明 :</td>
+                <td><Input placeholder="请填写企业说明" style="width: 300px;" v-model="enterpriseBezhu"></Input></td>
+
+              </tr>              <!--<tr>-->
                 <!--<td>企业地址 :</td>-->
                 <!--<td><Input placeholder="请填写租金"></Input></td>-->
               <!--</tr>-->
@@ -140,6 +144,7 @@
         itemArea:'',
         enterpriseName:'',
         enterpriseTel:'',
+        enterpriseBezhu:''
       }
     },
     mounted(){
@@ -222,6 +227,7 @@
         param.append('enterpriseLogo', vm.logoUrl)
         param.append('enterpriseName', vm.enterpriseName)
         param.append('enterpriseTel', vm.enterpriseTel)
+        param.append('enterpriseBeizhu', vm.enterpriseBezhu)
         param.append('enterpriseArea', vm.itemArea)
         param.append('enterpriseType', vm.projectServices)
         

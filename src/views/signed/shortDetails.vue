@@ -4,27 +4,26 @@
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
-				<div class="ivu-site">
+				<!-- <div class="ivu-site">
 		          <span>您现在的位置：工作台 > </span>
 		          <router-link  class="active" to="/signed/houseState">公寓状态</router-link>
-		        </div>
+		        </div> -->
 		        <div class="ivu-bar-title">
-		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
-		          <span>{{name}}</span>
+		          <h3><i class="icon icon-iden"></i>短租状态</h3>
 		        </div>
 		    	<div id="shortDetail">
 		    		<div class="shortdetail1">
-		    			<span>{{Datas.roomNum}}房间</span>
-		    			<span>{{Datas.cxkjCommunityHousetype.housetypeName}}</span>
+		    			<span v-if="Datas.roomNum">{{Datas.roomNum}}房间</span>
+		    			<span>{{Datas.name}}</span>
 		    			<span>操作</span>
 		    		</div>
 		    		<table>
 		    			<tr>
 		    				<td width="15%">房间信息：</td>
-		    				<td v-if="Datas.cxkjCommunityHousetype">
-		    					<p>格局：{{Datas.cxkjCommunityHousetype.roomId}}室{{Datas.cxkjCommunityHousetype.housetypeHall}}厅{{Datas.cxkjCommunityHousetype.housetypeHygienism}}卫 {{Datas.cxkjCommunityHousetype.housetypeWindow}}</p>
-		    					<p>面积：{{Datas.cxkjCommunityHousetype.housetypeArea}}m²</p>
-		    					<p>租金：<span>{{Datas.roomRent | roomRent}}</span></p>
+		    				<td>
+		    					<p>房型：{{Datas.name}}</p>
+		    					<p>面积：{{Datas.housetypeArea}}m²</p>
+		    					<p>租金：<span>{{Datas.price | roomRent}}</span></p>
 		    				</td>
 		    				<td width="20%" rowspan="2">
 		    					<a @click="instas()">入住登记</a>
@@ -32,7 +31,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>配置：</td>
-		    				<td><span>{{Datas.roomFurniture}}</span></td>
+		    				<td><span v-for="item in roomconfiguration" :key="item">{{item }} </span></td>
 		    				
 		    			</tr>
 		    			<tr>
@@ -82,10 +81,13 @@
 		    				<td>
 		    				</td>
 		    				<td>
-		    					<p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
+		    					<!-- <p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
 		    					<p v-else></p>
 		    					<p v-if="Datas.waterEnergyBill != null">水电账单{{Datas.waterEnergyBill.payStatus | payStatus}}</p>
-		    					<p v-else></p>
+		    					<p v-else></p> -->
+								<ul v-for="item in pmsRoomService">
+									<li><span>{{item.name}}</span><span>￥{{item.price}}</span></li>
+								</ul>
 		    				</td>
 		    				<td>
 		    					<a @click="openservices">增值服务操作</a>
@@ -93,24 +95,25 @@
 		    			</tr>
 		    			<tr>
 		    				<td>门锁状态：</td>
-		    				<td v-if="roomLockWaterElect"><span v-if="roomLockWaterElect.lockStatus">{{roomLockWaterElect.lockStatus | Status}}</span>
+		    				<td v-if="lockWaterElectricity">
+								<span v-if="lockWaterElectricity.lockStatus">{{lockWaterElectricity.lockStatus | Status}}</span>
 		    					<span v-else>离线</span>
-		    					<span>序列号：{{roomLockWaterElect.sn}}</span>
+		    					<span v-if="lockWaterElectricity.sn">序列号：{{lockWaterElectricity.sn}}</span>
 		    				</td>
 		    				<td v-else>
 		    					暂无
 		    				</td>
 		    				<td rowspan="3">
-		    					<router-link :to="{name:'doorRecord',query:{roomLockId:roomLockWaterElect.roomLockId}}" v-if="roomLockWaterElect">开门记录</router-link>
+		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity">开门记录</router-link>
 		    					<a>获取门锁密码</a>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
-		    				<td v-if="roomLockWaterElect">
-		    					<span>{{roomLockWaterElect.waterStatus | Status2}}</span>
-		    					<span>序列号：{{roomLockWaterElect.waterMeterSn}}</span>
-		    					<p>{{roomLockWaterElect.waterType | type}} <b> {{roomLockWaterElect.waterPrice | Price}}</b>元/吨</p>
+		    				<td v-if="lockWaterElectricity">
+		    					<span>{{lockWaterElectricity.waterStatus | Status2}}</span>
+		    					<span>序列号：{{lockWaterElectricity.waterMeterSn}}</span>
+		    					<p>{{lockWaterElectricity.waterType | type}} <b> {{lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
 		    				<td v-else>
 		    					<span>暂无</span>
@@ -118,7 +121,7 @@
 		    			</tr>
 		    			<tr>
 		    				<td>电表状态：</td>
-		    				<td v-if="roomLockWaterElect">
+		    				<td v-if="lockWaterElectricity">
 		    					<span>{{roomLockWaterElect.electricityStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
@@ -225,7 +228,7 @@
 	import checkIn from '../../components/checkIn.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { hostRoominfo,hostPrice } from '../api.js';
+    import { hostRoominfo,hostPrice,ShortPmsRoomInfo200213 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -257,9 +260,11 @@
 				warningModal: false,
 				successMessage: '添加成功',
 				warningMessage: '添加信息不完整，请检查添加社区信息',
-                roomLockWaterElect:null,
+                lockWaterElectricity:null,
 				radio: '1',
-				checkList: []
+				checkList: [],
+				roomconfiguration:[],//房间配置信息
+				pmsRoomService:[]//房间增值服务信息
 		   	}
     	},
     	filters:{
@@ -403,7 +408,7 @@
     	mounted(){
     		this.roomid = this.$route.query.id;
 			this.communityId = this.$route.query.ids;
-			this.name = this.$route.query.name;
+			// console.log(this.$route.query);
     		this.datas();
     	},
     	methods:{
@@ -421,17 +426,26 @@
 				}
 			},
     		datas(){
-    			axios.post(hostRoominfo,
+    			axios.post(ShortPmsRoomInfo200213,
     				qs.stringify({
     					roomId:this.roomid
     				})
     			)
     			.then((response) => {
-    				// console.log(response);
+    				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
-    					this.Datas = response.data.entity;
-    					if(this.Datas.roomLockWaterElect){
-    						this.roomLockWaterElect = this.Datas.roomLockWaterElect;
+						this.Datas = response.data.entity;
+						if(this.Datas.lockWaterElectricity){
+							this.lockWaterElectricity = this.Datas.lockWaterElectricity;
+						}
+						
+						let arr = JSON.parse(this.Datas.materials);
+						console.log(arr);
+						for(let i = 0;i<arr.length;i++){
+							this.roomconfiguration.push(arr[i].materialName);
+						}
+    					if(this.Datas.pmsRoomService){
+    						this.pmsRoomService = this.Datas.pmsRoomService;
     					}
     				}
     			})

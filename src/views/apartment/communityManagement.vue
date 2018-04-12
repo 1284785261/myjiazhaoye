@@ -109,7 +109,7 @@
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
-										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">{{item.communityIsClose | hubs(item.communityIsClose)}}</a>
+										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">关闭社区</a>
 									</td>
 								</tr>
 
@@ -485,13 +485,7 @@
 				}
 				return null;
 			},
-			hubs(val) {
-				if(val == '0') {
-					return '关闭社区';
-				} else if(val == '1') {
-					return '开放社区';
-				}
-			},
+
 			mv(val) {
 				if(val == '1') {
 					return '关闭';
@@ -660,7 +654,7 @@
 			},
 			hub(val) { //关闭社区按钮事件
 				this.isShow = !this.isShow;
-				// console.log(val);
+				//console.log(val);
 				let vm = this
 				if(val.Close == 0) {
 					vm.community.Close = 1;
@@ -687,8 +681,8 @@
 							this.successModal = true;
 							setTimeout(() => {
 								this.successModal = false;
-								vm.befor();
-								vm.befors();
+								vm.btns();
+								vm.btusy2();
 							}, 2000);
 						} else {
 							this.warningMessage = response.data.content;
@@ -740,17 +734,18 @@
 				// console.log(data);
 				axios.post(hostComment,
 					qs.stringify(data)
-				).then((response) => {
-					if(response.status == 200 && response.data.code == 10000) {
-						vm.tableEvaluates = response.data.entity.page;
-						vm.totalNum3 = response.data.entity.totalNum;
-					} else {
-						vm.tableEvaluates = [];
-						vm.totalNum3 = 0;
+					).then((response) => {
+						if(response.status == 200 && response.data.code == 10000) {
+							vm.tableEvaluates = response.data.entity.page;
+							vm.totalNum3 = response.data.entity.totalNum;
+						} else {
+							vm.tableEvaluates = [];
+							vm.totalNum3 = 0;
+						}
+					}).catch((error) => {
+						// console.log(error);
 					}
-				}).catch((error) => {
-					// console.log(error);
-				})
+				)
 			},
 		},
 

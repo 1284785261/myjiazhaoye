@@ -66,7 +66,7 @@
                     <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.billId,'room')">收款</a>
+                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -139,7 +139,7 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId,'office')">收款</a>
+                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId,'office',office.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                   </td>
                 </tr>
@@ -384,7 +384,7 @@ export default {
     /**
      * 收款弹框显示
      **/
-    collectionModelShow(billId,paymentType){
+    collectionModelShow(billId,paymentType,contractSignId){
       let that = this;
       this.paymentType = paymentType;
       this.collectionShow = true;
@@ -397,7 +397,8 @@ export default {
               billId:resutl.billId,
               bankWater:resutl.payNumbers,//收款银行流水
               certificate:resutl.voucherNumbers,//收款凭证
-              paymentAmount:resutl.gatheringMoney//收款金额
+             paymentAmount:resutl.gatheringMoney,//收款金额
+            contractSignId:contractSignId//收款金额
           }
         }else{
 
@@ -474,7 +475,14 @@ export default {
     allIncome(){
       let that = this;
       let params = this.process();
-      this.$http.post(CxkjBillGatheringDetailWhole500157,qs.stringify(params)).then(function(res){
+    this.$http.post(CxkjBillGatheringDetailWhole500157,qs.stringify({
+        id:that.collection.id,
+        billId:that.collection.billId,
+        payNumbers:that.collection.bankWater,
+        voucherNumbers:that.collection.certificate,
+        gatheringMoney:that.collection.paymentAmount,
+        signId:that.collection.contractSignId
+      })).then(function(res){
         if(res.data.code == 10000){
           that.collectionShow = false;
           that.successMessage = "收款成功!";

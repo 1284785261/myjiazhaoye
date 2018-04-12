@@ -214,6 +214,9 @@ import qs from 'qs';
           .catch((error)=>{
               that.title = '用户不存在或密码错误';//把错误信息赋给当前的title
               that.isShow = true;
+              setTimeout(() => {
+                that.isShow = false;
+              },5000)
             // console.log(error);
           })
         }

@@ -7,11 +7,11 @@
 const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.18.22.180312_test':sessionStorage.getItem('urlType')=='研发'? '1.1.18.2.180312_yanfa': '1.1.18.22.180312_release';//pc版本号 默认测试
-//const host3 = 'http://test.kaisaspace.com:8070';
+export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.38.2.180404_test':sessionStorage.getItem('urlType')=='研发'? '1.1.38.2.180404_yanfa': '1.1.38.2.180404_release';//pc版本号 默认测试
+// const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
-//const host3 = 'http://192.168.20.191:8080';
+// const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 //const host3 = 'http://192.168.20.135:8091';//李志guang
 //const host3 = 'http://192.168.20.124:8081';//周昭滨
@@ -22,8 +22,6 @@ export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.18.22
 export const PdfDocmentUpload200173= `${host3}/cxkj-room/apis/appMgr/sign/CxkjCommunityDocmentUploadPC200179`//合同查看pdf文件
 
 
-// 查看合同pdf文件
-export const CxkjCommunityPmsRoomList500150= `${host3}/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomList500150`
 
 //用户登录接口
 
@@ -432,6 +430,18 @@ const detailsCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyDetail500153'
 
 //公司批量操作
 const batchCompany = '/cxkj-room/apis/pc/cxkjcompany/CxkjCompanyBatch500154'
+
+//工作台社区选择
+const MllCommunity = '/cxkj-room/apis/pcManager/cxkjcommunity/CxkjGetAllCommunityList300145'
+
+//短租状态显示
+const ShortRentstate = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomList200211'
+
+//短租户型查询
+const ShortRoomTypes = '/cxkj-pms/apis/pc/pmsroomdayprice/CxkjCommunityPmsRoomType200208'
+
+//获取短租房间的信息
+const ShortPmsRoomInfo = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomInfo200213'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -573,6 +583,10 @@ export const addCompany500151 = host3 + addCompany;
 export const amendCompany500152 = host3 + amendCompany;
 export const detailsCompany500153 = host3 + detailsCompany;
 export const batchCompany500154 = host3 + batchCompany;
+export const MllCommunity300145 = host3 + MllCommunity;
+export const ShortRentstate200211 = host3 + ShortRentstate;
+export const ShortRoomTypes200208 = host3 + ShortRoomTypes;
+export const ShortPmsRoomInfo200213 = host3 + ShortPmsRoomInfo;
 export const host = host3;
 //export default {
 //hosts:function(){
