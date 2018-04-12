@@ -88,9 +88,15 @@
 								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
+<<<<<<< HEAD
+							<!-- <li>
+								<router-link to="/signed/H5invitation">H5邀请</router-link>
+							</li> -->
+=======
 					        <!--<li>-->
 								<!--<router-link to="/signed/H5invitation">H5邀请</router-link>-->
 							<!--</li>-->
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 						</ul>
 					</div>
 					</Col>

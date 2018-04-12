@@ -31,18 +31,22 @@
 		    			</tr>
 		    			<tr>
 		    				<td>配置：</td>
+<<<<<<< HEAD
+		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item }} </span></td>
+=======
 		    				<td><span v-for="item in roomconfiguration" :key="item">{{item }} </span></td>
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				
 		    			</tr>
 		    			<tr>
 		    				<td>租约信息：</td>
-		    				<td v-if="Datas.cxkjContractSign">
-		    					<p>合同编码：{{Datas.cxkjContractSign.contractNumber}}</p>
-		    					<p>状态：<span>{{Datas.cxkjContractSign.contractState | contractState}}</span></p>
-		    					<p>租期：{{Datas.cxkjContractSign.beginDate | beginDate}}--{{Datas.cxkjContractSign.endDate | endDate}}</p>
+		    				<td v-if="Datas.pmsOrder">
+		    					<p>订单编号：{{Datas.pmsOrder.orderNum}}</p>
+		    					<p>状态：<span>{{Datas.pmsOrder.orderState | orderState}}</span></p>
+		    					<p>租期：{{Datas.pmsOrder.inTime | inTime}}--{{Datas.pmsOrder.leaveTime | leaveTime}}<span>{{Datas.pmsOrder.day}}天</span></p>
 		    				</td>
 		    				<td v-else>
-		    					<p>合同编码：无</p>
+		    					<p>订单编号：</p>
 		    					<p>状态：<span>无</span></p>
 		    					<p>租期：无</p>
 		    				</td>
@@ -57,36 +61,37 @@
 		    			</tr>
 		    			<tr>
 		    				<td>承租人：</td>
-		    				<td v-if="Datas.cxkjContractSign">
-		    					<span >{{Datas.cxkjContractSign.user.userName}}</span>
-		    					<span>联系电话：{{Datas.cxkjContractSign.user.userPhone}}</span>
+		    				<td v-if="Datas.pmsOrder">
+		    					<span v-if="Datas.pmsOrder.userName">{{Datas.pmsOrder.userName}}</span>
+		    					<span v-if="Datas.pmsOrder.userPhone">联系电话：{{Datas.pmsOrder.userPhone}}</span>
 		    				</td>
-		    				<td v-else>
-								<span >无</span>
-		    					<span>联系电话：无</span>
-							</td>
 		    			</tr>
 		    			<tr>
 		    				<td>
 		    					支付：
 		    				</td>
 		    				<td>
-		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
-		    					<p v-else>押金：无<span>租金：无</span></p>
-		    					<p v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost | cyclePayMoney}}</p>
-								<p v-else>服务费：无</p>
+		    					<p>罚款金额：</p>
+								<ul>
+									<li>aaa</li>
+								</ul>
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>
 		    				</td>
 		    				<td>
+<<<<<<< HEAD
+								<ul v-for="item in pmsRoomService">
+									<li><span>{{item.serviceName}} *{{item.count}} </span><span style="color:#ef751b;">￥{{item.totalMoney}}</span></li>
+=======
 		    					<!-- <p v-if="Datas.cxkjBill != null">租金账单{{Datas.cxkjBill.billState | billState}}</p>
 		    					<p v-else></p>
 		    					<p v-if="Datas.waterEnergyBill != null">水电账单{{Datas.waterEnergyBill.payStatus | payStatus}}</p>
 		    					<p v-else></p> -->
 								<ul v-for="item in pmsRoomService">
 									<li><span>{{item.name}}</span><span>￥{{item.price}}</span></li>
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 								</ul>
 		    				</td>
 		    				<td>
@@ -99,20 +104,40 @@
 								<span v-if="lockWaterElectricity.lockStatus">{{lockWaterElectricity.lockStatus | Status}}</span>
 		    					<span v-else>离线</span>
 		    					<span v-if="lockWaterElectricity.sn">序列号：{{lockWaterElectricity.sn}}</span>
+<<<<<<< HEAD
+								<span v-else>序列号：暂无</span>
+=======
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    				<td v-else>
 		    					暂无
 		    				</td>
 		    				<td rowspan="3">
+<<<<<<< HEAD
+		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity" class="butsbr">开门记录</router-link>
+		    					<a class="butsbr">获取门锁密码</a>
+								<ul>
+									<li><a>设置为【配置中】</a></li>
+									<li><a>设置为【脏房】</a></li>
+									<li><a>设置为【待出租】</a></li>
+								</ul>
+=======
 		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity">开门记录</router-link>
 		    					<a>获取门锁密码</a>
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
 		    				<td v-if="lockWaterElectricity">
+<<<<<<< HEAD
+		    					<span v-if="lockWaterElectricity.waterStatus">{{lockWaterElectricity.waterStatus | Status2}}</span>
+		    					<span v-if="lockWaterElectricity.waterMeterSn">序列号：{{lockWaterElectricity.waterMeterSn}}</span>
+								<span v-else>序列号：暂无</span>
+=======
 		    					<span>{{lockWaterElectricity.waterStatus | Status2}}</span>
 		    					<span>序列号：{{lockWaterElectricity.waterMeterSn}}</span>
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    					<p>{{lockWaterElectricity.waterType | type}} <b> {{lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
 		    				<td v-else>
@@ -122,9 +147,16 @@
 		    			<tr>
 		    				<td>电表状态：</td>
 		    				<td v-if="lockWaterElectricity">
+<<<<<<< HEAD
+		    					<span v-if="lockWaterElectricity.electricityStatus">{{roomLockWaterElect.electricityStatus | Status2}}</span>
+		    					<span v-if="lockWaterElectricity.electricityMeterSn">序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
+								<span v-else>序列号：暂无</span>
+		    					<p>{{lockWaterElectricity.electricType | type}} <b> {{lockWaterElectricity.energyPrice | Price}}</b>元/度</p>
+=======
 		    					<span>{{roomLockWaterElect.electricityStatus | Status2}}</span>
 		    					<span>序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
 		    					<p>{{roomLockWaterElect.electricType | type}} <b> {{roomLockWaterElect.energyPrice | Price}}</b>元/度</p>
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 		    				</td>
 		    				<td v-else>
 		    					<span>暂无</span>
@@ -322,17 +354,17 @@
     				return parseFloat(val).toFixed(2)+'元';
     			}
     		},
-    		beginDate(val){
+    		inTime(val){
 				var date = new Date(val);
-				var Y = date.getFullYear() + '.';
-				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var Y = date.getFullYear() + '/';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
 				return Y + M + D;
     		},
-    		endDate(val){
+    		leaveTime(val){
     			var date = new Date(val);
-				var Y = date.getFullYear() + '.';
-				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+				var Y = date.getFullYear() + '/';
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
 				var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
 				return Y + M + D;
     		},
@@ -341,33 +373,24 @@
     				return parseFloat(val).toFixed(2)+'元';
     			}
     		},
-    		contractState(val){
+    		orderState(val){
     			if(val == 1){
-    				return '待确认'
+    				return '待支付'
     			}
     			else if(val == 2){
-    				return '待付款'
+    				return '已支付'
     			}
     			else if(val == 3){
-    				return '待付首款'
+    				return '已取消'
     			}
     			else if(val == 4){
-    				return '履约中'
+    				return '应到未到'
     			}
     			else if(val == 5){
-    				return '退租中'
+    				return '已完结'
     			}
     			else if(val == 6){
-    				return '退组办结'
-    			}
-    			else if(val == 7){
-    				return '违约'
-    			}
-    			else if(val == 8){
-    				return '违约办结'
-    			}
-    			else if(val == 9){
-    				return '到期办结'
+    				return '已退未结'
     			}
     			
     		},
@@ -444,8 +467,13 @@
 						for(let i = 0;i<arr.length;i++){
 							this.roomconfiguration.push(arr[i].materialName);
 						}
+<<<<<<< HEAD
+    					if(this.Datas.pmsOrder.pmsRoomService){
+    						this.pmsRoomService = this.Datas.pmsOrder.pmsRoomService;
+=======
     					if(this.Datas.pmsRoomService){
     						this.pmsRoomService = this.Datas.pmsRoomService;
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
     					}
     				}
     			})

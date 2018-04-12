@@ -22,7 +22,7 @@
 	font-size: 16px;
 	color: #000;
 	font-weight: normal;
-	margin-right: 10%;
+	margin-right: 12%;
 	float: right;
 }
 #shortDetail table{
@@ -104,10 +104,10 @@
 #shortDetail table tr:nth-child(5) td:nth-child(2) p span{
 	margin-left: 65px;
 }
-#shortDetail table tr:nth-child(6) td:nth-child(2) p{
-	color: #ff1d10;
-	line-height: 32px;
-	font-size: 12px;
+#shortDetail table tr:nth-child(6) td:nth-child(2) ul li span:nth-child(1){
+	width:100px;
+	display:inline-block;
+	line-height: 34px;
 }
 #shortDetail table tr:nth-child(6) td:nth-child(3) a{
 	width: 100px;
@@ -134,7 +134,7 @@
 	color: #1fbba6;
 	margin-right: 40px;
 }
-#shortDetail table tr:nth-child(7) td:nth-child(3) a{
+#shortDetail table tr:nth-child(7) td:nth-child(3) .butsbr{
 	width: 100px;
 	height: 30px;
 	background: white;
@@ -147,6 +147,15 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 	margin-left: 40px;
+}
+#shortDetail table tr:nth-child(7) td:nth-child(3) ul li a{
+	line-height: 30px;
+	color: #848688;
+	margin-left: 40px;
+}
+#shortDetail table tr:nth-child(7) td:nth-child(3) ul li a:hover{
+	background: #ffffff;
+	color: #038BE2;
 }
 #shortDetail table tr:nth-child(8) td:nth-child(2) span{
 	color: #000;

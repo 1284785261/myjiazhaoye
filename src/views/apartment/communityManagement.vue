@@ -654,7 +654,11 @@
 			},
 			hub(val) { //关闭社区按钮事件
 				this.isShow = !this.isShow;
+<<<<<<< HEAD
+				console.log(val);
+=======
 				//console.log(val);
+>>>>>>> cc3540c6d8a9c9d759ea2fd55d25b8279e6b0ed5
 				let vm = this
 				if(val.Close == 0) {
 					vm.community.Close = 1;
