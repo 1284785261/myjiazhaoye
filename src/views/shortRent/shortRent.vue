@@ -43,12 +43,12 @@
                     </Tab-pane>
                     <Tab-pane label="哑房账">
                         <div class="message-ti">
-                            <short-Room-Bill-list></short-Room-Bill-list>
+                            <short-Room-Bill-list @openWarningModal="openWarningModal"></short-Room-Bill-list>
                         </div>
                     </Tab-pane>
-                    
-                    
-                
+
+
+
 
                 </Tabs>
             </div>

@@ -56,6 +56,7 @@
           <td>{{item.createName}}</td>
           <td>
             <span v-if="item.debtState==0">未办结</span>
+            <Button type="primary" v-if="item.debtState==0" @click="openBanjieModal(item.id)">确认办结</Button>
             <span v-if="item.debtState==1">已办结</span>
           </td>
           <td>{{item.remark}}</td>
@@ -108,6 +109,21 @@
       </div>
     </div>
 
+
+    <div class="new-bill-modal" v-if="banjieModal" ref="outBanjieModal" @click="closeBanjieModal()"></div>
+    <div class="new-bill-content banjie-content" v-if="banjieModal" ref="banjieModal">
+      <div class="modal-content-meddle">
+       <h4 style="text-align: center;">确定要办结吗？</h4>
+      </div>
+      <div class="form-btn-wrap" style="margin-top: 20px;">
+        <Button type="primary" style="width: 100px;height: 36px; margin-right: 20px;" @click="sureBanjie" >提交</Button>
+        <Button type="primary" style="width: 100px;height: 36px;" @click="closeBanjieModal" >取消</Button>
+      </div>
+      <div class="modal-close-btn" @click="closeBanjieModal()">
+        <Icon type="ios-close-empty"></Icon>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -118,7 +134,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {CxkjGetOrderDebtList300183,CxkjCreateOrderDebt300184} from '../api.js';
+  import {CxkjGetOrderDebtList300183,CxkjCreateOrderDebt300184,CxkjConfirmDebtDone300185} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -186,6 +202,8 @@
           }
         },
         newBillModal:false,
+        banjieModal:false,
+        id:"",//办结的哑账id
       }
     },
     mounted() {
@@ -238,6 +256,19 @@
           })
         }, 0)
       },
+      /**
+       * 打开办结弹框
+       */
+      openBanjieModal(id){
+        this.id = id;
+        this.banjieModal = true;
+        setTimeout(() => {//将this.banjieModal = true;渲染完成后，否则找不到节点
+          this.$nextTick(() => {
+            document.querySelector("#app").firstChild.appendChild(this.$refs.banjieModal);
+            document.querySelector("#app").firstChild.appendChild(this.$refs.outBanjieModal);
+          })
+        }, 0)
+      },
       //获取哑帐列表
       getRoomBillList(params){
         let vm = this;
@@ -282,6 +313,10 @@
       //提交创建哑帐按钮
       createRoomBill(){
         let vm = this;
+        if(this.orderNum == "" || this.debtName=="" || this.totalMoney=="" || this.inTime == "" || this.leaveTime==""){
+          vm.$emit("openWarningModal","信息填写不完整,请填写完整再提交！")
+          return;
+        }
         let param = {
           orderNum:this.orderNum,
           debtName:this.debtName,
@@ -291,17 +326,28 @@
           remark:this.remark,
         };
         this.$http.post(CxkjCreateOrderDebt300184,qs.stringify(param)).then(function(res){
-          console.log(res);
-            if(res.data.code == 10000){
-                vm.closeNewBillModal();
-                this.orderNum = "";
-                this.debtName = "";
-                this.totalMoney = "";
-                this.inTime = "";
-                this.leaveTime = "";
-                this.remark = "";
-            }
+          if(res.data.code == 10000){
+              vm.closeNewBillModal();
+              this.orderNum = "";
+              this.debtName = "";
+              this.totalMoney = "";
+              this.inTime = "";
+              this.leaveTime = "";
+              this.remark = "";
+              this.getRoomBillList({pageNum:1,communityId:this.communityId});
+          }else{
+            vm.$emit("openWarningModal",res.data.content)
+          }
         });
+      },
+      /*办结*/
+      sureBanjie(){
+        this.$http.get(CxkjConfirmDebtDone300185,{params:{id:this.id}}).then(res=>{
+          if(res.data.code == 10000){
+            this.closeBanjieModal();
+            this.getRoomBillList({pageNum:1,communityId:this.communityId});
+          }
+        })
       },
       /**
        * 关闭创建哑帐弹框
@@ -309,7 +355,14 @@
       closeNewBillModal(){
         document.querySelector("#app").firstChild.removeChild(this.$refs.newBillModal);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outBillModal);
-      }
+      },
+      /**
+       * 关闭办结弹框
+       */
+      closeBanjieModal(){
+        document.querySelector("#app").firstChild.removeChild(this.$refs.banjieModal);
+        document.querySelector("#app").firstChild.removeChild(this.$refs.outBanjieModal);
+      },
     },
     filters:{
       timefilter(value,format){
@@ -342,7 +395,11 @@
     left: 0;
     z-index: 999;
   }
-
+  .banjie-content{
+    width: 300px!important;
+    height: 150px!important;
+    min-height:150px!important;
+  }
   .new-bill-content{
     width: 800px;
     height: 420px;

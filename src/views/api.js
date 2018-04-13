@@ -806,6 +806,7 @@ export const CxkjGetRoomListOfForRoom300195 =host3+'/cxkj-pms/apis/pc/pmsorder/C
 export const CxkjAssignRoom300196 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjAssignRoom300196'//排房
 export const CxkjGetPersonnelList300180 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetPersonnelList300180'//入住列表
 export const CxkjGetInRoomInfo300198 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjGetInRoomInfo300198'//已排房信息
+export const CxkjConfirmDebtDone300185 =host3+'/cxkj-pms/apis/pc/pmsorderdebt/CxkjConfirmDebtDone300185'//办结
 
 export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
 export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情
