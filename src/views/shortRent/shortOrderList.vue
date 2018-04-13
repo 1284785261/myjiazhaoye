@@ -214,7 +214,7 @@
             姓名：<input class="ivu-input " style="width:80px;" v-model="name">
             <el-radio class="radio" v-model="radio" label="1">男</el-radio>
             <el-radio class="radio" v-model="radio" label="2">女</el-radio>
-            <Select v-model="stationCommunity" style="width:120px;cccccccccccccccccccccccccccccccccccc">
+            <Select v-model="stationCommunity" style="width:120px;">
               <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
             </Select>
             <input class="ivu-input" style="width:250px;">
@@ -792,20 +792,21 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.outCheckInOrder);
       },
       //入住按钮
-      checkIn(orderId,obj){
-        this.isHide = true;
-        this.checkInObj = obj;
-        if(sessionStorage.getItem("orderId") && sessionStorage.getItem("orderId")==orderId){
-          this.name = sessionStorage.getItem("bookName");
-        }else{
-          this.name = "";
-        }
-        setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
-          this.$nextTick(() => {
-            document.querySelector("#app").firstChild.appendChild(this.$refs.checkInOrder);
-            document.querySelector("#app").firstChild.appendChild(this.$refs.outCheckInOrder);
-          })
-        }, 0)
+      checkIn(orderId,obj){debugger
+          this.$router.push({name:'checkIn',query:{orderId:orderId}})
+//        this.isHide = true;
+//        this.checkInObj = obj;
+//        if(sessionStorage.getItem("orderId") && sessionStorage.getItem("orderId")==orderId){
+//          this.name = sessionStorage.getItem("bookName");
+//        }else{
+//          this.name = "";
+//        }
+//        setTimeout(() => {//将this.uploadModal = true;渲染完成后，否则找不到节点
+//          this.$nextTick(() => {
+//            document.querySelector("#app").firstChild.appendChild(this.$refs.checkInOrder);
+//            document.querySelector("#app").firstChild.appendChild(this.$refs.outCheckInOrder);
+//          })
+//        }, 0)
       },
       paifang(){
 //        this.getPaifangData(orderId);

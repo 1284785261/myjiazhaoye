@@ -171,6 +171,12 @@
       sureAdd(){
         var that = this;
         if(this.roomCommunity ==="" || this.complainContent ==="" || this.userPhone ==="" || this.userName===""){
+          this.warningMessage = "投诉信息填写不完整，请填写完整后重新提交！";
+          this.warnningModal = true;
+          return;
+        }
+        if(this.complainContent.length>200){
+          this.warningMessage = "反馈内容不能超过200字!";
           this.warnningModal = true;
           return;
         }

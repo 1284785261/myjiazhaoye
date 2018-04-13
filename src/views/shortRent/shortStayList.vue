@@ -18,6 +18,7 @@
                 <el-menu-item index="4">入住</el-menu-item>
                 <el-menu-item index="5">已退未结</el-menu-item>
                 <el-menu-item index="6">已结账</el-menu-item>
+                <el-menu-item index="8">全部订单</el-menu-item>
             </el-menu>
         </div>
         <div v-if="selectShow" class="selectShowClass">
@@ -27,12 +28,12 @@
                 </li>
                 <li>
                     <el-radio-group v-model="selectState" @change="selsctRadio">
-                        <el-radio :label="0">全部</el-radio>
-                        <el-radio :label="1">今日预抵</el-radio>
-                        <el-radio :label="2">明日预抵</el-radio>
-                        <el-radio :label="3">待入住</el-radio>
-                        <el-radio :label="4">已入住</el-radio>
-                        <el-radio :label="5">已取消</el-radio>
+                        <el-radio :label="-1">全部</el-radio>
+                        <el-radio :label="1">今日预离</el-radio>
+                        <el-radio :label="2">明日预离</el-radio>
+                        <el-radio :label="3">入住</el-radio>
+                        <el-radio :label="4">已退未结</el-radio>
+                        <el-radio :label="5">已结账</el-radio>
                     </el-radio-group>
                 </li>
                 <!--<li>-->
@@ -159,6 +160,7 @@
       warningModal
     },
     data() {
+      let _this = this;
       return {
         activeTabName: "shortRent",//右侧导航栏选中状态
         successModal: false,//成功弹框显示控制
@@ -185,7 +187,7 @@
         pageNum:1,//当前页数
         totalNum:0,//总条数
         isRoom:-1,
-        customOrderState:-1,
+        customPersonnelState:-1,
 
         //搜索条件
         bookBeginDateKey:"",
@@ -196,26 +198,38 @@
         leaveEndDateKey:"",
         bookingStartTime: {//预订开始时间验证
           disabledDate(date){
+            if(_this.bookEndDateKey){
+              return date &&  _this.bookEndDateKey < date.valueOf();
+            }
           }
         },
         bookingEndTime: {//预订结束时间验证
           disabledDate(date){
+            return date && date.valueOf() < _this.bookBeginDateKey;
           }
         },
         toShowStartTime: {//到店开始时间验证
           disabledDate(date){
+            if(_this.arriveEndDateKey){
+              return date &&  _this.arriveEndDateKey < date.valueOf();
+            }
           }
         },
         toShowEndTime: {//到店结束时间验证
           disabledDate(date){
+            return date && date.valueOf() < _this.arriveBeginDateKey;
           }
         },
         leaveStartTime: {//离店开始时间验证
           disabledDate(date){
+            if(_this.leaveEndDateKey){
+              return date &&  _this.leaveEndDateKey < date.valueOf();
+            }
           }
         },
         leaveEndTime: {//离店结束时间验证
           disabledDate(date){
+            return date && date.valueOf() < _this.leaveBeginDatekey;
           }
         },
         createOrderModel:true,//创建订单弹框显示隐藏控制
@@ -257,7 +271,7 @@
       },
       //状态查询选择
       selsctRadio(value){
-        this.customOrderState = value;
+        this.customPersonnelState = value;
       },
       //条件搜索
       search(page){
@@ -269,8 +283,8 @@
         if(page){
           this.pageNum = page;
         }
-        if(this.customOrderState != -1){
-          params.customOrderState = this.customOrderState;
+        if(this.customPersonnelState != -1){
+          params.customPersonnelState = this.customPersonnelState;
         }
         if(this.isRoom != -1){
           params.isRoom = this.isRoom;
@@ -287,22 +301,22 @@
         }
 
         if(this.bookBeginDateKey != ""){
-          params.bookBeginDate = this.bookBeginDateKey
+          params.bookBeginDate = new Date(this.bookBeginDateKey).Format("yyyy-MM-dd");
         }
         if(this.bookEndDateKey != ""){
-          params.bookEndDateKey = this.bookEndDateKey
+          params.bookEndDateKey = new Date(this.bookEndDateKey).Format("yyyy-MM-dd");
         }
         if(this.arriveBeginDateKey != ""){
-          params.arriveBeginDateKey = this.arriveBeginDateKey
+          params.arriveBeginDateKey = new Date(this.arriveBeginDateKey).Format("yyyy-MM-dd");
         }
         if(this.arriveEndDateKey != ""){
-          params.arriveEndDateKey = this.arriveEndDateKey
+          params.arriveEndDateKey = new Date(this.arriveEndDateKey).Format("yyyy-MM-dd");
         }
         if(this.leaveBeginDatekey != ""){
-          params.leaveBeginDatekey = this.leaveBeginDatekey
+          params.leaveBeginDatekey = new Date(this.leaveBeginDatekey).Format("yyyy-MM-dd");
         }
         if(this.leaveEndDateKey != ""){
-          params.leaveEndDateKey = this.leaveEndDateKey
+          params.leaveEndDateKey = new Date(this.leaveEndDateKey).Format("yyyy-MM-dd");
         }
         if(this.selectConditions.stayPhone != ""){
           params.bookPhone = this.selectConditions.stayPhone;
@@ -345,7 +359,7 @@
           case "1":
             break;
           case "2":
-            that.customOrderState = 1;//1、今日预抵
+            that.customPersonnelState = 1;//1、今日预抵
             if(keyPath[1] == "2-1"){//全部
               that.isRoom = -1;
             }else if(keyPath[1] == "2-2"){//待排房
@@ -355,7 +369,7 @@
             }
             break;
           case "3":
-            that.customOrderState = 2;//明日预离
+            that.customPersonnelState = 2;//明日预离
             if(keyPath[1] == "3-1"){//全部
               that.isRoom = -1;
             }else if(keyPath[1] == "3-2"){//待排房
@@ -365,7 +379,7 @@
             }
             break;
           case "4":
-            that.customOrderState = 3;//待入住
+            that.customPersonnelState = 3;//待入住
             if(keyPath[1] == "4-1"){//全部
               that.isRoom = -1;
             }else if(keyPath[1] == "4-2"){//待排房
@@ -375,16 +389,16 @@
             }
             break;
           case "5":
-            that.customOrderState = 4;//已入住
+            that.customPersonnelState = 4;//已入住
             break;
           case "6":
-            that.customOrderState = 5;//已取消
+            that.customPersonnelState = 5;//已取消
             break;
           case "7":
-            that.customOrderState = 6;//应到未到
+            that.customPersonnelState = 6;//应到未到
             break;
           case "8":
-            that.customOrderState = -1;//全部
+            that.customPersonnelState = -1;//全部
             break;
         }
         if(keyPath[0] != 1){

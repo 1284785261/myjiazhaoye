@@ -482,6 +482,12 @@ export default new Router({
       component:resolve =>
         require(['../views/shortRent/newShortSetting.vue'],resolve)
     },
+    {
+      path:'/shortRent/checkIn',		//短租管理-新增短租配置
+      name:'checkIn',
+      component:resolve =>
+        require(['../views/shortRent/checkIn.vue'],resolve)
+    },
     //{
      // path:'/signed/H5invitation',		//工作台-H5邀请
      // name:'H5invitation',
