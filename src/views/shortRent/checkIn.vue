@@ -17,24 +17,24 @@
               <h3><i class="icon icon-iden"></i>房间信息</h3>
               <table>
                 <tr>
-                  <td>格局 :</td>
-                  <td></td>
+                  <td>格局 : </td>
+                  <td>{{roomInfoData.name}}</td>
                 </tr>
                 <tr>
                   <td>面积 :</td>
-                  <td></td>
+                  <td>{{roomInfoData.housetypeArea}}</td>
                 </tr>
                 <tr>
                   <td>定房电话 :</td>
-                  <td></td>
+                  <td>{{roomInfoData.bookPhone}}</td>
                 </tr>
                 <tr>
                   <td>订房姓名 :</td>
-                  <td></td>
+                  <td>{{roomInfoData.bookName}}</td>
                 </tr>
                 <tr>
                   <td>门市价 :</td>
-                  <td></td>
+                  <td>{{psmRoomInfo[0].price}}</td>
                 </tr>
               </table>
             </li>
@@ -43,23 +43,27 @@
               <table>
                 <tr>
                   <td>入住时间:</td>
-                  <td></td>
+                    <td>{{roomInfoData.inTime | timefilter('yyyy-MM-dd')}}</td>
                 </tr>
                 <tr>
                   <td>入住天数:</td>
-                  <td></td>
+                  <td>{{roomInfoData.day}}</td>
                 </tr>
                 <tr>
                   <td>预计退房日期:</td>
-                  <td></td>
+                  <td>{{roomInfoData.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                 </tr>
                 <tr>
                   <td>市场细分:</td>
-                  <td></td>
+                  <td>
+                    <span v-if="roomInfoData.marketType == 0">门市散客</span>
+                    <span v-if="roomInfoData.marketType == 1">内部员工 </span>
+                    <span v-if="roomInfoData.marketType == 2">协议单位</span>
+                  </td>
                 </tr>
                 <tr>
                   <td>备注:</td>
-                  <td></td>
+                  <td>{{roomInfoData.remark}}</td>
                 </tr>
               </table>
             </li>
@@ -68,21 +72,26 @@
               <table>
                 <tr>
                   <td>
-                    <ul>
-                      <li>
-                        <span>房号：101 标准大单间 </span>
-                        <span>入住人：</span>
-                        姓名：<input class="ivu-input " style="width:80px;" v-model="name">
-                        <el-radio class="radio" v-model="radio" label="1">男</el-radio>
-                        <el-radio class="radio" v-model="radio" label="2">女</el-radio>
-                        <Select v-model="stationCommunity" style="width:120px;">
-                          <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                    <ul v-for="(room,roomIndex) in psmRoomInfo">
+                      <li v-for="(item,index) in room" style="text-align: left">
+                        房号：<b style="padding-left: 10px;">{{item.roomNum}} {{item.housetypeName}} </b>
+                        <span style="padding-left: 20px;">入住人：</span>
+                        姓名 <input class="ivu-input " style="width:100px;" v-model="item.name">
+                        <el-radio class="radio" v-model="item.gender" label="1">男</el-radio>
+                        <el-radio class="radio" v-model="item.gender" label="0">女</el-radio>
+                        <Select v-model="item.certificateType" style="width:120px;">
+                          <Option v-for="community in  stationSelectList" :value="community.dataId" :key="community.dataId">{{ community.dataName }}</Option>
                         </Select>
-                        <input class="ivu-input" style="width:250px;">
-                        <Button type="primary" style="display: inline-block">+ 添加入住人</Button>
+                        <input class="ivu-input" style="width:250px;" v-model="item.certificateNumber">
+                        <Button v-if="index==0" type="primary" style="display: inline-block" @click="addPerson(item,roomIndex)">+ 添加入住人</Button>
+                        <Button v-if="index>0" type="primary" style="display: inline-block" @click="deletePerson(roomIndex,index)">- 删除</Button>
                       </li>
                     </ul>
                   </td>
+                </tr>
+                <tr style="text-align: center;">
+                  <Button type="primary" style="width: 100px;margin-top: 100px;">取消</Button>
+                  <Button type="primary" style="width: 100px;margin-left: 100px;margin-top: 100px;" @click="submit">提交</Button>
                 </tr>
               </table>
             </li>
@@ -99,7 +108,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
-  import {CxkjGetInRoomInfo300198} from '../api.js';
+  import {CxkjGetInRoomInfo300198,hostWay,CxkjAddPersonnel300199} from '../api.js';
+  import qs from 'qs';
 
 
   export default {
@@ -113,6 +123,9 @@
         radio:"1",
         orderId:null,
         roomInfoData:{},
+        stationSelected:"",
+        stationSelectList:[],
+        psmRoomInfo:[],
       }
     },
     mounted(){
@@ -121,18 +134,57 @@
     methods:{
       init(){
         this.orderId = this.$route.query.orderId;
-        this.getRoomInfo();
+        this.getSystemData();
       },
       getRoomInfo(){
         var that = this;
         this.$http.get(CxkjGetInRoomInfo300198,{params:{id:this.orderId}})
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              that.roomInfoData = res.data.entity;debugger
+              that.roomInfoData = res.data.entity;
+              for(let i =0;i<that.roomInfoData.pmsRoomInfo.length;i++){
+                that.psmRoomInfo.push([{
+                  name:"",
+                  gender:"1",
+                  certificateType:that.stationSelectList[0].dataId,
+                  certificateNumber:"",
+                  roomId:that.roomInfoData.pmsRoomInfo[i].roomId,
+                  housetypeName:that.roomInfoData.pmsRoomInfo[i].housetypeName,
+                  roomNum:that.roomInfoData.pmsRoomInfo[i].roomNum
+                }])
+              }
             }
 
           })
       },
+      getSystemData(){
+       this.$http.get(hostWay+"?parentId="+35).then(res=>{
+          this.stationSelectList = res.data.entity;
+          this.stationSelected = this.stationSelectList[0].dataId;
+          this.getRoomInfo();
+       })
+      },
+      /*添加入住人*/
+      addPerson(person,index){
+        this.psmRoomInfo[index].push({
+          name:"",
+          gender:person.gender,
+          certificateType:this.stationSelectList[0].dataId,
+          certificateNumber:"",
+          roomId:person.roomId,
+          housetypeName:person.housetypeName,
+          roomNum:person.roomNum
+        })
+      },
+      /*删除入住人*/
+      deletePerson(roomIndex,index){
+        this.psmRoomInfo[roomIndex].splice(index,1);
+      },
+      submit(){
+        this.$http.post(CxkjAddPersonnel300199,qs.stringify()).then(res=>{
+
+        })
+      }
     },
     filters:{
       timefilter(value,format){

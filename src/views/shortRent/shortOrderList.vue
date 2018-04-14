@@ -176,8 +176,8 @@
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.payMoney}}</td>
                     <td>
-                        <a @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
-                        <a @click="checkIn(item.orderId,item)">入住</a>
+                        <a v-if="item.isRoom == 0" @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
+                        <a v-else="item.isRoom == 1" @click="checkIn(item.orderId,item)">入住</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
                 </tr>
@@ -792,8 +792,8 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.outCheckInOrder);
       },
       //入住按钮
-      checkIn(orderId,obj){debugger
-          this.$router.push({name:'checkIn',query:{orderId:orderId}})
+      checkIn(orderId,obj){
+          this.$router.push({name:'checkIn',query:{orderId:orderId,roomId:obj.roomId}})
 //        this.isHide = true;
 //        this.checkInObj = obj;
 //        if(sessionStorage.getItem("orderId") && sessionStorage.getItem("orderId")==orderId){
