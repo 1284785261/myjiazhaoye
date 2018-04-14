@@ -397,7 +397,7 @@ export default {
     translations (lang) {
       lang = lang || 'en'
       let text = {
-        daysOfWeek: ['一', '二', '三', '四', '五', '六', '日'],
+        daysOfWeek: ['日','一', '二', '三', '四', '五', '六'],
         limit: 'Limit reached ({{limit}} items max).',
         loading: 'Loading...',
         minLength: 'Min. Length',

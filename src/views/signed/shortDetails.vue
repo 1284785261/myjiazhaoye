@@ -4,16 +4,12 @@
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
-				<!-- <div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/signed/houseState">公寓状态</router-link>
-		        </div> -->
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>短租状态</h3>
 		        </div>
 		    	<div id="shortDetail">
 		    		<div class="shortdetail1">
-		    			<span v-if="Datas.roomNum">{{Datas.roomNum}}房间</span>
+		    			<span>{{Datas.roomNum}}房间</span>
 		    			<span>{{Datas.name}}</span>
 		    			<span>操作</span>
 		    		</div>
@@ -34,7 +30,7 @@
 		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item }} </span></td>
 		    				
 		    			</tr>
-		    			<tr>
+		    			<tr v-show="!Datas.roomStatus == '已出租'">
 		    				<td>租约信息：</td>
 		    				<td v-if="Datas.pmsOrder">
 		    					<p>订单编号：{{Datas.pmsOrder.orderNum}}</p>
@@ -55,28 +51,30 @@
 		    					<a>开发票</a>
 		    				</td>
 		    			</tr>
-		    			<tr>
+		    			<tr v-show="!Datas.roomStatus == '已出租'">
 		    				<td>承租人：</td>
 		    				<td v-if="Datas.pmsOrder">
 		    					<span v-if="Datas.pmsOrder.userName">{{Datas.pmsOrder.userName}}</span>
 		    					<span v-if="Datas.pmsOrder.userPhone">联系电话：{{Datas.pmsOrder.userPhone}}</span>
 		    				</td>
 		    			</tr>
-		    			<tr>
+		    			<tr v-show="!Datas.roomStatus == '已出租'">
 		    				<td>
 		    					支付：
 		    				</td>
 		    				<td>
-								<p>协议价：258.00元</p>
-		    					<p>罚款金额：</p>
+								<!-- <p>协议价：258.00元</p> -->
+		    					<p v-if="!fineProject">罚款金额：</p>
 								<ul>
 									<li v-for="(item,index) in fineProject">
-										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span><i class="iconfont icon-jian" @click="ShortfineProject(item)"></i>
+										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span>
+										<img src="../../../static/images/temp/icon jia.png" @click="ShortfineProject(item)">
+						
 									</li>
 								</ul>
 		    				</td>
 		    			</tr>
-		    			<tr>
+		    			<tr v-show="!Datas.roomStatus == '已出租'">
 		    				<td>
 		    				</td>
 		    				<td>
@@ -103,9 +101,9 @@
 		    					<router-link :to="{name:'doorRecord',query:{roomLockId:lockWaterElectricity.roomLockId}}" v-if="lockWaterElectricity" class="butsbr">开门记录</router-link>
 		    					<a class="butsbr">获取门锁密码</a>
 								<ul>
-									<li><a>设置为【配置中】</a></li>
-									<li><a>设置为【脏房】</a></li>
-									<li><a>设置为【待出租】</a></li>
+									<li v-if="Datas.roomStatus == '脏房' || Datas.roomStatus == '待出租' || Datas.roomStatus == '已出租'"><a @click="setShortstatus(0)">设置为【配置中】</a></li>
+									<li v-if="Datas.roomStatus == '配置中' || Datas.roomStatus == '脏房' || Datas.roomStatus == '已出租'"><a @click="setShortstatus(1)">设置为【待出租】</a></li>
+									<li v-if="Datas.roomStatus == '配置中' || Datas.roomStatus == '待出租' || Datas.roomStatus == '已出租'"><a @click="setShortstatus(3)">设置为【脏房】</a></li>
 								</ul>
 		    				</td>
 		    			</tr>
@@ -177,8 +175,10 @@
 					<td>收款原因：</td>
 					<td>
 						<input class="ivu-input" style="width:100px;" v-model="item.moneyWhy">
-						<i :class="item.classname" v-if="item.classname == 'iconfont icon-jia'" @click="addcollection"></i>
-						<i :class="item.classname" v-else @click="Reduction(index)"></i>
+						<img :src="item.classname" v-if="item.classname == '../../../static/images/temp/icon jia.png'" @click="addcollection">
+						<img :src="item.classname" v-else @click="Reduction(index)">
+						<!-- <i :class="item.classname" v-if="item.classname == 'iconfont icon-jia'" @click="addcollection"></i>
+						<i :class="item.classname" v-else @click="Reduction(index)"></i> -->
 					</td>
 				</tr>
 			</table>
@@ -219,6 +219,11 @@
 			<a @click="addservices()">提交</a>
             <a @click="closeservices()">取消</a>
 		</div>
+		<div class="setShortstatus" v-show="isHide8">
+			<p>确定修改当前房间状态吗？</p>
+			<a @click="setShortShowpass">确定</a>
+			<a @click="setShortshow">取消</a>
+		</div>
 	</div>
 </template>
 
@@ -233,7 +238,7 @@
 	import checkIn from '../../components/checkIn.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -255,6 +260,7 @@
 				isHide4:false,
 				isHide6:false,
 				isHide7:false,
+				isHide8:false,
     			roomid:null,
     			Datas:null,
     			money:null,
@@ -275,12 +281,13 @@
 				addcollectionProject:[{
 					money:'',
 					moneyWhy:'',
-					classname:'iconfont icon-jia'
+					classname:'../../../static/images/temp/icon jia.png'
 				}],//添加收款项目
 				addrefundProject:[{
 					money:'',
 					moneyWhy:''
 				}],//添加退款项目
+				setStatus:'',
 		   	}
     	},
     	filters:{
@@ -458,7 +465,7 @@
 				this.addcollectionProject.push({
 					money:'',
 					moneyWhy:'',
-					classname:'iconfont icon-jian'
+					classname:'../../../static/images/temp/icon jian.png'
 				})
 			},
 			//减少收款项目数组
@@ -504,7 +511,7 @@
 				this.addcollectionProject=[{
 					money:'',
 					moneyWhy:'',
-					classname:'iconfont icon-jia'
+					classname:'../../../static/images/temp/icon jia.png'
 				}]
 			},
 			//提交退款项目
@@ -546,6 +553,7 @@
 					moneyWhy:''
 				}]
 			},
+			//设置短租的支付收款删除
 			ShortfineProject(val){
 				// console.log(val);
 				axios.post(ShortFinanceUpdate200215, 
@@ -558,6 +566,44 @@
 						this.datas();
 					}
 				})
+			},
+			//设置短租的房间状态弹框显示
+			setShortstatus(value){
+				this.isHide = true;
+				this.isHide8 = true;
+				this.setStatus = value;
+			},
+			setShortShowpass(value){
+				let vm = this
+				axios.post(ShortRoomUpdate200216,
+					qs.stringify({
+						roomId:vm.Datas.roomId,
+						roomStatus:vm.setStatus
+					})
+				).then((res)=>{
+					console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.successMessage = '设置状态成功';
+						this.successModal = true;
+						this.isHide = false;
+						this.isHide8 = false;
+						setTimeout(() => {
+							this.successModal = false;
+							this.datas();
+						}, 2000);
+					}else{
+						this.warningMessage = res.data.content;
+						this.warningModal = true;
+					}
+				}).catch((err)=>{
+					this.warningMessage = '设置失败';
+						this.warningModal = true;
+				})
+			},
+			//设置短租的房间状态弹框隐藏
+			setShortshow(){
+				this.isHide = false;
+				this.isHide8 = false;
 			},
     		closeWarningModal() {
 				this.warningModal = false;			
@@ -592,7 +638,7 @@
 				this.addcollectionProject=[{
 					money:'',
 					moneyWhy:'',
-					classname:'iconfont icon-jia'
+					classname:'../../../static/images/temp/icon jia.png'
 				}]
 			},
 			openrefund(){

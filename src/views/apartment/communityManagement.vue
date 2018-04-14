@@ -286,27 +286,27 @@
 							<div class="form-search-criteria">
 								<div class="form-item">
 									<b>社区：</b>
-									<Select v-model="model1" style="width:200px">
+									<Select v-model="model2" style="width:200px">
 										<Option v-for="community in  communitys" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
 									</Select>
 								</div>
 								<div class="form-item">
 									<b>房型：</b>
-									<Select v-model="model1" style="width:200px">
-										<Option v-for="community in  communitys" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+									<Select v-model="typevalue" style="width:200px">
+										<Option v-for="typem in  houseType" :value="typem.id" :key="typem.id">{{ typem.name }}</Option>
 									</Select>
 								</div>
 								<div class="form-item">
 									<span>评价时间：</span>
-									<Date-picker type="date" :options="option6" placeholder="选择日期" v-model="createtimes"></Date-picker>
+									<Date-picker type="date" :options="option7" placeholder="选择日期" v-model="shortcreatetimes"></Date-picker>
 									<span class="inline-block spanBar">-</span>
-									<Date-picker type="date" :options="option3" placeholder="选择日期" v-model="commentDate"></Date-picker>
+									<Date-picker type="date" :options="option8" placeholder="选择日期" v-model="shortcommentDate"></Date-picker>
 								</div>
 								<div class="form-item">
 									<div class="form-search" style="margin-left: 0;">
 										<i class="iconfont icon-sousuo"></i>
-										<Input v-model="searchKey" placeholder="搜索用户"></Input>
-										<input type="button" value="搜索" @click="btusys">
+										<Input v-model="shortsearchKey" placeholder="搜索用户"></Input>
+										<input type="button" value="搜索" @click="shortEvaluate">
 										<!--<a class="exports" :href="host+communityId">导出</a>-->
 									</div>
 								</div>
@@ -316,18 +316,17 @@
 									<th>评价时间</th>
 									<th style="text-align: center">社区</th>
 									<th style="text-align: center">用户</th>
-									<th style="text-align: center">订单/账单</th>
+									<th style="text-align: center">房型</th>
 									<th>评价内容</th>
 									<th>操作</th>
 								</tr>
-								<tr v-for="tableEvaluate in tableEvaluates">
-									<td><span class="text-default">{{tableEvaluate.createtime | createtime}}</span></td>
-									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.cxkjCommunity">{{tableEvaluate.cxkjCommunity.communityName}}</span></td>
-									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.userInfo">{{tableEvaluate.userInfo.userName}}</span></td>
+								<tr v-for="tableEvaluate in shorttableEvaluates">
+									<td><span class="text-default">{{tableEvaluate.createTime | createtime}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.communityName">{{tableEvaluate.communityName}}</span></td>
+									<td style="text-align: center"><span class="text-black" v-if="tableEvaluate.userName">{{tableEvaluate.userName}}</span></td>
 									<td style="text-align: center">
-										<span class="text-default" v-if="tableEvaluate.cxkjBill != null">{{tableEvaluate.cxkjBill.billName}}</span>
-										<span class="text-default" v-if="tableEvaluate.cxkjOfficeOrder != null">{{tableEvaluate.cxkjOfficeOrder.orderName}}</span>
-										<span class="text-default" v-else>--</span>
+										<span class="text-default" v-if="tableEvaluate.name">{{tableEvaluate.name}}</span>
+										<span v-else>--</span>
 									</td>
 									<td><span class="text-black">{{tableEvaluate.content}}</span></td>
 									<td>
@@ -336,7 +335,7 @@
 								</tr>
 							</table>
 							<div class="block">
-								<el-pagination @current-change="handleCurrentChange3" :current-page="currentPage1" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum3>
+								<el-pagination @current-change="handleCurrentChange4" :current-page="currentPage1" :page-size="10" layout=" prev, pager, next, total,jumper" :total=totalNum4>
 								</el-pagination>
 							</div>
 						</div>
@@ -366,7 +365,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
-	import { hostAuthor, hostCommint, hostOpen, allCommunity, hostComment, host } from '../api.js';
+	import { hostAuthor, hostCommint, hostOpen, allCommunity, hostComment, host,ShortComment300203,ShorthouseType300205 } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -387,17 +386,21 @@
 					communityName: '全部'
 				}], //社区介绍社区分类
 				model1: -1,
+				model2: -1,
 				isShow: false,
 				tableEvaluates: [],
+				shorttableEvaluates:[],//短租评价数据
 				host3: '',
 				commint: [], //社区管理全部数据展示
 				commint2: [], //已关闭社区数据
 				pageNum: 1, //第几页的数据
 				pageNum2: 1, //已关闭社区第几页的数据
 				pageNum3: 1, //社区评价第几页
+				pageNum4: 1, //社区短租评价第几页
 				totalNum: null, //数据总条数
 				totalNum2: null, //已关闭社区数据条数
 				totalNum3: null, //社区评价数据条数
+				totalNum4: null, //社区短租评价数据条数
 				pageSize: 3, //每页显示的数据数量
 				community: {
 					Close: null,
@@ -413,8 +416,11 @@
 				valu: null,
 				createtimes: null,
 				commentDate: null,
+				shortcreatetimes: null,
+				shortcommentDate: null,
 				communityId: null,
 				searchKey: '',
+				shortsearchKey:'',
 				successModal: false,
 				warningModal: false,
 				successMessage: '添加成功',
@@ -455,6 +461,23 @@
 						}
                     }
 				},
+				option7: {
+                    disabledDate(date){
+						if(_this.shortcreatetimes){
+							return date &&  _this.shortcreatetimes < date.valueOf();
+						}
+                    }
+				},
+				option8: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.shortcommentDate;
+					}
+				},
+				houseType:[{
+					id:'-1',
+					name:'全部'
+				}],
+				typevalue:'-1'
 			}
 		},
 		filters: { //过滤器
@@ -560,6 +583,8 @@
 			this.btusy2();
 			this.classifys();
 			this.btusys();
+			this.shortHousetype();
+			this.shortEvaluate();
 			this.comment({
 				pageNum: 1
 			});
@@ -599,7 +624,7 @@
 					param.append('communityLikeName',vm.vague);
 				}
 				axios.post(hostCommint, param).then((response) => {//请求数据列
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
@@ -713,6 +738,10 @@
 				this.pageNum3 = val;
 				this.btusys();
 			},
+			handleCurrentChange4(val) {
+				this.pageNum4 = val;
+				this.shortEvaluate();
+			},
 			btusys() {
 				let vm = this
 				var data = {
@@ -746,6 +775,57 @@
 					}
 				)
 			},
+			shortHousetype(){
+				axios.get(ShorthouseType300205,
+				qs.stringify({
+					communityId:this.model2
+				})
+				).then((response)=>{
+					// console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						for(let i=0;i<response.data.pageBean.length;i++){
+							this.houseType.push(response.data.pageBean[i]);
+						}
+						
+					}
+				})
+				
+				
+			},
+			shortEvaluate(){
+				let vm = this
+				var data = {
+					pageNum: this.pageNum4 || 1
+				};
+				if(this.model2 !== -1) {
+					data.communityId = this.model4;
+				}
+				if(this.shortcreatetimes) {
+					data.beginDate = new Date(this.shortcreatetimes).Format("yyyy-MM-dd");
+				}
+				if(this.shortcommentDate) {
+					data.endDate = new Date(this.shortcommentDate).Format("yyyy-MM-dd");
+				}
+				if(this.shortsearchKey) {
+					data.keyWord = this.shortsearchKey;
+				}
+				// console.log(data);
+				axios.post(ShortComment300203,
+					qs.stringify(data)
+					).then((response) => {
+						console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+							vm.shorttableEvaluates = response.data.pageBean.page;
+							vm.totalNum4 = response.data.pageBean.totalNum;
+						} else {
+							vm.shorttableEvaluates = [];
+							vm.totalNum4 = 0;
+						}
+					}).catch((error) => {
+						// console.log(error);
+					}
+				)
+			}
 		},
 
 	}

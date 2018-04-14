@@ -448,6 +448,15 @@ const ShortOrderFinance = '/cxkj-pms/apis/pc/pmsorder/CxkjCommunityPmsOrderFinan
 
 //短租详情删除收退款
 const ShortFinanceUpdate = '/cxkj-pms/apis/pc/pmsorder/CxkjCommunityPmsOrderFinanceUpdate200215'
+
+//短租评价列表
+const ShortComment = '/cxkj-pms/apis/pc/pmsordercomment/CxkjPmsCommentList300203'
+
+//短租评价户型列表
+const ShorthouseType = '/cxkj-pms/apis/pc/pmsroomtype/CxkjPmsRoomTypeLList300205'
+
+//短租设置房间状态
+const ShortRoomUpdate = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomUpdate200216'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -595,6 +604,9 @@ export const ShortRoomTypes200208 = host3 + ShortRoomTypes;
 export const ShortPmsRoomInfo200213 = host3 + ShortPmsRoomInfo;
 export const ShortOrderFinance200214 = host3 + ShortOrderFinance;
 export const ShortFinanceUpdate200215 = host3 + ShortFinanceUpdate;
+export const ShortComment300203 = host3 + ShortComment;
+export const ShorthouseType300205 = host3 + ShorthouseType;
+export const ShortRoomUpdate200216 = host3 + ShortRoomUpdate;
 export const host = host3;
 //export default {
 //hosts:function(){

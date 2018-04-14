@@ -107,11 +107,10 @@
 	width:90px;
 	display:inline-block;
 }
-#shortDetail table tr:nth-child(5) td:nth-child(2) ul li i{
+#shortDetail table tr:nth-child(5) td:nth-child(2) ul li img{
+	width: 20px;
+	height: 20px;
 	cursor: pointer;
-}
-#shortDetail table tr:nth-child(5) td:nth-child(2) ul li i:hover{
-	color: darkorange;
 }
 #shortDetail table tr:nth-child(6) td:nth-child(2) ul li span:nth-child(1){
 	width:100px;
@@ -293,15 +292,13 @@
 .addgathering table tr td{
 	position: relative;
 }
-.addgathering table tr td i{
-	font-size: 22px;
+.addgathering table tr td img{
+	width: 20px;
+	height: 20px;
 	position: absolute;
 	right: -30px;
-	top:0;
+	top:4px;
 	cursor: pointer;
-}
-.addgathering table tr td i:hover{
-	color: darkorange;
 }
 .addgathering a{
 	width: 100px;
@@ -397,4 +394,30 @@
 }
 .addservices .el-checkbox{
 	margin: 8px;
+}
+.setShortstatus{
+	background: #fff;
+	z-index: 999;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	border-radius: 5px;
+}
+.setShortstatus p{
+	font-size: 20px;
+	text-align: center;
+	line-height: 50px;
+}
+.setShortstatus a{
+	width: 100px;
+	height: 28px;
+	display: inline-block;
+	text-align: center;
+	line-height: 28px;
+	font-size: 14px;
+	color: white;
+	background: #038BE2;
+	border-radius: 5px;
+	margin: 30px 35px;
 }
