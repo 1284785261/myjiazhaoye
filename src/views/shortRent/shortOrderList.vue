@@ -177,7 +177,7 @@
                     <td>{{item.payMoney}}</td>
                     <td>
                         <a v-if="item.isRoom == 0" @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
-                        <a v-else="item.isRoom == 1" @click="checkIn(item.orderId,item)">入住</a>
+                        <a v-if="item.isRoom == 1 && item.isIn==0" @click="checkIn(item.orderId,item)">入住</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
                 </tr>
@@ -569,7 +569,7 @@
           ids.push(this.paiFangList[this.roomList[i]].id)
         }
 
-        this.$http.post(CxkjAssignRoom300196,qs.stringify({id:this.activeOrderId,roomIds:ids})).then(res=>{debugger
+        this.$http.post(CxkjAssignRoom300196,qs.stringify({id:this.activeOrderId,roomIds:ids})).then(res=>{
           if(res.data.code == 10000){
             this.closeRoomChange();
           }

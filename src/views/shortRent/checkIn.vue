@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                   <td>门市价 :</td>
-                  <td>{{psmRoomInfo[0].price}}</td>
+                  <td v-if="roomInfoData.pmsRoomInfo[0]">{{roomInfoData.pmsRoomInfo[0].price}}</td>
                 </tr>
               </table>
             </li>
@@ -72,7 +72,7 @@
               <table>
                 <tr>
                   <td>
-                    <ul v-for="(room,roomIndex) in psmRoomInfo">
+                    <ul v-for="(room,roomIndex) in pmsRoomInfo">
                       <li v-for="(item,index) in room" style="text-align: left">
                         房号：<b style="padding-left: 10px;">{{item.roomNum}} {{item.housetypeName}} </b>
                         <span style="padding-left: 20px;">入住人：</span>
@@ -95,11 +95,12 @@
                 </tr>
               </table>
             </li>
-
           </ul>
         </div>
       </div>
       <footer-box></footer-box>
+      <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+      <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
     </div>
   </div>
 </template>
@@ -108,6 +109,8 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import successModal from '../../components/successModal.vue';
+  import warningModal from '../../components/warningModal.vue';
   import {CxkjGetInRoomInfo300198,hostWay,CxkjAddPersonnel300199} from '../api.js';
   import qs from 'qs';
 
@@ -116,16 +119,22 @@
     components:{
       rightHeader,
       menuBox,
+      successModal,
+      warningModal,
       footerBox
     },
     data(){
       return{
+        successModal: false,
+        warningModal: false,
+        successMessage: '添加人员成功!',
+        warningMessage: '入住人员信息填写不完整!',
         radio:"1",
         orderId:null,
         roomInfoData:{},
         stationSelected:"",
         stationSelectList:[],
-        psmRoomInfo:[],
+        pmsRoomInfo:[],
       }
     },
     mounted(){
@@ -136,6 +145,9 @@
         this.orderId = this.$route.query.orderId;
         this.getSystemData();
       },
+      closeWarningModal() {
+        this.warningModal = false;
+      },
       getRoomInfo(){
         var that = this;
         this.$http.get(CxkjGetInRoomInfo300198,{params:{id:this.orderId}})
@@ -143,7 +155,7 @@
             if(res.status == 200 && res.data.code == 10000){
               that.roomInfoData = res.data.entity;
               for(let i =0;i<that.roomInfoData.pmsRoomInfo.length;i++){
-                that.psmRoomInfo.push([{
+                that.pmsRoomInfo.push([{
                   name:"",
                   gender:"1",
                   certificateType:that.stationSelectList[0].dataId,
@@ -166,7 +178,7 @@
       },
       /*添加入住人*/
       addPerson(person,index){
-        this.psmRoomInfo[index].push({
+        this.pmsRoomInfo[index].push({
           name:"",
           gender:person.gender,
           certificateType:this.stationSelectList[0].dataId,
@@ -178,11 +190,38 @@
       },
       /*删除入住人*/
       deletePerson(roomIndex,index){
-        this.psmRoomInfo[roomIndex].splice(index,1);
+        this.pmsRoomInfo[roomIndex].splice(index,1);
       },
       submit(){
-        this.$http.post(CxkjAddPersonnel300199,qs.stringify()).then(res=>{
-
+        let that = this;
+        let params = new FormData();
+        for(let i=0;i<this.pmsRoomInfo.length;i++){
+          for(let j=0;j<this.pmsRoomInfo.length;j++){
+            if(this.pmsRoomInfo[i][j].name=="" || this.pmsRoomInfo[i][j].gender=="" || this.pmsRoomInfo[i][j].certificateType=="" || this.pmsRoomInfo[i][j].certificateNumber=="" || this.pmsRoomInfo[i][j].roomId==""){
+                this.warningMessage = '入住人员信息填写不完整!';
+                this.warningModal = true;
+              return;
+            }
+            params.append(`cxkjPmsOrderRoomies[${j}].name`,this.pmsRoomInfo[i][j].name);
+            params.append(`cxkjPmsOrderRoomies[${j}].gender`,this.pmsRoomInfo[i][j].gender)
+            params.append(`cxkjPmsOrderRoomies[${j}].certificateType`,this.pmsRoomInfo[i][j].certificateType)
+            params.append(`cxkjPmsOrderRoomies[${j}].certificateNumber`,this.pmsRoomInfo[i][j].certificateNumber)
+            params.append(`cxkjPmsOrderRoomies[${j}].roomId`,this.pmsRoomInfo[i][j].roomId)
+          }
+        }
+        params.append("id",this.orderId)
+        this.$http.post(CxkjAddPersonnel300199,params).then(res=>{
+          if(res.data.code == 10000){
+            this.successMessage = '添加入住人员成功!';
+            this.successModal = true;
+            setTimeout(()=>{
+              this.successMessage = false;
+              that.$router.go(-1);
+            },1500)
+          }else{
+            this.warningMessage = '添加入住人员失败!';
+            this.warningModal = true;
+          }
         })
       }
     },
