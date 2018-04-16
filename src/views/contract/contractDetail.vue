@@ -292,7 +292,7 @@
     <div class="contract-modal-content formulas" v-if="formula">
         <h3>计算方式</h3>
         <div>
-          <p>押金：{{contractDetailData.deposit}}元</p>
+          <p>押金：{{contractDetailData.deposit}}元 = {{deposittext}}</p>
           <p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
           <p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
           <p>其他费用：{{contractDetailData.cyclePayOtherCost}}元</p>
@@ -339,7 +339,8 @@
         roommonry:'',
         fwmonry:'',
         roommonryg:'',
-        fwmonryg:''
+        fwmonryg:'',
+        deposittext:''
       }
     },
     methods:{
@@ -430,7 +431,9 @@
 					//其他月份，天数为：30.
 					days = 30;
         }
+        let stroir = parseFloat(this.contractDetailData.deposit/(this.contractDetailData.datewayDiscount/100)/(this.contractDetailData.paywayDiscount/100)).toFixed(2);
         // console.log(this.contractDetailData);
+        this.deposittext = stroir + '元*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
         this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.datewayDiscount / 100) * (this.contractDetailData.paywayDiscount / 100)).toFixed(2);
         this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
         this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);

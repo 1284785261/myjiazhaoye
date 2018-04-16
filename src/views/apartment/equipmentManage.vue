@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>设备管理</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <!-- <span>佳兆业航运WEWA空间</span> -->
 		        </div>
 		    	<div id="equipmentMan">
 		    		<el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
@@ -44,6 +44,7 @@
                         <span v-if="item.lockStatus == 1" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.lockStatus == 2" style="color: #ccc;">离线</span>
                         <span v-else-if="item.lockStatus == 3" style="color: red;">冻结</span>
+                        <span v-else-if="item.lockStatus == 5" style="color: #3dc4b2;">已配置</span>
                         <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
                       <td>
