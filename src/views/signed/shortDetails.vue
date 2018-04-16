@@ -30,7 +30,7 @@
 		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item }} </span></td>
 		    				
 		    			</tr>
-		    			<tr v-show="!Datas.roomStatus == '已出租'">
+		    			<tr v-show="Datas.roomStatus == '已出租'">
 		    				<td>租约信息：</td>
 		    				<td v-if="Datas.pmsOrder">
 		    					<p>订单编号：{{Datas.pmsOrder.orderNum}}</p>
@@ -51,14 +51,14 @@
 		    					<a>开发票</a>
 		    				</td>
 		    			</tr>
-		    			<tr v-show="!Datas.roomStatus == '已出租'">
+		    			<tr v-show="Datas.roomStatus == '已出租'">
 		    				<td>承租人：</td>
 		    				<td v-if="Datas.pmsOrder">
 		    					<span v-if="Datas.pmsOrder.userName">{{Datas.pmsOrder.userName}}</span>
 		    					<span v-if="Datas.pmsOrder.userPhone">联系电话：{{Datas.pmsOrder.userPhone}}</span>
 		    				</td>
 		    			</tr>
-		    			<tr v-show="!Datas.roomStatus == '已出租'">
+		    			<tr v-show="Datas.roomStatus == '已出租'">
 		    				<td>
 		    					支付：
 		    				</td>
@@ -74,7 +74,7 @@
 								</ul>
 		    				</td>
 		    			</tr>
-		    			<tr v-show="!Datas.roomStatus == '已出租'">
+		    			<tr v-show="Datas.roomStatus == '已出租'">
 		    				<td>
 		    				</td>
 		    				<td>
@@ -238,7 +238,7 @@
 	import checkIn from '../../components/checkIn.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -361,6 +361,12 @@
     			}
     			else if(val == 6){
     				return '已退未结'
+				}
+				else if(val == 7){
+    				return '申请退租'
+				}
+				else if(val == 8){
+    				return '退租中'
     			}
     			
     		},
@@ -427,6 +433,7 @@
 					this.addrefundProject[0].money = '';
 				}
 			},
+			//获取单个房间的状态数据
     		datas(){
 				this.roomconfiguration = [];
     			axios.post(ShortPmsRoomInfo200213,
@@ -573,6 +580,7 @@
 				this.isHide8 = true;
 				this.setStatus = value;
 			},
+			//设置短租房间状态
 			setShortShowpass(value){
 				let vm = this
 				axios.post(ShortRoomUpdate200216,
@@ -597,13 +605,47 @@
 					}
 				}).catch((err)=>{
 					this.warningMessage = '设置失败';
-						this.warningModal = true;
+					this.warningModal = true;
 				})
 			},
 			//设置短租的房间状态弹框隐藏
 			setShortshow(){
 				this.isHide = false;
 				this.isHide8 = false;
+			},
+			//设置短租房间退房
+			checkout(){
+				let vm = this
+				if(this.Datas.pmsOrder.orderState == 8){
+					this.warningMessage = '当前房间非退租状态，无法退租';
+					this.warningModal = true;
+					return
+				}else{
+					axios.post(ShortOrderRoomUpdate200217,
+					qs.stringify({
+						id:vm.Datas.pmsOrder.orderNum
+					})
+					).then((res)=>{
+						console.log(res);
+						if(res.status == 200 && res.data.code == 10000){
+							this.successMessage = '退房确认成功';
+							this.successModal = true;
+							this.isHide = false;
+							this.isHide6 = false;
+							setTimeout(() => {
+								this.successModal = false;
+								this.datas();
+							}, 2000);
+						}else{
+							this.warningMessage = res.data.content;
+							this.warningModal = true;
+						}
+					}).catch((error)=>{
+						this.warningMessage = '退房确认失败';
+						this.warningModal = true;
+					})
+				}
+				
 			},
     		closeWarningModal() {
 				this.warningModal = false;			

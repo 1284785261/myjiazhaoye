@@ -125,7 +125,7 @@
 					name:'全部'
 				},{
 					roomStatus:'0',
-					name:'维护中'
+					name:'配置中'
 				},{
 					roomStatus:'1',
 					name:'待出租'
@@ -168,7 +168,7 @@
     		},
           shortstates(val){
             if(val == 0){
-              return '维护中'
+              return '配置中'
             }
             else if(val == 1){
               return '待出租'

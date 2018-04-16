@@ -247,7 +247,7 @@
 										<i class="iconfont icon-sousuo"></i>
 										<Input v-model="searchKey" placeholder="搜索用户"></Input>
 										<input type="button" value="搜索" @click="btusys">
-										<!--<a class="exports" :href="host+communityId">导出</a>-->
+										<a class="exports" :href="host3">导出</a>
 									</div>
 								</div>
 							</div>
@@ -310,6 +310,9 @@
 										<!--<a class="exports" :href="host+communityId">导出</a>-->
 									</div>
 								</div>
+								<div class="form-item">
+									<a class="exportm" :href="host4">导出</a>
+								</div>
 							</div>
 							<table class="table ivu-table">
 								<tr>
@@ -330,7 +333,7 @@
 									</td>
 									<td><span class="text-black">{{tableEvaluate.content}}</span></td>
 									<td>
-										<router-link :to="{path:'/apartment/commentdetails',query:{id:tableEvaluate.commentId}}">查看详情</router-link>
+										<a @click="delectEvaluation(tableEvaluate)">删除</a>
 									</td>
 								</tr>
 							</table>
@@ -352,9 +355,14 @@
 			<a @click="qsm()">确定</a>
 			<a @click="qb()">取消</a>
 		</div>
-		<div class="zhezhao" v-show="isShow">
-
+		<div class="lose" v-show="isShow2">
+			<span>确认删除此条评价吗？</span>
+			<p></p>
+			<a @click="delectEvaluationm()">确定</a>
+			<a @click="notdelectEvaluationm()">取消</a>
 		</div>
+		<div class="zhezhao" v-show="isShow"></div>
+		<div class="zhezhao" v-show="isShow2"></div>
 	</div>
 
 </template>
@@ -365,7 +373,7 @@
 	import footerBox from '../../components/footerBox.vue';
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
-	import { hostAuthor, hostCommint, hostOpen, allCommunity, hostComment, host,ShortComment300203,ShorthouseType300205 } from '../api.js';
+	import { hostAuthor, hostCommint, hostOpen, allCommunity, hostComment, host,ShortComment300203,ShorthouseType300205,ShortPmsDelComment300207 } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
 
@@ -388,6 +396,7 @@
 				model1: -1,
 				model2: -1,
 				isShow: false,
+				isShow2: false,
 				tableEvaluates: [],
 				shorttableEvaluates:[],//短租评价数据
 				host3: '',
@@ -463,21 +472,23 @@
 				},
 				option7: {
                     disabledDate(date){
-						if(_this.shortcreatetimes){
-							return date &&  _this.shortcreatetimes < date.valueOf();
+						if(_this.shortcommentDate){
+							return date &&  _this.shortcommentDate < date.valueOf();
 						}
                     }
 				},
 				option8: {
 					disabledDate (date) {
-						return date && date.valueOf() < _this.shortcommentDate;
+						return date && date.valueOf() < _this.shortcreatetimes;
 					}
 				},
 				houseType:[{
 					id:'-1',
 					name:'全部'
 				}],
-				typevalue:'-1'
+				typevalue:'-1',
+				shortId:'',
+				host4:''
 			}
 		},
 		filters: { //过滤器
@@ -578,7 +589,8 @@
 
 		mounted() {
 			//初始化数据
-			//    		this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?communityId='
+			this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?'
+			this.host4 = host+ '/cxkj-pms/apis/pc/pmsordercomment/CxkjDownloadPmsComment300204?';
 			this.btns();
 			this.btusy2();
 			this.classifys();
@@ -743,21 +755,28 @@
 				this.shortEvaluate();
 			},
 			btusys() {
+				this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?'
 				let vm = this
 				var data = {
 					pageNum: this.pageNum3 || 1
 				};
+				this.host3 +='&pageNum='+this.pageNum3;
 				if(this.model1 !== -1) {
 					data.communityId = this.model1;
+					this.host3 +='&communityId='+data.communityId;
 				}
+				
 				if(this.createtimes) {
 					data.createtime = new Date(this.createtimes).Format("yyyy-MM-dd");
+					this.host3 +='&createtime='+data.createtime;
 				}
 				if(this.commentDate) {
 					data.commentEndDate = new Date(this.commentDate).Format("yyyy-MM-dd");
+					this.host3 +='&commentEndDate='+data.commentEndDate;
 				}
 				if(this.searchKey) {
 					data.userNamePhone = this.searchKey;
+					this.host3 +='&userNamePhone='+data.userNamePhone;
 				}
 				// console.log(data);
 				axios.post(hostComment,
@@ -792,28 +811,38 @@
 				
 				
 			},
+			//获取短租评价数据
 			shortEvaluate(){
+				this.host4 = host+ '/cxkj-pms/apis/pc/pmsordercomment/CxkjDownloadPmsComment300204?';
 				let vm = this
 				var data = {
 					pageNum: this.pageNum4 || 1
 				};
-				if(this.model2 !== -1) {
-					data.communityId = this.model4;
+				this.host4 +='&pageNum='+this.pageNum4;
+				if(this.model2 != -1) {
+					data.communityId = this.model2;
+					this.host4 += '&communityId=' + data.communityId;
+				}
+				if(this.typevalue != -1){
+					data.roomTypeId = this.typevalue;
+					this.host4 += '&roomTypeId=' + data.roomTypeId;
 				}
 				if(this.shortcreatetimes) {
 					data.beginDate = new Date(this.shortcreatetimes).Format("yyyy-MM-dd");
+					this.host4 += '&beginDate=' + data.beginDate;
 				}
 				if(this.shortcommentDate) {
 					data.endDate = new Date(this.shortcommentDate).Format("yyyy-MM-dd");
+					this.host4 += '&endDate=' + data.endDate;
 				}
 				if(this.shortsearchKey) {
 					data.keyWord = this.shortsearchKey;
+					this.host4 += '&keyWord=' + data.keyWord;
 				}
-				// console.log(data);
 				axios.post(ShortComment300203,
 					qs.stringify(data)
 					).then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.shorttableEvaluates = response.data.pageBean.page;
 							vm.totalNum4 = response.data.pageBean.totalNum;
@@ -825,6 +854,42 @@
 						// console.log(error);
 					}
 				)
+			},
+			//删除短租评价
+			delectEvaluation(value){
+				this.isShow2 = true;
+				this.shortId = value.id;
+			},
+			//确定删除短租评价
+			delectEvaluationm(){
+				axios.post(ShortPmsDelComment300207,
+					qs.stringify({
+						id:this.shortId
+					})
+				).then((response)=>{
+					console.log(response);
+					if(response.status == 200 && response.data.code == 10000) {
+						this.successMessage = '删除短租评价成功';
+						this.successModal = true;
+						this.isShow2 = false;
+						setTimeout(() => {
+							this.successModal = false;
+							this.shortEvaluate();
+						}, 2000);
+					} else {
+						this.isShow2 = false;
+						this.warningMessage = response.data.content;
+						this.warningModal = true;
+					}
+				}).catch((err)=>{
+					this.isShow2 = false;
+					this.warningMessage = '删除短租评价失败';
+					this.warningModal = true;
+				})
+			},
+			//取消删除短租评价
+			notdelectEvaluationm(){
+				this.isShow2 = false;
 			}
 		},
 
