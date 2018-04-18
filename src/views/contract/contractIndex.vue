@@ -220,30 +220,30 @@
       </div>
       <footer-box></footer-box>
     </div>
-      <div class="black-member-modal" v-if="collectionShow" @click="closeWhileModal()"></div>
-      <div class="blackModelCenter" v-if="collectionShow" style="height: 310px;">
-          <p>收款登记</p>
-          <div class="inputBox">
-              <span>银行流水号：</span><Input v-model="collection.bankWater" placeholder="银行流水号"></Input>
-          </div>
-          <div class="inputBox">
-              <span>凭证号：</span><Input v-model="collection.certificate" placeholder="凭证号"></Input>
-          </div>
-          <div class="inputBox">
-              <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额" @on-change="moneyChange(collection.paymentAmount)"></Input>
-          </div>
-          <h5 style="text-align: center;color: red;">{{messageError}}</h5>
-          <div class="modal-btn">
-              <Button type="primary" @click="allIncome()">收款完成</Button>
-              <Button type="primary" @click="partIncome()">部分收款</Button>
-              <Button  @click="setWhileMember()">取消</Button>
-          </div>
-          <div class="modal-close-btn" @click="closeWhileModal()">
-              <Icon type="ios-close-empty"></Icon>
-          </div>
-      </div>
-      <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
-      <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
+    <div class="black-member-modal" v-if="collectionShow" @click="closeWhileModal()"></div>
+    <div class="blackModelCenter" v-if="collectionShow" style="height: 310px;">
+        <p>收款登记</p>
+        <div class="inputBox">
+            <span>银行流水号：</span><Input v-model="collection.bankWater" placeholder="银行流水号"></Input>
+        </div>
+        <div class="inputBox">
+            <span>凭证号：</span><Input v-model="collection.certificate" placeholder="凭证号"></Input>
+        </div>
+        <div class="inputBox">
+            <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额" @on-change="moneyChange(collection.paymentAmount)"></Input>
+        </div>
+        <h5 style="text-align: center;color: red;">{{messageError}}</h5>
+        <div class="modal-btn">
+            <Button type="primary" @click="allIncome()">收款完成</Button>
+            <Button type="primary" @click="partIncome()">部分收款</Button>
+            <Button  @click="setWhileMember()">取消</Button>
+        </div>
+        <div class="modal-close-btn" @click="closeWhileModal()">
+            <Icon type="ios-close-empty"></Icon>
+        </div>
+    </div>
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 
   </div>
 
@@ -390,18 +390,24 @@ export default {
       this.collectionShow = true;
       this.collection.billId = billId;
       this.$http.post(CxkjBillGatheringDetail500155,qs.stringify({billId:billId})).then(function(res){
-        if(res.data.code == 10000){
-         let resutl = res.data.entity;
-          that.collection ={
-              id:resutl.id,
-              billId:resutl.billId,
-              bankWater:resutl.payNumbers,//收款银行流水
-              certificate:resutl.voucherNumbers,//收款凭证
-             paymentAmount:resutl.gatheringMoney,//收款金额
-            contractSignId:contractSignId//收款金额
+        if(res.data.code == 10000 && res.status == 200){
+          let resutl = res.data.entity;
+          if(resutl){
+            if(resutl.id){
+              that.collection.id = resutl.id;
+            }
+            if(resutl.payNumbers){
+              that.collection.bankWater = resutl.payNumbers;//收款银行流水
+            }
+            if(resutl.voucherNumbers){
+              that.collection.certificate = resutl.voucherNumbers;//收款凭证
+            }
+            if(resutl.gatheringMoney){
+              that.collection.paymentAmount = resutl.gatheringMoney;//收款金额
+            }
+            
           }
-        }else{
-
+          that.collection.contractSignId = contractSignId;//签约ID
         }
       })
     },
@@ -475,15 +481,18 @@ export default {
     allIncome(){
       let that = this;
       let params = this.process();
-    this.$http.post(CxkjBillGatheringDetailWhole500157,qs.stringify({
-        id:that.collection.id,
-        billId:that.collection.billId,
-        payNumbers:that.collection.bankWater,
-        voucherNumbers:that.collection.certificate,
-        gatheringMoney:that.collection.paymentAmount,
-        signId:that.collection.contractSignId
-      })).then(function(res){
-        if(res.data.code == 10000){
+      this.$http.post(CxkjBillGatheringDetailWhole500157,
+        qs.stringify({
+          id:that.collection.id,
+          billId:that.collection.billId,
+          payNumbers:that.collection.bankWater,
+          voucherNumbers:that.collection.certificate,
+          gatheringMoney:that.collection.paymentAmount,
+          signId:that.collection.contractSignId
+        })
+      ).then(function(res){
+        console.log(res);
+        if(res.data.code == 10000 && res.status == 200){
           that.collectionShow = false;
           that.successMessage = "收款成功!";
           that.successModal = true;
@@ -498,8 +507,8 @@ export default {
 
         }else{
           that.collectionShow = false;
-          that.warningMessage = "收款异常！";
-          that.warningModal = false;
+          that.warningMessage = res.data.content;
+          that.warningModal = true;
         }
         //清空
         that.clearData();
@@ -634,6 +643,9 @@ export default {
       }
       this.getPropertyContract(data);
     },
+    setWhileMember(){
+      this.collectionShow = false;
+    }
 
   },
   filters:{
@@ -702,17 +714,5 @@ export default {
     }
   }
 
-  .zhezhao{
-  	width: 100%;
-  	height: 100%;
-  	position: fixed;
-  	top: 0;
-  	bottom: 0;
-  	left: 0;
-  	right: 0;
-  	background: #666;
-  	opacity: 0.5;
-  	z-index: 999;
-  }
 
 </style>

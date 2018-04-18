@@ -94,15 +94,15 @@
 									</tr>
 									<tr>
 										<td v-if="item.isReturnVisit == 0"><b>处理结果 :</b></td>
-										<td v-if="item.isReturnVisit == 1"><b>回访反馈 :</b></td>
+										<td v-else-if="item.isReturnVisit == 1"><b>回访反馈 :</b></td>
 										<td>{{item.complainResult}}</td>
 									</tr>
-									<tr v-if="item.isReturnVisit == 0 && item.userDegree">
-										<td><b>用户反馈 :</b></td>
+									<tr v-if="item.isReturnVisit == 0">
+										<td><b>用户满意度 :</b></td>
 										<td><span v-if="item.userDegree==0">满意</span><span v-else-if="item.userDegree==1">不满意</span></td>
 									</tr>
 									<tr v-if="item.isReturnVisit == 0">
-										<td></td>
+										<td><b>用户反馈 :</b></td>
 										<td>{{item.userFeedback}}</td>
 									</tr>
 								</table>
@@ -209,7 +209,7 @@ export default {
           params: data
         })
         .then(function(res) {
-          // console.log(res);
+          console.log(res);
           if (res.status == 200 && res.data.code == 10000) {
             that.complainData = res.data.entity;
             let strs = that.complainData.complainImage.split(",");

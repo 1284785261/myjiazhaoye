@@ -59,7 +59,7 @@
 										<span class="short" v-if="its.isPmsRoom == '0'">长租</span>
 					        			<p v-if="its.name && its.isPmsRoom == '1'">{{its.name}}</p>
 										<p v-else-if="its.housetypeName && its.isPmsRoom == '0'">{{its.housetypeName}}</p>
-										<p v-else-if="its.isPmsRoom == '0'"></p>
+										<p v-else></p>
 					        			<span v-if="its.userName">姓名:{{its.userName}}</span>
 										<span v-else></span>
 					        			<span v-if="its.userPhone">手机号:{{its.userPhone}}</span>

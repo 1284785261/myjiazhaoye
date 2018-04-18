@@ -1426,7 +1426,7 @@
 							if(vm.uploadList.length < 2) {
 								//                      this.filelist1.push(file);
 								vm.uploadList[0] = res.data.result.virtualPath;
-								vm.uploadList.push('身份证正面');
+								vm.uploadList.push('承租人身份证正面');
 							} else {
 								alert('最多可以上传1张图片');
 								return
@@ -1456,7 +1456,7 @@
 							if(vm.uploadList4.length < 2) {
 								//                      this.filelist1.push(file);
 								vm.uploadList4[0] = res.data.result.virtualPath;
-								vm.uploadList4.push('身份证反面');
+								vm.uploadList4.push('承租人身份证反面');
 							} else {
 								alert('最多可以上传1张图片');
 								return

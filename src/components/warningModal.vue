@@ -45,7 +45,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 20000;
+    z-index: 999;
   }
 
   .black-member-modal-content{
@@ -55,7 +55,7 @@
     border-radius: 5px;
     margin: auto;
     position: fixed;
-    z-index:20000;
+    z-index:999;
     top: 0;
     bottom: 0;
     left: 0;

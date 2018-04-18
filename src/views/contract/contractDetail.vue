@@ -15,8 +15,11 @@
         </div>
         <div id="contract-detail-wrap">
           <div class="contract-detail-wrap-head" v-if="!PreViewContract">
-            <div class="content-item content-item-img">
-              <img :src="imgPath+contractDetailData.communityWork" alt="公寓图片" style="height: 120px;width: 160px;">
+            <div class="content-item content-item-img" v-if="isOffice == 0">
+              <img :src="imgPath+contractDetailData.communityFlat" alt="公寓图片" style="height: 120px;width: 160px;">
+            </div>
+            <div class="content-item content-item-img" v-if="isOffice == 1">
+              <img :src="imgPath+contractDetailData.communityWork" alt="办公图片" style="height: 120px;width: 160px;">
             </div>
             <div class="content-item content-item-info">
               <h3 style="margin: 0;padding: 0">{{contractDetailData.communityName}}</h3>
@@ -152,7 +155,7 @@
                   <table class="contract-detail-table2">
                     <tr class="tr2 span-padding">
                       <td class="td2">押金 :<span>{{contractDetailData.deposit}}元</span></td>
-                      <td class="td2">首月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
+                      <td class="td2">每月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2" v-if="isOffice==0">租期折扣 :<span>{{contractDetailData.datewayDiscount}}%</span></td>
                       <td class="td2" v-if="isOffice==0">支付方式折扣 :<span>{{contractDetailData.paywayDiscount}}%</span></td>
@@ -292,7 +295,7 @@
     <div class="contract-modal-content formulas" v-if="formula">
         <h3>计算方式</h3>
         <div>
-          <p>押金：{{contractDetailData.deposit}}元 = {{deposittext}}</p>
+          <p>押金：{{contractDetailData.deposit}}元</p>
           <p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
           <p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
           <p>其他费用：{{contractDetailData.cyclePayOtherCost}}元</p>
@@ -340,7 +343,7 @@
         fwmonry:'',
         roommonryg:'',
         fwmonryg:'',
-        deposittext:''
+
       }
     },
     methods:{
@@ -366,7 +369,13 @@
               //   that.contractDetailData.endDate = timsexpire;
               // }
               //默认显示第一张公寓图片
-              that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
+              if(that.isOffice == 0){
+                that.contractDetailData.communityFlat = that.contractDetailData.communityFlat.split(",")[0];
+              }
+              else if(that.isOffice == 1){
+                that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
+              }
+              
               // console.log(that.contractDetailData.communityWork)
               if(that.contractDetailData.credentialsImages){
                 that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
@@ -411,12 +420,12 @@
         }
       },
       tm(){
-        var date = new Date();
+        var date = new Date(this.contractDetailData.beginDate);
 				//获取年份
 				var year = date.getFullYear();
 				//获取当前月份
 				var mouth = date.getMonth() + 1;
-				var daym = date.getDate() - 1;
+        var daym = date.getDate() - 1;
 				//定义当月的天数；
 				var days;
 				//当月份为二月时，根据闰年还是非闰年判断天数
@@ -427,17 +436,16 @@
 					//月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
 					days = 31;
 				}
-				else {
+				else {22
 					//其他月份，天数为：30.
 					days = 30;
         }
         let stroir = parseFloat(this.contractDetailData.deposit/(this.contractDetailData.datewayDiscount/100)/(this.contractDetailData.paywayDiscount/100)).toFixed(2);
         // console.log(this.contractDetailData);
-        this.deposittext = stroir + '元*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
-        this.roommonry = parseFloat(((this.contractDetailData.rentPay / days) * (days-daym)) * (this.contractDetailData.datewayDiscount / 100) * (this.contractDetailData.paywayDiscount / 100)).toFixed(2);
-        this.roommonryg = this.contractDetailData.rentPay+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.contractDetailData.datewayDiscount+'%租期折扣'+ '*'+this.contractDetailData.paywayDiscount+'%支付方式折扣';
+        this.roommonry = parseFloat((this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+        this.roommonryg = '租金/'+days +'*'+(days-daym) +'天'+ '*'+'租期折扣'+ '*'+'支付方式折扣';
         this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
-        this.fwmonryg = this.contractDetailData.serviceCost+'/'+days +'*('+days+'-'+daym+')天';
+        this.fwmonryg = '租金/'+days +'*'+(days-daym)+'天';
         this.formula = true;
       
         
