@@ -184,15 +184,10 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title = response.data.pageBean.page;
 							vm.totalNum = response.data.pageBean.totalNum;
 						}
-						//console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
     		},
     		closeWarningModal() {
@@ -209,36 +204,24 @@
 							pageSize: pageSize
 						})
 					).then((response) => {
-						
-						console.log(response);
 						if(response.status == 200 && response.data.code == 10000){
 							vm.title2 = response.data.pageBean.page;
 							vm.totalNum2 = response.data.pageBean.totalNum;
 						}
-						//console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
     		},
     		range(){
     			let vm = this
     			axios.post(allCommunity)
     			.then((response)=>{  //请求通知范围
-//  				console.log(111111111);
-    				//console.log(response);
 					if(response.status == 200 && response.data.code == 10000){
     					vm.options = response.data.entity;
     					
     				}
     			})
-    			.catch((error)=>{
-    				// console.log(error);
-    			})
     		},
     		mvvs(val){
     			this.areaId = this.options[this.options.findIndex(item => item.communityName == val)].communityId;
-    			// console.log(this.areaId);
     		},
     		issue(){
     			let vm = this
@@ -255,7 +238,6 @@
     					messageUrl:vm.titl2
     				}))
 	    			.then((response)=>{
-	    				//console.log(response);
 	    				if(response.status == 200 && response.data.code == 10000){
 	    					this.successMessage = '发布成功';
 							this.successModal = true;
@@ -276,7 +258,6 @@
 	    				
 	    			})
 	    			.catch((error)=>{
-	    				// console.log(error);
 	    				this.warningMessage = '发布失败,服务器出现异常';
 						this.warningModal = true;
 	    			})

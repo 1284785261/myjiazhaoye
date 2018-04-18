@@ -41,7 +41,7 @@
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens" v-if="show1">
 							<li>
-								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
+								<!-- <Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge> -->
 								<a @click="eliminat(5,0)">看房预约</a>
 								
 							</li>
@@ -58,34 +58,34 @@
 								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
-								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
+								<!-- <Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge> -->
 								<a @click="eliminateg(2)">公寓租金账单</a>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
-								<Badge :count="messsaget[6]" v-if='messsaget[6]'></Badge>
+								<!-- <Badge :count="messsaget[6]" v-if='messsaget[6]'></Badge> -->
 								<a @click="eliminate6(6)">公寓水电帐单</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
+								<!-- <Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge> -->
 								<router-link :to="{path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1,type:0}}">用户报修</router-link>
 							</li>
 							<li v-if="jurisdiction('CONTRACT_QUERY')">
-								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
+								<!-- <Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge> -->
 								<a @click="eliminateg4(4)">合同管理</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
+								<!-- <Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge> -->
 								<a @click="eliminate8(8)">发起退款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
+								<!-- <Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge> -->
 								<a @click="eliminate7(7)">发起收款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
+								<!-- <Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge> -->
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
 							<!-- <li>
@@ -99,7 +99,7 @@
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list workbens" v-if="show2">
 							<li>
-								<Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge>
+								<!-- <Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge> -->
 								<a @click="eliminat(5,1)">看房预约</a>
 							</li>
 							<li>
@@ -113,34 +113,34 @@
 								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>
 							<li v-if="jurisdiction('BILL_QUERY')">
-								<Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge>
+								<!-- <Badge :count="messsaget[2]" v-if='messsaget[2]'></Badge> -->
 								<a @click="eliminateb(2)">办公租金账单</a>
 							</li>
 							<li v-if="jurisdiction('ORDER_QUERY')">
-								<Badge :count="messsaget[3]" v-if='messsaget[3]'></Badge>
+								<!-- <Badge :count="messsaget[3]" v-if='messsaget[3]'></Badge> -->
 								<a @click="eliminate3(3)">办公订单</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge>
+								<!-- <Badge :count="messsaget[12]" v-if='messsaget[12]'></Badge> -->
 								<router-link :to="{path:'/signed/repairs',query:{communityId:this.communityId,Name:this.selectModel1,type:1}}">用户报修</router-link>
 							</li>
 							<li v-if="jurisdiction('CONTRACT_QUERY')">
-								<Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge>
+								<!-- <Badge :count="messsaget[4]" v-if='messsaget[4]'></Badge> -->
 								<a @click="eliminateb4(4)">合同管理</a>
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/surrender',query:{communityId:communityId,Name:selectModel1}}">退租管理</router-link>
 							</li>
 							<li>
-								<Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge>
+								<!-- <Badge :count="messsaget[8]" v-if='messsaget[8]'></Badge> -->
 								<a @click="eliminate8(8)">发起退款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge>
+								<!-- <Badge :count="messsaget[7]" v-if='messsaget[7]'></Badge> -->
 								<a @click="eliminate7(7)">发起收款</a>
 							</li>
 							<li>
-								<Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge>
+								<!-- <Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge> -->
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
 						</ul>

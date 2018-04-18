@@ -35,7 +35,7 @@
             <div class="form-item">
               <div class="form-search">
                 <i class="iconfont icon-sousuo"></i>
-                <Input v-model="roomSearchKey" placeholder="搜索投诉人或手机号号码"></Input>
+                <Input v-model="roomSearchKey" placeholder="搜索投诉人或手机号码"></Input>
                 <input type="button" value="搜索" @click="search()">
               </div>
             </div>

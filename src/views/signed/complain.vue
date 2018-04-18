@@ -47,7 +47,8 @@
 		    				<td>{{item.complainNum}}</td>
 		    				<td>{{item.createTime | time}}</td>
 		    				<td>{{item.userName}}</td>
-		    				<td>{{item.userPhone}}</td>
+		    				<td v-if="item.userPhone">{{item.userPhone}}</td>
+							<td v-else>--</td>
 		    				<td>{{item.complainContent}}</td>
 		    				<td :class="[{'kust':item.complainStatus == 0},{'kust1':item.complainStatus == 1}]">{{item.complainStatus | Status}}</td>
 		    				<td>
@@ -62,7 +63,7 @@
 				      :current-page.sync="currentPage3"
 				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
-				      :total="totalNum">
+				      :total=totalNum>
 				    
 				    </el-pagination>
 		    	</div>
@@ -116,7 +117,7 @@
 		        communityId:'',
 		        pageNum:1,
 		        data:null,
-		        totalNum:'1',
+		        totalNum:1,
 		        pageSize:10,
 		        State:'',
 		        Data:{},

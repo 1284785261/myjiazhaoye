@@ -103,14 +103,14 @@
 										<span class="fl"><span class="btxs">*</span>家具/家电：</span>
 										<div class="floor-item form-item">
 											<el-checkbox-group v-model="checkList">
-												<el-checkbox v-for="item in option3" :label=item.dataName></el-checkbox>
+												<el-checkbox v-for="item in option3" :label=item.dataName style="margin-left:0px;margin-right:15px;"></el-checkbox>
 											</el-checkbox-group>
 										</div>
 									</div>
 
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>服务费设置：</span>
-										<div class="floor-item form-item">
+										<div class="floor-item form-item" style="padding-top:2px;">
 											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost" maxlength="10">元/月 </span>
 										</div>
 									</div>
@@ -277,7 +277,7 @@
 								<div class="ivu-floor floor02">
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>服务费设置：</span>
-										<div class="floor-item form-item">
+										<div class="floor-item form-item" style="padding-top:2px;">
 											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2" maxlength="10">元/月 </span>
 										</div> 
 									</div>

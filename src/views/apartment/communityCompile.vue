@@ -46,7 +46,7 @@
             <tr>
               <td></td>
               <td class="xiangxi">
-                <el-input v-model="communityAddress" placeholder="请填写详细地址" maxlength="30"></el-input>
+                <el-input v-model="communityAddress" placeholder="请填写详细地址" :maxlength=30></el-input>
               </td>
             </tr>
             <tr>
@@ -277,7 +277,6 @@
       //获取全部所属公司
       allCompany(){
         axios.post(Company500150).then((res)=>{
-          console.log(res);
           if(res.status == 200 && res.data.code == 10000) {
             this.allCompanys = res.data.pageBean;
           }
@@ -286,7 +285,6 @@
       //选择公司获取id
       selectCompany(value){
         this.companyId = this.allCompanys[this.allCompanys.findIndex(item => item.name == value)].id;
-        console.log(this.companyId);
       },
       befor(){
         let vm = this
@@ -304,11 +302,11 @@
                 vm.city = response.data.result.community.city.areaName;
                 vm.parentId = response.data.result.community.city.areaId;
                 vm.Companyvalue = response.data.result.community.companyName;
-                this.httpPost(this.parentId, 2);
+                vm.httpPost(vm.parentId, 2);
                 vm.valuem = response.data.result.community.district.areaName;
                 vm.areas = response.data.result.community.district.areaId;
                 vm.communityAddress = response.data.result.community.communityAddress;
-                this.pdfName = response.data.result.community.communityContract.split(',');
+                vm.pdfName = response.data.result.community.communityContract.split(',');
                 let imgUrl=response.data.result.community.communityContract.split(",");
                 for(let k = 0; k < imgUrl.length; k++){
                   let item= {}
@@ -318,7 +316,6 @@
                   item.status = 'finished'
                   vm.fileList3.push(item)
                 }
-                // console.log(vm.fileList3);
                 if(response.data.result.community.communityType == '0'){
                   vm.checkList.push('公寓');
                   vm.communityType = '0';
@@ -351,7 +348,6 @@
               }
             })
             .catch((error)=>{
-              // console.log(error);
             })
         }
       },
@@ -360,23 +356,18 @@
         this.pdfName.splice(index, 1);
       },
       success(response) { //上传文件成功
-        console.log(response);
         if(response.code == 10000) {
           this.pdfName.push(response.result.virtualPath);
-          // console.log(this.pdfName);
         }
       },
       error(err) { //上传文件失败
-        console.log(err);
       },
       handlePreview(file) {
-        // console.log(file);
       },
       UploadUrl(){
         return this.host3;
       },
       beforeAvatarUpload(file){
-        // console.log(file);
         const isJPG = file.type === 'image/png';
         const isPDF = file.type === 'application/pdf';
         if (isPDF || isJPG) {
@@ -390,7 +381,6 @@
       Complie() {
         let vm = this
         let param = new FormData(); //创建form对象
-        // console.log(this.pdfName);
         vm.communityContract = this.pdfName.join(',');
         vm.disabled = false;
         // console.log(vm.communityContract);
@@ -470,7 +460,6 @@
             }
           })
             .catch(error => {
-              // console.log(error);
               this.warningMessage = '添加失败,服务器出现异常';
               this.warningModal = true;
             })
@@ -480,7 +469,6 @@
         let vm = this
         vm.disabled2 = false;
         let param2 = new FormData(); //创建form对象
-        // console.log(this.pdfName);
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
           // console.log(vm.communityContract);
@@ -545,7 +533,6 @@
             return
           } else {
             this.$http.post(hostaddComplie, param2).then(res => {
-              // console.log(res.data)
               if(res.status == 200 && res.data.code == 10000) {
                 this.successMessage = '修改成功';
                 this.successModal = true;
@@ -563,7 +550,6 @@
               }
             })
               .catch(error => {
-                // console.log(error);
                 this.warningMessage = '修改失败,服务器出现异常';
                 this.warningModal = true;
               })
@@ -578,18 +564,21 @@
         this.warningModal = false;
       },
       isActive(value) { //获取市的数据
-        this.areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
-        this.httpPost(this.areaId, 1);
+        if(value){
+          this.areaId = this.parent[this.parent.findIndex(item => item.areaName == value)].areaId;
+          this.httpPost(this.areaId, 1);
+        }
       },
       isActive2(value) { //获取区的数据
-        this.parentId = this.parents[this.parents.findIndex(item => item.areaName == value)].areaId;
-        this.httpPost(this.parentId, 2);
+        if(value){
+          this.parentId = this.parents[this.parents.findIndex(item => item.areaName == value)].areaId;
+          this.httpPost(this.parentId, 2);
+        }
       },
       isActive3(value) {
-        // console.log(value);
-        // console.log(this.countyList);
-        this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == value)].areaId;
-
+        if(value){
+          this.areas = this.countyList[this.countyList.findIndex(item => item.areaName == value)].areaId;
+        }
       },
       httpPost(id, num) { //获取省市区数据的方法调用
         let Id = parseInt(id);
@@ -600,49 +589,35 @@
           })).then((response) => {
           if(num == 1) {
             vm.parents = response.data.result.areaList;
-            // console.log(vm.parents);
           }
           else if(num == 2) {
             vm.countyList = response.data.result.areaList;
-            // console.log(vm.countyList);
           }
         })
           .catch((error) => {
-            // console.log(126)
-            // console.log(error);
           })
 
       },
       types(mw) {
-        // console.log(mw);
         this.communityType = '';
         for(var i = 0; i < mw.length; i++) {
           if(mw[i] == "公寓" && mw.length == 1) {
             this.communityType = '0';
-            // console.log('11'+this.communityType);
           } else if(mw[i] == "办公空间" && mw.length == 1) {
             this.communityType = '1';
-            // console.log('11'+this.communityType);
           } else if(mw.length >= 2) {
             this.communityType = '0,1';
-            // console.log('11'+this.communityType);
           }
         }
       }
     },
     created() {
-
       this.$http.post(hostParent, //获取省的数据
         qs.stringify({
           'parentId': 0
         })).then((response) => {
-        // console.log(response);
         this.parent = response.data.result.areaList;
-        // console.log(this.parent);
       })
-        .catch((error) => {
-          // console.log(error);
-        })
     },
     datas() {
       axios.post(hostTitle,
@@ -650,15 +625,10 @@
           communityId: vm.communityId
         }))
         .then((response) => {
-          // console.log(response);
           if(response.status == 200 && response.data.code == 10000) {
             vm.community = response.data.result.community;
 
           }
-
-        })
-        .catch((error) => {
-          // console.log(error);
         })
     }
   }

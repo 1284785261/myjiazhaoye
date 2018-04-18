@@ -57,7 +57,7 @@
 									</td>
 									<td>
 										<dl>
-											<dd>公寓：<span>{{item.cxkjCommunityListHousetypeSize}}套</span></dd>
+											<dd>公寓：<span>{{item.roomSize}}套</span></dd>
 											<dd>工位：
 												<span v-if="item.cxkjCommunityPlaceSize != null">{{item.cxkjCommunityPlaceSize}}套</span>
 												<span v-else>0套</span>
@@ -78,23 +78,27 @@
 									</td>
 									<td>
 										<dl>
-											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
-												<span v-else>公寓付款方式：未设置</span></p>
-												<!-- <p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span></p> -->
+											<dd><p v-if="item.communityType == 0">
+													<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
+													<span v-else>公寓付款方式：未设置</span>
+												</p>
+												<p v-else-if="item.communityType == 1">
+													<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+													<span v-else>办公付款方式：未设置</span>
+												</p>
 												<p v-else-if="item.communityType == 0,1">
-												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
-												<span v-else>公寓付款方式：未设置</span><br>
-												<!-- <span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span> -->
+													<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
+													<span v-else>公寓付款方式：未设置</span><br>
+													<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+													<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
-											<dd v-if="item.serviceCostMap">公寓服务费：
+											<dd v-if="item.serviceCostMap && (item.communityType == 0 || item.communityType == '0,1')">公寓服务费：
 												<span v-if="item.serviceCostMap.roomServiceCost">{{item.serviceCostMap.roomServiceCost}}元/月</span>
 												<span v-else>未设置</span>
 											</dd>
 
-											<dd v-if="item.serviceCostMap">办公室服务费：
+											<dd v-if="item.serviceCostMap && (item.communityType == 1 || item.communityType == '0,1')">办公室服务费：
 												<span v-if="item.serviceCostMap.officeServiceCost">{{item.serviceCostMap.officeServiceCost}}元/月</span>
 												<span v-else>未设置</span>
 											</dd>
@@ -163,7 +167,7 @@
 									</td>
 									<td>
 										<dl>
-											<dd>公寓：<span>{{item.cxkjCommunityListHousetypeSize}}套</span></dd>
+											<dd>公寓：<span>{{item.roomSize}}套</span></dd>
 											<dd>工位：
 												<span v-if="item.cxkjCommunityPlaceSize != null">{{item.cxkjCommunityPlaceSize}}套</span>
 												<span v-else>0套</span>
@@ -184,15 +188,19 @@
 									</td>
 									<td>
 										<dl>
-											<dd><p v-if="item.communityType == 0"><span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
-												<span v-else>公寓付款方式：未设置</span></p>
-												<!-- <p v-else-if="item.communityType == 1"><span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span></p> -->
+											<dd><p v-if="item.communityType == 0">
+													<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
+													<span v-else>公寓付款方式：未设置</span>
+												</p>
+												<p v-else-if="item.communityType == 1">
+													<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+													<span v-else>办公付款方式：未设置</span>
+												</p>
 												<p v-else-if="item.communityType == 0,1">
-												<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
-												<span v-else>公寓付款方式：未设置</span><br>
-												<!-- <span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
-												<span v-else>办公付款方式：未设置</span> -->
+													<span v-if="item.payment != null">公寓付款方式：{{item.payment | payment}}</span>
+													<span v-else>公寓付款方式：未设置</span><br>
+													<span v-if="item.paymentOffice != null">办公付款方式：{{item.paymentOffice | paymentOffice}}</span>
+													<span v-else>办公付款方式：未设置</span>
 												</p>
 											</dd>
 											<dd v-if="item.serviceCostMap">公寓服务费：
@@ -564,27 +572,27 @@
 					}
 				}
 				return arr2.join(',');
+			},
+			paymentOffice(val){
+				let arr = [];
+				let arr2 = [];
+				arr = val.split(',');
+				for(let i = 0;i<arr.length;i++){
+					if(arr[i] == '1'){
+						arr2.push('月付');
+					}
+					if(arr[i] == '2'){
+						arr2.push('季付');
+					}
+					if(arr[i] == '3'){
+						arr2.push('半年付');
+					}
+					if(arr[i] == '4'){
+						arr2.push('年付');
+					}
+				}
+				return arr2.join(',');
 			}
-			// paymentOffice(val){
-			// 	let arr = [];
-			// 	let arr2 = [];
-			// 	arr = val.split(',');
-			// 	for(let i = 0;i<arr.length;i++){
-			// 		if(arr[i] == '1'){
-			// 			arr2.push('押二付一');
-			// 		}
-			// 		if(arr[i] == '2'){
-			// 			arr2.push('押一付一');
-			// 		}
-			// 		if(arr[i] == '3'){
-			// 			arr2.push('季付');
-			// 		}
-			// 		if(arr[i] == '4'){
-			// 			arr2.push('年付');
-			// 		}
-			// 	}
-			// 	return arr2.join(',');
-			// }
 		},
 
 		mounted() {
@@ -597,20 +605,13 @@
 			this.btusys();
 			this.shortHousetype();
 			this.shortEvaluate();
-			this.comment({
-				pageNum: 1
-			});
 		},
 		methods: {
 			classifys() {
 				axios.post(allCommunity).then((response) => { //获取社区分类数据
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.communitys = this.communitys.concat(response.data.entity);
 						}
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 			},
 			btns() { //社区管理模糊搜索数据
@@ -636,7 +637,6 @@
 					param.append('communityLikeName',vm.vague);
 				}
 				axios.post(hostCommint, param).then((response) => {//请求数据列
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint = response.data.result.communityData.page;
 							vm.totalNum = response.data.result.communityData.totalNum;
@@ -645,10 +645,6 @@
 							vm.commint = [];
 							vm.totalNum = 0;
 						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 			},
 			btusy2() { //已关闭社区页面模糊查询
@@ -674,7 +670,6 @@
 					param.append('communityLikeName',vm.vague2);
 				}
 				axios.post(hostCommint, param).then((response) => {//请求数据列表
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.commint2 = response.data.result.communityData.page;
 							vm.totalNum2 = response.data.result.communityData.totalNum;
@@ -683,10 +678,6 @@
 							vm.commint2 = [];
 							vm.totalNum2 = 0;
 						}
-						// console.log(this.commint);
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 			},
 			hub(val) { //关闭社区按钮事件
@@ -710,7 +701,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response)
 						if(response.status == 200 && response.data.code == 10000) {
 
 							this.successMessage = '操作成功';
@@ -778,7 +768,6 @@
 					data.userNamePhone = this.searchKey;
 					this.host3 +='&userNamePhone='+data.userNamePhone;
 				}
-				// console.log(data);
 				axios.post(hostComment,
 					qs.stringify(data)
 					).then((response) => {
@@ -790,7 +779,6 @@
 							vm.totalNum3 = 0;
 						}
 					}).catch((error) => {
-						// console.log(error);
 					}
 				)
 			},
@@ -800,7 +788,6 @@
 					communityId:this.model2
 				})
 				).then((response)=>{
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						for(let i=0;i<response.data.pageBean.length;i++){
 							this.houseType.push(response.data.pageBean[i]);
@@ -842,7 +829,6 @@
 				axios.post(ShortComment300203,
 					qs.stringify(data)
 					).then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							vm.shorttableEvaluates = response.data.pageBean.page;
 							vm.totalNum4 = response.data.pageBean.totalNum;
@@ -851,7 +837,6 @@
 							vm.totalNum4 = 0;
 						}
 					}).catch((error) => {
-						// console.log(error);
 					}
 				)
 			},
@@ -867,7 +852,6 @@
 						id:this.shortId
 					})
 				).then((response)=>{
-					console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.successMessage = '删除短租评价成功';
 						this.successModal = true;

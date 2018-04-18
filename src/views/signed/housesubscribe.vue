@@ -59,7 +59,7 @@
 								<a v-if="item.appointmentStatus ==0" @click="receive(item.appointmentId)">我要接待</a>
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:Names}}" v-if="item.appointmentStatus ==1">立即签约</router-link>
-								<router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:item.isOffice}}"  v-if="item.appointmentStatus == 3" class="cha">查看合同</router-link>
+								<router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:item.isOffice}}"  v-if="item.appointmentStatus == 3 && item.state != '1'" class="cha">查看合同</router-link>
 								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3 ||　item.appointmentStatus ==4" @click="adddian2(item.appointmentId)">查看详情</a>
 							</td>
 						</tr>
@@ -257,7 +257,7 @@
 						params: data
 					})
 					.then(function(res) {
-						// console.log(res);
+						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							var pageBean = res.data.pageBean;
 							that.appointmentListData = pageBean.page;

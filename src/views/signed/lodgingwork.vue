@@ -801,6 +801,7 @@
 				let nem = new Date(this.expire);
 				let Month;
 				let Months;
+				console.log(nes.getMonth());
 				nem.setDate(nem.getDate()+1);
 				nes.setMonth(nes.getMonth() + parseInt(value));
 				Month = nes;

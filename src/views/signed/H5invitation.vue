@@ -130,7 +130,7 @@
             if(res.status == 200 && res.data.code == 10000){
               that.inviteRecordList = res.data.entity.page;
               that.totalNum = res.data.entity.totalNum;
-              console.log(that.inviteRecordList);
+              // console.log(that.inviteRecordList);
             }
             else{
               that.inviteRecordList = [];

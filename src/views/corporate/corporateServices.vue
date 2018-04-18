@@ -207,7 +207,7 @@
             sessionStorage.setItem('Area',JSON.stringify(res.data.entity))
             vm.seleArea = res.data.entity
             vm.seleArea.unshift({dataId:'-1',dataName:'全部'});
-             console.log(vm.seleArea);
+            //  console.log(vm.seleArea);
           }
         })
       },

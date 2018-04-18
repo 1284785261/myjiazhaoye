@@ -422,7 +422,7 @@ export default {
     },
     getElOffset (el) {
       let offsetParent = el
-      let top = el.offsetTop
+      let top = el.offsetTopoffsetTop
       let left = el.offsetLeft
       while (offsetParent != document.body) {
         offsetParent = offsetParent.offsetParent

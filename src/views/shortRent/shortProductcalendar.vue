@@ -141,13 +141,8 @@
                         }else{
                             vm.stationCommunity = parseInt(vm.stationSelectList[0].communityId);
                         }
-//                        vm.calendarTime = new Date();
-//                        vm.productCalendarData(vm.stationCommunity);
                     }
                 })
-//              this.productList.weeks = [];
-//              this.productList.datalist = [];
-//              this.calenderProductLists.lists = [];
             },
             inquire(){
                 this.productCalendarData(this.stationCommunity);
@@ -161,7 +156,6 @@
                     id:'0',
                     name:'全部房型'
                 }]
-                // this.value = '0';
                 let types = ''
                 if(this.roomTypeId == 0){
                     types = ''
@@ -175,7 +169,6 @@
                     roomTypeId:types
                 })
                 ).then((res)=>{
-                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.calenderProductList = res.data.entity;
                         for(let i = 0;i < this.calenderProductList.length;i++){
@@ -198,7 +191,6 @@
                         }
 
                         for(let j=0;j<this.calenderProductLists.lists.length;j++){
-                            //  debugger
                             for(let k=0;k < this.calenderProductList[j].productCalendarPrice.length;k++){
                                 for(let i=0;i<this.calenderProductLists.lists[j].prices.length;i++){
                                     if(this.calenderProductList[j].productCalendarPrice[k].dayNum && (this.calenderProductList[j].productCalendarPrice[k].dayNum==this.calenderProductLists.lists[j].prices[i].data)){
@@ -210,7 +202,6 @@
                             
                         }
                     }
-                        // console.log(this.calenderProductLists);
                     })
             },
             //切换社区事件
@@ -234,9 +225,6 @@
             },
             //遍历当前天后的14天数
             calendarDatas(value){
-//              this.productList.weeks = [];
-//              this.productList.datalist = [];
-//              this.calenderProductLists.lists = [];
                 for(let i= 0;i < 14;i++){
                     let DataSour = new Date(value);
                     let data = new Date(value).Format("yyyy-MM-dd");
@@ -249,10 +237,12 @@
                         this.calenderProductLists.lists[j].dates.push(now);
                     }
                 }
-                for(let i = 0;i<this.calenderProductLists.lists[0].dates.length;i++){
-                    this.productList.weeks.push(this.calenderProductLists.lists[0].dates[i].getDay());
+                if(this.calenderProductLists.lists[0]){
+                    for(let i = 0;i<this.calenderProductLists.lists[0].dates.length;i++){
+                        this.productList.weeks.push(this.calenderProductLists.lists[0].dates[i].getDay());
+                    }
                 }
-                // console.log(this.calenderProductLists);
+                
             },
             frontCalender(){
                 let DataSour = new Date(this.calendarTime);

@@ -332,7 +332,7 @@
               for(var i =0;i<that.blackMemberList.length;i++){
                 that.$set(that.blackMemberList[i],"isChecked",false);
               }
-              console.log(that.blackMemberList);
+              // console.log(that.blackMemberList);
             }
             if(res.data.code == 10004){
               that.blackMemberList = [];

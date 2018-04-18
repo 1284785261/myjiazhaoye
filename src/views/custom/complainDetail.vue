@@ -204,17 +204,16 @@ export default {
   methods: {
     getComplainDetail(data) {
       var that = this;
-      this.$http
-        .get(complainDetail, {
+      this.$http.get(complainDetail, {
           params: data
         })
         .then(function(res) {
-          console.log(res);
-          if (res.status == 200 && res.data.code == 10000) {
+          if(res.status == 200 && res.data.code == 10000) {
             that.complainData = res.data.entity;
-            let strs = that.complainData.complainImage.split(",");
-            // console.log(strs);
-            that.images = strs;
+            if(that.complainData.complainImage){
+              let strs = that.complainData.complainImage.split(",");
+              that.images = strs;
+            }
           }
         });
     },

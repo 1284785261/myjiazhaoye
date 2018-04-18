@@ -169,7 +169,7 @@
 									</tr>
 									<tr>
 										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serve" maxlength="10"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
 									</tr>
 								</table>
 							</div>
@@ -510,7 +510,7 @@
 									</tr>
 									<tr>
 										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serve" maxlength="10"><span>元/月</span></td>
+										<td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
 									</tr>
 								</table>
 							</div>
@@ -855,7 +855,7 @@
 				activ: '0',
 				costInfo: null,
 				contract: '', //合同
-				serve: null, //服务费
+				serves: null, //服务费
 				discount: null, //折扣
 				uploadList: [0],
 				uploadList2: [0],
@@ -977,9 +977,8 @@
 				}
 				//公寓签约计算方式
 				let q = 0;
-				// console.log(vm.discount / 100);
 				let fy = (vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100);
-				let fw = vm.serve * parseFloat((days-daym)/days).toFixed(10);
+				let fw = vm.serves * parseFloat((days-daym)/days).toFixed(10);
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
 				
@@ -998,7 +997,7 @@
 				}
 
 				this.roommonryg = this.housetderta.roomRent+'/'+days +'*'+'('+days +'-' + daym +')天'+ '*'+this.discount+'%折扣' + '*'+vm.apartments[vm.activ].discount+'%折扣';
-				this.fwmonryg = this.serve+'/'+days +'*('+days+'-'+daym+')天';
+				this.fwmonryg = this.serves+'/'+days +'*('+days+'-'+daym+')天';
 
 				if(this.value2 == '月付') {
 					return(parseFloat(vm.deposit) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
@@ -1049,23 +1048,27 @@
 					this.onemoney = parseFloat(val).toFixed(2);
 				}
 			},
-			discount: function() {
+			discount:function() {
 				if(this.discount){
 					this.discount = this.discount.replace(/[^\d.]/, '');
 				}
 				
 			},
-			serve: function() {
-				this.serve = this.serve.replace(/[^\d.]/, '');
+			serves:function() {
+				if(this.serves){
+					this.serves = this.serves.replace(/[^\d.]/,'');
+				}
 			},
 			depositmonth:function(){
-				this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
+				if(this.depositmonth){
+					this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
+				}
+				
 			}
 		},
 		filters: {
 			waterPrice(val) {
 				if(val != '0.00') {
-					// console.log(val);
 					return val.toFixed(2);
 				} else {
 					return '0.00';
@@ -1073,7 +1076,6 @@
 			},
 			energyPrice(val) {
 				if(val != '0.00') {
-					// console.log(val);
 					return val.toFixed(2);
 				} else {
 					return '0.00';
@@ -1093,7 +1095,6 @@
 					version: ''
 				})
 				this.datas();
-				// console.log(this.ieList);
 			},
 			addRepairs() {
 				this.tableRepairs.push({
@@ -1102,7 +1103,6 @@
 					date: "",
 					deletect: "删除"
 				})
-				// console.log(this.tableRepairs);
 			},
 			addRepairs2() {
 				this.tableRepairs2.push({
@@ -1112,7 +1112,6 @@
 				})
 			},
 			delet(index) {
-				// console.log(index);
 				this.tableRepairs.splice(index, 1);
 			},
 			User(val) {
@@ -1122,10 +1121,8 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							// console.log(this.userInfo);
 							if(this.userInfo.userCertificate != 'null'){
 								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}
@@ -1150,14 +1147,9 @@
 								let id = this.userInfo.certificateId;
 								this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
 							}
-							// console.log(this.userInfo);
 							
 						} else {
-							// console.log('该手机未注册用户')
 						};
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 			},
 			User2(index, val) {
@@ -1167,8 +1159,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(222222222222);
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.ieList[index].userId = response.data.result.userInfo.id;
 							this.ieList[index].version = response.data.result.userInfo.version;
@@ -1179,12 +1169,7 @@
 							this.ieList[index].certificateNumber = response.data.result.userInfo.userCertificate;
 							let id = response.data.result.userInfo.certificateId;
 							this.ieList[index].value3 = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
-						} else {
-							// console.log('该手机未注册用户')
-						};
-					})
-					.catch((error) => {
-						// console.log(error);
+						}
 					})
 			},
 			datas() {
@@ -1195,14 +1180,9 @@
 						})
 					)
 					.then((response) => {
-						// console.log(111111111);
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options1 = response.data.result.rentRoomList;
 						}
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 				axios.post(hostController, //  获取签约的合同及付款方式
 						qs.stringify({
@@ -1211,13 +1191,11 @@
 						})
 					)
 					.then((response) => {
-						 console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.costInfo = response.data.result;
 							this.contract = this.costInfo.contractNumber;
-							this.serve = this.costInfo.costInfo.serviceCost;
+							this.serves = this.costInfo.costInfo.serviceCost;
 							this.options3 = this.costInfo.paywayList;
-							// console.log(this.options3);
 							for(let i = 0; i < vm.options3.length; i++) {
 								if(this.options3[i].data_id == '1') {
 									vm.options3[i].name = '月付';
@@ -1236,18 +1214,13 @@
 							for(let i = 0;i < this.costInfo.datewayList.length;i++){
 								for(let j = 0;j < this.apartments.length;j++){
 									if(this.apartments[j].datsid == this.costInfo.datewayList[i].data_id){
-										console.log(1111111111);
 										this.apartments[j].discount = this.costInfo.datewayList[i].discount;
 									}
 								}
 								
 							}
-							console.log(this.apartments);
 						}
 
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 
 				axios.post(hostWay, //证件类型
@@ -1256,15 +1229,11 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.aaduserInfo[0].options2 = response.data.entity;
 							this.options2 = response.data.entity;
 
 						}
-					})
-					.catch((error) => {
-						// console.log(error);
 					})
 
 				axios.post(hostWay, //物资类型
@@ -1273,25 +1242,19 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options4 = response.data.entity;
 						}
 					})
-					.catch((error) => {
-						// console.log(error);
-					})
 			},
 			certificate(index, val) {
 				this.ieList[index].certificateType = this.options2[this.options2.findIndex(item => item.dataName == val)].dataId;
-				// console.log(this.ieList);
 			},
 			closeWarningModal() {
 				this.warningModal = false;
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-				// console.log(this.housetderta);
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -1300,8 +1263,6 @@
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
 				}
-
-				// console.log(this.tableRepairs2);
 			},
 			way(val) {
 				let vm = this
@@ -1341,11 +1302,13 @@
 
 			},
 			save() {
-				this.successMessage = '保存成功';
-				this.successModal = true;
-				setTimeout(() => {
-					this.successModal = false;
-				}, 1000);
+				if(this.tableRepairs2){
+					this.successMessage = '保存成功';
+					this.successModal = true;
+					setTimeout(() => {
+						this.successModal = false;
+					}, 1000);
+				}
 			},
 			apart(index) {
 				this.activ = index;
@@ -1424,7 +1387,6 @@
 								vm.$set(vm.loadList, 0, false)
 							}, 500)
 							if(vm.uploadList.length < 2) {
-								//                      this.filelist1.push(file);
 								vm.uploadList[0] = res.data.result.virtualPath;
 								vm.uploadList.push('承租人身份证正面');
 							} else {
@@ -1454,7 +1416,6 @@
 							}, 2000)
 
 							if(vm.uploadList4.length < 2) {
-								//                      this.filelist1.push(file);
 								vm.uploadList4[0] = res.data.result.virtualPath;
 								vm.uploadList4.push('承租人身份证反面');
 							} else {
@@ -1484,7 +1445,6 @@
 							}, 2000)
 
 							if(vm.uploadList2.length < 2) {
-								//                      this.filelist1.push(file);
 								vm.uploadList2[0] = res.data.result.virtualPath;
 								vm.uploadList2.push('合同证明');
 							} else {
@@ -1513,7 +1473,6 @@
 								vm.$set(vm.loadList, 3, false)
 							}, 2000)
 							if(vm.uploadList6.length < 2) {
-								//                      this.filelist1.push(file);
 								vm.uploadList6[0] = res.data.result.virtualPath;
 								vm.uploadList6.push('营业执照');
 							} else {
@@ -1542,7 +1501,6 @@
 								vm.$set(vm.loadList, 4, false)
 							}, 2000)
 							if(vm.uploadList3.length < 2) {
-								//                      this.filelist1.push(file);
 								vm.uploadList3[0] = res.data.result.virtualPath;
 								vm.uploadList3.push('委托书');
 							} else {
@@ -1555,7 +1513,6 @@
 					})
 			},
 			ones(val) {
-				// console.log(val);
 				this.housetderta.firstmoneys = val;
 				if(val != null) {
 					if(this.radio3 == '1') {
@@ -1572,8 +1529,6 @@
 
 			},
 			dels(info, index) {
-				// console.log(info);
-				// console.log(index);
 				this.ieList.splice(index, 1);
 			},
 			alway(fires, val) {
@@ -1596,7 +1551,6 @@
 							"costAmount": this.tableRepairs[i].date
 						});
 					}
-					// console.log(arr);
 				}
 				this.otherCostJson = JSON.stringify(arr);
 
@@ -1630,9 +1584,6 @@
 						"fileTitle": this.uploadList2[1]
 					});
 				}
-				//              if(this.uploadList3.length){
-				//                fileList.push({"filePath":this.uploadList3[0],"fileTitle":this.uploadList3[1]});
-				//              }
 				/**********整合照片**********/
 				let arr3 = [];
 				this.materials = JSON.stringify(arr2);
@@ -1643,13 +1594,6 @@
 				this.furniture = JSON.stringify(arr3); //物资
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				// console.log('参数');
-								// console.log(this.communityId+'this.communityId');
-								// console.log(this.contract+'this.contract');
-								// console.log(this.housetderta.roomId+'this.housetderta.roomId');
-								// console.log(this.housetderta.roomId+'this.housetderta.roomId');
-				// console.log(JSON.stringify(fileList));
-				// console.log('参数');
 				param.append('communityId', this.communityId);
 				param.append('contractNumber', this.contract);
 				param.append('buildingId', this.housetderta.roomId);
@@ -1661,7 +1605,7 @@
 				param.append('cyclePayType', this.cyclePayType);
 				param.append('cyclePayMoney', this.housetderta.roomRent);
 				param.append('cyclePayDiscount', this.discount);
-				param.append('serviceCost', this.serve);
+				param.append('serviceCost', this.serves);
 				param.append('firstMoneyPayType', this.radio3);
 				if(this.radio3 == '1') {
 					param.append('firstPayMoney', this.onemoney);
@@ -1690,7 +1634,6 @@
 				param.append('deposit',this.deposit);
 				param.append('datewayDiscount',this.apartments[this.activ].discount);
 				param.append('paywayDiscount',this.discount);
-				// console.log(this.user);
 				if(this.hints.company != '') {
 					param.append('intermediaryCompany', this.hints.company);
 				}
@@ -1708,7 +1651,6 @@
 				if(this.ieList.length) {
 					param.append('ieList', this.ieList);
 				}
-				// console.log(this.param);
 				axios.post(hostSigController, param).then(res => {
 						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
@@ -1724,7 +1666,6 @@
 						}
 					})
 					.catch(error => {
-						// console.log(error);
 					})
 
 			},
@@ -1738,7 +1679,6 @@
 							"costAmount": this.tableRepairs[i].date
 						});
 					}
-					// console.log(arr);
 				}
 				this.otherCostJson = JSON.stringify(arr);
 
@@ -1794,8 +1734,6 @@
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
 				param.append('credentialsImages', JSON.stringify(fileList));
-								// console.log(this.credentialsImagesArray);
-								// console.log(this.credentialsTitle);
 				param.append('communityId', this.communityId);
 				param.append('contractNumber', this.contract);
 				param.append('buildingId', this.housetderta.roomId);
@@ -1807,7 +1745,7 @@
 				param.append('cyclePayType', this.cyclePayType);
 				param.append('cyclePayMoney', this.housetderta.roomRent);
 				param.append('cyclePayDiscount', this.discount);
-				param.append('serviceCost', this.serve);
+				param.append('serviceCost', this.serves);
 				param.append('firstMoneyPayType', this.radio3);
 				if(this.radio3 == '1') {
 					param.append('firstPayMoney', this.onemoney);
@@ -1835,7 +1773,6 @@
 				param.append('user.gender', this.user.gender);
 				param.append('user.certificateId', this.user.certificateId);
 				param.append('user.userCertificate', this.user.userCertificate);
-				// console.log(this.user);
 				if(this.hints.company != '') {
 					param.append('intermediaryCompany', this.hints.company);
 				}
@@ -1858,11 +1795,9 @@
 				param.append('deposit',this.deposit);
 				param.append('datewayDiscount',this.apartments[this.activ].discount);
 				param.append('paywayDiscount',this.discount);
-				// console.log(param);
 
 				axios.post(hostSignCompany, param).then(res => {
 						if(res.status == 200 && res.data.code == 10000) {
-							// console.log(res);
 							vm.successModal = true;
 							setTimeout(() => {
 								vm.successModal = false;
@@ -1874,7 +1809,6 @@
 						}
 					})
 					.catch(error => {
-						// console.log(error);
 					})
 
 			}

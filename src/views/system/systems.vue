@@ -681,7 +681,6 @@
 		methods: {
 			Phone(value) { //验证手机号
 				let str = /^1(3|4|5|7|8)\d{9}$/;
-				// console.log(str.test(value));
 				if(str.test(value) == true){
 					this.Employ.account = value;
 				}
@@ -702,7 +701,6 @@
 				}
 			},
 			checkAllGroupChange(item, index) { //部门单选
-				// console.log(item);
 				var flag = true;
 				for(let i = 0; i < this.data.length; i++) {
 					if(this.data[i].sing != this.sings) {
@@ -730,7 +728,6 @@
 
 			},
 			checkAllGroupChange2(item, index) { //员工单选
-				// console.log(item);
 				var flag = true;
 				for(let i = 0; i < this.data2.length; i++) {
 					if(this.data2[i].sing != this.sings) {
@@ -758,7 +755,6 @@
 
 			},
 			checkAllGroupChange3(item, index) { //职位单选
-				// console.log(item);
 				var flag = true;
 				for(let i = 0; i < this.Positions.length; i++) {
 					if(this.Positions[i].sing != this.sings) {
@@ -786,7 +782,6 @@
 
 			},
 			checkAllGroupChange4(item, index) { //权限单选
-				// console.log(item);
 				var flag = true;
 				for(let i = 0; i < this.Communitys.length; i++) {
 					if(this.Communitys[i].sing != this.sings) {
@@ -813,7 +808,6 @@
 				}
 			},
 			checkAllGroupChange5(item, index){  //公司单选
-				// console.log(item);
 				var flag = true;
 				for(let i = 0; i < this.Companys.length; i++) {
 					if(this.Companys[i].sing != this.sings) {
@@ -829,15 +823,12 @@
 			},
 			select(val) {
 				this.Employ.departmentId = this.options[this.options.findIndex(item => item.departmentName == val)].departmentId;
-				// console.log(this.Employ.departmentId);
 			},
 			select2(val) {
 				this.Employ.officePositionDataId = this.options1[this.options1.findIndex(item => item.positionName == val)].positionId;
-				// console.log(this.Employ.officePositionDataId);
 			},
 			select3(val) {
 				this.posit.powerId = this.options2[this.options2.findIndex(item => item.powerName == val)].powerId;
-				// console.log(this.posit.powerId);
 			},
 			selectm(val){
 				this.superior = this.options[this.options.findIndex(item => item.departmentName == val)].departmentId;
@@ -861,7 +852,6 @@
 								officePositionDataId: this.Employ.officePositionDataId
 							})
 						).then((response) => {
-							// console.log(response);
 							if(response.status == 200 && response.data.code == 10000) {
 								this.isHide = false;
 								this.staffs = false;
@@ -884,15 +874,10 @@
 								this.warningModal = true;
 							}
 						})
-						.catch((error) => {
-							// console.log(error);
-						})
 				}
 
 			},
 			addEmploy2() {
-				// console.log(this.Employ);
-				// console.log(this.id2);
 				axios.post(hostEditEmployee, //编辑员工信息
 					qs.stringify({
 						id: this.id2,
@@ -902,7 +887,6 @@
 						officePositionDataId: this.Employ.officePositionDataId
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.staffs = false;
@@ -935,7 +919,6 @@
 						powerName:this.test3
 					})
 				).then((res) => {
-					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.isHide = false;
 						this.addcommuni = false;
@@ -951,7 +934,6 @@
 						}, 2000);
 					}
 				}).catch((err) => {
-					// console.log(err);
 					this.isHide = false;
 					this.addcommuni = false;
 					this.warningMessage = response.data.content;
@@ -965,7 +947,6 @@
 						powerId: this.posit.powerId
 					})
 				).then((res) => {
-					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.isHide = false;
 						this.stafus = false;
@@ -981,7 +962,6 @@
 						}, 2000);
 					}
 				}).catch((err) => {
-					// console.log(err);
 					this.isHide = false;
 					this.stafus = false;
 					this.warningMessage = response.data.content;
@@ -996,7 +976,6 @@
 						powerId: this.posit.powerId
 					})
 				).then((res) => {
-					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.isHide = false;
 						this.stafus = false;
@@ -1012,7 +991,6 @@
 						}, 2000);
 					}
 				}).catch((err) => {
-					// console.log(err);
 					this.isHide = false;
 					this.stafus = false;
 					this.warningMessage = response.data.content;
@@ -1068,7 +1046,6 @@
 				this.posit.positionName = item.positionName;
 				this.posit.positionId = item.positionId;
 				this.value2 = item.powerName;
-				// console.log(item);
 			},
 			Community() {
 				let pageNum = this.pageNum5; //获取权限管理的列表信息
@@ -1079,7 +1056,6 @@
 						pageSize: pageSize
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.Communitys = response.data.entity.page;
 						this.totalNum5 = response.data.entity.totalNum;
@@ -1087,21 +1063,17 @@
 							this.$set(this.Communitys[i], "sing", false);
 						}
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			Position() {
 				let pageNum = this.pageNum4; //获取职位管理的列表信息
 				let pageSize = this.pageSize4;
-				// console.log(pageNum);
 				axios.post(hostPositionManage,
 					qs.stringify({
 						pageNum: pageNum,
 						pageSize: pageSize
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.Positions = response.data.entity.page;
 						this.totalNum4 = response.data.entity.totalNum;
@@ -1109,17 +1081,12 @@
 							this.$set(this.Positions[i], "sing", false);
 						}
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 
 				axios.post(hostPowerPosit).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.options2 = response.data.entity;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			Users() {
@@ -1131,13 +1098,10 @@
 						pageSize: pageSize
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.users = response.data.entity.page;
 						this.totalNum3 = response.data.entity.totalNum;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			datat() {
@@ -1149,7 +1113,6 @@
 						pageSize: pageSize
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.data2 = response.data.entity.page;
 						this.totalNum2 = response.data.entity.totalNum;
@@ -1157,26 +1120,19 @@
 							this.$set(this.data2[i], "sing", false);
 						}
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 
 				axios.post(hostDepartments).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.options = response.data.entity;
-						// console.log(this.options);
 					}
 				}).catch((error) => {
-					// console.log(error);
 				})
 				axios.post(hostAllPosition).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.options1 = response.data.entity;
 					}
 				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			datas() {
@@ -1189,7 +1145,6 @@
 						parentId: this.parentId
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.data = response.data.entity.page;
 						this.totalNum = response.data.entity.totalNum;
@@ -1197,8 +1152,6 @@
 							this.$set(this.data[i], "sing", false);
 						}
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			//获取公司列表信息
@@ -1211,7 +1164,6 @@
 						pageSize: pageSize,
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.Companys = response.data.pageBean.page;
 						this.totalNum6 = response.data.pageBean.totalNum;
@@ -1219,9 +1171,6 @@
 							this.$set(this.Companys[i], "sing", false);
 						}
 					}
-					console.log(this.Companys);
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			addCommunity() {
@@ -1250,7 +1199,6 @@
 			},
 			bub(item) {
 				this.id2 = item.departmentId;
-				// console.log(this.id2);
 				let pageNum = this.pageNum; //获取子部门的列表信息
 				let pageSize = this.pageSize;
 				axios.post(hostDepartment,
@@ -1260,7 +1208,6 @@
 						parentId: this.id2
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						if(response.data.entity){
 							this.data = response.data.entity.page;
@@ -1277,15 +1224,12 @@
 						}
 
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			returns() {
 				let id = this.id2; //返回上级
 				let pageNum = this.pageNum;
 				let pageSize = this.pageSize;
-				// console.log(id);
 				axios.post(hostSuperiorDepart,
 					qs.stringify({
 						pageNum: pageNum,
@@ -1293,7 +1237,6 @@
 						parentId: this.id2
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.data = response.data.entity.page;
 						this.totalNum = response.data.entity.totalNum;
@@ -1305,8 +1248,6 @@
 						this.warningMessage = response.data.content;
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			adds() {
@@ -1317,7 +1258,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = false;
 							this.isShowadd = false;
@@ -1339,14 +1279,10 @@
 							this.warningModal = true;
 						}
 					})
-					.catch((error) => {
-						// console.log(error);
-					})
 			},
 			amend(item) {
 				this.isHide = true;
 				this.amends = true;
-				// console.log(item)
 				this.test2 = item.departmentName;
 				if(item.parentDepartmentName){
 					this.value5 = item.parentDepartmentName;
@@ -1365,7 +1301,6 @@
 						parentId: this.parentId
 					})
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.amends = false;
@@ -1386,15 +1321,12 @@
 						this.warningMessage = '编辑部门失败';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			amend2(item) { //编辑员工
 				this.isHide = true;
 				this.staffs = true;
 				this.adds2 = '编辑员工';
-				// console.log(item);
 				this.id2 = item.userId;
 				this.Employ.account = item.userPhone;
 				this.Employ.userName = item.userName;
@@ -1425,7 +1357,6 @@
 				this.isHide = true;
 				this.isShows = true;
 				this.closr = item;
-				// console.log(this.closr);
 				if(this.closr.employeeStatus == 1) {
 					this.titls = '关闭';
 					this.cxkjUserEmployeeList.push({
@@ -1550,7 +1481,6 @@
 						cxkjUserPositionList: this.cxkjUserPositionList
 					}
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow5 = false;
@@ -1570,8 +1500,6 @@
 							this.cxkjUserPositionList = [];
 						}, 2000);
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			qsm() {
@@ -1580,7 +1508,6 @@
 						departmentList: this.departmentList
 					}
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow = false;
@@ -1605,8 +1532,6 @@
 						this.warningMessage = '关闭部门失败';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			qsmd() {
@@ -1615,7 +1540,6 @@
 						cxkjUserEmployeeList: this.cxkjUserEmployeeList
 					}
 				).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShows = false;
@@ -1641,14 +1565,10 @@
 						this.warningMessage = '关闭账号失败';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			qsm2() {
 				this.departmentList = []; //部门批量删除
-				//hostDeleteDepart
-				// console.log(this.data);
 				for(let i = 0; i < this.data.length; i++) {
 					if(this.data[i].sing == true) {
 						this.departmentList.push({
@@ -1659,7 +1579,6 @@
 				axios.post(hostDeleteDepart, {
 					departmentList: this.departmentList
 				}).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow2 = false;
@@ -1679,8 +1598,6 @@
 						this.warningMessage = '批量删除部门失败，请选择';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			detailstaff() {
@@ -1688,7 +1605,6 @@
 				this.isShow4 = true;
 			},
 			qsm6() {
-				// console.log(this.Positions);
 				this.cxkjUserPositionList = []; //批量删除职位
 				for(let i = 0; i < this.Positions.length; i++) {
 					if(this.Positions[i].sing == true) {
@@ -1697,12 +1613,9 @@
 						})
 					}
 				}
-
-				// console.log(this.cxkjUserPositionList);
 				axios.post(hostDeletePosition, {
 					cxkjUserPositionList: this.cxkjUserPositionList
 				}).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow6 = false;
@@ -1722,8 +1635,6 @@
 						this.warningMessage = '批量删除职位失败，请确认是否选中';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			qsm5() {
@@ -1738,7 +1649,6 @@
 				axios.post(hostDeleteEmployee, {
 					cxkjUserEmployeeList: this.cxkjUserEmployeeList
 				}).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow4 = false;
@@ -1758,8 +1668,6 @@
 						this.warningMessage = '批量删除账号失败，请确认是否选中';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			qsm8(){
@@ -1774,7 +1682,6 @@
 				axios.post(hostdelCommunityMan,{
 					cxkjCenterPowerList:this.cxkjCenterPowerList
 				}).then((response) => {
-					// console.log(response);
 					if(response.status == 200 && response.data.code == 10000) {
 						this.isHide = false;
 						this.isShow8 = false;
@@ -1794,8 +1701,6 @@
 						this.warningMessage = '批量删除权限组失败，请确认是否选中';
 						this.warningModal = true;
 					}
-				}).catch((error) => {
-					// console.log(error);
 				})
 			},
 			opens() {
@@ -1858,7 +1763,6 @@
 					axios.post(hostoffEmployee, {
 						cxkjUserEmployeeList: this.cxkjUserEmployeeList
 					}).then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = false;
 							this.isShow1 = false;
@@ -1879,8 +1783,6 @@
 							this.warningMessage = '批量操作账号失败,开启和关闭不能同时操作';
 							this.warningModal = true;
 						}
-					}).catch((error) => {
-						// console.log(error);
 					})
 				} else {
 					this.isHide = false;
@@ -1908,12 +1810,10 @@
 						});
 					}
 				}
-				// console.log(this.departmentList);
 				if(this.departmentList.length) {
 					axios.post(hostOffDepartment, {
 						departmentList: this.departmentList
 					}).then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = false;
 							this.isShow3 = false;
@@ -1934,8 +1834,6 @@
 							this.warningMessage = '批量操作部门失败,开启和关闭不能同时操作';
 							this.warningModal = true;
 						}
-					}).catch((error) => {
-						// console.log(error);
 					})
 				} else {
 					this.isHide = false;
@@ -1966,7 +1864,6 @@
 					axios.post(hostOffPosition, {
 						cxkjUserPositionList: this.cxkjUserPositionList
 					}).then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = false;
 							this.isShow7 = false;
@@ -1987,8 +1884,6 @@
 							this.warningMessage = '批量操作职位失败,开启和关闭不能同时操作';
 							this.warningModal = true;
 						}
-					}).catch((error) => {
-						// console.log(error);
 					})
 				} else {
 					this.isHide = false;
@@ -2010,8 +1905,6 @@
               setTimeout(() => {
                 this.successModal = false;
               }, 1500);
-            }).catch((error) => {
-            //   console.log(error);
             })
 
            },
@@ -2040,7 +1933,6 @@
 					axios.post(hostOffManagement, {
 						cxkjCenterPowerList: this.cxkjCenterPowerList
 					}).then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.isHide = false;
 							this.isShow9 = false;
@@ -2061,8 +1953,6 @@
 							this.warningMessage = '批量操作权限组失败,开启和关闭不能同时操作';
 							this.warningModal = true;
 						}
-					}).catch((error) => {
-						// console.log(error);
 					})
 				} else {
 					this.isHide = false;
@@ -2084,7 +1974,6 @@
 							id:ids
 						})
 					).then((res)=>{
-						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							let datas = res.data.entity;
 							this.addCompany.name = datas.name;
@@ -2093,7 +1982,6 @@
 							this.addCompany.wxpayMchid = datas.wxpayMchid;
 							this.addCompany.alipayAppid = datas.alipayAppId;
 							this.addCompany.alipayPrivatekey = datas.alipayPrivateKey;
-							// console.log(this.addCompany);
 						}
 					})
 				}
@@ -2126,7 +2014,6 @@
 							alipayPrivatekey:this.addCompany.alipayPrivatekey,
 						})
 					).then((res)=>{
-						console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							this.isHide = false;
 							this.isShow11 = false;
@@ -2158,7 +2045,6 @@
 					this.addCompany.alipayPrivatekey = '';
 				}
 				else if(this.adds4 == '编辑公司'){
-					// console.log(this.addCompany);
 					axios.post(amendCompany500152,
 						qs.stringify({
 							id:this.CompanyID,
@@ -2170,7 +2056,6 @@
 							alipayPrivatekey:this.addCompany.alipayPrivatekey,
 						})
 					).then((res)=>{
-						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000) {
 							this.isHide = false;
 							this.isShow11 = false;
@@ -2215,7 +2100,6 @@
 					}
 				}
 				let idm = idArray.join(',');
-				// console.log(idm);
 				if(idArray.length>0){
 					if(this.titles == '批量开放'){
 						axios.post(batchCompany500154,
@@ -2224,7 +2108,6 @@
 								status:0
 							})
 						).then((res)=>{
-							// console.log(res);
 							if(res.status == 200 && res.data.code == 10000) {
 								this.isHide = false;
 								this.CompanyisShow = false;
@@ -2251,7 +2134,6 @@
 								status:1
 							})
 						).then((res)=>{
-							// console.log(res);
 							if(res.status == 200 && res.data.code == 10000) {
 								this.isHide = false;
 								this.CompanyisShow = false;
