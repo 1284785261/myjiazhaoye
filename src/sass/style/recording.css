@@ -53,6 +53,13 @@
     left: 0;
     top: 0;
 }
+.recording .lives .lis .SerialNumber{
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 12px;
+    color:#ffffff;
+}
 .recording .lives .lis .hfs{
     display: inline-block;
     width: 68px;

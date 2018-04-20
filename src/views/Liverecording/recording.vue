@@ -24,6 +24,7 @@
 							<li v-for="item in Datas" class="lis">
 								<img :src="imgPath + item.imgs" class="logs" v-if="item.imgs">
 								<img :src="imgPath + '/files/introduce/0io43171012150401.jpg'" class="logs" v-if="!item.imgs">
+								<span class="SerialNumber">活动编号：{{item.thirdActivityId}}</span>
 								<span class="hfs"> · 录播回放</span>
 								<span class="commid">{{item.communityName?item.communityName:''}}</span>
 								
@@ -117,7 +118,7 @@
 				param.append('pageNum',vm.pageNum);
 				param.append('pageSize',vm.pageSize);
                 axios.post(hostAllLiveList, param).then((res)=>{
-                    // console.log(res);
+                    console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         this.Datas = res.data.pageBean.page;
 						this.totalNum = res.data.pageBean.totalNum;

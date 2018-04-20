@@ -177,7 +177,7 @@
 								<td>首款支付方式:</td>
 								<td>
 									<el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
-									<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
+									<!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
 								</td>
 							</tr>
 							<tr v-show="radio3 == 2">
@@ -251,7 +251,7 @@
 								<table class="table ivu-table">
 									<tr v-for="tableRepair in tableRepairs2">
 										<td width="150px">
-											<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10"/>
+											<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
 										</td width="140px">
 										<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="10"></td>
 										<td></td>
@@ -267,7 +267,7 @@
 					<div class="ivu-floor loadin8">
 
 						<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
-						<Button class="addm" @click="SigController2">提交</Button>
+						<Button class="addm" @click="SigController2" :disabled="disabledm">提交</Button>
 
 					</div>
 				</div>
@@ -429,11 +429,11 @@
 				imgList:[],
 				imgPath:'',
 				fileList:[],
-				option1: {
-					disabledDate (date) {
-						return date && date.valueOf() < Date.now() - 86400000;
-					}
-				},
+				// option1: {
+				// 	disabledDate (date) {
+				// 		return date && date.valueOf() < Date.now() - 86400000;
+				// 	}
+				// },
 				option2: {
 					disabledDate (date) {
 						return date && date.valueOf() <= _this.onhrie;
@@ -453,7 +453,8 @@
 				freeMonth:null,  //免租期
 				giveMonth:'', //赠送日期段
 				letcup:true,
-				deposittext:''
+				deposittext:'',
+				disabledm:false
 			}
 		},
 		mounted() {
@@ -517,7 +518,7 @@
 				//联合办公计算方式
 				let q = 0;
 				let fy = (vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100);//第一个月房费计算方式
-				let fw = vm.serve * parseFloat((days-daym)/days).toFixed(10);//第一个月服务费计算方式
+				let fw = parseFloat(vm.serve * parseFloat((days-daym)/days).toFixed(10)).toFixed(2);//第一个月服务费计算方式
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
 				for(let i = 0; i < this.tableRepairs.length; i++) {   //其他费用总和
@@ -977,6 +978,7 @@
 				let vm = this         //办公室租客签约
 				let param = new FormData();
 				let arr = [];
+				this.disabledm = true;
 				for(let i = 0;i< this.tableRepairs.length;i++){
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != ''){
 						arr.push({"costName":this.tableRepairs[i].inputValue,"costAmount":this.tableRepairs[i].date});
@@ -996,8 +998,9 @@
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
 				if(this.fileList.length < 9){
-                  this.warningModal = true;
-                  this.warningModal = '证明未上传完整';
+				  this.warningMessage = '证明未上传完整';
+				  this.warningModal = true;
+				  this.disabledm = false;
                   return
                 }
                 param.append('credentialsImages',JSON.stringify(vm.fileList));
@@ -1053,20 +1056,22 @@
 						vm.successModal = true;
 						setTimeout(()=>{
 							vm.successModal = false;
-							this.$router.push('/apartment/workbench');
+							vm.disabledm = false;
+							this.$router.push('/contract/contractIndex');
 						},3000);
 					}
 		        	else{
+						vm.disabledm = false;
 						vm.warningMessage = '签约失败';
 		        		vm.warningModal = true;
 		        	}
 				})
 				.catch(error=>{
-					vm.warningMessage = '签约信息不完整，请检查信息是否填写完整';
-		        	vm.warningModal = true;
+					vm.warningMessage = '签约信息不完整,请检查信息填写';
+					vm.warningModal = true;
+					
 					// console.log(error);
 				})
-		       
 			}
 		}
 	}

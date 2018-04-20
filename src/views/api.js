@@ -5,14 +5,14 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
-const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+// const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
+// export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
 // const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
-// const host3 = 'http://192.168.20.191:8080';
+const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 // const host3 = 'http://192.168.20.135:8091';//李志guang
 // const host3 = 'http://192.168.20.124:8081';//周昭滨
@@ -616,6 +616,7 @@ export const ShorthouseType300205 = host3 + ShorthouseType;
 export const ShortRoomUpdate200216 = host3 + ShortRoomUpdate;
 export const ShortPmsDelComment300207 = host3 + PmsDelComment;
 export const ShortOrderRoomUpdate200217 = host3 + ShortOrderRoomUpdate;
+export const AllBillMap500163 = host3 + '/cxkj-room/AllBillMap500163';
 export const host = host3;
 //export default {
 //hosts:function(){

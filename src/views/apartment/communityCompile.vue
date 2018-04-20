@@ -382,7 +382,7 @@
         let vm = this
         let param = new FormData(); //创建form对象
         vm.communityContract = this.pdfName.join(',');
-        vm.disabled = false;
+        vm.disabled = true;
         // console.log(vm.communityContract);
 				// console.log(vm.communityOpeningDate)
 				// console.log(vm.communityPhone)
@@ -449,7 +449,7 @@
               setTimeout(() => {
                 this.successModal = false;
                 this.fullscreenLoading = false;
-                vm.disabled = true;
+                vm.disabled = false;
                 vm.$router.push('/apartment/communityManagement');
               }, 2000);
 
@@ -457,6 +457,7 @@
               this.fullscreenLoading = false;
               this.warningMessage = res.data.content;
               this.warningModal = true;
+              vm.disabled = false;
             }
           })
             .catch(error => {
@@ -467,7 +468,7 @@
       },
       Complie2() {
         let vm = this
-        vm.disabled2 = false;
+        vm.disabled2 = true;
         let param2 = new FormData(); //创建form对象
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
@@ -539,12 +540,13 @@
                 setTimeout(() => {
                   this.fullscreenLoading = false;
                   this.successModal = false;
-                  vm.disabled2 = true;
+                  vm.disabled2 = false;
                   vm.$router.push('/apartment/communityManagement');
                 }, 3000);
 
               } else {
                 this.fullscreenLoading = false;
+                vm.disabled2 = false;
                 this.warningMessage = res.data.content;
                 this.warningModal = true;
               }

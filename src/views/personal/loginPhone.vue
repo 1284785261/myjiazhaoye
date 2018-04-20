@@ -32,13 +32,16 @@
 		        			</tr>
 		        			<tr>
 		        				<td>验证码:</td>
-		        				<td><input type="text" id="yzm" placeholder="请输入短信验证码" v-model="verify2"><a @click="mvs2">获取验证码</a></td>
+		        				<td><input type="text" id="yzm" placeholder="请输入短信验证码" v-model="verify2"><a @click="mvs2" :disabled="disabled2">获取验证码</a></td>
 		        			</tr>
 		        		</table>
 		        		<div class="yz3" v-show="ins">
 		        			<i class="el-icon-warning"></i><span>验证码已发送，{{time}}s内输入有效</span>
 		        		</div>
-		        		<div class="yz3 yz4" v-show="ins2">
+		        		<div class="yz3 yz4" v-show="ins2 == 0">
+							<i class="el-icon-warning"></i><span>验证码已发送，{{time2}}s内输入有效</span>
+		        		</div>
+						<div class="yz3 yz4" v-show="ins2 == 1">
 		        			<i class="el-icon-circle-close"></i><span>{{title2}}</span>
 		        		</div>
 		        		<button @click="amendwin()" class="tj">提交</button>
@@ -76,16 +79,17 @@
     	data(){
     		return{
     			ins:false,
-    			ins2:false,
-    			time:120,
+    			ins2:3,
+				time:120,
+				time2:120,
     			phone:null,
     			verify:null,
     			phones:null,
     			verify2:null,
-    			disabled:false,
+				disabled:false,
+				disabled2:false,
     			title2:'你输入的验证码错误，请重新获取',
     			ts:false,
-    			oldphone:false,
     			successModal: false,
 		        warningModal: false,
 		        successMessage: '添加成功',
@@ -96,9 +100,6 @@
     		this.phone = sessionStorage.getItem("phone");
     	},
     	methods:{
-    		amendwin(){
-    			this.$router.push({path:"/amendWin"});
-    		},
     		mvs(){
     			let vm = this
     			
@@ -111,7 +112,8 @@
     			.then((response)=>{
     				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
-    					vm.ins = true;
+						vm.ins = true;
+						vm.disabled = true;
     					let times = setInterval(function(){
 		    				vm.time--;
 		    				if(vm.time <= 0){
@@ -124,11 +126,11 @@
     				}
     				else if(response.data.code == 10004){
     					vm.disabled = false;
-    					vm.ins2 = true;
+    					vm.ins2 = 1;
     					vm.ins = false;
     					vm.title2 = response.data.content +',请勿频繁发送验证码';
     					setTimeout(function(){
-    						vm.ins2 = false;
+    						vm.ins2 = 3;
     					},3000);
     				}
     			})
@@ -140,69 +142,72 @@
 		        this.warningModal = false;
 		    },
     		mvs2(){
-    			let vm = this
+				let vm = this
     			axios.post(hostAuthcode,   //请求新手机验证码
     				qs.stringify({
-    					'phone':vm.phone,
+    					'phone':vm.phones,
     					'messageType': 0
     				})
     			)
     			.then((response)=>{
-    				// console.log(response);
+    				console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
-    					vm.ins = true;
+						vm.ins2 = 0;
+						vm.disabled2 = true;
     					let times = setInterval(function(){
-		    				vm.time--;
-		    				if(vm.time <= 0){
+		    				vm.time2--;
+		    				if(vm.time2 <= 0){
 		    					clearInterval(times);
-		    					vm.ins = false;
-		    					vm.disabled = false;
+		    					vm.ins2 = 3;
+		    					vm.disabled2 = false;
 		    					
 		    				}
 		    			},1000);
     				}
     				else if(response.data.code == 10004){
-    					vm.disabled = false;
-    					vm.ins2 = true;
-    					vm.ins = false;
+    					vm.disabled2 = false;
+    					vm.ins2 = 1;
     					vm.title2 = response.data.content +',请勿频繁发送验证码';
     					setTimeout(function(){
-    						vm.ins2 = false;
+    						vm.ins2 = 3;
     					},3000);
     				}
     			})
     			.catch((error)=>{
     				// console.log(error);
     			})
-    		},
+			},
+			//验证旧手验证码是否正确
     		yanz(){
-    			let vm = this
-    			axios.post(hostPhone,
-    				qs.stringify({
-    					oldPhone :vm.phone,
-    					verifyCode:vm.verify
-    				})
-    			)
-    			.then((response)=>{
-    				// console.log(response);
-    				let code = parseInt(response.data.code)
-    				if(code == 10000){
-    					clearInterval(times);
-    					vm.ins = false;
-    					vm.ins2 = true;
-    					vm.disabled = false;
-    					vm.title2 = '原手机'+ response.data.content;
-    					vm.oldphone = true;
-    				}
-    				else{
-    					vm.ins2 = true;
-    					vm.title2 ='原手机还未进行验证';
-    				}
-    				
-    			})
-    			.catch((error)=>{
-    				// console.log(error);
-    			})
+				let vm = this
+				if(vm.verify){
+					axios.post(hostPhone,
+						qs.stringify({
+							oldPhone :vm.phone,
+							verifyCode:vm.verify
+						})
+					)
+					.then((response)=>{
+						// console.log(response);
+						if(response.data.code == 10000 && response.status == 200){
+							vm.ins = false;
+							vm.disabled = false;
+						}
+						else{
+							vm.ins2 = 1;
+							vm.title2 ='原手机未验证成功';
+						}
+						
+					})
+					.catch((error)=>{
+						vm.ins2 = 1;
+						vm.title2 ='原手机未验证成功';
+					})
+				}else{
+					vm.ins2 = 3;
+					vm.disabled2 = false;
+				}
+    			
     		},
     		yans(phones){
     			if((/^1[34578]\d{9}$/.test(phones))){
@@ -212,37 +217,36 @@
     				this.ts = false;
     			}
     		},
-    		tj(){
+    		amendwin(){
     			let vm = this
-    			if(this.ts == true){
+    			if(this.ts){
     				axios.post(hostPhone,
     				qs.stringify({
     					newPhone:vm.phones,
     					verifyCode:vm.verify2
     				}))
     				.then((response) => {
-    					let code = parseInt(response.data.code);
-    					if(code  == 10000){
+    					if(response.data.code == 10000 && response.status == 200){
     						this.successMessage = '修改手机号成功';
               				this.successModal = true;
               				setTimeout(() => {
               					this.successModal = false;
               					this.$router.push({path:"/amendWin",query:{names:'修改手机号码'}});
               				}, 2000);
-    						
     					}
     					else{
-    						vm.ins2 = true;
-    						vm.title2 ='新手机'+ response.data.content;
+    						vm.ins2 = 1;
+    						vm.title2 ='你输入的验证码错误，请重新获取';
     					}
     				})
     				.catch((error) => {
-    					// console.log(error);
+    					vm.ins2 = 1;
+    					vm.title2 ='你输入的验证码错误，请重新获取';
     				})
     			}
     			else{
-    				vm.ins2 = true;
-    				vm.title2 ='原手机验证不通过';
+    				vm.ins2 = 1;
+    				vm.title2 ='请输入正确的新手机号码获取验证码';
     			}
     		}
     	}
@@ -256,13 +260,12 @@
   
 .yz3{
 	position: absolute;
-	left: 208px;
-	top: 104px;
+	left: 200px;
+	top: 98px;
 	color: #ff6612;
 }
 .yz3 i{
 	color: #ff6612;
-	font-size: 16px;
 	margin-right: 8px;
 }
 .yz3 span{
@@ -272,13 +275,13 @@
 .yz4{
 	margin-top:5px;
 	color: #ee120e;
-	top: 230px;
+	top: 215px;
 }
 .yz4 i{
 	color: #ee120e;
 }
 .logins .tj{
-	margin-left: 204px;
+	margin-left: 200px;
 }
 .logins table tr td .zqs{
 	color: #2abb7c;

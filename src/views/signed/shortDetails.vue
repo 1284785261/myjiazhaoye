@@ -616,35 +616,38 @@
 			//设置短租房间退房
 			checkout(){
 				let vm = this
-				if(this.Datas.pmsOrder.orderState == 8){
-					this.warningMessage = '当前房间非退租状态，无法退租';
-					this.warningModal = true;
-					return
-				}else{
-					axios.post(ShortOrderRoomUpdate200217,
-					qs.stringify({
-						id:vm.Datas.pmsOrder.orderNum
-					})
-					).then((res)=>{
-						console.log(res);
-						if(res.status == 200 && res.data.code == 10000){
-							this.successMessage = '退房确认成功';
-							this.successModal = true;
-							this.isHide = false;
-							this.isHide6 = false;
-							setTimeout(() => {
-								this.successModal = false;
-								this.datas();
-							}, 2000);
-						}else{
-							this.warningMessage = res.data.content;
+				// if(this.Datas.pmsOrder && this.Datas.pmsOrder.orderState == 8){
+				// 	this.warningMessage = '当前房间非退租状态，无法退租';
+				// 	this.warningModal = true;
+				// 	return
+				// }else{
+				// 	if(vm.Datas.pmsOrder && vm.Datas.pmsOrder.orderNum){
+						axios.post(ShortOrderRoomUpdate200217,
+						qs.stringify({
+							id:vm.Datas.pmsOrder.orderNum
+						})
+						).then((res)=>{
+							console.log(res);
+							if(res.status == 200 && res.data.code == 10000){
+								this.successMessage = '退房确认成功';
+								this.successModal = true;
+								this.isHide = false;
+								this.isHide6 = false;
+								setTimeout(() => {
+									this.successModal = false;
+									this.datas();
+								}, 2000);
+							}else{
+								this.warningMessage = res.data.content;
+								this.warningModal = true;
+							}
+						}).catch((error)=>{
+							this.warningMessage = '退房确认失败';
 							this.warningModal = true;
-						}
-					}).catch((error)=>{
-						this.warningMessage = '退房确认失败';
-						this.warningModal = true;
-					})
-				}
+						})
+				// 	}
+					
+				// }
 				
 			},
     		closeWarningModal() {

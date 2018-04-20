@@ -68,6 +68,7 @@
                   <td>
                     <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
+                    <router-link v-if='room.contractState != 1 && isUser' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
                   </td>
                 </tr>
               </table>
@@ -141,6 +142,7 @@
                   <td>
                       <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId,'office',office.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
+                      <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1 && isUser">查看总账单</router-link>
                   </td>
                 </tr>
               </table>
@@ -358,7 +360,8 @@ export default {
       warningMessage:"部分收款异常！",
       isMoney:true,//判断输入是否合法
       messageError:"",
-      paymentType:"room"//收款类型
+      paymentType:"room",//收款类型
+      isUser:sessionStorage.getItem("userPhone") && sessionStorage.getItem("userPhone") =='13246715680'?true:false
       }
    },
   mounted(){

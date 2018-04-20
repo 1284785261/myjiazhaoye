@@ -200,6 +200,7 @@ import qs from 'qs';
             
               if(parseInt(res.data.code)==10000){
                 sessionStorage.setItem("token",res.data.result.token);
+                sessionStorage.setItem("userPhone",this.formInline.user);
                 sessionStorage.setItem("success",JSON.stringify(res.data.entity));
                 that.$router.push({path:"/apartment/workbench"});
                 //把token上传到sessionStorage
@@ -341,7 +342,7 @@ import qs from 'qs';
     color:#ed3f14;
   }
   #loginBack{
-    min-height: 900px;
+    min-height: 984px;
     .shade{
       width: 100%;
       height: 100%;

@@ -117,19 +117,21 @@
     					
     				}
     				else{
-    					vm.inhide= true;
-    					vm.title2 = response.data.content;
+    					vm.inhide= false;
+						vm.title2 = '';
+						this.warningMessage = '修改密码失败';
+						this.warningModal = true;
     				}
     			})
     			.catch((error) => {
-    				// console.log(error);
+					vm.inhide= false;
+					this.warningMessage = '修改密码失败';
+					this.warningModal = true;
     			})
     		},
     		gain(){
     			let vm = this;
     			vm.time = 120;
-    			vm.disabled = true;
-    			vm.title = '发送中';
     			axios.post(hostAuthcode,
     				qs.stringify({
     					'phone':vm.phone,
@@ -137,8 +139,20 @@
     				})
     			)
     			.then((response)=>{
-    				// console.log(response);
-    				if(response.data.code == 10004){
+					// console.log(response);
+					if(response.data.code == 10000 && response.status == 200){
+						vm.chens = true;
+						vm.disabled = true;
+						let times = setInterval(function(){
+							vm.time--;
+							if(vm.time <= 0){
+								clearInterval(times);
+								vm.chens = false;
+								vm.disabled = false;
+							}
+						},1000);
+					}
+    				else if(response.data.code == 10004){
     					vm.inhide = true;
     					vm.chens = false;
     					vm.disabled = false;
@@ -148,15 +162,6 @@
     			.catch((error)=>{
     				// console.log(error);
     			})
-    			let times = setInterval(function(){
-    				vm.time--;
-    				if(vm.time <= 0){
-    					clearInterval(times);
-    					vm.chens = false;
-    					vm.disabled = false;
-    					vm.title = '获取验证码';
-    				}
-    			},1000);
     			
     			
     		},
@@ -166,16 +171,18 @@
     	},
     	watch:{
     		word2:function(val){
-    			// console.log(val);
-    			let vm = this;
-    			// console.log(vm.word1);
-    			if(val != vm.word1){
-    				vm.inhide = true;
-	    			
-    			}
-    			else if(val == vm.word1){
-	    			vm.inhide = false;
-	    		}
+				let vm = this;
+				if(val){
+					if(val != vm.word1){
+						vm.inhide = true;
+						
+					}
+					else if(val == vm.word1){
+						vm.inhide = false;
+					}
+				}else{
+					vm.inhide = false;
+				}
     		}
     	}
     }

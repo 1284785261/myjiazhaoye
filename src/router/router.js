@@ -390,10 +390,16 @@ export default new Router({
       name: 'historyMeter',
       component: resolve => require(['../views/bill/historyMeter.vue'],resolve)
     },{
-      path: '/bill/editGenerateBill',     //账单管理->生成水电账单
+      path: '/bill/householdBill',     //账单管理->生成水电账单
+      name: 'householdBill',
+      component: resolve => require(['../views/bill/householdBill.vue'],resolve)
+    },
+    {
+      path: '/bill/editGenerateBill',     //账单管理->住户总账单
       name: 'editGenerateBill',
       component: resolve => require(['../views/bill/editGenerateBill.vue'],resolve)
-    },{
+    },
+    {
       path:'/signed/complain',		//工作台-用户投诉
       name:'complain',
       component:resolve =>

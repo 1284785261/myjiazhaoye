@@ -125,7 +125,8 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+									<!-- <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker> -->
+									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
 									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
@@ -214,7 +215,7 @@
 									<td>首款支付方式:</td>
 									<td>
 										<el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
-										<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
+										<!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
 									</td>
 								</tr>
 								<tr v-show="radio3 == 2">
@@ -339,7 +340,7 @@
 									<table class="table ivu-table">
 										<tr v-for="tableRepair in tableRepairs2">
 											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" />
+												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
 											</td width="140px">
 											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
 											<td></td>
@@ -370,7 +371,7 @@
 								</tr>
 							</table>
 							<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
-							<Button class="addm" @click="SigController">提交</Button>
+							<Button class="addm" @click="SigController" :disabled="disabledm">提交</Button>
 
 						</div>
 					</div>
@@ -554,7 +555,7 @@
 									<td>首款支付方式:</td>
 									<td>
 										<el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
-										<el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio>
+										<!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
 									</td>
 								</tr>
 								<tr v-show="radio3 == 2           ">
@@ -707,7 +708,7 @@
 									<table class="table ivu-table">
 										<tr v-for="tableRepair in tableRepairs2">
 											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" />
+												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
 											</td width="140px">
 											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
 											<td></td>
@@ -894,11 +895,11 @@
 				loadList: [],
 				onhrie: null, //起租日
 				expire: null, //到租日
-				option1: {
-                    disabledDate (date) {
-                        return date && date.valueOf() < Date.now() - 86400000;
-                    }
-				},
+				// option1: {
+                //     disabledDate (date) {
+                //         return date && date.valueOf() < Date.now() - 86400000;
+                //     }
+				// },
 				option2: {
                     disabledDate (date) {
                         return date && date.valueOf() <= _this.onhrie;
@@ -917,7 +918,8 @@
 				depositRent:'',
 				letcup:true,
 				deposit:null,
-				deposittext:''
+				deposittext:'',
+				disabledm:false
 			}
 		},
 		mounted() {
@@ -978,7 +980,7 @@
 				//公寓签约计算方式
 				let q = 0;
 				let fy = (vm.housetderta.roomRent * parseFloat((days-daym)/days).toFixed(10)) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100);
-				let fw = vm.serves * parseFloat((days-daym)/days).toFixed(10);
+				let fw = parseFloat(vm.serves * parseFloat((days-daym)/days).toFixed(10)).toFixed(2);
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
 				
@@ -1011,7 +1013,7 @@
 					}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
 						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 						this.residuerentg = vm.housetderta.roomRent +'*3*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+						return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
 					}	
 				} else if(this.value2 == '半年付') {
 					if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted < 12){
@@ -1069,14 +1071,14 @@
 		filters: {
 			waterPrice(val) {
 				if(val != '0.00') {
-					return val.toFixed(2);
+					return parseFloat(val).toFixed(2);
 				} else {
 					return '0.00';
 				}
 			},
 			energyPrice(val) {
 				if(val != '0.00') {
-					return val.toFixed(2);
+					return parseFloat(val).toFixed(2);
 				} else {
 					return '0.00';
 				}
@@ -1544,6 +1546,7 @@
 			SigController() {
 				let vm = this //公寓个人租客签约
 				let arr = [];
+				this.disabledm = true;
 				for(let i = 0; i < this.tableRepairs.length; i++) {
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != '') {
 						arr.push({
@@ -1652,26 +1655,31 @@
 					param.append('ieList', this.ieList);
 				}
 				axios.post(hostSigController, param).then(res => {
-						console.log(res);
-						if(res.status == 200 && res.data.code == 10000) {
+					console.log(res);
+					if(res.status == 200 && res.data.code == 10000) {
 
-							vm.successModal = true;
-							setTimeout(() => {
-								vm.successModal = false;
-								this.$router.push('/apartment/workbench');
-							}, 3000);
-						} else {
-							vm.warningMessage = res.data.content;
-							vm.warningModal = true;
-						}
-					})
-					.catch(error => {
-					})
+						vm.successModal = true;
+						setTimeout(() => {
+							vm.successModal = false;
+							vm.disabledm = false;
+							this.$router.push('/contract/contractIndex');
+						}, 3000);
+					} else {
+						vm.warningMessage = res.data.content;
+						vm.warningModal = true;
+						vm.disabledm = false;
+					}
+				})
+				.catch(error => {
+					vm.warningMessage = '签约信息不完整,请检查信息填写';
+					vm.warningModal = true;
+				})
 
 			},
 			SigController2() {
 				let vm = this //公寓公司租客签约
 				let arr = [];
+				this.disabledm = true;
 				for(let i = 0; i < this.tableRepairs.length; i++) {
 					if(this.tableRepairs[i].inputValue != '' && this.tableRepairs[i].date != '') {
 						arr.push({
@@ -1801,14 +1809,18 @@
 							vm.successModal = true;
 							setTimeout(() => {
 								vm.successModal = false;
-								this.$router.push('/apartment/workbench');
+								vm.disabledm = false;
+								this.$router.push('/contract/contractIndex');
 							}, 3000);
 						} else {
+							vm.disabledm = false;
 							vm.warningMessage = res.data.content;
 							vm.warningModal = true;
 						}
 					})
 					.catch(error => {
+						vm.warningMessage = '签约信息不完整,请检查信息填写';
+						vm.warningModal = true;
 					})
 
 			}

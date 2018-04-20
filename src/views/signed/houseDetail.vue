@@ -27,7 +27,7 @@
 		    					<p>租金：<span>{{Datas.roomRent | roomRent}}</span></p>
 		    				</td>
 		    				<td width="20%" rowspan="2">
-		    					<a>新签租约</a>
+		    					<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:name}}">新签租约</router-link>
 		    					<a @click="instas()">调价</a>
 		    				</td>
 		    			</tr>
