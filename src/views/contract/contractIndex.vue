@@ -551,7 +551,7 @@ export default {
             that.roomContractList = pageBean.page;
             that.roomTotalNum = pageBean.totalNum;
           }
-          if(res.data.code == 10008){
+          else{
             that.roomContractList = [];
             that.roomTotalNum = 0;
           }
@@ -585,7 +585,7 @@ export default {
             that.officeContractList = pageBean.page;
             that.officeTotalNum = pageBean.totalNum;
           }
-          if(res.data.code == 10008){
+          else{
             that.officeContractList = [];
             that.officeTotalNum = 0;
           }
@@ -621,7 +621,7 @@ export default {
             // console.log(that.propertyContractList);
             that.propertyTotalNum = pageBean.totalNum;
           }
-          if(res.data.code == 10008){
+          else{
             that.propertyContractList = [];
             that.propertyTotalNum = 0;
           }

@@ -481,7 +481,6 @@
 				//获取当前月份
 				var mouth = date.getMonth() + 1;
 				var daym = datms.getDate() - 1;
-
 				var expireyear = expiredate.getFullYear();
 				//获取到期日期月份
 				var expiremouth = expiredate.getMonth() + 1;
@@ -541,31 +540,66 @@
 					this.residuerent = '';
 					this.residuerentg = '';	
 				} else if(this.value2 == '季付') {
-					if(vm.apartments[vm.activ].letMounted >= 3 && vm.apartments[vm.activ].letMounted < 6){
-						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
-						this.residuerentg = '('+vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
-					}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
-						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
-						this.residuerentg = vm.housetderta.roomRent +'*3*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
-					}	
-				} else if(this.value2 == '半年付') {
-					if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted < 12){
-						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
-						this.residuerentg = '('+vm.housetderta.roomRent +'*5+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+					if(datms.getDate() == 1){
+						if(vm.apartments[vm.activ].letMounted >= 3 && vm.apartments[vm.activ].letMounted < 6){
+							
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = vm.housetderta.roomRent +'*2*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+						}
+					}else{
+						if(vm.apartments[vm.activ].letMounted >= 3 && vm.apartments[vm.activ].letMounted < 6){
+							
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = vm.housetderta.roomRent +'*3*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+						}
 					}
-					else if(vm.apartments[vm.activ].letMounted == 12){
-						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
-						this.residuerentg = vm.housetderta.roomRent +'*6*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
+				} else if(this.value2 == '半年付') {
+					if(datms.getDate() == 1){
+						if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted < 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*5+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}
+						else if(vm.apartments[vm.activ].letMounted == 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = vm.housetderta.roomRent +'*5*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
+						}
+					}else{
+						if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted < 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*5+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}
+						else if(vm.apartments[vm.activ].letMounted == 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = vm.housetderta.roomRent +'*6*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
+						}
 					}
 				} else if(this.value2 == '年付') {
-					if(vm.apartments[vm.activ].letMounted == 12){
-						this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
-						this.residuerentg = '('+vm.housetderta.roomRent +'*11+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-						return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+					if(datms.getDate() == 1){
+						if(vm.apartments[vm.activ].letMounted == 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*11+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}
+					}else{
+						if(vm.apartments[vm.activ].letMounted == 12){
+							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
+							this.residuerentg = '('+vm.housetderta.roomRent +'*11+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 11) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
+						}
 					}
 				}
 			},
@@ -823,17 +857,17 @@
 				date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
 				date2 = date2.split('-');
 				date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
-				if(Math.abs(date2 - date1) < 3 && val  == '季付'){
+				if(Math.abs(date2 - date1) < 2 && val  == '季付'){
 					vm.warningModal = true;
 					vm.warningMessage = '签约方式选择季付，租期不能小于三个月';
 					vm.value2 = this.options3[0].name;
 				}
-				else if(Math.abs(date2 - date1) < 6 && val  == '半年付'){
+				else if(Math.abs(date2 - date1) < 5 && val  == '半年付'){
 					vm.warningModal = true;
 					vm.warningMessage = '签约方式选择半年付，租期不能小于六个月';
 					vm.value2 = this.options3[0].name;
 				}
-				else if(Math.abs(date2 - date1) < 12 && val  == '年付'){
+				else if(Math.abs(date2 - date1) < 11 && val  == '年付'){
 					vm.warningModal = true;
 					vm.warningMessage = '签约方式选择年付，租期不能小于一年';
 					vm.value2 = this.options3[0].name;
@@ -851,45 +885,44 @@
 
 			},
 			apart(index) {
+				let vm = this
 				this.activ = index;
-
 				if(this.onhrie) {
-					var nes = new Date(this.onhrie);
-					if(index == 0) {
-						nes.setFullYear(nes.getFullYear() + 1);
-						nes.setMonth(nes.getMonth(),nes.getDate()-1);
-						this.expire = nes;
-						this.letMounted = 12;
-					} else if(index == 1) {
-						nes.setMonth(nes.getMonth() + 6,nes.getDate()-1);
-						this.expire = nes;
-						this.letMounted = 6;
-					} else if(index == 2) {
-						nes.setMonth(nes.getMonth() + 3,nes.getDate()-1);
-						this.expire = nes;
-						this.letMounted = 3;
-					} else if(index == 3) {
-						nes.setMonth(nes.getMonth() + 1,nes.getDate()-1);
-						this.expire = nes;
-						this.letMounted = 1;
-					}
-					if(this.value2  == '季付' && this.letMounted < 3){
+					if(this.value2  == '季付' && this.apartments[this.activ].letMounted < 3){
 						this.warningModal = true;
 						this.warningMessage = '签约方式选择季付，租期不能小于三个月';
 						this.activ = 2;
-						this.letMounted = 3;
 					}
-					else if(this.value2  == '半年付' && this.letMounted < 6){
+					else if(this.value2  == '半年付' && this.apartments[this.activ].letMounted < 6){
 						this.warningModal = true;
 						this.warningMessage = '签约方式选择半年付，租期不能小于六个月';
 						this.activ = 1;
-						this.letMounted = 6;
 					}
-					else if(this.value2  == '年付' && this.letMounted < 12){
+					else if(this.value2  == '年付'&& this.apartments[this.activ].letMounted < 12){
 						this.warningModal = true;
 						this.warningMessage = '签约方式选择年付，租期不能小于十二个月';
 						this.activ = 0;
-						this.letMounted = 12;
+					}else{
+						
+						var nes = new Date(this.onhrie);
+						if(index == 0) {
+							nes.setFullYear(nes.getFullYear() + 1);
+							nes.setMonth(nes.getMonth(),nes.getDate()-1);
+							this.expire = nes;
+							this.letMounted = 12;
+						} else if(index == 1) {
+							nes.setMonth(nes.getMonth() + 6,nes.getDate()-1);
+							this.expire = nes;
+							this.letMounted = 6;
+						} else if(index == 2) {
+							nes.setMonth(nes.getMonth() + 3,nes.getDate()-1);
+							this.expire = nes;
+							this.letMounted = 3;
+						} else if(index == 3) {
+							nes.setMonth(nes.getMonth() + 1,nes.getDate()-1);
+							this.expire = nes;
+							this.letMounted = 1;
+						}
 					}
 				}
 				else{

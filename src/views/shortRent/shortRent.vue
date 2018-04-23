@@ -64,13 +64,14 @@
 
               <el-checkbox-group v-model="checkList" @change="allcheckList(checkList)">
                   <span style="margin-left:10px;line-height: 38px;">开始时间：</span>
+                  <el-checkbox label="日"></el-checkbox>
                   <el-checkbox label="一"></el-checkbox>
                   <el-checkbox label="二"></el-checkbox>
                   <el-checkbox label="三"></el-checkbox>
                   <el-checkbox label="四"></el-checkbox>
                   <el-checkbox label="五"></el-checkbox>
                   <el-checkbox label="六"></el-checkbox>
-                  <el-checkbox label="日"></el-checkbox>
+                 
               </el-checkbox-group>
               <Checkbox v-model="single" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
               <div class="form-item">
@@ -189,25 +190,24 @@
         },
         //全选时间事件
         handleCheckAll2(){
-
+            this.dayNumList = [];
             this.single = !this.single;
             if(this.single == true){
+                this.checkList.push('日');
                 this.checkList.push('一');
                 this.checkList.push('二');
                 this.checkList.push('三');
                 this.checkList.push('四');
                 this.checkList.push('五');
                 this.checkList.push('六');
-                this.checkList.push('日');
-                // console.log(this.dayNumList);
-                for(let i = 0;i<this.checkList.length;i++){
+                let arrs = Array.from(new Set(this.checkList));
+                for(let i = 0;i<arrs.length;i++){
                     let DataSour = new Date(this.stateDatas);
                     let data = new Date(this.stateDatas).Format("yyyy-MM-dd");
                     let now = data.split('-');
                     now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
-                    if(this.checkList[i] =='一'){
-                        let Daysum = DataSour.getDay()+1 - 1;
-                        console.log(Daysum);
+                    if(arrs[i] =='一'){
+                        let Daysum = DataSour.getDay()+1 - 2;
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
@@ -215,55 +215,49 @@
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
 
-                    }else if(this.checkList[i] =='二'){
-                    let Daysum = DataSour.getDay()+1 - 2;
-                        console.log(Daysum);
-                        if(Daysum > 0){
-                            now.setDate(now.getDate() - Daysum);
-                        }else{
-                            now.setDate(now.getDate() - Daysum);
-                        }
-                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    }else if(this.checkList[i] =='三'){
+                    }else if(arrs[i] =='二'){
                     let Daysum = DataSour.getDay()+1 - 3;
-                        console.log(Daysum);
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    }else if(this.checkList[i] =='四'){
+                    }else if(arrs[i] =='三'){
                     let Daysum = DataSour.getDay()+1 - 4;
-                        console.log(Daysum);
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    }else if(this.checkList[i] =='五'){
-                        let Daysum = DataSour.getDay()+1 - 5;
-                        console.log(Daysum);
+                    }else if(arrs[i] =='四'){
+                    let Daysum = DataSour.getDay()+1 - 5;
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    }else if(this.checkList[i] =='六'){
+                    }else if(arrs[i] =='五'){
                         let Daysum = DataSour.getDay()+1 - 6;
-                        console.log(Daysum);
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
                             now.setDate(now.getDate() - Daysum);
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
-                    }else if(this.checkList[i] =='日'){
-                        console.log(DataSour.getDay()+1);
+                    }else if(arrs[i] =='六'){
                         let Daysum = DataSour.getDay()+1 - 7;
-                        console.log(Daysum);
+                        if(Daysum > 0){
+                            now.setDate(now.getDate() - Daysum);
+                        }else{
+                            now.setDate(now.getDate() - Daysum);
+                        }
+                        this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
+                    }else if(arrs[i] =='日'){
+                        console.log(DataSour.getDay()+1);
+                        let Daysum = DataSour.getDay()+1 - 1;
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
                         }else{
@@ -276,11 +270,9 @@
                 this.checkList = [];
                 this.dayNumList = [];
             }
-
         },
         //选中星期得到日期
         allcheckList(list){
-            console.log(list);
             if(list.length >= 7){
                 this.single = true;
             }
@@ -294,8 +286,7 @@
                 let now = data.split('-');
                 now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
                 if(list[i] =='一'){
-                    let Daysum = DataSour.getDay()+1 - 1;
-                    console.log(Daysum);
+                    let Daysum = DataSour.getDay()+1 - 2;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -303,8 +294,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='二'){
-                   let Daysum = DataSour.getDay()+1 - 2;
-                    console.log(Daysum);
+                   let Daysum = DataSour.getDay()+1 - 3;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -312,8 +302,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='三'){
-                   let Daysum = DataSour.getDay()+1 - 3;
-                    console.log(Daysum);
+                   let Daysum = DataSour.getDay()+1 - 4;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -321,8 +310,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='四'){
-                   let Daysum = DataSour.getDay()+1 - 4;
-                    console.log(Daysum);
+                   let Daysum = DataSour.getDay()+1 - 5;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -330,8 +318,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='五'){
-                    let Daysum = DataSour.getDay()+1 - 5;
-                    console.log(Daysum);
+                    let Daysum = DataSour.getDay()+1 - 6;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -339,8 +326,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='六'){
-                    let Daysum = DataSour.getDay()+1 - 6;
-                    console.log(Daysum);
+                    let Daysum = DataSour.getDay()+1 - 7;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -348,9 +334,7 @@
                     }
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }else if(list[i] =='日'){
-                    console.log(DataSour.getDay()+1);
-                    let Daysum = DataSour.getDay()+1 - 7;
-                    console.log(Daysum);
+                    let Daysum = DataSour.getDay()+1 - 1;
                     if(Daysum > 0){
                         now.setDate(now.getDate() - Daysum);
                     }else{
@@ -359,11 +343,11 @@
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }
             }
-            // console.log(this.dayNumList);
 
         },
         //获取价格设置组件传递的日期
         setPrice(dataIf){
+            this.checkList = [];
             // console.log(dataIf);
             this.isHide = dataIf.isHide;
             this.stateDatas = dataIf.date3;
@@ -372,19 +356,19 @@
             let tmpdate = new Date(this.stateDatas);
             // console.log(tmpdate.getDay());
             if(tmpdate.getDay() == 0){
-                this.checkList.push('一');
-            }else if(tmpdate.getDay() == 1){
-                this.checkList.push('二');
-            }else if(tmpdate.getDay() == 2){
-                this.checkList.push('三');
-            }else if(tmpdate.getDay() == 3){
-                this.checkList.push('四');
-            }else if(tmpdate.getDay() == 4){
-                this.checkList.push('五');
-            }else if(tmpdate.getDay() == 5){
-                this.checkList.push('六');
-            }else if(tmpdate.getDay() == 6){
                 this.checkList.push('日');
+            }else if(tmpdate.getDay() == 1){
+                this.checkList.push('一');
+            }else if(tmpdate.getDay() == 2){
+                this.checkList.push('二');
+            }else if(tmpdate.getDay() == 3){
+                this.checkList.push('三');
+            }else if(tmpdate.getDay() == 4){
+                this.checkList.push('四');
+            }else if(tmpdate.getDay() == 5){
+                this.checkList.push('五');
+            }else if(tmpdate.getDay() == 6){
+                this.checkList.push('六');
             }
             this.allcheckList(this.checkList);
         },
