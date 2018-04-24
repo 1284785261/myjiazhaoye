@@ -209,7 +209,7 @@
 										<div class="item-img">
 											<div class="uplodas" v-for="(item,index) in labelList" v-if="radio4 == '1'">
 												<div  v-if="!imgList[index]" @click="indexs = index">
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
+													<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传{{item}}</span>
 												</div>
@@ -224,7 +224,7 @@
 											</div>
 											<div class="uplodas" v-for="(item,index) in labelList2" v-if="radio4 == '2'">
 												<div  v-if="!imgList[index]" @click="indexs = index">
-													<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
+													<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
 													<Icon type="camera" class="icons"></Icon>
 													<span class="titew">上传{{item}}</span>
 												</div>
@@ -1083,28 +1083,35 @@
 				param.append('freeMonth',this.freeMonth);
 				param.append('datewayDiscount',this.apartments[this.activ].discount);
 				param.append('paywayDiscount',this.discount);
-		        axios.post(hostSignOffice,param).then(res =>{
-					console.log(res);
-		        	if(res.status == 200 && res.data.code == 10000){	
-						vm.successModal = true;
-						setTimeout(()=>{
-							vm.successModal = false;
-							vm.disabledm = false;
-							this.$router.push('/contract/contractIndex');
-						},3000);
-					}
-		        	else{
-						vm.disabledm = false;
-						vm.warningMessage = '签约失败';
-		        		vm.warningModal = true;
-		        	}
-				})
-				.catch(error=>{
-					vm.warningMessage = '签约信息不完整,请检查信息填写';
+				if(!this.cyclePayType){
+					vm.warningMessage = '未选择支付方式';
 					vm.warningModal = true;
-					
-					// console.log(error);
-				})
+					vm.disabledm = false;
+					return
+				}else{
+					axios.post(hostSignOffice,param).then(res =>{
+						console.log(res);
+						if(res.status == 200 && res.data.code == 10000){	
+							vm.successModal = true;
+							setTimeout(()=>{
+								vm.successModal = false;
+								vm.disabledm = false;
+								this.$router.push('/contract/contractIndex');
+							},3000);
+						}
+						else{
+							vm.disabledm = false;
+							vm.warningMessage = res.data.content;
+							vm.warningModal = true;
+						}
+					})
+					.catch(error=>{
+						vm.warningMessage = '签约信息不完整,请检查信息填写';
+						vm.warningModal = true;
+						
+						// console.log(error);
+					})
+				}
 			}
 		}
 	}

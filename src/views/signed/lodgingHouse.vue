@@ -280,7 +280,7 @@
 											<div class="item-img">
 												<div class="uplodas">
 													<div v-if="!uploadList[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传身份证正面照片</span>
 													</div>
@@ -296,7 +296,7 @@
 												</div>
 												<div class="uplodas">
 													<div v-if="!uploadList4[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传身份证反面照片</span>
 													</div>
@@ -312,7 +312,7 @@
 												</div>
 												<div class="uplodas" v-if="radio4 == '1'">
 													<div v-if="!uploadList2[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传合同照片/扫描件</span>
 													</div>
@@ -620,7 +620,7 @@
 											<div class="item-img">
 												<div class="uplodas">
 													<div v-if="!uploadList[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传身份证正面照片</span>
 													</div>
@@ -635,7 +635,7 @@
 												</div>
 												<div class="uplodas">
 													<div v-if="!uploadList4[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile4" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传身份证反面照片</span>
 													</div>
@@ -651,7 +651,7 @@
 												</div>
 												<div class="uplodas">
 													<div v-if="!uploadList2[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile2" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传委托书</span>
 													</div>
@@ -666,7 +666,7 @@
 												</div>
 												<div class="uplodas">
 													<div v-if="!uploadList6[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile6" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile6" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传营业执照</span>
 													</div>
@@ -681,7 +681,7 @@
 												</div>
 												<div class="uplodas" v-if="radio4 == '1'">
 													<div v-if="!uploadList3[0]">
-														<input type="file" accept="image/png,image/jpg" name="file" class="file" @change="uploadfile3" />
+														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile3" />
 														<Icon type="camera" class="icons"></Icon>
 														<span class="titew">上传合同</span>
 													</div>
@@ -1690,26 +1690,34 @@
 				if(this.ieList.length) {
 					param.append('ieList', this.ieList);
 				}
-				axios.post(hostSigController, param).then(res => {
-					console.log(res);
-					if(res.status == 200 && res.data.code == 10000) {
-
-						vm.successModal = true;
-						setTimeout(() => {
-							vm.successModal = false;
-							vm.disabledm = false;
-							this.$router.push('/contract/contractIndex');
-						}, 3000);
-					} else {
-						vm.warningMessage = res.data.content;
-						vm.warningModal = true;
-						vm.disabledm = false;
-					}
-				})
-				.catch(error => {
-					vm.warningMessage = '签约信息不完整,请检查信息填写';
+				if(!this.cyclePayType){
+					vm.warningMessage = '未选择支付方式';
 					vm.warningModal = true;
-				})
+					vm.disabledm = false;
+					return
+				}else{
+					axios.post(hostSigController, param).then(res => {
+						// console.log(res);
+						if(res.status == 200 && res.data.code == 10000) {
+
+							vm.successModal = true;
+							setTimeout(() => {
+								vm.successModal = false;
+								vm.disabledm = false;
+								this.$router.push('/contract/contractIndex');
+							}, 3000);
+						} else {
+							vm.warningMessage = res.data.content;
+							vm.warningModal = true;
+							vm.disabledm = false;
+						}
+					})
+					.catch(error => {
+						vm.warningMessage = '签约信息不完整,请检查信息填写';
+						vm.warningModal = true;
+					})
+				}
+				
 
 			},
 			SigController2() {
@@ -1840,7 +1848,13 @@
 				param.append('datewayDiscount',this.apartments[this.activ].discount);
 				param.append('paywayDiscount',this.discount);
 
-				axios.post(hostSignCompany, param).then(res => {
+				if(!this.cyclePayType){
+					vm.warningMessage = '未选择支付方式';
+					vm.warningModal = true;
+					vm.disabledm = false;
+					return
+				}else{
+					axios.post(hostSignCompany, param).then(res => {
 						if(res.status == 200 && res.data.code == 10000) {
 							vm.successModal = true;
 							setTimeout(() => {
@@ -1858,6 +1872,7 @@
 						vm.warningMessage = '签约信息不完整,请检查信息填写';
 						vm.warningModal = true;
 					})
+				}
 
 			}
 		}

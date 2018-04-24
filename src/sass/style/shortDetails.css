@@ -32,6 +32,7 @@
 	
 }
 #shortDetail table tr td{
+	text-align: left;
 	border: 1px solid #dcdcdc;
 }
 #shortDetail table tr td:nth-child(1){

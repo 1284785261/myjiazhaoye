@@ -1,13 +1,9 @@
 <template>
-    <div >
+    <div>
         <menu-box></menu-box>
         <div class="right-content" id="right-content">
             <right-header></right-header>
             <div class="wordbench-box">
-                <div class="ivu-site">
-                    <span>您现在的位置：</span>
-                    <router-link class="active" to="/shortRent">短租管理</router-link>
-                </div>
                 <Tabs type="card">
                     <Tab-pane label="社区房间状态">
                         <div class="message-ti">
@@ -46,45 +42,39 @@
                             <short-Room-Bill-list @openWarningModal="openWarningModal"></short-Room-Bill-list>
                         </div>
                     </Tab-pane>
-
-
-
-
                 </Tabs>
             </div>
             <footer-box></footer-box>
         </div>
-        <div class="scherm" v-show="isHide">
-          </div>
-          <div class="setmeal" v-show="isHide">
-              <p>设置</p>
-              <i class="el-icon-circle-close" @click="coloseSet"></i>
-              <span class="state">开始时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="stateDatas" disabled></Date-picker>
-              <span class="out">结束时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="endDatas" disabled></Date-picker>
+        <div class="scherm" v-show="isHide"></div>
+        <div class="setmeal" v-show="isHide">
+            <p>设置</p>
+            <i class="el-icon-circle-close" @click="coloseSet"></i>
+            <span class="state">开始时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="stateDatas" disabled></Date-picker>
+            <span class="out">结束时间：</span><Date-picker type="date" placeholder="请选择日期" v-model="endDatas" disabled></Date-picker>
 
-              <el-checkbox-group v-model="checkList" @change="allcheckList(checkList)">
-                  <span style="margin-left:10px;line-height: 38px;">开始时间：</span>
-                  <el-checkbox label="日"></el-checkbox>
-                  <el-checkbox label="一"></el-checkbox>
-                  <el-checkbox label="二"></el-checkbox>
-                  <el-checkbox label="三"></el-checkbox>
-                  <el-checkbox label="四"></el-checkbox>
-                  <el-checkbox label="五"></el-checkbox>
-                  <el-checkbox label="六"></el-checkbox>
-                 
-              </el-checkbox-group>
-              <Checkbox v-model="single" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
-              <div class="form-item">
-                  <b>套系名称：</b>
-                  <Select v-model="codes" style="width:90px">
-                      <Option v-for="code in  codeList" :value="code"
-                              :key="code">
-                      </Option>
-                  </Select>
-              </div>
-              <a class="commlun" @click="sublitSetprice">确定</a>
-              <a class="commlun commlun2" @click="coloseSet">关闭</a>
-          </div>
+            <el-checkbox-group v-model="checkList" @change="allcheckList(checkList)">
+                <span style="margin-left:10px;line-height: 38px;">开始时间：</span>
+                <el-checkbox label="日"></el-checkbox>
+                <el-checkbox label="一"></el-checkbox>
+                <el-checkbox label="二"></el-checkbox>
+                <el-checkbox label="三"></el-checkbox>
+                <el-checkbox label="四"></el-checkbox>
+                <el-checkbox label="五"></el-checkbox>
+                <el-checkbox label="六"></el-checkbox>
+                
+            </el-checkbox-group>
+            <Checkbox v-model="single" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
+            <div class="form-item">
+                <b>套系名称：</b>
+                <Select v-model="codes" style="width:90px">
+                    <Option v-for="code in  codeList" :value="code" :key="code">
+                    </Option>
+                </Select>
+            </div>
+            <a class="commlun" @click="sublitSetprice">确定</a>
+            <a class="commlun commlun2" @click="coloseSet">关闭</a>
+        </div>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 	    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
     </div>
@@ -444,9 +434,6 @@
         height: 100%;
         background-color: #fff;
         box-shadow: 0 2px 1px #ccc;
-    }
-    .ivu-tabs-card{
-        // box-shadow: 0 0 0px #0CC!important;
     }
 
     .message-ti {

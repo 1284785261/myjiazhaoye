@@ -7,10 +7,10 @@
                 <div class="ivu-bar-title">
                     <h3><i class="icon icon-iden"></i>短租订单详情</h3>
                 </div>
-                <div class="ivu-site">
+                <!-- <div class="ivu-site">
                     <span>您现在的位置：短租订单管理 ></span>
                     <router-link class="active" to="/shortRent">订单详情</router-link>
-                </div>
+                </div> -->
                 <div id="order-detail-wrap">
                     <div class="order-detail-wrap-head">
                         <img v-if="detailData.orderState==2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">

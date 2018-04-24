@@ -125,6 +125,7 @@
     },
     data(){
       return{
+        activeTabName:'shortRent',
         successModal: false,
         warningModal: false,
         successMessage: '添加人员成功!',

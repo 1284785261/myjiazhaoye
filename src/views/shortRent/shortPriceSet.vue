@@ -31,7 +31,7 @@
                             <Input style="width: 100px;" v-model="item.code" v-if="item.typeCompile == 1 || item.typeCompile == 2"></Input>
                         </td>
                         <td>
-                            <span v-if="item.typeCompile == 0">{{item.names}}</span>
+                            <span v-if="item.typeCompile == 0">{{item.name}}</span>
                             <Input style="width: 100px;" v-model="item.names" v-if="item.typeCompile == 1 || item.typeCompile == 2"></Input>
                         </td>
                         <td v-for="ite in item.pmsRoomPrice">

@@ -144,7 +144,7 @@
 		<div class="zhezha" v-show="isHide">
 			
 		</div>
-		<check-In @notcheckIn="notcheckIn()" v-show="isHide1"></check-In>
+		<!-- <check-In @notcheckIn="notcheckIn()" v-show="isHide1"></check-In> -->
         <div class="relet" v-show="isHide2">
             <i class="el-icon-circle-close"></i>
             <ul style="margin-top: 15px;">
@@ -235,7 +235,6 @@
     import footerBox from '../../components/footerBox.vue';
     import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
-	import checkIn from '../../components/checkIn.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
     import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217 } from '../api.js';
@@ -247,14 +246,12 @@
     		footerBox,
     		successModal,
 			warningModal,
-			checkIn,
 			roomChange
     	},
     	data(){
     		return{
-				activeTabName:"workbench",
+				activeTabName:"shortRent",
                 isHide:false,
-                isHide1:false,
 				isHide2:false,
 				isHide3:false,
 				isHide4:false,
@@ -411,9 +408,14 @@
     		this.datas();
     	},
     	methods:{
-    		instas:function(){
-                this.isHide = true;
-    			this.isHide1 = true;
+    		instas(){
+				if(this.pmsOrder){
+					this.$router.push({name:'checkIn',query:{orderId:this.pmsOrder.orderId,roomId:this.roomId}})
+				}else{
+					this.warningMessage = '当前没有订单可以添加入住';
+					this.warningModal = true;
+				}
+				
 			},
 			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
@@ -652,10 +654,6 @@
 			},
     		closeWarningModal() {
 				this.warningModal = false;			
-            },
-            notcheckIn(){
-                this.isHide = false;
-                this.isHide1 = false;
             },
             openrelet(){
                 this.isHide = true;
