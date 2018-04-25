@@ -140,7 +140,7 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.contractSignId,'office',office.contractSignId)">收款</a>
+                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                       <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1 && isUser">查看总账单</router-link>
                   </td>
@@ -223,22 +223,81 @@
       <footer-box></footer-box>
     </div>
     <div class="black-member-modal" v-if="collectionShow" @click="closeWhileModal()"></div>
-    <div class="blackModelCenter" v-if="collectionShow" style="height: 310px;">
-        <p>收款登记</p>
+    <div class="blackModelCenter" v-if="collectionShow" style="height: 420px;">
+      <p>收款登记</p>
+      <div style="text-align: center;border-bottom: solid 1px #ccc;margin-bottom: 10px;">
+        <template>
+          <el-radio-group v-model="type">
+            <el-radio :label="1">微信付款</el-radio>
+            <el-radio :label="2">支付宝付款</el-radio>
+            <el-radio :label="3">银行转账</el-radio>
+            <el-radio :label="4">其他</el-radio>
+            <el-radio :label="6">POS机刷卡</el-radio>
+          </el-radio-group>
+        </template>
+      </div>
+      <div v-if="type == 1 || type == 2">
         <div class="inputBox">
-            <span>银行流水号：</span><Input v-model="collection.bankWater" placeholder="银行流水号"></Input>
+          <span class="span">转帐单号：</span><Input v-model="collection1.payNumbers" placeholder="凭证号"></Input>
         </div>
         <div class="inputBox">
-            <span>凭证号：</span><Input v-model="collection.certificate" placeholder="凭证号"></Input>
+          <span class="span">收款金额：</span><Input v-model="collection1.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection1.paymentAmount)"></Input>
+        </div>
+        <div class="inputBox" style="text-align: left;padding-left: 50px;">
+          <span class="span">转账时间：</span>
+          <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" style="width: 150px;margin: 0;" placeholder="选择日期"  v-model="collection1.payDate"></Date-picker>
+        </div>
+      </div>
+      <div v-if="type == 3">
+        <div class="inputBox">
+          <span class="span">银行流水号：</span><Input v-model="collection3.payNumbers" placeholder="银行流水号"></Input>
         </div>
         <div class="inputBox">
-            <span>收款金额：</span><Input v-model="collection.paymentAmount" placeholder="收款金额" @on-change="moneyChange(collection.paymentAmount)"></Input>
+          <span class="span">凭证号：</span><Input v-model="collection3.voucherNumbers" placeholder="凭证号"></Input>
         </div>
+        <div class="inputBox">
+          <span class="span">收款金额：</span><Input v-model="collection3.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection3.gatheringMoney)"></Input>
+        </div>
+        <div class="inputBox" style="text-align: left;padding-left: 50px;">
+          <span class="span">转账时间：</span>
+          <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" style="width: 150px;margin: 0;" placeholder="选择日期"  v-model="collection3.payDate"></Date-picker>
+        </div>
+      </div>
+      <div v-if="type == 4">
+        <div class="inputBox">
+          <span class="span">收款方式：</span><Input v-model="collection4.payWay" placeholder="收款方式"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">收款金额：</span><Input v-model="collection4.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection4.paymentAmount)"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">收款说明：</span><Input v-model="collection4.remark" placeholder="收款说明"></Input>
+        </div>
+      </div>
+
+      <div v-if="type == 6">
+        <div class="inputBox">
+          <span class="span">终端编号：</span><Input v-model="collection6.payNumbers" placeholder="银行流水号"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">凭证号：</span><Input v-model="collection6.voucherNumbers" placeholder="凭证号"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">参考号：</span><Input v-model="collection6.referNum" placeholder="凭证号"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">金额：</span><Input v-model="collection6.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(gatheringMoney)"></Input>
+        </div>
+        <div class="inputBox" style="text-align: left;padding-left: 50px;">
+          <span class="span">转账时间：</span>
+          <Date-picker style="width: 150px;margin: 0;" type="datetimerange" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期"  v-model="collection6.payDate"></Date-picker>
+        </div>
+      </div>
+
         <h5 style="text-align: center;color: red;">{{messageError}}</h5>
         <div class="modal-btn">
-            <Button type="primary" @click="allIncome()">收款完成</Button>
-            <Button type="primary" @click="partIncome()">部分收款</Button>
-            <Button  @click="setWhileMember()">取消</Button>
+          <Button type="primary" @click="allIncome()">确认</Button>
+          <Button  @click="setWhileMember()" style="margin-left: 50px;">取消</Button>
         </div>
         <div class="modal-close-btn" @click="closeWhileModal()">
             <Icon type="ios-close-empty"></Icon>
@@ -259,7 +318,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157} from '../api.js';
+  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157,CxkjBillGathering500164} from '../api.js';
   import qs from 'qs';
 
 export default {
@@ -273,6 +332,7 @@ export default {
   data () {
     let _this = this;
     return {
+        type:1,
         activeName:"room",
         RoomContractSelects:[{
           communityId: -1,
@@ -293,6 +353,30 @@ export default {
          certificate:'',//收款凭证
          paymentAmount:''//收款金额
        },
+        collection1:{
+          payNumbers:"",
+          gatheringMoney:"",
+          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+        },
+        collection3:{
+          payNumbers:"",
+          voucherNumbers:"",
+          gatheringMoney:"",
+          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+        },
+        collection4:{
+          payWay:"",
+          gatheringMoney:"",
+          remark:""
+        },
+        collection6:{
+          payNumbers:"",
+          voucherNumbers:"",
+          referNum:"",
+          gatheringMoney:"",
+          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+        },
+
         officeContractSelects:[{
           communityId: -1,
           communityName: '全部'
@@ -353,7 +437,8 @@ export default {
               }
             }
         },
-
+      billId:"",
+      signId:"",
       successModal:false,
       successMessage:"部分收款成功！",
       warningModal:false,
@@ -391,28 +476,8 @@ export default {
       let that = this;
       this.paymentType = paymentType;
       this.collectionShow = true;
-      this.collection.billId = billId;
-      this.$http.post(CxkjBillGatheringDetail500155,qs.stringify({billId:billId})).then(function(res){
-        if(res.data.code == 10000 && res.status == 200){
-          let resutl = res.data.entity;
-          if(resutl){
-            if(resutl.id){
-              that.collection.id = resutl.id;
-            }
-            if(resutl.payNumbers){
-              that.collection.bankWater = resutl.payNumbers;//收款银行流水
-            }
-            if(resutl.voucherNumbers){
-              that.collection.certificate = resutl.voucherNumbers;//收款凭证
-            }
-            if(resutl.gatheringMoney){
-              that.collection.paymentAmount = resutl.gatheringMoney;//收款金额
-            }
-            
-          }
-          that.collection.contractSignId = contractSignId;//签约ID
-        }
-      })
+      this.billId = billId;
+      this.signId = contractSignId;
     },
     /**
      * 收款弹框隐藏
@@ -420,51 +485,7 @@ export default {
     closeWhileModal(){
       this.collectionShow = false
     },
-    /**
-     * 部分收款
-     */
-    partIncome(){
-      let that = this;
-      let params = this.process();
-      this.$http.post(CxkjBillGatheringDetailPart500156,qs.stringify(params)).then(function(res){
-        if(res.data.code == 10000){
-          that.collectionShow = false;
-          that.successMessage = "部分收款成功!";
-          that.successModal = true;
-          setTimeout(function(){
-            that.successModal = false;
-          },1000)
-        }else{
-          that.collectionShow = false;
-          that.warningMessage = "部分收款异常！";
-          that.warningModal = false;
-        }
-        //清空
-        that.clearData();
-      })
-    },
-    /**
-     * 组织收款参数
-     */
-    process(){
-      if(this.collection.bankWater == "" || this.collection.certificate=="" || this.collection.paymentAmount==""){
-        return;
-      }
-      if(!this.isMoney){
-        this.messageError = "请输入合法的金额！";
-        return;
-      }else{
-        this.messageError = "";
-      }
-      let params = {
-        id:this.collection.id,
-        billId:this.collection.billId,
-        payNumbers:this.collection.bankWater,
-        voucherNumbers:this.collection.certificate,
-        gatheringMoney:this.collection.paymentAmount
-      };
-      return params;
-    },
+
     /**
      * 清空数据
     **/
@@ -483,16 +504,51 @@ export default {
      */
     allIncome(){
       let that = this;
-      let params = this.process();
-      this.$http.post(CxkjBillGatheringDetailWhole500157,
-        qs.stringify({
-          id:that.collection.id,
-          billId:that.collection.billId,
-          payNumbers:that.collection.bankWater,
-          voucherNumbers:that.collection.certificate,
-          gatheringMoney:that.collection.paymentAmount,
-          signId:that.collection.contractSignId
-        })
+      let _this = this;
+      let params = {};
+      switch(this.type){
+        case 1 || 2:
+          if(_this.collection1.payNumbers == "" || _this.collection1.gatheringMoney=="" ){
+            return;
+          }
+          params = _this.collection1;
+          params.payDate = new Date(_this.collection1.payDate).Format("yyyy-MM-dd hh:mm:ss")
+          break;
+        case 3:
+          if(_this.collection3.payNumbers == "" ||  _this.collection3.voucherNumbers == "" ||  _this.collection3.gatheringMoney==""){
+              debugger
+            return;
+          }
+          params = _this.collection3;
+          params.payDate = new Date(_this.collection3.payDate).Format("yyyy-MM-dd hh:mm:ss");
+          break;
+        case 4:
+          if(_this.collection4.remark == "" || _this.collection4.gatheringMoney=="" || _this.collection4.payWay==""){
+            return;
+          }
+          params = _this.collection4;
+          break;
+        case 6:
+          if(_this.collection6.referNum == "" || _this.collection6.voucherNumbers == "" ||  _this.collection6.gatheringMoney==""){
+            return;
+          }
+          params = _this.collection6;
+          params.payDate = new Date(_this.collection6.payDate).Format("yyyy-MM-dd hh:mm:ss")
+          break;
+
+      }
+
+//      if(!this.isMoney){
+//        this.messageError = "请输入合法的金额！";
+//        return;
+//      }else{
+//        this.messageError = "";
+//      }
+      params.billId = _this.billId;
+      params.signId = _this.signId;
+      params.type = _this.type;
+      this.$http.post(CxkjBillGathering500164,
+        qs.stringify(params)
       ).then(function(res){
         console.log(res);
         if(res.data.code == 10000 && res.status == 200){
@@ -507,7 +563,6 @@ export default {
           }else{
               that.roomSearch();
           }
-
         }else{
           that.collectionShow = false;
           that.warningMessage = res.data.content;

@@ -311,14 +311,13 @@ table{
 .inputBox{
   margin-bottom: 10px;
   text-align: center;
-  span{
+  .span{
     width: 100px;
     text-align: left;
     display: inline-block;
-    height: 100%;
   }
   .ivu-input-type{
     display: inline-block;
-    width: 60%;
+    width: 300px;
   }
 }

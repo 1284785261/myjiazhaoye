@@ -674,6 +674,7 @@ export const roomContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjRoomC
 export const officeContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjOfficeContractList300065';
 export const propertyContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
 export const contractDetai =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjContractDetail300067';
+export const CxkjBillGathering500164 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGathering500164';//合同付款
 
 //账单管理
 export const roomBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillList300039';
