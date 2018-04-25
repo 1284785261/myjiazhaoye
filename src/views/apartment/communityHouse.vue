@@ -95,7 +95,7 @@
                               <span v-else-if="scope.row.electricType == 2">按人计费</span>
                               <span v-else>未配置</span>
                             </span>
-                            
+
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -156,6 +156,7 @@
                   <td>门牌号</td>
                   <td>工位数</td>
                   <td>租金(元/月)</td>
+                  <td>服务费</td>
                   <td>办公物资</td>
                   <td>操作</td>
                 </tr>
@@ -170,6 +171,9 @@
                   <td>
                     <input type="text" v-model="office.officeRent"  placeholder="请输入租金">
                   </td>
+                  <td>
+                    <input type="text" v-model="office.serviceCost"  placeholder="请输入服务费">
+                  </td>
                   <td @click="openSelectOfficeModal(index)">
                     <p><a v-if="office.officeFurniture">{{office.officeFurniture}}</a><a v-else>请设置办公物资</a></p>
                   </td>
@@ -178,7 +182,7 @@
                   </td>
                 </tr>
                 <tr class="add_a">
-                  <td width="25% " colspan="5">
+                  <td width="25% " colspan="6">
                     <span>继续添加</span><input type="text" v-model="newRowNum" value="1"/> <span>行</span><a href="javascript:;" @click="addOffice()">确定</a>
                   </td>
                 </tr>
@@ -455,7 +459,8 @@
               officeHouseNum:"",
               officeWorkNum:"",
               officeFurniture:"",
-              officeRent:""
+              officeRent:"",
+              serviceCost:""
             });
             this.CommunityListMeeting.push({
               communityId:this.communityId,
@@ -523,7 +528,7 @@
       getOfficeInfo(){
         var that = this;
         this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
-          if(res.data.code == 10000){
+          if(res.data.code == 10000){debugger
             that.CommunityListOffice = res.data.entity;
             for(var i =0;i<that.CommunityListOffice.length;i++){
               if(that.CommunityListOffice[i].officeFurniture){
@@ -820,7 +825,8 @@
             officeFurniture:"",
             officeHouseNum:"",
             officeWorkNum:"",
-            officeRent:""
+            officeRent:"",
+            serviceCost:""
           });
         }
       },
@@ -1163,7 +1169,7 @@
     margin-bottom: 40px;
   }
   .message-tis #office-table thead tr td{
-    width: 20%;
+    width: 18%;
   }
 
 
