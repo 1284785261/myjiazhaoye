@@ -236,16 +236,28 @@
           </el-radio-group>
         </template>
       </div>
-      <div v-if="type == 1 || type == 2">
+      <div v-if="type == 1">
         <div class="inputBox">
           <span class="span">转帐单号：</span><Input v-model="collection1.payNumbers" placeholder="凭证号"></Input>
         </div>
         <div class="inputBox">
-          <span class="span">收款金额：</span><Input v-model="collection1.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection1.paymentAmount)"></Input>
+          <span class="span">收款金额：</span><Input v-model="collection1.gatheringMoney" placeholder="收款金额" @on-change="moneyChange('1',collection1.gatheringMoney)"></Input>
         </div>
         <div class="inputBox" style="text-align: left;padding-left: 50px;">
           <span class="span">转账时间：</span>
-          <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" style="width: 150px;margin: 0;" placeholder="选择日期"  v-model="collection1.payDate"></Date-picker>
+          <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 150px;margin: 0;" placeholder="选择日期"  v-model="collection1.payDate"></Date-picker>
+        </div>
+      </div>
+      <div v-if="type == 2">
+        <div class="inputBox">
+          <span class="span">转帐单号：</span><Input v-model="collection2.payNumbers" placeholder="凭证号"></Input>
+        </div>
+        <div class="inputBox">
+          <span class="span">收款金额：</span><Input v-model="collection2.gatheringMoney" placeholder="收款金额" @on-change="moneyChange('2',collection2.gatheringMoney)"></Input>
+        </div>
+        <div class="inputBox" style="text-align: left;padding-left: 50px;">
+          <span class="span">转账时间：</span>
+          <Date-picker type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 150px;margin: 0;" placeholder="选择日期"  v-model="collection2.payDate"></Date-picker>
         </div>
       </div>
       <div v-if="type == 3">
@@ -256,7 +268,7 @@
           <span class="span">凭证号：</span><Input v-model="collection3.voucherNumbers" placeholder="凭证号"></Input>
         </div>
         <div class="inputBox">
-          <span class="span">收款金额：</span><Input v-model="collection3.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection3.gatheringMoney)"></Input>
+          <span class="span">收款金额：</span><Input v-model="collection3.gatheringMoney" placeholder="收款金额" @on-change="moneyChange('3',collection3.gatheringMoney)"></Input>
         </div>
         <div class="inputBox" style="text-align: left;padding-left: 50px;">
           <span class="span">转账时间：</span>
@@ -268,7 +280,7 @@
           <span class="span">收款方式：</span><Input v-model="collection4.payWay" placeholder="收款方式"></Input>
         </div>
         <div class="inputBox">
-          <span class="span">收款金额：</span><Input v-model="collection4.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(collection4.paymentAmount)"></Input>
+          <span class="span">收款金额：</span><Input v-model="collection4.gatheringMoney" placeholder="收款金额" @on-change="moneyChange('4',collection4.gatheringMoney)"></Input>
         </div>
         <div class="inputBox">
           <span class="span">收款说明：</span><Input v-model="collection4.remark" placeholder="收款说明"></Input>
@@ -286,11 +298,11 @@
           <span class="span">参考号：</span><Input v-model="collection6.referNum" placeholder="凭证号"></Input>
         </div>
         <div class="inputBox">
-          <span class="span">金额：</span><Input v-model="collection6.gatheringMoney" placeholder="收款金额" @on-change="moneyChange(gatheringMoney)"></Input>
+          <span class="span">金额：</span><Input v-model="collection6.gatheringMoney" placeholder="收款金额" @on-change="moneyChange('6',collection6.gatheringMoney)"></Input>
         </div>
         <div class="inputBox" style="text-align: left;padding-left: 50px;">
           <span class="span">转账时间：</span>
-          <Date-picker style="width: 150px;margin: 0;" type="datetimerange" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期"  v-model="collection6.payDate"></Date-picker>
+          <Date-picker style="width: 150px;margin: 0;" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期"  v-model="collection6.payDate"></Date-picker>
         </div>
       </div>
 
@@ -356,13 +368,18 @@ export default {
         collection1:{
           payNumbers:"",
           gatheringMoney:"",
-          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+          payDate:new Date().Format("yyyy-MM-dd hh:mm:ss")
+        },
+        collection2:{
+          payNumbers:"",
+          gatheringMoney:"",
+          payDate:new Date().Format("yyyy-MM-dd hh:mm:ss")
         },
         collection3:{
           payNumbers:"",
           voucherNumbers:"",
           gatheringMoney:"",
-          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+          payDate:new Date().Format("yyyy-MM-dd hh:mm:ss")
         },
         collection4:{
           payWay:"",
@@ -374,7 +391,7 @@ export default {
           voucherNumbers:"",
           referNum:"",
           gatheringMoney:"",
-          payDate:new Date().Format("yyyy-MM-dd HH:mm:ss")
+          payDate:new Date().Format("yyyy-MM-dd hh:mm:ss")
         },
 
         officeContractSelects:[{
@@ -443,7 +460,11 @@ export default {
       successMessage:"部分收款成功！",
       warningModal:false,
       warningMessage:"部分收款异常！",
-      isMoney:true,//判断输入是否合法
+      isMoney1:true,//判断输入是否合法
+      isMoney2:true,
+      isMoney3:true,
+      isMoney4:true,
+      isMoney6:true,
       messageError:"",
       paymentType:"room",//收款类型
       isUser:sessionStorage.getItem("userPhone") && sessionStorage.getItem("userPhone") =='13246715680'?true:false
@@ -478,26 +499,36 @@ export default {
       this.collectionShow = true;
       this.billId = billId;
       this.signId = contractSignId;
+
+      //初始化收款时间
+      this.collection1.payDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
+      this.collection2.payDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
+      this.collection3.payDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
+      this.collection6.payDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
+      this.messageError = "";
     },
     /**
      * 收款弹框隐藏
      **/
     closeWhileModal(){
-      this.collectionShow = false
-    },
-
-    /**
-     * 清空数据
-    **/
-    clearData(){
-      this.collection ={
-        id:"",
-        billId:"",
-        bankWater:"",//收款银行流水
-        certificate:"",//收款凭证
-        paymentAmount:""//收款金额
+      this.collectionShow = false;
+      for(let key in this.collection1){
+        this.collection1[key] = "";
+      }
+      for(let key in this.collection2){
+        this.collection1[key] = "";
+      }
+      for(let key in this.collection3){
+        this.collection1[key] = "";
+      }
+      for(let key in this.collection4){
+        this.collection1[key] = "";
+      }
+      for(let key in this.collection6){
+        this.collection1[key] = "";
       }
     },
+
     /**
      * 全部收款
      * @param value
@@ -507,30 +538,71 @@ export default {
       let _this = this;
       let params = {};
       switch(this.type){
-        case 1 || 2:
+        case 1:
           if(_this.collection1.payNumbers == "" || _this.collection1.gatheringMoney=="" ){
+            _this.messageError = "收款信息未填写完整！";
             return;
+          }
+          if(!_this.isMoney1){
+            _this.messageError = "请输入合法的金额！";
+            return;
+          }else{
+            _this.messageError = "";
           }
           params = _this.collection1;
           params.payDate = new Date(_this.collection1.payDate).Format("yyyy-MM-dd hh:mm:ss")
           break;
+        case 2:
+          if(_this.collection2.payNumbers == "" || _this.collection2.gatheringMoney=="" ){
+            _this.messageError = "收款信息未填写完整！";
+            return;
+          }
+          if(!_this.isMoney2){
+            _this.messageError = "请输入合法的金额！";
+            return;
+          }else{
+            _this.messageError = "";
+          }
+          params = _this.collection2;
+          params.payDate = new Date(_this.collection2.payDate).Format("yyyy-MM-dd hh:mm:ss")
+          break;
         case 3:
           if(_this.collection3.payNumbers == "" ||  _this.collection3.voucherNumbers == "" ||  _this.collection3.gatheringMoney==""){
-              debugger
+            _this.messageError = "收款信息未填写完整！";
             return;
+          }
+          if(!_this.isMoney3){
+            _this.messageError = "请输入合法的金额！";
+            return;
+          }else{
+            _this.messageError = "";
           }
           params = _this.collection3;
           params.payDate = new Date(_this.collection3.payDate).Format("yyyy-MM-dd hh:mm:ss");
           break;
         case 4:
           if(_this.collection4.remark == "" || _this.collection4.gatheringMoney=="" || _this.collection4.payWay==""){
+            _this.messageError = "收款信息未填写完整！";
             return;
+          }
+          if(!_this.isMoney4){
+            _this.messageError = "请输入合法的金额！";
+            return;
+          }else{
+            _this.messageError = "";
           }
           params = _this.collection4;
           break;
         case 6:
           if(_this.collection6.referNum == "" || _this.collection6.voucherNumbers == "" ||  _this.collection6.gatheringMoney==""){
+            _this.messageError = "收款信息未填写完整！";
             return;
+          }
+          if(!_this.isMoney6){
+            _this.messageError = "请输入合法的金额！";
+            return;
+          }else{
+            _this.messageError = "";
           }
           params = _this.collection6;
           params.payDate = new Date(_this.collection6.payDate).Format("yyyy-MM-dd hh:mm:ss")
@@ -538,12 +610,6 @@ export default {
 
       }
 
-//      if(!this.isMoney){
-//        this.messageError = "请输入合法的金额！";
-//        return;
-//      }else{
-//        this.messageError = "";
-//      }
       params.billId = _this.billId;
       params.signId = _this.signId;
       params.type = _this.type;
@@ -569,7 +635,7 @@ export default {
           that.warningModal = true;
         }
         //清空
-        that.clearData();
+        that.closeWhileModal();
       })
     },
 
@@ -577,11 +643,43 @@ export default {
      * 金额正则
      * @param value
      */
-    moneyChange(value){
+    moneyChange(number,value){
       if(/(^[1-9](\d+)?(\.\d{1,2})?$)|(^(0){1}$)|(^\d\.\d{1,2}?$)/.test(value)){
-        this.isMoney = true;
+        switch (number) {
+          case '1':
+            this.isMoney1 = true;
+            break;
+          case '2':
+            this.isMoney2 = true;
+            break;
+          case '3':
+            this.isMoney3 = true;
+            break;
+          case '4':
+            this.isMoney4 = true;
+            break;
+          case '6':
+            this.isMoney6 = true;
+            break;
+        }
       }else{
-        this.isMoney = false;
+        switch (number) {
+          case '1':
+            this.isMoney1 = false;
+            break;
+          case '2':
+            this.isMoney2 = false;
+            break;
+          case '3':
+            this.isMoney3 = false;
+            break;
+          case '4':
+            this.isMoney4 = false;
+            break;
+          case '6':
+            this.isMoney6 = false;
+            break;
+        }
       }
       this.messageError = "";
     },
