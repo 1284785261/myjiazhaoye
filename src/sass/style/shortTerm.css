@@ -13,6 +13,19 @@
 	min-height: 80px;
 	
 }
+#shortTerm .shortTerm1 .stationexport{
+	width: 70px;
+    text-align: center;
+    height: 36px;
+	line-height: 36px;
+	border-radius: 0px;
+    background-color: #038be2;
+    color: #fff;
+    border: none;
+    position: relative;
+    left: -5px;
+    top: 1px;
+}
 #shortTerm .shortTerm1 a{
 	width: 140px;
 	height: 44px;
@@ -40,7 +53,10 @@
 	
 	position: relative;
 }
-#shortTerm .shortTerm2 .state1 span:nth-child(1){
+#shortTerm .shortTerm2 .state1 .ivu-checkbox-wrapper{
+	margin-left: 30px;
+}
+#shortTerm .shortTerm2 .state1 .floorname{
 	display: inline-block;
 	width: 28px;
 	height: 28px;
@@ -56,13 +72,13 @@
 	margin-right: 10px;
 }
 
-#shortTerm .shortTerm2 .state1 span:nth-child(2){
+#shortTerm .shortTerm2 .state1 .floor{
 	font-size: 14px;
 	color: #038be2;
 	padding-right: 15px;
 	border-right: 1px solid #ccc;
 }
-#shortTerm .shortTerm2 .state1 span:nth-child(3){
+#shortTerm .shortTerm2 .state1 .rooms{
 	font-size: 14px;
 	margin-left: 15px;
 	color: #666;	

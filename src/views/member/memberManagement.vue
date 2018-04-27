@@ -16,7 +16,7 @@
                 <div class="form-item">
                   <ul>
                     <li>
-                      <span>会员名称 :</span>
+                      <span>会员姓名 :</span>
                       <input type="text" placeholder="请输入会员名称" v-model="memberName">
                     </li>
                     <li>
@@ -35,7 +35,8 @@
               </div>
               <table class="member-management-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="memberTotalNum > 0">
                 <tr>
-                  <th>会员名称</th>
+                  <th>会员姓名</th>
+                  <th>昵称</th>
                   <th>会员手机号</th>
                   <th>性别</th>
                   <th>创建日期</th>
@@ -44,6 +45,8 @@
                   <th>操作</th>
                 </tr>
                 <tr v-for="(item,index) in  memberList">
+                  <td v-if="item.userName">{{item.userName}}</td>
+                  <td v-else style="color:red;">未填写</td>
                   <td v-if="item.userName">{{item.userName}}</td>
                   <td v-else style="color:red;">未填写</td>
                   <td>{{item.userPhone}}</td>

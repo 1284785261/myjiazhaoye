@@ -22,7 +22,7 @@
                 </tr>
                 <tr>
                   <td>面积 :</td>
-                  <td>{{roomInfoData.housetypeArea}}</td>
+                  <td>{{roomInfoData.housetypeArea}}m³</td>
                 </tr>
                 <tr>
                   <td>定房电话 :</td>
@@ -34,36 +34,38 @@
                 </tr>
                 <tr>
                   <td>门市价 :</td>
-                  <td v-if="roomInfoData.pmsRoomInfo[0]">{{roomInfoData.pmsRoomInfo[0].price}}</td>
+                  <td v-if="roomInfoData.price">{{roomInfoData.price}}元</td>
                 </tr>
               </table>
             </li>
             <li class="ul-item">
               <h3><i class="icon icon-iden"></i>入住信息</h3>
-              <table>
+              <table v-if="roomInfoData.checkInInfo">
                 <tr>
                   <td>入住时间:</td>
-                    <td>{{roomInfoData.inTime | timefilter('yyyy-MM-dd')}}</td>
+                    <td>{{roomInfoData.checkInInfo.inTime | timefilter('yyyy-MM-dd')}}</td>
                 </tr>
                 <tr>
                   <td>入住天数:</td>
-                  <td>{{roomInfoData.day}}</td>
+                  <td>{{DateDiff(roomInfoData.checkInInfo.inTime,roomInfoData.checkInInfo.leaveTime)}}天</td>
                 </tr>
                 <tr>
                   <td>预计退房日期:</td>
-                  <td>{{roomInfoData.leaveTime | timefilter('yyyy-MM-dd')}}</td>
+                  <td>{{roomInfoData.checkInInfo.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                 </tr>
                 <tr>
                   <td>市场细分:</td>
                   <td>
-                    <span v-if="roomInfoData.marketType == 0">门市散客</span>
-                    <span v-if="roomInfoData.marketType == 1">内部员工 </span>
-                    <span v-if="roomInfoData.marketType == 2">协议单位</span>
+                    <span v-if="roomInfoData.checkInInfo.marketType == 0">门市散客</span>
+                    <span v-if="roomInfoData.checkInInfo.marketType == 1">内部员工 </span>
+                    <span v-if="roomInfoData.checkInInfo.marketType == 2">协议单位</span>
+                    <span v-else>无</span>
                   </td>
                 </tr>
                 <tr>
                   <td>备注:</td>
-                  <td>{{roomInfoData.remark}}</td>
+                  <td v-if="roomInfoData.checkInInfo.remark">{{roomInfoData.checkInInfo.remark}}</td>
+                  <td v-else>无</td>
                 </tr>
               </table>
             </li>
@@ -72,26 +74,26 @@
               <table>
                 <tr>
                   <td>
-                    <ul v-for="(room,roomIndex) in pmsRoomInfo">
-                      <li v-for="(item,index) in room" style="text-align: left">
-                        房号：<b style="padding-left: 10px;">{{item.roomNum}} {{item.housetypeName}} </b>
+                    <ul>
+                      <li v-for="(item,index) in pmsRoomInfo" style="text-align: left">
+                        房号：<b style="padding-left: 10px;">{{item.roomNum}}  {{item.name}} </b>
                         <span style="padding-left: 20px;">入住人：</span>
-                        姓名 <input class="ivu-input " style="width:100px;" v-model="item.name">
+                        姓名 <input class="ivu-input " style="width:100px;" v-model="item.username">
                         <el-radio class="radio" v-model="item.gender" label="1">男</el-radio>
                         <el-radio class="radio" v-model="item.gender" label="0">女</el-radio>
                         <Select v-model="item.certificateType" style="width:120px;">
                           <Option v-for="community in  stationSelectList" :value="community.dataId" :key="community.dataId">{{ community.dataName }}</Option>
                         </Select>
                         <input class="ivu-input" style="width:250px;" v-model="item.certificateNumber">
-                        <Button v-if="index==0" type="primary" style="display: inline-block" @click="addPerson(item,roomIndex)">+ 添加入住人</Button>
-                        <Button v-if="index>0" type="primary" style="display: inline-block" @click="deletePerson(roomIndex,index)">- 删除</Button>
+                        <Button v-if="item.add == true" type="primary" style="display: inline-block" @click="addPerson(item,index)">+ 添加入住人</Button>
+                        <Button v-if="item.add == false" type="primary" style="display: inline-block" @click="deletePerson(item,index)">- 删除</Button>
                       </li>
                     </ul>
                   </td>
                 </tr>
-                <tr style="text-align: center;">
-                  <Button type="primary" style="width: 100px;margin-top: 100px;">取消</Button>
-                  <Button type="primary" style="width: 100px;margin-left: 100px;margin-top: 100px;" @click="submit">提交</Button>
+                <tr style="text-align: center;" v-if="pmsRoomInfo != []">
+                  <Button type="primary" style="width: 100px;margin-top: 100px;" @click="submit">提交</Button>
+                  <Button type="primary" style="width: 100px;margin-top: 100px;margin-left: 100px;" @click="Notsubmit">取消</Button>
                 </tr>
               </table>
             </li>
@@ -111,7 +113,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
-  import {CxkjGetInRoomInfo300198,hostWay,CxkjAddPersonnel300199} from '../api.js';
+  import {CxkjGetInRoomInfo300214,hostWay,CxkjAddPersonnel300215} from '../api.js';
   import qs from 'qs';
 
 
@@ -151,21 +153,25 @@
       },
       getRoomInfo(){
         var that = this;
-        this.$http.get(CxkjGetInRoomInfo300198,{params:{id:this.orderId}})
+        this.$http.get(CxkjGetInRoomInfo300214,{params:{id:this.orderId}})
           .then(function(res){
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.roomInfoData = res.data.entity;
-              for(let i =0;i<that.roomInfoData.pmsRoomInfo.length;i++){
-                that.pmsRoomInfo.push([{
-                  name:"",
+              for(let i =0;i<that.roomInfoData.orderRoomList.length;i++){
+                that.pmsRoomInfo.push({
+                  username:'',
+                  name:that.roomInfoData.orderRoomList[i].name,
                   gender:"1",
                   certificateType:that.stationSelectList[0].dataId,
                   certificateNumber:"",
-                  roomId:that.roomInfoData.pmsRoomInfo[i].roomId,
-                  housetypeName:that.roomInfoData.pmsRoomInfo[i].housetypeName,
-                  roomNum:that.roomInfoData.pmsRoomInfo[i].roomNum
-                }])
+                  roomId:that.roomInfoData.orderRoomList[i].roomId,
+                  id:that.roomInfoData.orderRoomList[i].id,
+                  roomNum:that.roomInfoData.orderRoomList[i].roomNum,
+                  add:true
+                })
               }
+              console.log(that.pmsRoomInfo);
             }
 
           })
@@ -179,39 +185,44 @@
       },
       /*添加入住人*/
       addPerson(person,index){
-        this.pmsRoomInfo[index].push({
-          name:"",
+        let les = {
+          username:'',
+          name:person.name,
           gender:person.gender,
           certificateType:this.stationSelectList[0].dataId,
           certificateNumber:"",
           roomId:person.roomId,
-          housetypeName:person.housetypeName,
-          roomNum:person.roomNum
-        })
+          id:'',
+          roomNum:person.roomNum,
+          add:false
+        }
+       
+        this.pmsRoomInfo.splice(index+1,0,les);
+        console.log(this.pmsRoomInfo);
       },
       /*删除入住人*/
-      deletePerson(roomIndex,index){
-        this.pmsRoomInfo[roomIndex].splice(index,1);
+      deletePerson(item,index){
+        this.pmsRoomInfo.splice(index,1);
       },
       submit(){
         let that = this;
         let params = new FormData();
         for(let i=0;i<this.pmsRoomInfo.length;i++){
-          for(let j=0;j<this.pmsRoomInfo.length;j++){
-            if(this.pmsRoomInfo[i][j].name=="" || this.pmsRoomInfo[i][j].gender=="" || this.pmsRoomInfo[i][j].certificateType=="" || this.pmsRoomInfo[i][j].certificateNumber=="" || this.pmsRoomInfo[i][j].roomId==""){
+            if(this.pmsRoomInfo[i].name=="" || this.pmsRoomInfo[i].gender=="" || this.pmsRoomInfo[i].certificateType=="" || this.pmsRoomInfo[i].certificateNumber=="" || this.pmsRoomInfo[i].roomId==""){
                 this.warningMessage = '入住人员信息填写不完整!';
                 this.warningModal = true;
               return;
             }
-            params.append(`cxkjPmsOrderRoomies[${j}].name`,this.pmsRoomInfo[i][j].name);
-            params.append(`cxkjPmsOrderRoomies[${j}].gender`,this.pmsRoomInfo[i][j].gender)
-            params.append(`cxkjPmsOrderRoomies[${j}].certificateType`,this.pmsRoomInfo[i][j].certificateType)
-            params.append(`cxkjPmsOrderRoomies[${j}].certificateNumber`,this.pmsRoomInfo[i][j].certificateNumber)
-            params.append(`cxkjPmsOrderRoomies[${j}].roomId`,this.pmsRoomInfo[i][j].roomId)
-          }
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].orderRoomId`,this.pmsRoomInfo[i].id);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].orderId`,this.orderId);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].name`,this.pmsRoomInfo[i].name);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].gender`,this.pmsRoomInfo[i].gender)
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateType`,this.pmsRoomInfo[i].certificateType)
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateNumber`,this.pmsRoomInfo[i].certificateNumber)
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].roomId`,this.pmsRoomInfo[i].roomId)
         }
-        params.append("id",this.orderId)
-        this.$http.post(CxkjAddPersonnel300199,params).then(res=>{
+        this.$http.post(CxkjAddPersonnel300215,params).then(res=>{
+          console.log(res);
           if(res.data.code == 10000){
             this.successMessage = '添加入住人员成功!';
             this.successModal = true;
@@ -224,6 +235,9 @@
             this.warningModal = true;
           }
         })
+      },
+      Notsubmit(){
+        window.history.go(-1);
       }
     },
     filters:{

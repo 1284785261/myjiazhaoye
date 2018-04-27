@@ -34,7 +34,7 @@
 		    			<tr>
 		    				<td>配置：</td>
 		    				<td><span>{{Datas.roomFurniture}}</span></td>
-		    				
+
 		    			</tr>
 		    			<tr>
 		    				<td>租约信息：</td>
@@ -73,7 +73,7 @@
 		    				<td>
 		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
 		    					<p v-else>押金：无<span>租金：无</span></p>
-		    					<p v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.serviceCost != null">服务费：{{Datas.cxkjContractSign.serviceCost | cyclePayMoney}}</p>
+		    					<p v-if="Datas.serviceCost">服务费：{{Datas.serviceCost | cyclePayMoney}}</p>
 								<p v-else>服务费：无</p>
 		    				</td>
 		    			</tr>
@@ -131,17 +131,17 @@
 		    				</td>
 		    			</tr>
 		    		</table>
-		    		
-		    	</div> 
-		        
-		    
+
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 		<div class="zhezha" v-show="isHide">
-			
+
 		</div>
 		<div class="insta" v-show="isHide">
 				<i class="el-icon-circle-close"  @click="instas()"></i>
@@ -164,7 +164,7 @@
 						<td style="vertical-align: text-top;line-height: 50px;">调价原因：</td>
 						<td>
 							<textarea v-model="texs" maxlength="50">
-								
+
 							</textarea>
 						</td>
 					</tr>
@@ -175,7 +175,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/houseDetail.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -239,7 +239,7 @@
     			}else{
     				return 0;
     			}
-    			
+
     		},
     		type(val){
     			if(val == 1){
@@ -312,7 +312,7 @@
     			else if(val == 9){
     				return '到期办结'
     			}
-    			
+
     		},
     		billState(val){
     			if(val == 1){
@@ -421,7 +421,7 @@
 							this.warningModal = true;
 							this.isHide = false;
 	    				}
-	    				
+
 	    			})
 	    			.catch((error)=>{
 	    				// console.log(error);
@@ -430,13 +430,13 @@
 						this.isHide = false;
 	    			})
 				}
-    			
+
     		}
-    	
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>
@@ -444,5 +444,5 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>

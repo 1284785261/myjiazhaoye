@@ -50,29 +50,29 @@
 					<div v-if="radios == 1">
 						<div class="ivu-floor loadin2">
 							<p>承租人信息:</p>
-							<table v-for="userInfos in aaduserInfo">
+							<table>
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="user.userPhone" @blur="User(user.userPhone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.username" maxlength="10">
+										<input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
 									</td>
 								</tr>
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.radio2" label="2">女</el-radio>
-										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
+										<el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
+										<el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
 									<td>证件类型:</td>
 									<td>
-										<el-select v-model="value" placeholder="请选择证件类型">
-											<el-option v-for="item in userInfos.options2" :key="item.dataName" :value="item.dataName">
+										<el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
+											<el-option v-for="item in user.options2" :key="item.dataName" :value="item.dataName">
 											</el-option>
 										</el-select>
 									</td>
@@ -80,7 +80,7 @@
 								<tr>
 									<td>证件号码:</td>
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate" maxlength="24">
+										<input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
 									</td>
 								</tr>
 							</table>
@@ -190,7 +190,7 @@
 								</table>
 								<div class="clear"></div>
 								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
-								
+
 
 							</div>
 							<div class="formulasb" v-if="formula">
@@ -243,7 +243,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 8px;">
 													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" />
+													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)" />
 													<span v-if="housetderta.waterType">度</span>
 												</div>
 											</li>
@@ -255,7 +255,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
+													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
 													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
@@ -270,7 +270,7 @@
 									<td>是否签署纸质合同:</td>
 									<td>
 										<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
-										<el-radio class="radio" v-model="radio4" label="2">否</el-radio>
+										<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -380,29 +380,29 @@
 					<div v-if="radios == 2">
 						<div class="ivu-floor loadin2">
 							<p>经办人信息:</p>
-							<table v-for="userInfos in aaduserInfo">
+							<table>
 								<tr>
 									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
+									<td><input type="text" placeholder="请输入手机号" v-model="user.userPhone" @blur="User(user.userPhone)" maxlength="13"></td>
 								</tr>
 								<tr>
 									<td>姓名:</td>
 									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.username" maxlength="10">
+										<input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
 									</td>
 								</tr>
 								<tr>
 									<td>性别:</td>
 									<td>
-										<el-radio class="radio" v-model="userInfos.radio2" label="2">女</el-radio>
-										<el-radio class="radio" v-model="userInfos.radio2" label="1">男</el-radio>
+										<el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
+										<el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
 									</td>
 								</tr>
 								<tr>
 									<td>证件类型:</td>
 									<td>
 										<el-select v-model="value" placeholder="请选择证件类型">
-											<el-option v-for="item in userInfos.options2" :key="item.dataName" :value="item.dataName">
+											<el-option v-for="item in user.options2" :key="item.dataName" :value="item.dataName">
 											</el-option>
 										</el-select>
 									</td>
@@ -410,7 +410,7 @@
 								<tr>
 									<td>证件号码:</td>
 									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.userCertificate" maxlength="24">
+										<input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
 									</td>
 								</tr>
 							</table>
@@ -531,7 +531,7 @@
 								</table>
 								<div class="clear"></div>
 								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
-								
+
 
 							</div>
 							<div class="formulasb" v-if="formula">
@@ -583,7 +583,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 8px;">
 													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" />
+													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)"/>
 													<span v-if="housetderta.waterType">度</span>
 												</div>
 											</li>
@@ -595,7 +595,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" />
+													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
 													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
@@ -610,7 +610,7 @@
 									<td>是否签署纸质合同:</td>
 									<td>
 										<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
-										<el-radio class="radio" v-model="radio4" label="2">否</el-radio>
+										<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
 									</td>
 								</tr>
 								<tr>
@@ -761,7 +761,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostController, hostRoomList, hostRoomUser, hostWay, imgPath, hostSigController, hostSignCompany, host } from '../api.js';
+	import { hostController, hostRoomList, hostRoomUser, hostWay, imgPath, hostSigController, hostSignCompany, host,Registeruser200222 } from '../api.js';
 
 	export default {
 		components: {
@@ -819,13 +819,6 @@
 				},
 				onemoney: 0,
 				userInfo: null,
-				aaduserInfo: [{
-					userCertificate: '',
-					username: '',
-					phone: null,
-					radio2: '2',
-					options2: [],
-				}],
 				ieList: [],
 				value2: '',
 				apartments: [{
@@ -878,7 +871,7 @@
 					version: '',
 					userPhone: '',
 					userName: '',
-					gender: '',
+					gender: '2',
 					certificateId: '',
 					userCertificate: ''
 				},
@@ -982,7 +975,7 @@
 				let fw = parseFloat(vm.serves * parseFloat((days-daym)/days).toFixed(10)).toFixed(2);
 				this.roommonry = parseFloat(fy).toFixed(2);
 				this.fwmonry = parseFloat(fw).toFixed(2);
-				
+
 				for(let i = 0; i < this.tableRepairs.length; i++) {
 					if(parseInt(this.tableRepairs[i].date) > 0) {
 						q += parseFloat(this.tableRepairs[i].date);
@@ -1003,29 +996,29 @@
 				if(this.value2 == '月付') {
 					return(parseFloat(vm.deposit) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 					this.residuerent = '';
-					this.residuerentg = '';	
+					this.residuerentg = '';
 				} else if(this.value2 == '季付') {
 					if(datms.getDate() == 1){
 						if(vm.apartments[vm.activ].letMounted >= 3 && vm.apartments[vm.activ].letMounted < 6){
-							
+
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = '('+vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
 							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = vm.housetderta.roomRent +'*2*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}
 					}else{
 						if(vm.apartments[vm.activ].letMounted >= 3 && vm.apartments[vm.activ].letMounted < 6){
-							
+
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = '('+vm.housetderta.roomRent +'*2+'+ vm.housetderta.roomRent +'*('+expiredaym+'/'+expiredays+')天)*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
 							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 2) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(vm.housetderta.roomRent) * parseFloat(expiredaym/expiredays).toFixed(10) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}else if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted <= 12){
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = vm.housetderta.roomRent +'*3*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';						
+							return (parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 3) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}
 					}
 				} else if(this.value2 == '半年付') {
@@ -1038,7 +1031,7 @@
 						else if(vm.apartments[vm.activ].letMounted == 12){
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = vm.housetderta.roomRent +'*5*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 5) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}
 					}else{
 						if(vm.apartments[vm.activ].letMounted >= 6 && vm.apartments[vm.activ].letMounted < 12){
@@ -1049,7 +1042,7 @@
 						else if(vm.apartments[vm.activ].letMounted == 12){
 							this.residuerent = parseFloat(parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100)).toFixed(2);
 							this.residuerentg = vm.housetderta.roomRent +'*6*'+vm.discount+'%折扣*'+vm.apartments[vm.activ].discount+'%折扣';
-							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';	
+							return(parseFloat(vm.deposit) + parseFloat(vm.housetderta.roomRent * 6) * (vm.discount / 100) * (parseFloat(vm.apartments[vm.activ].discount)/100) + parseFloat(fy) + parseFloat(fw) + parseFloat(q)).toFixed(2) + '元';
 						}
 					}
 				} else if(this.value2 == '年付') {
@@ -1088,7 +1081,7 @@
 				if(this.discount){
 					this.discount = this.discount.replace(/[^\d.]/, '');
 				}
-				
+
 			},
 			serves:function() {
 				if(this.serves){
@@ -1099,8 +1092,7 @@
 				if(this.depositmonth){
 					this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
 				}
-				
-			}
+			},
 		},
 		filters: {
 			waterPrice(val) {
@@ -1157,36 +1149,47 @@
 						})
 					)
 					.then((response) => {
+						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							if(this.userInfo.userCertificate != 'null'){
-								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
-							}
-							else{
-								this.aaduserInfo[0].userCertificate = ''
-							}
-							this.aaduserInfo[0].username = this.userInfo.userName + '';
-							this.aaduserInfo[0].radio2 = this.userInfo.gender + '';
-							this.user.id = this.userInfo.id;
-							this.user.version = this.userInfo.version;
-							this.user.userPhone = this.userInfo.userPhone;
-							this.user.userName = this.userInfo.userName;
-							this.user.gender = this.userInfo.gender;
-							this.user.certificateId = this.userInfo.certificateId;
-							if(this.userInfo.userCertificate != 'null'){
-								this.user.userCertificate = this.userInfo.userCertificate;
-							}
-							else{
-								this.user.userCertificate = ''
-							}
+							//承租人信息
+								this.user.id = this.userInfo.id;
+								this.user.version = this.userInfo.version;
+								this.user.userPhone = this.userInfo.userPhone;
+								this.user.userName = this.userInfo.userName;
+								this.user.gender = this.userInfo.gender;
+								this.user.certificateId = this.userInfo.certificateId;
+
+								if(this.userInfo.userCertificate != 'null'){
+									this.user.userCertificate = this.userInfo.userCertificate;
+								}
+								else{
+									this.user.userCertificate = ''
+								}
+							//
 							if(this.userInfo.certificateId != null){
 								let id = this.userInfo.certificateId;
-								this.value = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+								this.value = this.user.options2[this.user.options2.findIndex(item => item.dataId == id)].dataName;
 							}
-							
+
 						} else {
+							axios.post(Registeruser200222,
+								qs.stringify({
+									userPhone:val
+								})
+							).then((res)=>{
+								console.log(res);
+								if(res.status == 200 && res.data.code == 10000) {
+									this.user.id = res.data.result.userId;
+									this.user.version = res.data.result.version;
+									this.user.gender = '2';
+								}
+							})
 						};
 					})
+			},
+			ChooseCertificate(val){
+				this.user.certificateId = this.user.options2[this.user.options2.findIndex(item => item.dataName == val)].dataId;
 			},
 			User2(index, val) {
 				axios.post(hostRoomUser,
@@ -1204,7 +1207,7 @@
 							this.ieList[index].certificateType = response.data.result.userInfo.certificateId;
 							this.ieList[index].certificateNumber = response.data.result.userInfo.userCertificate;
 							let id = response.data.result.userInfo.certificateId;
-							this.ieList[index].value3 = this.aaduserInfo[0].options2[this.aaduserInfo[0].options2.findIndex(item => item.dataId == id)].dataName;
+							this.ieList[index].value3 = this.user.options2[this.user.options2.findIndex(item => item.dataId == id)].dataName;
 						}
 					})
 			},
@@ -1253,7 +1256,7 @@
 										this.apartments[j].discount = this.costInfo.datewayList[i].discount;
 									}
 								}
-								
+
 							}
 						}
 
@@ -1266,7 +1269,7 @@
 					)
 					.then((response) => {
 						if(response.status == 200 && response.data.code == 10000) {
-							this.aaduserInfo[0].options2 = response.data.entity;
+							this.user.options2 = response.data.entity;
 							this.options2 = response.data.entity;
 
 						}
@@ -1291,13 +1294,35 @@
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
+        this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
 						this.addRepairs2();
 					}
+
+          // console.log(this.housetderta.serviceCost)
+          // console.log(this.housetderta)
+          // debugger
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
+				}
+
+			},
+			waterelectricity(val){
+				let str = /[^\d.]/;
+				if(str.test(val)){
+					this.housetderta.roomWater = '';
+				}else{
+					this.housetderta.roomWater = val;
+				}
+			},
+			waterelectricity2(val){
+				let str = /[^\d.]/;
+				if(str.test(val)){
+					this.housetderta.roomElectric = '';
+				}else{
+					this.housetderta.roomElectric = val;
 				}
 			},
 			way(val) {
@@ -1348,7 +1373,7 @@
 				}
 			},
 			apart(index) {
-				
+
 				this.activ = index;
 				if(this.onhrie) {
 					console.log(this.apartments[this.activ].letMounted);
@@ -1367,7 +1392,7 @@
 						this.warningMessage = '签约方式选择年付，租期不能小于十二个月';
 						this.activ = 0;
 					}else{
-						
+
 						var nes = new Date(this.onhrie);
 						if(index == 0) {
 							nes.setFullYear(nes.getFullYear() + 1);
@@ -1383,7 +1408,7 @@
 							nes.setMonth(nes.getMonth() + 1,nes.getDate()-1);
 							this.expire = nes;
 						}
-					}	
+					}
 				}else{
 					alert('请填写起租日');
 				}
@@ -1656,7 +1681,7 @@
 				if(this.housetderta.roomElectric != '') {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-				
+
 				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
 				param.append('electricInit', this.housetderta.roomElectric);
@@ -1717,7 +1742,7 @@
 						vm.warningModal = true;
 					})
 				}
-				
+
 
 			},
 			SigController2() {
@@ -1779,7 +1804,7 @@
 						"fileTitle": this.uploadList3[1]
 					});
 				}
-				
+
 				//furniture
 				let param = new FormData();
 				this.furniture = JSON.stringify(arr3);
@@ -1812,7 +1837,7 @@
 				if(this.housetderta.roomElectric != '') {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-				
+
 				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
 				param.append('electricInit', this.housetderta.roomElectric);
@@ -1891,7 +1916,7 @@
 			left: 5px;
 		}
 	}
-	
+
 	.ivu-icon-ios-calendar-outline {
 		color: #038be2;
 		font-family: "iconfont" !important;

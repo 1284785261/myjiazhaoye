@@ -389,6 +389,7 @@
         communittype:'',
         checkAll:false,
         isIndeterminate:false,
+        communityServiceCost:''
       }
     },
     mounted(){
@@ -528,9 +529,15 @@
       getOfficeInfo(){
         var that = this;
         this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
-          if(res.data.code == 10000){debugger
-            that.CommunityListOffice = res.data.entity;
+          console.log(res);
+          if(res.data.code == 10000){
+            
+            that.CommunityListOffice = res.data.entity.cxkjCommunityListOffice;
+            that.communityServiceCost = res.data.entity.communityServiceCost
             for(var i =0;i<that.CommunityListOffice.length;i++){
+              if(!that.CommunityListOffice[i].serviceCost){
+                that.CommunityListOffice[i].serviceCost = res.data.entity.communityServiceCost
+              }
               if(that.CommunityListOffice[i].officeFurniture){
                 var idArr = that.CommunityListOffice[i].officeFurniture.split(",");
                 var furnitureArr = [];
@@ -540,6 +547,9 @@
                 that.CommunityListOffice[i].officeFurniture = furnitureArr.join(" ");
               }
             }
+          }
+          else if(res.data.code == 10004){
+            that.CommunityListOffice[0].serviceCost = res.data.entity.communityServiceCost
           }
         }).catch(function(err){
           // console.log(err);
@@ -826,7 +836,7 @@
             officeHouseNum:"",
             officeWorkNum:"",
             officeRent:"",
-            serviceCost:""
+            serviceCost:this.communityServiceCost?this.communityServiceCost:''
           });
         }
       },

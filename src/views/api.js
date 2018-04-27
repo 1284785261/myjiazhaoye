@@ -464,6 +464,12 @@ const PmsDelComment = '/cxkj-pms/apis/pc/pmsordercomment/CxkjPmsDelComment300207
 
 //短租状态确认退房
 const ShortOrderRoomUpdate= '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsOrderRoomUpdate200217'
+
+//短租状态增值服务数据
+const ShortServiceInfo = '/cxkj-pms/apis/pc/pmsroom/CxkjPmsServiceInfo300212'
+
+//自动注册
+const Registeruser ='/cxkj-center/apis/user/CxkjCenterRegisteruser200222'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -617,6 +623,8 @@ export const ShortRoomUpdate200216 = host3 + ShortRoomUpdate;
 export const ShortPmsDelComment300207 = host3 + PmsDelComment;
 export const ShortOrderRoomUpdate200217 = host3 + ShortOrderRoomUpdate;
 export const AllBillMap500163 = host3 + '/cxkj-room/AllBillMap500163';
+export const ShortServiceInfo300212 = host3 + ShortServiceInfo;
+export const Registeruser200222 = host3 + Registeruser;
 export const host = host3;
 //export default {
 //hosts:function(){

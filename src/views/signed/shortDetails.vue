@@ -78,8 +78,8 @@
 		    				<td>
 		    				</td>
 		    				<td>
-								<ul v-for="item in pmsRoomService">
-									<li><span>{{item.serviceName}} *{{item.count}} </span><span style="color:#ef751b;">￥{{item.totalMoney}}</span></li>
+								<ul v-for="item in setaddedServices">
+									<li><span>{{item.serviceName}} *{{item.count}} </span><span style="color:#ef751b;font-size:14px;">￥{{item.totalMoney}}</span></li>
 								</ul>
 		    				</td>
 		    				<td>
@@ -210,11 +210,7 @@
 				增值服务
 			</p>
 			<el-checkbox-group v-model="checkList">
-				<el-checkbox label="双人早餐"></el-checkbox><span class="money">￥20</span>
-				<el-checkbox label="早餐"></el-checkbox><span class="money">￥20</span>
-				<el-checkbox label="唱吧"></el-checkbox><span class="money">￥20</span>
-				<el-checkbox label="自助餐"></el-checkbox><span class="money">￥20</span>
-				<el-checkbox label="咖啡"></el-checkbox><span class="money">￥20</span>
+				<el-checkbox :label=item.serviceName v-for="(item,index) in AlladdedServices" :key="index" @change="handleCheckedCitiesChange(checkList)">{{item.serviceName}}<span class="money">￥{{item.singlePrice}}</span><input type="text" style="width:30px;height:20px;margin-top:10px;margin-left:10px;font-size:10px;padding-left:5px;" v-model="item.count"></el-checkbox>
 			</el-checkbox-group>
 			<a @click="addservices()">提交</a>
             <a @click="closeservices()">取消</a>
@@ -237,7 +233,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -285,6 +281,8 @@
 					moneyWhy:''
 				}],//添加退款项目
 				setStatus:'',
+				AlladdedServices:[], //全部增值服务数据
+				setaddedServices:[], //已设置增值服务数据
 		   	}
     	},
     	filters:{
@@ -405,16 +403,18 @@
     		this.roomid = this.$route.query.id;
 			this.communityId = this.$route.query.ids;
 			// console.log(this.$route.query);
-    		this.datas();
+			this.datas();
+			this.addedservices();
     	},
     	methods:{
+			//入住登记，ID暂时为固定数据
     		instas(){
-				if(this.pmsOrder){
-					this.$router.push({name:'checkIn',query:{orderId:this.pmsOrder.orderId,roomId:this.roomId}})
-				}else{
-					this.warningMessage = '当前没有订单可以添加入住';
-					this.warningModal = true;
-				}
+				// if(this.pmsOrder){
+					this.$router.push({name:'checkIn',query:{orderId:366,roomId:28}})
+				// }else{
+				// 	this.warningMessage = '当前没有订单可以添加入住';
+				// 	this.warningModal = true;
+				// }
 				
 			},
 			jiage(value,index){
@@ -444,7 +444,7 @@
     				})
     			)
     			.then((response) => {
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 						this.Datas = response.data.entity;
 						this.orderId = this.Datas.pmsOrder.orderId;
@@ -453,7 +453,7 @@
 						}
 						
 						let arr = JSON.parse(this.Datas.materials);
-						console.log(arr);
+						// console.log(arr);
 						for(let i = 0;i<arr.length;i++){
 							this.roomconfiguration.push(arr[i].materialName);
 						}
@@ -493,6 +493,7 @@
 				// console.log(cxkjPmsOrderFinanceLists);
 				param.append('orderId',this.orderId);
 				param.append('type',1);
+				param.append('orderRoomId',this.pmsOrder.orderRoomId);
 				axios.post(ShortOrderFinance200214, param).then((res)=>{
 					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
@@ -534,6 +535,7 @@
 				
 				param.append('orderId',this.orderId);
 				param.append('type',2);
+				param.append('orderRoomId',this.pmsOrder.orderRoomId);
 				axios.post(ShortOrderFinance200214, param).then((res)=>{
 					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
@@ -629,7 +631,7 @@
 							id:vm.Datas.pmsOrder.orderNum
 						})
 						).then((res)=>{
-							console.log(res);
+							// console.log(res);
 							if(res.status == 200 && res.data.code == 10000){
 								this.successMessage = '退房确认成功';
 								this.successModal = true;
@@ -651,6 +653,32 @@
 					
 				// }
 				
+			},
+			//获取短租增值服务的全部数据(订单ID暂时为死数据)
+			addedservices(){
+				this.AlladdedServices = [];
+				this.checkList = [];
+				this.setaddedServices = [];
+				axios.get(ShortServiceInfo300212,{
+					params:{communityId:this.communityId,id:366}
+				}).then((res) => {
+					if(res.status == 200 && res.data.code == 10000){
+						this.AlladdedServices = res.data.entity.communitySvcList;
+						this.setaddedServices = res.data.entity.orderServiceList;
+						for(let i = 0;i<this.AlladdedServices.length;i++){
+							this.AlladdedServices[i].count = '';
+							for(let j = 0;j<this.setaddedServices.length;j++){
+								if(this.setaddedServices[j].serviceId == this.AlladdedServices[i].serviceId){
+									this.checkList.push(this.AlladdedServices[i].serviceName);
+									this.AlladdedServices[i].count = this.setaddedServices[j].count;
+								}
+							}
+						}
+					}
+				})
+			},
+			handleCheckedCitiesChange(list){
+				console.log(list);
 			},
     		closeWarningModal() {
 				this.warningModal = false;			
@@ -710,7 +738,8 @@
 			},
 			closeservices(){
 				this.isHide = false;
-                this.isHide7 = false;
+				this.isHide7 = false;
+				this.addedservices();
 			}
     	
     	},

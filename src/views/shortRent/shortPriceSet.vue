@@ -32,7 +32,7 @@
                         </td>
                         <td>
                             <span v-if="item.typeCompile == 0">{{item.name}}</span>
-                            <Input style="width: 100px;" v-model="item.names" v-if="item.typeCompile == 1 || item.typeCompile == 2"></Input>
+                            <Input style="width: 100px;" v-model="item.name" v-if="item.typeCompile == 1 || item.typeCompile == 2"></Input>
                         </td>
                         <td v-for="ite in item.pmsRoomPrice">
                             <span v-if="item.typeCompile == 0">{{ite.price}}</span>
@@ -200,7 +200,7 @@
                         communityId:value
                     })
                 ).then((res)=>{
-                    // console.log(res);
+                    console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         vm.disabledbutton = false;
                         if(res.data.entity.roomTypeMap){
@@ -323,7 +323,7 @@
                     {
                         communityId:vm.stationCommunity,
                         code:vm.shortPriceroom[index].code,
-                        name:vm.shortPriceroom[index].names,
+                        name:vm.shortPriceroom[index].name,
                         cxkjPmsRoomPriceList:vm.cxkjPmsRoomPriceList,
                         pmsRoomPriceIds:vm.shortPriceroom[index].pmsRoomPriceIds
                     }).then((res)=>{

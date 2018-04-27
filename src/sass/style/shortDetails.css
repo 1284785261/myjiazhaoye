@@ -360,7 +360,7 @@
 	margin: 5px 10px;
 }
 .addservices{
-	width: 360px;
+	width: 390px;
 	background: #fff;
 	z-index: 999;
 	position: fixed;
@@ -392,9 +392,14 @@
 }
 .addservices .el-checkbox-group .money{
 	color: darkorange;
+	margin-left: 5px;
 }
 .addservices .el-checkbox{
 	margin: 8px;
+	height:32px;
+}
+.addservices .el-checkbox:nth-child(1){
+	height: 37px;
 }
 .setShortstatus{
 	background: #fff;

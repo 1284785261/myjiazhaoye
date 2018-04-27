@@ -115,6 +115,7 @@
                     <th>到店日期</th>
                     <th>离店日期</th>
                     <th>预付款</th>
+                    <th>操作</th>
                 </tr>
               <tr v-for="(item,index) in shortOrderList">
                 <td>
@@ -131,6 +132,7 @@
                 <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.payMoney}}</td>
+                <td><a>查看详情</a></td>
               </tr>
             </table>
             <div class="block">

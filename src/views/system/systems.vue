@@ -471,9 +471,12 @@
 		<div class="addsection" v-show="isShow11">
 			<i class="el-icon-circle-close" @click="closeCompany"></i>
 			<P>{{adds4}}</P>
-			<table class="Companymessage">
+			<table class="Companymessage1">
 				<tr>
-					<td>公司名：<input type="text" placeholder="请输入公司名" v-model="addCompany.name"></td>
+					<td>公司名：<input type="text" style="margin-right:12px;margin-left: 16px;" placeholder="请输入公司名" v-model="addCompany.name">通讯地址：<input type="text" placeholder="请输入通讯地址" v-model="addCompany.correspondenCeaddress"></td>
+				</tr>
+				<tr>
+					<td>联系人：<input type="text" style="margin-right:12px;margin-left: 16px;" placeholder="请输入联系人" v-model="addCompany.theContact">联系电话：<input type="text" placeholder="请输入联系电话" v-model="addCompany.contactPhone"></td>
 				</tr>
 				<tr>
 					<td>
@@ -484,16 +487,14 @@
 						</el-select>
 					</td>
 				</tr>
-			</table>
-			<table class="Companymessage1">
 				<tr>
 					<td>
-						微信号：<input type="text" style="margin-right:12px;margin-left: 4px;" placeholder="请输入微信号" v-model="addCompany.wxpayAppid"> 微信密钥：<input type="password" v-model="addCompany.wxpayMchid">
+						微信号：<input type="text" style="margin-right:12px;margin-left: 16px;" placeholder="请输入微信号" v-model="addCompany.wxpayAppid"> 微信密钥：<input type="password" v-model="addCompany.wxpayMchid">
 					</td>
 				</tr>
 				<tr>
 					<td>
-						支付宝：<input type="text" style="margin-left: 4px;" placeholder="请输入支付宝" v-model="addCompany.alipayAppid"> 支付宝密钥：<input type="password" v-model="addCompany.alipayPrivatekey">
+						支付宝：<input type="text" style="margin-left: 16px;" placeholder="请输入支付宝" v-model="addCompany.alipayAppid"> 支付宝密钥：<input type="password" v-model="addCompany.alipayPrivatekey">
 					</td>
 				</tr>
 			</table>
@@ -640,7 +641,10 @@
 					wxpayAppid:'',
 					wxpayMchid:'',
 					alipayAppid:'',
-					alipayPrivatekey:''
+					alipayPrivatekey:'',
+					correspondenCeaddress:'',
+					theContact:'',
+					contactPhone:''
 				},
 				msg:'',
 				superior:'',   //上级部门id
@@ -1982,6 +1986,9 @@
 							this.addCompany.wxpayMchid = datas.wxpayMchid;
 							this.addCompany.alipayAppid = datas.alipayAppId;
 							this.addCompany.alipayPrivatekey = datas.alipayPrivateKey;
+							this.addCompany.correspondenCeaddress = datas.address;
+							this.addCompany.theContact = datas.contactsName;
+							this.addCompany.contactPhone = datas.contactsPhone;
 						}
 					})
 				}
@@ -1997,6 +2004,9 @@
 				this.addCompany.wxpayMchid = '';
 				this.addCompany.alipayAppid = '';
 				this.addCompany.alipayPrivatekey = '';
+				this.addCompany.correspondenCeaddress = '';
+				this.addCompany.theContact = '';
+				this.addCompany.contactPhone = '';
 			},
 			//选择上级公司获取公司ID
 			superiorCompany(id){
@@ -2012,6 +2022,9 @@
 							wxpayMchid:this.addCompany.wxpayMchid,
 							alipayAppid:this.addCompany.alipayAppid,
 							alipayPrivatekey:this.addCompany.alipayPrivatekey,
+							address:this.addCompany.correspondenCeaddress,
+							contactsName:this.addCompany.theContact,
+							contactsPhone:this.addCompany.contactPhone,
 						})
 					).then((res)=>{
 						if(res.status == 200 && res.data.code == 10000) {
@@ -2043,6 +2056,9 @@
 					this.addCompany.wxpayMchid = '';
 					this.addCompany.alipayAppid = '';
 					this.addCompany.alipayPrivatekey = '';
+					this.addCompany.correspondenCeaddress = '';
+					this.addCompany.theContact = '';
+					this.addCompany.contactPhone = '';
 				}
 				else if(this.adds4 == '编辑公司'){
 					axios.post(amendCompany500152,
@@ -2054,6 +2070,9 @@
 							wxpayMchid:this.addCompany.wxpayMchid,
 							alipayAppid:this.addCompany.alipayAppid,
 							alipayPrivatekey:this.addCompany.alipayPrivatekey,
+							address:this.addCompany.correspondenCeaddress,
+							contactsName:this.addCompany.theContact,
+							contactsPhone:this.addCompany.contactPhone,
 						})
 					).then((res)=>{
 						if(res.status == 200 && res.data.code == 10000) {

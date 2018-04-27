@@ -84,20 +84,27 @@
                       <td>{{item.electricityMeterSn}}</td>
                       <td>{{item.manufacturerName}}</td>
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
-                      <td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
-                      <td>{{item.waterElectricityData}}</td>
+                      <!--<td>{{roomElectricity[index][index1]}}</td>-->
+
+                      <td >{{roomElectricity[index][index1]?roomElectricity[index][index1].recordCreatetime:''| timefilter("yyyy.MM.dd")}}</td>
+                      <td >{{roomElectricity[index][index1]?roomElectricity[index][index1].waterElectricityData:''}}</td>
+                      <!--<td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>-->
+                      <!--<td>{{item.waterElectricityData}}</td>-->
                       <td>
                         <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.electricityStatus == 1">离线</span>
                         <span v-else-if="item.electricityStatus == 2">关闭</span>
-                        <span v-else style="color: rgb(254,120,50);">未配置</span>
+                        <span v-if="item.electricityStatus ==  6" style="color: rgb(254,120,50);">未配置</span>
+                        <span v-if="item.electricityStatus ==  5" style="color: rgb(254,120,50);">已配置</span>
                       </td>
                       <td>
                         <div><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
                           <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
                           <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutElectricity(item,electricity.floorName)">关闭</a>
                           <a v-if="item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openToElectricity(item,electricity.floorName)">开启</a>
-                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
+                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2 && item.electricityStatus ==  6 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
+                          <a @click="lookElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">实时读数</a>
+                          <a @click="saveElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">保存读数</a>
                         </div>
                       </td>
                     </tr>
@@ -121,25 +128,29 @@
                       <td>水表状态</td>
                       <td width="15%">操作</td>
                     </thead>
-                    <tr v-for="(item,index) in water.roomWater">
+                    <tr v-for="(item,indexs) in water.roomWater">
                       <td>{{item.roomNum}}</td>
                       <td>{{item.waterMeterSn}}</td>
                       <td>{{item.manufacturerName}}</td>
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
-                      <td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
-                      <td>{{item.waterElectricityData}}</td>
+                      <!--<td>{{roomWaterRecord[index][indexs]}}</td>-->
+                      <td >{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].recordCreatetime:'' | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].waterElectricityData:''}}</td>
                       <td>
                         <span v-if="item.waterStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.waterStatus == 1">离线</span>
                         <span v-else-if="item.waterStatus == 2">关闭</span>
-                        <span v-else style="color: rgb(254,120,50);">未配置</span>
+                        <span v-if="item.waterStatus == 6"  style="color: rgb(254,120,50);">未配置</span>
+                        <span v-if="item.waterStatus == 5" style="color: rgb(254,120,50);">已配置</span>
                       </td>
                       <td>
                         <div>
                           <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateWater(item,water.floorName)">修改</a>
                           <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutWater(item,water.floorName)">关闭</a>
                           <a v-if="item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openWater(item,water.floorName)">开启</a>
-                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2 && jurisdiction('COMMUNITY_UPDATE')" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
+                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2 && item.waterStatus == 6 && jurisdiction('COMMUNITY_UPDATE')" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
+                          <a v-if="item.waterStatus == 5" @click="lookWaterTo(item.roomWatermeterRelationId,item.roomId,index,indexs)">实时读数</a>
+                          <a v-if="item.waterStatus == 5" @click="saveWaterTo(item.roomWatermeterRelationId,item.roomId,index,indexs)">保存读数</a>
                         </div>
                       </td>
                     </tr>
@@ -377,6 +388,18 @@
     </div>
 
 
+    <!--水电表实时读数-->
+    <!--<div class="instas2" v-show="typeModal">-->
+      <!--<Icon type="ios-close-outline"></Icon>-->
+      <div class="instas7 instas4" v-show="typeModal">
+        <i class="el-icon-circle-close" @click="closeModal()"></i>
+      <p>{{type}}读数</p>
+      <!--<p>当前读数：<b>{{typeNum}}</b></p>-->
+        <table style="margin-bottom: 90px">
+          <tr> <td style="text-align: center">{{typeNum}}</td></tr></table>
+      <!--<a @click="shutWaterSure()">确定</a>-->
+      <a @click="closeModal()" >确定</a>
+    </div>
     <!--关闭水表-->
     <div class="instas2" v-show="shutWaterModal">
       <Icon type="ios-close-outline"></Icon>
@@ -475,7 +498,7 @@
   import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
   import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL,electricityTable,pushElectricity,electricityDelete,electricitUpdate,openElectricity,
-    waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl} from '../api.js';
+    waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl,CxkjCommunityElectricityInfo200218,CxkjCommunityWaterInfo200219,CxkjCommunityElectricityUpdateRoomAndRecord200221,CxkjCommunityWaterUpdateRoomAndRecord200220} from '../api.js';
 
     export default {
     	components:{
@@ -573,6 +596,16 @@
           successMessage:"添加成功！",
           warningModal:false,
           warningMessage:"添加失败！",
+          roomWaterRecord:[],//水表抄表
+          roomElectricity:[],//电表抄表
+          floorIndex:'',//楼层Index
+          roomIndex:'',//房间Index
+          WaterRecord:'',//水表读数
+          Electricity:'',//点表读数
+
+          typeModal:false,//水电表弹框
+          type:'',//水电表类别
+          typeNum:''//水电表读数
 		   	}
     	},
       mounted(){
@@ -603,6 +636,7 @@
           this.deleteWaterModal = false;
           this.shutWaterModal = false;
           this.openWaterModal = false;
+          this.typeModal = false
         },
         //获取水表列表
         getWaterList(){
@@ -613,9 +647,78 @@
               that.waterList = rootData.page;
               for(var i =0;i<that.waterList.length;i++){
                 that.$set(that.waterList[i],"showTable",true);
+                let list = []
+                for(let k = 0 ;k<that.waterList[i].roomWater.length;k++){
+                  list.push(that.waterList[i].roomWater[k].roomWaterRecord)
+                }
+                that.roomWaterRecord[i] = list
               }
             }
           })
+        },
+        //保存电表读数
+        saveElectricityTo(roomElectricityRelationId,roomId,floorIndex,roomIndex){
+          let vm = this
+          // if(this.floorIndex != floorIndex || this.roomIndex != roomIndex || this.type != '电表'){
+          //   this.warningMessage = '请先获取读数'
+          //   this.warningModal = true
+          //   return
+          // }else {
+            // console.log(roomElectricityRelationId+'a '+roomId+'s '+floorIndex+' d'+roomIndex)
+            // debugger
+            vm.$http.post(CxkjCommunityElectricityUpdateRoomAndRecord200221,qs.stringify({
+              roomElectricitymeterRelationId:roomElectricityRelationId,
+              roomId:roomId
+            })).then(res => {
+              if(res.data.code == 10000){
+                vm.successMessage = '保存成功'
+                vm.successModal = true
+                vm.getElectricityTable()
+                setTimeout(function() {
+                  vm.successModal = false
+                }, 1000)
+              }else {
+                vm.successMessage =res.data.center
+                vm.successModal = true
+              }
+            }).catch(err => {
+              this.warningMessage = '保存失败'
+              this.warningModal = true
+            })
+          // }
+
+        },
+        //保存水表读数
+        saveWaterTo(roomWatermeterRelationId,roomId,floorIndex,roomIndex){
+          let vm = this
+          // if(this.floorIndex != floorIndex || this.roomIndex != roomIndex || this.type != '水表'){
+          //   this.warningMessage = '请先获取读数'
+          //   this.warningModal = true
+          //   return
+          // }else {
+            // console.log(roomElectricityRelationId+'a '+roomId+'s '+floorIndex+' d'+roomIndex)
+            // debugger
+            vm.$http.post(CxkjCommunityWaterUpdateRoomAndRecord200220,qs.stringify({
+              roomWatermeterRelationId:roomWatermeterRelationId,
+              roomId:roomId
+            })).then(res => {
+              if(res.data.code == 10000){
+                vm.successMessage = '保存成功'
+                vm.successModal = true
+                vm.getWaterList()
+                setTimeout(function() {
+                  vm.successModal = false
+                }, 1000)
+              }else {
+                vm.successMessage =res.data.center
+                vm.successModal = true
+              }
+            }).catch(err => {
+              this.warningMessage = '保存失败'
+              this.warningModal = true
+            })
+          // }
+
         },
         //添加水表对话框
         addWaterTo(floorName,roomNum,roomId){
@@ -704,6 +807,63 @@
             }
           })
         },
+        /**
+         * 打开电表读数弹框
+         * **/
+        lookElectricityTo(roomElectricitymeterRelationId,roomId,floorIndex,roomIndex){
+          let vm = this
+          vm.floorIndex = floorIndex
+          vm.roomIndex = roomIndex
+          vm.$http.post(CxkjCommunityElectricityInfo200218,qs.stringify({
+            roomElectricitymeterRelationId:roomElectricitymeterRelationId,
+            roomId:roomId
+          })).then(res => {
+            if(res.data.code == 10000 && res.data.content == '获取电表读数成功'){
+
+              vm.Electricity=res.data.result.thisRead
+              vm.typeNum= '当前读数：'+res.data.result.thisRead//水电表读数
+              vm.type='电表'//水电表类别
+              vm.typeModal=true//水电表弹框
+              vm.isHid =true//水电表弹框
+            }else {
+              vm.typeNum= '读取失败'//水电表读数
+              vm.type='电表'//水电表类别
+              vm.typeModal=true//水电表弹框
+              vm.isHid =true//水电表弹框
+            }
+          }).catch(err => {
+            this.warningMessage = '读取失败'
+            this.warningModal = true
+          })
+        },
+        /**
+         * 打开水表读数弹框
+         * **/
+        lookWaterTo(roomWatermeterRelationId,roomId,floorIndex,roomIndex){
+          let vm = this
+          vm.floorIndex = floorIndex
+          vm.roomIndex = roomIndex
+          vm.$http.post(CxkjCommunityWaterInfo200219,qs.stringify({
+            roomWatermeterRelationId:roomWatermeterRelationId,
+              roomId:roomId
+          })).then(res => {
+            if(res.data.code == 10000 && res.data.content == '获取水表读数成功'){
+              vm.WaterRecord=res.data.result.thisRead
+              vm.typeNum='当前读数：'+res.data.result.thisRead
+              vm.type='水表'
+              vm.typeModal=true
+              vm.isHid =true
+            }else {
+              vm.typeNum= '读取失败'//水电表读数
+              vm.type='电表'//水电表类别
+              vm.typeModal=true//水电表弹框
+              vm.isHid =true//水电表弹框
+            }
+          }).catch(err => {
+            this.warningMessage = '读取失败'
+            this.warningModal = true
+          })
+       },
         shutWater(item,floorName){
           this.activeWater = item;
           this.updateFloorName = floorName;
@@ -714,6 +874,10 @@
           this.shutWaterModal = false;
           this.isHid = !this.isHid;
         },
+        // closeModal(){
+        //   this.shutWaterModal = false;
+        //   this.isHid = !this.isHid;
+        // },
         shutWaterSure(){
           var that = this;
           this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){
@@ -956,7 +1120,21 @@
               that.electricityList = rootData.page;
               for(var i =0;i<that.electricityList.length;i++){
                 that.$set(that.electricityList[i],"showTable",true);
+                let list = []
+                for(let k = 0 ;k<that.electricityList[i].roomElectricity.length;k++){
+                  list.push(that.electricityList[i].roomElectricity[k].roomElectricityRecord)
+                }
+                that.roomElectricity[i] = list
               }
+              // for(var i =0;i<that.waterList.length;i++){
+              //
+              //   that.$set(that.waterList[i],"showTable",true);
+              //   let list = []
+              //   for(let k = 0 ;k<that.waterList[i].roomWater.length;k++){
+              //     list.push(that.waterList[i].roomWater[k].roomWaterRecord)
+              //   }
+              //   that.roomWaterRecord[i] = list
+              // }
             }
           })
         },

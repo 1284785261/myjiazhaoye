@@ -154,8 +154,8 @@
                 <td class="td1">
                   <table class="contract-detail-table2">
                     <tr class="tr2 span-padding">
-                      <td class="td2">押金 :<span>{{contractDetailData.deposit}}元</span></td>
-                      <td class="td2">每月租金 :<span>{{contractDetailData.rentPay}}元</span></td>
+                      <td class="td2">押金 :<span>{{contractDetailData.deposit | monery}}元</span></td>
+                      <td class="td2">每月租金 :<span>{{contractDetailData.rentPay | monery}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
                       <td class="td2" v-if="isOffice==0">租期折扣 :<span>{{contractDetailData.datewayDiscount}}%</span></td>
                       <td class="td2" v-if="isOffice==0">支付方式折扣 :<span>{{contractDetailData.paywayDiscount}}%</span></td>
@@ -295,8 +295,8 @@
     <div class="contract-modal-content formulas" v-if="formula">
         <h3>计算方式</h3>
         <div>
-          <p>押金：{{contractDetailData.deposit}}元</p>
-          <p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
+          <p>押金：{{contractDetailData.deposit | monery}}元</p>
+          <p>房费：{{roommonry}}元 = {{roommonryg}}</p>
           <p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
           <p>其他费用：{{contractDetailData.cyclePayOtherCost}}元</p>
           <p v-for="item in contractDetailData.otherCostJson">{{item.costName}}：{{item.costAmount}}元</p>
@@ -420,14 +420,22 @@
         }
       },
       tm(){
-        var date = new Date(this.contractDetailData.beginDate);
+        let date = new Date(this.contractDetailData.beginDate);
+        let date1 = new Date(this.contractDetailData.beginDate).Format("yyyy-MM-dd");
+        let date2 = new Date(this.contractDetailData.endDate).Format("yyyy-MM-dd");
+        let datebegin = date1.split('-');
+        datebegin = parseInt(datebegin[0]) * 12 + parseInt(datebegin[1]);
+        let dateend = date2.split('-');
+        dateend = parseInt(dateend[0]) * 12 + parseInt(dateend[1]);
+        let dataMoney = Math.abs(datebegin - dateend);
+        console.log(dataMoney);
 				//获取年份
-				var year = date.getFullYear();
+				let year = date.getFullYear();
 				//获取当前月份
-				var mouth = date.getMonth() + 1;
-        var daym = date.getDate() - 1;
+				let mouth = date.getMonth() + 1;
+        let daym = date.getDate() - 1;
 				//定义当月的天数；
-				var days;
+				let days;
 				//当月份为二月时，根据闰年还是非闰年判断天数
 				if (mouth == 2) {
 					days = year % 4 == 0 ? 29 : 28;
@@ -440,14 +448,44 @@
 					//其他月份，天数为：30.
 					days = 30;
         }
-        let stroir = parseFloat(this.contractDetailData.deposit/(this.contractDetailData.datewayDiscount/100)/(this.contractDetailData.paywayDiscount/100)).toFixed(2);
-        // console.log(this.contractDetailData);
-        this.roommonry = parseFloat((this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
-        this.roommonryg = '租金/'+days +'*'+(days-daym) +'天'+ '*'+'租期折扣'+ '*'+'支付方式折扣';
         this.fwmonry = parseFloat(((this.contractDetailData.serviceCost / days) * (days-daym))).toFixed(2);
-        this.fwmonryg = '租金/'+days +'*'+(days-daym)+'天';
+        this.fwmonryg = this.contractDetailData.serviceCost+'元/'+days +'*'+(days-daym)+'天';
         this.formula = true;
-      
+        if(this.contractDetailData.cyclePayType == 1){
+          this.roommonry = parseFloat((this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+          this.roommonryg = '租金/'+days +'*'+(days-daym) +'天'+ '*'+'租期折扣'+ '*'+'支付方式折扣';
+        }else if(this.contractDetailData.cyclePayType == 2){
+          if(date.getDate() == 1){
+              this.roommonry = parseFloat(this.contractDetailData.rentPay * 2 + (this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+							this.roommonryg = '租金' +'*2+'+ '租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
+          }else{
+            if(dataMoney >=3 && dataMoney <6){
+              this.roommonry = parseFloat(this.contractDetailData.rentPay * 2 + (this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+							this.roommonryg = '租金' +'*2+'+'租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
+            }else{
+              this.roommonry = parseFloat(this.contractDetailData.rentPay * 3).toFixed(2);
+							this.roommonryg = '租金' +'*3'+'*租金折扣*'+'支付方式折扣';
+            }
+          }
+
+        }else if(this.contractDetailData.cyclePayType == 3){
+          if(date.getDate() == 1){
+            this.roommonry = parseFloat(this.contractDetailData.rentPay * 5 + (this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+						this.roommonryg = '租金' +'*5+'+ '租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
+          }else{
+            if(dataMoney >= 6 && dataMoney < 12){
+              this.roommonry = parseFloat(this.contractDetailData.rentPay * 5 + (this.contractDetailData.rentPay / days) * (days-daym)).toFixed(2);
+						  this.roommonryg = '租金' +'*5+'+ '租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
+            }else{
+              this.roommonry = parseFloat(this.contractDetailData.rentPay * 6).toFixed(2);
+						  this.roommonryg = '租金' +'*6'+'*租金折扣*'+'支付方式折扣';
+            }
+          }
+          
+        }else if(this.contractDetailData.cyclePayType == 4){
+          this.roommonry = parseFloat(this.contractDetailData.rentPay * 12).toFixed(2);
+					this.roommonryg = '租金' +'*11+'+ '租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
+        }
         
       },
       qud(){
@@ -465,6 +503,9 @@
       },
       time(value){
         return new Date(value).Format('yyyy-MM-dd');
+      },
+      monery(value){
+        return parseFloat(value).toFixed(2);
       }
     },
   }

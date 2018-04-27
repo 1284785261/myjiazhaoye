@@ -1,92 +1,81 @@
 <template>
 	<div>
-		<!--<menu-box :active-tab-name="activeTabName"></menu-box>-->
-		<!--<div class="right-content" id="right-content">-->
-			<!--<right-header></right-header>-->
-			<!--<div class="wordbench-box">-->
-				<!--<div class="ivu-site">-->
-		          <!--<span>您现在的位置：工作台 > </span>-->
-		          <!--<router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>-->
-		        <!--</div>-->
-		        <!--<div class="ivu-bar-title">-->
-		          <!--<h3><i class="icon icon-iden"></i>短租房状态</h3>-->
-		          <!--<span>{{Name}}</span>-->
-		        <!--</div>-->
-		    	<div id="shortTerm">
-		    		<div class="shortTerm1">
-		    			<div class="form-search-criteria">
-							<router-link :to="{path:'/signed/shortresident',query:{id:communityId}}">住户列表</router-link>
-                            <div class="form-item">
-                                <b>房型：</b>
-                                <Select v-model="roomCategorvalue" style="width:150px">
-                                    <Option v-for="community in  roomCategory" :value="community.housetypeId" :key="community.housetypeId">{{ community.name }}</Option>
-                                </Select>
-                            </div>
-							<div class="form-item">
-                                <b>房间状态：</b>
-                                <Select v-model="roomStatevalue" style="width:150px">
-                                    <Option v-for="community in  roomState" :value="community.roomStatus" :key="community.roomStatus">{{ community.name }}</Option>
-                                </Select>
-                            </div>
-                            <div class="form-item">
-                                <b>更多查询：</b>
-                                <Select v-model="morequerievalue" style="width:100px">
-                                    <Option v-for="community in  moreQueries" :value="community.moreId" :key="community.moreId">{{ community.name }}</Option>
-                                </Select>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-search">
-                                    <i class="iconfont icon-sousuo"></i>
-                                    <Input v-model="stationKeyWord" placeholder="搜索联系人或联系电话"></Input>
-                                    <input type="button" @click="searchStation()" value="搜索">
-                                </div>
-                            </div>
-                        </div>
-		    		</div>
-		    		<div class="shortTerm2" v-for="(item,index) in bigdata">
-			        	<div class="state1">
-			        		<span>{{item.floorName}}</span><span>层</span>
-                            <span>{{item.roomList.length}}间</span>
-			        		<i :class="[item.hais ? clas:clas2]" @click="shrink(index,item.hais)"></i>
-			        	</div>
-			        	<transition name="el-zoom-in-top">
-			        	<ul class="state2 transition-box" v-show='item.hais'>
-			        		<li v-for="its in item.roomList" >
-			        			<div>
-
-					        			<p>{{its.roomNum}}</p>
-                                        <span class="short" v-if="its.isPmsRoom == '1'">短租</span>
-										<span class="short" v-if="its.isPmsRoom == '0'">长租</span>
-					        			<p v-if="its.name && its.isPmsRoom == '1'">{{its.name}}</p>
-										<p v-else-if="its.housetypeName && its.isPmsRoom == '0'">{{its.housetypeName}}</p>
-										<p v-else></p>
-					        			<span v-if="its.userName">姓名:{{its.userName}}</span>
-										<span v-else></span>
-					        			<span v-if="its.userPhone">手机号:{{its.userPhone}}</span>
-										<span v-else></span>
-					        			<p v-if="its.isPmsRoom == '1'">
-                                            {{its.price | price}}
-					        				<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]"><em v-if="its.isPmsRoom == '1'">{{its.roomStatus | shortstates(its.roomStatus)}}</em></i>
-					        			</p>
-										<p v-if="its.isPmsRoom == '0'">
-											<i :class="[{'act':its.status == 0},{'act2':its.status == 1}]"><em v-if="its.isPmsRoom == '0'"></em>{{its.status | statusm(its.status)}}</em></i>
-										</p>
-			        			</div>
-
-				        		<router-link :to="{path:'/signed/shortDetails',query:{id:its.roomId,ids:communityId}}" class="sex">
-				        				<span>房间</span>
-				        				<span>点击弹出房间信息</span>
-				        		</router-link>
-			        		</li>
-			        	</ul>
-			       		 </transition>
-		    		</div>
-		    	</div>
-
-
+		<div id="shortTerm">
+			<div class="shortTerm1">
+				<div class="form-search-criteria">
+					<router-link :to="{path:'/signed/shortresident',query:{id:communityId}}">住户列表</router-link>
+					<div class="form-item">
+						<b>房型：</b>
+						<Select v-model="roomCategorvalue" style="width:150px">
+							<Option v-for="community in  roomCategory" :value="community.housetypeId" :key="community.housetypeId">{{ community.name }}</Option>
+						</Select>
+					</div>
+					<div class="form-item">
+						<b>房间状态：</b>
+						<Select v-model="roomStatevalue" style="width:150px">
+							<Option v-for="community in  roomState" :value="community.roomStatus" :key="community.roomStatus">{{ community.name }}</Option>
+						</Select>
+					</div>
+					<div class="form-item">
+						<b>更多查询：</b>
+						<Select v-model="morequerievalue" style="width:100px">
+							<Option v-for="community in  moreQueries" :value="community.moreId" :key="community.moreId">{{ community.name }}</Option>
+						</Select>
+					</div>
+					<div class="form-item">
+						<div class="form-search">
+							<i class="iconfont icon-sousuo"></i>
+							<Input v-model="stationKeyWord" placeholder="搜索联系人或联系电话"></Input>
+							<input type="button" @click="searchStation()" value="搜索">
+						</div>
+					</div>
+					<div class="form-item">
+						<div>
+							<a :href="host4" class="stationexport" :disabled="disabled1">导出</a>
+						</div>
+					</div>
+				</div>
 			</div>
-			<!--<footer-box></footer-box>-->
-		<!--</div>-->
+			<div class="shortTerm2" v-for="(item,index) in bigdata">
+				<div class="state1">
+					<Checkbox v-model="item.sing" @on-change="checkAllGroupChange2(item,index)"></Checkbox>
+					<span class="floorname">{{item.floorName}}</span><span class="floor">层</span>
+					<span class="rooms">{{item.roomList.length}}间</span>
+					<i :class="[item.hais ? clas:clas2]" @click="shrink(index,item.hais)"></i>
+				</div>
+				<transition name="el-zoom-in-top">
+				<ul class="state2 transition-box" v-show='item.hais'>
+					<li v-for="its in item.roomList">
+						<div>
+
+								<p>{{its.roomNum}}</p>
+								<span class="short" v-if="its.isPmsRoom == '1'">短租</span>
+								<span class="short" v-if="its.isPmsRoom == '0'">长租</span>
+								<p v-if="its.name && its.isPmsRoom == '1'">{{its.name}}</p>
+								<p v-else-if="its.housetypeName && its.isPmsRoom == '0'">{{its.housetypeName}}</p>
+								<p v-else></p>
+								<span v-if="its.userName">姓名:{{its.userName}}</span>
+								<span v-else></span>
+								<span v-if="its.userPhone">手机号:{{its.userPhone}}</span>
+								<span v-else></span>
+								<p v-if="its.isPmsRoom == '1'">
+									{{its.price | price}}
+									<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]"><em v-if="its.isPmsRoom == '1'">{{its.roomStatus | shortstates(its.roomStatus)}}</em></i>
+								</p>
+								<p v-if="its.isPmsRoom == '0'">
+									<i :class="[{'act':its.status == 0},{'act2':its.status == 1}]"><em v-if="its.isPmsRoom == '0'"></em>{{its.status | statusm(its.status)}}</em></i>
+								</p>
+						</div>
+
+						<router-link :to="{path:'/signed/shortDetails',query:{id:its.roomId,ids:communityId}}" v-if="its.isPmsRoom == '1'" class="sex">
+								<span>房间</span>
+								<span>点击弹出房间信息</span>
+						</router-link>
+					</li>
+				</ul>
+					</transition>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -97,7 +86,7 @@
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
     import axios from 'axios';
-    import { hostState,imgPath,ShortRentstate200211,ShortRoomTypes200208 } from '../api.js';
+    import { hostState,imgPath,ShortRentstate200211,ShortRoomTypes200208,host } from '../api.js';
     import qs from 'qs';
 
     export default {
@@ -151,7 +140,10 @@
 					}],
 				roomCategorvalue:'-1',
 				morequerievalue:'-1',
-				roomStatevalue:'-1'
+				roomStatevalue:'-1',
+				floorIdList:[],
+				host4:'',
+				disabled1:true
 		   	}
     	},
     	filters:{
@@ -205,6 +197,7 @@
     		//console.log(this.communityId);
     		this.datas();
 			this.shortList();
+			
     	},
     	methods:{
     		shrink(index,els){
@@ -249,10 +242,11 @@
     			if(response.status == 200 && response.data.code == 10000){
     				this.bigdata = response.data.pageBean.page;
 	    				for(var i=0;i<this.bigdata.length;i++){
-	    					this.$set(this.bigdata[i],"hais",true);
+							this.$set(this.bigdata[i],"hais",true);
+							this.$set(this.bigdata[i],"sing",false);
 	    				}
 	    				//console.log("sdafadsa");
-	    				// console.log(this.bigdata);
+	    				console.log(this.bigdata);
 
     			}
  				})
@@ -265,6 +259,25 @@
 			},
 			searchStation(){
 				this.datas();
+			},
+			checkAllGroupChange2(item,index){
+				this.host4 = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomDownload200212?'+'communityId='+this.communityId;
+				if(item.sing){
+					this.floorIdList.push(this.bigdata[index].floorId);
+				}else{
+					let indexs = this.floorIdList.findIndex(item => item == this.bigdata[index].floorId);
+					this.floorIdList.splice(indexs,1);
+				}
+				if(this.communityId && this.floorIdList != []){
+					for(let i = 0;i<this.floorIdList.length;i++){
+						this.host4 += `&floorIdList[${i}]=`+this.floorIdList[i];
+					}
+					this.disabled1 = false;
+				}else{
+					this.host4 = '';
+					this.disabled1 = true;
+				}
+				
 			}
 
 

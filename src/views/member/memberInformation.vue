@@ -18,7 +18,9 @@
                 <h3><i class="icon icon-iden"></i>个人信息</h3>
                 <div class="member-img-content">
                   <div class="member-img">
-                    <img  :src="imgPath+userData.headPic" class="avatar">
+
+                    <img v-if="userData.headPic" :src="imgPath+userData.headPic" class="avatar">
+                    <img v-else src="../../../static/images/icon/touxiang.png" class="avatar">
                     <!--<el-upload-->
                       <!--action="https://jsonplaceholder.typicode.com/posts/"-->
                       <!--:show-file-list="false"-->
@@ -37,15 +39,20 @@
                   </div>
                   <table class="member-information-table">
                     <tr>
-                      <td><span>会员名称 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
+                      <td><span>会员姓名 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
+                      <td><span>会员昵称 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
+                    </tr>
+                    <tr>
                       <td><span>会员性别 :</span><span v-if="userData.gender == 1">男</span><span v-if="userData.gender == 2">女</span></td>
-                    </tr>
-                    <tr>
                       <td><span>会员手机 :</span><span>{{userData.userPhone}}</span></td>
-                      <td><span>会员年龄 :</span><span>{{userData.createtime | times}}</span></td>
+                      
                     </tr>
                     <tr>
+                      <td><span>会员年龄 :</span><span>{{userData.createtime | times}}</span></td>
                       <td><span>会员邮箱 :</span><span>{{userData.userEMail}}</span></td>
+                      
+                    </tr>
+                    <tr>
                       <td><span>会员身份证 :</span><span>{{userData.userCertificate}}</span></td>
                     </tr>
                   </table>
