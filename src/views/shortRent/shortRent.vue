@@ -4,40 +4,40 @@
         <div class="right-content" id="right-content">
             <right-header></right-header>
             <div class="wordbench-box">
-                <Tabs type="card">
-                    <Tab-pane label="社区房间状态">
+                <Tabs type="card" v-model="activeName" @on-click="changeTab">
+                    <Tab-pane label="社区房间状态" name="short-term-item">
                         <div class="message-ti">
                           <short-term-item @successUpload ="successUpload()"></short-term-item>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="社区短租配置">
+                    <Tab-pane label="社区短租配置" name="short-setting-list">
                         <div class="message-ti">
                           <short-setting-list @successUpload ="successUpload()"></short-setting-list>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="价格设置">
+                    <Tab-pane label="价格设置" name="short-price-set">
                         <div class="message-ti">
-                            <short-price-set @setPrice="setPrice" ref="price"></short-price-set>
+                            <short-price-set @setPrice="setPrice"></short-price-set>
                         </div>
                     </Tab-pane>
-                     <Tab-pane label="产品日历">
+                     <Tab-pane label="产品日历" name="short-product-calendar">
                         <div class="message-ti">
                             <short-product-calendar></short-product-calendar>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="入住列表">
+                    <Tab-pane label="入住列表" name="short-stay-list">
                         <div class="message-ti">
                             <short-stay-list></short-stay-list>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="订单列表">
+                    <Tab-pane label="订单列表" name="short-order-list">
                         <div class="message-ti">
                             <div class="finance-header-kong">
                                 <short-order-list @openWarningModal="openWarningModal"></short-order-list>
                             </div>
                         </div>
                     </Tab-pane>
-                    <Tab-pane label="哑房账">
+                    <Tab-pane label="哑房账" name="short-Room-Bill-list">
                         <div class="message-ti">
                             <short-Room-Bill-list @openWarningModal="openWarningModal"></short-Room-Bill-list>
                         </div>
@@ -62,7 +62,7 @@
                 <el-checkbox label="四"></el-checkbox>
                 <el-checkbox label="五"></el-checkbox>
                 <el-checkbox label="六"></el-checkbox>
-                
+
             </el-checkbox-group>
             <Checkbox v-model="single" @click.prevent.native="handleCheckAll2" class="all">全选</Checkbox>
             <div class="form-item">
@@ -115,6 +115,7 @@
     },
     data() {
       return {
+        activeName:"short-term-item",
         successModal: false,
         warningModal: false,
         successMessage: '添加部门成功',
@@ -134,10 +135,16 @@
       }
     },
     mounted() {
-        this.codem();
+      let tab = sessionStorage.getItem("shortRentIndexTab");
+      if(tab){
+        this.activeName = tab;
+      }
+      this.codem();
     },
     methods: {
-
+        changeTab(tab){
+          sessionStorage.setItem("shortRentIndexTab",tab);
+        },
         //获取套系的种类
         codem(){
             if(sessionStorage.getItem('priceID')){
@@ -265,7 +272,7 @@
                 for(let i=0;i<arr.length;i++){
                     if(arr[i] > max){
                         max = arr[i]
-                    }               
+                    }
                 }
                 this.endDatas = new Date(max).Format("yyyy-MM-dd");
             }else{
@@ -355,7 +362,7 @@
             for(let i=0;i<arr.length;i++){
                 if(arr[i] > max){
                     max = arr[i]
-                }               
+                }
             }
             this.endDatas = new Date(max).Format("yyyy-MM-dd");
 
