@@ -149,28 +149,28 @@
         <div class="tableDiv">
             <table class="table ivu-table" >
                 <tr>
-                    <th>入住状态</th>
+                    <!--<th>入住状态</th>-->
                     <th>订单号</th>
                     <th>联系人</th>
                     <th>联系电话</th>
-                    <th>房型</th>
-                    <th>房号</th>
-                    <th>预订人</th>
+                    <!--<th>房型</th>-->
+                    <!--<th>房号</th>-->
+                    <!--<th>预订人</th>-->
                     <th>到店日期</th>
                     <th>离店日期</th>
                     <th>预付款</th>
                     <th>操作</th>
                 </tr>
                 <tr v-for="(item,index) in shortOrderList">
-                    <td>
-                      <span v-if="item.isIn==0">未入住</span>
-                      <span v-if="item.isIn==1">已入住</span>
-                    </td>
+                    <!--<td>-->
+                      <!--<span v-if="item.isIn==0">未入住</span>-->
+                      <!--<span v-if="item.isIn==1">已入住</span>-->
+                    <!--</td>-->
                     <td>{{item.orderNum}}</td>
                     <td>{{item.userName}}</td>
-                    <td>{{item.contactPhone}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.roomNum}}</td>
+                    <!--<td>{{item.contactPhone}}</td>-->
+                    <!--<td>{{item.name}}</td>-->
+                    <!--<td>{{item.roomNum}}</td>-->
                     <td>{{item.userName}}</td>
                     <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>

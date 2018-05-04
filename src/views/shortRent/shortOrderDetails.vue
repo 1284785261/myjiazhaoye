@@ -56,7 +56,7 @@
                                 <span>房号：</span><em v-if="detailData.roomInfoList">{{detailData.roomInfoList[0].roomNum}}</em>
                             </li>
                             <li>
-                                <span>房型：</span><em v-if="detailData.roomInfoList">{{detailData.roomInfoList[0].name}}</em>
+                                <span>房型：</span><em v-if="detailData.roomInfoList">{{detailData.roomTypeName}}</em>
                             </li>
                             <li>
                                 <span>市场细分：</span>
@@ -67,24 +67,24 @@
                             <li>
                                 <span>门市价：</span><em>¥ 268</em>
                             </li>
-                            <li>
-                                <span>增值服务收款：</span><em>¥ 180</em>
-                            </li>
-                            <li>
-                                <span>其他收款：</span><em>¥ 300</em>
-                            </li>
-                            <li>
-                                <span>退款金额：</span><em>¥ 200</em>
-                            </li>
-                            <li>
-                                <span>预付金额：</span><em>¥ {{detailData.payMoney}}</em>
-                            </li>
-                            <li>
-                                <span>总消费金额：</span><em>¥ 600</em>
-                            </li>
-                            <li>
-                                <span>入住状态：</span><em>已离店</em>
-                            </li>
+                            <!--<li>-->
+                                <!--<span>增值服务收款：</span><em>¥ 180</em>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<span>其他收款：</span><em>¥ 300</em>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<span>退款金额：</span><em>¥ 200</em>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<span>预付金额：</span><em>¥ {{detailData.payMoney}}</em>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<span>总消费金额：</span><em>¥ 600</em>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<span>入住状态：</span><em>已离店</em>-->
+                            <!--</li>-->
                             <li>
                                 <span>入住时间：</span><em>{{detailData.arriveTime | timefilter('yyyy-MM-dd')}}</em>
                             </li>
