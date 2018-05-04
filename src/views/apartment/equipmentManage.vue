@@ -29,7 +29,7 @@
                       <td>供应商</td>
                       <td>添加时间</td>
                       <td>门锁状态</td>
-                      <td width="15%">操作</td>
+                      <td width="20%">操作</td>
                     </thead>
                     <tr v-for="(item,index) in doorLock.roomLock">
                       <td>{{item.roomNum}}</td>
@@ -48,7 +48,7 @@
                         <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
                       <td>
-                        <div>
+                        <div class="taas">
                           <a @click="getTemporaryPwd(item.roomLockId)" v-if="item.lockStatus == 1">获取临时密码</a>
                           <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus && jurisdiction('COMMUNITY_UPDATE')">修改</a>
                           <router-link :to="{name:'doorRecord',query:{roomLockId:item.roomLockId}}" v-if="item.lockStatus">开门记录</router-link>
@@ -63,6 +63,7 @@
 
 					    </el-tab-pane>
 					    <el-tab-pane label="电表" name="second">
+                <a :href="host1" class="btiss">导出</a>
                 <div class="equipment1 equipment2" v-for="(electricity,index) in electricityList">
                   <div class="house_xq" @click="hideTable2(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -77,7 +78,7 @@
                       <td>上次抄表时间</td>
                       <td>上次抄表读数</td>
                       <td>电表状态</td>
-                      <td width="15%">操作</td>
+                      <td width="20%">操作</td>
                     </thead>
                     <tr v-for="(item,index1) in electricity.roomElectricity">
                       <td>{{item.roomNum}}</td>
@@ -98,12 +99,13 @@
                         <span v-if="item.electricityStatus ==  5" style="color: rgb(254,120,50);">已配置</span>
                       </td>
                       <td>
-                        <div><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
+                        <div class="taas"><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
                           <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
                           <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutElectricity(item,electricity.floorName)">关闭</a>
                           <a v-if="item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openToElectricity(item,electricity.floorName)">开启</a>
                           <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2 && item.electricityStatus ==  6 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
                           <a @click="lookElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">实时读数</a>
+                  
                           <a @click="saveElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">保存读数</a>
                         </div>
                       </td>
@@ -112,6 +114,7 @@
                 </div>
 					    </el-tab-pane>
 					    <el-tab-pane label="水表" name="third">
+                <a :href="host2" class="btiss">导出</a>
                 <div class="equipment1 equipment2" v-for="(water,index) in waterList">
                   <div class="house_xq" @click="hideTable3(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -126,7 +129,7 @@
                       <td>上次抄表时间</td>
                       <td>上次抄表读数</td>
                       <td>水表状态</td>
-                      <td width="15%">操作</td>
+                      <td width="20%">操作</td>
                     </thead>
                     <tr v-for="(item,indexs) in water.roomWater">
                       <td>{{item.roomNum}}</td>
@@ -144,7 +147,7 @@
                         <span v-if="item.waterStatus == 5" style="color: rgb(254,120,50);">已配置</span>
                       </td>
                       <td>
-                        <div>
+                        <div class="taas">
                           <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateWater(item,water.floorName)">修改</a>
                           <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutWater(item,water.floorName)">关闭</a>
                           <a v-if="item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openWater(item,water.floorName)">开启</a>
@@ -498,7 +501,7 @@
   import  warningModal from '../../components/warningModal.vue';
   import qs from 'qs';
   import {gateLock,shutdown,temporaryPwd,sendMessege,SytemData,addDoorLock,updateDL,deleteDL,unLockDL,electricityTable,pushElectricity,electricityDelete,electricitUpdate,openElectricity,
-    waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl,CxkjCommunityElectricityInfo200218,CxkjCommunityWaterInfo200219,CxkjCommunityElectricityUpdateRoomAndRecord200221,CxkjCommunityWaterUpdateRoomAndRecord200220} from '../api.js';
+    waterTable,addWaterUrl,updateWaterUrl,deleteWaterUrl,openWaterUrl,CxkjCommunityElectricityInfo200218,CxkjCommunityWaterInfo200219,CxkjCommunityElectricityUpdateRoomAndRecord200221,CxkjCommunityWaterUpdateRoomAndRecord200220,host} from '../api.js';
 
     export default {
     	components:{
@@ -605,11 +608,15 @@
 
           typeModal:false,//水电表弹框
           type:'',//水电表类别
-          typeNum:''//水电表读数
+          typeNum:'',//水电表读数
+          host1:'',
+          host2:''
 		   	}
     	},
       mounted(){
-    	  this.communityId = this.$route.query.communityId;
+        this.communityId = this.$route.query.communityId;
+        this.host1 = host + '/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityTableDownLoad200224?communityId='+this.communityId;
+        this.host2 = host + '/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTableDownLoad200225?communityId='+this.communityId;
     	  this.getIntelligenceLock();
     	  this.getElectricityTable();
     	  this.getWaterList();

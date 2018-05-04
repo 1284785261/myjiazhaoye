@@ -9,7 +9,7 @@
 					<router-link class="active" to="/apartment/communityManagement">社区管理</router-link>
 
 				</div>
-				<Tabs type="card">
+				<Tabs type="card" class="Management">
 					<Tab-pane label="社区管理">
 						<div class="message-ti">
 							<div class="form-search-criteria">

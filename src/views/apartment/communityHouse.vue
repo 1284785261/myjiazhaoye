@@ -529,7 +529,6 @@
       getOfficeInfo(){
         var that = this;
         this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
-          console.log(res);
           if(res.data.code == 10000){
             
             that.CommunityListOffice = res.data.entity.cxkjCommunityListOffice;

@@ -233,7 +233,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212,BuyServices300216 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -283,6 +283,7 @@
 				setStatus:'',
 				AlladdedServices:[], //全部增值服务数据
 				setaddedServices:[], //已设置增值服务数据
+				orderServiceIds:[], //已设置增值服务的ID
 		   	}
     	},
     	filters:{
@@ -545,7 +546,7 @@
 						vm.successModal = true;
 						setTimeout(() => {
 							vm.successModal = false;
-							// this.datas();
+							this.datas();
 						}, 2000);
 					}else{
 						vm.isHide = false;
@@ -659,6 +660,7 @@
 				this.AlladdedServices = [];
 				this.checkList = [];
 				this.setaddedServices = [];
+				this.orderServiceIds = [];
 				axios.get(ShortServiceInfo300212,{
 					params:{communityId:this.communityId,id:366}
 				}).then((res) => {
@@ -670,11 +672,65 @@
 							for(let j = 0;j<this.setaddedServices.length;j++){
 								if(this.setaddedServices[j].serviceId == this.AlladdedServices[i].serviceId){
 									this.checkList.push(this.AlladdedServices[i].serviceName);
-									this.AlladdedServices[i].count = this.setaddedServices[j].count;
+									this.AlladdedServices[i].count = this.setaddedServices[j].count?this.setaddedServices[j].count:'';
+									this.AlladdedServices[i].originCount = this.setaddedServices[j].count;
+									this.AlladdedServices[i].orderServiceId = this.setaddedServices[j].orderServiceId?this.setaddedServices[j].orderServiceId:'';
+									this.orderServiceIds.push(this.setaddedServices[j].orderServiceId);
 								}
 							}
 						}
+						console.log(this.AlladdedServices)
+						console.log(this.setaddedServices)
 					}
+				})
+			},
+			//提交增值服务的操作
+			addservices(){
+				console.log(this.AlladdedServices);
+				let params = new FormData();
+				for(let i = 0;i<this.AlladdedServices.length;i++){
+					for(let j = 0;j<this.checkList.length;j++){
+						if(this.AlladdedServices[i].serviceName == this.checkList[j]){
+							this.AlladdedServices[i].totalMoney = this.AlladdedServices[i].singlePrice * this.AlladdedServices[i].count?this.AlladdedServices[i].singlePrice * this.AlladdedServices[i].count:0;
+							params.append(`cxkjPmsOrderServices[${j}].id`,this.AlladdedServices[i].orderServiceId?this.AlladdedServices[i].orderServiceId:'');
+							params.append(`cxkjPmsOrderServices[${j}].serviceId`,this.AlladdedServices[i].serviceId);
+							params.append(`cxkjPmsOrderServices[${j}].serviceName`,this.AlladdedServices[i].serviceName);
+							params.append(`cxkjPmsOrderServices[${j}].singlePrice`,this.AlladdedServices[i].singlePrice);
+							params.append(`cxkjPmsOrderServices[${j}].count`,this.AlladdedServices[i].count);
+							params.append(`cxkjPmsOrderServices[${j}].totalMoney`,this.AlladdedServices[i].totalMoney);
+							params.append(`cxkjPmsOrderServices[${j}].originCount`,this.AlladdedServices[i].originCount?this.AlladdedServices[i].originCount:'');
+						}
+					}
+				}
+				params.append('orderId',366);//this.Datas.pmsOrder.orderId
+				params.append('orderRoomId',26);//this.Datas.pmsOrder.orderRoomId
+				console.log(this.orderServiceIds);
+				params.append('orderServiceIds',this.orderServiceIds.join(','));
+				console.log(params);
+				
+				axios.post(BuyServices300216, params).then((res)=>{
+					console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.successMessage = '操作增值服务成功';
+						this.successModal = true;
+						this.isHide = false;
+						this.isHide7 = false;
+						setTimeout(() => {
+							this.successModal = false;
+							this.datas();
+							this.addedservices();
+						}, 2000);
+					}else{
+						this.warningMessage = res.data.content;
+						this.warningModal = true;
+						this.isHide = false;
+						this.isHide7 = false;
+					}
+				}).catch((error)=>{
+					this.warningMessage = '操作增值服务失败';
+					this.warningModal = true;
+					this.isHide = false;
+					this.isHide7 = false;
 				})
 			},
 			handleCheckedCitiesChange(list){

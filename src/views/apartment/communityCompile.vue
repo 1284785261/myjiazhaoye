@@ -122,7 +122,7 @@
             </tr>
             <tr>
               <td>社区月租金：</td>
-              <td><input type="text" placeholder="请输入社区月租金" class="complie_name3" v-model="propertyRent" maxlength="20"></td>
+              <td><input type="text" placeholder="请输入社区月租金" class="complie_name3" v-model="propertyRent" maxlength="20"> 元</td>
             </tr>
             <tr>
               <td valign="top" style="line-height: 30px;">

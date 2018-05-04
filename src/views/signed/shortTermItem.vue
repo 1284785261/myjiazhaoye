@@ -246,7 +246,7 @@
 							this.$set(this.bigdata[i],"sing",false);
 	    				}
 	    				//console.log("sdafadsa");
-	    				console.log(this.bigdata);
+	    				// console.log(this.bigdata);
 
     			}
  				})

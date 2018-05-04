@@ -17,7 +17,7 @@
                     </Tab-pane>
                     <Tab-pane label="价格设置">
                         <div class="message-ti">
-                            <short-price-set @setPrice="setPrice"></short-price-set>
+                            <short-price-set @setPrice="setPrice" ref="price"></short-price-set>
                         </div>
                     </Tab-pane>
                      <Tab-pane label="产品日历">
@@ -246,7 +246,6 @@
                         }
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                     }else if(arrs[i] =='日'){
-                        console.log(DataSour.getDay()+1);
                         let Daysum = DataSour.getDay()+1 - 1;
                         if(Daysum > 0){
                             now.setDate(now.getDate() - Daysum);
@@ -256,6 +255,19 @@
                         this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                     }
                 }
+                //确定最大日期的存在
+                let arr = [];
+                for(let i=0;i<this.dayNumList.length;i++){
+                    let date = new Date(this.dayNumList[i]);
+                    arr.push(date.getTime());
+                }
+                let max = arr[0];
+                for(let i=0;i<arr.length;i++){
+                    if(arr[i] > max){
+                        max = arr[i]
+                    }               
+                }
+                this.endDatas = new Date(max).Format("yyyy-MM-dd");
             }else{
                 this.checkList = [];
                 this.dayNumList = [];
@@ -333,6 +345,19 @@
                     this.dayNumList.push(new Date(now).Format("yyyy-MM-dd"));
                 }
             }
+            //确定最大日期的存在
+            let arr = [];
+            for(let i=0;i<this.dayNumList.length;i++){
+                let date = new Date(this.dayNumList[i]);
+                arr.push(date.getTime());
+            }
+            let max = arr[0];
+            for(let i=0;i<arr.length;i++){
+                if(arr[i] > max){
+                    max = arr[i]
+                }               
+            }
+            this.endDatas = new Date(max).Format("yyyy-MM-dd");
 
         },
         //获取价格设置组件传递的日期
@@ -341,6 +366,7 @@
             // console.log(dataIf);
             this.isHide = dataIf.isHide;
             this.stateDatas = dataIf.date3;
+            this.endDatas = dataIf.date3;
             this.communityIds = dataIf.communityId;
             this.codem();
             let tmpdate = new Date(this.stateDatas);
@@ -380,6 +406,12 @@
                     this.codes = ''
                     setTimeout(() => {
                         this.successModal = false;
+                        let date = this.stateDatas;
+                        let arr = date.split("-");
+                        for(let i=0;i<arr.length;i++){
+                            arr[i] = parseInt(arr[i]);
+                        }
+                        this.$refs.price.changePane(arr[0],arr[1]-1,arr[2]);
                     }, 2000);
                 }else{
                     this.isHide = false;
@@ -433,7 +465,7 @@
         width: 100%;
         height: 100%;
         background-color: #fff;
-        box-shadow: 0 2px 1px #ccc;
+        // box-shadow: 0 2px 1px #ccc;
     }
 
     .message-ti {

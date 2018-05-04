@@ -454,7 +454,8 @@
 				giveMonth:'', //赠送日期段
 				letcup:true,
 				deposittext:'',
-				disabledm:false
+				disabledm:false,
+				contractSignId:''
 			}
 		},
 		mounted() {
@@ -467,19 +468,19 @@
             this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
+			this.contractSignId = this.$route.query.contractSignId;
 			this.datas();
 		},
 		computed: {
 			firstmoney: function() {
 				let vm = this
 
-				var date = new Date();
 				//获取年份
 				var datms = new Date(this.onhrie); //定义当前日期
 				var expiredate = new Date(this.expire); //定义到期日期
-				var year = date.getFullYear();
+				var year = datms.getFullYear();
 				//获取当前月份
-				var mouth = date.getMonth() + 1;
+				var mouth = datms.getMonth() + 1;
 				var daym = datms.getDate() - 1;
 				var expireyear = expiredate.getFullYear();
 				//获取到期日期月份
@@ -785,10 +786,8 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
-							console.log(this.userInfo);
 							if(this.userInfo.userCertificate != 'null'){
 								this.aaduserInfo[0].userCertificate = this.userInfo.userCertificate;
 							}else{
@@ -821,7 +820,6 @@
 									userPhone:val
 								})
 							).then((res)=>{
-								console.log(res);
 								if(res.status == 200 && res.data.code == 10000) {
 									this.aaduserInfo[0].id = res.data.result.userId;
 									this.aaduserInfo[0].version = res.data.result.version;
@@ -1085,6 +1083,10 @@
 				param.append('furniture',this.furniture);
 				if(this.otherCostJson){
 					param.append('otherCostJson',this.otherCostJson);
+				}
+				if(this.contractSignId){
+					param.append('contractSignId',this.contractSignId);
+					param.append('edit',true);
 				}
 				param.append('companyInfo',this.companyInfo);
 				param.append('companyLegalPerson',this.companylegalPerson);

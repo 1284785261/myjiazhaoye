@@ -9,7 +9,7 @@
           <span>您现在的位置：</span>
           <router-link  class="active" to="/apartment/communityManagement">财务管理</router-link>
         </div>
-          <Tabs type="card" style="box-shadow: 0 0 0px #0CC;">
+          <Tabs type="card">
             <Tab-pane label="财务管理">
               <div class="message-tix">
                 <div class="finance-header-kong">
@@ -859,20 +859,13 @@
     height: 100%!important;
     .message-tix{
         width: 100%;
-        min-height: 1000px;
         background-color: #fff;
-        overflow: hidden;
-        box-shadow: 0 2px 1px #ccc!important;
     }
   }
   .ivu-tabs-tabpane{
     width: 100%;
     height: 100%;
     background-color: #fff;
-    box-shadow: 0 2px 1px #ccc;
-  }
-  .ivu-tabs-card{
-    // box-shadow: 0 0 0px #0CC!important;
   }
   .blank-background-img{
       text-align: center;

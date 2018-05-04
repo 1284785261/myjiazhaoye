@@ -26,7 +26,7 @@
 							<li v-for="myInfo in myInfos"> 
 								<span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
 								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link>
-								<span class="date">{{myInfo.createtime | time}}</span>
+								<span class="date">{{myInfo.createtime | times}}</span>
 							</li>
 						</ul>
 						<div class="muvs" v-else>
@@ -318,6 +318,11 @@
 			time(val){
 				if(val){
 					return new Date(val).Format('hh:mm');
+				}
+			},
+			times(val){
+				if(val){
+					return new Date(val).Format('yyyy-MM-dd hh:mm');
 				}
 			}
 		},

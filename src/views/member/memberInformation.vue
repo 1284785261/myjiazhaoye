@@ -39,8 +39,8 @@
                   </div>
                   <table class="member-information-table">
                     <tr>
-                      <td><span>会员姓名 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
-                      <td><span>会员昵称 :</span><span style="font-weight: 700">{{userData.userName || userData.userAliase}}</span></td>
+                      <td><span>会员姓名 :</span><span style="font-weight: 700" v-if="userData.userName">{{userData.userName}}</span><span v-else>未填写</span></td>
+                      <td><span>会员昵称 :</span><span style="font-weight: 700" v-if="userData.userAliase">{{userData.userAliase}}</span><span v-else>未填写</span></td>
                     </tr>
                     <tr>
                       <td><span>会员性别 :</span><span v-if="userData.gender == 1">男</span><span v-if="userData.gender == 2">女</span></td>

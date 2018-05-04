@@ -47,7 +47,7 @@
                 <tr v-for="(item,index) in  memberList">
                   <td v-if="item.userName">{{item.userName}}</td>
                   <td v-else style="color:red;">未填写</td>
-                  <td v-if="item.userName">{{item.userName}}</td>
+                  <td v-if="item.userAliase">{{item.userAliase}}</td>
                   <td v-else style="color:red;">未填写</td>
                   <td>{{item.userPhone}}</td>
                   <td>

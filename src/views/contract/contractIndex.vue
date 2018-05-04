@@ -66,7 +66,9 @@
                     <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <a v-if="room.contractState == 2 ||room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
+                    <router-link v-if="room.contractState == 1 || room.contractState == 2 || room.contractState == 3" :to="{path:'/signed/lodgingHouse',query:{contractSignId:room.contractSignId,communityId:room.communityId,Name:room.communityName}}">编辑</router-link>
+                    <a v-if="room.contractState == 2 || room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
+                    <a v-if="(room.contractState == 1 || room.contractState == 2 || room.contractState == 3) && isUser"  @click="delRoomSign(room.contractSignId)">作废</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                     <router-link v-if='room.contractState != 1 && isUser' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
                   </td>
@@ -140,9 +142,11 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                      <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>
+                    <router-link v-if="office.contractState == 1 || office.contractState == 2 || office.contractState == 3" :to="{path:'/signed/lodgingHouse',query:{contractSignId:office.contractSignId,communityId:office.communityId,Name:office.communityName}}">编辑</router-link>
+                    <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>
+                    <a v-if="(office.contractState == 1 || office.contractState == 2 || office.contractState == 3) && isUser"  @click="delRoomSign(office.contractSignId)">作废</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
-                      <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1 && isUser">查看总账单</router-link>
+                    <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1 && isUser">查看总账单</router-link>
                   </td>
                 </tr>
               </table>
@@ -330,7 +334,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157,CxkjBillGathering500164} from '../api.js';
+  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157,CxkjBillGathering500164,delRoomSign200223} from '../api.js';
   import qs from 'qs';
 
 export default {
@@ -698,7 +702,7 @@ export default {
       var that = this;
       this.$http.get(roomContract,{params:data})
         .then(function(res){
-          // console.log(res);
+          console.log(res);
           if(res.status == 200 && res.data.code == 10000){
             var pageBean = res.data.pageBean;
             that.roomContractList = pageBean.page;
@@ -801,6 +805,29 @@ export default {
     },
     setWhileMember(){
       this.collectionShow = false;
+    },
+    delRoomSign(id){
+      this.$http.post(delRoomSign200223,
+        qs.stringify({
+          contractSignId:id
+        })
+      ).then((res)=>{
+        if(res.status == 200 && res.data.code == 10000){
+          this.successMessage = "作废合同成功!";
+          this.successModal = true;
+          setTimeout(()=>{
+            this.successModal = false;
+            this.getRoomContract({pageNum:1});
+            this.getOfficeContract({pageNum:1});
+          },1000);
+        }else{
+          this.warningMessage = res.data.content;
+          this.warningModal = true;
+        }
+      }).catch((error)=>{
+          this.warningMessage = '作废合同失败!';
+          this.warningModal = true;
+      })
     }
 
   },

@@ -54,6 +54,7 @@
 	height: 48px;
 	color: #000;
 	font-size: 12px;
+	text-align: left;
 	border-bottom: 1px solid #dcdcdc;
 }
 #messageInform1 table td:nth-child(3){

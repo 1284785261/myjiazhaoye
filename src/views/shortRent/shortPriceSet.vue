@@ -56,7 +56,7 @@
                 </div>
             </calendar>
             </div>
-            <lorem :len="3"></lorem>
+            <!-- <lorem :len="3"></lorem> -->
             
         </el-tab-pane>
         <el-tab-pane label="变价日志" name="third">
@@ -145,6 +145,12 @@
         },
         mounted(){
             this.getCommunity();
+            let date = new Date().Format("yyyy-MM-dd");
+            let arr = date.split("-");
+            for(let i=0;i<arr.length;i++){
+                arr[i] = parseInt(arr[i]);
+            }
+            this.changePane(arr[0],arr[1]-1,arr[2]);
             // console.log(this.host3);
         },
         watch:{
@@ -245,13 +251,19 @@
                 this.getRoomDayRecord(value);
                 sessionStorage.setItem('priceID',value);
                 this.dataIf.communityId = value;
+                let date = new Date().Format("yyyy-MM-dd");
+                let arr = date.split("-");
+                for(let i=0;i<arr.length;i++){
+                    arr[i] = parseInt(arr[i]);
+                }
+                this.changePane(arr[0],arr[1]-1,arr[2]);
             },
             //添加短租户型价格
             addPrice(){
                 // console.log(this.shortPriceroom);   
                 this.shortPriceroom.push({
                     code:'',
-                    names:'',
+                    name:'',
                     pmsRoomPrice:[],
                     pmsRoomPriceIds:'',
                     typeCompile:2
@@ -279,7 +291,7 @@
                     {
                         communityId:vm.stationCommunity,
                         code:vm.shortPriceroom[index].code,
-                        name:vm.shortPriceroom[index].names,
+                        name:vm.shortPriceroom[index].name,
                         cxkjPmsRoomPriceList:vm.cxkjPmsRoomPriceList
                     }).then((res)=>{
                     // console.log(res);
@@ -425,6 +437,7 @@
                 return min + Math.floor(Math.random() * (max - min + 1))
             },
             getEventContent (year, month, pane) {
+                let vm = this
                 const data = []
                 let Dates = '';
                 for (let p = 0; p < pane; p++) {
@@ -446,14 +459,9 @@
                 else{
                     Dates = year +'-'+(month+1)+'-01';
                 }
-                this.getPriceInfo(data,Dates);
-                // console.log(data);
-                return data
-            },
-            getPriceInfo(data,Dates){
                 this.$http.post(RoomDayPriceInfo200201,
                     qs.stringify({
-                        communityId:this.stationCommunity,
+                        communityId:vm.stationCommunity,
                         startDate:Dates
                     })).then((res)=>{
                         // console.log(res);
@@ -470,7 +478,7 @@
                         }
                     })
                 return data
-            }
+            },
         }
     }
 </script>
@@ -491,7 +499,7 @@
         .el-tabs__header{
             border: none;
             .el-tabs__item.is-active{
-
+                border: none;
                 // color: white;
                 // background-color: #038be2;
             }

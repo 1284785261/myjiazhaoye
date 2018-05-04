@@ -78,6 +78,9 @@
 	line-height: 30px;
 	margin-left: 20px;
 }
+.equipment1 table tr td .taas a{
+	line-height: 70px;
+}
 .equipment1 table tr td div{
 	width: 80%;
 	height: 100%;
@@ -381,4 +384,16 @@
 }
 .instas11 table tr td a{
 	margin-left: 160px;
+}
+.btiss{
+	width: 140px;
+	height: 36px;
+	margin-left: 20px;
+	line-height: 36px;
+	border-radius: 5px;
+	display: inline-block;
+	background: #038BE2;
+	border: 1px solid #038BE2;
+	color: #fff;
+	text-align: center;
 }

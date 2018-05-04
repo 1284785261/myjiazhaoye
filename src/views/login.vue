@@ -86,7 +86,7 @@
 
 import {hostlogin,pcVersion} from './api.js';
 import successModal from '../components/successModal.vue';
-	import warningModal from '../components/warningModal.vue';
+import warningModal from '../components/warningModal.vue';
 import { hostSendcode,hostOldphone,hostForgotPass } from './api.js';
 import axios from 'axios';
 import qs from 'qs';

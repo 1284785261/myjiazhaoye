@@ -5,11 +5,11 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
-const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+// const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
-// const host3 = 'http://test.kaisaspace.com:8070';
+// export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
+const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
@@ -470,6 +470,11 @@ const ShortServiceInfo = '/cxkj-pms/apis/pc/pmsroom/CxkjPmsServiceInfo300212'
 
 //自动注册
 const Registeruser ='/cxkj-center/apis/user/CxkjCenterRegisteruser200222'
+
+//操作增值服务
+const BuyServices = '/cxkj-pms/apis/pc/pmsorderservice/CxkjBuyServices300216'
+
+const delRoomSign = '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityUpdateRoomSign200223'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -625,6 +630,10 @@ export const ShortOrderRoomUpdate200217 = host3 + ShortOrderRoomUpdate;
 export const AllBillMap500163 = host3 + '/cxkj-room/AllBillMap500163';
 export const ShortServiceInfo300212 = host3 + ShortServiceInfo;
 export const Registeruser200222 = host3 + Registeruser;
+export const CxkjGetInRoomInfo300214 = host3 + '/cxkj-pms/apis/pc/pmsorder/CxkjGetAddPersonnelInfo300214';
+export const CxkjAddPersonnel300215 = host3 + '/cxkj-pms/apis/pc/pmsorder/CxkjAddPersonnels300215';
+export const BuyServices300216 = host3 + BuyServices;
+export const delRoomSign200223 = host3 + delRoomSign;
 export const host = host3;
 //export default {
 //hosts:function(){
@@ -748,6 +757,8 @@ export const electricityDelete =host3+'/cxkj-room/apis/pcManager/electricity/Cxk
 export const electricitUpdate =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityUpdate200156';//修改电表
 export const openElectricity =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityTurnOff200157';//关闭开启电表
 export const sendAllToCustomer =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSendAllToCustomer300119';//发送全部水电账单给客户
+export const CxkjCommunityElectricityInfo200218 =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityInfo200218';//电表读数
+export const CxkjCommunityElectricityUpdateRoomAndRecord200221 =host3+'/cxkj-room/apis/pcManager/electricity/CxkjCommunityElectricityUpdateRoomAndRecord200221';//电表保存读数
 
 
 export const waterTable =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTable200159';//水表管理
@@ -755,6 +766,9 @@ export const addWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWa
 export const updateWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterUpdate200161';//修改水表
 export const deleteWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterDelete200162';//解除水表
 export const openWaterUrl =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterTrunOff200163';//开启关闭水表
+export const CxkjCommunityWaterInfo200219 =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterInfo200219';//水表读数
+export const CxkjCommunityWaterUpdateRoomAndRecord200220 =host3+'/cxkj-room/apis/pcManager/water/CxkjCommunityWaterUpdateRoomAndRecord200220';//水表保存读数
+
 
 
 
@@ -843,3 +857,4 @@ export const CxkjAddPersonnel300199 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjAddPe
 export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
 export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情
 export const CxkjBillGatheringDetailWhole500157 =host3+'/cxkj-room//apis/pc/cxkjbillgathering/CxkjBillGatheringDetailWhole500157'//完成收款
+

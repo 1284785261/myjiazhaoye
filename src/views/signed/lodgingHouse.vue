@@ -912,7 +912,8 @@
 				letcup:true,
 				deposit:null,
 				deposittext:'',
-				disabledm:false
+				disabledm:false,
+				contractSignId:''
 			}
 		},
 		mounted() {
@@ -923,6 +924,7 @@
 			this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
+			this.contractSignId = this.$route.query.contractSignId;
 			this.datas();
 
 		},
@@ -930,13 +932,12 @@
 			firstmoney: function() {
 				let vm = this
 
-				var date = new Date();
 				//获取年份
 				var datms = new Date(this.onhrie); //定义当前日期
 				var expiredate = new Date(this.expire); //定义到期日期
-				var year = date.getFullYear();
+				var year = datms.getFullYear();
 				//获取当前月份
-				var mouth = date.getMonth() + 1;
+				var mouth = datms.getMonth() + 1;
 				var daym = datms.getDate() - 1;
 				var expireyear = expiredate.getFullYear();
 				//获取到期日期月份
@@ -1116,7 +1117,7 @@
 					userId: '',
 					name: '',
 					phone: '',
-					gender: '',
+					gender: '2',
 					certificateType: '',
 					certificateNumber: '',
 					value3: '',
@@ -1157,7 +1158,12 @@
 								this.user.version = this.userInfo.version;
 								this.user.userPhone = this.userInfo.userPhone;
 								this.user.userName = this.userInfo.userName;
-								this.user.gender = this.userInfo.gender;
+								if(this.userInfo.gender){
+									this.user.gender = this.userInfo.gender+'';
+								}else{
+									this.user.gender = '2';
+								}
+								
 								this.user.certificateId = this.userInfo.certificateId;
 
 								if(this.userInfo.userCertificate != 'null'){
@@ -1178,7 +1184,6 @@
 									userPhone:val
 								})
 							).then((res)=>{
-								console.log(res);
 								if(res.status == 200 && res.data.code == 10000) {
 									this.user.id = res.data.result.userId;
 									this.user.version = res.data.result.version;
@@ -1712,6 +1717,10 @@
 				if(this.otherCostJson) {
 					param.append('otherCostJson', this.otherCostJson);
 				}
+				if(this.contractSignId){
+					param.append('contractSignId',this.contractSignId);
+					param.append('edit',true);
+				}
 				if(this.ieList.length) {
 					param.append('ieList', this.ieList);
 				}
@@ -1872,7 +1881,10 @@
 				param.append('deposit',this.deposit);
 				param.append('datewayDiscount',this.apartments[this.activ].discount);
 				param.append('paywayDiscount',this.discount);
-
+				if(this.contractSignId){
+					param.append('contractSignId',this.contractSignId);
+					param.append('edit',true);
+				}
 				if(!this.cyclePayType){
 					vm.warningMessage = '未选择支付方式';
 					vm.warningModal = true;
