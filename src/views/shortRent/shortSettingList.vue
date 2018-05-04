@@ -29,7 +29,7 @@
           <th>公寓设施</th>
           <th>服务说明</th>
           <th>房间信息</th>
-          <th>操作</th>
+          <th width="200px">操作</th>
         </tr>
         <tr v-for="(item,index) in shortSettingList">
           <td>{{item.communityName}}</td>

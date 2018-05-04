@@ -393,7 +393,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 999;
+    z-index: 99;
   }
   .banjie-content{
     width: 300px!important;
@@ -408,7 +408,7 @@
     border-radius: 5px;
     margin: auto;
     position: fixed;
-    z-index:9999;
+    z-index:100;
     top: 0;
     bottom: 0;
     left: 0;

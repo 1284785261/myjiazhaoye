@@ -36,7 +36,7 @@
                   <p style="display: inline-block">
                     户型面积:<Input style="width: 100px;margin-right: 20px;" v-model="housetypeArea" :disabled="true"></Input>
                     床数:<Input style="width: 100px;margin-right: 20px;" v-model="bedNum"></Input>
-                    床:<Input style="width: 100px;" v-model="bedLength"></Input>
+                    床:<Input style="width: 100px;" v-model="bedLength"></Input>米
                   </p>
                 </li>
                 <li class="setting-item" style="position: relative">
