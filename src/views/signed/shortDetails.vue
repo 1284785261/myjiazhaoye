@@ -9,7 +9,7 @@
 		        </div>
 		    	<div id="shortDetail">
 		    		<div class="shortdetail1">
-		    			<span>{{Datas.roomNum}}房间</span>
+		    			<span v-if="Datas.roomNum != null">{{Datas.roomNum}}房间</span>
 		    			<span>{{Datas.name}}</span>
 		    			<span>操作</span>
 		    		</div>
@@ -27,8 +27,8 @@
 		    			</tr>
 		    			<tr>
 		    				<td>配置：</td>
-		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item }} </span></td>
-		    				
+		    				<td><span v-for="item in roomconfiguration" :key="item" style="line-height:40px;">{{item}} </span></td>
+
 		    			</tr>
 		    			<tr v-show="Datas.roomStatus == '已出租'">
 		    				<td>租约信息：</td>
@@ -47,7 +47,7 @@
 		    					<a @click="openrelet">续租</a>
                                 <a @click="opengathering">添加收款</a>
                                 <a @click="openrefund">添加退款</a>
-		    					<a @click="opencheckout">退房确认</a>
+		    					<a @click="opencheckout(Datas)">申请退房</a>
 		    					<a>开发票</a>
 		    				</td>
 		    			</tr>
@@ -69,7 +69,7 @@
 									<li v-for="(item,index) in fineProject">
 										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span>
 										<img src="../../../static/images/temp/icon jia.png" @click="ShortfineProject(item)">
-						
+
 									</li>
 								</ul>
 		    				</td>
@@ -82,7 +82,7 @@
 									<li><span>{{item.serviceName}} *{{item.count}} </span><span style="color:#ef751b;font-size:14px;">￥{{item.totalMoney}}</span></li>
 								</ul>
 		    				</td>
-		    				<td>
+		    				<td >
 		    					<a @click="openservices">增值服务操作</a>
 		    				</td>
 		    			</tr>
@@ -109,11 +109,11 @@
 		    			</tr>
 		    			<tr>
 		    				<td>水表状态：</td>
-		    				<td v-if="lockWaterElectricity">
-		    					<span v-if="lockWaterElectricity.waterStatus">{{lockWaterElectricity.waterStatus | Status2}}</span>
-		    					<span v-if="lockWaterElectricity.waterMeterSn">序列号：{{lockWaterElectricity.waterMeterSn}}</span>
+		    				<td v-if="Datas.lockWaterElectricity">
+		    					<span v-if="Datas.lockWaterElectricity.waterStatus">{{Datas.lockWaterElectricity.waterStatus | Status2}}</span>
+		    					<span v-if="Datas.lockWaterElectricity.waterMeterSn">序列号：{{Datas.lockWaterElectricity.waterMeterSn}}</span>
 								<span v-else>序列号：暂无</span>
-		    					<p>{{lockWaterElectricity.waterType | type}} <b> {{lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
+		    					<p>{{Datas.lockWaterElectricity.waterType | type}} <b> {{Datas.lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
 		    				</td>
 		    				<td v-else>
 		    					<span>暂无</span>
@@ -121,28 +121,28 @@
 		    			</tr>
 		    			<tr>
 		    				<td>电表状态：</td>
-		    				<td v-if="lockWaterElectricity">
-		    					<span v-if="lockWaterElectricity.electricityStatus">{{roomLockWaterElect.electricityStatus | Status2}}</span>
-		    					<span v-if="lockWaterElectricity.electricityMeterSn">序列号：{{roomLockWaterElect.electricityMeterSn}}</span>
+		    				<td v-if="Datas.lockWaterElectricity">
+		    					<span v-if="Datas.lockWaterElectricity.electricityStatus">{{Datas.lockWaterElectricity.electricityStatus | Status2}}</span>
+		    					<span v-if="Datas.lockWaterElectricity.electricityMeterSn">序列号：{{Datas.lockWaterElectricity.electricityMeterSn}}</span>
 								<span v-else>序列号：暂无</span>
-		    					<p>{{lockWaterElectricity.electricType | type}} <b> {{lockWaterElectricity.energyPrice | Price}}</b>元/度</p>
+		    					<p>{{Datas.lockWaterElectricity.electricType | type}} <b> {{Datas.lockWaterElectricity.energyPrice | Price}}</b>元/度</p>
 		    				</td>
 		    				<td v-else>
 		    					<span>暂无</span>
 		    				</td>
 		    			</tr>
 		    		</table>
-		    		
-		    	</div> 
-		        
-		    
+
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 		<div class="zhezha" v-show="isHide">
-			
+
 		</div>
 		<!-- <check-In @notcheckIn="notcheckIn()" v-show="isHide1"></check-In> -->
         <div class="relet" v-show="isHide2">
@@ -152,15 +152,15 @@
                     <p>入住时间：1207/6/03 <span>已住天数：3天</span></p>
                 </li>
                 <li>
-                    原预计离店日期<Date-picker type="date" :options="option3" placeholder="选择日期"></Date-picker>
+                    原预计离店日期<Date-picker type="date" placeholder="选择日期"></Date-picker>
                 </li>
                 <li>
                     续租天数：
-                    <Select v-model="stationCommunity" style="width:70px;height:35px;">
+                    <!-- <Select v-model="stationCommunity" style="width:70px;height:35px;">
                         <Option v-for="community in  stationSelectList" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                    </Select>
+                    </Select> -->
                     预计退房日期：
-                    <Date-picker type="date" :options="option3" placeholder="选择日期"></Date-picker>
+                    <Date-picker type="date" placeholder="选择日期"></Date-picker>
                 </li>
             </ul>
             <a @click="relet()">提交</a>
@@ -200,9 +200,29 @@
             <a @click="closerefund()">取消</a>
 		</div>
 		<div class="checkout" v-show="isHide6">
-			<div></div>
-			<h2>确认要退房吗？</h2>
-			<a @click="checkout()">确认退房</a>
+			<h2>用户退房信息</h2>
+			<table v-if="Checkinformation">
+				<tr v-if="Checkinformation.roomieInfo">联系人：{{Checkinformation.roomieInfo.name}}</tr>
+				<tr>联系电话：{{Datas.pmsOrder.userPhone}}</tr>
+				<tr v-if="Checkinformation.roomieInfo">{{Checkinformation.roomieInfo.certificateName}}：{{Checkinformation.roomieInfo.certificateNumber}}</tr>
+				<tr>入住时间：{{Checkinformation.inTime | time}}</tr>
+				<tr>退房时间：<Date-picker type="date" placeholder="选择日期" v-model="CheckDates" @on-change="calculateRefundMoney"></Date-picker></tr>
+				<tr>协议价：{{Checkinformation.orderRoomFee}}元</tr>
+				<tr>罚款金额：{{Checkinformation.gatheringFee}}元</tr>
+				<tr>增值服务：{{Checkinformation.serviceFee}}元</tr>
+				<tr>总消费：{{Checkinformation.totalConsumeFee}}元</tr>
+				<tr v-if="refundMoney>0">应退款：{{refundMoney}}元</tr>
+				<tr v-if="refundMoney<0">应收款：{{refundMoney | Money}}元</tr>
+			</table>
+			<span style="margin:20px 0 20px 10px;display:inline-block;"  v-if="refundMoney < 0">支付方式：</span>
+			<el-radio-group v-if=" refundMoney < 0" v-model="radio2"  >
+				<el-radio :label="2">微信</el-radio>
+				<el-radio :label="1">支付宝</el-radio>
+				<el-radio :label="3">银联</el-radio>
+				<el-radio :label="5">现金</el-radio>
+				<el-radio :label="4">其他</el-radio>
+			</el-radio-group>
+			<a @click="checkout">提交</a>
             <a @click="closecheckout()">取消</a>
 		</div>
 		<div class="addservices" v-show="isHide7">
@@ -224,7 +244,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/shortDetails.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -233,7 +253,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212,BuyServices300216 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,CxkjPmsAddCheckOutInfo300213,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212,BuyServices300216,CheckOutInfo300208 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -251,10 +271,12 @@
 				isHide2:false,
 				isHide3:false,
 				isHide4:false,
+				isHide5:false,
 				isHide6:false,
 				isHide7:false,
 				isHide8:false,
-    			roomid:null,
+				radio2: 2,
+    			roomId:null,
     			Datas:null,
     			money:null,
 				texs:null,
@@ -284,6 +306,11 @@
 				AlladdedServices:[], //全部增值服务数据
 				setaddedServices:[], //已设置增值服务数据
 				orderServiceIds:[], //已设置增值服务的ID
+				Checkinformation:null, //退房详情信息
+				CheckDates:'',
+				refundMoney:'',//应收、应付
+				roomDayPriceList:{},
+				value:''//退房时间
 		   	}
     	},
     	filters:{
@@ -291,7 +318,7 @@
     			if(val == 1){
     				return '在线'
     			}
-    			else if(val == 2){
+    			else if(val == 0){
     				return '离线'
     			}
     			else if(val == 3){
@@ -302,7 +329,7 @@
     			if(val == 1){
     				return '在线'
     			}
-    			else if(val == 2){
+    			else if(val == 0){
     				return '离线'
     			}
     			else if(val == 3){
@@ -315,7 +342,7 @@
     			}else{
     				return 0;
     			}
-    			
+
     		},
     		type(val){
     			if(val == 1){
@@ -364,7 +391,7 @@
 				else if(val == 8){
     				return '退租中'
     			}
-    			
+
     		},
     		billState(val){
     			if(val == 1){
@@ -398,10 +425,16 @@
     			if(val != null){
     				return parseFloat(val).toFixed(2)+'元';
     			}
-    		}
+			},
+			time(val){
+				return new Date(val).Format("yyyy-MM-dd");
+			},
+			Money(val){
+				return Math.abs(val);
+			}
     	},
     	mounted(){
-    		this.roomid = this.$route.query.id;
+    		this.roomId = this.$route.query.id;
 			this.communityId = this.$route.query.ids;
 			// console.log(this.$route.query);
 			this.datas();
@@ -416,8 +449,26 @@
 				// 	this.warningMessage = '当前没有订单可以添加入住';
 				// 	this.warningModal = true;
 				// }
-				
+
 			},
+        /**
+         * 计算总价
+         **/
+        calculateRefundMoney(value){
+          this.value =value
+          let info = this.roomDayPriceList.findIndex(item => item.dayNum == value)
+          let Money = 0
+            while (info <= this.roomDayPriceList.length-1)
+            {
+              Money+=parseInt(this.roomDayPriceList[info].price)
+              console.log(info)
+              info++
+            }
+
+            console.log((parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee))+'va')
+            console.log((parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)+'vb')
+          this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)
+        },
 			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 				if(str.test(value) == true){
@@ -441,20 +492,22 @@
 				this.roomconfiguration = [];
     			axios.post(ShortPmsRoomInfo200213,
     				qs.stringify({
-    					roomId:this.roomid
+    					roomId:this.roomId
     				})
     			)
     			.then((response) => {
-    				// console.log(response);
+    				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 						this.Datas = response.data.entity;
-						this.orderId = this.Datas.pmsOrder.orderId;
+						if(this.Datas.pmsOrder){
+							this.orderId = this.Datas.pmsOrder.orderId;
+						}
+						
 						if(this.Datas.lockWaterElectricity){
 							this.lockWaterElectricity = this.Datas.lockWaterElectricity;
 						}
-						
+
 						let arr = JSON.parse(this.Datas.materials);
-						// console.log(arr);
 						for(let i = 0;i<arr.length;i++){
 							this.roomconfiguration.push(arr[i].materialName);
 						}
@@ -465,9 +518,6 @@
 							this.fineProject = this.Datas.pmsOrder.pmsOrderFinanceReceivablesInfo;
 						}
     				}
-    			})
-    			.catch((error) => {
-    				// console.log(error);
     			})
 			},
 			//添加收款项目数组
@@ -533,7 +583,7 @@
 					param.append(`cxkjPmsOrderFinanceList[${i}].price`,this.addrefundProject[i].money);
 					param.append(`cxkjPmsOrderFinanceList[${i}].content`,this.addrefundProject[i].moneyWhy);
 				}
-				
+
 				param.append('orderId',this.orderId);
 				param.append('type',2);
 				param.append('orderRoomId',this.pmsOrder.orderRoomId);
@@ -568,7 +618,7 @@
 			//设置短租的支付收款删除
 			ShortfineProject(val){
 				// console.log(val);
-				axios.post(ShortFinanceUpdate200215, 
+				axios.post(ShortFinanceUpdate200215,
 					qs.stringify({
 						id:val.id
 					})
@@ -621,39 +671,52 @@
 			//设置短租房间退房
 			checkout(){
 				let vm = this
-				// if(this.Datas.pmsOrder && this.Datas.pmsOrder.orderState == 8){
-				// 	this.warningMessage = '当前房间非退租状态，无法退租';
-				// 	this.warningModal = true;
-				// 	return
-				// }else{
-				// 	if(vm.Datas.pmsOrder && vm.Datas.pmsOrder.orderNum){
-						axios.post(ShortOrderRoomUpdate200217,
-						qs.stringify({
-							id:vm.Datas.pmsOrder.orderNum
-						})
-						).then((res)=>{
-							// console.log(res);
-							if(res.status == 200 && res.data.code == 10000){
-								this.successMessage = '退房确认成功';
-								this.successModal = true;
-								this.isHide = false;
-								this.isHide6 = false;
-								setTimeout(() => {
-									this.successModal = false;
-									this.datas();
-								}, 2000);
-							}else{
-								this.warningMessage = res.data.content;
-								this.warningModal = true;
-							}
-						}).catch((error)=>{
-							this.warningMessage = '退房确认失败';
-							this.warningModal = true;
-						})
+				if(!vm.CheckDates){
+				this.warningMessage = '请选择退房时间';
+				this.warningModal = true;
+				return
+				}
+				this.$http.post(CxkjPmsAddCheckOutInfo300213,
+					qs.stringify({
+					orderRoomId:vm.Datas.pmsOrder.orderRoomId,
+					orderId:vm.Datas.pmsOrder.orderId,
+					userName:vm.Datas.pmsOrder.userName,
+					userPhone:vm.Datas.pmsOrder.userPhone,
+					roomPrice:vm.Checkinformation.orderRoomFee,
+					inMoney:vm.Checkinformation.gatheringFee,
+					outMoney:vm.Checkinformation.refundFee,
+					serviceMoney:vm.Checkinformation.serviceFee,
+					totalMoney:vm.Checkinformation.totalConsumeFee,
+					refundMoney:vm.refundMoney,
+					refundTime:vm.value,
+					payType:vm.refundMoney<0?vm.radio2:0,
+					roomNum:vm.Datas.roomNum,
+					certificateType:vm.Checkinformation.roomieInfo.certificateType,
+					certificateNumber:vm.Checkinformation.roomieInfo.certificateNumber
+              // inTime:vm.Checkinformation.inTime
+				})).then(res=>{
+					// console.log(res);
+					if( res.data.code == 10000){
+						this.successMessage = '退房确认成功';
+						this.successModal = true;
+						this.isHide = false;
+						this.isHide6 = false;
+						setTimeout(() => {
+							this.successModal = false;
+							vm.$router.go(-1)
+						}, 2000);
+					}else{
+						this.warningMessage = res.data.content+res.data.code;
+						this.warningModal = true;
+					}
+				}).catch(error=>{
+					this.warningMessage = '退房确认失败';
+					this.warningModal = true;
+				})
 				// 	}
-					
+
 				// }
-				
+
 			},
 			//获取短租增值服务的全部数据(订单ID暂时为死数据)
 			addedservices(){
@@ -707,7 +770,7 @@
 				console.log(this.orderServiceIds);
 				params.append('orderServiceIds',this.orderServiceIds.join(','));
 				console.log(params);
-				
+
 				axios.post(BuyServices300216, params).then((res)=>{
 					console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
@@ -737,7 +800,7 @@
 				console.log(list);
 			},
     		closeWarningModal() {
-				this.warningModal = false;			
+				this.warningModal = false;
             },
             openrelet(){
                 this.isHide = true;
@@ -780,28 +843,45 @@
 					moneyWhy:''
 				}]
 			},
-			opencheckout(){
-				this.isHide = true;
-                this.isHide6 = true;
+			opencheckout(data){
+				let params = {};
+				params.orderId = data.pmsOrder.orderId;
+				params.roomId = data.id;
+				axios.get(CheckOutInfo300208,{params:params}).then((res)=>{
+					// console.log(res);
+					if(res.status == 200 && res.data.code == 10000){
+						this.Checkinformation = res.data.entity;
+						this.roomDayPriceList = res.data.entity.roomDayPriceList;
+						this.isHide = true;
+						this.isHide6 = true;
+					}
+				})
 			},
 			closecheckout(){
 				this.isHide = false;
                 this.isHide6 = false;
 			},
 			openservices(){
-				this.isHide = true;
-                this.isHide7 = true;
+          if(this.AlladdedServices.length){
+            this.isHide = true;
+            this.isHide7 = true;
+          }else {
+            this.warningMessage = '暂无增值服务';
+            this.warningModal = true;
+          }
+
+        // this.addedservices();
 			},
 			closeservices(){
 				this.isHide = false;
 				this.isHide7 = false;
 				this.addedservices();
 			}
-    	
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>

@@ -31,26 +31,28 @@
 		    				<ul>
 		    					<li>押金：<span style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
 								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.payStage}}/{{ThrowLease.stage}}</span></li>
-								<li><span>共计：{{ThrowLease.sumPrice | des}}元</span></li>
+								<li><span>已缴租金共计：{{ThrowLease.billTotalMoney | des}}元</span></li>
+								<li><span>应退服务费：{{ThrowLease.refundService | des}}元</span></li>
+								<li><span>应退押金：{{ThrowLease.deposit | des}}元</span></li>
 		    				</ul>
-		    				<p>应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
+		    				<p class="zong">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
 		    			</div>
 		    			<div>
 		    				<img src="../../../static/images/icon/info.png" /><h3>退租前水电费结算</h3>
 		    				<table>
 		    					<tr>
 		    						<td>水表读数：<span>{{refundableWaterInfo.waterReadingNum}}</span></td>
-									<td>用水量：<span>{{refundableWaterInfo.waterConsumptionNum}}m³</span></td>
+									<td>用水量：<span>{{refundableWaterInfo.waterConsumptionNum}}</span></td>
 									<td>水费：<span>{{refundableWaterInfo.waterRentNum | des}}元</span></td>
 		    					</tr>
 		    					<tr>
 		    						<td>电表读数：<span>{{refundableEnergyInfo.energyReadingNum}}</span></td>
-									<td>用电量：<span>{{refundableEnergyInfo.energyConsumptionNum}}度</span></td>
+									<td>用电量：<span>{{refundableEnergyInfo.energyConsumptionNum}}</span></td>
 									<td>电费：<span>{{refundableEnergyInfo.energyRentNum | des}}元</span></td>
 		    					</tr>
 		    				</table>
 		    				
-		    				<p>应扣水电费:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableWaterEnergyMoney | des}}元</span></p>
+		    				<p class="zong">应扣水电费:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableWaterEnergyMoney | des}}元</span></p>
 		    			</div>
 		    			<div>
 		    				<img src="../../../static/images/icon/info.png" /><h3>物资清点</h3>
@@ -61,18 +63,23 @@
 									<td>应扣：<span>{{item.costAmount | des}}元</span></td>
 								</tr>
 		    				</table>
-		    				<p>应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
+		    				<p class="zong">应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
 		    			</div>
 		    			<div class="qts">
 		    				<img src="../../../static/images/icon/info.png" /><h3>其他费用</h3>
 		    				<ul style="min-height: 30px;">
 		    					<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 		    				</ul>
-		    				<p>应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
+		    				<p class="zong">应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
 		    			</div>
-		    			<div>
-		    				<p class="zong">应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
-		    				<p class="titus">应退金额总计 = 押金 + 应退租金 - 应扣水电费 - 应扣物品折扣 - 其他费用</p>
+		    			<div class="Seeway">
+		    				<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
+							<p>用户接收退款账号</p>
+							<ul>
+								<li>户名：{{ThrowLease.name}}</li>
+								<li>开户行：{{ThrowLease.bankName}}</li>
+								<li>账号：{{ThrowLease.account}}</li>
+							</ul>
 		    			</div>
 		    		</div>
 		    	</div>
@@ -96,9 +103,11 @@
 		    				<ul>
 		    					<li>押金：<span style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
 								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.payStage}}/{{ThrowLease.stage}}</span></li>
-								<li><span>共计：{{ThrowLease.sumPrice | des}}元</span></li>
+								<li><span>已缴租金共计：{{ThrowLease.billTotalMoney | des}}元</span></li>
+								<li><span>应退服务费：{{ThrowLease.refundService | des}}元</span></li>
+								<li><span>应退押金：{{ThrowLease.deposit | des}}元</span></li>
 		    				</ul>
-		    				<p>应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
+		    				<p class="zong">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
 		    			</div>
 		    			<div>
 		    				<img src="../../../static/images/icon/info.png" /><h3>物资清点</h3>
@@ -109,18 +118,23 @@
 									<td>应扣：<span>{{item.costAmount | des}}元</span></td>
 								</tr>
 		    				</table>
-		    				<p>应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
+		    				<p class="zong">应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
 		    			</div>
 		    			<div class="qts">
 		    				<img src="../../../static/images/icon/info.png" /><h3>其他费用</h3>
 		    				<ul style="min-height: 30px;">
 		    					<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 		    				</ul>
-		    				<p>应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
+		    				<p class="zong">应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
 		    			</div>
-		    			<div>
-		    				<p class="zong">应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
-		    				<p class="titus">应退金额总计 = 押金 + 应退租金 - 应扣物品折扣 - 其他费用</p>
+		    			<div class="Seeway">
+		    				<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
+							<p>用户接收退款账号</p>
+							<ul>
+								<li>户名：{{ThrowLease.name}}</li>
+								<li>开户行：{{ThrowLease.bankName}}</li>
+								<li>账号：{{ThrowLease.account}}</li>
+							</ul>
 		    			</div>
 		    		</div>
 		    	</div>
@@ -180,7 +194,11 @@
 				}
 			},
 			des(val) {
-				return parseFloat(val).toFixed(2);
+				if(val){
+					return parseFloat(val).toFixed(2);
+				}else{
+					return 0.00;
+				}
 			}
     	},
     	methods:{
@@ -190,7 +208,7 @@
 						throwLeaseId: this.throwLeaseId
 					})
 				).then((res) => {
-					// console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.ThrowLease = res.data.result;
 						if(this.ThrowLease.refundableMaterialsInfo){

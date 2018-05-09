@@ -22,6 +22,12 @@
                 </div>
                 <div class="form-search-criteriam">
                   <div class="form-item">
+                    <b>社区：</b>
+                    <Select v-model="roomCommunity" style="width:200px">
+                      <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                    </Select>
+                  </div>
+                  <div class="form-item">
                     <span>交易日期：</span>
                     <Date-picker type="date" :options="option4" placeholder="选择日期" v-model="financeStartDate"></Date-picker>
                     <span class="inline-block spanBar">--</span>
@@ -78,9 +84,11 @@
                     <th>订单信息</th>
                     <th>费用类型</th>
                     <th>用户</th>
+                    <th>房间号</th>
                     <th>交易方式</th>
                     <th>资金流向</th>
                     <th>费用金额/元</th>
+                    <th>明细</th>
                     <th>币种</th>
                   </tr>
                   <tr v-for="item in financeList">
@@ -89,26 +97,26 @@
                     <td>{{item.communityName}}</td>
                     <td>{{item.financeInfo}}</td>
                     <td>
-                      <span v-if="item.costType == 0">退款</span>
-                      <span v-if="item.costType == 1">公寓租金</span>
-                      <span v-if="item.costType == 2">办公租金</span>
-                      <span v-if="item.costType == 3">会议室定金</span>
-                      <span v-if="item.costType == 4">工位定金</span>
-                      <span v-if="item.costType == 5">水电账单</span>
-                      <span v-if="item.costType == 6">其它</span>
+                      <span>{{item.costType}}</span>
                     </td>
                     <td>{{item.userName}}</td>
+                    <td>{{item.roomNum}}</td>
                     <td>
                       <span v-if="item.payType == 1">支付宝</span>
                       <span v-if="item.payType == 2">微信</span>
                       <span v-if="item.payType == 3">银联</span>
                       <span v-if="item.payType == 4">其他方式</span>
+                      <span v-if="item.payType == 5">现金</span>
+                      <span v-if="item.payType == 6">POS机</span>
                     </td>
                     <td>
                       <span v-if="item.financeType == 0">支出</span>
                       <span v-if="item.financeType == 1">收入</span>
                     </td>
                     <td>{{item.financeMoney}}</td>
+                    <td>
+                      <p v-for="iets in item.list">{{iets}}</p>
+                    </td>
                     <td>
                       <span v-if="item.currency == 0">人民币</span>
                       <span v-if="item.currency == 2">港币</span>
@@ -399,6 +407,10 @@
       let _this = this;
       return {
         financeType:-1,
+        RoomContractSelects:[{
+          communityId: -1,
+          communityName: '全部'
+        }],//下拉选
         financeTypeSelect:[{
           value:-1,
           lable:"全部"
@@ -427,6 +439,12 @@
         },{
           value:4,
           lable:"其它方式"
+        },{
+          value:5,
+          lable:"现金"
+        },{
+          value:6,
+          lable:"POS机"
         }],
         payType:-1,
         financeList:[],
@@ -477,6 +495,7 @@
         refundHandStartDate:"",
         refundHandEndDate:"",
         refundHandSearchKey:"",
+        roomCommunity:-1,
         refundStatus:-1,
         activeBillPage:1,
         refundModal:false,
@@ -537,7 +556,7 @@
       this.getCommunityData();
       this.getBillInvoice({pageNum:1});
       this.getrefundHandle({pageNum:1});
-      this.getFinanceList({pageNum:1});
+      this.getFinanceList({pageNum:1,pageSize:8});
       this.getExpress();
       this.host3 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityFinanceListDownLoad200180?';
       this.host4 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjBillInvoiceListDownLoad200181?';
@@ -556,6 +575,7 @@
         this.$http.get(allCommunity)
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
+              that.RoomContractSelects = that.RoomContractSelects.concat(res.data.entity);
               that.propertyContractSelects = that.propertyContractSelects.concat(res.data.entity);
             }
           })
@@ -566,8 +586,11 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
-              // console.log(that.pageBean);
               that.financeList = that.pageBean.financeList;
+              for(let i=0;i<that.financeList.length;i++){
+                let tabs = that.financeList[i].describe.substr(1,that.financeList[i].describe.length - 2);
+                that.financeList[i].list = tabs.split(",");
+              }
               that.financeTotalNum = that.pageBean.totalNum;
             }
             if(res.data.code == 10008){
@@ -581,6 +604,10 @@
         var data = {
           pageNum:page || 1,  
         };
+        if(this.roomCommunity != -1){
+          data.communityId = this.roomCommunity;
+          this.host3 +='&communityId='+data.communityId;
+        }
         this.host3 +='&pageNum='+this.pageNum;
         if(this.financeType != -1){
           data.financeType = this.financeType;
@@ -602,7 +629,7 @@
           data.endDate =  new Date(this.financeEndDate).Format("yyyy-MM-dd");
           this.host3 +='&endDate='+data.endDate;
         }
-        console.log(this.host3);
+        // console.log(this.host3);
         this.getFinanceList(data);
       },
 

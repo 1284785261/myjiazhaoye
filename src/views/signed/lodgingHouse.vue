@@ -761,7 +761,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostController, hostRoomList, hostRoomUser, hostWay, imgPath, hostSigController, hostSignCompany, host,Registeruser200222 } from '../api.js';
+	import { hostController, hostRoomList, hostRoomUser, hostWay, imgPath, hostSigController, hostSignCompany, host,Registeruser200222,ContractSignInfo200225 } from '../api.js';
 
 	export default {
 		components: {
@@ -913,7 +913,8 @@
 				deposit:null,
 				deposittext:'',
 				disabledm:false,
-				contractSignId:''
+				contractSignId:'',
+				compliedetails:'' //编辑合同详情
 			}
 		},
 		mounted() {
@@ -926,7 +927,9 @@
 			this.Name = this.$route.query.Name;
 			this.contractSignId = this.$route.query.contractSignId;
 			this.datas();
-
+			if(this.contractSignId){
+				this.complieParticulars();
+			}
 		},
 		computed: {
 			firstmoney: function() {
@@ -1150,7 +1153,7 @@
 						})
 					)
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.userInfo = response.data.result.userInfo;
 							//承租人信息
@@ -1175,7 +1178,7 @@
 							//
 							if(this.userInfo.certificateId != null){
 								let id = this.userInfo.certificateId;
-								this.value = this.user.options2[this.user.options2.findIndex(item => item.dataId == id)].dataName;
+								this.value = this.options2[this.options2.findIndex(item => item.dataId == id)].dataName;
 							}
 
 						} else {
@@ -1194,7 +1197,7 @@
 					})
 			},
 			ChooseCertificate(val){
-				this.user.certificateId = this.user.options2[this.user.options2.findIndex(item => item.dataName == val)].dataId;
+				this.user.certificateId = this.options2[this.options2.findIndex(item => item.dataName == val)].dataId;
 			},
 			User2(index, val) {
 				axios.post(hostRoomUser,
@@ -1212,7 +1215,7 @@
 							this.ieList[index].certificateType = response.data.result.userInfo.certificateId;
 							this.ieList[index].certificateNumber = response.data.result.userInfo.userCertificate;
 							let id = response.data.result.userInfo.certificateId;
-							this.ieList[index].value3 = this.user.options2[this.user.options2.findIndex(item => item.dataId == id)].dataName;
+							this.ieList[index].value3 = this.options2[this.options2.findIndex(item => item.dataId == id)].dataName;
 						}
 					})
 			},
@@ -1274,7 +1277,6 @@
 					)
 					.then((response) => {
 						if(response.status == 200 && response.data.code == 10000) {
-							this.user.options2 = response.data.entity;
 							this.options2 = response.data.entity;
 
 						}
@@ -1339,7 +1341,13 @@
 				date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
 				date2 = date2.split('-');
 				date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
-				console.log(Math.abs(date2 - date1));
+				// console.log(Math.abs(date2 - date1));
+				if(val  == '月付'){
+					this.letcup = false;
+				}else{
+					this.letcup = true;
+				}
+
 				if(Math.abs(date2 - date1) < 2 && val  == '季付'){
 					vm.warningModal = true;
 					vm.warningMessage = '签约方式选择季付，租期不能小于三个月';
@@ -1361,11 +1369,6 @@
 				}
 				this.depositRent = vm.housetderta.roomRent * vm.discount/100 * parseFloat(vm.apartments[vm.activ].discount)/100;
 
-				if(val == '月付'){
-					this.letcup = false;
-				}else{
-					this.letcup = true;
-				}
 
 			},
 			save() {
@@ -1381,7 +1384,6 @@
 
 				this.activ = index;
 				if(this.onhrie) {
-					console.log(this.apartments[this.activ].letMounted);
 					if(this.value2  == '季付' && this.apartments[this.activ].letMounted < 3){
 						this.warningModal = true;
 						this.warningMessage = '签约方式选择季付，租期不能小于三个月';
@@ -1911,6 +1913,133 @@
 					})
 				}
 
+			},
+
+			//获取编辑合同数据
+			complieParticulars(){
+				let vm = this
+				axios.post(ContractSignInfo200225,
+				qs.stringify({
+					contractSignId:this.contractSignId
+				})
+				).then((res)=>{
+					if(res.status == 200 && res.data.code == 10000) {
+						this.compliedetails = res.data.entity;
+						this.roomNum = this.compliedetails.roomInfo.roomNum;
+						this.housetderta.housetypeName = this.compliedetails.housetypeName;
+						this.radios = this.compliedetails.customerType;
+						this.onhrie = this.compliedetails.beginDate;
+						this.expire = this.compliedetails.endDate;
+						let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
+						let date2 = new Date(this.expire).Format("yyyy-MM-dd");
+						date1 = date1.split('-');
+						date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+						date2 = date2.split('-');
+						date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+						if(Math.abs(date2 - date1) == 12){
+							this.activ = 0;
+						}else if(Math.abs(date2 - date1) >= 6){
+							this.activ = 1;
+						}else if(Math.abs(date2 - date1) >= 3){
+							this.activ = 2;
+						}else{
+							this.activ = 4;
+						}
+						this.depositmonth = this.compliedetails.depositMonth;
+						this.user.userPhone = this.compliedetails.userInfo.userPhone;
+						this.user.userName = this.compliedetails.userInfo.userName;
+						this.user.gender = this.compliedetails.userInfo.gender+'';
+						this.value = this.compliedetails.userInfo.certificateName;
+						this.user.userCertificate = this.compliedetails.userInfo.userCertificate;
+						this.user.id = this.compliedetails.userId;
+						this.user.version = this.compliedetails.userInfo.version;
+						this.housetderta.roomWater = this.compliedetails.roomInfo.roomWater;
+						this.housetderta.roomElectric = this.compliedetails.roomInfo.roomElectric;
+						for(let i = 0;i < this.compliedetails.roomieInfo.length;i++){
+							this.adduser();
+						}
+						for(let i = 0;i < this.compliedetails.roomieInfo.length;i++){
+							this.ieList[i].userId = this.compliedetails.roomieInfo[i].userId;
+							this.ieList[i].name = this.compliedetails.roomieInfo[i].userName;
+							this.ieList[i].phone = this.compliedetails.roomieInfo[i].userPhone;
+							this.ieList[i].gender = this.compliedetails.roomieInfo[i].gender+'';
+							this.ieList[i].value3 = this.compliedetails.roomieInfo[i].certificateName;
+							this.ieList[i].certificateNumber = this.compliedetails.roomieInfo[i].userCertificate;
+						}
+						//其他费用项
+						let otherCostJsons = JSON.parse(this.compliedetails.otherCostJson);
+						if(otherCostJsons){
+							for(let i = 0;i<otherCostJsons.length;i++){
+								if(i>1){
+									this.addRepairs();
+								}
+								
+							}
+							for(let i = 0;i<otherCostJsons.length;i++){
+								this.tableRepairs[i].inputValue = otherCostJsons[i].costName;
+								this.tableRepairs[i].date = otherCostJsons[i].costAmount;
+							}
+						}
+						//中介方
+						if(this.compliedetails.intermediaryCompany){
+							this.hints.company = this.compliedetails.intermediaryCompany;
+						}
+						if(this.compliedetails.intermediaryName){
+							this.hints.man = this.compliedetails.intermediaryName;
+						}
+						if(this.compliedetails.intermediaryMoney){
+							this.hints.cost = this.compliedetails.intermediaryMoney;
+						}
+						//公司信息
+						if(this.compliedetails.companyInfo){
+							this.companyInfo = this.compliedetails.companyInfo;
+						}
+						if(this.compliedetails.companyLegalPerson){
+							this.companylegalPerson = this.compliedetails.companyLegalPerson;
+						}
+						this.radio4 = this.compliedetails.isPaper+'';
+						//证件照
+						let tialsImages = JSON.parse(this.compliedetails.credentialsImages);
+						// console.log(tialsImages);
+						if(this.radio4 == '1' && this.compliedetails.customerType == '1'){
+							this.uploadList[0] = tialsImages[0].filePath;
+							this.uploadList4[0] = tialsImages[1].filePath;
+							this.uploadList2[0] = tialsImages[2].filePath;
+							this.uploadList[1] = tialsImages[0].fileTitle;
+							this.uploadList4[1] = tialsImages[1].fileTitle;
+							this.uploadList2[1] = tialsImages[2].fileTitle;
+						}else{
+							this.uploadList[0] = tialsImages[0].filePath;
+							this.uploadList4[0] = tialsImages[1].filePath;
+							this.uploadList[1] = tialsImages[0].fileTitle;
+							this.uploadList4[1] = tialsImages[1].fileTitle;
+						}
+						if(this.radio4 == '1' && this.compliedetails.customerType == '2'){
+							this.uploadList[0] = tialsImages[0].filePath;
+							this.uploadList4[0] = tialsImages[1].filePath;
+							this.uploadList2[0] = tialsImages[2].filePath;
+							this.uploadList6[0] = tialsImages[3].filePath;
+							this.uploadList3[0] = tialsImages[4].filePath;
+							this.uploadList[1] = tialsImages[0].fileTitle;
+							this.uploadList4[1] = tialsImages[1].fileTitle;
+							this.uploadList2[1] = tialsImages[2].fileTitle;
+							this.uploadList6[1] = tialsImages[3].fileTitle;
+							this.uploadList3[1] = tialsImages[4].fileTitle;
+						}
+						else{
+							this.uploadList[0] = tialsImages[0].filePath;
+							this.uploadList4[0] = tialsImages[1].filePath;
+							this.uploadList2[0] = tialsImages[2].filePath;
+							this.uploadList6[0] = tialsImages[3].filePath;
+							this.uploadList[1] = tialsImages[0].fileTitle;
+							this.uploadList4[1] = tialsImages[1].fileTitle;
+							this.uploadList2[1] = tialsImages[2].fileTitle;
+							this.uploadList6[1] = tialsImages[3].fileTitle;
+						}
+					}else{
+						this.compliedetails = '';
+					}
+				})
 			}
 		}
 	}

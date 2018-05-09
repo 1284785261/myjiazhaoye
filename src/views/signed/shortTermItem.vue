@@ -261,7 +261,6 @@
 				this.datas();
 			},
 			checkAllGroupChange2(item,index){
-				this.host4 = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomDownload200212?'+'communityId='+this.communityId;
 				if(item.sing){
 					this.floorIdList.push(this.bigdata[index].floorId);
 				}else{
@@ -269,8 +268,9 @@
 					this.floorIdList.splice(indexs,1);
 				}
 				if(this.communityId && this.floorIdList != []){
+					this.host4 = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomDownload200212?'+'communityId='+this.communityId;
 					for(let i = 0;i<this.floorIdList.length;i++){
-						this.host4 += `&floorIdList[${i}]=`+this.floorIdList[i];
+						this.host4 += `&floorIdList[${i}]=${this.floorIdList[i]}`;
 					}
 					this.disabled1 = false;
 				}else{

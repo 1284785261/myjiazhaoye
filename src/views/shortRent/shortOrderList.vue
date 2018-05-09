@@ -685,7 +685,7 @@
         let param = {
           bookName:this.bookName,
           bookPhone:this.bookPhone,
-          bookBeginDate:new Date(this.bookBeginDate).Format("yyyy-MM-dd"),
+          checkInTime:new Date(this.bookBeginDate).Format("yyyy-MM-dd"),
           bookEndDate:new Date(this.bookEndDate).Format("yyyy-MM-dd"),
           marketType:this.marketType,
           sourceType:this.sourceType,

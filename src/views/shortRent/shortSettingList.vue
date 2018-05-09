@@ -27,7 +27,7 @@
           <th>长租房名称</th>
           <th>短租房名称</th>
           <th>公寓设施</th>
-          <th>服务说明</th>
+          <th width="200px">服务说明</th>
           <th>房间信息</th>
           <th width="200px">操作</th>
         </tr>

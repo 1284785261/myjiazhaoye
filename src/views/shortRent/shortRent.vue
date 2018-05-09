@@ -17,7 +17,7 @@
                     </Tab-pane>
                     <Tab-pane label="价格设置" name="short-price-set">
                         <div class="message-ti">
-                            <short-price-set @setPrice="setPrice"></short-price-set>
+                            <short-price-set ref="price" @setPrice="setPrice"></short-price-set>
                         </div>
                     </Tab-pane>
                      <Tab-pane label="产品日历" name="short-product-calendar">
@@ -27,7 +27,7 @@
                     </Tab-pane>
                     <Tab-pane label="入住列表" name="short-stay-list">
                         <div class="message-ti">
-                            <short-stay-list></short-stay-list>
+                            <short-stay-list @checkdetails = "checkdetails"></short-stay-list>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="订单列表" name="short-order-list">
@@ -74,6 +74,55 @@
             </div>
             <a class="commlun" @click="sublitSetprice">确定</a>
             <a class="commlun commlun2" @click="coloseSet">关闭</a>
+        </div>
+        <div class="scherm" v-show="shows"></div>
+        <div class="mack" v-show="shows">
+          <h2>用户信息</h2>
+          <table>
+            <tr v-if="checkdetail.roomNum">
+              房间号：{{checkdetail.roomNum}}
+            </tr>
+            <tr v-if="checkdetail.roomieInfo">
+              联系人：{{checkdetail.roomieInfo.name}}
+            </tr>
+            <tr v-if="checkdetail.roomNum">
+              联系电话：
+            </tr>
+            <tr v-if="checkdetail.roomieInfo">
+              身份证：{{checkdetail.roomieInfo.certificateNumber}}
+            </tr>
+            <tr v-if="checkdetail.inTime">
+              入住时间：{{checkdetail.inTime | time}}
+            </tr>
+            <tr v-if="checkdetail.refundInfo">
+              退房时间：{{checkdetail.refundInfo.refundTime | time}}
+            </tr>
+            <tr>
+              入住状态：{{checkdetail.status | status}}
+            </tr>
+            <tr v-if="checkdetail.orderRoomFee">
+              协议价：{{checkdetail.orderRoomFee}}元
+            </tr>
+            <tr v-if="checkdetail.refundInfo">
+              罚款金额：{{checkdetail.refundInfo.inMoney}}元
+            </tr>
+            <tr v-if="checkdetail.serviceFee">
+              增值服务：{{checkdetail.serviceFee}}元
+            </tr>
+            <tr v-if="checkdetail.refundInfo">
+              总消费：{{checkdetail.refundInfo.totalMoney}}元
+            </tr>
+            <tr v-if="checkdetail.refundInfo && checkdetail.refundInfo.refundMoney > 0">
+              应退款：{{checkdetail.refundInfo.refundMoney}}元
+            </tr>
+            <tr v-if="checkdetail.refundInfo && checkdetail.refundInfo.refundMoney < 0">
+              应收款：{{checkdetail.refundInfo.refundMoney | Money}}元
+            </tr>
+            <tr v-if="checkdetail.payType">
+              支付方式：{{checkdetail.payType | payType}}
+            </tr>
+          </table>
+          <a @click="closemack">关闭</a>
         </div>
         <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 	    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
@@ -131,7 +180,9 @@
         checkList:[],//开始时间组
         single:false, //全选值
         dayNumList:[],//选中日历日期
-        communityIds:'' //设置日历组件社区ID
+        communityIds:'', //设置日历组件社区ID
+        shows:false,
+        checkdetail:{} //入住详情
       }
     },
     mounted() {
@@ -140,6 +191,34 @@
         this.activeName = tab;
       }
       this.codem();
+    },
+    filters:{
+        Money(val){
+            return Math.abs(val);
+        },
+        payType(val){
+            if(val == 1){
+                return '支付宝'
+            }else if(val == 2){
+                return '微信'
+            }else if(val == 3){
+                return '银联'
+            }else{
+                return '其他方式'
+            }
+        },
+        status(val){
+            if(val == 0){
+                return '未入住'
+            }else if(val == 1){
+                return '已入住'
+            }else if(val == 2){
+                return '已结账'
+            }
+        },
+        time(val){
+            return new Date(val).Format("yyyy-MM-dd");
+        },
     },
     methods: {
         changeTab(tab){
@@ -418,7 +497,7 @@
                         for(let i=0;i<arr.length;i++){
                             arr[i] = parseInt(arr[i]);
                         }
-                        this.$refs.price.changePane(arr[0],arr[1]-1,arr[2]);
+                        this.$refs.price.changePane(arr[0],arr[1]-2,arr[2]);
                     }, 2000);
                 }else{
                     this.isHide = false;
@@ -449,6 +528,16 @@
            },1500)
 
         },
+        //得到房间的所有信息
+        checkdetails(value){
+            this.checkdetail = value;
+            console.log(this.checkdetail);
+            this.shows = true;
+            
+        },
+        closemack(){
+            this.shows = false;
+        }
     },
   }
 </script>
@@ -594,5 +683,41 @@
         left: 0;
         z-index: 100;
         opacity: 0.5;
+    }
+    .mack{
+        width: 430px;
+        height: 720px;
+        background: #fff;
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        z-index: 101;
+        transform: translate(-50%,-50%);
+        h2{
+            font-size: 22px;
+            line-height: 30px;
+            color: #000;
+            margin: 10px;
+        }
+        table{
+            margin-left: 20px;
+            tr{
+                line-height: 30px;
+            }
+        }
+        a{
+            width: 100px;
+            height: 34px;
+            display: inline-block;
+            text-align: center;
+            line-height: 34px;
+            font-size: 14px;
+            color: white;
+            background: #038BE2;
+            border-radius: 5px;
+            margin-top: 30px;
+            margin-left: 50%;
+            transform: translate(-50%,0);
+        }
     }
 </style>

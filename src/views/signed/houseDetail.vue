@@ -215,7 +215,7 @@
     			if(val == 1){
     				return '在线'
     			}
-    			else if(val == 2){
+    			else if(val == 0){
     				return '离线'
     			}
     			else if(val == 3){
@@ -226,7 +226,7 @@
     			if(val == 1){
     				return '在线'
     			}
-    			else if(val == 2){
+    			else if(val == 0){
     				return '离线'
     			}
     			else if(val == 3){

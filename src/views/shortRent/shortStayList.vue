@@ -132,7 +132,7 @@
                 <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.payMoney}}</td>
-                <td><a>查看详情</a></td>
+                <td><a @click="checkdetails(item)">查看详情</a></td>
               </tr>
             </table>
             <div class="block">
@@ -141,7 +141,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 </template>
 
 <script>
@@ -151,7 +151,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {allCommunity,CxkjGetPersonnelList300180} from '../api.js';
+  import {allCommunity,CxkjGetPersonnelList300180,GetOrderRoomIn300223} from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -265,6 +265,7 @@
         this.$http.get(CxkjGetPersonnelList300180,{params:params}).then(res=>{
           if(res.data.code == 10000){
             vm.shortOrderList = res.data.pageBean.page;
+            console.log(vm.shortOrderList);
             vm.totalNum = res.data.pageBean.totalNum;
           }else{
             vm.shortOrderList = [];
@@ -426,6 +427,17 @@
       closeBlackModal(){
 
       },
+      //查看入住详情信息
+      checkdetails(item){
+        let params = {};
+        params.id = item.orderRoomId;
+        axios.get(GetOrderRoomIn300223,{params:params}).then((res)=>{
+          console.log(res);
+          if(res.status == 200 && res.data.code == 10000){
+            this.$emit("checkdetails",res.data.entity);
+          }
+        })
+      }
     },
     filters:{
       timefilter(value,format){

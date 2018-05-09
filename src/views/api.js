@@ -5,17 +5,17 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
-// const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-// export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
-const host3 = 'http://test.kaisaspace.com:8070';
+export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
+// const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
 // const host3 = 'http://192.168.20.135:8091';//李志guang
-// const host3 = 'http://192.168.20.124:8081';//周昭滨
+// const host3 = 'http://192.168.20.124:8081';//周昭滨CxkjPmsServiceInfo300212
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 // const host3 = 'http://192.168.20.234:8081';//周昭滨2
 
@@ -475,6 +475,13 @@ const Registeruser ='/cxkj-center/apis/user/CxkjCenterRegisteruser200222'
 const BuyServices = '/cxkj-pms/apis/pc/pmsorderservice/CxkjBuyServices300216'
 
 const delRoomSign = '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityUpdateRoomSign200223'
+
+//获取短租退款详情
+const CheckOutInfo = '/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsGetApplyCheckOutInfo300208'
+
+//查看入住详情
+const GetOrderRoomIn = '/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderRoomInfo300223'
+
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -634,6 +641,8 @@ export const CxkjGetInRoomInfo300214 = host3 + '/cxkj-pms/apis/pc/pmsorder/CxkjG
 export const CxkjAddPersonnel300215 = host3 + '/cxkj-pms/apis/pc/pmsorder/CxkjAddPersonnels300215';
 export const BuyServices300216 = host3 + BuyServices;
 export const delRoomSign200223 = host3 + delRoomSign;
+export const CheckOutInfo300208 = host3 + CheckOutInfo;
+export const GetOrderRoomIn300223 = host3 + GetOrderRoomIn;
 export const host = host3;
 //export default {
 //hosts:function(){
@@ -692,6 +701,7 @@ export const officeContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjOff
 export const propertyContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
 export const contractDetai =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjContractDetail300067';
 export const CxkjBillGathering500164 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGathering500164';//合同付款
+export const  ContractSignInfo200225 =host3 + '/cxkj-room/apis/pc/contractMgrCenter/CxkjCommunityContractSignInfo200225'
 
 //账单管理
 export const roomBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillList300039';
@@ -857,4 +867,11 @@ export const CxkjAddPersonnel300199 =host3+'/cxkj-pms/apis/pc/pmsorder/CxkjAddPe
 export const CxkjBillGatheringDetailPart500156 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetailPart500156'//部分收款
 export const CxkjBillGatheringDetail500155 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGatheringDetail500155'//收款详情
 export const CxkjBillGatheringDetailWhole500157 =host3+'/cxkj-room//apis/pc/cxkjbillgathering/CxkjBillGatheringDetailWhole500157'//完成收款
+
+
+export const CxkjPmsGetCheckOutInfo300211 =host3+'/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsGetCheckOutInfo300211'//完成收款
+export const CxkjPmsAddCheckOutInfo300213 =host3+'/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsAddCheckOutInfo300213'//退房
+
+
+
 

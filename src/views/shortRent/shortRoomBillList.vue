@@ -273,7 +273,7 @@
       getRoomBillList(params){
         let vm = this;
         this.$http.get(CxkjGetOrderDebtList300183,{params:params}).then(res=>{
-          console.log(res);
+          // console.log(res);
           if(res.data.code == 10000){
             vm.roomBillList = res.data.pageBean.page;
             vm.totalNum = res.data.pageBean.totalNum;

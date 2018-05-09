@@ -90,7 +90,8 @@
 						<p>租期信息:</p>
 						<ul class="zq">
 							<li><span class="qzr">起租日：</span>
-								<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+								<!-- <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker> -->
+								<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								<input type="text" placeholder="请输入月数" v-model="letMounted" maxlength="5" style="width:100px;height:36px;margin-right:5px;" @blur="countdatas(letMounted)"><span>月</span>
 							</li>
 							<li><span class="qzr">到期日：</span>
@@ -289,7 +290,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import qs from 'qs';
 	import axios from 'axios';
-	import { hostOfficeList, hostSignOffice, hostRoomUser, hostWay, hostController,host,imgPath,Registeruser200222 } from '../api.js';
+	import { hostOfficeList, hostSignOffice, hostRoomUser, hostWay, hostController,host,imgPath,Registeruser200222,ContractSignInfo200225 } from '../api.js';
 
 	export default {
 		components: {
@@ -455,7 +456,8 @@
 				letcup:true,
 				deposittext:'',
 				disabledm:false,
-				contractSignId:''
+				contractSignId:'',
+				compliedetails:''
 			}
 		},
 		mounted() {
@@ -470,6 +472,9 @@
 			this.Name = this.$route.query.Name;
 			this.contractSignId = this.$route.query.contractSignId;
 			this.datas();
+			if(this.contractSignId){
+				this.complieParticulars();
+			}
 		},
 		computed: {
 			firstmoney: function() {
@@ -672,11 +677,8 @@
 						})
 					)
 					.then((response) => {
-						// console.log(111111111);
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options1 = response.data.result.rentRoomList;
-							// console.log(this.options1);
 						}
 					})
 					.catch((error) => {
@@ -690,8 +692,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(22222222222222);
-						console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.costInfo = response.data.result;
 							this.contract = this.costInfo.contractNumber;
@@ -715,13 +715,11 @@
 							for(let i = 0;i < this.costInfo.datewayList.length;i++){
 								for(let j = 0;j < this.apartments.length;j++){
 									if(this.apartments[j].datsid == this.costInfo.datewayList[i].data_id){
-										// console.log(1111111111);
 										this.apartments[j].discount = this.costInfo.datewayList[i].discount;
 									}
 								}
 
 							}
-							// console.log(this.apartments);
 						}
 
 					})
@@ -735,7 +733,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.aaduserInfo[0].options2 = response.data.entity;
 							this.options2 = response.data.entity;
@@ -751,7 +748,6 @@
 						})
 					)
 					.then((response) => {
-						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.options4 = response.data.entity;
 						}
@@ -761,9 +757,7 @@
 					})
 			},
 			room(val) {
-				//console.log(val);
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-				// console.log(this.housetderta);
         this.serve = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
@@ -776,7 +770,6 @@
 
 			},
 			delet(index){
-				// console.log(index);
 				this.tableRepairs.splice(index,1);
 			},
 			User(val) {
@@ -843,7 +836,6 @@
 				let nem = new Date(this.expire);
 				let Month;
 				let Months;
-				console.log(nes.getMonth());
 				nem.setDate(nem.getDate()+1);
 				nes.setMonth(nes.getMonth() + parseInt(value));
 				Month = nes;
@@ -978,14 +970,13 @@
                     setTimeout(function(){
                       vm.$set(vm.loadList,vm.indexs,false)
                     },500)
-                    vm.fileList.push({'filePath':res.data.result.virtualPath,'fileTitle':vm.labelList[vm.indexs]})
+					vm.fileList.push({'filePath':res.data.result.virtualPath,'fileTitle':vm.labelList[vm.indexs]})
                   }
                 }).catch(err => {
                 alert(err)
               })
 			},
 			ones(val) {
-				// console.log(val);
 				this.housetderta.firstmoneys = val;
 				if(val != null) {
 					if(this.radio3 == '1') {
@@ -1047,10 +1038,6 @@
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
-				// console.log(this.communityId);
-				// console.log(this.contract)
-				// console.log(this.housetderta.roomId)
-				// console.log(this.housetderta.version)
 				param.append('communityId',this.communityId);
 				param.append('contractNumber',this.contract);
 				param.append('buildingId',this.housetderta.roomId);
@@ -1101,7 +1088,7 @@
 					return
 				}else{
 					axios.post(hostSignOffice,param).then(res =>{
-						console.log(res);
+						// console.log(res);
 						if(res.status == 200 && res.data.code == 10000){
 							vm.successModal = true;
 							setTimeout(()=>{
@@ -1123,7 +1110,83 @@
 						// console.log(error);
 					})
 				}
+			},
+			//获取编辑合同详情
+			complieParticulars(){
+
+				let vm = this
+				axios.post(ContractSignInfo200225,
+				qs.stringify({
+					contractSignId:this.contractSignId
+				})
+				).then((res)=>{
+					if(res.status == 200 && res.data.code == 10000) {
+						this.compliedetails = res.data.entity;
+						this.roomNum = this.compliedetails.officeInfo.officeHouseNum;
+						this.housetderta.housetypeName = this.compliedetails.housetypeName;
+						this.radios = this.compliedetails.customerType;
+						this.onhrie = this.compliedetails.beginDate;
+						this.expire = this.compliedetails.endDate;
+						let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
+						let date2 = new Date(this.expire).Format("yyyy-MM-dd");
+						date1 = date1.split('-');
+						date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+						date2 = date2.split('-');
+						date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+						this.letMounted = Math.abs(date2 - date1);
+						if(Math.abs(date2 - date1) == 12){
+							this.activ = 0;
+						}else if(Math.abs(date2 - date1) >= 6){
+							this.activ = 1;
+						}else if(Math.abs(date2 - date1) >= 3){
+							this.activ = 2;
+						}else{
+							this.activ = 4;
+						}
+						this.depositmonth = this.compliedetails.depositMonth;
+						this.aaduserInfo[0].phone = this.compliedetails.userInfo.userPhone;
+						this.aaduserInfo[0].username = this.compliedetails.userInfo.userName;
+						this.aaduserInfo[0].radio2 = this.compliedetails.userInfo.gender+'';
+						this.value = this.compliedetails.userInfo.certificateName;
+						this.aaduserInfo[0].userCertificate = this.compliedetails.userInfo.userCertificate;
+						this.aaduserInfo[0].id = this.compliedetails.userId;
+						this.aaduserInfo[0].version = this.compliedetails.userInfo.version;
+						//其他费用项
+						let otherCostJsons = JSON.parse(this.compliedetails.otherCostJson);
+						if(otherCostJsons){
+							for(let i = 0;i<otherCostJsons.length;i++){
+								if(i>1){
+									this.addRepairs();
+								}
+								
+							}
+							for(let i = 0;i<otherCostJsons.length;i++){
+								this.tableRepairs[i].inputValue = otherCostJsons[i].costName;
+								this.tableRepairs[i].date = otherCostJsons[i].costAmount;
+							}
+						}
+						//公司信息
+						if(this.compliedetails.companyInfo){
+							this.companyInfo = this.compliedetails.companyInfo;
+						}
+						if(this.compliedetails.companyLegalPerson){
+							this.companylegalPerson = this.compliedetails.companyLegalPerson;
+						}
+						this.radio4 = this.compliedetails.isPaper+'';
+						//证件照
+						let tialsImages = JSON.parse(this.compliedetails.credentialsImages);
+						
+						for(let i=0;i<tialsImages.length;i++){
+							vm.$set(vm.imgList,i,vm.imgPath+tialsImages[i].filePath);
+							vm.fileList.push({'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle});
+						}
+
+					}else{
+						this.compliedetails = '';
+					}
+				})
 			}
+
 		}
 	}
 </script>

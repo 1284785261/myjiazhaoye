@@ -12,15 +12,16 @@
 					<h3><i class="icon icon-iden"></i>确认退租</h3>
 					<span v-if="Name">{{Name}}</span>
 				</div>
+				<!-- 公寓 -->
 				<div id="addirmsurrend" v-if="ThrowLease.isOffice == 0">
 					<div class="addirmsurrend1">
 						<Icon type="android-home"></Icon>
-						<p>{{ThrowLease.isOffice | isOffie}}{{ThrowLease.roomInfo}}</p>
+						<p v-if="ThrowLease.isOffice">{{ThrowLease.isOffice | isOffie}}{{ThrowLease.roomInfo.roomNum}}</p>
 						<ul>
-							<li style="margin-left: 66px;"><span>承租人：{{ThrowLease.userName}}</span></li>
-							<li><span>联系电话：{{ThrowLease.userPhone}}</span></li>
+							<li><span>承租人：{{ThrowLease.userInfo.userName}}</span></li>
+							<li><span>联系电话：{{ThrowLease.userInfo.userPhone}}</span></li>
 							<li><span>租期：{{ThrowLease.beginDate | time}} - {{ThrowLease.endDate | time}}</span></li>
-							<li><span style="color: red;" v-if="ThrowLease.surplusDay > 0 ">剩余{{ThrowLease.surplusDay}}天</span>
+							<li><span style="color: red;" v-if="ThrowLease.differentDays > 0">剩余{{ThrowLease.differentDays}}天</span>
 								<span style="color: red;" v-else>剩余0天</span>
 							</li>
 							<li><span>合租人数：{{ThrowLease.enterCount}}人</span></li>
@@ -34,11 +35,13 @@
 							<h3>租金和押金结算</h3>
 							<ul>
 								<li>押金：<span  style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
-								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.payStage}}/{{ThrowLease.stage}}</span></li>
-								<li><span>共计：{{ThrowLease.sumPrice | des}}元</span></li>
+								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.billCount}}/{{ThrowLease.stage}}</span></li>
+								<li><span>已缴租金共计：{{ThrowLease.billTotalMoney | des}}元</span></li>
+								<li><span>应退押金：{{ThrowLease.deposit | des}}元</span></li>
+								<li><span>应退服务费：{{ThrowLease.rentServiceCost | des}}元</span></li>
 							</ul>
-							<p v-show="alters1 =='编辑'">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
-							<p v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.refundableRent">元</p>
+							<p v-show="alters1 =='编辑'">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.rentCyclePayMoney | des}}元</span></p>
+							<p v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.rentCyclePayMoney">元</p>
 							<a @click="alter1" v-show="alters1 =='编辑'">编辑</a>
 							<a @click="alter2" v-show="alters1 =='保存'">保存</a>
 						</div>
@@ -46,30 +49,50 @@
 							<img src="../../../static/images/icon/info.png" />
 							<h3>退租前水电费结算</h3>
 							<table v-show="alters2 =='编辑'">
-								<tr>
-									<td>水表读数：<span>{{ThrowLease.waterNum}} m³</span></td>
-									<td>用水量：<span>{{ThrowLease.waterCount}} m³</span></td>
-									<td>水费：<span>{{ThrowLease.waterSumPrice | des}} 元</span></td>
+								<tr v-if="ThrowLease.roomInfo.waterType == 1">
+									<td>水表读数：<span>{{ThrowLease.roomInfo.thisWaterRead}} m³</span></td>
+									<td>用水量：<span>{{ThrowLease.roomInfo.waterDosage}} m³</span></td>
+									<td>水费：<span>{{ThrowLease.roomInfo.waterTotalMoney | des}} 元</span></td>
 								</tr>
-								<tr>
-									<td>电表读数：<span>{{ThrowLease.energyNum}} 度</span></td>
-									<td>用电量：<span>{{ThrowLease.energyCount}} 度</span></td>
-									<td>电费：<span>{{ThrowLease.energySumPrice | des}} 元</span></td>
+								<tr v-if="ThrowLease.roomInfo.waterType == 2">
+									<td>用水人数：<span>{{ThrowLease.roomInfo.enterCount}} m³</span></td>
+									<td>用水天数：<span>{{ThrowLease.roomInfo.days}} m³</span></td>
+									<td>水费：<span>{{ThrowLease.roomInfo.waterTotalMoney | des}} 元</span></td>
+								</tr>
+								<tr v-if="ThrowLease.roomInfo.electricType == 1">
+									<td>电表读数：<span>{{ThrowLease.roomInfo.thisElectricRead}} 度</span></td>
+									<td>用电量：<span>{{ThrowLease.roomInfo.electricDosage}} 度</span></td>
+									<td>电费：<span>{{ThrowLease.roomInfo.electricTotalMoney | des}} 元</span></td>
+								</tr>
+								<tr v-if="ThrowLease.roomInfo.electricType == 2">
+									<td>用电人数：<span>{{ThrowLease.roomInfo.enterCount}} 度</span></td>
+									<td>用电天数：<span>{{ThrowLease.roomInfo.days}} 度</span></td>
+									<td>电费：<span>{{ThrowLease.roomInfo.electricTotalMoney | des}} 元</span></td>
 								</tr>
 							</table>
 							<table v-show="alters2 =='保存'">
-								<tr>
-									<td>水表读数：<input type="text" v-model="ThrowLease.waterNum" @blur="waterNum(ThrowLease.waterNum)">m³</td>
-									<td>用水量：<input type="text" v-model="ThrowLease.waterCount" @blur="water(ThrowLease.waterCount)" :disabled='disabled1'>m³</td>
-									<td>水费：<input type="text" v-model="ThrowLease.waterSumPrice" :disabled='disabled1'>元</td>
+								<tr v-if="ThrowLease.roomInfo.waterType == 1">
+									<td>水表读数：<input type="text" v-model="ThrowLease.roomInfo.thisWaterRead" @blur="waterNum(ThrowLease.roomInfo.thisWaterRead)">m³</td>
+									<td>用水量：<input type="text" v-model="ThrowLease.roomInfo.waterDosage" :disabled='disabled1'>m³</td>
+									<td>水费：<input type="text" v-model="ThrowLease.roomInfo.waterTotalMoney" :disabled='disabled1'>元</td>
 								</tr>
-								<tr>
-									<td>电表读数：<input type="text" v-model="ThrowLease.energyNum" @blur="energyNum(ThrowLease.energyNum)">度</td>
-									<td>用电量：<input type="text" v-model="ThrowLease.energyCount" @blur="energ(ThrowLease.energyCount)" :disabled='disabled2'>度</td>
-									<td>电费：<input type="text" v-model="ThrowLease.energySumPrice" :disabled='disabled2'>元</td>
+								<tr v-if="ThrowLease.roomInfo.waterType == 2">
+									<td>用水人数：<span>{{ThrowLease.roomInfo.enterCount}} m³</span></td>
+									<td>用水天数：<input type="text" v-model="ThrowLease.roomInfo.days" @blur="waterdays(ThrowLease.roomInfo.days)">m³</td>
+									<td>水费：<input type="text" v-model="ThrowLease.roomInfo.waterTotalMoney" :disabled='disabled1'>元</td>
+								</tr>
+								<tr v-if="ThrowLease.roomInfo.electricType == 1">
+									<td>电表读数：<input type="text" v-model="ThrowLease.roomInfo.thisElectricRead" @blur="energyNum(ThrowLease.roomInfo.thisElectricRead)">度</td>
+									<td>用电量：<input type="text" v-model="ThrowLease.roomInfo.electricDosage" :disabled='disabled2'>度</td>
+									<td>电费：<input type="text" v-model="ThrowLease.roomInfo.electricTotalMoney" :disabled='disabled2'>元</td>
+								</tr>
+								<tr v-if="ThrowLease.roomInfo.electricType == 2">
+									<td>用电人数：<span>{{ThrowLease.roomInfo.enterCount}} 度</span></td>
+									<td>用电天数：<input type="text" v-model="ThrowLease.roomInfo.days" @blur="energydays(ThrowLease.roomInfo.days)">度</td>
+									<td>电费：<input type="text" v-model="ThrowLease.roomInfo.electricTotalMoney" :disabled='disabled2'>元</td>
 								</tr>
 							</table>
-							<p>应扣水电费:<span style="color: red;margin-left: 10px;">{{refundableWaterEnergyMoney}}元</span></p>
+							<p>应扣水电费:<span style="color: red;margin-left: 10px;">{{ThrowLease.roomInfo.waterAndElectricTotalMoney | des}}元</span></p>
 							<a class="chb">抄表</a>
 							<a style="bottom: 50px;" v-show="alters2 =='编辑'" @click="alter3">编辑</a>
 							<a style="bottom: 50px;" v-show="alters2 =='保存'" @click="alter4">保存</a>
@@ -86,8 +109,8 @@
 							</table>
 							<table class="wuzi" v-show="alters3 =='保存'">
 								<tr v-for="item in refund">
-									<td><input type="text" v-model="item.materialName"></td>
-									<td><input type="text" v-model="item.count"></td>
+									<td>{{item.materialName}}</td>
+									<td>x<span>{{item.count}}</span></td>
 									<td>应扣：<input type="text" v-model="item.price">元</td>
 								</tr>
 							</table>
@@ -105,26 +128,28 @@
 								<li v-for="item in OtherInfo"><input type="text" v-model="item.costName"> 应扣：<input type="text" v-model="item.costAmount">元</li>
 							</ul>
 							<p>应扣其他费用:<span style="color: red;margin-left: 10px;">{{refundableOtherMoney}}元</span></p>
-							<a class="chb" v-show="alters4 =='保存'" @click="adds">添加费用项</a>
+							<a class="chb" v-show="alters4 =='保存'" @click="addsm">添加费用项</a>
 							<a style="bottom: 50px;" v-show="alters4 =='编辑'" @click="alter7">编辑</a>
 							<a style="bottom: 50px;" v-show="alters4 =='保存'" @click="alter8">保存</a>
 						</div>
-						<div>
+						<div style="border:none;">
 							<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{sumPrice}}元</span></p>
-							<p class="titus">应退金额总计 = 押金 + 应退租金 - 应扣水电费 - 应扣物品折扣 - 其他费用</p>
+							<p class="titus" @click="ViewBy">查看退款计算方式</p>
 							<a class="loses" @click="promise">确认退租</a><span class="tsm"><i class="el-icon-information" style="margin-right: 10px;font-size: 16px;"></i>点击确认退租后，由用户填写退款账号并确认</span>
 						</div>
 					</div>
 				</div>
+				<!-- 办公室 -->
 				<div id="addirmsurrend" v-else-if="ThrowLease.isOffice == 1">
 					<div class="addirmsurrend1">
 						<Icon type="android-print"></Icon>
-						<p>{{ThrowLease.isOffice | isOffie}}{{ThrowLease.roomInfo}}</p>
+						<p v-if="ThrowLease.isOffice">{{ThrowLease.isOffice | isOffie}}{{ThrowLease.officeInfo.officeHouseNum}}</p>
 						<ul>
-							<li style="margin-left: 66px;"><span>联系人：{{ThrowLease.userName}}</span></li>
-							<li><span>联系电话：{{ThrowLease.userPhone}}</span></li>
+							<li><span>联系人：{{ThrowLease.userInfo.userName}}</span></li>
+							<li><span>联系电话：{{ThrowLease.userInfo.userPhone}}</span></li>
 							<li><span>租期：{{ThrowLease.beginDate | time}} - {{ThrowLease.endDate | time}}</span></li>
-							<li><span style="color: red;">剩余{{ThrowLease.surplusDay}}天</span></li>
+							<li><span>合租人数：{{ThrowLease.enterCount}}人</span></li>
+							<li><span style="color: red;" v-if="ThrowLease.differentDays > 0">剩余{{ThrowLease.differentDays}}天</span></li>
 							<li><span>公司名称：{{ThrowLease.companyInfo}}</span></li>
 							<li><span>法人姓名：{{ThrowLease.companyLegalPerson}}</span></li>
 						</ul>
@@ -137,11 +162,13 @@
 							<h3>租金和押金结算</h3>
 							<ul>
 								<li>押金：<span  style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
-								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.payStage}}/{{ThrowLease.stage}}</span></li>
-								<li><span>共计：{{ThrowLease.sumPrice | des}}元</span></li>
+								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.billCount}}/{{ThrowLease.stage}}</span></li>
+								<li><span>已缴租金共计：{{ThrowLease.billTotalMoney | des}}元</span></li>
+								<li><span>应退押金：{{ThrowLease.deposit | des}}元</span></li>
+								<li><span>应退服务费：{{ThrowLease.rentServiceCost | des}}元</span></li>
 							</ul>
-							<p v-show="alters1 =='编辑'">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableRent | des}}元</span></p>
-							<p v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.refundableRent">元</p>
+							<p v-show="alters1 =='编辑'">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.rentCyclePayMoney | des}}元</span></p>
+							<p v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.rentCyclePayMoney">元</p>
 							<a @click="alter1" v-show="alters1 =='编辑'">编辑</a>
 							<a @click="alter2" v-show="alters1 =='保存'">保存</a>
 						</div>
@@ -157,8 +184,8 @@
 							</table>
 							<table class="wuzi" v-show="alters3 =='保存'">
 								<tr v-for="item in refund">
-									<td><input type="text" v-model="item.materialName"></td>
-									<td><input type="text" v-model="item.count"></td>
+									<td>{{item.materialName}}</td>
+									<td>x<span>{{item.count}}</span></td>
 									<td>应扣：<input type="text" v-model="item.price">元</td>
 								</tr>
 							</table>
@@ -176,13 +203,13 @@
 								<li v-for="item in OtherInfo"><input type="text" v-model="item.costName"> 应扣：<input type="text" v-model="item.costAmount">元</li>
 							</ul>
 							<p>应扣其他费用:<span style="color: red;margin-left: 10px;">{{refundableOtherMoney}}元</span></p>
-							<a class="chb" v-show="alters4 =='保存'" @click="adds">添加费用项</a>
+							<a class="chb" v-show="alters4 =='保存'" @click="addsm">添加费用项</a>
 							<a style="bottom: 50px;" v-show="alters4 =='编辑'" @click="alter7">编辑</a>
 							<a style="bottom: 50px;" v-show="alters4 =='保存'" @click="alter8">保存</a>
 						</div>
-						<div>
+						<div style="border:none;">
 							<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{sumPrice}}元</span></p>
-							<p class="titus">应退金额总计 = 押金 + 应退租金 - 应扣物品折扣 - 其他费用</p>
+							<p class="titus" @click="ViewBy">查看退款计算方式</p>
 							<a class="loses" @click="promise2">确认退租</a><span class="tsm"><i class="el-icon-information" style="margin-right: 10px;font-size: 16px;"></i>点击确认退租后，由用户填写退款账号并确认</span>
 						</div>
 					</div>
@@ -199,7 +226,18 @@
 			<i class="el-icon-circle-close" @click="inst"></i>
 			<Icon type="android-bulb"></Icon>
 			<p>该用户申请了 <span> 工商地址注册证明</span></p>
-			<a class="tjss" @click="adds">确定</a>
+			<a class="tjss" @click="inst">确定</a>
+		</div>
+		<div class="addsection addsection2" v-show="ishide3">
+			<ul>
+				<li>押金：{{ThrowLease.deposit}}元</li>
+				<li>应退租金=已交租金 -（租金x租期折扣x付款方式折扣x已交的剩余天数）</li>
+				<li v-if="ThrowLease.roomInfo && ThrowLease.roomInfo.waterAndElectricTotalMoney">应扣水电费：{{ThrowLease.roomInfo.waterAndElectricTotalMoney}}元</li>
+				<li>应扣物品折旧：{{refundableMaterialsMoney}}元</li>
+				<li>其他费用：{{refundableOtherMoney}}元</li>
+				<li>应退金额合计：{{sumPrice}}元</li>
+			</ul>
+			<a class="tjss" @click="Veiyinst">确定</a>
 		</div>
 	</div>
 </template>
@@ -230,6 +268,7 @@
 				radio: '1',
 				ishide: false,
 				ishide2: false,
+				ishide3:false,
 				alters1: '编辑',
 				alters2: '编辑',
 				alters3: '编辑',
@@ -237,7 +276,7 @@
 				throwLeaseId: '',
 				ThrowLease: null, //用户退租信息
 				refund: null, //物资清点
-				OtherInfo: null, //其他费用
+				OtherInfo: [], //其他费用
 				money: 0,
 				money2: 0,
 				money3: 0,
@@ -257,23 +296,8 @@
 			this.throwLeaseId = this.$route.query.id;
 			this.Name = this.$route.query.Name;
 			this.datas();
-			if(this.ThrowLease.isOffice == 1 ){
-				this.ishide = true;
-				this.ishide2 = true;
-				setTimeout(() => {
-					this.ishide = false;
-					this.ishide2 = false;
-				}, 2000);
-			}
 		},
 		computed: {
-			refundableWaterEnergyMoney: function() { //计算水电总费用
-				if(this.ThrowLease) {
-					this.money = parseFloat(this.ThrowLease.waterPrice * this.ThrowLease.waterCount + this.ThrowLease.energyPrice * this.ThrowLease.energyCount).toFixed(2);
-					return this.money;
-				}
-
-			},
 			refundableMaterialsMoney: function() { //计算物资的费用
 				let q = 0;
 				for(let i = 0; i < this.refund.length; i++) {
@@ -283,20 +307,26 @@
 				return parseFloat(q).toFixed(2);
 			},
 			refundableOtherMoney: function() { //计算其他费用
-				let q = 0;
-				for(let i = 0; i < this.OtherInfo.length; i++) {
-					q += parseFloat(this.OtherInfo[i].costAmount);
+				if(this.OtherInfo != []){
+					let q = 0;
+					for(let i = 0; i < this.OtherInfo.length; i++) {
+						q += parseFloat(this.OtherInfo[i].costAmount);
+					}
+					this.money3 = q;
+					return parseFloat(q).toFixed(2);
+					
+				}else{
+					return 0.00
 				}
-				this.money3 = q;
-				return parseFloat(q).toFixed(2);
+				
 			},
 			sumPrice: function() { //计算总退还的费用
 				if(this.ThrowLease.isOffice == 0){
-					this.zonmoney = parseFloat(parseFloat(this.ThrowLease.deposit) + parseFloat(this.ThrowLease.refundableRent) - this.money - this.money2 - this.money3).toFixed(2);
+					this.zonmoney = parseFloat(parseFloat(this.ThrowLease.deposit) + parseFloat(this.ThrowLease.rentCyclePayMoney) + parseFloat(this.ThrowLease.rentServiceCost) - parseFloat(this.ThrowLease.roomInfo.waterAndElectricTotalMoney) - parseFloat(this.money2) - parseFloat(this.money3)).toFixed(2);
 					return this.zonmoney;
 				}
 				else if(this.ThrowLease.isOffice == 1){
-					this.zonmoney = parseFloat(parseFloat(this.ThrowLease.deposit) + parseFloat(this.ThrowLease.refundableRent) - this.money2 - this.money3).toFixed(2);
+					this.zonmoney = parseFloat(parseFloat(this.ThrowLease.deposit) + parseFloat(this.ThrowLease.rentCyclePayMoney) + parseFloat(this.ThrowLease.rentServiceCost) - parseFloat(this.money2) - parseFloat(this.money3)).toFixed(2);
 					return this.zonmoney;
 				}
 				
@@ -324,10 +354,10 @@
 			}
 		},
 		methods: {
-			adds() {
+			addsm() {
 				this.OtherInfo.push({
 					costName: '',
-					costAmount: ''
+					costAmount: '0'
 				})
 			},
 			alter1() {
@@ -365,63 +395,70 @@
 						this.ThrowLease = res.data.result;
 						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
 						this.ThrowLease.waterSumPrice = this.ThrowLease.waterCount * this.ThrowLease.waterPrice;
-						this.refund = JSON.parse(this.ThrowLease.refundableMaterialsInfo);
+						this.refund = JSON.parse(this.ThrowLease.materials);
 						for(let i = 0; i < this.refund.length; i++) {
 							this.$set(this.refund[i], "price", 0);
 						}
-						this.OtherInfo = JSON.parse(this.ThrowLease.refundableOtherInfo);
-						// console.log(this.OtherInfo);
+						if(this.ThrowLease.otherCostJson != '[]'){
+							this.OtherInfo = JSON.parse(this.ThrowLease.otherCostJson);
+						}
+						if(this.ThrowLease.isOffice == 1){
+							this.ishide = true;
+							this.ishide2 = true;
+							setTimeout(() => {
+								this.ishide = false;
+								this.ishide2 = false;
+							}, 2000);
+						}
 					}
 				}).catch((err) => {
 					// console.log(err);
 				})
 			},
-			water(val) {
-				if(this.ThrowLease.waterChargeModel == 1) {
-					this.ThrowLease.waterSumPrice = parseFloat(val) * parseFloat(this.ThrowLease.waterPrice);
-				} else if(this.ThrowLease.waterChargeModel == 2) {
-					this.ThrowLease.waterSumPrice = this.ThrowLease.enterCount * this.ThrowLease.waterPrice;
-				}
-
-			},
+			//按量计算水费
 			waterNum(val){
-				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomWater)){
-					this.warningMessage = '水表读数需大于初始值'+ this.ThrowLease.roomWater;
+				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomInfo.roomWater)){
+					this.warningMessage = '水表读数需大于初始值'+ this.ThrowLease.roomInfo.roomWater;
 					this.warningModal = true;
 				}
 				else{
-					this.ThrowLease.waterCount = parseFloat(val) - parseFloat(this.ThrowLease.roomWater);
-					if(this.ThrowLease.waterChargeModel == 1) {
-						console.log(this.ThrowLease.waterCount);
-						console.log(this.ThrowLease.waterPrice);
-						this.ThrowLease.waterSumPrice = this.ThrowLease.waterCount * this.ThrowLease.waterPrice;
-					} else if(this.ThrowLease.waterChargeModel == 2) {
-						this.ThrowLease.waterSumPrice = this.ThrowLease.enterCount * this.ThrowLease.waterPrice;
+					if(this.ThrowLease.roomInfo.waterType == 1) {
+						this.ThrowLease.roomInfo.waterAndElectricTotalMoney = 0;
+						this.ThrowLease.roomInfo.waterDosage = parseFloat(val) - parseFloat(this.ThrowLease.roomInfo.roomWater);
+						this.ThrowLease.roomInfo.waterTotalMoney = parseFloat(this.ThrowLease.roomInfo.waterDosage * this.ThrowLease.roomInfo.waterPrice).toFixed(2);
+						this.ThrowLease.roomInfo.waterAndElectricTotalMoney = parseFloat(this.ThrowLease.roomInfo.waterTotalMoney) + parseFloat(this.ThrowLease.roomInfo.electricTotalMoney);
 					}
-					this.disabled1 = false;
 				}
 			},
-			energ(val) {
-				if(this.ThrowLease.electricChargeModel == 1) {
-					this.ThrowLease.energySumPrice = parseFloat(val) * parseFloat(this.ThrowLease.energyPrice);
-				} else if(this.ThrowLease.electricChargeModel == 2) {
-					this.ThrowLease.energySumPrice = this.ThrowLease.enterCount * this.ThrowLease.energyPrice;
-				}
-
-			},
+			//按量计算电费
 			energyNum(val){
-				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomElectric)){
-					this.warningMessage = '电表读数需大于初始值'+ this.ThrowLease.roomElectric;
+				if(parseFloat(val) <= parseFloat(this.ThrowLease.roomInfo.roomElectric)){
+					this.warningMessage = '电表读数需大于初始值'+ this.ThrowLease.roomInfo.roomElectric;
 					this.warningModal = true;
 				}
 				else{
-					this.ThrowLease.energyCount = parseFloat(val) - parseFloat(this.ThrowLease.roomElectric);
-					if(this.ThrowLease.electricChargeModel == 1) {
-						this.ThrowLease.energySumPrice = this.ThrowLease.energyCount * this.ThrowLease.energyPrice;
-					} else if(this.ThrowLease.electricChargeModel == 2) {
-						this.ThrowLease.energySumPrice = this.ThrowLease.enterCount * this.ThrowLease.energyPrice;
+					if(this.ThrowLease.roomInfo.electricType == 1) {
+						this.ThrowLease.roomInfo.waterAndElectricTotalMoney = 0;
+						this.ThrowLease.roomInfo.electricDosage = parseFloat(val) - parseFloat(this.ThrowLease.roomInfo.roomElectric);
+						this.ThrowLease.roomInfo.electricTotalMoney = parseFloat(this.ThrowLease.roomInfo.electricDosage * this.ThrowLease.roomInfo.energyPrice).toFixed(2);
+						this.ThrowLease.roomInfo.waterAndElectricTotalMoney = parseFloat(this.ThrowLease.roomInfo.waterTotalMoney) + parseFloat(this.ThrowLease.roomInfo.electricTotalMoney);
 					}
-					this.disabled2 = false;
+				}
+			},
+			//按人数计算水费
+			waterdays(val){
+				if(this.ThrowLease.roomInfo.waterType == 2) {
+					this.ThrowLease.roomInfo.waterAndElectricTotalMoney = 0;
+					this.ThrowLease.roomInfo.waterTotalMoney = parseFloat(this.ThrowLease.roomInfo.enterCount * val * this.ThrowLease.roomInfo.waterPrice).toFixed(2);
+					this.ThrowLease.roomInfo.waterAndElectricTotalMoney = parseFloat(this.ThrowLease.roomInfo.waterTotalMoney) + parseFloat(this.ThrowLease.roomInfo.electricTotalMoney);
+				}
+			},
+			//按人数计算水费
+			energydays(val){
+				if(this.ThrowLease.roomInfo.electricType == 2) {
+					this.ThrowLease.roomInfo.waterAndElectricTotalMoney = 0;
+					this.ThrowLease.roomInfo.electricTotalMoney = parseFloat(this.ThrowLease.roomInfo.enterCount * val * this.ThrowLease.roomInfo.energyPrice).toFixed(2);
+					this.ThrowLease.roomInfo.waterAndElectricTotalMoney = parseFloat(this.ThrowLease.roomInfo.waterTotalMoney) + parseFloat(this.ThrowLease.roomInfo.electricTotalMoney);
 				}
 			},
 			promise() {         //公寓确认退租
@@ -429,10 +466,17 @@
 				let param = new FormData();
 				param.append("throwLeaseId", this.throwLeaseId);
 				param.append("deposit", this.ThrowLease.deposit);
-				param.append("waterNum", this.ThrowLease.waterNum);
-				param.append("energyNum", this.ThrowLease.energyNum);
-				param.append("refundableRent", this.ThrowLease.refundableRent);
-				param.append("refundableWaterEnergyMoney", this.money);
+				
+				param.append("days",this.ThrowLease.roomInfo.days);
+				param.append("enterCount",this.ThrowLease.roomInfo.enterCount);
+				param.append("refundableRent", this.ThrowLease.rentCyclePayMoney);
+				param.append("refundService",this.ThrowLease.rentServiceCost);
+				if(this.ThrowLease.isOffice == 0){
+					param.append("thisWaterRead", this.ThrowLease.roomInfo.thisWaterRead);
+					param.append("thisElectricRead", this.ThrowLease.roomInfo.thisElectricRead);
+					param.append("refundableWaterEnergyMoney", this.ThrowLease.roomInfo.waterAndElectricTotalMoney);
+				}
+				
 				if(this.refund.length) {
 					for(let i = 0; i < this.refund.length; i++) {
 						this.refundableMaterialsInfo.push({
@@ -471,7 +515,7 @@
 						vm.successModal = true;
 						setTimeout(() => {
 							vm.successModal = false;
-							vm.$router.push('/signed/surrender');
+							vm.$router.go(-1);
 
 						}, 2000);
 					}else{
@@ -489,7 +533,8 @@
 				let param = new FormData();
 				param.append("throwLeaseId", this.throwLeaseId);
 				param.append("deposit", this.ThrowLease.deposit);
-				param.append("refundableRent", this.ThrowLease.refundableRent);
+				param.append("refundableRent", this.ThrowLease.rentCyclePayMoney);
+				param.append("refundService",this.ThrowLease.rentServiceCost);
 				if(this.refund.length) {
 					for(let i = 0; i < this.refund.length; i++) {
 						this.refundableMaterialsInfo.push({
@@ -528,7 +573,7 @@
 						vm.successModal = true;
 						setTimeout(() => {
 							vm.successModal = false;
-							vm.$router.push('/signed/surrender');
+							vm.$router.go(-1);
 
 						}, 2000);
 					}else{
@@ -547,6 +592,14 @@
 			inst(){
 				this.ishide = false;
 				this.ishide2 = false;
+			},
+			ViewBy(){
+				this.ishide = true;
+				this.ishide3 = true;
+			},
+			Veiyinst(){
+				this.ishide = false;
+				this.ishide3 = false;
 			}
 		},
 		created() {

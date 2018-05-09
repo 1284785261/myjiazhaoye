@@ -66,7 +66,7 @@
                     <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <router-link v-if="room.contractState == 1 || room.contractState == 2 || room.contractState == 3" :to="{path:'/signed/lodgingHouse',query:{contractSignId:room.contractSignId,communityId:room.communityId,Name:room.communityName}}">编辑</router-link>
+                    <router-link v-if="room.contractState == 1" :to="{path:'/signed/lodgingHouse',query:{contractSignId:room.contractSignId,communityId:room.communityId,Name:room.communityName}}">编辑</router-link>
                     <a v-if="room.contractState == 2 || room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
                     <a v-if="(room.contractState == 1 || room.contractState == 2 || room.contractState == 3) && isUser"  @click="delRoomSign(room.contractSignId)">作废</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
@@ -142,7 +142,7 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <router-link v-if="office.contractState == 1 || office.contractState == 2 || office.contractState == 3" :to="{path:'/signed/lodgingHouse',query:{contractSignId:office.contractSignId,communityId:office.communityId,Name:office.communityName}}">编辑</router-link>
+                    <router-link v-if="office.contractState == 1" :to="{path:'/signed/lodgingwork',query:{contractSignId:office.contractSignId,communityId:office.communityId,Name:office.communityName}}">编辑</router-link>
                     <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>
                     <a v-if="(office.contractState == 1 || office.contractState == 2 || office.contractState == 3) && isUser"  @click="delRoomSign(office.contractSignId)">作废</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
