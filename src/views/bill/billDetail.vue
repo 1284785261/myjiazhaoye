@@ -44,9 +44,17 @@
                   <td>租金 :</td>
                   <td>{{billDetailList.generalRent}}元/月</td>
                 </tr>
+                <tr v-if="billDetailList.isFirstPay == 1">
+                  <td>押金 :</td>
+                  <td>{{billDetailList.deposit}}元</td>
+                </tr>
                 <tr>
                   <td>服务费 :</td>
                   <td>{{billDetailList.serviceCost}}元/月</td>
+                </tr>
+                <tr>
+                  <td>合计 :</td>
+                  <td>{{billDetailList.realPayMoney}}元</td>
                 </tr>
               </table>
               <div class="check-contract-btn" @click="goToContract(billDetailList.contractSignId)">
@@ -150,6 +158,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               vm.billDetailList = res.data.entity;
+              console.log(vm.billDetailList);
             }
 
           })

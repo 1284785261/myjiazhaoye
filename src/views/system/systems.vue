@@ -109,7 +109,7 @@
 				    		</div>-->
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="社区人员配备" v-if="jurisdiction('STAFFING_QUERY')">
+					<!-- <el-tab-pane label="社区人员配备" v-if="jurisdiction('STAFFING_QUERY')">
 						<div class="systems">
 							<div v-if="users != null">
 								<table class="equip">
@@ -142,7 +142,7 @@
 				    			<img src="../../../static/images/icon/kbt_03.png" style="margin-top: 150px;">
 				    		</div>
 						</div>
-					</el-tab-pane>
+					</el-tab-pane> -->
 					<el-tab-pane label="职位管理" v-if="jurisdiction('POSITION_QUERY')">
 						<div class="systems">
 							<div class="adad">
@@ -410,6 +410,10 @@
 					<td>用户姓名：</td>
 					<td><input type="text" placeholder="请输入用户名称" v-model="Employ.userName" /></td>
 				</tr>
+				<tr>
+					<td>英文名：</td>
+					<td><input type="text" placeholder="请输入英文名" v-model="Employ.englishName" /></td>
+				</tr>
 				<tr v-if="adds2 == '新增员工'">
 					<td>密码：</td>
 					<td><input type="password" placeholder="请输入密码" v-model="Employ.password" /></td>
@@ -626,6 +630,7 @@
 					account: '',
 					password: '',
 					userName: '',
+					englishName: '',
 					departmentId: '',
 					officePositionDataId: '',
 					id: ''
@@ -852,6 +857,7 @@
 								userPhone: this.Employ.account,
 								password: this.Employ.password,
 								userName: this.Employ.userName,
+								userAliase: this.Employ.englishName,
 								departmentId: this.Employ.departmentId,
 								officePositionDataId: this.Employ.officePositionDataId
 							})
@@ -864,6 +870,7 @@
 								this.Employ.account = '';
 								this.Employ.password = '';
 								this.Employ.userName = '';
+								this.Employ.englishName = '';
 								setTimeout(() => {
 									this.successModal = false;
 									this.datat();
@@ -874,6 +881,7 @@
 								this.Employ.account = '';
 								this.Employ.password = '';
 								this.Employ.userName = '';
+								this.Employ.englishName = '';
 								this.warningMessage = response.data.content;
 								this.warningModal = true;
 							}
@@ -887,6 +895,7 @@
 						id: this.id2,
 						userPhone: this.Employ.userPhone,
 						userName: this.Employ.userName,
+						userAliase: this.Employ.englishName,
 						departmentId: this.Employ.departmentId,
 						officePositionDataId: this.Employ.officePositionDataId
 					})
@@ -900,6 +909,7 @@
 						this.value1 = '';
 						this.Employ.account = '';
 						this.Employ.userName = '';
+						this.Employ.englishName ='';
 						setTimeout(() => {
 							this.successModal = false;
 							this.datat();
@@ -911,6 +921,7 @@
 						this.value1 = '';
 						this.Employ.account = '';
 						this.Employ.userName = '';
+						this.Employ.englishName = '';
 						this.warningMessage = response.data.content;
 						this.warningModal = true;
 					}

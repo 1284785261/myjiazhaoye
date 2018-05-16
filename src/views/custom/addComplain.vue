@@ -116,7 +116,7 @@
             lable:"投诉"
           },
         ],
-        complainType:0,
+        complainType:2,
 
         allCommunity:[],
         successModal:false,

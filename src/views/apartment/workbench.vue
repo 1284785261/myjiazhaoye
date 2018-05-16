@@ -51,9 +51,9 @@
 							<li>
 								<router-link :to="{path:'/signed/houseState',query:{communityId:communityId,Name:selectModel1}}">公寓状态</router-link>
 							</li>
-							<li v-if="userType">
+							<!-- <li v-if="userType">
 								<router-link :to="{path:'/signed/shortTerm',query:{communityId:communityId,Name:selectModel1}}">短租房状态</router-link>
-							</li>
+							</li> -->
 							<li v-if="jurisdiction('LIVE_QUERY')">
 								<router-link  to="/Liverecording/recording">直播管理</router-link>
 							</li>
@@ -88,9 +88,9 @@
 								<!-- <Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge> -->
 								<a @click="eliminate13(13)">用户投诉</a>
 							</li>
-							<!-- <li>
-								<router-link to="/signed/H5invitation">H5邀请</router-link>
-							</li> -->
+							<li>
+								<router-link :to="{path:'/signed/artificialCertification',query:{communityId:communityId,Name:selectModel1}}">人工认证</router-link>
+							</li>
 						</ul>
 					</div>
 					</Col>
@@ -142,6 +142,9 @@
 							<li>
 								<!-- <Badge :count="messsaget[13]" v-if='messsaget[13]'></Badge> -->
 								<a @click="eliminate13(13)">用户投诉</a>
+							</li>
+							<li>
+								<router-link to="/signed/artificialCertification">人工认证</router-link>
 							</li>
 						</ul>
 					</div>

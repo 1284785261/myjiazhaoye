@@ -155,7 +155,7 @@
         var that = this;
         this.$http.get(CxkjGetInRoomInfo300214,{params:{id:this.orderId}})
           .then(function(res){
-            console.log(res);
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.roomInfoData = res.data.entity;
               for(let i =0;i<that.roomInfoData.orderRoomList.length;i++){
@@ -171,7 +171,11 @@
                   add:true
                 })
               }
-              console.log(that.pmsRoomInfo);
+
+              if(that.roomInfoData.isPersonnel == 1){
+                that.pmsRoomInfo[0].username = that.roomInfoData.bookName;
+              }
+              // console.log(that.pmsRoomInfo);
             }
 
           })
@@ -192,13 +196,12 @@
           certificateType:this.stationSelectList[0].dataId,
           certificateNumber:"",
           roomId:person.roomId,
-          id:'',
+          id:this.pmsRoomInfo[index].id,
           roomNum:person.roomNum,
           add:false
         }
-       
         this.pmsRoomInfo.splice(index+1,0,les);
-        console.log(this.pmsRoomInfo);
+        // console.log(this.pmsRoomInfo);
       },
       /*删除入住人*/
       deletePerson(item,index){
@@ -215,14 +218,14 @@
             }
             params.append(`cxkjPmsOrderRoomieDtos[${i}].orderRoomId`,this.pmsRoomInfo[i].id);
             params.append(`cxkjPmsOrderRoomieDtos[${i}].orderId`,this.orderId);
-            params.append(`cxkjPmsOrderRoomieDtos[${i}].name`,this.pmsRoomInfo[i].name);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].name`,this.pmsRoomInfo[i].username);
             params.append(`cxkjPmsOrderRoomieDtos[${i}].gender`,this.pmsRoomInfo[i].gender)
             params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateType`,this.pmsRoomInfo[i].certificateType)
             params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateNumber`,this.pmsRoomInfo[i].certificateNumber)
             params.append(`cxkjPmsOrderRoomieDtos[${i}].roomId`,this.pmsRoomInfo[i].roomId)
         }
         this.$http.post(CxkjAddPersonnel300215,params).then(res=>{
-          console.log(res);
+          // console.log(res);
           if(res.data.code == 10000){
             this.successMessage = '添加入住人员成功!';
             this.successModal = true;

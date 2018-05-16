@@ -30,7 +30,7 @@
 						<router-link :to="{name:'contractDetail',query:{contractSignId:ThrowLease.contractSignId,isOffice:ThrowLease.isOffice}}">查看合同</router-link>
 					</div>
 					<div class="addirmsurrend2">
-						<div>
+						<!-- <div>
 							<img src="../../../static/images/icon/info.png" />
 							<h3>租金和押金结算</h3>
 							<ul>
@@ -44,7 +44,27 @@
 							<p v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.rentCyclePayMoney">元</p>
 							<a @click="alter1" v-show="alters1 =='编辑'">编辑</a>
 							<a @click="alter2" v-show="alters1 =='保存'">保存</a>
+						</div> -->
+						<div>
+							<img src="../../../static/images/icon/info.png" />
+							<h3>租金和押金结算</h3>
+							<ul>
+								<li>押金：<span  style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
+								<li><span>租金：{{ThrowLease.cyclePayMoney | des}}元/月   已缴{{ThrowLease.billCount}}/{{ThrowLease.stage}}</span></li>
+								<li><span>已缴租金共计：{{ThrowLease.billTotalMoney | des}}元</span></li>
+							</ul>
+							<ul>
+								<li v-show="alters1 =='编辑'">应退租金：<span style="color: red;margin-left: 10px;">{{ThrowLease.rentCyclePayMoney | des}}元</span></li>
+								<li v-show="alters1 =='保存'">应退租金：<input type="text" v-model="ThrowLease.rentCyclePayMoney">元</li>
+								<li v-show="alters1 =='编辑'">应退押金：<span style="color: red;margin-left: 10px;">{{ThrowLease.deposit | des}}元</span></li>
+								<li v-show="alters1 =='保存'">应退押金：<input type="text" v-model="ThrowLease.deposit">元</li>
+								<li v-show="alters1 =='编辑'">应退服务费：<span style="color: red;margin-left: 10px;">{{ThrowLease.rentServiceCost | des}}元</span></li>
+								<li v-show="alters1 =='保存'">应退服务费：<input type="text" v-model="ThrowLease.rentServiceCost">元</li>
+							</ul>
+							<a @click="alter1" v-show="alters1 =='编辑'">编辑</a>
+							<a @click="alter2" v-show="alters1 =='保存'">保存</a>
 						</div>
+
 						<div>
 							<img src="../../../static/images/icon/info.png" />
 							<h3>退租前水电费结算</h3>
@@ -70,7 +90,7 @@
 									<td>电费：<span>{{ThrowLease.roomInfo.electricTotalMoney | des}} 元</span></td>
 								</tr>
 							</table>
-							<table v-show="alters2 =='保存'">
+							<!-- <table v-show="alters2 =='保存'">
 								<tr v-if="ThrowLease.roomInfo.waterType == 1">
 									<td>水表读数：<input type="text" v-model="ThrowLease.roomInfo.thisWaterRead" @blur="waterNum(ThrowLease.roomInfo.thisWaterRead)">m³</td>
 									<td>用水量：<input type="text" v-model="ThrowLease.roomInfo.waterDosage" :disabled='disabled1'>m³</td>
@@ -91,11 +111,11 @@
 									<td>用电天数：<input type="text" v-model="ThrowLease.roomInfo.days" @blur="energydays(ThrowLease.roomInfo.days)">度</td>
 									<td>电费：<input type="text" v-model="ThrowLease.roomInfo.electricTotalMoney" :disabled='disabled2'>元</td>
 								</tr>
-							</table>
+							</table> -->
 							<p>应扣水电费:<span style="color: red;margin-left: 10px;">{{ThrowLease.roomInfo.waterAndElectricTotalMoney | des}}元</span></p>
-							<a class="chb">抄表</a>
-							<a style="bottom: 50px;" v-show="alters2 =='编辑'" @click="alter3">编辑</a>
-							<a style="bottom: 50px;" v-show="alters2 =='保存'" @click="alter4">保存</a>
+							<!-- <a class="chb">抄表</a> -->
+							<!-- <a style="bottom: 50px;" v-show="alters2 =='编辑'" @click="alter3">编辑</a> -->
+							<!-- <a style="bottom: 50px;" v-show="alters2 =='保存'" @click="alter4">保存</a> -->
 						</div>
 						<div>
 							<img src="../../../static/images/icon/info.png" />
@@ -122,7 +142,7 @@
 							<img src="../../../static/images/icon/info.png" />
 							<h3>其他费用</h3>
 							<ul style="min-height: 30px;" v-show="alters4 =='编辑'">
-								<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
+								<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;line-height:30px;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 							</ul>
 							<ul style="min-height: 30px;" v-show="alters4 =='保存'">
 								<li v-for="item in OtherInfo"><input type="text" v-model="item.costName"> 应扣：<input type="text" v-model="item.costAmount">元</li>
@@ -197,7 +217,7 @@
 							<img src="../../../static/images/icon/info.png" />
 							<h3>其他费用</h3>
 							<ul style="min-height: 30px;" v-show="alters4 =='编辑'">
-								<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
+								<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;line-height:30px;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 							</ul>
 							<ul style="min-height: 30px;" v-show="alters4 =='保存'">
 								<li v-for="item in OtherInfo"><input type="text" v-model="item.costName"> 应扣：<input type="text" v-model="item.costAmount">元</li>

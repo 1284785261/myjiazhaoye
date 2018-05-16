@@ -78,8 +78,11 @@
 	line-height: 30px;
 	margin-left: 20px;
 }
-.equipment1 table tr td .taas a{
+.equipment1 table tr td .taabs a{
 	line-height: 70px;
+}
+.equipment1 table tr td .taas a{
+	line-height: 30px;
 }
 .equipment1 table tr td div{
 	width: 80%;

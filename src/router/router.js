@@ -494,12 +494,30 @@ export default new Router({
       component:resolve =>
         require(['../views/shortRent/checkIn.vue'],resolve)
     },
-    //{
-     // path:'/signed/H5invitation',		//工作台-H5邀请
-     // name:'H5invitation',
-     // component:resolve =>
-     //   require(['../views/signed/H5invitation.vue'],resolve)
-   // },
+    {
+      path:'/apartment/waterequipent', //设备管理-实时度数记录
+      name:'waterequipent',
+      component:resolve =>
+      require(['../views/apartment/waterequipent.vue'],resolve)
+    },
+    {
+      path:'/apartment/readingRecords',//设备管理-抄表记录
+      name:'readingRecords',
+      component:resolve =>
+      require(['../views/apartment/readingRecords.vue'],resolve)
+    },
+    {
+      path:'/signed/artificialCertification',//工作台-人工认证
+      name:'artificialCertification',
+      component:resolve =>
+      require(['../views/signed/artificialCertification.vue'],resolve)
+    },
+    {
+      path:'/signed/Certificationdetaile',//工作台-人工认证详情
+      name:'Certificationdetaile',
+      component:resolve =>
+      require(['../views/signed/Certificationdetaile.vue'],resolve)
+    },
 
   ]
 })

@@ -113,6 +113,7 @@
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
+										<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">人员配置</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">关闭社区</a>
 									</td>
 								</tr>
@@ -223,6 +224,7 @@
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
+										<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">人员配置</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_UPDATE')">开放社区</a>
 									</td>
 								</tr>

@@ -64,11 +64,11 @@
 		    				</td>
 		    				<td>
 								<!-- <p>协议价：258.00元</p> -->
-		    					<p v-if="!fineProject">罚款金额：</p>
+		    					<p v-if="fineProject">罚款金额：</p>
 								<ul>
 									<li v-for="(item,index) in fineProject">
 										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span>
-										<img src="../../../static/images/temp/icon jia.png" @click="ShortfineProject(item)">
+										<img src="../../../static/images/temp/icon jian.png" @click="ShortfineProject(item)">
 
 									</li>
 								</ul>
@@ -110,7 +110,7 @@
 		    			<tr>
 		    				<td>水表状态：</td>
 		    				<td v-if="Datas.lockWaterElectricity">
-		    					<span v-if="Datas.lockWaterElectricity.waterStatus">{{Datas.lockWaterElectricity.waterStatus | Status2}}</span>
+		    					<span v-if="Datas.lockWaterElectricity">{{Datas.lockWaterElectricity.waterStatus | Status2}}</span>
 		    					<span v-if="Datas.lockWaterElectricity.waterMeterSn">序列号：{{Datas.lockWaterElectricity.waterMeterSn}}</span>
 								<span v-else>序列号：暂无</span>
 		    					<p>{{Datas.lockWaterElectricity.waterType | type}} <b> {{Datas.lockWaterElectricity.waterPrice | Price}}</b>元/吨</p>
@@ -438,7 +438,6 @@
 			this.communityId = this.$route.query.ids;
 			// console.log(this.$route.query);
 			this.datas();
-			this.addedservices();
     	},
     	methods:{
 			//入住登记，ID暂时为固定数据
@@ -451,24 +450,31 @@
 				// }
 
 			},
-        /**
-         * 计算总价
-         **/
-        calculateRefundMoney(value){
-          this.value =value
-          let info = this.roomDayPriceList.findIndex(item => item.dayNum == value)
-          let Money = 0
-            while (info <= this.roomDayPriceList.length-1)
-            {
-              Money+=parseInt(this.roomDayPriceList[info].price)
-              console.log(info)
-              info++
-            }
-
-            console.log((parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee))+'va')
-            console.log((parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)+'vb')
-          this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)
-        },
+			/**
+			 * 计算总价
+			 **/
+			calculateRefundMoney(value){
+				let vm = this
+				this.value =value
+				let info = this.roomDayPriceList.findIndex(item => item.dayNum == value)
+				if(info==-1){
+					vm.warningMessage = '请选择有效的退租时间';
+					vm.warningModal = true;
+					return
+				}
+				let Money = 0
+				let Hours=new Date().getHours()
+				if(Hours >=18){
+					for(let i =0;i<=info;i++){
+					Money+=parseInt(this.roomDayPriceList[i].price)
+					}
+				}else {
+					for(let i =0;i<info;i++){
+					Money+=parseInt(this.roomDayPriceList[i].price)
+					}
+				}
+				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)
+			},
 			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
 				if(str.test(value) == true){
@@ -501,8 +507,8 @@
 						this.Datas = response.data.entity;
 						if(this.Datas.pmsOrder){
 							this.orderId = this.Datas.pmsOrder.orderId;
+							this.addedservices();
 						}
-						
 						if(this.Datas.lockWaterElectricity){
 							this.lockWaterElectricity = this.Datas.lockWaterElectricity;
 						}
@@ -544,7 +550,7 @@
 				// console.log(cxkjPmsOrderFinanceLists);
 				param.append('orderId',this.orderId);
 				param.append('type',1);
-				param.append('orderRoomId',this.pmsOrder.orderRoomId);
+				param.append('orderRoomId',this.Datas.pmsOrder.orderRoomId);
 				axios.post(ShortOrderFinance200214, param).then((res)=>{
 					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
@@ -586,7 +592,7 @@
 
 				param.append('orderId',this.orderId);
 				param.append('type',2);
-				param.append('orderRoomId',this.pmsOrder.orderRoomId);
+				param.append('orderRoomId',this.Datas.pmsOrder.orderRoomId);
 				axios.post(ShortOrderFinance200214, param).then((res)=>{
 					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
@@ -725,31 +731,37 @@
 				this.setaddedServices = [];
 				this.orderServiceIds = [];
 				axios.get(ShortServiceInfo300212,{
-					params:{communityId:this.communityId,id:366}
+					params:{communityId:this.communityId,id:this.orderId}
 				}).then((res) => {
 					if(res.status == 200 && res.data.code == 10000){
 						this.AlladdedServices = res.data.entity.communitySvcList;
 						this.setaddedServices = res.data.entity.orderServiceList;
-						for(let i = 0;i<this.AlladdedServices.length;i++){
-							this.AlladdedServices[i].count = '';
-							for(let j = 0;j<this.setaddedServices.length;j++){
-								if(this.setaddedServices[j].serviceId == this.AlladdedServices[i].serviceId){
-									this.checkList.push(this.AlladdedServices[i].serviceName);
-									this.AlladdedServices[i].count = this.setaddedServices[j].count?this.setaddedServices[j].count:'';
-									this.AlladdedServices[i].originCount = this.setaddedServices[j].count;
-									this.AlladdedServices[i].orderServiceId = this.setaddedServices[j].orderServiceId?this.setaddedServices[j].orderServiceId:'';
-									this.orderServiceIds.push(this.setaddedServices[j].orderServiceId);
+						if(this.AlladdedServices.length > 0){
+							for(let i = 0;i<this.AlladdedServices.length;i++){
+								this.AlladdedServices[i].count = '';
+								for(let j = 0;j<this.setaddedServices.length;j++){
+									if(this.setaddedServices[j].serviceId == this.AlladdedServices[i].serviceId){
+										this.checkList.push(this.AlladdedServices[i].serviceName);
+										this.AlladdedServices[i].count = this.setaddedServices[j].count?this.setaddedServices[j].count:'';
+										this.AlladdedServices[i].originCount = this.setaddedServices[j].count;
+										this.AlladdedServices[i].orderServiceId = this.setaddedServices[j].orderServiceId?this.setaddedServices[j].orderServiceId:'';
+										this.orderServiceIds.push(this.setaddedServices[j].orderServiceId);
+									}
 								}
 							}
+						}else{
+							this.warningMessage = '暂无增值服务';
+							this.warningModal = true;
 						}
-						console.log(this.AlladdedServices)
-						console.log(this.setaddedServices)
+						
+
+						// this.isHide = true;
+						// this.isHide7 = true;
 					}
 				})
 			},
 			//提交增值服务的操作
 			addservices(){
-				console.log(this.AlladdedServices);
 				let params = new FormData();
 				for(let i = 0;i<this.AlladdedServices.length;i++){
 					for(let j = 0;j<this.checkList.length;j++){
@@ -765,11 +777,9 @@
 						}
 					}
 				}
-				params.append('orderId',366);//this.Datas.pmsOrder.orderId
-				params.append('orderRoomId',26);//this.Datas.pmsOrder.orderRoomId
-				console.log(this.orderServiceIds);
+				params.append('orderId',this.orderId);//this.Datas.pmsOrder.orderId
+				params.append('orderRoomId',this.Datas.pmsOrder.orderRoomId);//this.Datas.pmsOrder.orderRoomId
 				params.append('orderServiceIds',this.orderServiceIds.join(','));
-				console.log(params);
 
 				axios.post(BuyServices300216, params).then((res)=>{
 					console.log(res);
@@ -781,7 +791,6 @@
 						setTimeout(() => {
 							this.successModal = false;
 							this.datas();
-							this.addedservices();
 						}, 2000);
 					}else{
 						this.warningMessage = res.data.content;
@@ -797,7 +806,6 @@
 				})
 			},
 			handleCheckedCitiesChange(list){
-				console.log(list);
 			},
     		closeWarningModal() {
 				this.warningModal = false;
@@ -848,7 +856,7 @@
 				params.orderId = data.pmsOrder.orderId;
 				params.roomId = data.id;
 				axios.get(CheckOutInfo300208,{params:params}).then((res)=>{
-					// console.log(res);
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.Checkinformation = res.data.entity;
 						this.roomDayPriceList = res.data.entity.roomDayPriceList;
@@ -862,20 +870,14 @@
                 this.isHide6 = false;
 			},
 			openservices(){
-          if(this.AlladdedServices.length){
-            this.isHide = true;
-            this.isHide7 = true;
-          }else {
-            this.warningMessage = '暂无增值服务';
-            this.warningModal = true;
-          }
-
-        // this.addedservices();
+				this.isHide = true;
+				this.isHide7 = true;
+				
 			},
 			closeservices(){
+				this.datas();
 				this.isHide = false;
 				this.isHide7 = false;
-				this.addedservices();
 			}
 
     	},

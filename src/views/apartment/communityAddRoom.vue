@@ -26,7 +26,8 @@
               <th v-if="cxkjCommunityListRoom[0].electricType == 1">电表/电费</th>
               <th>电表读数</th>
               <th>租金（元/月）</th>
-              <th>服务费</th>
+              <th>服务费（元/月）</th>
+              <th>押金（月）</th>
               <th>短租</th>
               <th v-if="!isEidRoom" style="width: 110px;">操作</th>
             </tr>
@@ -72,6 +73,9 @@
               </td>
               <td>
                 <Input v-model="room.serviceCost" placeholder="请填写服务费"></Input>
+              </td>
+              <td>
+                <Input v-model="room.deposit" placeholder="请填写押金"></Input>
               </td>
               <td>
                 <Checkbox v-model="room.pmsRoom"></Checkbox>

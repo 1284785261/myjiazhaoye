@@ -243,7 +243,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 8px;">
 													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)" />
+													<input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)" />
 													<span v-if="housetderta.waterType">度</span>
 												</div>
 											</li>
@@ -255,7 +255,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
+													<input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
 													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
@@ -583,7 +583,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 8px;">
 													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)"/>
+													<input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)"/>
 													<span v-if="housetderta.waterType">度</span>
 												</div>
 											</li>
@@ -595,7 +595,7 @@
 												</span>
 												<div style="position: absolute;left: 194px;top: 52px;">
 													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
+													<input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
 													<span v-if="housetderta.electricType == 1">度</span>
 												</div>
 											</li>
@@ -805,10 +805,10 @@
 				Name: '',
 				housetderta: {
 					housetypeName: '',
-					roomWater: '',
-					roomElectric: '',
-					waterPrice: '0.00',
-					energyPrice: '0.00',
+					roomWater: 0,
+					roomElectric: 0,
+					waterPrice: 0,
+					energyPrice: 0,
 					waterType: '',
 					electricType: '',
 					materials: '',
@@ -1301,16 +1301,17 @@
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-        this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
+				console.log(this.housetderta);
+        		this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
 						this.addRepairs2();
 					}
 
-          // console.log(this.housetderta.serviceCost)
-          // console.log(this.housetderta)
-          // debugger
+				// console.log(this.housetderta.serviceCost)
+				console.log(this.housetderta)
+				// debugger
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
 				}
@@ -1319,7 +1320,7 @@
 			waterelectricity(val){
 				let str = /[^\d.]/;
 				if(str.test(val)){
-					this.housetderta.roomWater = '';
+					this.housetderta.roomWater = 0;
 				}else{
 					this.housetderta.roomWater = val;
 				}
@@ -1327,7 +1328,7 @@
 			waterelectricity2(val){
 				let str = /[^\d.]/;
 				if(str.test(val)){
-					this.housetderta.roomElectric = '';
+					this.housetderta.roomElectric = 0;
 				}else{
 					this.housetderta.roomElectric = val;
 				}
@@ -1685,13 +1686,13 @@
 					param.append('secondPayMoney', this.twomoney);
 					param.append('secondPayDate', this.dat);
 				}
-				if(this.housetderta.roomElectric != '') {
+				if(this.housetderta.roomWater) {
+					param.append('waterInit', this.housetderta.roomWater);
+				}
+				if(this.housetderta.roomElectric) {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-
-				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
-				param.append('electricInit', this.housetderta.roomElectric);
 				param.append('electricChargeModel', this.housetderta.electricType);
 				param.append('isPaper', this.radio4);
 				param.append('user.id', this.user.id);
@@ -1842,16 +1843,13 @@
 					param.append('secondPayMoney', this.housetderta.twomoney);
 					param.append('secondPayDate', this.dat);
 				}
-				if(this.housetderta.roomWater != '') {
+				if(this.housetderta.roomWater) {
 					param.append('waterInit', this.housetderta.roomWater);
 				}
-				if(this.housetderta.roomElectric != '') {
+				if(this.housetderta.roomElectric) {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
-
-				param.append('waterInit', this.housetderta.roomWater);
 				param.append('waterChargeModel', this.housetderta.waterType);
-				param.append('electricInit', this.housetderta.roomElectric);
 				param.append('electricChargeModel', this.housetderta.electricType);
 				param.append('isPaper', this.radio4);
 				param.append('user.id', this.user.id);

@@ -949,8 +949,8 @@
 			},
 			handleRemoven(item) {
 			  let vm = this;
-              vm.$set(vm.imgList,vm.indexs,0)
-              vm.fileList.splice(vm.indexs, 1);
+              vm.$set(vm.imgList,item,0)
+			  vm.fileList.splice(item, 1);
 			},
 			uploadfile(e) {
 				let vm = this;
@@ -958,7 +958,7 @@
 				let office ='office'
 				if(!file){
 				  return
-                }
+				}
               vm.$set(vm.loadList,vm.indexs,true)
               let param = new FormData();
               param.append('file', file)
@@ -1028,12 +1028,15 @@
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				if(this.fileList.length < 9){
-				  this.warningMessage = '证明未上传完整';
-				  this.warningModal = true;
-				  this.disabledm = false;
-                  return
-                }
+				console.log(this.fileList);
+				for(let i= 0;i<this.fileList.length;i++){
+					if(this.fileList.length > 0 && (this.fileList[i].fileTitle == '承租人身份证正面' || this.fileList[i].fileTitle == '承租人身份证反面')){
+						this.warningMessage = '承租人身份证正反面为必填';
+						this.warningModal = true;
+						this.disabledm = false;
+						return
+					}
+				}
                 param.append('credentialsImages',JSON.stringify(vm.fileList));
 				this.furniture = JSON.stringify(arr3);
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
@@ -1087,28 +1090,28 @@
 					vm.disabledm = false;
 					return
 				}else{
-					axios.post(hostSignOffice,param).then(res =>{
-						// console.log(res);
-						if(res.status == 200 && res.data.code == 10000){
-							vm.successModal = true;
-							setTimeout(()=>{
-								vm.successModal = false;
-								vm.disabledm = false;
-								this.$router.push('/contract/contractIndex');
-							},3000);
-						}
-						else{
-							vm.disabledm = false;
-							vm.warningMessage = res.data.content;
-							vm.warningModal = true;
-						}
-					})
-					.catch(error=>{
-						vm.warningMessage = '签约信息不完整,请检查信息填写';
-						vm.warningModal = true;
+					// axios.post(hostSignOffice,param).then(res =>{
+					// 	// console.log(res);
+					// 	if(res.status == 200 && res.data.code == 10000){
+					// 		vm.successModal = true;
+					// 		setTimeout(()=>{
+					// 			vm.successModal = false;
+					// 			vm.disabledm = false;
+					// 			this.$router.push('/contract/contractIndex');
+					// 		},3000);
+					// 	}
+					// 	else{
+					// 		vm.disabledm = false;
+					// 		vm.warningMessage = res.data.content;
+					// 		vm.warningModal = true;
+					// 	}
+					// })
+					// .catch(error=>{
+					// 	vm.warningMessage = '签约信息不完整,请检查信息填写';
+					// 	vm.warningModal = true;
 
-						// console.log(error);
-					})
+					// 	// console.log(error);
+					// })
 				}
 			},
 			//获取编辑合同详情

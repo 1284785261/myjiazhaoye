@@ -48,7 +48,7 @@
                         <span v-else style="color: rgb(254,120,50);">未配置</span>
                       </td>
                       <td>
-                        <div class="taas">
+                        <div class="taabs">
                           <a @click="getTemporaryPwd(item.roomLockId)" v-if="item.lockStatus == 1">获取临时密码</a>
                           <a @click="updateDoorLock(item,doorLock.floorName)" v-if="item.lockStatus && jurisdiction('COMMUNITY_UPDATE')">修改</a>
                           <router-link :to="{name:'doorRecord',query:{roomLockId:item.roomLockId}}" v-if="item.lockStatus">开门记录</router-link>
@@ -77,6 +77,8 @@
                       <td>添加时间</td>
                       <td>上次抄表时间</td>
                       <td>上次抄表读数</td>
+                      <td>上次实时读数时间</td>
+                      <td>上次实时读数</td>
                       <td>电表状态</td>
                       <td width="20%">操作</td>
                     </thead>
@@ -87,10 +89,12 @@
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
                       <!--<td>{{roomElectricity[index][index1]}}</td>-->
 
-                      <td >{{roomElectricity[index][index1]?roomElectricity[index][index1].recordCreatetime:''| timefilter("yyyy.MM.dd")}}</td>
-                      <td >{{roomElectricity[index][index1]?roomElectricity[index][index1].waterElectricityData:''}}</td>
-                      <!--<td>{{item.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>-->
-                      <!--<td>{{item.waterElectricityData}}</td>-->
+                      <td>{{roomElectricity[index][index1]?roomElectricity[index][index1].recordCreatetime:''| timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{roomElectricity[index][index1]?roomElectricity[index][index1].waterElectricityData:''}}</td>
+                      <td v-if="item.roomElectricityRealTime">{{item.roomElectricityRealTime.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
+                      <td v-else></td>
+                      <td v-if="item.waterElectricityData">{{item.waterElectricityData}}</td>
+                      <td v-else></td>
                       <td>
                         <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.electricityStatus == 1">离线</span>
@@ -100,12 +104,13 @@
                       </td>
                       <td>
                         <div class="taas"><!--v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 0"-->
-                          <a v-if="item.electricityStatus == 0 || item.electricityStatus == 1 || item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
-                          <a v-if="item.electricityStatus != 2 && (item.electricityStatus == 0 || item.electricityStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutElectricity(item,electricity.floorName)">关闭</a>
+                          <a v-if="item.electricityStatus != 6 && jurisdiction('COMMUNITY_UPDATE')" @click="updateElectricityTo(item,electricity.floorName)" >修改</a>
+                          <a v-if="item.electricityStatus != 2 && jurisdiction('COMMUNITY_UPDATE')" @click="shutElectricity(item,electricity.floorName)">关闭</a>
                           <a v-if="item.electricityStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openToElectricity(item,electricity.floorName)">开启</a>
-                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if="item.electricityStatus != 0 &&  item.electricityStatus != 1 && item.electricityStatus != 2 && item.electricityStatus ==  6 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
+                          <a @click="addElectricityTo(electricity.floorName,item.roomNum,item.roomId)" v-if=" item.electricityStatus ==  6 && jurisdiction('COMMUNITY_UPDATE')">添加电表</a>
                           <a @click="lookElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">实时读数</a>
-                  
+                          <router-link :to="{path:'/apartment/waterequipent',query:{roomId:item.roomId,type:2}}">实时读数记录 </router-link>
+                          <router-link :to="{path:'/apartment/readingRecords',query:{roomId:item.roomId,type:2,roomElectricitymeterRelationId:item.roomElectricitymeterRelationId}}">抄表记录</router-link>
                           <a @click="saveElectricityTo(item.roomElectricitymeterRelationId,item.roomId,index,index1)" v-if="item.electricityStatus ==  5">保存读数</a>
                         </div>
                       </td>
@@ -128,6 +133,8 @@
                       <td>添加时间</td>
                       <td>上次抄表时间</td>
                       <td>上次抄表读数</td>
+                      <td>上次实时读数时间</td>
+                      <td>上次实时读数</td>
                       <td>水表状态</td>
                       <td width="20%">操作</td>
                     </thead>
@@ -139,6 +146,10 @@
                       <!--<td>{{roomWaterRecord[index][indexs]}}</td>-->
                       <td >{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].recordCreatetime:'' | timefilter("yyyy.MM.dd")}}</td>
                       <td>{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].waterElectricityData:''}}</td>
+                      <td v-if="item.roomWaterRealTime">{{item.roomWaterRealTime.realCreatetime | timefilter("yyyy.MM.dd")}}</td>
+                      <td v-else></td>
+                      <td v-if="item.waterElectricityData">{{item.waterElectricityData}}</td>
+                      <td v-else></td>
                       <td>
                         <span v-if="item.waterStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.waterStatus == 1">离线</span>
@@ -148,11 +159,13 @@
                       </td>
                       <td>
                         <div class="taas">
-                          <a v-if="item.waterStatus == 0 || item.waterStatus == 1 || item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="updateWater(item,water.floorName)">修改</a>
-                          <a v-if="item.waterStatus != 2 && (item.waterStatus == 0 || item.waterStatus == 1) && jurisdiction('COMMUNITY_UPDATE')" @click="shutWater(item,water.floorName)">关闭</a>
+                          <a v-if="item.waterStatus != 6 && jurisdiction('COMMUNITY_UPDATE')" @click="updateWater(item,water.floorName)">修改</a>
+                          <a v-if="item.waterStatus != 2 && jurisdiction('COMMUNITY_UPDATE')" @click="shutWater(item,water.floorName)">关闭</a>
                           <a v-if="item.waterStatus == 2 && jurisdiction('COMMUNITY_UPDATE')" @click="openWater(item,water.floorName)">开启</a>
-                          <a v-if="item.waterStatus != 0 &&  item.waterStatus != 1 && item.waterStatus != 2 && item.waterStatus == 6 && jurisdiction('COMMUNITY_UPDATE')" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
+                          <a v-if="item.waterStatus == 6 && jurisdiction('COMMUNITY_UPDATE')" @click="addWaterTo(water.floorName,item.roomNum,item.roomId)">添加水表</a>
                           <a v-if="item.waterStatus == 5" @click="lookWaterTo(item.roomWatermeterRelationId,item.roomId,index,indexs)">实时读数</a>
+                          <router-link :to="{path:'/apartment/waterequipent',query:{roomId:item.roomId,type:1}}">实时读数记录 </router-link>
+                          <router-link :to="{path:'/apartment/readingRecords',query:{roomId:item.roomId,type:1,roomElectricitymeterRelationId:item.roomWatermeterRelationId}}">抄表记录</router-link>
                           <a v-if="item.waterStatus == 5" @click="saveWaterTo(item.roomWatermeterRelationId,item.roomId,index,indexs)">保存读数</a>
                         </div>
                       </td>
@@ -912,6 +925,7 @@
           this.$http.post(openWaterUrl,qs.stringify({roomWatermeterRelationId:this.activeWater.roomWatermeterRelationId,roomId:this.activeWater.roomId})).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.isHid = false;
+              that.openWaterModal = false
               that.shutWaterModal = false;
               that.getWaterList();
             }
@@ -1125,6 +1139,7 @@
             if(res.status == 200 && res.data.code == 10000){
               var rootData = res.data.entity;
               that.electricityList = rootData.page;
+              console.log(that.electricityList);
               for(var i =0;i<that.electricityList.length;i++){
                 that.$set(that.electricityList[i],"showTable",true);
                 let list = []

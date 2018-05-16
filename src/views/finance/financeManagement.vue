@@ -608,7 +608,7 @@
           data.communityId = this.roomCommunity;
           this.host3 +='&communityId='+data.communityId;
         }
-        this.host3 +='&pageNum='+this.pageNum;
+        this.host3 +='&pageNum='+page;
         if(this.financeType != -1){
           data.financeType = this.financeType;
           this.host3 +='&financeType='+data.financeType;
@@ -656,7 +656,7 @@
         var data = {
           pageNum:page || 1
         }
-        this.host4 +='&pageNum='+this.pageNum;
+        this.host4 +='&pageNum='+page;
         if(page){
             this.activeBillPage = page;
         }
@@ -878,7 +878,7 @@
 
 
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityManagement.scss';

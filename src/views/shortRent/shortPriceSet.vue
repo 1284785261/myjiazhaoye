@@ -206,7 +206,7 @@
                         communityId:value
                     })
                 ).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.status == 200 && res.data.code == 10000){
                         vm.disabledbutton = false;
                         if(res.data.entity.roomTypeMap){

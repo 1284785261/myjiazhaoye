@@ -170,7 +170,7 @@
           if(res.data.code == 10000){
             vm.shortSettingList = res.data.entity.page;
             vm.totalNum = res.data.entity.totalNum;
-
+            console.log(vm.shortSettingList);
             for(let j =0;j<vm.shortSettingList.length;j++){
               let configNew = vm.shortSettingList[j].configNew;
               let roomSettingStr = "";
@@ -272,6 +272,7 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
         ).then(function(res){
+          console.log(res);
           if(res.data.code == 10000){
             that.closeUploadModal();
             that.search();
@@ -319,7 +320,7 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.outUploadModal);
       },
       goToNewShort(housetypeId){
-          this.$router.push({name:"newShortSetting",query:{housetypeId:housetypeId,communityId:this.communityId}})
+        this.$router.push({name:"newShortSetting",query:{housetypeId:housetypeId,communityId:this.communityId}})
       }
     },
   }

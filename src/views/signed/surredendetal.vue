@@ -26,7 +26,7 @@
 		    			<router-link :to="{name:'contractDetail',query:{contractSignId:ThrowLease.contractSignId,isOffice:ThrowLease.isOffice}}">查看合同</router-link>
 		    		</div>
 		    		<div class="surrendetal2">
-		    			<div>
+		    			<div class="yajins">
 		    				<img src="../../../static/images/icon/info.png" /><h3>租金和押金结算</h3>
 		    				<ul>
 		    					<li>押金：<span style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
@@ -65,20 +65,20 @@
 		    				</table>
 		    				<p class="zong">应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
 		    			</div>
-		    			<div class="qts">
+		    			<div class="qts" v-if="OtherInfo">
 		    				<img src="../../../static/images/icon/info.png" /><h3>其他费用</h3>
 		    				<ul style="min-height: 30px;">
-		    					<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
+		    					<li v-for="item in OtherInfo"><span style="width: 130px;display: inline-block;margin-left:20px;line-height:30px;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 		    				</ul>
 		    				<p class="zong">应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
 		    			</div>
 		    			<div class="Seeway">
 		    				<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
-							<p>用户接收退款账号</p>
+							<p v-if="ThrowLease.name">用户接收退款账号</p>
 							<ul>
-								<li>户名：{{ThrowLease.name}}</li>
-								<li>开户行：{{ThrowLease.bankName}}</li>
-								<li>账号：{{ThrowLease.account}}</li>
+								<li v-if="ThrowLease.name">户名：{{ThrowLease.name}}</li>
+								<li v-if="ThrowLease.bankName">开户行：{{ThrowLease.bankName}}</li>
+								<li v-if="ThrowLease.account">账号：{{ThrowLease.account}}</li>
 							</ul>
 		    			</div>
 		    		</div>
@@ -98,7 +98,7 @@
 		    			<router-link :to="{name:'contractDetail',query:{contractSignId:ThrowLease.contractSignId,isOffice:ThrowLease.isOffice}}">查看合同</router-link>
 		    		</div>
 		    		<div class="surrendetal2">
-		    			<div>
+		    			<div class="yajins">
 		    				<img src="../../../static/images/icon/info.png" /><h3>租金和押金结算</h3>
 		    				<ul>
 		    					<li>押金：<span style="color: red;font-weight: bold;">{{ThrowLease.deposit | des}}元</span></li>
@@ -120,20 +120,20 @@
 		    				</table>
 		    				<p class="zong">应扣物品折扣:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableMaterialsMoney | des}}元</span></p>
 		    			</div>
-		    			<div class="qts">
+		    			<div class="qts" v-if="OtherInfo">
 		    				<img src="../../../static/images/icon/info.png" /><h3>其他费用</h3>
 		    				<ul style="min-height: 30px;">
-		    					<li v-for="item in OtherInfo"><span style="width: 90px;display: inline-block;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
+		    					<li v-for="item in OtherInfo"><span style="width: 130px;display: inline-block;margin-left:20px;line-height:30px;">{{item.costName}}</span>应扣：<span>{{item.costAmount | des}}元</span></li>
 		    				</ul>
 		    				<p class="zong">应扣其他费用:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableOtherMoney | des}}元</span></p>
 		    			</div>
 		    			<div class="Seeway">
 		    				<p>应退金额总计:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundMoney | des}}元</span></p>
-							<p>用户接收退款账号</p>
+							<p v-if="ThrowLease.name">用户接收退款账号</p>
 							<ul>
-								<li>户名：{{ThrowLease.name}}</li>
-								<li>开户行：{{ThrowLease.bankName}}</li>
-								<li>账号：{{ThrowLease.account}}</li>
+								<li v-if="ThrowLease.name">户名：{{ThrowLease.name}}</li>
+								<li v-if="ThrowLease.bankName">开户行：{{ThrowLease.bankName}}</li>
+								<li v-if="ThrowLease.account">账号：{{ThrowLease.account}}</li>
 							</ul>
 		    			</div>
 		    		</div>
@@ -223,7 +223,6 @@
 						if(this.ThrowLease.refundableEnergyInfo){
 							this.refundableEnergyInfo = JSON.parse(this.ThrowLease.refundableEnergyInfo);
 						}
-						
 						// console.log(this.refundableEnergyInfo);
 					}
 				}).catch((err) => {

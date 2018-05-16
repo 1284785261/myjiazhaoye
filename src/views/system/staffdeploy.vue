@@ -18,7 +18,7 @@
 							<td style="vertical-align: top;color: #000;font-weight: bold;line-height: 30px;">店长：</td>
 							<td>
 								<el-select v-model="tableConferen.value1" filterable placeholder="请选择" @change="actives(tableConferen.value1)">
-									<el-option v-for="item in tableConferen.option1" :key="item.userName +' '+ item.userPhone+' (' + item.positionName+')'" :value="item.userName +' '+ item.userPhone+' (' + item.positionName+')'">
+									<el-option v-for="item in tableConferen.option1" :key="item.userName +' ' + item.userAliase + item.userPhone+' (' + item.positionName+')'" :value="item.userName +' '+ item.userAliase + item.userPhone+' (' + item.positionName+')'">
 									</el-option>
 								</el-select>
 								<div class="uploading">
@@ -43,7 +43,7 @@
 								<a class="addploy" @click="addstaff" v-if="item.deletect == '继续添加管家'">{{item.deletect}}</a>
 								<a class="addploy" @click="details(item,index)" v-else>{{item.deletect}}</a>
 								<el-select v-model="item.value2" filterable placeholder="请选择" @change="actives2(item.value2,index)">
-									<el-option v-for="ites in item.option2" :key="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'">
+									<el-option v-for="ites in item.option2" :key="ites.userName +' ' + ites.userAliase + ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName +' '+ item.userAliase + ites.userPhone+' (' + ites.positionName+')'">
 									</el-option>
 								</el-select>
 								<div class="uploading">
@@ -69,7 +69,7 @@
 								<li v-for="(item,index) in ulsConfer">
 									<span v-if="item.title != ''">{{item.title}}维修：</span>
 									<el-select v-model="item.value3" filterable placeholder="请选择" @change="activem(item.value3,index)" v-if="item.title != ''">
-										<el-option v-for="ites in item.option3" :key="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName+' '+ites.userPhone+' (' + ites.positionName+')'">
+										<el-option v-for="ites in item.option3" :key="ites.userName +' ' + ites.userAliase + ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName+' ' + item.userAliase +ites.userPhone+' (' + ites.positionName+')'">
 										</el-option>
 									</el-select>
 								</li>
@@ -81,7 +81,7 @@
 								<li v-for="(item,index) in ulsConfer2">
 									<span v-if="item.title != ''">{{item.title}}维修：</span>
 									<el-select v-model="item.value3" filterable placeholder="请选择" @change="activem2(item.value3,index)" v-if="item.title != ''">
-										<el-option v-for="ites in item.option3" :key="ites.userName +' '+ ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName+' '+ites.userPhone+' (' + ites.positionName+')'">
+										<el-option v-for="ites in item.option3" :key="ites.userName +' ' + ites.userAliase + ites.userPhone+' (' + ites.positionName+')'" :value="ites.userName+' ' + item.userAliase +ites.userPhone+' (' + ites.positionName+')'">
 										</el-option>
 									</el-select>
 								</li>
@@ -122,7 +122,7 @@
 		},
 		data() {
 			return {
-				activeTabName:"systems",
+				activeTabName:"communityManagement",
 				tableConferen: {
 					option1: [],
 					value1: '',
@@ -235,10 +235,10 @@
 				//				officePositionDataId
 				axios.post(hostEmpRelation) //员工信息
 					.then((response) => {
-						//console.log(response);
+						console.log(response);
 						if(response.data.code == 10000 && response.status == 200) {
 							this.tableConferen.option1 = response.data.entity;
-							//console.log(this.tableConferen.option1);
+							// console.log(this.tableConferen.option1);
 							for(let i = 0; i < this.tableConferences.length; i++) {
 								this.tableConferences[i].option2 = response.data.entity;
 							}
@@ -263,7 +263,7 @@
 
 						// console.log(response);
 						if(response.data.code == 10000 && response.status == 200) {
-
+							console.log(response.data.entity.cxkjCommunityUserRelationShopowner);
 							if(response.data.entity.cxkjCommunityUserRelationShopowner.length) {
 								if(response.data.entity.cxkjCommunityUserRelationShopowner[0].userPic){
 									this.tableConferen.srcs = response.data.entity.cxkjCommunityUserRelationShopowner[0].userPic;
@@ -273,7 +273,7 @@
 								this.tableConferen.id = response.data.entity.cxkjCommunityUserRelationShopowner[0].userId;
 								this.tableConferen.inputValue = response.data.entity.cxkjCommunityUserRelationShopowner[0].userIntro;
 								if(response.data.entity.cxkjCommunityUserRelationShopowner[0].userName != null && response.data.entity.cxkjCommunityUserRelationShopowner[0].userPhone != null) {
-									this.tableConferen.value1 = response.data.entity.cxkjCommunityUserRelationShopowner[0].userName + ' ' + response.data.entity.cxkjCommunityUserRelationShopowner[0].userPhone + ' (' + response.data.entity.cxkjCommunityUserRelationShopowner[0].positionName + ')';
+									this.tableConferen.value1 = response.data.entity.cxkjCommunityUserRelationShopowner[0].userName + ' '+response.data.entity.cxkjCommunityUserRelationShopowner[0].userAliase + response.data.entity.cxkjCommunityUserRelationShopowner[0].userPhone + ' (' + response.data.entity.cxkjCommunityUserRelationShopowner[0].positionName + ')';
 								}
 
 							}
@@ -290,11 +290,11 @@
 									this.tableConferences[i].id = response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userId;
 									this.tableConferences[i].inputValue = response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userIntro;
 									if(response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userName != null && response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userPhone != null) {
-										this.tableConferences[i].value2 = response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userName + ' ' + response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userPhone + ' (' + response.data.entity.cxkjCommunityUserRelationHousekeeper[0].positionName + ')';
+										this.tableConferences[i].value2 = response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userName + ' '+response.data.entity.cxkjCommunityUserRelationHousekeeper[0].userAliase + response.data.entity.cxkjCommunityUserRelationHousekeeper[i].userPhone + ' (' + response.data.entity.cxkjCommunityUserRelationHousekeeper[0].positionName + ')';
 									}
 
 								}
-								//console.log(this.tableConferences);
+								console.log(this.tableConferences);
 							}
 							if(response.data.entity.cxkjCommunityUserRelationRepair.length) {
 								this.arr = [];
@@ -319,7 +319,7 @@
 									this.ulsConfer[i].repairDataId = this.arr[i].communityMaintainId;
 									this.ulsConfer[i].type = this.arr[i].type;
 									if(this.arr[i].userName != null && this.arr[i].userPhone != null) {
-										this.ulsConfer[i].value3 = this.arr[i].userName +' ' + this.arr[i].userPhone + ' (' + this.arr[0].positionName + ')';
+										this.ulsConfer[i].value3 = this.arr[i].userName +' '+this.arr[i].userAliase + this.arr[i].userPhone + ' (' + this.arr[0].positionName + ')';
 									}
 								}
 								for(let i = 0; i < this.arr2.length; i++) {
@@ -332,7 +332,7 @@
 									this.ulsConfer2[i].repairDataId = this.arr2[i].communityMaintainId;
 									this.ulsConfer2[i].type = this.arr2[i].type;
 									if(this.arr[i].userName != null && this.arr2[i].userPhone != null) {
-										this.ulsConfer2[i].value3 = this.arr2[i].userName +' ' + this.arr2[i].userPhone + ' (' + this.arr2[0].positionName + ')';
+										this.ulsConfer2[i].value3 = this.arr2[i].userName +' '+this.arr2[i].userAliase + this.arr2[i].userPhone + ' (' + this.arr2[0].positionName + ')';
 									}
 								}
 								
@@ -403,7 +403,7 @@
 			},
 			actives(value) {
 				let str = value.split(' ');
-				//console.log(this.tableConferen);
+				// console.log(str);
 				this.tableConferen.id = this.tableConferen.option1[this.tableConferen.option1.findIndex(item => item.userName == str[0])].userId;
 				let str2 = this.tableConferen.option1[this.tableConferen.option1.findIndex(item => item.userName == str[0])].headPic;
 				if(str2){

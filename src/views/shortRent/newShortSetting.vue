@@ -116,13 +116,17 @@
     },
     mounted() {
       this.housetypeId = parseInt(this.$route.query.housetypeId);
+      // console.log(this.housetypeId);
       if(this.housetypeId){
         this.isEdit = true;
         this.tableName = "编辑短租配置";
-        this.selectCom = true;
-     }
-      this.getRoomTypeInfo();
+        this.selectCom = false;
+        this.getRoomTypeInfo();
+      }else{
+        
+      }
       this.getCommunityData();
+      // this.getRoomTypeInfo();
     },
     methods: {
       //获取社区id
@@ -146,6 +150,7 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypeInfo200188,qs.stringify({housetypeId:this.housetypeId})
         ).then(function(res){
+          console.log(res);
           if(res.data.code == 10000){
             vm.roomTypeInfo = res.data.entity;
             vm.housetypeArea = vm.roomTypeInfo.housetypeArea;
@@ -154,7 +159,7 @@
             vm.bedLength = vm.roomTypeInfo.bedLength;
             vm.communityName = vm.roomTypeInfo.communityName;
             vm.serviceInfo = vm.roomTypeInfo.serviceInfo;
-
+            vm.housetypeId = vm.roomTypeInfo.housetypeId;
             vm.furniture = vm.roomTypeInfo.furniture;
             let configMap = vm.roomTypeInfo.configMap;
             let arr = vm.furniture.split(",");
@@ -178,6 +183,7 @@
                 this.housetypeArea = this.lengthNameList[i].housetypeArea;
             }
         }
+        console.log(this.housetypeId);
       },
       //改变社区监听
       changeCommunityId(CommunityId){
@@ -198,6 +204,7 @@
 
       //提交按钮
       submit(){
+        console.log(this.housetypeId)
         let furniture = "";
         for(let i =0;i<this.selectListData.length;i++){
           for(let j =0;j<this.configMapSelects.length;j++){
@@ -217,6 +224,7 @@
           this.warningModal = true;
           return;
         }
+        
         let param = {
           communityId:this.communityId,
           housetypeId:this.housetypeId,
@@ -226,6 +234,7 @@
           bedNum:this.bedNum,
           bedLength:this.bedLength,
         };
+        console.log(param);
         if(this.isEdit){
           this.edit(param);
         }else{
@@ -238,12 +247,17 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
         ).then(function(res){
-          that.successMessage = "编辑短租配置成功！";
-          that.successModal = true;
-          setTimeout(function(){
-            that.successModal = false;
-            history.go(-1);
-          },1000)
+          if(res.status == 200 && res.data.code == 10000){
+            that.successMessage = "编辑短租配置成功！";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+              history.go(-1);
+            },1000)
+          }else{
+            that.warningMessage =res.data.content;
+            that.warningModal = true;
+          }
         })
       },
       //新增
@@ -260,13 +274,18 @@
         param.housetypeArea = this.housetypeArea;
         this.$http.post(
           CxkjCommunityPmsType200186,qs.stringify(param)
-        ).then(function(res){debugger
-          that.successMessage = "新增短租配置成功！";
-          that.successModal = true;
-          setTimeout(function(){
-            that.successModal = false;
-            history.go(-1);
-          },1000)
+        ).then(function(res){
+          if(res.status == 200 && res.data.code == 10000){
+            that.successMessage = "新增短租配置成功！";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+              history.go(-1);
+            },1000)
+          }else{
+            that.warningMessage =res.data.content;
+            that.warningModal = true;
+          }
         })
       },
       //关闭提醒弹窗

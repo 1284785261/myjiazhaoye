@@ -6,13 +6,13 @@
             <div class="wordbench-box">
                 <Tabs type="card" v-model="activeName" @on-click="changeTab">
                     <Tab-pane label="社区房间状态" name="short-term-item">
-                        <div class="message-ti">
-                          <short-term-item @successUpload ="successUpload()"></short-term-item>
+                        <div class="message-ti" v-if="activeName == 'short-term-item'">
+                          <short-term-item></short-term-item>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置" name="short-setting-list">
                         <div class="message-ti">
-                          <short-setting-list @successUpload ="successUpload()"></short-setting-list>
+                          <short-setting-list @successUpload ="successUpload"></short-setting-list>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="价格设置" name="short-price-set">
@@ -86,7 +86,7 @@
               联系人：{{checkdetail.roomieInfo.name}}
             </tr>
             <tr v-if="checkdetail.roomNum">
-              联系电话：
+              联系电话：{{checkdetail.roomieInfo.phone}}
             </tr>
             <tr v-if="checkdetail.roomieInfo">
               身份证：{{checkdetail.roomieInfo.certificateNumber}}
@@ -690,7 +690,7 @@
         background: #fff;
         position: absolute;
         left: 50%;
-        top: 25%;
+        top: 40%;
         z-index: 101;
         transform: translate(-50%,-50%);
         h2{

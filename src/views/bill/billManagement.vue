@@ -46,8 +46,10 @@
                   <th>租期</th>
                   <th>承租人</th>
                   <th>承租人电话</th>
-                  <th>金额/元</th>
-                  <th>服务费</th>
+                  <th>租金/月</th>
+                  <th>押金</th>
+                  <th>服务费/月</th>
+                  <th>合计</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
@@ -58,11 +60,13 @@
                   <td>{{room.userName}}</td>
                   <td>{{room.userPhone}}</td>
                   <td>{{room.cyclePayMoney}}</td>
+                  <td>{{room.deposit}}</td>
                   <td>{{room.serviceCost}}</td>
+                  <td>{{room.realPayMoney}}</td>
                   <td>
                     <span v-if="room.billState == 1">待支付</span>
-                    <span v-if="room.billState == 2" style="color: #ccc;">已支付</span>
-                    <span v-if="room.billState == 3" style="color: red;">违约</span>
+                    <span v-if="room.billState == 2" style="color: red;">已支付</span>
+                    <span v-if="room.billState == 3" style="color: #ccc;">违约</span>
                     <span v-if="room.billState == 4">违约办结</span>
                   </td>
                   <td>
@@ -112,8 +116,10 @@
                   <th>租期</th>
                   <th width="150px">联系人</th>
                   <th>联系电话</th>
-                  <th>订单金额/元</th>
-                  <th>服务费/元</th>
+                  <th>订单金额/月</th>
+                  <th>押金</th>
+                  <th>服务费/月</th>
+                  <th>合计</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
@@ -124,11 +130,13 @@
                   <td>{{item.userName}}</td>
                   <td>{{item.userPhone}}</td>
                   <td>{{item.cyclePayMoney}}</td>
+                  <td>{{item.deposit}}</td>
                   <td>{{item.serviceCost}}</td>
+                  <td>{{item.realPayMoney}}</td>
                   <td>
                     <span v-if="item.billState == 1">待支付</span>
-                    <span v-if="item.billState == 2" style="color: #ccc;">已支付</span>
-                    <span v-if="item.billState == 3" style="color: red;">违约</span>
+                    <span v-if="item.billState == 2" style="color: red;">已支付</span>
+                    <span v-if="item.billState == 3" style="color: #ccc;">违约</span>
                     <span v-if="item.billState == 4">违约办结</span>
                   </td>
                   <td>
@@ -700,6 +708,7 @@
       border-collapse:collapse;
       text-align: center;
       th{
+        text-align: center;
         background-color: #f8f8f9;
       }
       th,td{

@@ -482,6 +482,32 @@ const CheckOutInfo = '/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsGetApplyCheckOutI
 //查看入住详情
 const GetOrderRoomIn = '/cxkj-pms/apis/pc/pmsorder/CxkjGetOrderRoomInfo300223'
 
+//获取社区设置维修项
+const CommunitySytem = '/cxkj-room/apis/pc/cxkjcommunity/CxkjCommunitySytemData200226'
+
+//获取电水表数据列表
+const RealTimeTable = '/cxkj-room/apis/pcManager/realTime/CxkjCommunityWaterElectricityRealTimeTable200227'
+
+//获取电水表抄表记录
+const RecordTable = '/cxkj-room/apis/pcManager/record/CxkjCommunityWaterElectricityRecordTable200229';
+
+//手动抄表
+const RecordAdd = '/cxkj-room/apis/pcManager/record/CxkjCommunityWaterElectricityRecordAdd200231'
+
+//编辑读数
+const RecordUpdate = '/cxkj-room/apis/pcManager/record/CxkjCommunityWaterElectricityRecordUpdate200232'
+
+//实名认证列表
+const  CxkjAuthList = '/cxkj-room/apis/pc/signauth/CxkjAuthList300225'
+
+//实名认证通过
+const AuthSuccess = '/cxkj-room/apis/pc/signauth/CxkjSignAuthSuccess300228'
+
+//实名认证不通过
+const  AuthFail = '/cxkj-room/apis/pc/signauth/CxkjSignAuthFail300227'
+
+//实名认证详情
+const  AuthInfo = '/cxkj-room/apis/pc/signauth/CxkjAuthInfo300226'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -643,6 +669,15 @@ export const BuyServices300216 = host3 + BuyServices;
 export const delRoomSign200223 = host3 + delRoomSign;
 export const CheckOutInfo300208 = host3 + CheckOutInfo;
 export const GetOrderRoomIn300223 = host3 + GetOrderRoomIn;
+export const CommunitySytem200226 = host3 + CommunitySytem;
+export const RealTimeTable200227 = host3 + RealTimeTable;
+export const RecordTable200229 = host3 + RecordTable;
+export const RecordAdd200231 = host3 + RecordAdd;
+export const RecordUpdate200232 = host3 + RecordUpdate;
+export const CxkjAuthList300225 = host3 + CxkjAuthList;
+export const AuthSuccess300228 = host3 + AuthSuccess;
+export const AuthFail300227 = host3 + AuthFail;
+export const AuthInfo300226 = host3 + AuthInfo;
 export const host = host3;
 //export default {
 //hosts:function(){

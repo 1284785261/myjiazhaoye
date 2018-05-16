@@ -74,11 +74,11 @@
 	margin-right: 12px;
 	margin-bottom: 4px;
 }
-#surrendetal .surrendetal2 div ul{
+#surrendetal .surrendetal2 .yajins ul{
 	margin-top: 10px;
 	margin-left: 20px;
 }
-#surrendetal .surrendetal2 div ul li{
+#surrendetal .surrendetal2 .yajins ul li{
 	float: left;
 	margin-right: 50px;
 	line-height: 40px;
@@ -196,9 +196,11 @@
 }
 #surrendetal .surrendetal2 .Seeway ul{
 	width: 100%;
+	margin-left: 20px;
 }
 #surrendetal .surrendetal2 .Seeway ul li{
 	margin-right: 180px;
+	float: left;
 }
 #surrendetal .surrendetal2 .qts ul li span:nth-child(1){
 	margin-right: 78px;
