@@ -584,16 +584,17 @@
         var that = this;
         this.$http.get(financeList,{params:data})
           .then(function(res){
+            console.log(res.data)
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
               that.financeList = that.pageBean.financeList;
+              that.financeTotalNum = res.data.result.totalNum;
               for(let i=0;i<that.financeList.length;i++){
                 let tabs = that.financeList[i].describe.substr(1,that.financeList[i].describe.length - 2);
                 that.financeList[i].list = tabs.split(",");
               }
-              that.financeTotalNum = that.pageBean.totalNum;
             }
-            if(res.data.code == 10008){
+           else if(res.data.code == 10008){
               that.financeList = [];
               that.financeTotalNum = 0;
             }
@@ -602,7 +603,7 @@
       financeSearch(page){
         this.host3 = host + '/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityFinanceListDownLoad200180?';
         var data = {
-          pageNum:page || 1,  
+          pageNum:page || 1,
         };
         if(this.roomCommunity != -1){
           data.communityId = this.roomCommunity;
@@ -1027,7 +1028,7 @@
     .ivu-tabs-bar{
       background-color: rgb(240,240,240);
     }
-  
+
 
   .zhezhao{
     width: 100%;

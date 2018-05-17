@@ -53,13 +53,13 @@ Array.prototype.remove = function(val){
 };
 
 Vue.prototype.DateDiff = function(sDate1,sDate2){
-  var  aDate,  oDate1,  oDate2,  iDays  
-  // aDate  =  sDate1.split("-")  
-  // oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式  
-  // aDate  =  sDate2.split("-")  
-  // oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])  
-  iDays  =  parseInt(Math.abs(sDate1  -  sDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数  
-  return  iDays  
+  var  aDate,  oDate1,  oDate2,  iDays
+  // aDate  =  sDate1.split("-")
+  // oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式
+  // aDate  =  sDate2.split("-")
+  // oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])
+  iDays  =  parseInt(Math.abs(sDate1  -  sDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数
+  return  iDays
 }
 
 Vue.filter("Service", function(value) {  //企业服务
@@ -77,6 +77,19 @@ Vue.filter("Service", function(value) {  //企业服务
     case 76: msg = '融资服务'; break;
     case 77: msg = '运动与健康'; break;
     case 78: msg = '营销推广'; break;
+    default:
+      msg = ''
+  }
+  return msg
+});
+Vue.filter("CertificateStatus", function(value) {  //企业服务
+  let val = parseInt(value)
+  let msg = '';
+  switch (val){
+    case 0: msg = '未认证'; break;
+    case 1: msg = '认证通过'; break;
+    case 2: msg = '认证失败'; break;
+
     default:
       msg = ''
   }

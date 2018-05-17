@@ -260,8 +260,19 @@
 
         },
         openWarningModal(message){
-            this.warningMessage = message;
-            this.warningModal = true;
+            console.log(message);
+            if(message.sum == 1){
+                this.successMessage = message.title;
+                this.successModal = true;
+                setTimeout(()=>{
+                    this.successModal = false;
+                },1000)
+            }else if(message.sum == 2){
+                this.warningMessage = message.title;
+                this.warningModal = true;
+            }
+            
+            
 
         },
         //全选时间事件

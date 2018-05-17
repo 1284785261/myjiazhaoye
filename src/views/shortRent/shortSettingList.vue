@@ -225,10 +225,8 @@
 
 
       handleFormatError(){
-        debugger
       },
       handleMaxSize(){
-        debugger
       },
       //文件上传前
       handleBeforeUpload(){
@@ -320,7 +318,12 @@
         document.querySelector("#app").firstChild.removeChild(this.$refs.outUploadModal);
       },
       goToNewShort(housetypeId){
-        this.$router.push({name:"newShortSetting",query:{housetypeId:housetypeId,communityId:this.communityId}})
+        if(housetypeId > 0){
+          this.$router.push({name:"newShortSetting",query:{housetypeId:housetypeId,communityId:this.communityId}})
+        }else{
+          this.$router.push({name:"newShortSetting",query:{communityId:this.communityId}})
+        }
+        
       }
     },
   }

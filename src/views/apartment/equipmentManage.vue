@@ -63,7 +63,7 @@
 
 					    </el-tab-pane>
 					    <el-tab-pane label="电表" name="second">
-                <a :href="host1" class="btiss">导出</a>
+                <a :href="host1" class="btiss"  targe = '_blank'>导出</a>
                 <div class="equipment1 equipment2" v-for="(electricity,index) in electricityList">
                   <div class="house_xq" @click="hideTable2(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -91,10 +91,8 @@
 
                       <td>{{roomElectricity[index][index1]?roomElectricity[index][index1].recordCreatetime:''| timefilter("yyyy.MM.dd")}}</td>
                       <td>{{roomElectricity[index][index1]?roomElectricity[index][index1].waterElectricityData:''}}</td>
-                      <td v-if="item.roomElectricityRealTime">{{item.roomElectricityRealTime.recordCreatetime | timefilter("yyyy.MM.dd")}}</td>
-                      <td v-else></td>
-                      <td v-if="item.waterElectricityData">{{item.waterElectricityData}}</td>
-                      <td v-else></td>
+                      <td>{{roomElectricityRealTime[index][index1]?roomElectricityRealTime[index][index1].realCreatetime:''| timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{roomElectricityRealTime[index][index1]?roomElectricityRealTime[index][index1].waterElectricityData:''}}</td>
                       <td>
                         <span v-if="item.electricityStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.electricityStatus == 1">离线</span>
@@ -119,7 +117,7 @@
                 </div>
 					    </el-tab-pane>
 					    <el-tab-pane label="水表" name="third">
-                <a :href="host2" class="btiss">导出</a>
+                <a :href="host2" class="btiss" targe = '_blank'>导出</a>
                 <div class="equipment1 equipment2" v-for="(water,index) in waterList">
                   <div class="house_xq" @click="hideTable3(index)">
                       <img src="../../../static/images/temp/logo2_03.png">
@@ -143,13 +141,15 @@
                       <td>{{item.waterMeterSn}}</td>
                       <td>{{item.manufacturerName}}</td>
                       <td>{{item.createtime | timefilter("yyyy.MM.dd")}}</td>
-                      <!--<td>{{roomWaterRecord[index][indexs]}}</td>-->
                       <td >{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].recordCreatetime:'' | timefilter("yyyy.MM.dd")}}</td>
                       <td>{{roomWaterRecord[index][indexs]?roomWaterRecord[index][indexs].waterElectricityData:''}}</td>
-                      <td v-if="item.roomWaterRealTime">{{item.roomWaterRealTime.realCreatetime | timefilter("yyyy.MM.dd")}}</td>
-                      <td v-else></td>
-                      <td v-if="item.waterElectricityData">{{item.waterElectricityData}}</td>
-                      <td v-else></td>
+
+                      <td >{{roomWaterRealTime[index][indexs]?roomWaterRealTime[index][indexs].realCreatetime:'' | timefilter("yyyy.MM.dd")}}</td>
+                      <td>{{roomWaterRealTime[index][indexs]?roomWaterRealTime[index][indexs].waterElectricityData:''}}</td>
+                      <!--<td v-if="item.roomWaterRealTime">{{item.roomWaterRealTime.realCreatetime | timefilter("yyyy.MM.dd")}}</td>-->
+                      <!--<td v-else></td>-->
+                      <!--<td v-if="item.waterElectricityData">{{item.waterElectricityData}}</td>-->
+                      <!--<td v-else></td>-->
                       <td>
                         <span v-if="item.waterStatus == 0" style="color: #3dc4b2;">在线</span>
                         <span v-else-if="item.waterStatus == 1">离线</span>
@@ -613,7 +613,9 @@
           warningModal:false,
           warningMessage:"添加失败！",
           roomWaterRecord:[],//水表抄表
+          roomWaterRealTime:[],//水表实时抄表
           roomElectricity:[],//电表抄表
+          roomElectricityRealTime:[],//电表实时抄表
           floorIndex:'',//楼层Index
           roomIndex:'',//房间Index
           WaterRecord:'',//水表读数
@@ -667,11 +669,15 @@
               that.waterList = rootData.page;
               for(var i =0;i<that.waterList.length;i++){
                 that.$set(that.waterList[i],"showTable",true);
-                let list = []
+                let list = [],roomWater =[]
+
                 for(let k = 0 ;k<that.waterList[i].roomWater.length;k++){
                   list.push(that.waterList[i].roomWater[k].roomWaterRecord)
+                  roomWater.push(that.waterList[i].roomWater[k].roomWaterRealTime)
                 }
                 that.roomWaterRecord[i] = list
+                that.roomWaterRealTime[i] = roomWater
+
               }
             }
           })
@@ -685,7 +691,6 @@
           //   return
           // }else {
             // console.log(roomElectricityRelationId+'a '+roomId+'s '+floorIndex+' d'+roomIndex)
-            // debugger
             vm.$http.post(CxkjCommunityElectricityUpdateRoomAndRecord200221,qs.stringify({
               roomElectricitymeterRelationId:roomElectricityRelationId,
               roomId:roomId
@@ -717,7 +722,6 @@
           //   return
           // }else {
             // console.log(roomElectricityRelationId+'a '+roomId+'s '+floorIndex+' d'+roomIndex)
-            // debugger
             vm.$http.post(CxkjCommunityWaterUpdateRoomAndRecord200220,qs.stringify({
               roomWatermeterRelationId:roomWatermeterRelationId,
               roomId:roomId
@@ -1142,11 +1146,13 @@
               console.log(that.electricityList);
               for(var i =0;i<that.electricityList.length;i++){
                 that.$set(that.electricityList[i],"showTable",true);
-                let list = []
+                let list = [],Electricity=[]
                 for(let k = 0 ;k<that.electricityList[i].roomElectricity.length;k++){
                   list.push(that.electricityList[i].roomElectricity[k].roomElectricityRecord)
+                  Electricity.push(that.electricityList[i].roomElectricity[k].roomElectricityRealTime)
                 }
                 that.roomElectricity[i] = list
+                that.roomElectricityRealTime[i] = Electricity
               }
               // for(var i =0;i<that.waterList.length;i++){
               //

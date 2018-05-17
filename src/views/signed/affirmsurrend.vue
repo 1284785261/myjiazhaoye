@@ -75,8 +75,8 @@
 									<td>水费：<span>{{ThrowLease.roomInfo.waterTotalMoney | des}} 元</span></td>
 								</tr>
 								<tr v-if="ThrowLease.roomInfo.waterType == 2">
-									<td>用水人数：<span>{{ThrowLease.roomInfo.enterCount}} m³</span></td>
-									<td>用水天数：<span>{{ThrowLease.roomInfo.days}} m³</span></td>
+									<td>用水人数：<span>{{ThrowLease.roomInfo.enterCount}} 人</span></td>
+									<!--<td>用水天数：<span>{{ThrowLease.roomInfo.days}} m³</span></td>-->
 									<td>水费：<span>{{ThrowLease.roomInfo.waterTotalMoney | des}} 元</span></td>
 								</tr>
 								<tr v-if="ThrowLease.roomInfo.electricType == 1">
@@ -85,8 +85,8 @@
 									<td>电费：<span>{{ThrowLease.roomInfo.electricTotalMoney | des}} 元</span></td>
 								</tr>
 								<tr v-if="ThrowLease.roomInfo.electricType == 2">
-									<td>用电人数：<span>{{ThrowLease.roomInfo.enterCount}} 度</span></td>
-									<td>用电天数：<span>{{ThrowLease.roomInfo.days}} 度</span></td>
+									<td>用电人数：<span>{{ThrowLease.roomInfo.enterCount}} 人</span></td>
+									<!--<td>用电天数：<span>{{ThrowLease.roomInfo.days}} 度</span></td>-->
 									<td>电费：<span>{{ThrowLease.roomInfo.electricTotalMoney | des}} 元</span></td>
 								</tr>
 							</table>
@@ -334,11 +334,11 @@
 					}
 					this.money3 = q;
 					return parseFloat(q).toFixed(2);
-					
+
 				}else{
 					return 0.00
 				}
-				
+
 			},
 			sumPrice: function() { //计算总退还的费用
 				if(this.ThrowLease.isOffice == 0){
@@ -349,7 +349,7 @@
 					this.zonmoney = parseFloat(parseFloat(this.ThrowLease.deposit) + parseFloat(this.ThrowLease.rentCyclePayMoney) + parseFloat(this.ThrowLease.rentServiceCost) - parseFloat(this.money2) - parseFloat(this.money3)).toFixed(2);
 					return this.zonmoney;
 				}
-				
+
 			}
 		},
 		filters: {
@@ -370,7 +370,7 @@
 				else{
 					return 0;
 				}
-				
+
 			}
 		},
 		methods: {
@@ -486,7 +486,7 @@
 				let param = new FormData();
 				param.append("throwLeaseId", this.throwLeaseId);
 				param.append("deposit", this.ThrowLease.deposit);
-				
+
 				param.append("days",this.ThrowLease.roomInfo.days);
 				param.append("enterCount",this.ThrowLease.roomInfo.enterCount);
 				param.append("refundableRent", this.ThrowLease.rentCyclePayMoney);
@@ -494,9 +494,12 @@
 				if(this.ThrowLease.isOffice == 0){
 					param.append("thisWaterRead", this.ThrowLease.roomInfo.thisWaterRead);
 					param.append("thisElectricRead", this.ThrowLease.roomInfo.thisElectricRead);
+					param.append("roomWater", this.ThrowLease.roomInfo.roomWater);
+					param.append("roomElectric", this.ThrowLease.roomInfo.roomElectric);
+					param.append("thisElectricRead", this.ThrowLease.roomInfo.thisElectricRead);
 					param.append("refundableWaterEnergyMoney", this.ThrowLease.roomInfo.waterAndElectricTotalMoney);
 				}
-				
+
 				if(this.refund.length) {
 					for(let i = 0; i < this.refund.length; i++) {
 						this.refundableMaterialsInfo.push({
@@ -575,7 +578,7 @@
 					}
 					param.append("refundableOtherInfo", JSON.stringify(this.refundableOtherInfo));
 				}
-				
+
 				param.append("refundMoney", this.zonmoney);
 //				console.log(this.throwLeaseId);
 //				console.log(this.ThrowLease.deposit);

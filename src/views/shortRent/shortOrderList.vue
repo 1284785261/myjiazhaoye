@@ -167,17 +167,18 @@
                       <!--<span v-if="item.isIn==1">已入住</span>-->
                     <!--</td>-->
                     <td>{{item.orderNum}}</td>
-                    <td>{{item.userName}}</td>
+                    <td>{{item.contactName}}</td>
                     <!--<td>{{item.contactPhone}}</td>-->
                     <!--<td>{{item.name}}</td>-->
                     <!--<td>{{item.roomNum}}</td>-->
-                    <td>{{item.userName}}</td>
+                    <td>{{item.contactPhone}}</td>
                     <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.payMoney}}</td>
                     <td>
                         <a v-if="item.isRoom == 0" @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
                         <a v-if="item.isRoom == 1 && item.isIn==0" @click="checkIn(item.orderId,item)">入住</a>
+                        <a v-if="item.isIn == 0" @click="noOrders(item.orderId)">取消订单</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
                 </tr>
@@ -325,7 +326,7 @@
   import successModal from '../../components/successModal.vue';
   import warningModal from '../../components/warningModal.vue';
   import axios from 'axios';
-  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120,CxkjGetRoomListOfForRoom300195,CxkjAssignRoom300196} from '../api.js';
+  import {CxkjGetOrderList300181,CxkjCreateOrder300193,allCommunity,CxkjGetRoomTypeBookDataList300194,CxkjGetOccupancyRate300120,CxkjGetRoomListOfForRoom300195,CxkjAssignRoom300196,CancelOrder300229 } from '../api.js';
   import qs from 'qs';
 
   export default {
@@ -695,7 +696,8 @@
           communityId:this.communityId
         };
         this.$http.post(CxkjCreateOrder300193,qs.stringify(param)).then(res=>{
-          if(res.data.code == 10000){
+          console.log(res);
+          if(res.data.code == 10000 && res.status == 200){
               vm.bookName = "";
               vm.bookPhone = "";
               vm.remark = "";
@@ -703,8 +705,11 @@
               sessionStorage.setItem("orderId",orderId);
               vm.closeCreateOrderModal();
               vm.search(vm.pageNum);
+              let data={sum:1,title:'创建订单成功！'};
+              vm.$emit("openWarningModal",data);
           }else{
-            vm.$emit("openWarningModal",res.data.content)
+            let data={sum:2,title:res.data.content};
+            vm.$emit("openWarningModal",data)
          }
         })
       },
@@ -838,6 +843,23 @@
       closeCreateOrderModal(){
         document.querySelector("#app").firstChild.removeChild(this.$refs.createOrderModal);
         document.querySelector("#app").firstChild.removeChild(this.$refs.outCreateOrderModal);
+      },
+      noOrders(ids){
+        let that = this
+        axios.post(CancelOrder300229,
+        qs.stringify({
+          id:ids
+        })).then((res)=>{
+          console.log(res);
+          if(res.status == 200 && res.data.code == 10000){
+            let data={sum:1,title:'删除订单成功！'};
+            that.$emit("openWarningModal",data);
+            that.getCommunityData();
+          }else{
+            let data={sum:2,title:res.data.content};
+            that.$emit("openWarningModal",data);
+          }
+        })
       }
     },
     filters:{

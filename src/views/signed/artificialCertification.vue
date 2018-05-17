@@ -26,12 +26,12 @@
 							<tr v-for="item in surrList">
 								<td>{{item.contractNumber}}</td>
 								<td>{{item.buildingNum}}</td>
-								<td>{{item.status}}天</td>
+								<td>{{item.status | CertificateStatus}}</td>
 								<td>{{item.userName}}</td>
 								<td>{{item.userCertificate}}</td>
 								<td>
-									<a v-if="item.status != 0" @click="showCertification(item.authId)">认证通过</a>
-									<a v-if="item.status != 0" @click="opennotThrough(item.authId)">不通过</a>
+									<a v-if="item.status == 0" @click="showCertification(item.authId)">认证通过</a>
+									<a v-if="item.status == 0" @click="opennotThrough(item.authId)">不通过</a>
 									<router-link :to="{name:'Certificationdetaile',query:{authId:item.authId,Name:Name}}">查看详情</router-link>
 								</td>
 							</tr>
@@ -53,9 +53,7 @@
             <a @click="noishideCertification">取消</a>
         </div>
 		<div class="notThrough" v-show="notThrough">
-            <textarea v-text="texts" placeholder="请填写认证失败原因">
-				
-			</textarea>
+            <textarea v-text="texts" v-model="texts" placeholder="请填写认证失败原因"></textarea>
             <a @click="notThroughs">确定</a>
             <a @click="closes">取消</a>
         </div>
@@ -187,7 +185,7 @@
 				this.authId = id;
 				this.ishide = true;
 				this.ishideCertification = true;
-				
+
 			},
 			//取消认证框
 			noishideCertification(){
@@ -196,6 +194,7 @@
 			},
 			//确定认证通过
 			determineCertification(){
+			  let vm = this
 				axios.post(AuthSuccess300228,
 				{
 					authId:this.authId
@@ -207,8 +206,8 @@
 						this.successMessage = '认证通过!';
 						this.successModal = true;
 						setTimeout(function(){
-							this.successModal = false;
-							this.datas();
+              vm.successModal = false;
+              vm.datas();
 						},2000)
 					}else{
 						this.ishide = false;
@@ -228,11 +227,12 @@
 				this.notThrough = false;
 			},
 			notThroughs(){
+			  let vm = this
 				axios.post(AuthFail300227,
-				{
+          qs.stringify({
 					authId:this.authId,
 					remark:this.texts
-				}).then((res)=>{
+				})).then((res)=>{
 					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.ishide = false;
@@ -240,8 +240,8 @@
 						this.successMessage = '认证不通过成功!';
 						this.successModal = true;
 						setTimeout(function(){
-							this.successModal = false;
-							this.datas();
+              vm.successModal = false;
+              vm.datas();
 						},2000)
 					}else{
 						this.ishide = false;

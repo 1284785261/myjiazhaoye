@@ -508,6 +508,9 @@ const  AuthFail = '/cxkj-room/apis/pc/signauth/CxkjSignAuthFail300227'
 
 //实名认证详情
 const  AuthInfo = '/cxkj-room/apis/pc/signauth/CxkjAuthInfo300226'
+
+//短租订单列表-取消订单
+const CancelOrder = '/cxkj-pms/apis/pc/pmsorder/CxkjCancelOrder300229'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -678,6 +681,7 @@ export const CxkjAuthList300225 = host3 + CxkjAuthList;
 export const AuthSuccess300228 = host3 + AuthSuccess;
 export const AuthFail300227 = host3 + AuthFail;
 export const AuthInfo300226 = host3 + AuthInfo;
+export const CancelOrder300229 = host3 + CancelOrder;
 export const host = host3;
 //export default {
 //hosts:function(){

@@ -75,7 +75,7 @@
                 <Input v-model="room.serviceCost" placeholder="请填写服务费"></Input>
               </td>
               <td>
-                <Input v-model="room.deposit" placeholder="请填写押金"></Input>
+                <Input v-model="room.deposit" placeholder="请填写押金月数"></Input>
               </td>
               <td>
                 <Checkbox v-model="room.pmsRoom"></Checkbox>
@@ -171,7 +171,8 @@
             electricType:1,
             waterPrice:0,
             energyPrice:0,
-            serviceCost:""
+            serviceCost:"",
+            deposit:""
           }
         ],
         activeRoomIndex:0,
@@ -228,7 +229,7 @@
     },
     methods:{
       handleCheckAllChange(value){
-        console.log(this.checkAll);
+        // console.log(this.checkAll);
         if(this.checkAll == true){
           for(let i=0;i<this.checkBoxArr2.length;i++){
             this.selectListData.push(this.checkBoxArr2[i].dataName);
@@ -241,7 +242,7 @@
         // console.log(this.checkBoxArr2);
       },
       handleCheckedCitiesChange(value){
-        console.log(value);
+        // console.log(value);
         let checkedCount = value.length;
         this.checkAll = checkedCount === this.checkBoxArr2.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.checkBoxArr2.length;
@@ -275,7 +276,8 @@
               waterPrice:0,
               energyPrice:0,
               pmsRoom:false,
-              serviceCost:""
+              serviceCost:"",
+              deposit:""
             }
           ];
           for(var i =0;i<this.cxkjCommunityListRoom.length;i++){
@@ -294,7 +296,8 @@
         var that = this;
         this.$http.post(
           IntroduceInfo,qs.stringify({communityId:this.cacheCommunityId,communityType:0})
-        ).then(function(res){debugger
+        ).then(function(res){
+          // console.log(res);
           var communitySettingInfo = res.data.entity[0];
           //获取家电数据
           var communityListConfig = communitySettingInfo.cxkjCommunityListConfig;
@@ -311,6 +314,7 @@
           that.cun_waterChargeType = communitySettingInfo.waterChargeType;
           that.cun_energyChargeType = communitySettingInfo.energyChargeType;
           that.cun_serviceCost = communitySettingInfo.serviceCost;
+          that.cun_deposit = communitySettingInfo.deposit;
           //批量添加房间时默认同步社区水电计费方式
           if(!that.isEidRoom){
             //获取社区水电计费方式
@@ -319,6 +323,7 @@
             that.cxkjCommunityListRoom[0].waterType = that.cun_waterChargeType;
             that.cxkjCommunityListRoom[0].electricType = that.cun_energyChargeType;
             that.cxkjCommunityListRoom[0].serviceCost = that.cun_serviceCost;
+            that.cxkjCommunityListRoom[0].deposit = that.cun_deposit;
           }else{
             that.getRoomSource();
           }
@@ -349,7 +354,8 @@
               waterPrice:roomObj.waterPrice || that.cun_waterPrice,
               energyPrice:roomObj.energyPrice || that.cun_energyPrice,
               pmsRoom:roomObj.pmsRoom || false,
-              serviceCost:roomObj.serviceCost || that.cun_serviceCost
+              serviceCost:roomObj.serviceCost || that.cun_serviceCost,
+              deposit:roomObj.deposit || that.cun_deposit,
           }];
           // console.log(that.cxkjCommunityListRoom)
         }).catch(function(err){
@@ -446,7 +452,8 @@
             waterPrice:that.cun_waterPrice,
             energyPrice:that.cun_energyPrice,
             pmsRoom:false,
-            serviceCost:that.cun_serviceCost
+            serviceCost:that.cun_serviceCost,
+            deposit:that.cun_deposit
           })
         }
       },

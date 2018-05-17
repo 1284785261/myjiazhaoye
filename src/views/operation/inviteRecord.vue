@@ -114,7 +114,7 @@
       getInviteRecord(data){
         var that = this;
         this.$http.get(CxkjInviteFriendList300139,{params:data})
-          .then(function(res){debugger
+          .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.pageBean;
               that.inviteRecordList = pageBean.page;
@@ -154,7 +154,6 @@
             if(this.endDate){
               url = url + "&endDate="+new Date(this.endDate).Format("yyyy-MM-dd hh:mm");
             }
-            debugger
             window.open(url);
         }
        

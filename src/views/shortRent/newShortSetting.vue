@@ -1,6 +1,6 @@
 <template>
   <div >
-    <menu-box></menu-box>
+    <menu-box :active-tab-name="activeTabName"></menu-box>
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
@@ -89,6 +89,7 @@
     },
     data() {
       return {
+        activeTabName: "shortRent",
         tableName:"新增短租配置",
         stationSelectList:[],//社区列表
         communityId:'',//被选中的社区
@@ -116,17 +117,17 @@
     },
     mounted() {
       this.housetypeId = parseInt(this.$route.query.housetypeId);
-      // console.log(this.housetypeId);
+      this.communityId = this.$route.query.communityId;
       if(this.housetypeId){
         this.isEdit = true;
         this.tableName = "编辑短租配置";
-        this.selectCom = false;
-        this.getRoomTypeInfo();
-      }else{
-        
+        this.selectCom = true;
       }
-      this.getCommunityData();
-      // this.getRoomTypeInfo();
+      if(this.housetypeId && this.communityId){
+        this.getCommunityData();
+        this.getRoomTypeInfo();
+      }
+     
     },
     methods: {
       //获取社区id
@@ -136,7 +137,7 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.stationSelectList = res.data.entity;
-              if(that.$route.query.communityId){
+              if(that.communityId){
                 that.communityId = parseInt(that.$route.query.communityId);
               }else{
                 that.communityId = parseInt(that.stationSelectList[0].communityId);
@@ -150,7 +151,7 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypeInfo200188,qs.stringify({housetypeId:this.housetypeId})
         ).then(function(res){
-          console.log(res);
+          // console.log(res);
           if(res.data.code == 10000){
             vm.roomTypeInfo = res.data.entity;
             vm.housetypeArea = vm.roomTypeInfo.housetypeArea;
@@ -173,6 +174,7 @@
                   }
               }
             }
+            // console.log(vm.housetypeId);
           }
         })
       },
@@ -183,7 +185,6 @@
                 this.housetypeArea = this.lengthNameList[i].housetypeArea;
             }
         }
-        console.log(this.housetypeId);
       },
       //改变社区监听
       changeCommunityId(CommunityId){
@@ -204,7 +205,6 @@
 
       //提交按钮
       submit(){
-        console.log(this.housetypeId)
         let furniture = "";
         for(let i =0;i<this.selectListData.length;i++){
           for(let j =0;j<this.configMapSelects.length;j++){
@@ -218,7 +218,6 @@
           furniture = furniture.substring(0,furniture.length-1);
         }
         //防空判断
-
         if(this.bedNum == "" || this.communityId == "" || this.name == ""){
           this.warningMessage ="信息填入不完整，请补充完信息";
           this.warningModal = true;
@@ -234,7 +233,6 @@
           bedNum:this.bedNum,
           bedLength:this.bedLength,
         };
-        console.log(param);
         if(this.isEdit){
           this.edit(param);
         }else{

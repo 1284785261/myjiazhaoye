@@ -135,7 +135,7 @@
         let vm = this;
         this.$http.get(CxkjGetOrderDetail300182,{params:params}).then(res=>{
           if(res.data.code == 10000){
-            vm.detailData = res.data.entity;debugger
+            vm.detailData = res.data.entity;
           }
         })
       },

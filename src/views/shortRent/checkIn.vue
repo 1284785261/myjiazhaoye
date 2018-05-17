@@ -155,7 +155,7 @@
         var that = this;
         this.$http.get(CxkjGetInRoomInfo300214,{params:{id:this.orderId}})
           .then(function(res){
-            // console.log(res);
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.roomInfoData = res.data.entity;
               for(let i =0;i<that.roomInfoData.orderRoomList.length;i++){

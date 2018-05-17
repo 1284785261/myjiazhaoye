@@ -1301,7 +1301,7 @@
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-				console.log(this.housetderta);
+				this.depositmonth = this.housetderta.deposit;
         		this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
@@ -1309,8 +1309,6 @@
 						this.addRepairs2();
 					}
 
-				// console.log(this.housetderta.serviceCost)
-				console.log(this.housetderta)
 				// debugger
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
@@ -1921,6 +1919,7 @@
 					contractSignId:this.contractSignId
 				})
 				).then((res)=>{
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.compliedetails = res.data.entity;
 						this.roomNum = this.compliedetails.roomInfo.roomNum;

@@ -22,7 +22,7 @@
 							<li><span style="color: red;">剩余{{ThrowLease.surplusDay}}天</span></li>
 							<li><span>合租人数：{{ThrowLease.enterCount}}人</span></li>
 		    			</ul>
-		    			
+
 		    			<router-link :to="{name:'contractDetail',query:{contractSignId:ThrowLease.contractSignId,isOffice:ThrowLease.isOffice}}">查看合同</router-link>
 		    		</div>
 		    		<div class="surrendetal2">
@@ -41,17 +41,17 @@
 		    				<img src="../../../static/images/icon/info.png" /><h3>退租前水电费结算</h3>
 		    				<table>
 		    					<tr>
-		    						<td>水表读数：<span>{{refundableWaterInfo.waterReadingNum}}</span></td>
-									<td>用水量：<span>{{refundableWaterInfo.waterConsumptionNum}}</span></td>
+		    						<td>{{refundableWaterInfo.waterReading}}：<span>{{refundableWaterInfo.waterReadingNum}}</span></td>
+									<td v-if="refundableWaterInfo.waterConsumptionNum">{{refundableWaterInfo.waterConsumption}}：<span>{{refundableWaterInfo.waterConsumptionNum}}</span></td>
 									<td>水费：<span>{{refundableWaterInfo.waterRentNum | des}}元</span></td>
 		    					</tr>
 		    					<tr>
-		    						<td>电表读数：<span>{{refundableEnergyInfo.energyReadingNum}}</span></td>
-									<td>用电量：<span>{{refundableEnergyInfo.energyConsumptionNum}}</span></td>
+		    						<td>{{refundableEnergyInfo.energyConsumption}}：<span>{{refundableEnergyInfo.energyReadingNum}}</span></td>
+									<td v-if="refundableEnergyInfo.energyConsumptionNum">{{refundableEnergyInfo.energyReading}}：<span>{{refundableEnergyInfo.energyConsumptionNum}}</span></td>
 									<td>电费：<span>{{refundableEnergyInfo.energyRentNum | des}}元</span></td>
 		    					</tr>
 		    				</table>
-		    				
+
 		    				<p class="zong">应扣水电费:<span style="color: red;margin-left: 10px;">{{ThrowLease.refundableWaterEnergyMoney | des}}元</span></p>
 		    			</div>
 		    			<div>
@@ -94,7 +94,7 @@
 							<li><span>公司名称：{{ThrowLease.companyInfo}}</span></li>
 							<li><span>法人姓名：{{ThrowLease.companyLegalPerson}}</span></li>
 		    			</ul>
-		    			
+
 		    			<router-link :to="{name:'contractDetail',query:{contractSignId:ThrowLease.contractSignId,isOffice:ThrowLease.isOffice}}">查看合同</router-link>
 		    		</div>
 		    		<div class="surrendetal2">
@@ -146,7 +146,7 @@
 
 
 <script>
-	
+
 	import '../../sass/style/surrendetal.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -154,7 +154,7 @@
     import axios from 'axios';
     import { hostthrowlease } from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -213,6 +213,7 @@
 						this.ThrowLease = res.data.result;
 						if(this.ThrowLease.refundableMaterialsInfo){
 							this.refund = JSON.parse(this.ThrowLease.refundableMaterialsInfo);
+
 						}
 						if(this.ThrowLease.refundableOtherInfo){
 							this.OtherInfo = JSON.parse(this.ThrowLease.refundableOtherInfo);
@@ -231,8 +232,8 @@
 			},
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>

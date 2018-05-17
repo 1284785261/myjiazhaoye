@@ -758,7 +758,8 @@
 			},
 			room(val) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-        this.serve = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
+				this.serve = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
+				this.depositmonth = this.housetderta.deposit;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -1028,9 +1029,8 @@
 				for(let i = 0;i<arr2.length;i++){
 					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
 				}
-				console.log(this.fileList);
 				for(let i= 0;i<this.fileList.length;i++){
-					if(this.fileList.length > 0 && (this.fileList[i].fileTitle == '承租人身份证正面' || this.fileList[i].fileTitle == '承租人身份证反面')){
+					if(this.fileList.length < 0 && (this.fileList[i].fileTitle == '承租人身份证正面' || this.fileList[i].fileTitle == '承租人身份证反面')){
 						this.warningMessage = '承租人身份证正反面为必填';
 						this.warningModal = true;
 						this.disabledm = false;
@@ -1090,28 +1090,28 @@
 					vm.disabledm = false;
 					return
 				}else{
-					// axios.post(hostSignOffice,param).then(res =>{
-					// 	// console.log(res);
-					// 	if(res.status == 200 && res.data.code == 10000){
-					// 		vm.successModal = true;
-					// 		setTimeout(()=>{
-					// 			vm.successModal = false;
-					// 			vm.disabledm = false;
-					// 			this.$router.push('/contract/contractIndex');
-					// 		},3000);
-					// 	}
-					// 	else{
-					// 		vm.disabledm = false;
-					// 		vm.warningMessage = res.data.content;
-					// 		vm.warningModal = true;
-					// 	}
-					// })
-					// .catch(error=>{
-					// 	vm.warningMessage = '签约信息不完整,请检查信息填写';
-					// 	vm.warningModal = true;
+					axios.post(hostSignOffice,param).then(res =>{
+						// console.log(res);
+						if(res.status == 200 && res.data.code == 10000){
+							vm.successModal = true;
+							setTimeout(()=>{
+								vm.successModal = false;
+								vm.disabledm = false;
+								this.$router.push('/contract/contractIndex');
+							},3000);
+						}
+						else{
+							vm.disabledm = false;
+							vm.warningMessage = res.data.content;
+							vm.warningModal = true;
+						}
+					})
+					.catch(error=>{
+						vm.warningMessage = '签约信息不完整,请检查信息填写';
+						vm.warningModal = true;
 
-					// 	// console.log(error);
-					// })
+						// console.log(error);
+					})
 				}
 			},
 			//获取编辑合同详情

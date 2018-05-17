@@ -156,7 +156,8 @@
                   <td>门牌号</td>
                   <td>工位数</td>
                   <td>租金(元/月)</td>
-                  <td>服务费</td>
+                  <td>服务费(元/月)</td>
+                  <td>押金(月)</td>
                   <td>办公物资</td>
                   <td>操作</td>
                 </tr>
@@ -174,6 +175,9 @@
                   <td>
                     <input type="text" v-model="office.serviceCost"  placeholder="请输入服务费">
                   </td>
+                  <td>
+                    <input type="text" v-model="office.deposit"  placeholder="请输入押金月数">
+                  </td>
                   <td @click="openSelectOfficeModal(index)">
                     <p><a v-if="office.officeFurniture">{{office.officeFurniture}}</a><a v-else>请设置办公物资</a></p>
                   </td>
@@ -182,7 +186,7 @@
                   </td>
                 </tr>
                 <tr class="add_a">
-                  <td width="25% " colspan="6">
+                  <td width="25% " colspan="7">
                     <span>继续添加</span><input type="text" v-model="newRowNum" value="1"/> <span>行</span><a href="javascript:;" @click="addOffice()">确定</a>
                   </td>
                 </tr>
@@ -461,7 +465,9 @@
               officeWorkNum:"",
               officeFurniture:"",
               officeRent:"",
-              serviceCost:""
+              serviceCost:"",
+              deposit:""
+              
             });
             this.CommunityListMeeting.push({
               communityId:this.communityId,
@@ -475,7 +481,7 @@
 
       },
       handleCheckAllChange(value){
-        console.log(this.checkAll);
+        // console.log(this.checkAll);
         this.selectListData=[];
         if(this.checkAll){
           for(let i=0;i<this.checkBoxArr.length;i++){
@@ -529,14 +535,16 @@
       getOfficeInfo(){
         var that = this;
         this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
+          // console.log(res)
           if(res.data.code == 10000){
             
             that.CommunityListOffice = res.data.entity.cxkjCommunityListOffice;
-            that.communityServiceCost = res.data.entity.communityServiceCost
+            that.communityServiceCost = res.data.entity.communityServiceCost;
             for(var i =0;i<that.CommunityListOffice.length;i++){
               if(!that.CommunityListOffice[i].serviceCost){
-                that.CommunityListOffice[i].serviceCost = res.data.entity.communityServiceCost
+                that.CommunityListOffice[i].serviceCost = res.data.entity.communityServiceCost;
               }
+              // if(that.CommunityListOffice[i].deposit)
               if(that.CommunityListOffice[i].officeFurniture){
                 var idArr = that.CommunityListOffice[i].officeFurniture.split(",");
                 var furnitureArr = [];
@@ -548,7 +556,8 @@
             }
           }
           else if(res.data.code == 10004){
-            that.CommunityListOffice[0].serviceCost = res.data.entity.communityServiceCost
+            that.CommunityListOffice[0].serviceCost = res.data.entity.communityServiceCost;
+            that.CommunityListOffice[0].deposit = res.data.entity.deposit;
           }
         }).catch(function(err){
           // console.log(err);
@@ -1172,13 +1181,13 @@
     }
   }
   .message-tis #office-table{
-    width: 878px;
+    width: 1000px;
     margin-left: 100px;
     margin-top: 50px;
     margin-bottom: 40px;
   }
   .message-tis #office-table thead tr td{
-    width: 18%;
+    width: 10%;
   }
 
 

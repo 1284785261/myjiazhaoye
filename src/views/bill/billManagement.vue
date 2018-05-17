@@ -60,7 +60,7 @@
                   <td>{{room.userName}}</td>
                   <td>{{room.userPhone}}</td>
                   <td>{{room.cyclePayMoney}}</td>
-                  <td>{{room.deposit}}</td>
+                  <td>{{room.isFirstPay?room.deposit:''}}</td>
                   <td>{{room.serviceCost}}</td>
                   <td>{{room.realPayMoney}}</td>
                   <td>
@@ -130,7 +130,7 @@
                   <td>{{item.userName}}</td>
                   <td>{{item.userPhone}}</td>
                   <td>{{item.cyclePayMoney}}</td>
-                  <td>{{item.deposit}}</td>
+                  <td>{{item.isFirstPay?item.deposit:''}}</td>
                   <td>{{item.serviceCost}}</td>
                   <td>{{item.realPayMoney}}</td>
                   <td>
@@ -206,19 +206,20 @@
                   <th class="th1">租客/联系人</th>
                   <th class="th1">联系电话</th>
                   <th class="th1">状态</th>
+                  <th class="th1">操作</th>
                 </tr>
                 <tr class="tr1" v-for="(item,index) in billPaymentList">
                   <td class="td1">{{item.roomNum}}</td>
                   <td class="td1">
                     <table class="table2">
                       <tr class="tr2">
-                        <td v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                        <td v-if="item.waterChargeModel == 2">用水人数 :<span>{{item.count}}</span></td>
                         <td v-if="item.waterChargeModel != 2" class="td2">读数 :<span>{{item.waterData}}</span></td>
                         <td v-if="item.waterChargeModel != 2" class="td2">用水量 :<span>{{item.waterSize}}m³</span></td>
                         <td class="td2">水费 :<span>{{item.waterCost}}元</span></td>
                       </tr>
                       <tr class="tr2">
-                        <td v-if="item.waterChargeModel == 2">人数 :<span>{{item.count}}</span></td>
+                        <td v-if="item.waterChargeModel == 2">用电人数 :<span>{{item.count}}</span></td>
                         <td v-if="item.waterChargeModel != 2" class="td2">读数 :<span>{{item.energyData}}</span></td>
                         <td v-if="item.waterChargeModel != 2" class="td2">用电量 :<span>{{item.energySize}}度</span></td>
                         <td class="td2">电费 :<span>{{item.energyCost}}元</span></td>
@@ -235,6 +236,8 @@
                     <span v-if="item.payStatus == 3" style="color: red;">违约</span>
                     <span v-if="item.payStatus == 4" style="color: red;">违约办结</span>
                   </td>
+                  
+                  <td class="td1"><router-link :to="{name:'historyMeter',query:{roomId:item.roomId,tab:'2'}}">历史记录</router-link></td>
                 </tr>
               </table>
               <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search" v-if="billTotalNum > 0"></Page>
@@ -326,7 +329,7 @@
         this.activeName2 = this.$route.query.name;
       }
       this.getCommunityData();
-      
+
 
     },
     methods:{
@@ -509,7 +512,7 @@
         if(this.waterEnergyEndDate){
           params.endDate = new Date(this.waterEnergyEndDate).Format("yyyy-MM-dd");
         }
-        
+
         this.getbillPayment(params);
       },
       filterBill(payStatus){
@@ -752,6 +755,7 @@
       border-collapse:collapse;
       text-align: center;
       .th1{
+        text-align: center;
         background-color: #f8f8f9;
       }
       .th1,.td1{

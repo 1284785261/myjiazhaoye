@@ -443,7 +443,7 @@
 			//入住登记，ID暂时为固定数据
     		instas(){
 				// if(this.pmsOrder){
-					this.$router.push({name:'checkIn',query:{orderId:366,roomId:28}})
+					this.$router.push({name:'checkIn',query:{orderId:this.orderId,roomId:this.roomId}})
 				// }else{
 				// 	this.warningMessage = '当前没有订单可以添加入住';
 				// 	this.warningModal = true;
