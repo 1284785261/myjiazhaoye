@@ -346,9 +346,9 @@
 	margin-left: 20px;
 }
 .checkout table tr{
-	line-height: 30px;
+	line-height: 38px;
 }
-.checkout a{
+.checkout .butons{
 	width: 100px;
 	height: 34px;
 	display: inline-block;
@@ -358,7 +358,21 @@
 	color: white;
 	background: #038BE2;
 	border-radius: 5px;
-	margin: 100px 50px;
+	margin: 50px 50px;
+}
+.checkout .mtsf{
+	width: 60px;
+    height: 26px;
+    position: absolute;
+    text-align: center;
+    left: 66%;
+    top: 60%;
+    display: inline-block;
+    line-height: 26px;
+    font-size: 14px;
+    color: white;
+    background: #038BE2;
+    border-radius: 5px;
 }
 .addservices{
 	width: 390px;

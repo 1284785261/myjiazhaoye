@@ -43,8 +43,8 @@
 		    					<p>租期：无</p>
 		    				</td>
 		    				<td rowspan="3">
-		    					<a @click="openroom">一键换房</a>
-		    					<a @click="openrelet">续租</a>
+		    					<a @click="openroom(Datas.pmsOrder.orderId)">一键换房</a>
+		    					<!-- <a @click="openrelet">续租</a> -->
                                 <a @click="opengathering">添加收款</a>
                                 <a @click="openrefund">添加退款</a>
 		    					<a @click="opencheckout(Datas)">申请退房</a>
@@ -64,7 +64,7 @@
 		    				</td>
 		    				<td>
 								<!-- <p>协议价：258.00元</p> -->
-		    					<p v-if="fineProject">罚款金额：</p>
+		    					<p v-if="fineProject.length > 0">罚款金额：</p>
 								<ul>
 									<li v-for="(item,index) in fineProject">
 										<span>{{item.content}} </span><span style="width:60px;"> {{item.price}}元</span>
@@ -166,7 +166,6 @@
             <a @click="relet()">提交</a>
             <a @click="notrelet()">取消</a>
         </div>
-		<room-Change @notroomChange="notroomChange()" v-show="isHide3"></room-Change>
 		<div class="addgathering" v-show="isHide4">
 			<table>
 				<tr v-for="(item,index) in addcollectionProject">
@@ -207,13 +206,18 @@
 				<tr v-if="Checkinformation.roomieInfo">{{Checkinformation.roomieInfo.certificateName}}：{{Checkinformation.roomieInfo.certificateNumber}}</tr>
 				<tr>入住时间：{{Checkinformation.inTime | time}}</tr>
 				<tr>退房时间：<Date-picker type="date" placeholder="选择日期" v-model="CheckDates" @on-change="calculateRefundMoney"></Date-picker></tr>
+				<tr>应退天数：{{dayam}}天</tr>
 				<tr>协议价：{{Checkinformation.orderRoomFee}}元</tr>
-				<tr>罚款金额：{{Checkinformation.gatheringFee}}元</tr>
-				<tr>增值服务：{{Checkinformation.serviceFee}}元</tr>
-				<tr>总消费：{{Checkinformation.totalConsumeFee}}元</tr>
-				<tr v-if="refundMoney>0">应退款：{{refundMoney}}元</tr>
-				<tr v-if="refundMoney<0">应收款：{{refundMoney | Money}}元</tr>
+				<tr>增值服务总价：{{Checkinformation.serviceFee}}元</tr>
+				<tr v-if="stateHide == 1">退款金额：{{Checkinformation.refundFee}}元</tr>
+				<tr v-if="stateHide == 2">退款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.refundFee">元</tr>
+				<tr v-if="stateHide == 1">罚款金额：{{Checkinformation.gatheringFee}}元</tr>
+				<tr v-if="stateHide == 2">罚款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.gatheringFee">元</tr>
+				<tr v-if="refundMoney > 0">应退款：{{refundMoney}}元</tr>
+				<tr v-if="refundMoney <= 0">应收款：{{refundMoney | Money}}元</tr>
 			</table>
+			<a class="mtsf" v-if="stateHide == 1" @click="setstates">编辑</a>
+			<a class="mtsf" v-if="stateHide == 2" @click="setstatesm">保存</a>
 			<span style="margin:20px 0 20px 10px;display:inline-block;"  v-if="refundMoney < 0">支付方式：</span>
 			<el-radio-group v-if=" refundMoney < 0" v-model="radio2"  >
 				<el-radio :label="2">微信</el-radio>
@@ -222,8 +226,8 @@
 				<el-radio :label="5">现金</el-radio>
 				<el-radio :label="4">其他</el-radio>
 			</el-radio-group>
-			<a @click="checkout">提交</a>
-            <a @click="closecheckout()">取消</a>
+			<a class="butons" @click="checkout">提交</a>
+            <a class="butons" @click="closecheckout()">取消</a>
 		</div>
 		<div class="addservices" v-show="isHide7">
 			<p>
@@ -240,6 +244,35 @@
 			<a @click="setShortShowpass">确定</a>
 			<a @click="setShortshow">取消</a>
 		</div>
+
+		<!--排房-->
+		<div class="upload-modal"  v-if="roomChangeHide" @click="closeRoomChange()"></div>
+		<div class="roomchange" v-if="roomChangeHide">
+			<ul class="state2 transition-box">
+			<li>
+				<div v-for="(item,index) in paiFangList" :class="{'active-color':hasRoom(index)}" @click="selectRoom(index)">
+				<p></p>
+				<span class="short">短租</span>
+				<p style="font-size: 16px;">{{item.roomNum}}</p>
+				<!-- <p v-else></p> -->
+				<span></span>
+				<!-- <span v-else></span> -->
+				<span>{{item.name}}</span>
+				<!-- <span v-else></span> -->
+				<p>￥{{item.subTotal}}
+					<i v-if="item.roomStatus == 0">维护中</i>
+					<i v-if="item.roomStatus == 1">待出租</i>
+					<i v-if="item.roomStatus == 2">已出租</i>
+					<i v-if="item.roomStatus == 3">脏房</i>
+				</p>
+				</div>
+
+			</li>
+			</ul>
+			<a @click="submit()">提交</a>
+			<a @click="closeRoomChange()" style="left: 600px;">取消</a>
+		</div>
+		<!--排房-->
 	</div>
 </template>
 
@@ -253,7 +286,7 @@
 	import warningModal from '../../components/warningModal.vue';
 	import roomChange from '../../components/roomChange.vue';
     import axios from 'axios';
-    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,CxkjPmsAddCheckOutInfo300213,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212,BuyServices300216,CheckOutInfo300208 } from '../api.js';
+    import { ShortPmsRoomInfo200213,ShortOrderFinance200214,CxkjPmsAddCheckOutInfo300213,ShortFinanceUpdate200215,ShortRoomUpdate200216,ShortOrderRoomUpdate200217,ShortServiceInfo300212,BuyServices300216,CheckOutInfo300208,CxkjGetRoomListOfForRoom300195,CxkjAssignRoom300196 } from '../api.js';
     import qs from 'qs';
     export default {
     	components:{
@@ -269,7 +302,6 @@
 				activeTabName:"shortRent",
                 isHide:false,
 				isHide2:false,
-				isHide3:false,
 				isHide4:false,
 				isHide5:false,
 				isHide6:false,
@@ -308,11 +340,18 @@
 				orderServiceIds:[], //已设置增值服务的ID
 				Checkinformation:null, //退房详情信息
 				CheckDates:'',
-				refundMoney:'',//应收、应付
+				refundMoney:0,//应收、应付
 				roomDayPriceList:{},
-				value:''//退房时间
+				value:'',//退房时间
+				roomChangeHide:false,
+				stateHide:1,
+				paiFangList:[],
+				roomList:[],
+				activeRoomCount:1,
+				Moneytite:0,
+				dayam:0
 		   	}
-    	},
+		},
     	filters:{
     		Status(val){
     			if(val == 1){
@@ -432,22 +471,24 @@
 			Money(val){
 				return Math.abs(val);
 			}
-    	},
+		},
     	mounted(){
     		this.roomId = this.$route.query.id;
 			this.communityId = this.$route.query.ids;
 			// console.log(this.$route.query);
 			this.datas();
-    	},
+		},
+		computed:{
+		},
     	methods:{
 			//入住登记，ID暂时为固定数据
     		instas(){
-				// if(this.pmsOrder){
+				if(this.pmsOrder){
 					this.$router.push({name:'checkIn',query:{orderId:this.orderId,roomId:this.roomId}})
-				// }else{
-				// 	this.warningMessage = '当前没有订单可以添加入住';
-				// 	this.warningModal = true;
-				// }
+				}else{
+					this.warningMessage = '当前没有订单可以添加入住';
+					this.warningModal = true;
+				}
 
 			},
 			/**
@@ -455,15 +496,18 @@
 			 **/
 			calculateRefundMoney(value){
 				let vm = this
-				this.value =value
-				let info = this.roomDayPriceList.findIndex(item => item.dayNum == value)
+				this.value = value;
+				this.dayam = this.DateDiff(new Date(value).getTime(),this.Checkinformation.inTime);
+				let info = this.roomDayPriceList.findIndex(item => item.dayNum == value);
 				if(info==-1){
-					vm.warningMessage = '请选择有效的退租时间';
+					vm.CheckDates = '';
+					vm.warningMessage = '最大退租时间不能超过'+this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum;
 					vm.warningModal = true;
 					return
 				}
-				let Money = 0
-				let Hours=new Date().getHours()
+				let Money = 0;
+				let Hours=new Date().getHours();
+				// console.log(Hours);
 				if(Hours >=18){
 					for(let i =0;i<=info;i++){
 					Money+=parseInt(this.roomDayPriceList[i].price)
@@ -473,7 +517,9 @@
 					Money+=parseInt(this.roomDayPriceList[i].price)
 					}
 				}
-				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + Money)
+				
+				this.Moneytite = Money;
+				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + this.Moneytite);
 			},
 			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
@@ -502,7 +548,7 @@
     				})
     			)
     			.then((response) => {
-    				console.log(response);
+    				// console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 						this.Datas = response.data.entity;
 						if(this.Datas.pmsOrder){
@@ -650,7 +696,7 @@
 						roomStatus:vm.setStatus
 					})
 				).then((res)=>{
-					console.log(res);
+					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.successMessage = '设置状态成功';
 						this.successModal = true;
@@ -677,10 +723,16 @@
 			//设置短租房间退房
 			checkout(){
 				let vm = this
-				if(!vm.CheckDates){
-				this.warningMessage = '请选择退房时间';
-				this.warningModal = true;
-				return
+				if(vm.CheckDates == ''){
+					this.warningMessage = '请选择退房时间';
+					this.warningModal = true;
+				 	return
+				}
+				
+				if( new Date(this.CheckDates).getTime() > new Date(this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum).getTime()){
+					vm.warningMessage = '最大退租时间不能超过'+this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum;
+					vm.warningModal = true;
+					return
 				}
 				this.$http.post(CxkjPmsAddCheckOutInfo300213,
 					qs.stringify({
@@ -782,7 +834,6 @@
 				params.append('orderServiceIds',this.orderServiceIds.join(','));
 
 				axios.post(BuyServices300216, params).then((res)=>{
-					console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.successMessage = '操作增值服务成功';
 						this.successModal = true;
@@ -818,13 +869,29 @@
 				this.isHide = false;
                 this.isHide2 = false;
 			},
-			notroomChange(){
-				this.isHide = false;
-                this.isHide3 = false;
+			//打开排房的窗口以及获取可排房的房间
+			openroom(id){
+				let vm = this;
+				this.roomList = [];
+				this.activeRoomCount = 1;
+				let param = {id:id,pageNum:1}
+				this.$http.get(CxkjGetRoomListOfForRoom300195,{params:param}).then(res=>{
+					if(res.data.code == 10000 && res.status == 200){
+						vm.paiFangList = res.data.pageBean.page;
+						if(vm.paiFangList){
+							vm.isHide = true;
+							vm.roomChangeHide = true;
+						}
+					}else{
+						this.warningMessage = '当前没有可换的房间';
+						this.warningModal = true;
+						vm.paiFangList = [];
+					}
+				})
 			},
-			openroom(){
-				this.isHide = true;
-                this.isHide3 = true;
+			closeRoomChange(){
+				this.isHide = false;
+				this.roomChangeHide = false;
 			},
 			opengathering(){
 				this.isHide = true;
@@ -856,7 +923,6 @@
 				params.orderId = data.pmsOrder.orderId;
 				params.roomId = data.id;
 				axios.get(CheckOutInfo300208,{params:params}).then((res)=>{
-					console.log(res);
 					if(res.status == 200 && res.data.code == 10000){
 						this.Checkinformation = res.data.entity;
 						this.roomDayPriceList = res.data.entity.roomDayPriceList;
@@ -878,6 +944,63 @@
 				this.datas();
 				this.isHide = false;
 				this.isHide7 = false;
+			},
+			hasRoom(index){
+				for(let i=0;i<this.roomList.length;i++){
+					if(this.roomList[i] == index){
+					return true;
+					break;
+					}
+				}
+				return false;
+			},
+			selectRoom(index){
+				if(this.activeRoomCount>0){
+					if(this.roomList.length<this.activeRoomCount){
+						if(this.roomList.indexOf(index)!=-1){
+						this.roomList.splice(this.roomList.indexOf(index),1);
+						}else{
+						this.roomList.push(index);
+						}
+					}else{
+						if(this.roomList.indexOf(index)!=-1){
+						this.roomList.splice(this.roomList.indexOf(index),1);
+						}else{
+						this.roomList.splice(0,1);
+						this.roomList.push(index);
+						}
+					}
+				}
+			},
+			submit(){
+				let ids = [];
+				for(let i =0;i<this.roomList.length;i++){
+					ids.push(this.paiFangList[this.roomList[i]].id)
+				}
+
+				this.$http.post(CxkjAssignRoom300196,qs.stringify({id:this.orderId,roomIds:ids})).then(res=>{
+					if(res.data.code == 10000 && res.status == 200){
+						this.successMessage = '换房成功!';
+						this.successModal = true;
+						this.closeRoomChange();
+						setTimeout(()=>{
+							this.successModal = false;
+							this.datas();
+							this.$router.go(-1);
+						},1000)
+						
+					}else{
+						this.warningMessage = res.data.content;
+						this.warningModal = true;
+					}
+				})
+			},
+			setstates(){
+				this.stateHide = 2;
+			},
+			setstatesm(){
+				this.stateHide = 1;
+				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + this.Moneytite);
 			}
 
     	},
@@ -938,4 +1061,111 @@
 				top: 1px;
 			}
 		}
+	.roomchange{
+      width: 900px;
+      min-height: 300px;
+      background: #fff;
+      z-index: 9999;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      border-radius: 5px;
+    }
+    .roomchange .state2{
+      display: block;
+    }
+    .roomchange .state2 li{
+      width: 194px;
+      height: 160px;
+      border: 1px solid #DCDCDC;
+      border-radius: 5px;
+      float: left;
+      margin: 15px 15px;
+      position: relative;
+    }
+    .roomchange .state2 li div{
+      width: 194px;
+      height: 160px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .roomchange .state2 li div{
+      width: 194px;
+      height: 160px;
+      background-color: #038be2;
+      display: inline-block;
+    }
+    .roomchange .state2 li div .act{
+      color: #1fbba6;
+    }
+    .roomchange .state2 li div .act2{
+      color: #038be2;
+    }
+    .roomchange .state2 li div p:nth-child(1){
+      font-size: 12px;
+      font-weight: bold;
+      margin:10px 0 7px 10px;
+    }
+    .roomchange .state2 li div p:nth-child(3){
+      font-size: 12px;
+      margin:0 0 8px 10px;
+    }
+
+    .roomchange .state2 li span{
+      display: block;
+      font-size: 12px;
+      color: #ff1d10;
+      margin:0 0 0 10px;
+    }
+    .roomchange .state2 li .short{
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 50px;
+      height: 25px;
+      display: inline-block;
+      background: #ffffff;
+      text-align: center;
+      line-height: 25px;
+      color: black;
+    }
+    .roomchange .state2 li p:nth-child(6){
+      width: 100%;
+      height: 46px;
+      border-radius: 5px;
+      border-top: 1px solid #dcdcdc;
+      background: #1dc0e9;
+      font-size: 12px;
+      color: #000;
+      line-height: 45px;
+      padding-left: 10px;
+      position: absolute;
+      bottom: 0px;
+    }
+    .roomchange .state2 li p:nth-child(6) i{
+      float: right;
+      font-style: normal;
+      margin-right: 10px;
+    }
+    .roomchange a{
+      width: 100px;
+      height: 30px;
+      display: inline-block;
+      text-align: center;
+      line-height: 30px;
+      font-size: 16px;
+      color: white;
+      background: #038BE2;
+      border-radius: 5px;
+      position: absolute;
+      left: 200px;
+      bottom: 20px;
+    }
+	.active-color{
+      background-color: #1dc0e9!important;
+    }
 </style>

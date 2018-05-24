@@ -112,6 +112,8 @@
                     <th>房型</th>
                     <th>房号</th>
                     <th>入住人</th>
+                    <th>入住人年龄</th>
+                    <th>入住人电话</th>
                     <th>到店日期</th>
                     <th>离店日期</th>
                     <th>预付款</th>
@@ -129,6 +131,8 @@
                 <td>{{item.name}}</td>
                 <td>{{item.roomNum}}</td>
                 <td>{{item.personnelName}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.phone}}</td>
                 <td>{{item.arriveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                 <td>{{item.payMoney}}</td>
@@ -265,7 +269,7 @@
         this.$http.get(CxkjGetPersonnelList300180,{params:params}).then(res=>{
           if(res.data.code == 10000){
             vm.shortOrderList = res.data.pageBean.page;
-            console.log(vm.shortOrderList);
+            // console.log(vm.shortOrderList);
             vm.totalNum = res.data.pageBean.totalNum;
           }else{
             vm.shortOrderList = [];
@@ -432,7 +436,7 @@
         let params = {};
         params.id = item.orderRoomId;
         axios.get(GetOrderRoomIn300223,{params:params}).then((res)=>{
-          console.log(res);
+          // console.log(res);
           if(res.status == 200 && res.data.code == 10000){
             this.$emit("checkdetails",res.data.entity);
           }
@@ -453,4 +457,13 @@
     @import '../../sass/base/_mixin.scss';
     @import '../../sass/base/_public.scss';
     @import '../../sass/page/shortRent.scss';
+    .tableDiv{
+      tr{
+        td{
+          text-align: center;
+        }
+        
+      }
+      
+    }
 </style>

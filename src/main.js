@@ -58,8 +58,18 @@ Vue.prototype.DateDiff = function(sDate1,sDate2){
   // oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式
   // aDate  =  sDate2.split("-")
   // oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])
-  iDays  =  parseInt(Math.abs(sDate1  -  sDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数
-  return  iDays
+  iDays  = Math.abs(sDate1  -  sDate2)  /  1000  /  60  /  60  /24;   //把相差的毫秒数转换为天数
+  if(sDate1 && sDate2){
+    if(parseFloat(iDays) > 0 && parseFloat(iDays) < 1){
+      return Math.ceil(iDays);
+    }else{
+      return  parseInt(iDays);
+    }
+  }else{
+    return 0
+  }
+  
+  
 }
 
 Vue.filter("Service", function(value) {  //企业服务

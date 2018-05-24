@@ -11,7 +11,7 @@
                     <span>您现在的位置：短租订单管理 ></span>
                     <router-link class="active" to="/shortRent">订单详情</router-link>
                 </div> -->
-                <div id="order-detail-wrap">
+                <div id="order-detail-wrapm">
                     <div class="order-detail-wrap-head">
                         <img v-if="detailData.orderState==2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
                         <img v-else-if="detailData.orderState==4" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已使用">

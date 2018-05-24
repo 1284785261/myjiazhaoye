@@ -518,6 +518,12 @@ export default new Router({
       component:resolve =>
       require(['../views/signed/Certificationdetaile.vue'],resolve)
     },
+    {
+      path:'/shortRent/shortroomResident',//短租状态-住户列表
+      name:'shortroomResident',
+      component:resolve =>
+      require(['../views/shortRent/shortroomResident.vue'],resolve)
+    },
 
   ]
 })

@@ -37,7 +37,7 @@
           <td>{{item.name}}</td>
           <td>{{item.roomSettingStr}}</td>
           <td>{{item.serviceInfo}}</td>
-          <td>房型面积{{item.housetypeArea}}m²,{{item.bedNum}}{{item.bedLength}}</td>
+          <td>房型面积{{item.housetypeArea}}m²,{{item.bedNum }} {{ item.bedLength}}米</td>
           <td>
             <a @click="deleteShort(item.housetypeId)">删除</a>
             <a @click="goToNewShort(item.housetypeId)">编辑</a>
@@ -170,7 +170,6 @@
           if(res.data.code == 10000){
             vm.shortSettingList = res.data.entity.page;
             vm.totalNum = res.data.entity.totalNum;
-            console.log(vm.shortSettingList);
             for(let j =0;j<vm.shortSettingList.length;j++){
               let configNew = vm.shortSettingList[j].configNew;
               let roomSettingStr = "";
@@ -180,7 +179,6 @@
               roomSettingStr = roomSettingStr.substring(0,roomSettingStr.length-1);
               vm.shortSettingList[j].roomSettingStr = roomSettingStr;
             }
-
           }
           else{
             vm.shortSettingList = [];
@@ -270,11 +268,14 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypesubmit200189,qs.stringify(param)
         ).then(function(res){
-          console.log(res);
-          if(res.data.code == 10000){
+          if(res.data.code == 10000 && res.status == 200){
             that.closeUploadModal();
             that.search();
-            that.$emit("successUpload");
+            let data = 1;
+            that.$emit("successUpload",data);
+          }else{
+            let data = 2;
+            that.$emit("successUpload",data);
           }
         })
       },
@@ -286,13 +287,13 @@
       },
 
       /**
-       * 打开创建哑帐弹框
+       * 打开图片上传弹框
        */
       openUploadModal(housetypeId,index){
         let images = this.shortSettingList[index].images;
         this.fileList = [];
         this.uploadFileList = [];
-        if(images &&　images.indexOf(",")!=-1){//大于一个照片
+        if(images){//大于一个照片
           let imagesArr = images.split(",");
           for(let i =0;i<imagesArr.length;i++){
             let len = imagesArr[i].split("/");
@@ -311,7 +312,7 @@
         }, 0)
       },
       /**
-       * 关闭创建哑帐弹框
+       * 关闭图片上传弹框
        */
       closeUploadModal(){
         document.querySelector("#app").firstChild.removeChild(this.$refs.uploadModal);
@@ -360,6 +361,9 @@
     bottom: 0;
     left: 0;
     right: 0;
+    .el-dialog{
+      min-height: 610px;
+    }
     .upload-content-title{
       height: 60px;
       width: 100%;
@@ -405,6 +409,13 @@
     }
     .el-upload__input{
       display: none;
+    }
+  }
+  .tableDiv{
+    table{
+      th{
+        text-align:center;
+      }
     }
   }
 </style>

@@ -72,7 +72,7 @@
 									<td>证件类型:</td>
 									<td>
 										<el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
-											<el-option v-for="item in user.options2" :key="item.dataName" :value="item.dataName">
+											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
 											</el-option>
 										</el-select>
 									</td>
@@ -401,8 +401,8 @@
 								<tr>
 									<td>证件类型:</td>
 									<td>
-										<el-select v-model="value" placeholder="请选择证件类型">
-											<el-option v-for="item in user.options2" :key="item.dataName" :value="item.dataName">
+										<el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
+											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
 											</el-option>
 										</el-select>
 									</td>
@@ -468,7 +468,7 @@
 							<p>租期信息:</p>
 							<ul class="zq">
 								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
 								</li>
 								<li><span class="qzr">到期日：</span>
 									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>

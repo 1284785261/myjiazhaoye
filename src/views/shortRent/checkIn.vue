@@ -84,7 +84,9 @@
                         <Select v-model="item.certificateType" style="width:120px;">
                           <Option v-for="community in  stationSelectList" :value="community.dataId" :key="community.dataId">{{ community.dataName }}</Option>
                         </Select>
-                        <input class="ivu-input" style="width:250px;" v-model="item.certificateNumber">
+                        <input class="ivu-input" style="width:200px;" v-model="item.certificateNumber">
+                        年龄：<input class="ivu-input" style="width:70px;" v-model="item.age">
+                        联系电话：<input class="ivu-input" style="width:100px;" v-model="item.phone">
                         <Button v-if="item.add == true" type="primary" style="display: inline-block" @click="addPerson(item,index)">+ 添加入住人</Button>
                         <Button v-if="item.add == false" type="primary" style="display: inline-block" @click="deletePerson(item,index)">- 删除</Button>
                       </li>
@@ -165,6 +167,8 @@
                   gender:"1",
                   certificateType:that.stationSelectList[0].dataId,
                   certificateNumber:"",
+                  age:'',
+                  phone:'',
                   roomId:that.roomInfoData.orderRoomList[i].roomId,
                   id:that.roomInfoData.orderRoomList[i].id,
                   roomNum:that.roomInfoData.orderRoomList[i].roomNum,
@@ -195,6 +199,8 @@
           gender:person.gender,
           certificateType:this.stationSelectList[0].dataId,
           certificateNumber:"",
+          age:'',
+          phone:'',
           roomId:person.roomId,
           id:this.pmsRoomInfo[index].id,
           roomNum:person.roomNum,
@@ -219,10 +225,12 @@
             params.append(`cxkjPmsOrderRoomieDtos[${i}].orderRoomId`,this.pmsRoomInfo[i].id);
             params.append(`cxkjPmsOrderRoomieDtos[${i}].orderId`,this.orderId);
             params.append(`cxkjPmsOrderRoomieDtos[${i}].name`,this.pmsRoomInfo[i].username);
-            params.append(`cxkjPmsOrderRoomieDtos[${i}].gender`,this.pmsRoomInfo[i].gender)
-            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateType`,this.pmsRoomInfo[i].certificateType)
-            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateNumber`,this.pmsRoomInfo[i].certificateNumber)
-            params.append(`cxkjPmsOrderRoomieDtos[${i}].roomId`,this.pmsRoomInfo[i].roomId)
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].gender`,this.pmsRoomInfo[i].gender);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateType`,this.pmsRoomInfo[i].certificateType);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].certificateNumber`,this.pmsRoomInfo[i].certificateNumber);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].roomId`,this.pmsRoomInfo[i].roomId);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].age`,this.pmsRoomInfo[i].age);
+            params.append(`cxkjPmsOrderRoomieDtos[${i}].phone`,this.pmsRoomInfo[i].phone);
         }
         this.$http.post(CxkjAddPersonnel300215,params).then(res=>{
           // console.log(res);
@@ -253,7 +261,7 @@
   }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
 
@@ -303,7 +311,7 @@
       margin: 0;
       height: 100%;
       li{
-        border-bottom:0;
+        border-bottom:none;
         margin-top: 10px;
         span{
           display: inline-block;

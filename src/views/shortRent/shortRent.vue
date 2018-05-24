@@ -260,7 +260,7 @@
 
         },
         openWarningModal(message){
-            console.log(message);
+            // console.log(message);
             if(message.sum == 1){
                 this.successMessage = message.title;
                 this.successModal = true;
@@ -530,19 +530,25 @@
         // shortpriceshortprice(){
         //   this.successModal = true;
         // },
-        successUpload(){
-          let vm = this;
-          vm.successMessage = "上传图片成功!";
-          vm.successModal = false;
-          setTimeout(function(){
-            vm.successModal = false;
-           },1500)
+        successUpload(data){
+            let my = data;
+            if(my == 1){
+                this.successMessage = "上传图片成功!";
+                this.successModal = true;
+                setTimeout(()=>{
+                    this.successModal = false;
+                },1500)
+            }else{
+                this.warningMessage = "上传图片失败!";
+                this.warningModal = true;
+            }
+          
 
         },
         //得到房间的所有信息
         checkdetails(value){
             this.checkdetail = value;
-            console.log(this.checkdetail);
+            // console.log(this.checkdetail);
             this.shows = true;
             
         },

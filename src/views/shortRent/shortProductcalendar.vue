@@ -166,7 +166,8 @@
                 axios.post(PmsRoomProductCalendar200207,
                 qs.stringify({
                     communityId:value,
-                    roomTypeId:types
+                    roomTypeId:types,
+                    startDate:this.calendarTime,
                 })
                 ).then((res)=>{
                     if(res.status == 200 && res.data.code == 10000){

@@ -3,7 +3,7 @@
 		<div id="shortTerm">
 			<div class="shortTerm1">
 				<div class="form-search-criteria">
-					<router-link :to="{path:'/signed/shortresident',query:{id:communityId}}">住户列表</router-link>
+					<router-link :to="{path:'/shortRent/shortroomResident',query:{id:communityId}}">住户列表</router-link>
 					<div class="form-item">
 						<b>房型：</b>
 						<Select v-model="roomCategorvalue" style="width:150px">
@@ -193,7 +193,8 @@
     	},
     	mounted(){
     		this.communityId = sessionStorage.getItem('communityId');
-    		this.Name = this.$route.query.Name;
+			this.Name = this.$route.query.Name;
+			this.host4 = host;
     		//console.log(this.communityId);
     		this.datas();
 			this.shortList();
@@ -268,7 +269,7 @@
 					this.floorIdList.splice(indexs,1);
 				}
 				if(this.communityId && this.floorIdList != []){
-					this.host4 = '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomDownload200212?'+'communityId='+this.communityId;
+					this.host4 += '/cxkj-pms/apis/pc/pmsroom/CxkjCommunityPmsRoomDownload200212?'+'communityId='+this.communityId;
 					for(let i = 0;i<this.floorIdList.length;i++){
 						this.host4 += `&floorIdList[${i}]=${this.floorIdList[i]}`;
 					}

@@ -118,13 +118,13 @@
     mounted() {
       this.housetypeId = parseInt(this.$route.query.housetypeId);
       this.communityId = this.$route.query.communityId;
-      if(this.housetypeId){
+      
+      this.getCommunityData();
+
+      if(this.housetypeId && this.communityId){
         this.isEdit = true;
         this.tableName = "编辑短租配置";
         this.selectCom = true;
-      }
-      if(this.housetypeId && this.communityId){
-        this.getCommunityData();
         this.getRoomTypeInfo();
       }
      
@@ -151,7 +151,7 @@
         this.$http.post(
           CxkjCommunityPmsRoomTypeInfo200188,qs.stringify({housetypeId:this.housetypeId})
         ).then(function(res){
-          // console.log(res);
+          console.log(res);
           if(res.data.code == 10000){
             vm.roomTypeInfo = res.data.entity;
             vm.housetypeArea = vm.roomTypeInfo.housetypeArea;

@@ -11,7 +11,7 @@
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>订单详情</h3>
         </div>
-        <div id="order-detail-wrap">
+        <div id="order-detail-wrapm">
           <div class="order-detail-wrap-head">
             <img v-if="detailData.orderState==2" src="../../../static/images/icon/orderDetail_03.png" alt="订单详情-已支付">
             <img v-else-if="detailData.orderState==4" src="../../../static/images/icon/orderDetail_02.png" alt="订单详情-已取消">

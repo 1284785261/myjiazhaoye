@@ -10,7 +10,7 @@
                 </Select>
             </div>
             <div class="form-item">
-              入住率：<span v-if="shortOrderInfo.occupancyRate">{{shortOrderInfo.occupancyRate}}</span><span v-else>0</span>
+              入住率：<span v-if="shortOrderInfo.occupancyRate">{{shortOrderInfo.occupancyRate}}%</span><span v-else>0</span>
             </div>
             <div class="form-item">
                 总房数/已订房：{{shortOrderInfo.totalCount}}/{{shortOrderInfo.bookedTotalCount}}
@@ -176,9 +176,9 @@
                     <td>{{item.leaveTime | timefilter('yyyy-MM-dd')}}</td>
                     <td>{{item.payMoney}}</td>
                     <td>
-                        <a v-if="item.isRoom == 0" @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
-                        <a v-if="item.isRoom == 1 && item.isIn==0" @click="checkIn(item.orderId,item)">入住</a>
-                        <a v-if="item.isIn == 0" @click="noOrders(item.orderId)">取消订单</a>
+                        <a v-if="item.isRoom == 0 && item.orderState != 3" @click="getPaifangData(item.roomCount,item.orderId)">排房</a>
+                        <a v-if="item.isRoom == 1 && item.isIn==0 && item.orderState != 3" @click="checkIn(item.orderId,item)">入住</a>
+                        <a v-if="item.isIn == 0 && item.orderState != 3" @click="noOrders(item.orderId)">取消订单</a>
                         <a @click="orderDetail(item.orderId)">查看详情</a>
                     </td>
                 </tr>
@@ -571,7 +571,8 @@
         }
 
         this.$http.post(CxkjAssignRoom300196,qs.stringify({id:this.activeOrderId,roomIds:ids})).then(res=>{
-          if(res.data.code == 10000){
+          if(res.data.code == 10000 && res.status == 200){
+            this.getCommunityData();
             this.closeRoomChange();
           }
         })
@@ -696,7 +697,6 @@
           communityId:this.communityId
         };
         this.$http.post(CxkjCreateOrder300193,qs.stringify(param)).then(res=>{
-          console.log(res);
           if(res.data.code == 10000 && res.status == 200){
               vm.bookName = "";
               vm.bookPhone = "";
@@ -776,7 +776,8 @@
             vm.paiFangList = res.data.pageBean.page;
             vm.paifang();
           }else{
-            vm.$emit("openWarningModal","没有房间信息!")
+            let data = {sum:2,title:'没有房间信息!'};
+            vm.$emit("openWarningModal",data)
             vm.paiFangList = [];
           }
         })
@@ -850,11 +851,10 @@
         qs.stringify({
           id:ids
         })).then((res)=>{
-          console.log(res);
           if(res.status == 200 && res.data.code == 10000){
             let data={sum:1,title:'删除订单成功！'};
-            that.$emit("openWarningModal",data);
             that.getCommunityData();
+            that.$emit("openWarningModal",data);
           }else{
             let data={sum:2,title:res.data.content};
             that.$emit("openWarningModal",data);
