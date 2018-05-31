@@ -6,39 +6,39 @@
             <div class="wordbench-box">
                 <Tabs type="card" v-model="activeName" @on-click="changeTab">
                     <Tab-pane label="社区房间状态" name="short-term-item">
-                        <div class="message-ti" v-if="activeName == 'short-term-item'">
+                        <div class="message-tim" v-if="activeName == 'short-term-item'">
                           <short-term-item></short-term-item>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="社区短租配置" name="short-setting-list">
-                        <div class="message-ti">
+                        <div class="message-tim">
                           <short-setting-list @successUpload ="successUpload"></short-setting-list>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="价格设置" name="short-price-set">
-                        <div class="message-ti">
+                        <div class="message-tim">
                             <short-price-set ref="price" @setPrice="setPrice"></short-price-set>
                         </div>
                     </Tab-pane>
                      <Tab-pane label="产品日历" name="short-product-calendar">
-                        <div class="message-ti">
-                            <short-product-calendar></short-product-calendar>
+                        <div class="message-tim">
+                            <short-product-calendar ref="cliskm" @clisk="clisk"></short-product-calendar>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="入住列表" name="short-stay-list">
-                        <div class="message-ti">
+                        <div class="message-tim">
                             <short-stay-list @checkdetails = "checkdetails"></short-stay-list>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="订单列表" name="short-order-list">
-                        <div class="message-ti">
+                        <div class="message-tim">
                             <div class="finance-header-kong">
                                 <short-order-list @openWarningModal="openWarningModal"></short-order-list>
                             </div>
                         </div>
                     </Tab-pane>
                     <Tab-pane label="哑房账" name="short-Room-Bill-list">
-                        <div class="message-ti">
+                        <div class="message-tim">
                             <short-Room-Bill-list @openWarningModal="openWarningModal"></short-Room-Bill-list>
                         </div>
                     </Tab-pane>
@@ -508,7 +508,13 @@
                         for(let i=0;i<arr.length;i++){
                             arr[i] = parseInt(arr[i]);
                         }
-                        this.$refs.price.changePane(arr[0],arr[1]-2,arr[2]);
+                        if(arr[1]%2 == 0){
+                            this.$refs.price.changePane(arr[0],arr[1]-2,arr[2]);
+                        }else{
+                            this.$refs.price.changePane(arr[0],arr[1]-1,arr[2]);
+                        }
+                        
+                        this.clisk();
                     }, 2000);
                 }else{
                     this.isHide = false;
@@ -518,6 +524,10 @@
             }).catch((err)=>{
                 // console.log(err);
             })
+        },
+        clisk(){
+            // this.$refs.cliskm.$emit('childMethod')
+            this.$refs.cliskm.callMethod();
         },
         //关闭价格设置窗口
         coloseSet(){
@@ -566,9 +576,9 @@
     #right-content{
         height: 100%!important;
         min-height: 1300px;
-        .message-tix{
+        .message-tim{
             width: 100%;
-            min-height: 1000px;
+            min-height: 1100px;
             background-color: #fff;
             overflow: hidden;
             box-shadow: 0 2px 1px #ccc!important;
@@ -581,28 +591,28 @@
         // box-shadow: 0 2px 1px #ccc;
     }
 
-    .message-ti {
+    .message-tim {
         position: relative;
     }
 
-    .message-ti .block {
+    .message-tim .block {
         position: absolute;
         left: 50%;
         margin-top: 120px;
         transform: translate(-50%, -50%);
     }
 
-    .message-ti .block .el-pagination {
+    .message-tim .block .el-pagination {
         text-align: center;
         margin-top: 40px;
     }
 
-    .message-ti .block .el-pagination .el-pager .number {
+    .message-tim .block .el-pagination .el-pager .number {
         margin: 0 5px;
         border: 1px solid #DCDCDC;
     }
 
-    .message-ti .block .el-pagination button {
+    .message-tim .block .el-pagination button {
         border: 1px solid #DCDCDC;
     }
 

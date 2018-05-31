@@ -346,7 +346,7 @@
 	margin-left: 20px;
 }
 .checkout table tr{
-	line-height: 38px;
+	line-height: 42px;
 }
 .checkout .butons{
 	width: 100px;
@@ -366,7 +366,7 @@
     position: absolute;
     text-align: center;
     left: 66%;
-    top: 60%;
+    top: 49%;
     display: inline-block;
     line-height: 26px;
     font-size: 14px;

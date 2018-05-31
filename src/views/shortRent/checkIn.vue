@@ -57,8 +57,8 @@
                   <td>市场细分:</td>
                   <td>
                     <span v-if="roomInfoData.checkInInfo.marketType == 0">门市散客</span>
-                    <span v-if="roomInfoData.checkInInfo.marketType == 1">内部员工 </span>
-                    <span v-if="roomInfoData.checkInInfo.marketType == 2">协议单位</span>
+                    <span v-else-if="roomInfoData.checkInInfo.marketType == 1">内部员工 </span>
+                    <span v-else-if="roomInfoData.checkInInfo.marketType == 2">协议单位</span>
                     <span v-else>无</span>
                   </td>
                 </tr>

@@ -4,217 +4,125 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-site">
-          <span>您现在的位置：</span>
-          <router-link  class="active" to="">月报</router-link>
-        </div>
-        <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>月报</h3>
-        </div>
         <div id="operation-day-report-wrap">
-          <div class="operation-day-report-content">
-            <div>
-              <Date-picker type="month" placeholder="选择日期" v-model="startDate"
-                           :editable="false" :clearable="false" @on-change="dateChange"></Date-picker>
-              <!--至-->
-              <!--<Date-picker type="month" placeholder="选择日期" v-model="endDate"></Date-picker>-->
-            </div>
-            <dev class="day-report-btn">
-              <!--<Button type="primary" style="width:120px;height: 38px;">导出报表</Button>-->
-            </dev>
-          </div>
-          <div class="day-report-center-wrap">
-            <div class="day-report-center-title">
-              <h2>{{date}}报表</h2>
-            </div>
-          </div>
-
-          <ul class="day-report-table-ul">
-            <li class="day-report-table-li">
-              <h3><i class="icon icon-iden"></i>房源状态</h3>
-              <!-- 报表 -->
-              <div class="report-list">
-                <!-- 公寓 报表 -->
-                <div id="apartment" ></div>
-                <!-- 办公室 报表 -->
-                <div id="office" ></div>
-                <hr class="border-dotted">
-                <!-- 会议室 报表 -->
-                <div id="meeting" ></div>
-                <!-- 工位 报表 -->
-                <div id="station" ></div>
-                <hr class="border-solid">
+					<Tabs type="card">
+            <Tab-pane label="公寓">
+              <div class="form-search-criteria">
+                <div class="form-item">
+                  <span>报表日期：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="startDate" :on-change="startDatem(startDate)"></Date-picker>
+									--
+									<Date-picker type="date" placeholder="选择日期" v-model="endDate" disabled></Date-picker>
+                </div>
+                <!-- <div class="form-item">
+                  <b>公司：</b>
+                  <Select v-model="roomCommunity" style="width:150px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div>
+                 <div class="form-item">
+                  <b>项目：</b>
+                  <Select v-model="roomCommunity" style="width:150px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div> -->
+                <div class="form-item">
+                  <div class="form-search">
+                    <a class="daochu" @click="dateChange">查询</a>
+                    <a class="daochu" :href="hosrt">导出</a>
+                  </div>
+                </div>
               </div>
-            </li>
-            <li class="day-report-table-li">
-              <h3><i class="icon icon-iden"></i>业务情况</h3>
-              <!-- 报表 -->
-              <div class="report-list">
-                <!-- 业务情况 报表 -->
-                <div id="business" ></div>
-                <hr class="border-solid">
+              <table class="dayreporttable" v-if="houseResource">
+                <tr>
+                  <th>日期</th>
+                  <th>运营间数</th>
+                  <th>已出租间数</th>
+                  <th>待租间数</th>
+                  <th>本周出租房间数</th>
+                  <th>本月累计出租房间数</th>
+                  <th>本周退房间数</th>
+                  <th>本月累计退房间数</th>
+                  <th>出租率</th>
+									<th>上周出租房间数</th>
+									<th>收入</th>
+                </tr>
+                <tr>
+                  <td>{{houseResource.beginDate | datem}}-{{houseResource.endDate | datem}}</td>
+                  <td>{{houseResource.totalCount}}</td>
+                  <td>{{houseResource.rentCount}}</td>
+                  <td>{{houseResource.vacantCount}}</td>
+                  <td>{{houseResource.weeklyNewRentCount}}</td>
+                  <td>{{houseResource.monthlyNewRentCount}}</td>
+                  <td>{{houseResource.weeklyRefundCount}}</td>
+                  <td>{{houseResource.monthlyRefundCount}}</td>
+                  <td>{{houseResource.rentPercent}}%</td>
+                  <td>{{houseResource.preWeeklyNewRentCount}}</td>
+                  <td>{{houseResource.totalIncome}}</td>
+                </tr>
+              </table>
+              <!-- <div class="blank-background-img" v-if="memberTotalNum == 0">
+                <img src="../../../static/images/blank/member_space.png" >
+                <h2>暂无会员信息~</h2>
+              </div> -->
+            </Tab-pane>
+            <Tab-pane label="联合办公">
+              <div class="form-search-criteria">
+                <div class="form-item">
+                  <span>报表日期：</span>
+                  <Date-picker type="date" placeholder="选择日期" v-model="officestartDate" :on-change="officestartDatem(officestartDate)"></Date-picker>
+									--
+									<Date-picker type="date" placeholder="选择日期" v-model="officeendDate" disabled></Date-picker>
+                </div>
+                <!-- <div class="form-item">
+                  <b>公司：</b>
+                  <Select v-model="roomCommunity" style="width:150px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div>
+                 <div class="form-item">
+                  <b>项目：</b>
+                  <Select v-model="roomCommunity" style="width:150px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div> -->
+                <div class="form-item">
+                  <div class="form-search">
+                    <a class="daochu" @click="dateChange2">查询</a>
+                    <a class="daochu" :href="officehosrt">导出</a>
+                  </div>
+                </div>
               </div>
-            </li>
-            <li class="day-report-table-li">
-              <h3><i class="icon icon-iden"></i>账单情况</h3>
-              <!-- 报表 -->
-              <div class="report-list">
-                <!-- 账单情况 报表 -->
-                <div id="bills" ></div>
-                <hr class="border-solid">
-              </div>
-            </li>
-            <li class="day-report-table-li">
-              <h3><i class="icon icon-iden"></i>财务情况</h3>
-              <!-- 报表 -->
-              <div class="report-list">
-                <!-- 收入 报表 -->
-                <div id="income" ></div>
-                <!-- 支出 报表 -->
-                <div id="expenses" ></div>
-                <hr class="border-solid">
-              </div>
-            </li>
-          </ul>
-
-          <!--<ul class="day-report-table-ul">-->
-            <!--<li class="day-report-table-li">-->
-              <!--<h3><i class="icon icon-iden"></i>房源状态</h3>-->
-              <!--<table class="report-table-item" border="1" bordercolor="#ccc" cellspacing="0" width="100%">-->
-                <!--<tr>-->
-                  <!--<th>房源</th>-->
-                  <!--<th>房间总数</th>-->
-                  <!--<th>新增房间</th>-->
-                  <!--<th>删除房间</th>-->
-                  <!--<th>空置房间</th>-->
-                  <!--<th>再租房间</th>-->
-                  <!--<th>入住率</th>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>公寓</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                <!--</tr>-->
-              <!--</table>-->
-            <!--</li>-->
-            <!--<li class="day-report-table-li">-->
-              <!--<h3><i class="icon icon-iden"></i>业务情况</h3>-->
-              <!--<table class="report-table-item" border="1" bordercolor="#ccc" cellspacing="0" width="100%">-->
-                <!--<tr>-->
-                  <!--<th>新增客户</th>-->
-                  <!--<th>跟进中</th>-->
-                  <!--<th>签约数</th>-->
-                  <!--<th>业务处理率</th>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                <!--</tr>-->
-              <!--</table>-->
-            <!--</li>-->
-            <!--<li class="day-report-table-li">-->
-              <!--<h3><i class="icon icon-iden"></i>账单情况</h3>-->
-              <!--<table class="report-table-item" border="1" bordercolor="#ccc" cellspacing="0" width="100%">-->
-                <!--<tr>-->
-                  <!--<th>账单总数</th>-->
-                  <!--<th>应收账单数</th>-->
-                  <!--<th>应付账单数</th>-->
-                  <!--<th>代收款账单数</th>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                  <!--<td>1200</td>-->
-                <!--</tr>-->
-              <!--</table>-->
-            <!--</li>-->
-            <!--<li class="day-report-table-li">-->
-              <!--<h3><i class="icon icon-iden"></i>财务情况</h3>-->
-              <!--<ul class="day-report-inner-ul">-->
-                <!--&lt;!&ndash;<li class="day-report-inner-li">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div class="inner-li-title">当前现金收入</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<di class="inner-li-content">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>应收已收/元</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span>290000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>应收未收/元</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span style="color: red">290000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>回收率</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span style="color: #00a0e9;">290000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</di>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;<li class="day-report-inner-li">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div class="inner-li-title">明日租金预期</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<di class="inner-li-content">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>预计租金收支差/元</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span>29000000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>预计租金收入/元</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span style="color: #3dc4b2;">2900000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="inner-li-content-item">&ndash;&gt;-->
-                      <!--&lt;!&ndash;<p>预计租金支出/元</p>&ndash;&gt;-->
-                      <!--&lt;!&ndash;<span style="color: red;">2900000.00</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</di>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--<li class="day-report-inner-li">-->
-                  <!--<div class="inner-li-title">现金收入</div>-->
-                  <!--<div class="inner-li-total-income">-->
-                    <!--<span>现金总收入:</span><span style="color: #3dc4b2;">290000.00</span>-->
-                  <!--</div>-->
-                  <!--<di class="inner-li-content">-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>租金收入/元</p>-->
-                      <!--<span>+290000.00</span>-->
-                    <!--</div>-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>押金收入/元</p>-->
-                      <!--<span>+290000.00</span>-->
-                    <!--</div>-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>杂费收入/元</p>-->
-                      <!--<span>+290000.00</span>-->
-                    <!--</div>-->
-                  <!--</di>-->
-                <!--</li>-->
-                <!--<li class="day-report-inner-li">-->
-                  <!--<div class="inner-li-title">现金支出</div>-->
-                  <!--<div class="inner-li-total-income">-->
-                    <!--<span>现金总支出:</span><span style="color: red;">290000.00</span>-->
-                  <!--</div>-->
-                  <!--<di class="inner-li-content">-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>租金支出/元</p>-->
-                      <!--<span>-290000.00</span>-->
-                    <!--</div>-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>押金支出/元</p>-->
-                      <!--<span>-290000.00</span>-->
-                    <!--</div>-->
-                    <!--<div class="inner-li-content-item">-->
-                      <!--<p>杂费支出/元</p>-->
-                      <!--<span>-290000.00</span>-->
-                    <!--</div>-->
-                  <!--</di>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-          <!--</ul>-->
+              <table class="dayreporttable" v-if="officeResource">
+                <tr>
+                  <th>日期</th>
+                  <th>总工位数</th>
+                  <th>本周新签工位数</th>
+                  <th>已出租工位数</th>
+                  <th>工位出租率</th>
+                  <th>总办公室数量</th>
+                  <th>本周新签办公室数量</th>
+                  <th>已出租办公室数</th>
+                  <th>办公室出租率</th>
+									<th>退租工位数</th>
+									<th>本周服务费用收入</th>
+                </tr>
+                <tr>
+                  <td>{{officeResource.beginDate | datem}}-{{officeResource.endDate | datem}}</td>
+                  <td>{{officeResource.placeTotalCount}}</td>
+                  <td>{{officeResource.placeNewRentCount}}</td>
+                  <td>{{officeResource.placeRentCount}}</td>
+                  <td>{{officeResource.placeRentPercent}}%</td>
+                  <td>{{officeResource.officeTotalCount}}</td>
+                  <td>{{officeResource.officeNewRentCount}}</td>
+                  <td>{{officeResource.officeRentCount}}</td>
+                  <td>{{officeResource.officeRentPercent}}%</td>
+                  <td>{{officeResource.placeRefundCount}}</td>
+                  <td>{{officeResource.serviceCostIncome}}</td>
+                </tr>
+              </table>
+            </Tab-pane>
+          </Tabs>
         </div>
       </div>
       <footer-box></footer-box>
@@ -227,7 +135,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {CommunityMonthReport, CommunityBusinessMonthReport, CommunityOrderMonthReport, CommunityMoneyMonthReport} from '../api.js';
+  import {WeeklyReport300152,RoomWeeklyReport300155,OfficeWeeklyReport300159,OfficeWeeklyReports300160} from '../api.js';
 
   export default {
     components:{
@@ -240,694 +148,176 @@
 				activeTabName:"operationReport",
       	date:'',
         startDate:"",
-        endDate:""
+        endDate:"",
+        officestartDate:"",
+        officeendDate:"",
+        houseResource:null,
+        officeResource:null,
+        hosrt:'',
+        officehosrt:''
       }
     },
     mounted(){
-      this.userId = this.$route.query.id;
-
-	    let newDate = new Date()
-      this.date = newDate.getFullYear() + '年' + parseInt(newDate.getMonth()+1)+'月'
-      this.startDate = newDate.getFullYear() + '-' + parseInt(newDate.getMonth()+1)
-
-      // 初始化报表
-      this.initEcharts()
-    },
+      // this.userId = this.$route.query.id;
+	    // let newDate = new Date()
+      // this.date = newDate.getFullYear() + '年' + parseInt(newDate.getMonth()+1)+'月'
+      // this.startDate = newDate.getFullYear() + '-' + parseInt(newDate.getMonth()+1)
+      // // 初始化报表
+			// this.initEcharts()
+      this.hosrt = RoomWeeklyReport300155;
+      this.officehosrt = OfficeWeeklyReports300160;
+      this.startDate = new Date().Format('yyyy-MM-dd');
+      this.officestartDate = new Date().Format('yyyy-MM-dd');
+      this.startDatem(this.startDate);
+      this.officestartDatem(this.officestartDate);
+      let date = {beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),endDate:new Date(this.endDate).Format('yyyy-MM-dd')};
+      let date2 = {beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),endDate:new Date(this.officeendDate).Format('yyyy-MM-dd')};
+      this.hosrt += '?beginDate='+date.beginDate+'&&endDate='+date.endDate;
+      this.officehosrt += '?beginDate='+date2.beginDate+'&&endDate='+date2.endDate;
+      this.dateChange(date);
+      this.dateChange2(date2);
+		},
+		filters:{
+			datem(val){
+				return new Date(val).Format('yyyy.MM.dd');
+			}
+		},
     methods:{
-	    /**
-	     * 初始化 报表
-	     */
-	    initEcharts(){
-		    // 查询房源状态
-		    this.getCommunityMonthReport()
-		    // 查询 业务情况
-		    this.getCommunityBusinessMonthReport()
-		    // 查询 账单
-		    this.getCommunityOrderMonthReport()
-		    // 查询 财务
-		    this.getCommunityMoneyMonthReport()
-	    },
-      /*
-    	* 组织数据
-      */
-    	getDataValue(data){
-    		let obj = {datas:[], values:[]}
-    		if(data!=undefined){
-    			for (let i=0; i<data.length; i++){
-				    obj.datas.push(data[i].data)
-				    obj.values.push(data[i].value)
-          }
+	    	startDatem(val){
+          let DataSour = new Date(val);
+					let data = new Date(val).Format("yyyy-MM-dd");
+					let now = data.split('-');
+					now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
+					now.setDate(now.getDate() + 7);
+					this.endDate = new Date(now).Format("yyyy-MM-dd");
+				},
+        officestartDatem(val){
+          let DataSour = new Date(val);
+					let data = new Date(val).Format("yyyy-MM-dd");
+					let now = data.split('-');
+					now = new Date(Number(now['0']),(Number(now['1'])-1),Number(now['2']));
+					now.setDate(now.getDate() + 7);
+					this.officeendDate = new Date(now).Format("yyyy-MM-dd");
+        },
+
+				getHouseResource(data){
+					var that = this
+					this.hosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate;
+					this.$http.post(WeeklyReport300152,qs.stringify(data))
+						.then(function(res){
+							// console.log(res);
+							if(res.status == 200 && res.data.code == 10000){
+								that.houseResource = res.data.entity;
+								
+							}else{
+								that.houseResource = null;
+							}
+          })
+        },
+        getofficeResource(data){
+          var that = this
+					this.officehosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate;
+					this.$http.post(OfficeWeeklyReport300159,qs.stringify(data))
+						.then(function(res){
+							// console.log(res);
+							if(res.status == 200 && res.data.code == 10000){
+								that.officeResource = res.data.entity;
+								
+							}else{
+								that.officeResource = null;
+							}
+          })
+        },
+				dateChange(){
+					let date = {
+						beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),
+						endDate:new Date(this.endDate).Format('yyyy-MM-dd')
+						}
+					this.hosrt = RoomWeeklyReport300155;
+					this.getHouseResource(date);
+        },
+        dateChange2(){
+          let date = {
+						beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),
+						endDate:new Date(this.officeendDate).Format('yyyy-MM-dd')
+						}
+					this.officehosrt = OfficeWeeklyReports300160;
+					this.getofficeResource(date);
         }
-        return obj
-      },
-    	/**
-       * 查询房源状态
-       */
-    	getCommunityMonthReport(){
-		    let that = this;
-		    this.$http.post(CommunityMonthReport, qs.stringify({startDate:this.startDate+'-01'}))
-			    .then(function(res){
-				    if(res.status == 200 && res.data.code == 10000){
-					    let data = res.data.result;
-					    // 公寓 报表
-					    that.createRoomReport(data.room)
-					    // 办公室 报表
-					    that.createOfficeReport(data.office)
-              // 会议室 报表
-					    that.createMeetingReport(data.meeting)
-					    // 工位 报表
-					    that.createStationReport(data.place)
-				    }
-			    })
-      },
-	    /**
-	     * 查询业务情况
-	     */
-	    getCommunityBusinessMonthReport(){
-		    let that = this;
-		    this.$http.post(CommunityBusinessMonthReport, qs.stringify({startDate:this.startDate+'-01'}))
-			    .then(function(res){
-				    if(res.status == 200 && res.data.code == 10000){
-					    let data = res.data.result.business;
-
-					    // 业务情况 报表
-					    that.createBusinessReport(data)
-				    }
-			    })
-	    },
-	    /**
-	     * 查询账单情况
-	     */
-	    getCommunityOrderMonthReport(){
-		    let that = this;
-		    this.$http.post(CommunityOrderMonthReport, qs.stringify({startDate:this.startDate+'-01'}))
-			    .then(function(res){
-				    if(res.status == 200 && res.data.code == 10000){
-					    let data = res.data.result.order;
-
-					    // 账单情况 报表
-					    that.createBillsReport(data)
-				    }
-			    })
-	    },
-	    /**
-	     * 查询财务情况
-	     */
-	    getCommunityMoneyMonthReport(){
-		    let that = this;
-		    this.$http.post(CommunityMoneyMonthReport, qs.stringify({startDate:this.startDate+'-01'}))
-			    .then(function(res){
-				    if(res.status == 200 && res.data.code == 10000){
-					    let data = res.data.result;
-
-					    // 现金收入 报表
-					    that.createIncomeReport(data.money)
-
-					    // 现金支出 报表
-					    that.createExpensesReport(data.refund)
-				    }
-			    })
-	    },
-      /**
-       * 选择日期
-       */
-	    dateChange(date){
-	    	let that = this
-	      let _date = new Date(date)
-	      let newDate = new Date()
-
-	    	if(_date>newDate){
-			    this.$message({
-				    showClose: true,
-				    message: '查询月份不能大于当前月',
-				    type: 'warning'
-			    });
-
-			    date = newDate.getFullYear() + '-' + parseInt(newDate.getMonth()+1)
-			    this.startDate = ''
-          setTimeout(function () {
-	          that.startDate = date
-          },1)
-        }
-
-	      this.date = date.substr(0,4) + '年' + date.substr(5,7)+'月'
-	      this.startDate = date
-
-	      // 初始化报表
-	      this.initEcharts()
-      },
-	    /**
-       * 公寓 报表
-	     */
-	    createRoomReport(dt){
-		    let data = this.getDataValue(dt)
-
-	    	//指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'公寓入住率'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-          // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    min: 0,
-				    max: 100,
-				    name: '入住率%',
-				    axisLabel: {
-					    formatter: function (val) {
-						    return val + '%';
-					    }
-				    },
-				    //show: true,
-				    //type: 'value',
-			    },
-			    series:[{
-				    name:'公寓入住率',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('apartment'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-      },
-	    /**
-	     * 办公室 报表
-	     */
-	    createOfficeReport(dt){
-		    let data = this.getDataValue(dt)
-
-        //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'办公室入住率'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    min: 0,
-				    max: 100,
-				    name: '入住率%',
-				    axisLabel: {
-					    formatter: function (val) {
-						    return val + '%';
-					    }
-				    },
-				    //show: true,
-				    //type: 'value',
-			    },
-			    series:[{
-				    name:'办公室入住率',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('office'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 会议室 报表
-	     */
-	    createMeetingReport(dt){
-	    	let data = this.getDataValue(dt)
-
-        //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'会议室入住率'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    min: 0,
-				    max: 100,
-				    name: '入住率%',
-				    axisLabel: {
-					    formatter: function (val) {
-						    return val + '%';
-					    }
-				    },
-			    },
-			    series:[{
-				    name:'会议室入住率',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('meeting'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 工位 报表
-	     */
-	    createStationReport(dt){
-		    let data = this.getDataValue(dt)
-
-	    	//指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'工位入住率'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    min: 0,
-				    max: 100,
-				    name: '入住率%',
-				    axisLabel: {
-					    formatter: function (val) {
-						    return val + '%';
-					    }
-				    },
-				    //show: true,
-				    //type: 'value',
-			    },
-			    series:[{
-				    name:'工位入住率',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('station'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 业务情况 报表
-	     */
-	    createBusinessReport(dt){
-		    let data = this.getDataValue(dt)
-
-		    //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'业务处理率'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    min: 0,
-				    max: 100,
-				    name: '处理率%',
-				    axisLabel: {
-					    formatter: function (val) {
-						    return val + '%';
-					    }
-				    },
-				    //show: true,
-				    //type: 'value',
-			    },
-			    series:[{
-				    name:'业务处理率',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('business'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 账单情况 报表
-	     */
-	    createBillsReport(dt){
-		    let data = this.getDataValue(dt)
-
-		    //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'账单总数'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    name: '数量（个）',
-			    },
-			    series:[{
-				    name:'账单总数',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('bills'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 现金收入 报表
-	     */
-	    createIncomeReport(dt){
-		    let data = this.getDataValue(dt)
-
-		    //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'现金收入'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    name: '金额（元）',
-			    },
-			    series:[{
-				    name:'现金收入',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('income'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
-	    },
-	    /**
-	     * 现金支出 报表
-	     */
-	    createExpensesReport(dt){
-		    let data = this.getDataValue(dt)
-
-		    //指定图标的配置和数据
-		    var option1 = {
-			    title:{
-				    text:'现金支出'
-			    },
-			    tooltip:{},
-			    legend:{
-				    data:['用户来源']
-			    },
-			    // 滑动事件
-			    dataZoom: [
-				    {
-					    type: 'slider',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    },
-				    {
-					    type: 'inside',
-					    xAxisIndex: 0,
-					    filterMode: 'empty'
-				    }
-			    ],
-			    xAxis:{
-				    //type: 'category',
-				    //show: true,
-				    name: '日期',
-				    data:data.datas
-			    },
-			    yAxis:{
-				    name: '金额（元）',
-			    },
-			    series:[{
-				    name:'现金支出',
-				    type:'line',
-				    data:data.values
-			    }]
-		    };
-		    //初始化echarts实例
-		    var myChart1 = this.$echarts.init(document.getElementById('expenses'));
-
-		    //使用制定的配置项和数据显示图表
-		    myChart1.setOption(option1);
 	    }
-    }
+    
   }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
-  @import '../../sass/base/_public.scss';
+	@import '../../sass/base/_public.scss';
+	@import '../../sass/page/_communityManagement.scss';
 
   #operation-day-report-wrap {
-    padding-bottom: 50px;
+		padding-bottom: 50px;
     width: 100%;
     min-height: 1000px;
     background-color: #fff;
     box-shadow: 0 3px 1px #ccc;
-    .ivu-icon-ios-calendar-outline{
-      color:#038be2;
-      font-family: "iconfont" !important;
-      font-size: 18px;
-      font-style: normal;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      &:before{
-        content: "\e60c";
-      }
+    .ivu-tabs-card{
+      min-height: 500px;
+      box-shadow:none;
     }
-    .operation-day-report-content{
-      height: 80px;
-      padding: 22px;
-      border-bottom: 1px solid #ccc;
-      position: relative;
-      .day-report-btn{
-        position: absolute;
-        right: 30px;
-        top: 22px;
-      }
+    .ivu-tabs-bar{
+      margin-bottom: 0;
     }
-
-    .report-list{
-      margin: 0.3rem;
-
-      #apartment,#office,#meeting,#station,#income,#expenses{
-        width:49%; height: 400px;float:left;
-        padding-bottom: 1rem;
-      }
-      #business,#bills{
-        width:100%; height: 400px;
-      }
-      .border-dotted{
-        clear: left;
-        border: 0.045rem dotted #999999;
-        margin-bottom: 1rem;
-      }
-      .border-solid{
-        clear: left;
-        border: 0.01rem solid #999999;
-      }
+    .ivu-tabs-content{
+      background-color: #fff;
     }
-
-    .day-report-center-wrap{
-      width: 100%;
-      height: 100%;
-      .day-report-center-title{
-        height: 100px;
-        width: 100%;
-        line-height: 100px;
-        text-align: center;
-      }
+    .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
+      height: 54px;
     }
-    ul.day-report-table-ul{
-      padding: 0 30px 10px 30px;
-      li.day-report-table-li{
-        margin-top: 30px;
-        h3{
-          display: inline-block;
-          color: rgb(3,139,226);
-          i{
-            margin-right: 10px;
-            background:url("/static/images/icon/iden.png") no-repeat;
-            background-size: 80%;
-            width: 6px;
-            height: 24px;
-          }
-        }
-        .report-table-item{
-          border-collapse:collapse;
-          text-align: center;
-          margin-top: 10px;
-          tr{
-            th,td{
-              padding: 16px;
-            }
-            th{
-              background-color: rgb(238,243,246);
-            }
-          }
-        }
-        ul.day-report-inner-ul{
-          width: 100%;
-          li.day-report-inner-li{
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            width: 49.2%;
-            display: inline-block;
-            padding: 0;
-            margin-top: 20px;
-            .inner-li-title{
-              font-size: 20px;
-              font-weight: 700;
-              background-color: rgb(238,243,246);
-              height: 50px;
-              line-height: 50px;
-              text-align: center;
-              border-bottom: 1px solid #ccc;
-            }
-            .inner-li-total-income{
-              height: 80px;
-              line-height: 80px;
-              text-align: center;
-              border-bottom: dashed 1px #ccc;
-            }
-            .inner-li-content{
-              width: 100%;
-              text-align: center;
-              .inner-li-content-item{
-                padding: 40px 0;
-                box-sizing: border-box;
-                width: 32%;
-                display: inline-block;
-              }
-            }
-            p{
-              padding-bottom: 10px;
-            }
-            span{
-              font-size: 22px;
-            }
-          }
-          li:nth-of-type(even){
-            margin-left: 1%;
-          }
-        }
+    .ivu-tabs-nav-container{
+      background-color: rgb(244,244,244);
+    }
+    .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+      width: 160px;
+      height: 53px;
+      text-align: center;
+      line-height: 52px;
+      padding: 0;
+      border-radius: 10px 10px 0 0;
+      margin-right: 10px;
+      @include fontSzie(18px,#666);
+      &.ivu-tabs-tab-active{
+        background-color: #038be2;
+        color:#fff;
       }
     }
   }
-
+  .dayreporttable{
+    width: 100%;
+    margin-top: 30px;
+    border-spacing: 0;
+    tr{
+      th{
+        text-align: center;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+        padding: 10px 10px;
+      }
+      td{
+        height: 30px;
+        text-align: center;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+  .daochu{
+    display: inline-block;
+    width: 80px;
+    height: 32px;
+    margin-left: 20px;
+    background: #038be2;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 32px;
+  }
 </style>

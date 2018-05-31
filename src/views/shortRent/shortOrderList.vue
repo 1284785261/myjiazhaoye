@@ -1099,4 +1099,18 @@
         }
       }
     }
+    .tableDiv{
+      tr{
+        td{
+          padding: 0;
+        }
+      }
+    }
+    .marginT30{
+      .rentTypeBox{
+        .rentTypeMain:hover{
+          cursor: pointer;
+        }
+      }
+    }
 </style>

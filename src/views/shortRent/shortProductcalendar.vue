@@ -117,6 +117,7 @@
             this.value = '0';
             this.calendarTime = new Date();
             this.calendarDatas(this.calendarTime);
+
         },
         methods:{
             topPush(){
@@ -125,6 +126,9 @@
                     name:'',
                     prices:[]
                 })
+            },
+            callMethod(){
+                this.productCalendarData(this.stationCommunity);
             },
             //获取社区的分类信息
             getCommunity(){

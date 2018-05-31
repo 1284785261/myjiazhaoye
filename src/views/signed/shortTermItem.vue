@@ -239,7 +239,7 @@
 				}
     			axios.post(ShortRentstate200211, param)
     			.then((response)=>{
-    			// console.log(response);
+    			console.log(response);
     			if(response.status == 200 && response.data.code == 10000){
     				this.bigdata = response.data.pageBean.page;
 	    				for(var i=0;i<this.bigdata.length;i++){

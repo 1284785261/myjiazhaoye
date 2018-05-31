@@ -9,12 +9,12 @@
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
 // export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
-// const host3 = 'http://test.kaisaspace.com:8070';
+const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
-const host3 = 'http://192.168.20.135:8091';//李志guang
+// const host3 = 'http://192.168.20.135:8091';//李志guang
 // const host3 = 'http://192.168.20.124:8081';//周昭滨CxkjPmsServiceInfo300212
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 // const host3 = 'http://192.168.20.234:8081';//周昭滨2
@@ -514,6 +514,42 @@ const CancelOrder = '/cxkj-pms/apis/pc/pmsorder/CxkjCancelOrder300229'
 
 //短租状态-住户列表
 const RoomieList = '/cxkj-pms/apis/pc/pmsorderroomie/CxkjGetRoomieList300231'
+
+//财务报表-日报
+const DailyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetRoomDailyReport300151'
+
+//财务报表-导出日报
+const RoomDailyReport = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadRoomDailyReport300154'
+
+//财务报表-周报
+const WeeklyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetRoomWeeklyReport300152'
+
+//财务报表-导出月报
+const RoomWeeklyReport = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadRoomWeeklyReport300155'
+
+//财务报表-办公日报
+const OfficeDailyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetOfficeDailyReport300157'
+
+//财务报表-办公导出日报
+const OfficeDailyReports = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadOfficeDailyReport300158'
+
+//财务报表-办公周报
+const OfficeWeeklyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetOfficeWeeklyReport300159'
+
+////财务报表-办公导出周报
+const OfficeWeeklyReports = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadOfficeWeeklyReport300160'
+
+//财务报表-公寓月报
+const RoomMonthlyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetRoomMonthlyReport300153'
+
+//财务报表-公寓导出月报
+const RoomMonthlyReports = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadRoomMonthlyReport300156'
+
+//财务报表-办公月报
+const OfficeMonthlyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetOfficeMonthlyReport300161'
+
+//财务报表-办公导出月报
+const OfficeMonthlyReports = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadOfficeMonthlyReport300162'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -686,6 +722,18 @@ export const AuthFail300227 = host3 + AuthFail;
 export const AuthInfo300226 = host3 + AuthInfo;
 export const CancelOrder300229 = host3 + CancelOrder;
 export const RoomieList300231 = host3 + RoomieList;
+export const DailyReport300151 = host3 + DailyReport;
+export const RoomDailyReport300154 = host3 + RoomDailyReport;
+export const WeeklyReport300152 = host3 + WeeklyReport;
+export const RoomWeeklyReport300155 = host3 + RoomWeeklyReport;
+export const OfficeDailyReport300157 = host3 + OfficeDailyReport;
+export const OfficeDailyReports300158 = host3 + OfficeDailyReports;
+export const OfficeWeeklyReport300159 = host3 + OfficeWeeklyReport;
+export const OfficeWeeklyReports300160 = host3 + OfficeWeeklyReports;
+export const RoomMonthlyReport300153 = host3 + RoomMonthlyReport;
+export const RoomMonthlyReports300156 = host3 + RoomMonthlyReports;
+export const OfficeMonthlyReport300161 = host3 + OfficeMonthlyReport;
+export const OfficeMonthlyReports300162 = host3 + OfficeMonthlyReports;
 export const host = host3;
 //export default {
 //hosts:function(){

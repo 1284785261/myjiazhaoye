@@ -609,7 +609,7 @@
           data.communityId = this.roomCommunity;
           this.host3 +='&communityId='+data.communityId;
         }
-        this.host3 +='&pageNum='+page;
+        this.host3 +='&pageNum='+data.pageNum;
         if(this.financeType != -1){
           data.financeType = this.financeType;
           this.host3 +='&financeType='+data.financeType;
@@ -657,7 +657,7 @@
         var data = {
           pageNum:page || 1
         }
-        this.host4 +='&pageNum='+page;
+        this.host4 +='&pageNum='+data.pageNum;
         if(page){
             this.activeBillPage = page;
         }
@@ -879,12 +879,45 @@
 
 
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
   @import '../../sass/page/_communityManagement.scss';
+  .ivu-tabs-bar{
+    margin-bottom: 0;
+  }
+  .ivu-tabs-content{
+    background-color: #fff;
+  }
+  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
+    height: 54px;
+  }
+  .ivu-tabs-nav-container{
+    background-color: rgb(244,244,244);
+  }
+  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+    width: 160px;
+    height: 53px;
+    text-align: center;
+    line-height: 52px;
+    padding: 0;
+    border-radius: 10px 10px 0 0;
+    margin-right: 10px;
+    @include fontSzie(18px,#666);
+    &.ivu-tabs-tab-active{
+      background-color: #038be2;
+      color:#fff;
+    }
+  }
   #right-content{
     height: 100%!important;
+    .wordbench-box{
+      .ivu-tabs-card{
+        box-shadow:none;
+        
+      }
+    }
+    
     .message-tix{
         width: 100%;
         background-color: #fff;
@@ -1198,5 +1231,4 @@
       }
     }
   }
-
 </style>

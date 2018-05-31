@@ -43,7 +43,8 @@
 		    					<p>租期：无</p>
 		    				</td>
 		    				<td rowspan="3">
-		    					<a @click="openroom(Datas.pmsOrder.orderId)">一键换房</a>
+		    					<a @click="openroom(Datas.pmsOrder.orderId)" v-if="Datas.pmsOrder">一键换房</a>
+								<a @click="notopenroom" v-else>一键换房</a>
 		    					<!-- <a @click="openrelet">续租</a> -->
                                 <a @click="opengathering">添加收款</a>
                                 <a @click="openrefund">添加退款</a>
@@ -205,16 +206,16 @@
 				<tr>联系电话：{{Datas.pmsOrder.userPhone}}</tr>
 				<tr v-if="Checkinformation.roomieInfo">{{Checkinformation.roomieInfo.certificateName}}：{{Checkinformation.roomieInfo.certificateNumber}}</tr>
 				<tr>入住时间：{{Checkinformation.inTime | time}}</tr>
-				<tr>退房时间：<Date-picker type="date" placeholder="选择日期" v-model="CheckDates" @on-change="calculateRefundMoney"></Date-picker></tr>
-				<tr>应退天数：{{dayam}}天</tr>
-				<tr>协议价：{{Checkinformation.orderRoomFee}}元</tr>
-				<tr>增值服务总价：{{Checkinformation.serviceFee}}元</tr>
-				<tr v-if="stateHide == 1">退款金额：{{Checkinformation.refundFee}}元</tr>
-				<tr v-if="stateHide == 2">退款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.refundFee">元</tr>
-				<tr v-if="stateHide == 1">罚款金额：{{Checkinformation.gatheringFee}}元</tr>
-				<tr v-if="stateHide == 2">罚款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.gatheringFee">元</tr>
+				<tr>退房时间：<Date-picker type="date" placeholder="选择日期" v-model="CheckDates" @on-change="calculateRefundMoneym"></Date-picker></tr>
+				<tr>应退天数：<input class="ivu-input" style="width:80px;" v-model="dayam" @input="calculateRefundMoney(dayam)"> 天</tr>
+				<tr>协议价：{{Checkinformation.orderRoomFee}} 元</tr>
+				<!-- <tr>增值服务总价：{{Checkinformation.serviceFee}}元</tr> -->
+				<tr v-if="stateHide == 1">退款金额：{{Checkinformation.refundFee}} 元</tr>
+				<tr v-if="stateHide == 2">退款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.refundFee"> 元</tr>
+				<tr v-if="stateHide == 1">罚款金额：{{Checkinformation.gatheringFee}} 元</tr>
+				<tr v-if="stateHide == 2">罚款金额：<input class="ivu-input" style="width:100px;" v-model="Checkinformation.gatheringFee"> 元</tr>
 				<tr v-if="refundMoney > 0">应退款：{{refundMoney}}元</tr>
-				<tr v-if="refundMoney <= 0">应收款：{{refundMoney | Money}}元</tr>
+				<tr v-if="refundMoney <= 0">应收款：{{refundMoney | Money}} 元</tr>
 			</table>
 			<a class="mtsf" v-if="stateHide == 1" @click="setstates">编辑</a>
 			<a class="mtsf" v-if="stateHide == 2" @click="setstatesm">保存</a>
@@ -483,7 +484,7 @@
     	methods:{
 			//入住登记，ID暂时为固定数据
     		instas(){
-				if(this.pmsOrder){
+				if(this.Datas.pmsOrder){
 					this.$router.push({name:'checkIn',query:{orderId:this.orderId,roomId:this.roomId}})
 				}else{
 					this.warningMessage = '当前没有订单可以添加入住';
@@ -494,32 +495,33 @@
 			/**
 			 * 计算总价
 			 **/
-			calculateRefundMoney(value){
+			calculateRefundMoney(day){
 				let vm = this
-				this.value = value;
-				this.dayam = this.DateDiff(new Date(value).getTime(),this.Checkinformation.inTime);
-				let info = this.roomDayPriceList.findIndex(item => item.dayNum == value);
-				if(info==-1){
-					vm.CheckDates = '';
+				let dayas = this.DateDiff(new Date(this.CheckDates).getTime(),this.Checkinformation.inTime);
+				if(day > dayas){
+					vm.dayam = 0;
 					vm.warningMessage = '最大退租时间不能超过'+this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum;
 					vm.warningModal = true;
 					return
 				}
 				let Money = 0;
-				let Hours=new Date().getHours();
-				// console.log(Hours);
-				if(Hours >=18){
-					for(let i =0;i<=info;i++){
-					Money+=parseInt(this.roomDayPriceList[i].price)
-					}
-				}else {
-					for(let i =0;i<info;i++){
-					Money+=parseInt(this.roomDayPriceList[i].price)
+				if(day > 0){
+					for(let i = 0;i < (this.roomDayPriceList.length - (1 + day));i++){
+						Money+=parseInt(this.roomDayPriceList[i].price);
 					}
 				}
-				
 				this.Moneytite = Money;
-				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee)) - (parseInt(this.Checkinformation.serviceFee) + parseInt(this.Checkinformation.gatheringFee) + this.Moneytite);
+				this.refundMoney = (parseInt(this.Checkinformation.orderRoomFee) - parseInt(this.Checkinformation.refundFee) - parseInt(this.Checkinformation.gatheringFee) - this.Moneytite);
+			},
+			calculateRefundMoneym(value){
+				let vm = this
+				this.CheckDates = value;
+				if(new Date(value).getTime() > new Date(this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum).getTime()){
+					vm.CheckDates = '';
+					vm.warningMessage = '最大退租时间不能超过'+this.roomDayPriceList[this.roomDayPriceList.length-1].dayNum;
+					vm.warningModal = true;
+					return
+				}
 			},
 			jiage(value,index){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
@@ -548,7 +550,7 @@
     				})
     			)
     			.then((response) => {
-    				// console.log(response);
+    				console.log(response);
     				if(response.status == 200 && response.data.code == 10000){
 						this.Datas = response.data.entity;
 						if(this.Datas.pmsOrder){
@@ -737,7 +739,7 @@
 				this.$http.post(CxkjPmsAddCheckOutInfo300213,
 					qs.stringify({
 					orderRoomId:vm.Datas.pmsOrder.orderRoomId,
-					orderId:vm.Datas.pmsOrder.orderId,
+					orderId:vm.orderId,
 					userName:vm.Datas.pmsOrder.userName,
 					userPhone:vm.Datas.pmsOrder.userPhone,
 					roomPrice:vm.Checkinformation.orderRoomFee,
@@ -746,7 +748,7 @@
 					serviceMoney:vm.Checkinformation.serviceFee,
 					totalMoney:vm.Checkinformation.totalConsumeFee,
 					refundMoney:vm.refundMoney,
-					refundTime:vm.value,
+					refundTime:vm.CheckDates,
 					payType:vm.refundMoney<0?vm.radio2:0,
 					roomNum:vm.Datas.roomNum,
 					certificateType:vm.Checkinformation.roomieInfo.certificateType,
@@ -829,7 +831,10 @@
 						}
 					}
 				}
-				params.append('orderId',this.orderId);//this.Datas.pmsOrder.orderId
+				if(this.orderId){
+					params.append('orderId',this.orderId);//this.Datas.pmsOrder.orderId
+				}
+				
 				params.append('orderRoomId',this.Datas.pmsOrder.orderRoomId);//this.Datas.pmsOrder.orderRoomId
 				params.append('orderServiceIds',this.orderServiceIds.join(','));
 
@@ -888,6 +893,11 @@
 						vm.paiFangList = [];
 					}
 				})
+				
+			},
+			notopenroom(){
+				this.warningMessage = '当前没有可换的房间';
+				this.warningModal = true;
 			},
 			closeRoomChange(){
 				this.isHide = false;
@@ -920,16 +930,22 @@
 			},
 			opencheckout(data){
 				let params = {};
-				params.orderId = data.pmsOrder.orderId;
-				params.roomId = data.id;
-				axios.get(CheckOutInfo300208,{params:params}).then((res)=>{
-					if(res.status == 200 && res.data.code == 10000){
-						this.Checkinformation = res.data.entity;
-						this.roomDayPriceList = res.data.entity.roomDayPriceList;
-						this.isHide = true;
-						this.isHide6 = true;
-					}
-				})
+				if(data.pmsOrder){
+					params.orderId = data.pmsOrder.orderId;
+					params.roomId = data.id;
+					axios.get(CheckOutInfo300208,{params:params}).then((res)=>{
+						if(res.status == 200 && res.data.code == 10000){
+							this.Checkinformation = res.data.entity;
+							this.roomDayPriceList = res.data.entity.roomDayPriceList;
+							this.isHide = true;
+							this.isHide6 = true;
+						}
+					})
+				}else{
+					this.warningMessage = '当前没有订单可退的房间';
+					this.warningModal = true;
+				}
+				
 			},
 			closecheckout(){
 				this.isHide = false;

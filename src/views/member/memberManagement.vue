@@ -5,10 +5,6 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-site">
-          <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
-        </div>
         <div id="member-management-wrap">
           <Tabs type="card">
             <Tab-pane label="会员管理">
