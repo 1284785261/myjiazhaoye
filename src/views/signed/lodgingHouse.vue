@@ -46,709 +46,709 @@
 						</table>
 					</div>
 
-					<!--公寓租客-->
-					<div v-if="radios == 1">
-						<div class="ivu-floor loadin2">
-							<p>承租人信息:</p>
-							<table>
-								<tr>
-									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="user.userPhone" @blur="User(user.userPhone)" maxlength="13"></td>
-								</tr>
-								<tr>
-									<td>姓名:</td>
-									<td>
-										<input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
-									</td>
-								</tr>
-								<tr>
-									<td>性别:</td>
-									<td>
-										<el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
-										<el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td>证件类型:</td>
-									<td>
-										<el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
-											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
-											</el-option>
-										</el-select>
-									</td>
-								</tr>
-								<tr>
-									<td>证件号码:</td>
-									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
-									</td>
-								</tr>
-							</table>
-							<table v-for="(userInfos,index) in ieList">
-								<tr>
-									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="13"></td>
-								</tr>
-								<tr>
-									<td>姓名:</td>
-									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
-									</td>
-								</tr>
-								<tr>
-									<td>性别:</td>
-									<td>
-										<el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
-										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td>证件类型:</td>
-									<td>
-										<el-select v-model="userInfos.value3" placeholder="请选择证件类型" @change="certificate(index,userInfos.value3)">
-											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
-											</el-option>
-										</el-select>
-									</td>
-								</tr>
-								<tr>
-									<td>证件号码:</td>
-									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24">
-										<a class="dels" @click="dels(userInfos,index)">删除</a>
-									</td>
-								</tr>
-							</table>
-							<a @click="adduser" class="addv"> + 添加合租人</a>
-						</div>
-						<div class="ivu-floor loadin3">
-							<p>租期信息:</p>
-							<ul class="zq">
-								<li><span class="qzr">起租日：</span>
-									<!-- <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker> -->
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
-								</li>
-								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
-								</li>
-								<ul class="apartment">
-									<li v-for="(apps,index) in apartments">
-										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}} <span v-if="apps.discount">{{apps.discount}}%</span></a>
-									</li>
-								</ul>
-							</ul>
+          <!--公寓租客-->
+          <div v-if="radios == 1">
+            <div class="ivu-floor loadin2">
+              <p>承租人信息:</p>
+              <table>
+                <tr>
+                  <td>已注册手机号:</td>
+                  <td><input type="text" placeholder="请输入手机号" v-model="user.userPhone"  @change='User(user.userPhone)' maxlength="11"></td>
+                </tr>
+                <tr>
+                  <td>姓名:</td>
+                  <td>
+                    <input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <td>性别:</td>
+                  <td>
+                    <el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
+                    <el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件类型:</td>
+                  <td>
+                    <el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
+                      <el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
+                      </el-option>
+                    </el-select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件号码:</td>
+                  <td>
+                    <input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
+                  </td>
+                </tr>
+              </table>
+              <table v-for="(userInfos,index) in ieList">
+                <tr>
+                  <td>已注册手机号:</td>
+                  <td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="11"></td>
+                </tr>
+                <tr>
+                  <td>姓名:</td>
+                  <td>
+                    <input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <td>性别:</td>
+                  <td>
+                    <el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
+                    <el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件类型:</td>
+                  <td>
+                    <el-select v-model="userInfos.value3" placeholder="请选择证件类型" @change="certificate(index,userInfos.value3)">
+                      <el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
+                      </el-option>
+                    </el-select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件号码:</td>
+                  <td>
+                    <input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24">
+                    <a class="dels" @click="dels(userInfos,index)">删除</a>
+                  </td>
+                </tr>
+              </table>
+              <a @click="adduser" class="addv"> + 添加合租人</a>
+            </div>
+            <div class="ivu-floor loadin3">
+              <p>租期信息:</p>
+              <ul class="zq">
+                <li><span class="qzr">起租日：</span>
+                  <!-- <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker> -->
+                  <Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
+                </li>
+                <li><span class="qzr">到期日：</span>
+                  <Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
+                </li>
+                <ul class="apartment">
+                  <li v-for="(apps,index) in apartments">
+                    <a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}} <span v-if="apps.discount">{{apps.discount}}%</span></a>
+                  </li>
+                </ul>
+              </ul>
 
-						</div>
-						<div class="ivu-floor loadin4">
-							<div class="div1">
-								<p>租金和付款方式:</p>
-								<table>
-									<tr>
-										<td>租金原价:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
-									</tr>
-									<tr>
-										<td>押金:</td>
-										<td><input type="text" placeholder="请输入月数" v-model="depositmonth" maxlength="10" style="width:120px;"><span>月</span></td>
-									</tr>
-									<tr>
-										<td>支付方式:</td>
-										<td>
-											<el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
-												<el-option v-for="item in options3" :key="item.name" :value="item.name">
-												</el-option>
-											</el-select>
-										</td>
-									</tr>
-									<tr>
-										<td>租金折扣/浮动比例:</td>
-										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
-									</tr>
-									<tr>
-										<td>折后租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="depositRent" maxlength="10"><span>元/月</span></td>
-									</tr>
-									<tr>
-										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
-									</tr>
-								</table>
-							</div>
-							<div class="div2">
-								<p>其他费用:</p>
-								<table>
-									<tr v-for="(tableRepair,index) in tableRepairs">
+            </div>
+            <div class="ivu-floor loadin4">
+              <div class="div1">
+                <p>租金和付款方式:</p>
+                <table>
+                  <tr>
+                    <td>租金原价:</td>
+                    <td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                  <tr>
+                    <td>押金:</td>
+                    <td><input type="text" placeholder="请输入月数" v-model="depositmonth" maxlength="10" style="width:120px;"><span>月</span></td>
+                  </tr>
+                  <tr>
+                    <td>支付方式:</td>
+                    <td>
+                      <el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
+                        <el-option v-for="item in options3" :key="item.name" :value="item.name">
+                        </el-option>
+                      </el-select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>租金折扣/浮动比例:</td>
+                    <td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
+                  </tr>
+                  <tr>
+                    <td>折后租金:</td>
+                    <td><input type="text" placeholder="请输入租金" v-model="depositRent" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                  <tr>
+                    <td>服务费:</td>
+                    <td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="div2">
+                <p>其他费用:</p>
+                <table>
+                  <tr v-for="(tableRepair,index) in tableRepairs">
 
-										<td width="200px">
-											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
-										</td>
+                    <td width="200px">
+                      <input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
+                    </td>
 
-										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
-										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
-										<td></td>
-									</tr>
-								</table>
-								<div class="clear"></div>
-								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
+                    <td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
+                    <td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
+                    <td></td>
+                  </tr>
+                </table>
+                <div class="clear"></div>
+                <Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
 
 
-							</div>
-							<div class="formulasb" v-if="formula">
-								<h3>计算方式</h3>
-								<div>
-									<p v-if ="this.deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
-									<p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
-									<p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
-									<p v-if="letcup">剩余月租金：{{residuerent}}元 = {{residuerentg}}</p>
-									<p>其他费用：{{cyclePayOtherCost}}元</p>
-									<p>合计：{{firstmoney}}</p>
-								</div>
-							</div>
-						</div>
-						<div class="ivu-floor loadin5">
-							<table>
-								<tr>
-									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}</td>
-								</tr>
-								<tr>
-									<td>首款支付方式:</td>
-									<td>
-										<el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
-										<!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
-									</td>
-								</tr>
-								<tr v-show="radio3 == 2">
-									<td></td>
-									<td>
-										<!--{{onemoney}}-->
-										<ul>
-											<!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
-											<!--{{twomoney}}-->
-											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="12"><span>元</span></li>
-											<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
-											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
-										</ul>
-									</td>
-								</tr>
-								<tr>
-									<td style="vertical-align: top;line-height: 40px;">水电费用:</td>
-									<td>
-										<ul class="uls">
-											<li><span style="margin-right: 0;">水费:</span>
-												<span>
+              </div>
+              <div class="formulasb" v-if="formula">
+                <h3>计算方式</h3>
+                <div>
+                  <p v-if ="this.deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
+                  <p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
+                  <p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+                  <p v-if="letcup">剩余月租金：{{residuerent}}元 = {{residuerentg}}</p>
+                  <p>其他费用：{{cyclePayOtherCost}}元</p>
+                  <p>合计：{{firstmoney}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="ivu-floor loadin5">
+              <table>
+                <tr>
+                  <td>用户需支付首款:</td>
+                  <td style="color: red;">{{firstmoney}}</td>
+                </tr>
+                <tr>
+                  <td>首款支付方式:</td>
+                  <td>
+                    <el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
+                    <!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
+                  </td>
+                </tr>
+                <tr v-show="radio3 == 2">
+                  <td></td>
+                  <td>
+                    <!--{{onemoney}}-->
+                    <ul>
+                      <!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
+                      <!--{{twomoney}}-->
+                      <li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="12"><span>元</span></li>
+                      <li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
+                      <li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;line-height: 40px;">水电费用:</td>
+                  <td>
+                    <ul class="uls">
+                      <li><span style="margin-right: 0;">水费:</span>
+                        <span>
 													{{housetderta.waterPrice | waterPrice}}
 													<span v-if="housetderta.waterType == 1">元/度</span>
 													<span v-if="housetderta.waterType == 2">元/人/月</span>
 												</span>
-												<div style="position: absolute;left: 194px;top: 8px;">
-													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)" />
-													<span v-if="housetderta.waterType">度</span>
-												</div>
-											</li>
-											<li><span style="margin-right: 0;">电费:</span>
-												<span>
+                        <div style="position: absolute;left: 194px;top: 8px;">
+                          <span v-if="housetderta.waterType == 1">初始:</span>
+                          <input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)" />
+                          <span v-if="housetderta.waterType">度</span>
+                        </div>
+                      </li>
+                      <li><span style="margin-right: 0;">电费:</span>
+                        <span>
 													{{housetderta.energyPrice | energyPrice}}
 													<span v-if="housetderta.electricType == 1">元/度</span>
 													<span v-if="housetderta.electricType == 2">元/人/月</span>
 												</span>
-												<div style="position: absolute;left: 194px;top: 52px;">
-													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
-													<span v-if="housetderta.electricType == 1">度</span>
-												</div>
-											</li>
-										</ul>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="ivu-floor loadin6">
-							<table>
-								<tr>
-									<td>是否签署纸质合同:</td>
-									<td>
-										<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
-										<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td style="vertical-align: top;line-height: 40px;">上传证明:</td>
-									<td class="boxs">
-										<div class="ivu-main-img">
-											<div class="item-img">
-												<div class="uplodas">
-													<div v-if="!uploadList[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传身份证正面照片</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
-														<template>
+                        <div style="position: absolute;left: 194px;top: 52px;">
+                          <span v-if="housetderta.electricType == 1">初始:</span>
+                          <input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
+                          <span v-if="housetderta.electricType == 1">度</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="ivu-floor loadin6">
+              <table>
+                <tr>
+                  <td>是否签署纸质合同:</td>
+                  <td>
+                    <el-radio class="radio" v-model="radio4" label="1">是</el-radio>
+                    <el-radio class="radio" v-model="radio4" label="0">否</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;line-height: 40px;">上传证明:</td>
+                  <td class="boxs">
+                    <div class="ivu-main-img">
+                      <div class="item-img">
+                        <div class="uplodas">
+                          <div v-if="!uploadList[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传身份证正面照片</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
+                            <template>
 
-															<img :src="imgPath+uploadList[0]" v-if="uploadList[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas">
-													<div v-if="!uploadList4[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传身份证反面照片</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
-														<template>
+                              <img :src="imgPath+uploadList[0]" v-if="uploadList[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas">
+                          <div v-if="!uploadList4[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传身份证反面照片</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
+                            <template>
 
-															<img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas" v-if="radio4 == '1'">
-													<div v-if="!uploadList2[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传合同照片/扫描件</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
-														<template>
-															<img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
+                              <img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas" v-if="radio4 == '1'">
+                          <div v-if="!uploadList2[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传合同照片/扫描件</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
+                            <template>
+                              <img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
 
-											</div>
-										</div>
-									</td>
-								</tr>
-							</table>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
-						</div>
-						<div class="ivu-floor loadin7">
-							<div class="div2">
-								<p>物资清点:</p>
-								<div class="floor-item">
-									<table class="table ivu-table">
-										<tr v-for="tableRepair in tableRepairs2">
-											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
-											</td width="140px">
-											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
-											<td></td>
-										</tr>
-									</table>
-									<Button @click="addRepairs2" class="addm"><Icon type="plus"></Icon>新增物品</Button>
-									<Button class="addm addj" @click="save">保存</Button>
-								</div>
-								<div class="clear"></div>
-							</div>
+            </div>
+            <div class="ivu-floor loadin7">
+              <div class="div2">
+                <p>物资清点:</p>
+                <div class="floor-item">
+                  <table class="table ivu-table">
+                    <tr v-for="tableRepair in tableRepairs2">
+                      <td width="150px">
+                        <input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
+                      </td width="140px">
+                      <td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                  <Button @click="addRepairs2" class="addm"><Icon type="plus"></Icon>新增物品</Button>
+                  <Button class="addm addj" @click="save">保存</Button>
+                </div>
+                <div class="clear"></div>
+              </div>
 
-						</div>
-						<div class="ivu-floor loadin8">
+            </div>
+            <div class="ivu-floor loadin8">
 
-							<p class="hint">中介方:</p>
-							<table>
-								<tr>
-									<td>中介公司:</td>
-									<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
-								</tr>
-								<tr>
-									<td>中介人:</td>
-									<td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
-								</tr>
-								<tr>
-									<td>中介费:</td>
-									<td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
-								</tr>
-							</table>
-							<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
-							<Button class="addm" @click="SigController" :disabled="disabledm">提交</Button>
+              <p class="hint">中介方:</p>
+              <table>
+                <tr>
+                  <td>中介公司:</td>
+                  <td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
+                </tr>
+                <tr>
+                  <td>中介人:</td>
+                  <td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
+                </tr>
+                <tr>
+                  <td>中介费:</td>
+                  <td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
+                </tr>
+              </table>
+              <p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
+              <Button class="addm" @click="SigController" :disabled="disabledm">提交</Button>
 
-						</div>
-					</div>
+            </div>
+          </div>
 
-					<!--公司租客-->
-					<div v-if="radios == 2">
-						<div class="ivu-floor loadin2">
-							<p>经办人信息:</p>
-							<table>
-								<tr>
-									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="user.userPhone" @blur="User(user.userPhone)" maxlength="13"></td>
-								</tr>
-								<tr>
-									<td>姓名:</td>
-									<td>
-										<input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
-									</td>
-								</tr>
-								<tr>
-									<td>性别:</td>
-									<td>
-										<el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
-										<el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td>证件类型:</td>
-									<td>
-										<el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
-											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
-											</el-option>
-										</el-select>
-									</td>
-								</tr>
-								<tr>
-									<td>证件号码:</td>
-									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
-									</td>
-								</tr>
-							</table>
-							<table v-for="(userInfos,index) in ieList">
-								<tr>
-									<td>已注册手机号:</td>
-									<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="13"></td>
-								</tr>
-								<tr>
-									<td>姓名:</td>
-									<td>
-										<input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
-									</td>
-								</tr>
-								<tr>
-									<td>性别:</td>
-									<td>
-										<el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
-										<el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td>证件类型:</td>
-									<td>
-										<el-select v-model="userInfos.value3" placeholder="请选择证件类型" @change="certificate(index,userInfos.value3)">
-											<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
-											</el-option>
-										</el-select>
-									</td>
-								</tr>
-								<tr>
-									<td>证件号码:</td>
-									<td>
-										<input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24">
-										<a class="dels" @click="dels(userInfos,index)">删除</a>
-									</td>
-								</tr>
-							</table>
-							<a @click="adduser" class="addv"> + 添加合租人</a>
-						</div>
-						<div class="ivu-floor loadinv">
-							<p>公司信息:</p>
-							<table>
-								<tr>
-									<td>公司信息:</td>
-									<td><input type="text" placeholder="请输入公司信息" v-model="companyInfo" maxlength="15"></td>
-								</tr>
-								<tr>
-									<td>法人姓名:</td>
-									<td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson" maxlength="10"></td>
-								</tr>
-							</table>
-						</div>
-						<div class="ivu-floor loadin3">
-							<p>租期信息:</p>
-							<ul class="zq">
-								<li><span class="qzr">起租日：</span>
-									<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
-								</li>
-								<li><span class="qzr">到期日：</span>
-									<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
-								</li>
-								<ul class="apartment">
-									<li v-for="(apps,index) in apartments">
-										<a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}}  {{apps.discount}}%</a>
-									</li>
-								</ul>
-							</ul>
-						</div>
-						<div class="ivu-floor loadin4">
-							<div class="div1">
-								<p>租金和付款方式:</p>
-								<table>
-									<tr>
-										<td>租金原价:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
-									</tr>
-									<tr>
-										<td>押金:</td>
-										<td><input type="text" placeholder="请输入月数" v-model="depositmonth" maxlength="10" style="width:120px;"><span>月</span></td>
-									</tr>
-									<tr>
-										<td>支付方式:</td>
-										<td>
-											<el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
-												<el-option v-for="item in options3" :key="item.name" :value="item.name">
-												</el-option>
-											</el-select>
-										</td>
-									</tr>
-									<tr>
-										<td>租金折扣/浮动比例:</td>
-										<td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
-									</tr>
-									<tr>
-										<td>折后租金:</td>
-										<td><input type="text" placeholder="请输入租金" v-model="depositRent" maxlength="10"><span>元/月</span></td>
-									</tr>
-									<tr>
-										<td>服务费:</td>
-										<td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
-									</tr>
-								</table>
-							</div>
-							<div class="div2">
-								<p>其他费用:</p>
-								<table>
-									<tr v-for="(tableRepair,index) in tableRepairs">
+          <!--公司租客-->
+          <div v-if="radios == 2">
+            <div class="ivu-floor loadin2">
+              <p>经办人信息:</p>
+              <table>
+                <tr>
+                  <td>已注册手机号:</td>
+                  <td><input type="text" placeholder="请输入手机号" v-model="user.userPhone" @change="User(user.userPhone)" maxlength="11"></td>
+                </tr>
+                <tr>
+                  <td>姓名:</td>
+                  <td>
+                    <input type="text" placeholder="请输入姓名" v-model="user.userName" maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <td>性别:</td>
+                  <td>
+                    <el-radio class="radio" v-model="user.gender" label="2">女</el-radio>
+                    <el-radio class="radio" v-model="user.gender" label="1">男</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件类型:</td>
+                  <td>
+                    <el-select v-model="value" placeholder="请选择证件类型" @change=ChooseCertificate(value)>
+                      <el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
+                      </el-option>
+                    </el-select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件号码:</td>
+                  <td>
+                    <input type="text" placeholder="请输入证件号码" v-model="user.userCertificate" maxlength="24">
+                  </td>
+                </tr>
+              </table>
+              <table v-for="(userInfos,index) in ieList">
+                <tr>
+                  <td>已注册手机号:</td>
+                  <td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User2(index,userInfos.phone)" maxlength="11"></td>
+                </tr>
+                <tr>
+                  <td>姓名:</td>
+                  <td>
+                    <input type="text" placeholder="请输入姓名" v-model="userInfos.name" maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <td>性别:</td>
+                  <td>
+                    <el-radio class="radio" v-model="userInfos.gender" label="2">女</el-radio>
+                    <el-radio class="radio" v-model="userInfos.gender" label="1">男</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件类型:</td>
+                  <td>
+                    <el-select v-model="userInfos.value3" placeholder="请选择证件类型" @change="certificate(index,userInfos.value3)">
+                      <el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
+                      </el-option>
+                    </el-select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>证件号码:</td>
+                  <td>
+                    <input type="text" placeholder="请输入证件号码" v-model="userInfos.certificateNumber" maxlength="24">
+                    <a class="dels" @click="dels(userInfos,index)">删除</a>
+                  </td>
+                </tr>
+              </table>
+              <a @click="adduser" class="addv"> + 添加合租人</a>
+            </div>
+            <div class="ivu-floor loadinv">
+              <p>公司信息:</p>
+              <table>
+                <tr>
+                  <td>公司信息:</td>
+                  <td><input type="text" placeholder="请输入公司信息" v-model="companyInfo" maxlength="15"></td>
+                </tr>
+                <tr>
+                  <td>法人姓名:</td>
+                  <td><input type="text" placeholder="请输入法人姓名" v-model="companylegalPerson" maxlength="10"></td>
+                </tr>
+              </table>
+            </div>
+            <div class="ivu-floor loadin3">
+              <p>租期信息:</p>
+              <ul class="zq">
+                <li><span class="qzr">起租日：</span>
+                  <Date-picker type="date" placeholder="请选择日期" v-model="onhrie"  </Date-picker>
+                </li>
+                <li><span class="qzr">到期日：</span>
+                  <Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
+                </li>
+                <ul class="apartment">
+                  <li v-for="(apps,index) in apartments">
+                    <a @click="apart(index)" :class="{'hus':activ == index}">{{apps.dats}}  {{apps.discount}}%</a>
+                  </li>
+                </ul>
+              </ul>
+            </div>
+            <div class="ivu-floor loadin4">
+              <div class="div1">
+                <p>租金和付款方式:</p>
+                <table>
+                  <tr>
+                    <td>租金原价:</td>
+                    <td><input type="text" placeholder="请输入租金" v-model="housetderta.roomRent" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                  <tr>
+                    <td>押金:</td>
+                    <td><input type="text" placeholder="请输入月数" v-model="depositmonth" maxlength="10" style="width:120px;"><span>月</span></td>
+                  </tr>
+                  <tr>
+                    <td>支付方式:</td>
+                    <td>
+                      <el-select v-model="value2" placeholder="请选择支付方式" @change="way(value2)">
+                        <el-option v-for="item in options3" :key="item.name" :value="item.name">
+                        </el-option>
+                      </el-select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>租金折扣/浮动比例:</td>
+                    <td><input type="text" placeholder="请输入百分比" v-model="discount" maxlength="5"><span>%</span></td>
+                  </tr>
+                  <tr>
+                    <td>折后租金:</td>
+                    <td><input type="text" placeholder="请输入租金" v-model="depositRent" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                  <tr>
+                    <td>服务费:</td>
+                    <td><input type="text" placeholder="请输入服务费" v-model="serves" maxlength="10"><span>元/月</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="div2">
+                <p>其他费用:</p>
+                <table>
+                  <tr v-for="(tableRepair,index) in tableRepairs">
 
-										<td width="200px">
-											<input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
-										</td>
+                    <td width="200px">
+                      <input type="text" placeholder="请输入费用名称" v-model="tableRepair.inputValue" maxlength="10" />
+                    </td>
 
-										<td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
-										<td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
-										<td></td>
-									</tr>
-								</table>
-								<div class="clear"></div>
-								<Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
+                    <td width="180px"><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入金额" style="width: 120px" maxlength="10"><span>元</span></td>
+                    <td width="80px"><button class="btn_bar" @click="delet(index)">{{tableRepair.deletect}}</button></td>
+                    <td></td>
+                  </tr>
+                </table>
+                <div class="clear"></div>
+                <Button @click="addRepairs" class="addm"><Icon type="plus"></Icon>添加费用</Button>
 
 
-							</div>
-							<div class="formulasb" v-if="formula">
-								<h3>计算方式</h3>
-								<div>
-									<p v-if ="this.deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
-									<p>房费：{{roommonry}}元 = {{roommonryg}}</p>
-									<p>服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
-									<p>其他费用：{{cyclePayOtherCost}}元</p>
-									<p>合计：{{firstmoney}}</p>
-								</div>
-							</div>
-						</div>
-						<div class="ivu-floor loadin5">
-							<table>
-								<tr>
-									<td>用户需支付首款:</td>
-									<td style="color: red;">{{firstmoney}}</td>
-								</tr>
-								<tr>
-									<td>首款支付方式:</td>
-									<td>
-										<el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
-										<!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
-									</td>
-								</tr>
-								<tr v-show="radio3 == 2           ">
-									<td></td>
-									<td>
-										<!--{{onemoney}}-->
-										<ul>
-											<!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
-											<!-- {{twomoney}} -->
-											<li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="15"><span>元</span></li>
-											<li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
-											<li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
-										</ul>
-									</td>
-								</tr>
-								<tr>
-									<td style="vertical-align: top;line-height: 40px;">水电费用:</td>
-									<td>
-										<ul class="uls">
-											<li><span style="margin-right: 0;">水费:</span>
-												<span>
+              </div>
+              <div class="formulasb" v-if="formula">
+                <h3>计算方式</h3>
+                <div>
+                  <p v-if ="this.deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
+                  <p>房费：{{roommonry}}元 = {{roommonryg}}</p>
+                  <p>服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
+                  <p>其他费用：{{cyclePayOtherCost}}元</p>
+                  <p>合计：{{firstmoney}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="ivu-floor loadin5">
+              <table>
+                <tr>
+                  <td>用户需支付首款:</td>
+                  <td style="color: red;">{{firstmoney}}</td>
+                </tr>
+                <tr>
+                  <td>首款支付方式:</td>
+                  <td>
+                    <el-radio class="radio" v-model="radio3" label="1" :change="ones(firstmoney)">一次付清</el-radio>
+                    <!-- <el-radio class="radio" v-model="radio3" label="2" :change="ones(firstmoney)">两次付清</el-radio> -->
+                  </td>
+                </tr>
+                <tr v-show="radio3 == 2           ">
+                  <td></td>
+                  <td>
+                    <!--{{onemoney}}-->
+                    <ul>
+                      <!--<input type="text" placeholder="请输入金额" v-model="housetderta.twomoney">-->
+                      <!-- {{twomoney}} -->
+                      <li><span>第一次支付:</span><input type="text" placeholder="请输入金额" v-model="onemoney" @blur="alway(firstmoney,onemoney)" maxlength="15"><span>元</span></li>
+                      <li><span>第二次支付: </span><span>{{twomoney}}</span><span>元</span></li>
+                      <li><span class="dt">付款期限:</span><input type="text" placeholder="请填写天数" v-model="dat" maxlength="10"><span>日内</span></li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;line-height: 40px;">水电费用:</td>
+                  <td>
+                    <ul class="uls">
+                      <li><span style="margin-right: 0;">水费:</span>
+                        <span>
 													{{housetderta.waterPrice | waterPrice}}
 													<span v-if="housetderta.waterType == 1">元/度</span>
 													<span v-if="housetderta.waterType == 2">元/人/月</span>
 												</span>
-												<div style="position: absolute;left: 194px;top: 8px;">
-													<span v-if="housetderta.waterType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)"/>
-													<span v-if="housetderta.waterType">度</span>
-												</div>
-											</li>
-											<li><span style="margin-right: 0;">电费:</span>
-												<span>
+                        <div style="position: absolute;left: 194px;top: 8px;">
+                          <span v-if="housetderta.waterType == 1">初始:</span>
+                          <input type="text" v-model="housetderta.roomWater" disabled maxlength="10" v-if="housetderta.waterType == 1" @blur="waterelectricity(housetderta.roomWater)"/>
+                          <span v-if="housetderta.waterType">度</span>
+                        </div>
+                      </li>
+                      <li><span style="margin-right: 0;">电费:</span>
+                        <span>
 													{{housetderta.energyPrice | energyPrice}}
 													<span v-if="housetderta.electricType == 1">元/度</span>
 													<span v-if="housetderta.electricType == 2">元/人/月</span>
 												</span>
-												<div style="position: absolute;left: 194px;top: 52px;">
-													<span v-if="housetderta.electricType == 1">初始:</span>
-													<input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
-													<span v-if="housetderta.electricType == 1">度</span>
-												</div>
-											</li>
-										</ul>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="ivu-floor loadin6">
-							<table>
-								<tr>
-									<td>是否签署纸质合同:</td>
-									<td>
-										<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
-										<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
-									</td>
-								</tr>
-								<tr>
-									<td style="vertical-align: top;line-height: 40px;">上传证明:</td>
-									<td class="boxs">
-										<div class="ivu-main-img">
-											<div class="item-img">
-												<div class="uplodas">
-													<div v-if="!uploadList[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传身份证正面照片</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
-														<template>
-															<img :src="imgPath+uploadList[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas">
-													<div v-if="!uploadList4[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传身份证反面照片</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
-														<template>
+                        <div style="position: absolute;left: 194px;top: 52px;">
+                          <span v-if="housetderta.electricType == 1">初始:</span>
+                          <input type="text" v-model="housetderta.roomElectric" disabled maxlength="10" v-if="housetderta.electricType == 1" @blur="waterelectricity2(housetderta.roomElectric)"/>
+                          <span v-if="housetderta.electricType == 1">度</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="ivu-floor loadin6">
+              <table>
+                <tr>
+                  <td>是否签署纸质合同:</td>
+                  <td>
+                    <el-radio class="radio" v-model="radio4" label="1">是</el-radio>
+                    <el-radio class="radio" v-model="radio4" label="0">否</el-radio>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;line-height: 40px;">上传证明:</td>
+                  <td class="boxs">
+                    <div class="ivu-main-img">
+                      <div class="item-img">
+                        <div class="uplodas">
+                          <div v-if="!uploadList[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传身份证正面照片</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList[0]" v-loading.body="loadList[0]">
+                            <template>
+                              <img :src="imgPath+uploadList[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas">
+                          <div v-if="!uploadList4[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile4" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传身份证反面照片</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList4[0]" v-loading.body="loadList[1]">
+                            <template>
 
-															<img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas">
-													<div v-if="!uploadList2[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传委托书</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
-														<template>
-															<img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas">
-													<div v-if="!uploadList6[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile6" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传营业执照</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList6[0]" v-loading.body="loadList[3]">
-														<template>
-															<img :src="imgPath+uploadList6[0]" v-if="uploadList6[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove6()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-												<div class="uplodas" v-if="radio4 == '1'">
-													<div v-if="!uploadList3[0]">
-														<input type="file" accept="image/*" name="file" class="file" @change="uploadfile3" />
-														<Icon type="camera" class="icons"></Icon>
-														<span class="titew">上传合同</span>
-													</div>
-													<div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[4]">
-														<template>
-															<img :src="imgPath+uploadList3[0]" v-if="uploadList3[0]">
-															<div class="demo-upload-list-cover">
-																<Icon type="ios-trash-outline" @click.native="handleRemove3()"></Icon>
-															</div>
-														</template>
-													</div>
-												</div>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</table>
+                              <img :src="imgPath+uploadList4[0]" v-if="uploadList4[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove4()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas">
+                          <div v-if="!uploadList2[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile2" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传委托书</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList2[0]" v-loading.body="loadList[2]">
+                            <template>
+                              <img :src="imgPath+uploadList2[0]" v-if="uploadList2[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove2()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas">
+                          <div v-if="!uploadList6[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile6" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传营业执照</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList6[0]" v-loading.body="loadList[3]">
+                            <template>
+                              <img :src="imgPath+uploadList6[0]" v-if="uploadList6[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove6()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="uplodas" v-if="radio4 == '1'">
+                          <div v-if="!uploadList3[0]">
+                            <input type="file" accept="image/*" name="file" class="file" @change="uploadfile3" />
+                            <Icon type="camera" class="icons"></Icon>
+                            <span class="titew">上传合同</span>
+                          </div>
+                          <div class="demo-upload-list" v-if="uploadList3[0]" v-loading.body="loadList[4]">
+                            <template>
+                              <img :src="imgPath+uploadList3[0]" v-if="uploadList3[0]">
+                              <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove3()"></Icon>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
-						</div>
-						<div class="ivu-floor loadin7">
-							<div class="div2">
-								<p>物资清点:</p>
-								<div class="floor-item">
-									<table class="table ivu-table">
-										<tr v-for="tableRepair in tableRepairs2">
-											<td width="150px">
-												<input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
-											</td width="140px">
-											<td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
-											<td></td>
-										</tr>
-									</table>
-									<Button @click="addRepairs2" class="addm"><Icon type="plus"></Icon>新增物品</Button>
-									<Button class="addm addj" @click="save">保存</Button>
-								</div>
-								<div class="clear"></div>
-							</div>
+            </div>
+            <div class="ivu-floor loadin7">
+              <div class="div2">
+                <p>物资清点:</p>
+                <div class="floor-item">
+                  <table class="table ivu-table">
+                    <tr v-for="tableRepair in tableRepairs2">
+                      <td width="150px">
+                        <input type="text" placeholder="请输入物品名称" v-model="tableRepair.inputValue" maxlength="10" disabled/>
+                      </td width="140px">
+                      <td><input class="ivu-input" v-model="tableRepair.date" placeholder="请输入数量" style="width: 120px" maxlength="5"></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                  <Button @click="addRepairs2" class="addm"><Icon type="plus"></Icon>新增物品</Button>
+                  <Button class="addm addj" @click="save">保存</Button>
+                </div>
+                <div class="clear"></div>
+              </div>
 
-						</div>
-						<div class="ivu-floor loadin8">
-							<p class="hint">中介方:</p>
-							<table>
-								<tr>
-									<td>中介公司:</td>
-									<td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
-								</tr>
-								<tr>
-									<td>中介人:</td>
-									<td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
-								</tr>
-								<tr>
-									<td>中介费:</td>
-									<td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
-								</tr>
-							</table>
-							<p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
-							<Button class="addm" @click="SigController2">提交</Button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<footer-box></footer-box>
-		</div>
-		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
-		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
+            </div>
+            <div class="ivu-floor loadin8">
+              <p class="hint">中介方:</p>
+              <table>
+                <tr>
+                  <td>中介公司:</td>
+                  <td><input type="text" placeholder="请输入中介公司名称" v-model="hints.company" maxlength="15"></td>
+                </tr>
+                <tr>
+                  <td>中介人:</td>
+                  <td><input type="text" placeholder="请输入中介人" v-model="hints.man" maxlength="10"></td>
+                </tr>
+                <tr>
+                  <td>中介费:</td>
+                  <td><input type="text" placeholder="请输入中介费" v-model="hints.cost" maxlength="10"></td>
+                </tr>
+              </table>
+              <p class="hints"><i class="el-icon-information"></i><span>提交后,系统将向用户端app、用户微信、用户手机短信发送提醒通知</span></p>
+              <Button class="addm" @click="SigController2">提交</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer-box></footer-box>
+    </div>
+    <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
+    <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 
-	</div>
+  </div>
 
 </template>
 
@@ -1076,6 +1076,11 @@
 			}
 		},
 		watch: {
+      onhrie(old,val){
+        if(old&& val!= old){
+          this.apart(this.activ)
+        }
+      },
 			onemoney(val) {
 				if(val) {
 					this.onemoney = parseFloat(val).toFixed(2);
@@ -1087,8 +1092,8 @@
 				}
 
 			},
-			serves:function() {
-				if(this.serves){
+			serves(val,old) {
+				if(val){
 					this.serves = this.serves.replace(/[^\d.]/,'');
 				}
 			},
@@ -1166,7 +1171,7 @@
 								}else{
 									this.user.gender = '2';
 								}
-								
+
 								this.user.certificateId = this.userInfo.certificateId;
 
 								if(this.userInfo.userCertificate != 'null'){
@@ -1301,7 +1306,8 @@
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-				this.depositmonth = this.housetderta.deposit;
+				console.log(this.housetderta);
+        		this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
         		this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
@@ -1309,6 +1315,8 @@
 						this.addRepairs2();
 					}
 
+				// console.log(this.housetderta.serviceCost)
+				console.log(this.housetderta)
 				// debugger
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
@@ -1382,6 +1390,7 @@
 			apart(index) {
 
 				this.activ = index;
+
 				if(this.onhrie) {
 					if(this.value2  == '季付' && this.apartments[this.activ].letMounted < 3){
 						this.warningModal = true;
@@ -1421,23 +1430,28 @@
 			},
 			handleRemove() {
 				this.uploadList = []
-				this.uploadList[0] = 0
+				this.uploadList[0] = ''
+				this.uploadList[1] = ''
 			},
 			handleRemove2() {
 				this.uploadList2 = []
-				this.uploadList2[0] = 0
+				this.uploadList2[0] = ''
+				this.uploadList2[1] = ''
 			},
 			handleRemove3() {
 				this.uploadList3 = []
-				this.uploadList3[0] = 0
+				this.uploadList3[0] = ''
+				this.uploadList3[1] = ''
 			},
 			handleRemove4() {
 				this.uploadList4 = []
-				this.uploadList4[0] = 0
+				this.uploadList4[0] = ''
+				this.uploadList4[1] = ''
 			},
 			handleRemove6(){
 				this.uploadList6 = []
-				this.uploadList6[0] = 0
+				this.uploadList6[0] = ''
+				this.uploadList6[1] = ''
 			},
 			uploadfile(e) {
 				let vm = this;
@@ -1449,23 +1463,21 @@
 				let param = new FormData();
 				param.append('file', file)
 				param.append('module', 'user')
+        // debugger
+        vm.uploadList.length = 0
 				vm.$http.post(vm.host3, param)
 					.then(res => {
 						if(parseInt(res.data.code) == 10000) {
-							setTimeout(function() {
-								vm.$set(vm.loadList, 0, false)
-							}, 500)
-							if(vm.uploadList.length < 2) {
-								vm.uploadList[0] = res.data.result.virtualPath;
-								vm.uploadList.push('承租人身份证正面');
-							} else {
-								alert('最多可以上传1张图片');
-								return
-							}
+              setTimeout(function() {
+                vm.$set(vm.loadList, 0, false)
+              }, 500)
+              vm.uploadList.push(res.data.result.virtualPath)
+              vm.uploadList.push('承租人身份证正面')
 						}
 					}).catch(err => {
 						alert(err)
 					})
+        console.log(vm.uploadList)
 			},
 			uploadfile4(e) {
 				let vm = this;
@@ -1477,20 +1489,23 @@
 				let param = new FormData();
 				param.append('file', file)
 				param.append('module', 'user')
+        vm.uploadList4.length = 0
 				vm.$http.post(vm.host3, param)
 					.then(res => {
 						if(parseInt(res.data.code) == 10000) {
-							setTimeout(function() {
-								vm.$set(vm.loadList, 1, false)
-							}, 2000)
+              setTimeout(function() {
+                vm.$set(vm.loadList, 1, false)
+              }, 2000)
+              vm.uploadList4.push(res.data.result.virtualPath)
+              vm.uploadList4.push('承租人身份证反面')
 
-							if(vm.uploadList4.length < 2) {
-								vm.uploadList4[0] = res.data.result.virtualPath;
-								vm.uploadList4.push('承租人身份证反面');
-							} else {
-								alert('最多可以上传1张图片');
-								return
-							}
+
+							// if(vm.uploadList4.length < 2) {
+
+							// } else {
+							// 	alert('最多可以上传1张图片');
+							// 	return
+							// }
 						}
 					}).catch(err => {
 						alert(err)
@@ -1506,20 +1521,23 @@
 				let param = new FormData();
 				param.append('file', file)
 				param.append('module', 'user')
+        vm.uploadList2.length = 0
 				vm.$http.post(vm.host3, param)
 					.then(res => {
 						if(parseInt(res.data.code) == 10000) {
+              // vm.uploadList2[0] = res.data.result.virtualPath;
+              // vm.uploadList2[1] = '合同证明';
 							setTimeout(function() {
 								vm.$set(vm.loadList, 2, false)
 							}, 2000)
+              vm.uploadList2.push(res.data.result.virtualPath)
+              vm.uploadList2.push('合同证明')
+							// if(vm.uploadList2.length < 2) {
 
-							if(vm.uploadList2.length < 2) {
-								vm.uploadList2[0] = res.data.result.virtualPath;
-								vm.uploadList2.push('合同证明');
-							} else {
-								alert('最多可以上传1张图片');
-								return
-							}
+							// } else {
+							// 	alert('最多可以上传1张图片');
+							// 	return
+							// }
 						}
 					}).catch(err => {
 						alert(err)
@@ -1535,19 +1553,23 @@
 				let param = new FormData();
 				param.append('file', file)
 				param.append('module', 'user')
+        vm.uploadList6.length = 0
 				vm.$http.post(vm.host3, param)
 					.then(res => {
 						if(parseInt(res.data.code) == 10000) {
+              // vm.uploadList6[0] = res.data.result.virtualPath;
+              // vm.uploadList6[1] ='营业执照';
 							setTimeout(function() {
 								vm.$set(vm.loadList, 3, false)
 							}, 2000)
-							if(vm.uploadList6.length < 2) {
-								vm.uploadList6[0] = res.data.result.virtualPath;
-								vm.uploadList6.push('营业执照');
-							} else {
-								alert('最多可以上传1张图片');
-								return
-							}
+              vm.uploadList6.push(res.data.result.virtualPath)
+              vm.uploadList6.push('营业执照')
+							// if(vm.uploadList6.length < 2) {
+
+							// } else {
+							// 	alert('最多可以上传1张图片');
+							// 	return
+							// }
 						}
 					}).catch(err => {
 						alert(err)
@@ -1563,19 +1585,15 @@
 				let param = new FormData();
 				param.append('file', file)
 				param.append('module', 'user')
+        vm.uploadList3.length = 0
 				vm.$http.post(vm.host3, param)
 					.then(res => {
 						if(parseInt(res.data.code) == 10000) {
 							setTimeout(function() {
 								vm.$set(vm.loadList, 4, false)
 							}, 2000)
-							if(vm.uploadList3.length < 2) {
-								vm.uploadList3[0] = res.data.result.virtualPath;
-								vm.uploadList3.push('委托书');
-							} else {
-								alert('最多可以上传1张图片');
-								return
-							}
+              vm.uploadList3.push(res.data.result.virtualPath)
+              vm.uploadList3.push('委托书')
 						}
 					}).catch(err => {
 						alert(err)
@@ -1654,14 +1672,38 @@
 						"fileTitle": this.uploadList2[1]
 					});
 				}
+        if(fileList.length){
+          let uaerIndex = fileList.findIndex(item => item.fileTitle == '承租人身份证正面')
+          let uaerIndexs = fileList.findIndex(item => item.fileTitle == '承租人身份证反面')
+          // for(let i= 0;i<fileList.length;i++){
+          if( uaerIndex == -1 || uaerIndexs == -1){
+            this.warningMessage = '承租人身份证正反面为必填';
+            this.warningModal = true;
+            this.disabledm = false;
+            return
+          }
+          // }
+        }else{
+          this.warningMessage = '承租人身份证正反面为必填';
+          this.warningModal = true;
+          this.disabledm = false;
+          return
+        }
+
 				/**********整合照片**********/
-				let arr3 = [];
+
+				let arr3 = '';
 				this.materials = JSON.stringify(arr2);
 				for(let i = 0; i < arr2.length; i++) {
-					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
+				  if(i!=arr2.length-1){
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId+',';
+          }else {
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId;
+          }
 				}
 				let param = new FormData();
-				this.furniture = JSON.stringify(arr3); //物资
+				this.furniture = arr3; //物资
+
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
 				param.append('communityId', this.communityId);
@@ -1690,6 +1732,12 @@
 				if(this.housetderta.roomElectric) {
 					param.append('electricInit', this.housetderta.roomElectric);
 				}
+				if(!this.user.userName ||  !this.user.gender || !this.user.certificateId|| !this.user.userCertificate){
+          vm.warningMessage = '请填写有效的用户信息';
+          vm.warningModal = true;
+          vm.disabledm = false;
+          return
+        }
 				param.append('waterChargeModel', this.housetderta.waterType);
 				param.append('electricChargeModel', this.housetderta.electricType);
 				param.append('isPaper', this.radio4);
@@ -1778,10 +1826,14 @@
 						});
 					}
 				}
-				let arr3 = [];
+				let arr3 = '';
 				this.materials = JSON.stringify(arr2);
 				for(let i = 0; i < arr2.length; i++) {
-					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
+          if(i!=arr2.length-1){
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId+',';
+          }else {
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId;
+          }
 				}
 				let fileList = []
 				if(this.uploadList.length) {
@@ -1814,12 +1866,33 @@
 						"fileTitle": this.uploadList3[1]
 					});
 				}
-
+        if(fileList.length){
+          for(let i= 0;i<fileList.length;i++){
+            if( fileList[i].fileTitle == '承租人身份证正面' || fileList[i].fileTitle == '承租人身份证反面'){
+              this.warningMessage = '承租人身份证正反面为必填';
+              this.warningModal = true;
+              this.disabledm = false;
+              return
+            }
+          }
+        }else{
+          this.warningMessage = '承租人身份证正反面为必填';
+          this.warningModal = true;
+          this.disabledm = false;
+          return
+        }
 				//furniture
 				let param = new FormData();
-				this.furniture = JSON.stringify(arr3);
+				this.furniture = arr3;
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
+
+        if(!this.user.userName ||  !this.user.gender || !this.user.certificateId|| !this.user.userCertificate){
+          vm.warningMessage = '请填写有效的用户信息';
+          vm.warningModal = true;
+          vm.disabledm = false;
+          return
+        }
 				param.append('credentialsImages', JSON.stringify(fileList));
 				param.append('communityId', this.communityId);
 				param.append('contractNumber', this.contract);
@@ -1919,14 +1992,13 @@
 					contractSignId:this.contractSignId
 				})
 				).then((res)=>{
-					// console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.compliedetails = res.data.entity;
-						this.roomNum = this.compliedetails.roomInfo.roomNum;
-						this.housetderta.housetypeName = this.compliedetails.housetypeName;
-						this.radios = this.compliedetails.customerType;
-						this.onhrie = this.compliedetails.beginDate;
-						this.expire = this.compliedetails.endDate;
+						this.roomNum = this.compliedetails.roomInfo.roomNum?this.compliedetails.roomInfo.roomNum:'';
+						this.housetderta.housetypeName = this.compliedetails.housetypeName?this.compliedetails.housetypeName:'';
+						this.radios = this.compliedetails.customerType?this.compliedetails.customerType:'';
+						this.onhrie = this.compliedetails.beginDate?this.compliedetails.beginDate:'';
+						this.expire = this.compliedetails.endDate?this.compliedetails.endDate:'';
 						let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
 						let date2 = new Date(this.expire).Format("yyyy-MM-dd");
 						date1 = date1.split('-');
@@ -1970,7 +2042,7 @@
 								if(i>1){
 									this.addRepairs();
 								}
-								
+
 							}
 							for(let i = 0;i<otherCostJsons.length;i++){
 								this.tableRepairs[i].inputValue = otherCostJsons[i].costName;
@@ -1999,39 +2071,39 @@
 						let tialsImages = JSON.parse(this.compliedetails.credentialsImages);
 						// console.log(tialsImages);
 						if(this.radio4 == '1' && this.compliedetails.customerType == '1'){
-							this.uploadList[0] = tialsImages[0].filePath;
-							this.uploadList4[0] = tialsImages[1].filePath;
-							this.uploadList2[0] = tialsImages[2].filePath;
-							this.uploadList[1] = tialsImages[0].fileTitle;
-							this.uploadList4[1] = tialsImages[1].fileTitle;
-							this.uploadList2[1] = tialsImages[2].fileTitle;
+							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
+							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
+							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
 						}else{
-							this.uploadList[0] = tialsImages[0].filePath;
-							this.uploadList4[0] = tialsImages[1].filePath;
-							this.uploadList[1] = tialsImages[0].fileTitle;
-							this.uploadList4[1] = tialsImages[1].fileTitle;
+							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
+							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
 						}
 						if(this.radio4 == '1' && this.compliedetails.customerType == '2'){
-							this.uploadList[0] = tialsImages[0].filePath;
-							this.uploadList4[0] = tialsImages[1].filePath;
-							this.uploadList2[0] = tialsImages[2].filePath;
-							this.uploadList6[0] = tialsImages[3].filePath;
-							this.uploadList3[0] = tialsImages[4].filePath;
-							this.uploadList[1] = tialsImages[0].fileTitle;
-							this.uploadList4[1] = tialsImages[1].fileTitle;
-							this.uploadList2[1] = tialsImages[2].fileTitle;
-							this.uploadList6[1] = tialsImages[3].fileTitle;
-							this.uploadList3[1] = tialsImages[4].fileTitle;
+							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
+							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
+							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
+							this.uploadList6[0] = tialsImages[3].filePath?tialsImages[3].filePath:'';
+							this.uploadList3[0] = tialsImages[4].filePath?tialsImages[4].filePath:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
+							this.uploadList6[1] = tialsImages[3].fileTitle?tialsImages[3].fileTitle:'';
+							this.uploadList3[1] = tialsImages[4].fileTitle?tialsImages[4].fileTitle:'';
 						}
 						else{
-							this.uploadList[0] = tialsImages[0].filePath;
-							this.uploadList4[0] = tialsImages[1].filePath;
-							this.uploadList2[0] = tialsImages[2].filePath;
-							this.uploadList6[0] = tialsImages[3].filePath;
-							this.uploadList[1] = tialsImages[0].fileTitle;
-							this.uploadList4[1] = tialsImages[1].fileTitle;
-							this.uploadList2[1] = tialsImages[2].fileTitle;
-							this.uploadList6[1] = tialsImages[3].fileTitle;
+							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
+							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
+							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
+							this.uploadList6[0] = tialsImages[3].filePath?tialsImages[3].filePath:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
+							this.uploadList6[1] = tialsImages[3].fileTitle?tialsImages[3].fileTitle:'';
 						}
 					}else{
 						this.compliedetails = '';

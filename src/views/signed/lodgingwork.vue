@@ -44,7 +44,7 @@
 						<table v-for="(userInfos,index) in aaduserInfo">
 							<tr>
 								<td>已注册手机号:</td>
-								<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @blur="User(userInfos.phone)" maxlength="13"></td>
+								<td><input type="text" placeholder="请输入手机号" v-model="userInfos.phone" @change="User(userInfos.phone)" maxlength="11"></td>
 							</tr>
 							<tr>
 								<td>姓名:</td>
@@ -61,7 +61,7 @@
 								<td>证件类型:</td>
 								<td>
 									<el-select v-model="value" placeholder="请选择证件类型" @change="selectCommunity(value,index)">
-										<el-option v-for="item in userInfos.options2" :key="item.dataName" :value="item.dataName">
+										<el-option v-for="item in options2" :key="item.dataName" :value="item.dataName">
 										</el-option>
 									</el-select>
 								</td>
@@ -90,9 +90,10 @@
 						<p>租期信息:</p>
 						<ul class="zq">
 							<li><span class="qzr">起租日：</span>
+                <!--@on-change="countdatas(12)" @on-blur="countdatas(12)"-->
 								<!-- <Date-picker type="date" :options="option1" placeholder="请选择日期" v-model="onhrie"></Date-picker> -->
-								<Date-picker type="date" placeholder="请选择日期" v-model="onhrie"></Date-picker>
-								<input type="text" placeholder="请输入月数" v-model="letMounted" maxlength="5" style="width:100px;height:36px;margin-right:5px;" @blur="countdatas(letMounted)"><span>月</span>
+								<Date-picker type="date" placeholder="请选择日期" v-model="onhrie" ></Date-picker>
+								<input type="number" placeholder="请输入月数" v-model="letMounted" maxlength="5" style="width:100px;height:36px;margin-right:5px;" @blur="countdatas(letMounted)"><span>月</span>
 							</li>
 							<li><span class="qzr">到期日：</span>
 								<Date-picker type="date" :options="option2" placeholder="请选择日期" v-model="expire" disabled></Date-picker>
@@ -423,8 +424,8 @@
 				dialogVisible: false,
 				labelList:['法人身份证正面','法人身份证反面','承租人身份证正面','承租人身份证反面','委托书','服务协议','服务守则','工商证明','免责申明','合同'],
 				labelList2:['法人身份证正面','法人身份证反面','承租人身份证正面','承租人身份证反面','委托书','服务协议','服务守则','工商证明','免责申明'],
-                imgShow:[],
-                loadList:[],
+        imgShow:[],
+        loadList:[],
 				indexs:'',
 				host3:'',
 				imgList:[],
@@ -457,7 +458,8 @@
 				deposittext:'',
 				disabledm:false,
 				contractSignId:'',
-				compliedetails:''
+				compliedetails:'',
+        nes:''
 			}
 		},
 		mounted() {
@@ -620,19 +622,30 @@
 			}
 		},
 		watch: {
+      onhrie(old,val){
+        if(old&& val!= old){
+          this.apart(this.activ)
+        }
+      },
 			onemoney(val) {
 				if(val) {
 					this.onemoney = parseFloat(val).toFixed(2);
 				}
 			},
-			serve:function(){
-				this.serve = this.serve.replace(/[^\d.]/,'');
+			serve(val,old){
+        if(val){
+          this.serve = this.serve.replace(/[^\d.]/,'');
+        }
+
 			},
 			freeMonth:function(){
 				this.freeMonth = this.freeMonth.replace(/[^\d]/,'');
 			},
-			letMounted:function(){
-				this.letMounted = this.letMounted.replace(/[^\d]/,'');
+			letMounted(val,old){
+			  if(val){
+          this.letMounted = val.replace(/[^\d]/,'');
+        }
+
 			},
 			depositmonth:function(){
 				this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
@@ -758,6 +771,7 @@
 			},
 			room(val) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
+        this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
 				this.serve = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				this.depositmonth = this.housetderta.deposit;
 				let arr = JSON.parse(this.housetderta.materials);
@@ -833,12 +847,12 @@
 					alert('免租期月不能大于租期月');
 					this.freeMonth = 0;
 				}
-				let nes = new Date(this.expire);
+        this.nes = new Date(this.expire);
 				let nem = new Date(this.expire);
 				let Month;
 				let Months;
 				nem.setDate(nem.getDate()+1);
-				nes.setMonth(nes.getMonth() + parseInt(value));
+        this.nes.setMonth(this.nes.getMonth() + parseInt(value));
 				Month = nes;
 				Months = nem;
 				if(Month && value > 0){
@@ -903,24 +917,23 @@
 						this.warningMessage = '签约方式选择年付，租期不能小于十二个月';
 						this.activ = 0;
 					}else{
-
-						var nes = new Date(this.onhrie);
+						 this.nes = new Date(this.onhrie);
 						if(index == 0) {
-							nes.setFullYear(nes.getFullYear() + 1);
-							nes.setMonth(nes.getMonth(),nes.getDate()-1);
-							this.expire = nes;
+              this.nes.setFullYear(this.nes.getFullYear() + 1);
+              this.nes.setMonth(this.nes.getMonth(),this.nes.getDate()-1);
+							this.expire = this.nes;
 							this.letMounted = 12;
 						} else if(index == 1) {
-							nes.setMonth(nes.getMonth() + 6,nes.getDate()-1);
-							this.expire = nes;
+              this.nes.setMonth(this.nes.getMonth() + 6,this.nes.getDate()-1);
+							this.expire = this.nes;
 							this.letMounted = 6;
 						} else if(index == 2) {
-							nes.setMonth(nes.getMonth() + 3,nes.getDate()-1);
-							this.expire = nes;
+              this.nes.setMonth(this.nes.getMonth() + 3,this.nes.getDate()-1);
+							this.expire = this.nes;
 							this.letMounted = 3;
 						} else if(index == 3) {
-							nes.setMonth(nes.getMonth() + 1,nes.getDate()-1);
-							this.expire = nes;
+              this.nes.setMonth(this.nes.getMonth() + 1,this.nes.getDate()-1);
+							this.expire = this.nes;
 							this.letMounted = 1;
 						}
 					}
@@ -931,12 +944,12 @@
 			},
 			//计算月份得到到期日
 			countdatas(value){
-				if(this.onhrie || value){
-					var nes = new Date(this.onhrie);
+				// if(this.onhrie || value){
+          this.nes = new Date(this.onhrie);
 					// parseInt
-					nes.setMonth(nes.getMonth() + parseInt(value),nes.getDate()-1);
-					this.expire = nes;
-				}
+          this.nes.setMonth(this.nes.getMonth() + parseInt(value),this.nes.getDate()-1);
+					this.expire = this.nes;
+				// }
 
 				if(value == 1){
 					this.activ = 3;
@@ -947,6 +960,7 @@
 				}else if(value == 12){
 					this.activ = 0;
 				}
+        this.letMounted = value
 			},
 			handleRemoven(item) {
 			  let vm = this;
@@ -1024,23 +1038,44 @@
 						arr2.push({"materialName":this.tableRepairs2[i].inputValue,"count":this.tableRepairs2[i].date});
 					}
 				}
-				let arr3 = [];
+				let arr3 ='';
 				this.materials = JSON.stringify(arr2);
 				for(let i = 0;i<arr2.length;i++){
-					arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
+					// arr3.push(this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId);
+          if(i!=arr2.length-1){
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId+',';
+          }else {
+            arr3+=this.options4[this.options4.findIndex(item => item.dataName == arr2[i].materialName)].dataId;
+          }
 				}
-				for(let i= 0;i<this.fileList.length;i++){
-					if(this.fileList.length < 0 && (this.fileList[i].fileTitle == '承租人身份证正面' || this.fileList[i].fileTitle == '承租人身份证反面')){
-						this.warningMessage = '承租人身份证正反面为必填';
-						this.warningModal = true;
-						this.disabledm = false;
-						return
-					}
-				}
+        if(this.fileList.length){
+          let uaerIndex = this.fileList.findIndex(item => item.fileTitle == '承租人身份证正面')
+          let uaerIndexs = this.fileList.findIndex(item => item.fileTitle == '承租人身份证反面')
+          // for(let i= 0;i<fileList.length;i++){
+          if( uaerIndex == -1 || uaerIndexs == -1){
+            this.warningMessage = '承租人身份证正反面为必填';
+            this.warningModal = true;
+            this.disabledm = false;
+            return
+          }
+          // }
+        }else{
+          this.warningMessage = '承租人身份证正反面为必填';
+          this.warningModal = true;
+          this.disabledm = false;
+          return
+        }
                 param.append('credentialsImages',JSON.stringify(vm.fileList));
-				this.furniture = JSON.stringify(arr3);
+				this.furniture = arr3;
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');
+
+        if(!this.aaduserInfo[0].phone ||  !this.aaduserInfo[0].username || !this.aaduserInfo[0].radio2 || !this.aaduserInfo[0].certificateId || !this.aaduserInfo[0].userCertificate){
+          vm.warningMessage = '请填写有效的用户信息';
+          vm.warningModal = true;
+          vm.disabledm = false;
+          return
+        }
 				param.append('communityId',this.communityId);
 				param.append('contractNumber',this.contract);
 				param.append('buildingId',this.housetderta.roomId);
@@ -1125,11 +1160,11 @@
 				).then((res)=>{
 					if(res.status == 200 && res.data.code == 10000) {
 						this.compliedetails = res.data.entity;
-						this.roomNum = this.compliedetails.officeInfo.officeHouseNum;
-						this.housetderta.housetypeName = this.compliedetails.housetypeName;
-						this.radios = this.compliedetails.customerType;
-						this.onhrie = this.compliedetails.beginDate;
-						this.expire = this.compliedetails.endDate;
+						this.roomNum = this.compliedetails.officeInfo.officeHouseNum?this.compliedetails.officeInfo.officeHouseNum:'';
+						this.housetderta.housetypeName = this.compliedetails.housetypeName?this.compliedetails.housetypeName:'';
+						this.radios = this.compliedetails.customerType?this.compliedetails.customerType:'';
+						this.onhrie = this.compliedetails.beginDate?this.compliedetails.beginDate:'';
+						this.expire = this.compliedetails.endDate?this.compliedetails.endDate:'';
 						let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
 						let date2 = new Date(this.expire).Format("yyyy-MM-dd");
 						date1 = date1.split('-');
@@ -1161,7 +1196,7 @@
 								if(i>1){
 									this.addRepairs();
 								}
-								
+
 							}
 							for(let i = 0;i<otherCostJsons.length;i++){
 								this.tableRepairs[i].inputValue = otherCostJsons[i].costName;
@@ -1178,10 +1213,29 @@
 						this.radio4 = this.compliedetails.isPaper+'';
 						//证件照
 						let tialsImages = JSON.parse(this.compliedetails.credentialsImages);
-						
+
 						for(let i=0;i<tialsImages.length;i++){
-							vm.$set(vm.imgList,i,vm.imgPath+tialsImages[i].filePath);
-							vm.fileList.push({'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle});
+              if(res.data.entity.isPaper == 1){
+                let index = vm.labelList.findIndex(item => item == tialsImages[i].fileTitle)
+                if(index>-1){
+                  vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
+                  vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
+                }else {
+                  vm.$set(vm.imgList,index,'');
+                  vm.fileList[index] = {'filePath':'','fileTitle':''};
+                }
+
+              }else {
+                let index = vm.labelList2.findIndex(item => item == tialsImages[i].fileTitle)
+                if(index>-1){
+                  vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
+                  vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
+                }else {
+                  vm.$set(vm.imgList,index,'');
+                  vm.fileList[index] = {'filePath':'','fileTitle':''};
+                }
+              }
+
 						}
 
 					}else{

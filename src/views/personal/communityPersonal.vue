@@ -2,7 +2,7 @@
 
 	<div>
 		<menu-box :active-tab-name="activeTabName"></menu-box>
-		
+
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
 			<div class="wordbench-box">
@@ -12,12 +12,12 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>个人信息</h3>
-		          
+
 		        </div>
 		        <div class="message-tis">
 		        	<div class="uploading">
                     	<a class="upload" href="javascript:void(0);"  v-loading.body="loading">
-                    		<input type="file" class="upfile" @change="loadfile" accept="image/png,image/jpg">
+                    		<input type="file" class="upfile" @change="loadfile" accept="image/*,image/png,image/jpg">
                     		<img :src=imgPath1 v-if="imgPath1" />
                     		<span class="iconfont icon-jiahao1" v-if="chen"></span>
                     		<span class="iconfont icon-jiahao2" v-if="chen"></span>
@@ -52,13 +52,13 @@
 							</td>
 						</tr>
 					</table>
-		        	
+
 		        	<router-link to="/lognPhone" class="inste inste1">修改手机号</router-link>
 		        	<a class="inste inste2" @click="emss">修改登录密码</a>
 		        </div>
-		        
-		        
-		    
+
+
+
 			</div>
 		</div>
 		<footer-box></footer-box>
@@ -66,8 +66,8 @@
 </template>
 
 <script>
-	
-	
+
+
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
@@ -75,9 +75,9 @@
     import { hostAuthor,imgPath,hostportrait,host } from '../api.js';
     import '../../sass/style/communityPersonal.css';
     import qs from 'qs'
-    
-    
-    
+
+
+
     export default {
     	components:{
     		rightHeader,
@@ -104,9 +104,9 @@
     	},
     	mounted(){
     		this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
-    		this.param = new FormData();
+
     		this.datas();
-    		
+
     	},
     	methods:{
     		datas(){
@@ -115,7 +115,7 @@
 	    		axios.get(hostAuthor)
 	    		.then((response)=>{
 					// console.log(response);
-					
+
 	    			if(response.status == 200 && response.data.code == 10000){
 						vm.user = response.data.entity;
 						if(vm.user.communityNames){
@@ -144,9 +144,10 @@
     			let files = [file,file.name];
     			this.filelist.push(files);
     			vm.chen = false;
-    			
+
 //  			let windowURL = window.URL || window.webkitURL;
 //  			this.imgPath1 = windowURL.createObjectURL(e.target.files[0]);
+          this.param = new FormData();
     			this.param.append('file',file);
     			this.param.append('module','user');
     			this.$http.post(vm.host3,vm.param).then(res =>{
@@ -163,8 +164,9 @@
     			})).then(res => {
     				if(res.status == 200 && res.data.code == 10000){
     					vm.loading = false
+              vm.datas()
 //  					alert('上传头像成功');
-    					location.reload();   
+//     					location.reload();
     				}
     				else{
 //  					alert('上传头像失败');
@@ -178,12 +180,12 @@
     			this.$router.push('/loginPassword');
     		}
     	}
-    	
+
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
+
 </style>

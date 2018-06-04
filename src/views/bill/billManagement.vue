@@ -17,7 +17,7 @@
         <div id="bill-management-wrap">
           <el-tabs v-model="activeName2" type="card">
             <el-tab-pane label="公寓租金账单" name="first">
-              <div class="form-search-criteria">
+              <div class="form-search-criteria" >
 
                 <!--<div class="form-item">-->
                   <!--<span>账单日期：</span>-->
@@ -32,14 +32,22 @@
                     <input type="button" value="搜索" @click="roomSearch()">
                   </div>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()" v-if="jurisdiction('BILL_UPDATE')">生成租金账单</Button>
+                <div class="form-item" v-if="jurisdiction('BILL_UPDATE')">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill(0)" >生成租金账单</Button>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="historyBill()">历史账单</Button>
+                <div class="form-item" v-if="jurisdiction('BILL_UPDATE')">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="sendRoomBill">发送缴费提醒</Button>
                 </div>
+                <!--<div class="form-item">-->
+                  <!--<Button style="width: 160px;height: 40px;font-size: 18px;" @click="historyBill()">历史账单</Button>-->
+                <!--</div>-->
               </div>
-              <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="roomTotalNum > 0">
+              <div v-if="item.roomList.length" v-for="(item,index) in roomBillList" >
+                <div class="floorName">
+                  {{item.floorName}} 层 <i class="el-icon-arrow-down" v-if="item.isShow" @click="updateShow(index)"></i> <i class="el-icon-arrow-up" v-if="!item.isShow" @click="updateShow(index)"></i>
+                </div>
+
+              <table class="house-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="item.roomList && item.isShow">
                 <tr>
                   <th>账单日期</th>
                   <th>公寓房间</th>
@@ -50,10 +58,13 @@
                   <th>押金</th>
                   <th>服务费/月</th>
                   <th>合计</th>
+                  <th>账单日期</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
-                <tr v-for="room in roomBillList">
+                <tr v-for="room in item.roomList">
+
+                  <!--<td>{{room}}</td>-->
                   <td>{{room.billDate | timefilter("yyyy-MM-dd")}}</td>
                   <td>{{room.floorName}}层 {{room.roomNum}}</td>
                   <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
@@ -63,23 +74,28 @@
                   <td>{{room.isFirstPay?room.deposit:''}}</td>
                   <td>{{room.serviceCost}}</td>
                   <td>{{room.realPayMoney}}</td>
+                  <td>{{room.billBeginDate | timefilter("yyyy-MM-dd")}}-{{room.billEndDate | timefilter("yyyy-MM-dd")}} </td>
                   <td>
-                    <span v-if="room.billState == 1">待支付</span>
+                    <span v-if="room.billState == 1 && !room.isSend">未发送</span>
+                    <span v-if="room.billState == 1 && room.isSend">待支付</span>
                     <span v-if="room.billState == 2" style="color: red;">已支付</span>
                     <span v-if="room.billState == 3" style="color: #ccc;">违约</span>
                     <span v-if="room.billState == 4">违约办结</span>
                   </td>
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:room.billId,type:0}}"> 账单详情</router-link>
+                    <router-link :to="{name:'historyMeter',query:{roomId:room.roomId,tab:3}}"> 历史账单</router-link>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.signId,isOffice:0}}"> 查看合同</router-link>
+                    <a @click="ceneratedBill(room.roomId,0)" v-if="room.contractState == 4"> 生成账单</a>
                   </td>
                 </tr>
               </table>
-              <div class="blank-background-img" v-if="roomTotalNum == 0">
-                <img src="../../../static/images/blank/bill_space.png" >
-                <h2>暂无账单内容~</h2>
               </div>
-              <Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
+              <!--<div class="blank-background-img" v-if="roomTotalNum == 0">-->
+                <!--<img src="../../../static/images/blank/bill_space.png" >-->
+                <!--<h2>暂无账单内容~</h2>-->
+              <!--</div>-->
+              <!--<Page :total="roomTotalNum" :current="roomBillCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>-->
             </el-tab-pane>
 
 
@@ -102,11 +118,11 @@
                     <input type="button" value="搜索" @click="officeSearch()">
                   </div>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill()" v-if="jurisdiction('BILL_UPDATE')">生成租金账单</Button>
+                <div class="form-item" v-if="jurisdiction('BILL_UPDATE')">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="createRoomOfficeBill(1)" >生成租金账单</Button>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="officeHistory()">历史账单</Button>
+                <div class="form-item" v-if="jurisdiction('BILL_UPDATE')">
+                  <Button style="width: 160px;height: 40px;font-size: 18px;" @click="sendOfficeBill">发送缴费提醒</Button>
                 </div>
               </div>
               <table class="office-bill-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="officeTotalNum > 0">
@@ -120,6 +136,7 @@
                   <th>押金</th>
                   <th>服务费/月</th>
                   <th>合计</th>
+                  <th>账单日期</th>
                   <th>状态</th>
                   <th>操作</th>
                 </tr>
@@ -133,15 +150,20 @@
                   <td>{{item.isFirstPay?item.deposit:''}}</td>
                   <td>{{item.serviceCost}}</td>
                   <td>{{item.realPayMoney}}</td>
+                  <td>{{item.billBeginDate | timefilter("yyyy-MM-dd")}}-{{item.billEndDate | timefilter("yyyy-MM-dd")}} </td>
                   <td>
-                    <span v-if="item.billState == 1">待支付</span>
+                    <span v-if="item.billState == 1 && !item.isSend">未发送</span>
+                    <span v-if="item.billState == 1 && item.isSend">待支付</span>
                     <span v-if="item.billState == 2" style="color: red;">已支付</span>
                     <span v-if="item.billState == 3" style="color: #ccc;">违约</span>
                     <span v-if="item.billState == 4">违约办结</span>
                   </td>
+
                   <td>
                     <router-link :to="{name:'billDetail',query:{billId:item.billId,type:1}}"> 账单详情</router-link>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:1}}"> 查看合同</router-link>
+                    <router-link :to="{name:'officeHistoryMeter',query:{officeId:item.officeId}}"> 历史账单</router-link>
+                    <a @click="ceneratedBill(item.officeId,1)" v-if="item.contractState == 4"> 生成账单</a>
                   </td>
                 </tr>
               </table>
@@ -153,16 +175,16 @@
             </el-tab-pane>
 
             <el-tab-pane label="水电账单" name="third">
-              <div class="form-search-criteria">
+              <div class="form-search-criteria" v-if="jurisdiction('BILL_GENERATE')">
                 <div class="form-item">
-                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="createBill()" v-if="jurisdiction('BILL_INCREASE')">生成账单</Button>
+                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="centerDialog=true" >生成账单</Button>
                 </div>
-                <div class="form-item">
-                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="editBill()" v-if="jurisdiction('BILL_UPDATE')">编辑账单</Button>
-                </div>
-                <div class="form-item">
-                  <Button style="width: 120px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>
-                </div>
+                <!--<div class="form-item">-->
+                  <!--<Button style="width: 120px;height: 40px;font-size: 18px;" @click="editBill()" v-if="jurisdiction('BILL_UPDATE')">编辑账单</Button>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                  <!--<Button style="width: 120px;height: 40px;font-size: 18px;" @click="historyBill()">历史信息</Button>-->
+                <!--</div>-->
                 <!--<div class="form-item">-->
                   <!--<span>账单月份：</span>-->
                   <!--<Date-picker type="date" placeholder="选择日期" v-model="waterEnergyStartDate"></Date-picker>-->
@@ -194,7 +216,7 @@
                   </div>
                 </div>
                 <div class="form-item">
-                  <Button style="width: 180px;height: 30px;">向未缴租客发送缴费提醒</Button>
+                  <Button style="width: 180px;height: 30px;" @click="sendWaterBill">向未缴租客发送缴费提醒</Button>
                 </div>
               </div>
               <table class="payment-infirmation-table" border="0.5" bordercolor="#ccc" cellspacing="0" width="100%" v-if="billTotalNum > 0">
@@ -231,13 +253,17 @@
                   <td class="td1">{{item.userName}}</td>
                   <td class="td1">{{item.userPhone}}</td>
                   <td class="td1">
-                    <span v-if="item.payStatus == 1">待缴</span>
+                    <span v-if="item.payStatus == 1 && item.isSend == 0">未发送</span>
+                    <span v-if="item.payStatus == 1 && item.isSend == 1">待缴</span>
                     <span v-if="item.payStatus == 2" style="color: #ccc;">已缴</span>
                     <span v-if="item.payStatus == 3" style="color: red;">违约</span>
                     <span v-if="item.payStatus == 4" style="color: red;">违约办结</span>
                   </td>
-                  
-                  <td class="td1"><router-link :to="{name:'historyMeter',query:{roomId:item.roomId,tab:'2'}}">历史记录</router-link></td>
+
+                  <td class="td1">
+                    <router-link :to="{name:'historyMeter',query:{roomId:item.roomId,tab:'2'}}">历史记录</router-link>
+                    <a @click="ceneratedWaterChargeBill(item.roomId)"> 生成账单</a>
+                  </td>
                 </tr>
               </table>
               <Page :total="billTotalNum" :current="billCurrent" :page-size="10" show-elevator show-total @on-change="search" v-if="billTotalNum > 0"></Page>
@@ -253,6 +279,28 @@
       </div>
       <footer-box></footer-box>
     </div>
+    <el-dialog
+      title="操作提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <span>确定批量生成租金账单吗？</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="createRoomOfficeBillModel">确 定</el-button>
+  </span>
+    </el-dialog>
+    <el-dialog
+      title="操作提示"
+      :visible.sync="centerDialog"
+      width="30%"
+      center>
+      <span>确定批量生成水电账单吗？</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialog = false">取 消</el-button>
+    <el-button type="primary" @click="createBill">确 定</el-button>
+  </span>
+    </el-dialog>
     <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
     <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
   </div>
@@ -264,7 +312,8 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099,RoomBillList500101,OfficeBillList500102,BillList5000103} from '../api.js';
+  import qs from 'qs'
+  import {allCommunity,roomBill,officeBill,waterEnergyBill,statisticsInfoOfUser,billPayment,CreateCxkjBill500176,CreateCxkjWaterBill500177,CxkjBillOfficeSendAll500172,CxkjBillSendAll500171,CxkjWaterEnergyBillSendAll200240,billList500098,WaterEnergyBillList5000100,WaterEnergyBillList500099,RoomBillList500101,OfficeBillList500102,BillList5000103} from '../api.js';
 
 
   export default {
@@ -315,6 +364,11 @@
         successMessage:"生成账单成功！",
         warningModal:false,
         warningMessage:"账单已生成！",
+        pageSize:0,
+        pageNum:1,
+        centerDialogVisible:false,
+        isOffice:'',
+        centerDialog:false
       }
     },
     mounted(){
@@ -349,7 +403,7 @@
               }else{
                 that.communityId = that.RoomBillSelects[0].communityId;
               }
-              that.getRoomBill({pageNum:1,communityId:that.communityId});
+              that.getRoomBill({pageNum:1,pageSizw:50,communityId:that.communityId});
               that.getOfficeBill({pageNum:1,communityId:that.communityId});
               //水电账单
               that.getbillPayment({communityId:that.communityId,pageNum:1});
@@ -362,8 +416,14 @@
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               var pageBean = res.data.result;
-              that.roomBillList = pageBean.roomList;
+              that.roomBillList = pageBean.floorList;
+              for(let i =0;i<pageBean.floorList.length;i++){
+                that.$set(that.roomBillList[i],'isShow',true)
+              }
               that.roomTotalNum = pageBean.totalNum;
+            }else {
+              // that.warningMessage=res.data.content+res.data.code
+              // that.warningModal = true
             }
             if(res.data.code == 10001 || res.data.code == 10008){
               that.roomBillList = [];
@@ -371,10 +431,132 @@
             }
           })
       },
+      /**
+       * 单个生成水电账单
+       **/
+      ceneratedWaterChargeBill(buildingId){
+        let that = this;
+        this.$http.post(CreateCxkjWaterBill500177,qs.stringify({
+          communityId:that.communityId,
+          buildingId:buildingId
+        }))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.successMessage = "生成账单成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }else {
+              that.warningMessage=res.data.content+res.data.code
+              that.warningModal = true
+            }
+          }).catch(function(err){
+          that.warningMessage='生成账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+      },
+      /**
+       * 单个生成租金账单
+       **/
+      ceneratedBill(buildingId,isOffice){
+        let that = this;
+        this.$http.post(CreateCxkjBill500176,qs.stringify({
+          communityId:that.communityId,
+          isOffice:isOffice,
+          buildingId:buildingId
+        }))
+          .then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.successMessage = "生成账单成功!";
+              that.successModal = true;
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+              if(isOffice){
+                that.getOfficeBill({pageNum:that.pageNum,communityId:that.communityId});
+              }else {
+                that.getRoomBill({pageNum:that.pageNum,pageSizw:50,communityId:that.communityId});
+              }
+            }else {
+              that.warningMessage=res.data.content+res.data.code
+              that.warningModal = true
+            }
+          }).catch(function(err){
+          that.warningMessage='生成账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+      },
+      /**
+       * 批量发送公寓租金账单
+       **/
+      sendRoomBill(){
+        var that = this;
+        console.log(that.communityId)
+        this.$http.post(CxkjBillSendAll500171,qs.stringify({
+          communityId:that.communityId,
+          pageNum:1,
+          pageSize:50
+        })).then(function(res){
+            if(res.status == 200 && res.data.code == 10000){
+              that.successMessage = "发送账单成功!";
+              that.successModal = true;
+              that.getRoomBill({pageNum:that.pageNum,pageSizw:50,communityId:that.communityId});
+              setTimeout(function(){
+                that.successModal = false;
+              },1000)
+            }else {
+              that.warningMessage=res.data.content+res.data.code
+              that.warningModal = true
+            }
+          }).catch(function(err){
+          that.warningMessage='发送账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+      },
+      /**
+       * 批量发送办公租金账单
+       **/
+      sendOfficeBill(){
+        var that = this;
+        console.log(that.communityId)
+        this.$http.post(CxkjBillOfficeSendAll500172,qs.stringify({
+          communityId:that.communityId,
+          pageNum:1,
+          pageSize:that.officeTotalNum
+        })).then(function(res){
+          if(res.status == 200 && res.data.code == 10000){
+            that.successMessage = "发送账单成功!";
+            that.successModal = true;
+            that.getOfficeBill({pageNum:that.pageNum,communityId:that.communityId});
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
+          }else {
+            that.warningMessage=res.data.content+res.data.code
+            that.warningModal = true
+          }
+        }).catch(function(err){
+          that.warningMessage='发送账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+      },
+      /**
+       * 楼层显示或隐藏
+       **/
+      updateShow(index){
+        this.$set(this.roomBillList[index],'isShow',!this.roomBillList[index].isShow)
+      },
       roomSearch(page){
+        this.pageNum = page
         var data = {
           communityId:this.communityId,
-          pageNum:page || 1
+          pageNum:page || 1,
+          pageSizw:50
         }
 
         if(this.roomSearchKey){
@@ -388,10 +570,19 @@
         }
         this.getRoomBill(data);
       },
-
-      createRoomOfficeBill(){
-        var that = this;
-        this.$http.post(BillList5000103)
+      /**
+       * 生成公寓或办公租金账单弹框
+       * **/
+      createRoomOfficeBill(isOffice){
+        this.isOffice = isOffice
+        this.centerDialogVisible = true
+      },
+      createRoomOfficeBillModel(){
+        let that = this;
+        this.$http.post(BillList5000103,qs.stringify({
+          communityId:that.communityId,
+          isOffice:that.isOffice
+        }))
           .then(function(res){
             if(res.status == 200 && res.data.code == 10000){
               that.successMessage = "生成账单成功!";
@@ -399,11 +590,24 @@
               setTimeout(function(){
                 that.successModal = false;
               },1000)
-              that.getRoomBill({pageNum:1,communityId:that.communityId});
-              that.getOfficeBill({pageNum:1,communityId:that.communityId});
+              if(that.isOffice){
+                that.getOfficeBill({pageNum:that.pageNum,communityId:that.communityId});
+              }else {
+                that.getRoomBill({pageNum:that.pageNum,pageSizw:50,communityId:that.communityId});
+              }
+
+            }else {
+              that.warningMessage=res.data.content+res.data.code
+              that.warningModal = true
             }
-          })
+          }).catch(function(err){
+          that.warningMessage='生成账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+        that.centerDialogVisible = false
       },
+
 
       getOfficeBill(data){
         var that = this;
@@ -422,6 +626,7 @@
       },
 
       officeSearch(page){
+        this.pageNum = page
         var data = {
           communityId:this.communityId,
           pageNum:page || 1
@@ -440,20 +645,52 @@
         }
         this.getOfficeBill(data);
       },
-
+      /**
+       * 生成水电账单
+       * **/
       createBill(){
         var that = this;
-        this.$http.post(WaterEnergyBillList500099)
-          .then(function(res){
+        this.$http.post(WaterEnergyBillList500099,qs.stringify({
+          communityId:that.communityId
+        })).then(function(res){
             if(res.status == 200 && res.data.code == 10000){
-              that.successMessage = "生成账单成功!";
+              that.successMessage = "生成水电账单成功!";
               that.successModal = true;
               setTimeout(function(){
                 that.successModal = false;
               },1000)
-              that.getbillPayment({communityId:that.communityId,pageNum:1});
+              that.getbillPayment({communityId:that.communityId,pageNum:that.pageNum});
+            }else {
+              that.warningMessage=res.data.content+res.data.code
+              that.warningModal = true
             }
-          })
+          }).catch(function(err){
+          that.warningMessage='生成水电账单失败'
+          that.warningModal = true
+          console.log(err);
+        })
+        this.centerDialog = false
+      },
+      /**
+       * 批量发送账单
+       * **/
+      sendWaterBill(){
+        var that = this;
+        this.$http.post(CxkjWaterEnergyBillSendAll200240,qs.stringify({
+          communityId:that.communityId
+        })).then(function(res){
+          if(res.status == 200 && res.data.code == 10000){
+            that.successMessage = "发送账单成功!";
+            that.successModal = true;
+            setTimeout(function(){
+              that.successModal = false;
+            },1000)
+            that.getbillPayment({communityId:that.communityId,pageNum:that.pageNum});
+          }else {
+            that.warningMessage=res.data.content+res.data.code
+            that.warningModal = true
+          }
+        })
       },
       editBill(){
         this.$router.push({path:"/bill/editGenerateBill",query:{communityId:this.communityId}});
@@ -517,6 +754,7 @@
       },
       filterBill(payStatus){
         this.activeStatus = payStatus;
+        this.pageNum = 1
         var params = {
           pageNum:1,
           keyWord : this.searchKey,
@@ -544,7 +782,7 @@
             }
           }
         }
-        this.getRoomBill({pageNum:1,communityId:this.communityId});
+        this.getRoomBill({pageNum:1,pageSizw:50,communityId:this.communityId});
         this.getOfficeBill({pageNum:1,communityId:this.communityId});
         this.getbillPayment({communityId:this.communityId});
 
@@ -794,6 +1032,19 @@
       }
     }
 
+  }
+  .floorName{
+    width: 100px;
+    height: 40px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background: #038BE2;
+    text-align: center;
+    color: #fff;
+    line-height: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 18px;
   }
 
 

@@ -120,11 +120,24 @@ export default new Router({
       path: '/contract/contractDetail',     //合同管理->合同详情
       name: 'contractDetail',
       component: resolve => require(['../views/contract/contractDetail.vue'],resolve)
-    },{
+    },
+    {
+      path:'/contract/historyContract',		//历史合同
+      name:'historyContract',
+      component:resolve =>
+        require(['../views/contract/historyContract.vue'],resolve)
+    },
+    {
       path: '/signed/lodgingHouse',     //公寓租客签约
       name: 'lodgingHouse',
       component: resolve => require(['../views/signed/lodgingHouse.vue'],resolve)
-    },{
+    },
+    {
+      path: '/signed/renewRoom',     //公寓续签
+      name: 'renewRoom',
+      component: resolve => require(['../views/signed/renewRoom.vue'],resolve)
+    },
+    {
       path: '/bill/billManagement',     //账单管理首页
       name: 'billManagement',
       component: resolve => require(['../views/bill/billManagement.vue'],resolve)
@@ -144,11 +157,8 @@ export default new Router({
       path: '/member/memberManagement',     //会员管理
       name: 'memberManagement',
       component: resolve => require(['../views/member/memberManagement.vue'], resolve)
-    },{
-      path: '/signed/lodgingwork',     //联合办公签约
-      name: 'lodgingwork',
-      component: resolve => require(['../views/signed/lodgingwork.vue'],resolve)
-    },{
+    },
+    {
       path: '/signed/workState',     //办公空间状态
       name: 'workState',
       component: resolve => require(['../views/signed/workState.vue'],resolve)
@@ -160,7 +170,13 @@ export default new Router({
       path: '/signed/lodgingwork',     //联合办公签约
       name: 'lodgingwork',
       component: resolve => require(['../views/signed/lodgingwork.vue'],resolve)
-    },{
+    },
+    {
+      path: '/signed/historyOffice',     //联合办公续签
+      name: 'historyOffice',
+      component: resolve => require(['../views/signed/historyOffice.vue'],resolve)
+    },
+    {
       path: '/signed/workState',     //办公空间状态
       name: 'workState',
       component: resolve => require(['../views/signed/workState.vue'],resolve)
@@ -420,7 +436,7 @@ export default new Router({
       component:resolve =>
         require(['../views/bill/officeHistoryBill.vue'],resolve)
     },{
-      path:'/bill/officeHistoryMeter',		//佳里人-帖子管理
+      path:'/bill/officeHistoryMeter',		//办公历史账单列表
       name:'officeHistoryMeter',
       component:resolve =>
         require(['../views/bill/officeHistoryMeter.vue'],resolve)
@@ -522,7 +538,7 @@ export default new Router({
       path:'/shortRent/shortroomResident',//短租状态-住户列表
       name:'shortroomResident',
       component:resolve =>
-      require(['../views/shortRent/shortroomResident.vue'],resolve)
+        require(['../views/shortRent/shortroomResident.vue'],resolve)
     },
 
   ]

@@ -5,11 +5,11 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
-// const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-// export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.50.1.180417_test':sessionStorage.getItem('urlType')=='研发'? '1.1.50.1.180417_yanfa': '1.1.50.1.180417_release';//pc版本号 默认测试
-const host3 = 'http://test.kaisaspace.com:8070';
+export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.68.1.180602.1_test':sessionStorage.getItem('urlType')=='研发'? '1.1.68.1.180602.1_yanfa': '1.1.68.1.180602.1_release';//pc版本号 默认测试
+// const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
@@ -511,7 +511,6 @@ const  AuthInfo = '/cxkj-room/apis/pc/signauth/CxkjAuthInfo300226'
 
 //短租订单列表-取消订单
 const CancelOrder = '/cxkj-pms/apis/pc/pmsorder/CxkjCancelOrder300229'
-
 //短租状态-住户列表
 const RoomieList = '/cxkj-pms/apis/pc/pmsorderroomie/CxkjGetRoomieList300231'
 
@@ -792,7 +791,11 @@ export const officeContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjOff
 export const propertyContract =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjPropertyContractList300066';
 export const contractDetai =host3+'/cxkj-room/apis/pc/contractMgrCenter/CxkjContractDetail300067';
 export const CxkjBillGathering500164 =host3+'/cxkj-room/apis/pc/cxkjbillgathering/CxkjBillGathering500164';//合同付款
-export const  ContractSignInfo200225 =host3 + '/cxkj-room/apis/pc/contractMgrCenter/CxkjCommunityContractSignInfo200225'
+export const  ContractSignInfo200225 =host3 + '/cxkj-room/apis/pc/contractMgrCenter/CxkjCommunityContractSignInfo200225' //合同列表
+export const  CxkjCommunityContractSignReletInfo200259 =host3 + '/cxkj-room/apis/pc/contractMgrCenter/CxkjCommunityContractSignReletInfo200259' //续租合同详情
+export const  CxkjCommunityHistoryContractSignTable200252 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityHistoryContractSignTable200252'//历史合同
+export const  CxkjCommunityContractSignRoomAdd200253 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityContractSignRoomAdd200253'//公寓合同续租
+export const  CxkjCommunityContractSignOfficeAdd200254 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityContractSignOfficeAdd200254'//办公合同续租
 
 //账单管理
 export const roomBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillList300039';
@@ -807,6 +810,13 @@ export const saveBill =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjSaveUsedWat
 export const createBillList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetNoBillRoomContractList300112';//生成水电账单列表
 export const historyList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjGetRoomFloorList300111';//历史信息
 export const WaterEnergyHistoryList =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyHistoryList500114';//历史信息
+export const CxkjBillEdit500167 =host3+'/cxkj-room/apis/pc/bill/CxkjBillEdit500167';//编辑公寓租金账单
+export const CxkjBillGathering500168 =host3+'/cxkj-room/apis/pc/bill/CxkjBillGathering500168';//公寓租金账单收款
+export const CxkjBillSend500169 =host3+'/cxkj-room/apis/pc/bill/CxkjBillSend500169';//发送公寓租金账单
+export const CxkjBillDelete500170 =host3+'/cxkj-room/apis/pc/bill/CxkjBillDelete500170';//删除公寓租金账单
+export const CxkjBillSendAll500171 =host3+'/cxkj-room/apis/pc/bill/CxkjBillSendAll500171';//批量发送公寓租金账单
+export const CxkjBillOfficeSendAll500172 =host3+'/cxkj-room/apis/pc/bill/CxkjBillOfficeSendAll500172';//批量发送办公租金账单
+export const CreateCxkjBill500176 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBill500176';//单个生成租金账单
 
 
 //客服管理
@@ -886,10 +896,16 @@ export const WaterEnergyBillList5000100 =host3+'/cxkj-room/apis/pc/waterEnergyBi
 
 export const RoomBillList500101 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillList500101';//公寓账单列表
 export const OfficeBillList500102 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillList500102';//办公账单列表
-export const BillList5000103 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBillList5000103';//生成本月租金账单列表
+export const BillList5000103 =host3+'/cxkj-room/apis/pc/bill/CreateCxkjBillList500103';//生成本月租金账单列表
 export const RoomBillHistoryList500104 =host3+'/cxkj-room/apis/pc/bill/CxkjRoomBillHistoryList500104';//公寓历史账单列表
 export const OfficeBillHistoryList500105 =host3+'/cxkj-room/apis/pc/bill/CxkjOfficeBillHistoryList500105';//办公历史账单列表
 export const WaterEnergyBillHistoryList500106 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillHistoryList500106';//水电历史账单列表
+export const CxkjWaterEnergyBillUpdate200233 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillUpdate200233';//保存水电账单
+export const CxkjWaterEnergyBillDelete200237 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillDelete200237';//删除水电账单
+export const CxkjWaterEnergyBillSend200239 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillSend200239';//发送水电账单
+export const CxkjWaterEnergyBillSendAll200240 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterEnergyBillSendAll200240';//批量发送水电账单
+export const CxkjWaterBillGathering500165 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CxkjWaterBillGathering500165';//水电账单收款
+export const CreateCxkjWaterBill500177 =host3+'/cxkj-room/apis/pc/waterEnergyBill/CreateCxkjWaterBill500177';//单个生成水电账单
 
 //客服管理
 export const CustomerService300126 =host3+'/cxkj-room/apis/pc/complainCenter/CxkjConfirmReturnVisitOrCustomerService300126';//客服确认处理或回访
@@ -962,6 +978,7 @@ export const CxkjBillGatheringDetailWhole500157 =host3+'/cxkj-room//apis/pc/cxkj
 
 export const CxkjPmsGetCheckOutInfo300211 =host3+'/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsGetCheckOutInfo300211'//完成收款
 export const CxkjPmsAddCheckOutInfo300213 =host3+'/cxkj-pms/apis/pc/pmscheckoutroom/CxkjPmsAddCheckOutInfo300213'//退房
+export const CxkjCommunityContractSignTable200251 =host3+'/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityContractSignTable200251'//退房
 
 
 

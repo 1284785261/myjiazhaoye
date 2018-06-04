@@ -68,8 +68,6 @@ Vue.prototype.DateDiff = function(sDate1,sDate2){
   }else{
     return 0
   }
-  
-  
 }
 
 Vue.filter("Service", function(value) {  //企业服务

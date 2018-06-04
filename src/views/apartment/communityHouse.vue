@@ -467,7 +467,7 @@
               officeRent:"",
               serviceCost:"",
               deposit:""
-              
+
             });
             this.CommunityListMeeting.push({
               communityId:this.communityId,
@@ -537,12 +537,13 @@
         this.$http.post(officeInfo,qs.stringify({communityId:this.communityId})).then(function(res){
           // console.log(res)
           if(res.data.code == 10000){
-            
+
             that.CommunityListOffice = res.data.entity.cxkjCommunityListOffice;
             that.communityServiceCost = res.data.entity.communityServiceCost;
             for(var i =0;i<that.CommunityListOffice.length;i++){
               if(!that.CommunityListOffice[i].serviceCost){
                 that.CommunityListOffice[i].serviceCost = res.data.entity.communityServiceCost;
+                that.CommunityListOffice[i].deposit = res.data.entity.deposit;
               }
               // if(that.CommunityListOffice[i].deposit)
               if(that.CommunityListOffice[i].officeFurniture){

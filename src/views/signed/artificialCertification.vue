@@ -53,7 +53,7 @@
             <a @click="noishideCertification">取消</a>
         </div>
 		<div class="notThrough" v-show="notThrough">
-            <textarea v-text="texts" v-model="texts" placeholder="请填写认证失败原因"></textarea>
+            <textarea v-model="texts" placeholder="请填写认证失败原因"></textarea>
             <a @click="notThroughs">确定</a>
             <a @click="closes">取消</a>
         </div>
@@ -196,9 +196,9 @@
 			determineCertification(){
 			  let vm = this
 				axios.post(AuthSuccess300228,
-				{
-					authId:this.authId
-				}).then((res)=>{
+          qs.stringify({
+					authId:vm.authId
+				})).then((res)=>{
 					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.ishide = false;
@@ -230,8 +230,8 @@
 			  let vm = this
 				axios.post(AuthFail300227,
           qs.stringify({
-					authId:this.authId,
-					remark:this.texts
+					authId:vm.authId,
+					remark:vm.texts
 				})).then((res)=>{
 					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){

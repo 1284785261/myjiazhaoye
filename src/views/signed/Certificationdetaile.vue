@@ -41,12 +41,19 @@
 							</tr>
 						</table>
 						<a style="margin-left:160px;" @click="determineCertification" v-if="surrList.status == 0">通过验证</a>
+						<a  @click="showCertification" v-if="surrList.status == 0">验证不通过</a>
 						<a @click="closes" v-if="surrList.status == 0">取消</a>
 					</div>
 				</div>
 			</div>
 			<footer-box></footer-box>
 		</div>
+    <div class="scherm" v-show="ishide"></div>
+    <div class="notThrough" v-show="notThrough">
+      <textarea  v-model="texts" placeholder="请填写认证失败原因"></textarea>
+      <a @click="notThroughs">确定</a>
+      <a @click="shutDown">取消</a>
+    </div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
     	<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 	</div>
@@ -73,8 +80,8 @@
 		data() {
 			let _this = this
 			return {
-				activeTabName:"workbench",
-				surrList: null,
+        activeTabName:"workbench",
+				surrList: {},
 				Name:'',
 				authId:'',
 				successModal:false,
@@ -90,7 +97,10 @@
 				},{
 					img:'',
 					title:'手持身份证正面照：'
-				}]
+				}],
+        ishide:false,
+        notThrough:false,
+        texts:''
 			}
 		},
 		mounted() {
@@ -131,9 +141,9 @@
 			//确定认证通过
 			determineCertification(){
 				axios.post(AuthSuccess300228,
-				{
+          qs.stringify({
 					authId:this.authId
-				}).then((res)=>{
+				})).then((res)=>{
 					// console.log(res);
 					if(res.data.code == 10000 && res.status == 200){
 						this.successMessage = '认证通过!';
@@ -148,6 +158,49 @@
 					}
 				})
 			},
+      /**
+       * 认证不通过弹框
+       * **/
+      showCertification(){
+        this.ishide = true;
+        this.notThrough = true;
+      },
+      /**
+       * 认证不通过提交事件
+       **/
+      notThroughs(){
+        let vm = this
+        this.$http.post(AuthFail300227,
+          qs.stringify({
+            authId:this.authId,
+            remark:this.texts
+          })).then((res)=>{
+          // console.log(res);
+          if(res.data.code == 10000 && res.status == 200){
+            this.ishide = false;
+            this.notThrough = false;
+            this.successMessage = '认证不通过成功!';
+            this.successModal = true;
+            setTimeout(function(){
+              vm.successModal = false;
+              vm.datas();
+            },2000)
+          }else{
+            this.ishide = false;
+            this.notThrough = false;
+            this.warningMessage = res.data.content;
+            this.warningModal = true;
+          }
+        })
+        this.texts = ''
+      },
+      /**
+       * 认证不通过取消事件
+       **/
+      shutDown(){
+        this.ishide = false;
+        this.notThrough = false;
+      },
 			closes(){
 				this.$router.back(-1);
 			}
@@ -218,7 +271,7 @@
 								width: 350px;
 								height: 180px;
 								margin-bottom: 20px;
-								
+
 							}
 						}
 					}

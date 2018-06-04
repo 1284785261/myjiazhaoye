@@ -15,7 +15,7 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="roomCommunity" style="width:200px">
+                  <Select v-model="roomCommunity" style="width:200px" @on-change="updateRoomCommunityChange">
                     <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
@@ -33,52 +33,60 @@
                   </div>
                 </div>
               </div>
-              <table class="table ivu-table" v-if="roomTotalNum > 0">
-                <tr>
-                  <th >合同编号</th>
-                  <th>签约日期</th>
-                  <th>所属社区</th>
-                  <th>公寓房间</th>
-                  <th>租期</th>
-                  <th>承租人</th>
-                  <th>租金(元/月)</th>
-                  <th>状态</th>
-                  <th>操作</th>
-                </tr>
-                <tr v-for="room in roomContractList">
-                  <td>{{room.contractNumber}}</td>
-                  <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
-                  <td>{{room.communityName}}</td>
-                  <td>{{room.floorName}}层 {{room.roomNum}}</td>
-                  <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
-                  <td>{{room.userName}}</td>
-                  <td style="color: red;">{{room.rentPay}}</td>
-                  <td>
-                    <span v-if="room.contractState == 1">待确认</span>
-                    <span v-else-if="room.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
-                    <span v-else-if="room.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
-                    <span v-else-if="room.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
-                    <span v-else-if="room.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
-                    <span v-else-if="room.contractState == 6" style="color: rgb(153,153,153)">退组办结</span>
-                    <span v-else-if="room.contractState == 7" style="color: rgb(255,29,16)">违约</span>
-                    <span v-else-if="room.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
-                    <span v-else-if="room.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
-                    <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
-                  </td>
-                  <td>
-                    <router-link v-if="room.contractState == 1" :to="{path:'/signed/lodgingHouse',query:{contractSignId:room.contractSignId,communityId:room.communityId,Name:room.communityName}}">编辑</router-link>
-                    <a v-if="room.contractState == 2 || room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>
-                    <a v-if="(room.contractState == 1 || room.contractState == 2 || room.contractState == 3) && isUser"  @click="delRoomSign(room.contractSignId)">作废</a>
-                    <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
-                    <router-link v-if='room.contractState != 1 && isUser' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
-                  </td>
-                </tr>
-              </table>
+              <div v-for="(item,index) in roomContractList" v-if="item.contractSignList.length">
+                <!--<div class="">{{item.floorName}}</div>-->
+                <div class="floorName">
+                  {{item.floorName}} 层 <i class="el-icon-arrow-down" v-if="item.isShow" @click="updateShow(index)"></i> <i class="el-icon-arrow-up" v-if="!item.isShow" @click="updateShow(index)"></i>
+                </div>
+                <table class="table ivu-table" style="width: 100%"  v-if="item.isShow">
+                  <tr>
+                    <th >合同编号</th>
+                    <th>签约日期</th>
+                    <th>所属社区</th>
+                    <th>公寓房间</th>
+                    <th>租期</th>
+                    <th>承租人</th>
+                    <th>租金(元/月)</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                  <tr v-for="room in item.contractSignList">
+                    <td>{{room.contractNumber}}</td>
+                    <td>{{room.createTime | timefilter("yyyy-MM-dd")}}</td>
+                    <td>{{room.communityName}}</td>
+                    <td>{{room.floorName}}层 {{room.roomNum}}</td>
+                    <td>{{room.beginDate|timefilter("yyyy.MM.dd")}}-{{room.endDate|timefilter("yyyy.MM.dd")}}</td>
+                    <td>{{room.userName}}</td>
+                    <td style="color: red;">{{room.cyclePayMoney}}</td>
+                    <td>
+                      <span v-if="room.contractState == 1">待确认</span>
+                      <span v-else-if="room.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
+                      <span v-else-if="room.contractState == 3" style="color: rgb(255,102,18)">待付首款</span>
+                      <span v-else-if="room.contractState == 4" style="color: rgb(31,187,166)">履约中</span>
+                      <span v-else-if="room.contractState == 5" style="color: rgb(31,187,166)">退租中</span>
+                      <span v-else-if="room.contractState == 6" style="color: rgb(153,153,153)">退租办结</span>
+                      <span v-else-if="room.contractState == 7" style="color: rgb(255,29,16)">违约</span>
+                      <span v-else-if="room.contractState == 8" style="color: rgb(153,153,153)">违约办结</span>
+                      <span v-else-if="room.contractState == 9" style="color: rgb(153,153,153)">到期办结</span>
+                      <span v-else-if="room.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
+                    </td>
+                    <td>
+                      <!--<router-link v-if="room.contractState == 1" :to="{path:'/signed/lodgingHouse',query:{contractSignId:room.contractSignId,communityId:room.communityId,Name:room.communityName}}">编辑</router-link>-->
+                      <!--<a v-if="room.contractState == 2 || room.contractState == 3" @click="collectionModelShow(room.billId,'room',room.contractSignId)">收款</a>-->
+                      <!--<a v-if="(room.contractState == 1 || room.contractState == 2 || room.contractState == 3) && isUser"  @click="delRoomSign(room.contractSignId)">作废</a>-->
+                      <router-link :to="{name:'historyContract',query:{communityId:room.communityId,roomId:room.buildingId,isOffice:'0'}}">历史合同</router-link>
+                      <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
+                      <router-link v-if='room.contractState != 1 ' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
               <div class="blank-background-img" v-if="roomTotalNum == 0">
                 <img src="../../../static/images/blank/contract_space.png" >
                 <h2>暂无合同内容~</h2>
               </div>
-              <Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>
+              <!--<Page :total="roomTotalNum" :current="roomContractCurrent" :page-size="10" show-elevator show-total @on-change="roomSearch" v-if="roomTotalNum > 0"></Page>-->
 
             </Tab-pane>
 
@@ -86,8 +94,8 @@
               <div class="form-search-criteria">
                 <div class="form-item">
                   <b>社区：</b>
-                  <Select v-model="officeCommunity" style="width:200px">
-                    <Option v-for="community in  officeContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  <Select v-model="roomCommunity" style="width:200px">
+                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
                 <div class="form-item">
@@ -128,7 +136,7 @@
                   <td>{{office.companyInfo}}</td>
                   <td>{{office.userName}}</td>
                   <td>{{office.userPhone}}</td>
-                  <td>{{office.rentPay}}</td>
+                  <td>{{office.cyclePayMoney}}</td>
                   <td>
                     <span v-if="office.contractState == 1">待确认</span>
                     <span v-else-if="office.contractState == 2" style="color: rgb(255,102,18)">待付款</span>
@@ -142,11 +150,12 @@
                     <span v-else-if="office.contractState == 10" style="color: rgb(31,187,166)">申请退租</span>
                   </td>
                   <td>
-                    <router-link v-if="office.contractState == 1" :to="{path:'/signed/lodgingwork',query:{contractSignId:office.contractSignId,communityId:office.communityId,Name:office.communityName}}">编辑</router-link>
-                    <a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>
-                    <a v-if="(office.contractState == 1 || office.contractState == 2 || office.contractState == 3) && isUser"  @click="delRoomSign(office.contractSignId)">作废</a>
+                    <!--<router-link v-if="office.contractState == 1" :to="{path:'/signed/lodgingwork',query:{contractSignId:office.contractSignId,communityId:office.communityId,Name:office.communityName}}">编辑</router-link>-->
+                    <!--<a v-if="office.contractState == 2 ||office.contractState == 3" @click="collectionModelShow(office.billId,'office',office.contractSignId)">收款</a>-->
+                    <!--<a v-if="(office.contractState == 1 || office.contractState == 2 || office.contractState == 3) "  @click="delRoomSign(office.contractSignId)">作废</a>-->
+                    <router-link :to="{name:'historyContract',query:{communityId:office.communityId,roomId:office.buildingId,isOffice:'1'}}">历史合同</router-link>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
-                    <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1 && isUser">查看总账单</router-link>
+                    <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1">查看总账单</router-link>
                   </td>
                 </tr>
               </table>
@@ -232,8 +241,8 @@
       <div style="text-align: center;border-bottom: solid 1px #ccc;margin-bottom: 10px;">
         <template>
           <el-radio-group v-model="type">
-            <el-radio :label="1">微信付款</el-radio>
-            <el-radio :label="2">支付宝付款</el-radio>
+            <el-radio :label="2">微信付款</el-radio>
+            <el-radio :label="1">支付宝付款</el-radio>
             <el-radio :label="3">银行转账</el-radio>
             <el-radio :label="4">其他</el-radio>
             <el-radio :label="6">POS机刷卡</el-radio>
@@ -334,7 +343,7 @@
   import  footerBox from '../../components/footerBox.vue';
   import  successModal from '../../components/successModal.vue';
   import  warningModal from '../../components/warningModal.vue';
-  import {allCommunity,roomContract,officeContract,propertyContract,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157,CxkjBillGathering500164,delRoomSign200223} from '../api.js';
+  import {allCommunity,roomContract,officeContract,propertyContract,CxkjCommunityContractSignTable200251,CxkjBillGatheringDetailPart500156,CxkjBillGatheringDetail500155,CxkjBillGatheringDetailWhole500157,CxkjBillGathering500164,delRoomSign200223} from '../api.js';
   import qs from 'qs';
 
 export default {
@@ -348,13 +357,10 @@ export default {
   data () {
     let _this = this;
     return {
-        type:1,
+        type:2,
         activeName:"room",
-        RoomContractSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],//下拉选
-        roomCommunity:-1,//当前选中
+        RoomContractSelects:[],//下拉选
+        roomCommunity:0,//当前选中
         roomContractList:[],//公寓合同数据
         roomTotalNum:0,//公寓合同总条数
         roomContractCurrent:1,//公寓合同当前页
@@ -398,24 +404,29 @@ export default {
           payDate:new Date().Format("yyyy-MM-dd hh:mm:ss")
         },
 
-        officeContractSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],
+        officeContractSelects:[
+          // {
+          // communityId: -1,
+          // communityName: '全部'
+        // }
+        ],
         officeContractList:[],
-        officeCommunity:-1,//联合办公当前选中社区
+        officeCommunity:0,//联合办公当前选中社区
         officeTotalNum:0,//联合办公合同总条数
         officeContractCurrent:1,//联合办公合同当前页
         officeStartDate:"",//联合办公签约开始时间
         officeEndDate:"",//联合办公签约结束时间
         officeSearchKey:"",//联合办公搜索关键字
 
+        propertyContractSelects:[
+          {
+            communityId: -1,
+            communityName: '全部'
+          }
+        ],
+        propertyContractList:[
 
-        propertyContractSelects:[{
-          communityId: -1,
-          communityName: '全部'
-        }],
-        propertyContractList:[],
+        ],
         propertyCommunity:-1,//物业当前选中社区
         propertyTotalNum:0,//物业合同总条数
         propertyContractCurrent:1,//物业合同当前页
@@ -475,18 +486,39 @@ export default {
       }
    },
   mounted(){
+    this.getCommunityData();
     let tab = sessionStorage.getItem("contractIndexTab");
     if(tab){
         this.activeName = tab;
     }
-    this.getCommunityData();
-    this.getRoomContract({pageNum:1});
-    this.getOfficeContract({pageNum:1});
-    this.getPropertyContract({pageNum:1});
+    switch (tab){
+      case 'room': this.getRoomContract({communityId:this.roomCommunity,isOffice:'0'}); break;
+      case 'office': this.getOfficeContract({communityId:this.roomCommunity,isOffice:'1'}); break;
+      case 'property': this.getPropertyContract({pageNum:1,communityId:this.propertyCommunity}); break;
+    }
+
+    // this.getRoomContract({pageNum:1});
+    // this.getOfficeContract({pageNum:1});
+    // this.getPropertyContract({pageNum:1});
   },
   methods: {
+    updateShow(index){
+      this.$set(this.roomContractList[index],'isShow',!this.roomContractList[index].isShow)
+    },
+    updateRoomCommunityChange(){
+      switch (this.activeName){
+        case 'room': this.getRoomContract({communityId:this.roomCommunity,isOffice:'0'}); break;
+        case 'office': this.getOfficeContract({communityId:this.roomCommunity,isOffice:'1'}); break;
+        case 'property': this.getPropertyContract({pageNum:1,communityId:this.propertyCommunity}); break;
+      }
+    },
     changeTab(tab){
       sessionStorage.setItem("contractIndexTab",tab);
+      switch (tab){
+        case 'room': this.getRoomContract({communityId:this.roomCommunity,isOffice:'0'}); break;
+        case 'office': this.getOfficeContract({communityId:this.roomCommunity,isOffice:'1'}); break;
+        case 'property': this.getPropertyContract({pageNum:1,communityId:this.propertyCommunity}); break;
+      }
     },
     /**
      * 关闭错误提示
@@ -692,21 +724,33 @@ export default {
       this.$http.get(allCommunity)
         .then(function(res){
           if(res.status == 200 && res.data.code == 10000){
+            // debugger
             that.RoomContractSelects = that.RoomContractSelects.concat(res.data.entity);
-            that.officeContractSelects = that.officeContractSelects.concat(res.data.entity);
+            that.roomCommunity = that.RoomContractSelects[0].communityId
+            // that.officeContractSelects = that.officeContractSelects.concat(res.data.entity);
             that.propertyContractSelects = that.propertyContractSelects.concat(res.data.entity);
           }
         })
     },
     getRoomContract(data){
       var that = this;
-      this.$http.get(roomContract,{params:data})
+      this.$http.get(CxkjCommunityContractSignTable200251,{params:data})
         .then(function(res){
+
           console.log(res);
           if(res.status == 200 && res.data.code == 10000){
-            var pageBean = res.data.pageBean;
-            that.roomContractList = pageBean.page;
-            that.roomTotalNum = pageBean.totalNum;
+            var pageBean = res.data.result.resultContractSign;
+            that.roomContractList = res.data.result.resultContractSign;
+            for(let i=0;i<that.roomContractList.length;i++){
+              that.$set(that.roomContractList[i],'isShow',true)
+            }
+
+            that.roomTotalNum =1;
+            // if(that.roomContractList[0].contractSignList.length) {
+            //   that.roomTotalNum =1;
+            // }else {
+            //   that.roomTotalNum =0;
+            // }
           }
           else{
             that.roomContractList = [];
@@ -730,17 +774,18 @@ export default {
       if(this.roomEndDate){
         data.endDate = new Date(this.roomEndDate).Format("yyyy-MM-dd");
       }
+      data.isOffice = '0'
       this.getRoomContract(data);
     },
 
     getOfficeContract(data){
       var that = this;
-      this.$http.get(officeContract,{params:data})
+      this.$http.get(CxkjCommunityContractSignTable200251,{params:data})
         .then(function(res){
           if(res.status == 200 && res.data.code == 10000){
-            var pageBean = res.data.pageBean;
-            that.officeContractList = pageBean.page;
-            that.officeTotalNum = pageBean.totalNum;
+            var pageBean = res.data.result.resultContractSign;
+            that.officeContractList = res.data.result.resultContractSign;
+            that.officeTotalNum = 1;
           }
           else{
             that.officeContractList = [];
@@ -753,8 +798,8 @@ export default {
       var data = {
         pageNum:page || 1
       }
-      if(this.officeCommunity != -1){
-        data.communityId = this.officeCommunity;
+      if(this.roomTotalNum != -1){
+        data.communityId = this.roomTotalNum;
       }
       if(this.officeSearchKey){
         data.keyWord = this.officeSearchKey;
@@ -765,6 +810,7 @@ export default {
       if(this.officeEndDate){
         data.endDate = new Date(this.officeEndDate).Format("yyyy-MM-dd");
       }
+      data.isOffice = 1
       this.getOfficeContract(data);
     },
 
@@ -789,8 +835,8 @@ export default {
       var data = {
         pageNum:page || 1
       }
-      if(this.propertyCommunity != -1){
-        data.communityId = this.propertyCommunity;
+      if(this.roomCommunity != -1){
+        data.communityId = this.roomCommunity;
       }
       if(this.propertySearchKey){
         data.keyWord = this.propertySearchKey;
@@ -894,6 +940,19 @@ export default {
       h2{
         color: #999;
       }
+    }
+    .floorName{
+      width: 100px;
+      height: 40px;
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 50px;
+      background: #038BE2;
+      text-align: center;
+      color: #fff;
+      line-height: 40px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      font-size: 18px;
     }
   }
 

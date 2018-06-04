@@ -12,8 +12,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
-    "echarts": "^3.7.2",
-    "element-ui": "^1.4.2",
+    "echarts": "^3.8.5",
+    "element-ui": "^1.4.13",
     "iview": "^2.0.0-rc.19",
     "jquery": "^2.2.3",
     "vue": "^2.3.3",

@@ -40,6 +40,10 @@
                   <td>租期 :</td>
                   <td>{{billDetailList.beginDate | timefilter("yyyy.MM.dd")}}-{{billDetailList.endDate | timefilter("yyyy.MM.dd")}}</td>
                 </tr>
+                <tr v-if="billDetailList.billBeginDate">
+                  <td>账单日期 :</td>
+                  <td>{{billDetailList.billBeginDate | timefilter("yyyy.MM.dd")}}-{{billDetailList.billEndDate | timefilter("yyyy.MM.dd")}}</td>
+                </tr>
                 <tr>
                   <td>租金 :</td>
                   <td>{{billDetailList.generalRent}}元/月</td>
@@ -55,6 +59,10 @@
                 <tr>
                   <td>合计 :</td>
                   <td>{{billDetailList.realPayMoney}}元</td>
+                </tr>
+                <tr v-if="billDetailList.remark">
+                  <td>备注 :</td>
+                  <td>{{billDetailList.remark}}</td>
                 </tr>
               </table>
               <div class="check-contract-btn" @click="goToContract(billDetailList.contractSignId)">
@@ -89,7 +97,7 @@
                   <!--<td colspan="2" class="payInfo">待支付 剩余12分钟</td>--><!--（系统时间+规定支付时间）-下单时间-->
                 <!--</tr>-->
               </table>
-              <Button v-if="billDetailList.billState == 1" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>
+              <!--<Button v-if="billDetailList.billState == 1" type="primary" style="width: 120px;margin-left: 40px">确认收款</Button>-->
             </li>
             <li v-if="billDetailList.billState == 2">
               <h3><i class="icon icon-iden"></i>用户评价</h3>
@@ -106,7 +114,7 @@
                     </el-rate>
                   </td>
                 </tr>
-                <tr>
+                <tr v-if="billDetailList.content">
                   <td>评价内容 :</td>
                   <td>{{billDetailList.content}}</td>
                 </tr>

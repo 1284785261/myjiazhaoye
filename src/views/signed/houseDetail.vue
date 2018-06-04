@@ -71,7 +71,8 @@
 		    					首笔支付：
 		    				</td>
 		    				<td>
-		    					<p v-if="Datas.cxkjContractSign != null">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
+                  <p v-if="Datas.deposit && Datas.state == 0">押金：{{Datas.deposit}}个月 <span v-if="Datas.cxkjContractSign != null && Datas.cxkjContractSign.cyclePayMoney">租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
+		    					<p v-else-if="Datas.cxkjContractSign != null && Datas.state != 0">押金：{{Datas.cxkjContractSign.deposit | deposit}}<span>租金：{{Datas.cxkjContractSign.cyclePayMoney | cyclePayMoney}}</span></p>
 		    					<p v-else>押金：无<span>租金：无</span></p>
 		    					<p v-if="Datas.serviceCost">服务费：{{Datas.serviceCost | cyclePayMoney}}</p>
 								<p v-else>服务费：无</p>
