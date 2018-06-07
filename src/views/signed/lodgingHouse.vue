@@ -1378,9 +1378,12 @@
 			},
 			room(Num) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == Num)];
-				console.log(this.housetderta);
-        		this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
-        		this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
+				// console.log(this.housetderta);
+				if(this.contractSignId == ''){
+					this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
+					this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
+				}
+				
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -1388,7 +1391,7 @@
 					}
 
 				// console.log(this.housetderta.serviceCost)
-				console.log(this.housetderta)
+				// console.log(this.housetderta)
 				// debugger
 					this.tableRepairs2[i].inputValue = arr[i].materialName;
 					this.tableRepairs2[i].date = arr[i].count;
@@ -2071,6 +2074,7 @@
 					contractSignId:this.contractSignId
 				})
 				).then((res)=>{
+					console.log(res);
 					if(res.status == 200 && res.data.code == 10000) {
 						this.compliedetails = res.data.entity;
 						this.roomNum = this.compliedetails.roomInfo.roomNum?this.compliedetails.roomInfo.roomNum:'';
@@ -2087,14 +2091,14 @@
             date2 = date2.split('-');
             date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
             this.month = Math.abs(date2 - date1);
-            if(this.compliedetails.cyclePayType){
-              switch (this.compliedetails.cyclePayType){
-                case '1': this.value2 = '月付'; break;
-                case '2': this.value2 = '季付'; break;
-                case '3':this.value2 = '半年付'; break;
-                case '4': this.value2 = '年付'; break;
-              }
-            }
+            // if(this.compliedetails.cyclePayType){
+            //   switch (this.compliedetails.cyclePayType){
+            //     case '1': this.value2 = '月付'; break;
+            //     case '2': this.value2 = '季付'; break;
+            //     case '3':this.value2 = '半年付'; break;
+            //     case '4': this.value2 = '年付'; break;
+            //   }
+            // }
             this.discount = this.compliedetails.paywayDiscount?this.compliedetails.paywayDiscount:''
             let materials =this.compliedetails.materials
             if(materials){
@@ -2108,12 +2112,10 @@
                 })
               }
             }
-
+						this.depositmonth = this.compliedetails.depositMonth;
             this.contract = this.compliedetails.contractNumber?this.compliedetails.contractNumber:'';
             this.housetderta.roomRent =this.compliedetails.cyclePayMoney?this.compliedetails.cyclePayMoney:'';
-
             this.isSpecial = this.compliedetails.specialDiscount?this.compliedetails.specialDiscount:'';
-						this.depositmonth = this.compliedetails.depositMonth;
 						this.user.userPhone = this.compliedetails.userInfo.userPhone;
 						this.user.userName = this.compliedetails.userInfo.userName;
 						this.user.gender = this.compliedetails.userInfo.gender+'';

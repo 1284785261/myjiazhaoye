@@ -794,7 +794,7 @@
 			},
 			room(val) {
 				this.housetderta = this.options1[this.options1.findIndex(item => item.roomNum == val)];
-        this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
+        		this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
 				this.serve = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				this.depositmonth = this.housetderta.deposit;
 				let arr = JSON.parse(this.housetderta.materials);
@@ -1189,10 +1189,10 @@
 						this.radios = this.compliedetails.customerType?this.compliedetails.customerType:'';
 						this.onhrie = this.compliedetails.beginDate?this.compliedetails.beginDate:'';
 						this.expire = this.compliedetails.endDate?this.compliedetails.endDate:'';
-            this.leaseDiscount = this.compliedetails.datewayDiscount?this.compliedetails.datewayDiscount:'';
-            this.isSpecial = this.compliedetails.specialDiscount?this.compliedetails.specialDiscount:'';
-            this.freeMonth = this.compliedetails.freeMonth?this.compliedetails.freeMonth:'';
-            this.housetderta.roomRent = this.compliedetails.cyclePayMoney?this.compliedetails.cyclePayMoney:''
+						this.leaseDiscount = this.compliedetails.datewayDiscount?this.compliedetails.datewayDiscount:'';
+						this.isSpecial = this.compliedetails.specialDiscount?this.compliedetails.specialDiscount:'';
+						this.freeMonth = this.compliedetails.freeMonth?this.compliedetails.freeMonth:'';
+						this.housetderta.roomRent = this.compliedetails.cyclePayMoney?this.compliedetails.cyclePayMoney:''
 						let date1 = new Date(this.onhrie).Format("yyyy-MM-dd");
 						let date2 = new Date(this.expire).Format("yyyy-MM-dd");
 						date1 = date1.split('-');
@@ -1200,15 +1200,15 @@
 						date2 = date2.split('-');
 						date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
 						this.month = Math.abs(date2 - date1);
-            if(parseInt(this.compliedetails.cyclePayType)){
-              switch (parseInt(this.compliedetails.cyclePayType)){
-                case 1: this.value2 = '月付'; break;
-                case 2: this.value2 = '季付'; break;
-                case 3:this.value2 = '半年付'; break;
-                case 4: this.value2 = '年付'; break;
-              }
-            }
-            this.discount = this.compliedetails.paywayDiscount?this.compliedetails.paywayDiscount:''
+						// if(parseInt(this.compliedetails.cyclePayType)){
+						//   switch (parseInt(this.compliedetails.cyclePayType)){
+						//     case 1: this.value2 = '月付'; break;
+						//     case 2: this.value2 = '季付'; break;
+						//     case 3:this.value2 = '半年付'; break;
+						//     case 4: this.value2 = '年付'; break;
+						//   }
+						// }
+						this.discount = this.compliedetails.paywayDiscount?this.compliedetails.paywayDiscount:''
 						this.depositmonth = this.compliedetails.depositMonth;
 						this.aaduserInfo[0].phone = this.compliedetails.userInfo.userPhone;
 						this.aaduserInfo[0].username = this.compliedetails.userInfo.userName;
@@ -1243,35 +1243,35 @@
 						let tialsImages = JSON.parse(this.compliedetails.credentialsImages);
 
 						for(let i=0;i<tialsImages.length;i++){
-              if(res.data.entity.isPaper == 1){
-                let index = vm.labelList.findIndex(item => item == tialsImages[i].fileTitle)
-                if(index>-1){
-                  if(tialsImages[i].filePath){
-                    vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
-                  }else {
-                    vm.$set(vm.imgList,index,'');
-                  }
-                  vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
-                }else {
-                  vm.$set(vm.imgList,index,'');
-                  vm.fileList[index] = {'filePath':'','fileTitle':''};
-                }
+						if(res.data.entity.isPaper == 1){
+							let index = vm.labelList.findIndex(item => item == tialsImages[i].fileTitle)
+							if(index>-1){
+							if(tialsImages[i].filePath){
+								vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
+							}else {
+								vm.$set(vm.imgList,index,'');
+							}
+							vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
+							}else {
+							vm.$set(vm.imgList,index,'');
+							vm.fileList[index] = {'filePath':'','fileTitle':''};
+							}
 
-              }else {
-                let index = vm.labelList2.findIndex(item => item == tialsImages[i].fileTitle)
-                if(index>-1){
-                  if(tialsImages[i].filePath){
-                    vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
-                  }else {
-                    vm.$set(vm.imgList,index,'');
-                  }
+						}else {
+							let index = vm.labelList2.findIndex(item => item == tialsImages[i].fileTitle)
+							if(index>-1){
+							if(tialsImages[i].filePath){
+								vm.$set(vm.imgList,index,vm.imgPath+tialsImages[i].filePath);
+							}else {
+								vm.$set(vm.imgList,index,'');
+							}
 
-                  vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
-                }else {
-                  vm.$set(vm.imgList,index,'');
-                  vm.fileList[index] = {'filePath':'','fileTitle':''};
-                }
-              }
+							vm.fileList[index] = {'filePath':tialsImages[i].filePath,'fileTitle':tialsImages[i].fileTitle};
+							}else {
+							vm.$set(vm.imgList,index,'');
+							vm.fileList[index] = {'filePath':'','fileTitle':''};
+							}
+						}
 
 						}
 
