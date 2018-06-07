@@ -25,6 +25,7 @@
 								<td>抄表类型</td>
 								<td>记录时间</td>
 								<td>操作人</td>
+								<td>操作时间</td>
                                 <td>操作</td>
 							</thead>
                             <tr v-for="(item,index) in elevtrRecords">
@@ -32,8 +33,19 @@
                                 <td v-if="item.show == 1">{{item.waterElectricityData}}</td>
                                 <td v-else-if="item.show == 2"><input v-model="item.waterElectricityData"></td>
                                 <td>{{item.chaozuotype}}</td>
-                                <td>{{item.createTime | time}}</td>
+                                <!--<td>{{item.createTime | time}}</td>-->
+                              <td v-if="item.show == 1">{{item.createTime | time}}</td>
+                              <td v-else-if="item.show == 2">
+                                <el-date-picker
+                                  v-model="createTime"
+                                  type="datetime"
+                                  placeholder="选择日期时间"
+                                  default-time="12:00:00"
+                                 >
+                                </el-date-picker>
+                              </td>
                                 <td>{{item.userName}}</td>
+                              <td>{{item.newTime | time}}</td>
                                 <td v-if="item.show == 1"><a @click="editorm(index)">编辑</a></td>
                                 <td v-else-if="item.show == 2"><a @click="editor(item.id,item.waterElectricityData,index)">保存</a></td>
                             </tr>
@@ -55,6 +67,7 @@
 								<td>抄表类型</td>
 								<td>记录时间</td>
 								<td>操作人</td>
+								<td>操作时间</td>
                                 <td>操作</td>
 							</thead>
                             <tr v-for="(item,index) in waterRecords">
@@ -62,8 +75,18 @@
                                 <td v-if="item.show == 1">{{item.waterElectricityData}}</td>
                                 <td v-else-if="item.show == 2"><input v-model="item.waterElectricityData"></td>
                                 <td>{{item.chaozuotype}}</td>
-                                <td>{{item.createTime | time}}</td>
+                                <td v-if="item.show == 1">{{item.createTime | time}}</td>
+                               <td v-else-if="item.show == 2">
+                                 <el-date-picker
+                                   v-model="createTime"
+                                   type="datetime"
+                                   placeholder="选择日期时间"
+                                   default-time="12:00:00"
+                                 >
+                                 </el-date-picker>
+                               </td>
                                 <td>{{item.userName}}</td>
+                                <td>{{item.newTime | time}}</td>
                                 <td v-if="item.show == 1"><a @click="editorm(index)">编辑</a></td>
                                 <td v-else-if="item.show == 2"><a @click="editor(item.id,item.waterElectricityData,index)">保存</a></td>
                             </tr>
@@ -119,6 +142,8 @@
                 warningMessage:"添加失败！",
                 roomElectricitymeterRelationId:'',
                 show:1,
+               createTime:'',
+        newHours:''
 			}
 		},
 		mounted() {
@@ -126,6 +151,7 @@
             this.type = this.$route.query.type;
             this.roomElectricitymeterRelationId = this.$route.query.roomElectricitymeterRelationId;
             this.datas();
+            this.newHours = this.hours(new Date().getTime())
 		},
 		filters: {
             time(val){
@@ -164,7 +190,7 @@
                         }
                     })
                 }
-                
+
             },
             handleCurrentChange(val) {
 				this.pageNum = val;
@@ -236,20 +262,30 @@
                         this.warningModal = true;
                     })
                 }
-                
+
             },
             editorm(index){
                 if(this.type == 2){
                     this.$set(this.elevtrRecords[index], "show", 2);
+                    this.createTime =this.elevtrRecords[index].createTime
                 }else if(this.type == 1){
                     this.$set(this.waterRecords[index], "show", 2);
+                  this.createTime = this.waterRecords[index].createTime
                 }
             },
             editor(id,val,index){
-                RecordUpdate200232
+              let vm = this
+                // RecordUpdate200232
+              // if(!vm.createTime){
+              //   this.warningMessage = '请选择有效的时间';
+              //   this.warningModal = true;
+              //   return
+              // }
+              let createTime = this.dateTimes(new Date(vm.createTime).getTime())
                 axios.post(RecordUpdate200232,qs.stringify({
                     id:id,
-                    waterElectricityData:val
+                    waterElectricityData:val,
+                  createtime:createTime
                 })).then((res)=>{
                     if(res.data.code == 10000 && res.status == 200) {
                         this.successMessage = '修改读数成功';
@@ -268,9 +304,11 @@
                 })
 
                 if(this.type == 2){
-                    this.$set(this.elevtrRecords[index], "show", 2);
+                    this.$set(this.elevtrRecords[index], "show", 1);
+
                 }else if(this.type == 1){
-                    this.$set(this.waterRecords[index], "show", 2);
+                    this.$set(this.waterRecords[index], "show", 1);
+
                 }
             }
 		},

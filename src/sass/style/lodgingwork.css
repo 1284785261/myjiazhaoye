@@ -32,7 +32,7 @@
 	text-align: right;
 	font-weight: bold;
 	padding-right: 10px;
-	
+
 }
 #lodgingwork .loadin1 table tr td .el-select{
 	width: 198px;
@@ -40,7 +40,7 @@
 #lodgingwork .loadin1 table tr td .el-select .el-input__inner{
 	width: 198px;
 	border-radius: 0;
-	border: 1px solid #dcdcdc; 
+	border: 1px solid #dcdcdc;
 }
 #lodgingwork .loadin1 table tr td input{
 	width: 198px;
@@ -115,7 +115,7 @@
 }
 #lodgingwork .loadin3{
 	position: relative;
-	height: 230px;
+	height:300px;
 }
 #lodgingwork .loadin3 p{
 	width: 73px;
@@ -124,10 +124,25 @@
 	font-weight: bold;
 	line-height: 50px;
 }
+#lodgingwork .loadin3  .radioLabel{
+  width: 135px;
+  text-align: right;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+}
+#lodgingwork .loadin3 .radioBox{
+  margin-bottom: 10px;
+}
+#lodgingwork .loadin3 .monthInput{
+  padding: 8px;
+  border:1px solid #DDDEE1 ;
+  margin-right: 8px;
+}
 #lodgingwork .loadin3 .zq{
 	float: left;
 	width: 600px;
-	height: 180px;
+	height: 230px;
 	background: #F8F8F8;
 }
 #lodgingwork .loadin3 .ivu-date-picker{
@@ -149,7 +164,7 @@
 #lodgingwork .loadin3 .zq .apartment li{
 	float: left;
 	margin-right: 20px;
-	
+
 }
 #lodgingwork .loadin3 .zq .apartment li a{
 	float: left;
@@ -221,11 +236,11 @@
 	float: left;
 	width: 600px;
 	background: #f8f8f8;
-	
+
 }
-.clear{ 
+.clear{
 	clear:both
-} 
+}
 .loadin4 .div2 table tr td{
 	background: #f8f8f8;
 	border-bottom: none!important;
@@ -384,7 +399,7 @@
     width: 162px;
     height: 122px;
     line-height: 112px;
-    
+
     border: 1px solid #DCDCDC;
 }
 .loadin6 table tr .boxs .uplodas .file{
@@ -438,7 +453,7 @@
 	float: left;
 	width: 600px;
 	background: #f8f8f8;
-	
+
 }
 .loadin7 .div2 table tr td{
 	background: #f8f8f8;
@@ -467,13 +482,13 @@
 }
 
 .loadin7 .addj{
-	
+
 	margin-left: 30px;
 }
 
 .loadin8{
 	overflow: hidden;
-	
+
 }
 .loadin8 .hint{
 	float: left;
@@ -503,7 +518,7 @@
     font-weight: normal;
     font-size: 12px;
     width: 500px;
-   
+
     margin-left: 91px;
     line-height: 70px;
    color: #ff6612;
@@ -511,7 +526,7 @@
 .loadin8  .hints i{
 	font-size: 16px;
 	margin: 0 10px 0 60px;
-	
+
 }
 .loadin8  .addm{
 	display: block;

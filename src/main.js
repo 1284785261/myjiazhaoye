@@ -45,6 +45,46 @@ Vue.prototype.dateTime = function (t) {
   // console.log(times)
   return times;
 };
+Vue.prototype.dateTimes = function(t) {
+  if(!t){
+    return
+  }
+  let date = new Date(parseInt(t))
+  let year = date.getFullYear(),
+    o = {
+      MM:date.getMonth()+1,
+      day:date.getDate(),
+      HH:date.getHours(),
+      mm:date.getMinutes(),
+      ss:date.getSeconds()
+    };
+  for (let k in o){
+    o[k] = o[k] < 10 ?  '0' + o[k]: o[k];
+  }
+  let times = year + '-' + o.MM + '-' + o.day+' '+o.HH + ':' + o.mm + ':' + o.ss;
+  // console.log(times)
+  return times;
+}
+Vue.prototype.hours = function(t) {
+  if(!t){
+    return
+  }
+  let date = new Date(parseInt(t))
+  let year = date.getFullYear(),
+    o = {
+
+      HH:date.getHours(),
+      mm:date.getMinutes(),
+      ss:date.getSeconds()
+    };
+  for (let k in o){
+    o[k] = o[k] < 10 ?  '0' + o[k]: o[k];
+  }
+  let times = o.HH + ':' + o.mm + ':' + o.ss;
+  // console.log(times)
+  return times;
+}
+
 Array.prototype.remove = function(val){
 	var index = this.indexOf(val);
 	if (index > -1) {

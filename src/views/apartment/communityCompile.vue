@@ -126,18 +126,16 @@
             </tr>
             <tr>
               <td valign="top" style="line-height: 30px;">
-                <span class="btxs">*</span>物业合同：
+                物业合同：
               </td>
               <td class="bargain">
-                <!--<span class="mn">请选择文件<input type="file" class="file" multiple="true" accept=".pdf,.png" @change='uploadFile' /></span>-->
-                <!--<span class="md"><i class="el-icon-information"></i>只能上传.pdf,.png文件</span>-->
-                <el-upload class="upload-demo" 
-                :action='UploadUrl()' 
-                :data='data' 
-                :on-preview="handlePreview" 
-                :on-remove="handleRemove" 
-                :file-list="fileList3" 
-                :on-success='success' 
+                <el-upload class="upload-demo"
+                :action='UploadUrl()'
+                :data='data'
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList3"
+                :on-success='success'
                 :on-error='error'
                 :headers="heads"
                 :before-upload="beforeAvatarUpload">
@@ -272,7 +270,7 @@
 	    },
     	openItem(item){
     		 window.open(imgPath+item,"","width=600,height=600");
-		    
+
       },
       //获取全部所属公司
       allCompany(){
@@ -371,7 +369,7 @@
         const isJPG = file.type === 'image/png';
         const isPDF = file.type === 'application/pdf';
         if (isPDF || isJPG) {
-          
+
         }
         else{
             this.$message.error('上传文件只能是 PNG 或 PDF 格式!');
@@ -383,19 +381,6 @@
         let param = new FormData(); //创建form对象
         vm.communityContract = this.pdfName.join(',');
         vm.disabled = true;
-        // console.log(vm.communityContract);
-				// console.log(vm.communityOpeningDate)
-				// console.log(vm.communityPhone)
-				// console.log(vm.communityContractNum)
-				// console.log(vm.communityLeaseBegin)
-				// console.log(vm.communityLeaseEnd)
-				// console.log(vm.communityFreeLeaseBegin)
-				// console.log(vm.communityFreeLeaseEnd)
-        // console.log(vm.areaId)
-        // console.log(vm.communityAddress)
-        // console.log(vm.communityType)
-        // console.log(vm.parentId)
-        // console.log(vm.areas)
         this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
         this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
         this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
@@ -427,18 +412,19 @@
         }
         param.append('communityLongitude',vm.communityLongitude);
         param.append('communityLatitude',vm.communityLatitude);
-        this.fullscreenLoading = true;
-        if(!this.pdfName.length){
-          if(!vm.communityContract){
-            this.warningMessage = '信息填入不完整，请补充完信息';
-            this.warningModal = true;
-            return
-          }
-        }
+        // this.fullscreenLoading = true;
+        // if(!this.pdfName.length){
+        //   if(!vm.communityContract){
+        //     this.warningMessage = '信息填入不完整，请补充完信息';
+        //     this.warningModal = true;
+        //     return
+        //   }
+        // }
         if(!vm.parentId || !vm.areas || !vm.companyId || !vm.communityAddress || !vm.communityOpeningDate || !vm.communityType || !vm.communityPhone || !vm.communityContractNum || !vm.communityLeaseBegin || !vm.communityLeaseEnd || !vm.communityFreeLeaseBegin || !vm.communityFreeLeaseEnd || !vm.coordinate) {
           this.fullscreenLoading = false;
           this.warningMessage = '信息填入不完整，请补充完信息';
           this.warningModal = true;
+          vm.disabled = false
           return
         } else {
           this.$http.post(hostComplie, param).then(res => {
@@ -463,6 +449,7 @@
             .catch(error => {
               this.warningMessage = '添加失败,服务器出现异常';
               this.warningModal = true;
+              vm.disabled = false
             })
         }
       },
@@ -472,21 +459,6 @@
         let param2 = new FormData(); //创建form对象
         if(vm.communityId != ''){
           vm.communityContract = this.pdfName.join(',');
-          // console.log(vm.communityContract);
-          // console.log(vm.communityName);
-          // console.log(vm.communityContract);
-          // console.log(vm.communityAddress)
-          // console.log(vm.communityType)
-          // console.log(vm.areaId)
-          // console.log(vm.parentId)
-          // console.log(vm.areas)
-          // console.log(vm.communityContractNum);
-          // console.log(vm.communityOpeningDate);
-          // console.log(vm.communityPhone);
-          // console.log(vm.communityLeaseBegin);
-          // console.log(vm.communityLeaseEnd);
-          // console.log(vm.communityFreeLeaseBegin);
-          // console.log(vm.communityFreeLeaseEnd);
           this.communityOpeningDate = new Date(this.communityOpeningDate).Format('yyyy-MM-dd');
           this.communityLeaseBegin = new Date(this.communityLeaseBegin).Format('yyyy-MM-dd');
           this.communityLeaseEnd = new Date(this.communityLeaseEnd).Format('yyyy-MM-dd');
@@ -520,17 +492,18 @@
           param2.append('communityLongitude',vm.communityLongitude);
           param2.append('communityLatitude',vm.communityLatitude);
           this.fullscreenLoading = true;
-          if(!this.pdfName.length){
-            if(!vm.communityContract){
-              this.warningMessage = '信息填入不完整，请补充完信息';
-              this.warningModal = true;
-              return
-            }
-          }
+          // if(!this.pdfName.length){
+          //   if(!vm.communityContract){
+          //     this.warningMessage = '信息填入不完整，请补充完信息';
+          //     this.warningModal = true;
+          //     return
+          //   }
+          // }
           if(!vm.parentId || !vm.areas || !vm.companyId || !vm.communityAddress || !vm.communityOpeningDate || !vm.communityType || !vm.communityPhone || !vm.communityContractNum || !vm.communityLeaseBegin || !vm.communityLeaseEnd || !vm.communityFreeLeaseBegin || !vm.communityFreeLeaseEnd || !vm.coordinate) {
             this.fullscreenLoading = false;
             this.warningMessage = '信息填入不完整，请补充完信息';
             this.warningModal = true;
+            vm.disabled2 = false
             return
           } else {
             this.$http.post(hostaddComplie, param2).then(res => {
@@ -549,11 +522,13 @@
                 vm.disabled2 = false;
                 this.warningMessage = res.data.content;
                 this.warningModal = true;
+
               }
             })
               .catch(error => {
                 this.warningMessage = '修改失败,服务器出现异常';
                 this.warningModal = true;
+                vm.disabled2 = false
               })
           }
         }

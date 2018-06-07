@@ -69,7 +69,7 @@
 						<td>社区月租金：</td>
 						<td>{{ Datas.propertyRent }} 元</td>
 					</tr>
-					<tr>
+					<tr v-if="contract">
 						<td style="vertical-align: top;">物业合同：{{contract}}</td>
 						<td style="width: 500px;">
 
