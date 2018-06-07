@@ -11,13 +11,13 @@
           <div class="operation-report-content-wrap">
             <div class="report-item" style="border-right: 1px solid #ccc;">
               <div class="img-content-wrap isActive" @click="goToDay()">
-                <img src="../../../static/images/icon/operation_ri_03.png" alt="日报">
+                <!-- <img src="../../../static/images/icon/operation_ri_03.png" alt="日报"> -->
                 <span>日报</span>
               </div>
             </div>
             <div class="report-item" style="border-right: 1px solid #ccc;">
               <div class="img-content-wrap isActive" @click="goToMonth()">
-                <img src="../../../static/images/icon/operation_yue_03.png" alt="月报">
+                <!-- <img src="../../../static/images/icon/operation_yue_03.png" alt="月报"> -->
                 <span>周报</span>
               </div>
             </div>
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="report-center-wrap" >
-            <img src="../../../static/images/icon/operation_null.png" alt="月报">
+            <!-- <img src="../../../static/images/icon/operation_null.png" alt="月报"> -->
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
             color: #038be2;
             font-size: 22px;
             font-weight: 500;
-            padding-left: 40px;
+            // padding-left: 40px;
           }
         }
         .img-content-wrap:hover{

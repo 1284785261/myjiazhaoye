@@ -14,6 +14,12 @@
 									--
 									<Date-picker type="date" placeholder="选择日期" v-model="endDate" disabled></Date-picker>
                 </div>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="roomCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div>
                 <!-- <div class="form-item">
                   <b>公司：</b>
                   <Select v-model="roomCommunity" style="width:150px">
@@ -73,6 +79,12 @@
                   <Date-picker type="date" placeholder="选择日期" v-model="officestartDate" :on-change="officestartDatem(officestartDate)"></Date-picker>
 									--
 									<Date-picker type="date" placeholder="选择日期" v-model="officeendDate" disabled></Date-picker>
+                </div>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="officeCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
                 </div>
                 <!-- <div class="form-item">
                   <b>公司：</b>
@@ -135,7 +147,7 @@
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {WeeklyReport300152,RoomWeeklyReport300155,OfficeWeeklyReport300159,OfficeWeeklyReports300160} from '../api.js';
+  import {WeeklyReport300152,RoomWeeklyReport300155,OfficeWeeklyReport300159,OfficeWeeklyReports300160,MllCommunity300145} from '../api.js';
 
   export default {
     components:{
@@ -154,7 +166,13 @@
         houseResource:null,
         officeResource:null,
         hosrt:'',
-        officehosrt:''
+        officehosrt:'',
+        allroomCommunity:[{
+          communityName:'全部',
+          communityId:0
+        }],
+        roomCommunity:0,
+        officeCommunity:0
       }
     },
     mounted(){
@@ -170,10 +188,11 @@
       this.officestartDate = new Date().Format('yyyy-MM-dd');
       this.startDatem(this.startDate);
       this.officestartDatem(this.officestartDate);
-      let date = {beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),endDate:new Date(this.endDate).Format('yyyy-MM-dd')};
-      let date2 = {beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),endDate:new Date(this.officeendDate).Format('yyyy-MM-dd')};
+      let date = {beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),endDate:new Date(this.endDate).Format('yyyy-MM-dd'),communityId:this.roomCommunity};
+      let date2 = {beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),endDate:new Date(this.officeendDate).Format('yyyy-MM-dd'),communityId:this.officeCommunity};
       this.hosrt += '?beginDate='+date.beginDate+'&&endDate='+date.endDate;
       this.officehosrt += '?beginDate='+date2.beginDate+'&&endDate='+date2.endDate;
+      this.datam();
       this.dateChange(date);
       this.dateChange2(date2);
 		},
@@ -183,6 +202,18 @@
 			}
 		},
     methods:{
+        datam(){
+          this.$http.post(MllCommunity300145).then((response) => { //获取社区分类数据
+            // console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+              for(let i = 0;i<response.data.pageBean.length;i++){
+                this.allroomCommunity.push({communityName:response.data.pageBean[i].communityName,communityId:response.data.pageBean[i].communityId});
+              }
+							
+						}
+					})
+
+      },
 	    	startDatem(val){
           let DataSour = new Date(val);
 					let data = new Date(val).Format("yyyy-MM-dd");
@@ -201,8 +232,9 @@
         },
 
 				getHouseResource(data){
-					var that = this
-					this.hosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate;
+          var that = this
+          data.communityId = this.roomCommunity;
+					this.hosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
 					this.$http.post(WeeklyReport300152,qs.stringify(data))
 						.then(function(res){
 							// console.log(res);
@@ -216,7 +248,8 @@
         },
         getofficeResource(data){
           var that = this
-					this.officehosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate;
+          data.communityId = this.officeCommunity;
+					this.officehosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
 					this.$http.post(OfficeWeeklyReport300159,qs.stringify(data))
 						.then(function(res){
 							// console.log(res);

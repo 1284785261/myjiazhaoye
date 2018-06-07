@@ -12,12 +12,13 @@
                   <span>报表日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                 </div>
-                <!-- <div class="form-item">
-                  <b>公司：</b>
-                  <Select v-model="roomCommunity" style="width:150px">
-                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="roomCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
+                <!--
                  <div class="form-item">
                   <b>项目：</b>
                   <Select v-model="roomCommunity" style="width:150px">
@@ -69,6 +70,12 @@
                 <div class="form-item">
                   <span>报表日期：</span>
                   <Date-picker type="date" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
+                </div>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="officeCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
                 </div>
                 <!-- <div class="form-item">
                   <b>公司：</b>
@@ -131,7 +138,7 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {DailyReport300151,RoomDailyReport300154,host,OfficeDailyReport300157,OfficeDailyReports300158} from '../api.js';
+  import {DailyReport300151,RoomDailyReport300154,host,OfficeDailyReport300157,OfficeDailyReports300158,MllCommunity300145} from '../api.js';
 
 
   export default {
@@ -152,7 +159,13 @@
         financeData:[],
         memberTotalNum:0,
         hosrt:'',
-        officehosrt:''
+        officehosrt:'',
+        allroomCommunity:[{
+          communityName:'全部',
+          communityId:0
+        }],
+        roomCommunity:0,
+        officeCommunity:0
       }
     },
     mounted(){
@@ -160,10 +173,11 @@
       this.officehosrt = OfficeDailyReports300158;
       this.roomStartDate = new Date().Format('yyyy-MM-dd');
       this.officeStartDate = new Date().Format('yyyy-MM-dd');
-      let date = {reportDay:this.roomStartDate};
-      let date2 = {reportDay:this.officeStartDate};
+      let date = {reportDay:this.roomStartDate,communityId:this.roomCommunity};
+      let date2 = {reportDay:this.officeStartDate,communityId:this.officeCommunity};
       this.hosrt += '?reportDay='+this.roomStartDate;
       this.officehosrt += '?reportDay='+this.officeStartDate;
+      this.datam();
       this.getHouseResource(date);
       this.getOfficeResource(date2);
     },
@@ -175,6 +189,18 @@
 		  }
 	  },
     methods:{
+      datam(){
+        this.$http.post(MllCommunity300145).then((response) => { //获取社区分类数据
+          // console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+              for(let i = 0;i<response.data.pageBean.length;i++){
+                this.allroomCommunity.push({communityName:response.data.pageBean[i].communityName,communityId:response.data.pageBean[i].communityId});
+              }
+							
+						}
+					})
+
+      },
 	    dateChange(){
 		    let rooms = new Date(this.roomStartDate).Format('yyyy-MM-dd');
         let date = {reportDay:rooms};
@@ -183,9 +209,11 @@
 	    },
       getHouseResource(data){
         var that = this;
-        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM-dd');
-        this.$http.post(DailyReport300151,qs.stringify(data))
-          .then(function(res){
+        data.communityId = this.roomCommunity;
+        // console.log(data);
+        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
+        this.$http.post(DailyReport300151,qs.stringify(data)).then(function(res){
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.houseResource = res.data.entity;
               
@@ -202,10 +230,11 @@
       },
       getOfficeResource(data){
         var that = this;
-        this.officehosrt += '?reportDay='+new Date(this.officeStartDate).Format('yyyy-MM-dd');
+        data.communityId = this.officeCommunity;
+        this.officehosrt += '?reportDay='+new Date(this.officeStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
         this.$http.post(OfficeDailyReport300157,qs.stringify(data))
           .then(function(res){
-            console.log(res);
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.officeResource = res.data.entity;
               

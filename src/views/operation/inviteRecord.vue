@@ -12,6 +12,12 @@
                   <span>报表日期：</span>
                   <Date-picker type="month" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                 </div>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="roomCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
+                </div>
                 <!-- <div class="form-item">
                   <b>公司：</b>
                   <Select v-model="roomCommunity" style="width:150px">
@@ -83,6 +89,12 @@
                 <div class="form-item">
                   <span>报表日期：</span>
                   <Date-picker type="month" placeholder="选择日期" v-model="officestartDate"></Date-picker>
+                </div>
+                <div class="form-item">
+                  <span>社区：</span>
+                  <Select v-model="officeCommunity" style="width:180px">
+                    <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
+                  </Select>
                 </div>
                 <!-- <div class="form-item">
                   <b>公司：</b>
@@ -167,7 +179,7 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {RoomMonthlyReport300153,RoomMonthlyReports300156,OfficeMonthlyReport300161,OfficeMonthlyReports300162} from '../api.js';
+  import {RoomMonthlyReport300153,RoomMonthlyReports300156,OfficeMonthlyReport300161,OfficeMonthlyReports300162,MllCommunity300145} from '../api.js';
 
 
   export default {
@@ -188,7 +200,13 @@
         hosrt:'',
         officestartDate:"",
         officehosrt:"",
-        officeResource:null
+        officeResource:null,
+        allroomCommunity:[{
+          communityName:'全部',
+          communityId:0
+        }],
+        roomCommunity:0,
+        officeCommunity:0
       }
     },
     mounted(){
@@ -196,11 +214,13 @@
       this.officehosrt = OfficeMonthlyReports300162;
       this.roomStartDate = new Date().Format('yyyy-MM');
       this.officestartDate = new Date().Format('yyyy-MM');
-      let date = {reportDay:this.roomStartDate}
+      let date = {reportDay:this.roomStartDate,communityId:this.roomCommunity};
+      let date2 = {reportDay:this.officestartDate,communityId:this.officeCommunity};
       this.hosrt += '?reportDay='+this.roomStartDate;
       this.officehosrt += '?reportDay='+this.officestartDate;
+      this.datam();
       this.getHouseResource(date);
-      this.officestartDatem(date);
+      this.officestartDatem(date2);
     },
 	  filters: {
 		  timefilter(value, format) {
@@ -210,6 +230,18 @@
 		  }
 	  },
     methods:{
+      datam(){
+        this.$http.post(MllCommunity300145).then((response) => { //获取社区分类数据
+          // console.log(response);
+						if(response.status == 200 && response.data.code == 10000) {
+              for(let i = 0;i<response.data.pageBean.length;i++){
+                this.allroomCommunity.push({communityName:response.data.pageBean[i].communityName,communityId:response.data.pageBean[i].communityId});
+              }
+							
+						}
+					})
+
+      },
 	    dateChange(){
 		    let rooms = new Date(this.roomStartDate).Format('yyyy-MM');
         let date = {reportDay:rooms};
@@ -224,10 +256,11 @@
       },
       getHouseResource(data){
         var that = this;
-        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM');
+        data.communityId = this.roomCommunity;
+        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
         this.$http.post(RoomMonthlyReport300153,qs.stringify(data))
           .then(function(res){
-            // console.log(res);
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.houseResource = res.data.entity;
               
@@ -238,7 +271,8 @@
       },
       officestartDatem(data){
         var that = this;
-        this.officehosrt += '?reportDay='+new Date(this.officestartDate).Format('yyyy-MM');
+        data.communityId = this.officeCommunity;
+        this.officehosrt += '?reportDay='+new Date(this.officestartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
         this.$http.post(OfficeMonthlyReport300161,qs.stringify(data))
           .then(function(res){
             // console.log(res);
