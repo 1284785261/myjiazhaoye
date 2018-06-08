@@ -1,12 +1,12 @@
 <template>
   <div>
-    <menu-box :active-tab-name="activeTabName"></menu-box>
-    <div class="right-content" id="right-content">
-      <right-header></right-header>
+    <!-- <menu-box :active-tab-name="activeTabName"></menu-box> -->
+    <div>
+      <!-- <right-header></right-header> -->
       <div class="wordbench-box">
         <div id="dayreport">
-          <Tabs type="card">
-            <Tab-pane label="公寓">
+          <el-tabs v-model="monthly" type="card">
+            <el-tab-pane label="公寓" name="1">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <span>报表日期：</span>
@@ -83,8 +83,8 @@
                 <img src="../../../static/images/blank/member_space.png" >
                 <h2>暂无会员信息~</h2>
               </div> -->
-            </Tab-pane>
-            <Tab-pane label="联合办公">
+            </el-tab-pane>
+              <el-tab-pane label="联合办公" name="2">
               <div class="form-search-criteria">
                 <div class="form-item">
                   <span>报表日期：</span>
@@ -165,11 +165,11 @@
                   <td>{{officeResource.complainCount}}</td>
                 </tr>
               </table>
-            </Tab-pane>
-          </Tabs>
+              </el-tab-pane>
+          </el-tabs>
         </div>
       </div>
-      <footer-box></footer-box>
+      <!-- <footer-box></footer-box> -->
     </div>
   </div>
 </template>
@@ -190,6 +190,7 @@
     },
     data(){
       return{
+        monthly:'1',
         activeTabName:"operationReport",
         roomStartDate:"",
         houseResource:null,
@@ -237,7 +238,7 @@
               for(let i = 0;i<response.data.pageBean.length;i++){
                 this.allroomCommunity.push({communityName:response.data.pageBean[i].communityName,communityId:response.data.pageBean[i].communityId});
               }
-							
+
 						}
 					})
 
@@ -263,7 +264,7 @@
             console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.houseResource = res.data.entity;
-              
+
             }else{
               that.houseResource = null;
             }
@@ -278,7 +279,7 @@
             // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.officeResource = res.data.entity;
-              
+
             }else{
               that.officeResource = null;
             }
@@ -299,7 +300,6 @@
     width: 100%;
     min-height: 1000px;
     background-color: #fff;
-    box-shadow: 0 3px 1px #ccc;
     .ivu-tabs-card{
       min-height: 500px;
       box-shadow:none;
@@ -359,5 +359,8 @@
     color: #fff;
     text-align: center;
     line-height: 32px;
+  }
+  #dayreport .ivu-tabs-nav-container{
+    background: #fff;
   }
 </style>

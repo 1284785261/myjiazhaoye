@@ -284,7 +284,7 @@
       :visible.sync="centerDialogVisible"
       width="30%"
       center>
-      <span>确定批量生成租金账单吗？</span>
+      <span>确定批量生成 <b style="color: red;font-size: 20px">全部房间的租金账单</b>吗？(请谨慎操作)</span>
       <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="createRoomOfficeBillModel">确 定</el-button>
@@ -295,7 +295,7 @@
       :visible.sync="centerDialog"
       width="30%"
       center>
-      <span>确定批量生成水电账单吗？</span>
+      <span>确定批量生成<b style="color: red;font-size: 20px">全部房间的水电账单</b>吗？(请谨慎操作)</span>
       <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialog = false">取 消</el-button>
     <el-button type="primary" @click="createBill">确 定</el-button>

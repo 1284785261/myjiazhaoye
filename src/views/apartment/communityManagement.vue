@@ -112,7 +112,7 @@
 										<router-link :to="{path:'/apartment/communityPresentation',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区介绍</router-link>
 										<router-link :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</router-link>
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
-										<router-link :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
+										<router-link v-if="item.communityType != 1" :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">人员配置</router-link>
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">关闭社区</a>
 									</td>
@@ -757,7 +757,7 @@
 					data.communityId = this.model1;
 					this.host3 +='&communityId='+data.communityId;
 				}
-				
+
 				if(this.createtimes) {
 					data.createtime = new Date(this.createtimes).Format("yyyy-MM-dd");
 					this.host3 +='&createtime='+data.createtime;
@@ -794,11 +794,11 @@
 						for(let i=0;i<response.data.pageBean.length;i++){
 							this.houseType.push(response.data.pageBean[i]);
 						}
-						
+
 					}
 				})
-				
-				
+
+
 			},
 			//获取短租评价数据
 			shortEvaluate(){

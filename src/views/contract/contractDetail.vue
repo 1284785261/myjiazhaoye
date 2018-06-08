@@ -157,8 +157,8 @@
                       <td class="td2">押金 :<span>{{contractDetailData.deposit | monery}}元</span></td>
                       <td class="td2">每月租金 :<span>{{contractDetailData.rentPay | monery}}元</span></td>
                       <td class="td2">服务费 :<span>{{contractDetailData.serviceCost}}元</span></td>
-                      <td class="td2" v-if="isOffice==0">租期折扣 :<span>{{contractDetailData.datewayDiscount}}%</span></td>
-                      <td class="td2" v-if="isOffice==0">支付方式折扣 :<span>{{contractDetailData.paywayDiscount}}%</span></td>
+                      <td class="td2" >租期折扣 :<span>{{contractDetailData.datewayDiscount}}% <em v-if="contractDetailData.isSpecial">(特殊)</em></span></td>
+                      <td class="td2" >支付方式折扣 :<span>{{contractDetailData.paywayDiscount}}%<em v-if="contractDetailData.isSpecial">(特殊)</em></span></td>
                       <td class="td2" v-if="isOffice==1 && contractDetailData.freeMonth">免租期 :<span>{{contractDetailData.freeMonth}}个月</span></td>
                       <td class="td2" v-else-if="isOffice==1">免租期 :<span>0个月</span></td>
                     </tr>
@@ -375,7 +375,7 @@
               else if(that.isOffice == 1){
                 that.contractDetailData.communityWork = that.contractDetailData.communityWork.split(",")[0];
               }
-              
+
               // console.log(that.contractDetailData.communityWork)
               if(that.contractDetailData.credentialsImages){
                 that.contractDetailData.credentialsImages = JSON.parse(that.contractDetailData.credentialsImages);
@@ -481,12 +481,12 @@
 						  this.roommonryg = '租金' +'*6'+'*租金折扣*'+'支付方式折扣';
             }
           }
-          
+
         }else if(this.contractDetailData.cyclePayType == 4){
           this.roommonry = parseFloat(this.contractDetailData.rentPay * 12).toFixed(2);
 					this.roommonryg = '租金' +'*11+'+ '租金/' + days +'*'+(days-daym)+'天*'+'租金折扣*'+'支付方式折扣';
         }
-        
+
       },
       qud(){
         this.formula = false;
@@ -755,7 +755,7 @@
   .preview-modal-content{
     width:810px;
     height:540px;
-   
+
     .pre-view{
       width: 100%;
       height: 100%;

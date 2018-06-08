@@ -89,8 +89,8 @@
 					<div class="ivu-floor loadin3">
             <div class="radioBox">
               <div class="radioLabel">是否特殊折扣:</div>
-              <el-radio v-model="specialDiscount" label="0">否</el-radio>
               <el-radio v-model="specialDiscount" label="1">是</el-radio>
+              <el-radio v-model="specialDiscount" label="0">否</el-radio>
             </div>
             <p>租期信息:</p>
             <ul class="zq">
@@ -1088,7 +1088,7 @@
           this.disabledm = false;
           return
         }
-                param.append('credentialsImages',JSON.stringify(vm.fileList));
+        param.append('credentialsImages',JSON.stringify(vm.fileList));
 				this.furniture = arr3;
 				this.onhrie = new Date(this.onhrie).Format('yyyy-MM-dd');
 				this.expire = new Date(this.expire).Format('yyyy-MM-dd');

@@ -4,32 +4,18 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-bar-title">
-          <h3><i class="icon icon-iden"></i>运营报表</h3>
-        </div>
         <div id="operation-report-wrap">
-          <div class="operation-report-content-wrap">
-            <div class="report-item" style="border-right: 1px solid #ccc;">
-              <div class="img-content-wrap isActive" @click="goToDay()">
-                <!-- <img src="../../../static/images/icon/operation_ri_03.png" alt="日报"> -->
-                <span>日报</span>
-              </div>
-            </div>
-            <div class="report-item" style="border-right: 1px solid #ccc;">
-              <div class="img-content-wrap isActive" @click="goToMonth()">
-                <!-- <img src="../../../static/images/icon/operation_yue_03.png" alt="月报"> -->
-                <span>周报</span>
-              </div>
-            </div>
-            <div class="report-item">
-              <div class="img-content-wrap isActive" @click="goToInvite()">
-                <span>月报</span>
-              </div>
-            </div>
-          </div>
-          <div class="report-center-wrap" >
-            <!-- <img src="../../../static/images/icon/operation_null.png" alt="月报"> -->
-          </div>
+            <Tabs type="card">
+                <Tab-pane label="日报">
+                  <operation-Day-Report></operation-Day-Report>
+                </Tab-pane>
+                <Tab-pane label="周报">
+                  <operation-Month-Report></operation-Month-Report>
+                </Tab-pane>
+                <Tab-pane label="月报">
+                  <invite-Record></invite-Record>
+                </Tab-pane>
+            </Tabs>
         </div>
       </div>
       <footer-box></footer-box>
@@ -41,6 +27,9 @@
   import menuBox from '../../components/menuBox.vue';
   import  rightHeader from '../../components/rightHeader.vue';
   import  footerBox from '../../components/footerBox.vue';
+  import operationDayReport from '../../views/operation/operationDayReport.vue';
+  import operationMonthReport from '../../views/operation/operationMonthReport.vue';
+  import inviteRecord from '../../views/operation/inviteRecord.vue';
   import qs from 'qs';
   import {} from '../api.js';
 
@@ -49,7 +38,10 @@
     components:{
       rightHeader,
       menuBox,
-      footerBox
+      footerBox,
+      operationDayReport,
+      operationMonthReport,
+      inviteRecord
     },
     data(){
       return{
@@ -75,7 +67,6 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-
 
   #operation-report-wrap {
     padding-bottom: 50px;
@@ -122,6 +113,13 @@
         margin: 0 auto;
         padding-top: 150px;
       }
+    }
+    .el-tabs__item{
+      width: 120px;
+      text-align: center;
+    }
+    .el-tab-pane{
+      min-height: 500px;
     }
   }
 

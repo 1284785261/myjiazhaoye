@@ -7,9 +7,10 @@
 				<div class="main-home">
 					<div class="home-item">
 						<!--<h3>{{user.name}}<span>{{user.quanxian | quanxian}}</span></h3>-->
-						<!-- <Select v-model="selectModel1" style="width:240px" @on-change="temp(selectModel1)">
+						<!--<h3></h3>-->
+						<Select v-model="selectModel1" style="width:240px;margin: 20px" @on-change="temp(selectModel1)">
 							<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>
-						</Select> -->
+						</Select>
 					</div>
 					<ul class="list-data">
 						<li v-for="data in datas" :class="data.classD">
@@ -23,7 +24,7 @@
 					<div class="modular-box" style="min-height:300px;">
 						<h3><i class="icon icon-info"></i>我的消息</h3>
 						<ul class="info-list" v-if="myInfos">
-							<li v-for="myInfo in myInfos"> 
+							<li v-for="myInfo in myInfos">
 								<span class="infoState"><i :class="myInfo.inco"></i>{{myInfo.messageType | types}}</span>
 								<router-link to="/signed/messageInform">{{myInfo.content}}</router-link>
 								<span class="date">{{myInfo.createtime | times}}</span>
@@ -43,7 +44,7 @@
 							<li>
 								<!-- <Badge :count="messsaget[5]" v-if='messsaget[5]'></Badge> -->
 								<a @click="eliminat(5,0)">看房预约</a>
-								
+
 							</li>
 							<li>
 								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:selectModel1}}">公寓签约</router-link>
@@ -344,6 +345,13 @@
 					this.show3 = 2;
 				}
 			},
+      temp(val){
+        let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
+        // console.log(val);
+        sessionStorage.setItem('communityId', Index);
+        sessionStorage.setItem('communityName', val);
+        this.title();
+      },
 			datas2(){
 				axios.post(hostUserMessagey)
 				.then((res)=>{
@@ -423,7 +431,7 @@
 					.catch((error) => {
 						// console.log(error);
 					})
-				
+
 			},
 			mtsbv(){
 				axios.post(hostReadMessage).then((res)=>{
@@ -463,13 +471,13 @@
 			},
 			share(value){
 				// console.log(value);
-				
+
 				axios.post(hostessageUpdate,
 					qs.stringify({
 						messageType:parseInt(value)
 					})
 				).then((res)=>{
-					// console.log(res.data);					
+					// console.log(res.data);
 					// console.log(res);
 				}).catch((err)=>{
 					// console.log(err);

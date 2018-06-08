@@ -124,8 +124,8 @@
             <div class="ivu-floor loadin3">
               <div class="radioBox">
                 <div class="radioLabel">是否特殊折扣:</div>
-                <el-radio v-model="specialDiscount" label="0">否</el-radio>
                 <el-radio v-model="specialDiscount" label="1">是</el-radio>
+                <el-radio v-model="specialDiscount" label="0">否</el-radio>
               </div>
               <p>租期信息:</p>
               <ul class="zq">
@@ -491,8 +491,9 @@
             <div class="ivu-floor loadin3">
               <div class="radioBox">
                 <div class="radioLabel">是否特殊折扣:</div>
-                <el-radio v-model="specialDiscount" label="0">否</el-radio>
                 <el-radio v-model="specialDiscount" label="1">是</el-radio>
+                <el-radio v-model="specialDiscount" label="0">否</el-radio>
+
               </div>
               <p>租期信息:</p>
               <ul class="zq">
@@ -1383,7 +1384,7 @@
 					this.depositmonth = this.housetderta.depositmonth?this.housetderta.depositmonth:this.costInfo.costInfo.deposit;
 					this.serves = this.housetderta.serviceCost?this.housetderta.serviceCost:this.costInfo.costInfo.serviceCost;
 				}
-				
+
 				let arr = JSON.parse(this.housetderta.materials);
 				for(let i = 0; i < this.tableRepairs2.length; i++) {
 					if(this.tableRepairs2.length < arr.length) {
@@ -1948,14 +1949,16 @@
 					});
 				}
         if(fileList.length){
-          for(let i= 0;i<fileList.length;i++){
-            if( fileList[i].fileTitle == '承租人身份证正面' || fileList[i].fileTitle == '承租人身份证反面'){
-              this.warningMessage = '承租人身份证正反面为必填';
-              this.warningModal = true;
-              this.disabledm = false;
-              return
-            }
+          let uaerIndex = fileList.findIndex(item => item.fileTitle == '承租人身份证正面')
+          let uaerIndexs = fileList.findIndex(item => item.fileTitle == '承租人身份证反面')
+          // for(let i= 0;i<fileList.length;i++){
+          if( uaerIndex == -1 || uaerIndexs == -1){
+            this.warningMessage = '承租人身份证正反面为必填';
+            this.warningModal = true;
+            this.disabledm = false;
+            return
           }
+          // }
         }else{
           this.warningMessage = '承租人身份证正反面为必填';
           this.warningModal = true;
@@ -2175,14 +2178,14 @@
 							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
 							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
 							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
-							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
-							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'承租人身份证正面';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'承租人身份证反面';
 							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
 						}else{
 							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
 							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
-							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
-							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'承租人身份证正面';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'承租人身份证反面';
 						}
 						if(this.radio4 == '1' && this.compliedetails.customerType == '2'){
 							this.uploadList[0] = tialsImages[0].filePath?tialsImages[0].filePath:'';
@@ -2190,8 +2193,8 @@
 							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
 							this.uploadList6[0] = tialsImages[3].filePath?tialsImages[3].filePath:'';
 							this.uploadList3[0] = tialsImages[4].filePath?tialsImages[4].filePath:'';
-							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
-							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'承租人身份证正面';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'承租人身份证反面';
 							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
 							this.uploadList6[1] = tialsImages[3].fileTitle?tialsImages[3].fileTitle:'';
 							this.uploadList3[1] = tialsImages[4].fileTitle?tialsImages[4].fileTitle:'';
@@ -2201,8 +2204,8 @@
 							this.uploadList4[0] = tialsImages[1].filePath?tialsImages[1].filePath:'';
 							this.uploadList2[0] = tialsImages[2].filePath?tialsImages[2].filePath:'';
 							this.uploadList6[0] = tialsImages[3].filePath?tialsImages[3].filePath:'';
-							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'';
-							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'';
+							this.uploadList[1] = tialsImages[0].fileTitle?tialsImages[0].fileTitle:'承租人身份证正面';
+							this.uploadList4[1] = tialsImages[1].fileTitle?tialsImages[1].fileTitle:'承租人身份证反面';
 							this.uploadList2[1] = tialsImages[2].fileTitle?tialsImages[2].fileTitle:'';
 							this.uploadList6[1] = tialsImages[3].fileTitle?tialsImages[3].fileTitle:'';
 						}

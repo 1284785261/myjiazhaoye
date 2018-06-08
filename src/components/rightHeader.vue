@@ -1,8 +1,8 @@
 <template>
 	<div class="header">
-		<Select v-model="selectModel1" style="width:240px;text-align: left;" @on-change="temp(selectModel1)">
-			<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>
-		</Select>
+		<!--<Select v-model="selectModel1" style="width:240px;text-align: left;" @on-change="temp(selectModel1)">-->
+			<!--<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>-->
+		<!--</Select>-->
 		<div class="inline-block">
 			<Badge :count="nums">
 				<router-link to="/signed/messageInform"><Icon type="ios-bell-outline"></Icon></router-link>

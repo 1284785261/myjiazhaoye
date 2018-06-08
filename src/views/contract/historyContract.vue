@@ -53,7 +53,7 @@
                     <router-link :to="{name:'contractDetail',query:{contractSignId:room.contractSignId,isOffice:'0'}}">查看详情</router-link>
                     <router-link v-if='room.contractState != 1' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
                     <!--<router-link v-if=" room.contractState == 4" :to="{path:'/signed/renewRoom',query:{contractSignId:room.contractSignId,communityId:communityId,Name:room.communityName}}">续签</router-link>-->
-                    <a v-if=" room.contractState == 4" @click="renewModelShow(room.contractSignId)">续签</a>
+                    <a v-if=" room.contractState == 4" @click="renewModelShow(room.contractSignId,room.endDate)">续签</a>
                   </td>
                   <td v-else></td>
                 </tr>
@@ -107,7 +107,7 @@
                     <a v-if="(office.contractState == 1 || office.contractState == 2 || office.contractState == 3) "  @click="delRoomSign(office.contractSignId)">作废</a>
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                     <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1">查看总账单</router-link>
-                    <a  v-if="office.contractState == 4" @click="renewModelShow(office.contractSignId)">续签</a>
+                    <a  v-if="office.contractState == 4" @click="renewModelShow(office.contractSignId,office.endDate)">续签</a>
                   </td>
                   <td v-else>
 
@@ -225,11 +225,16 @@
       :visible.sync="renew"
       width="30%"
         center>
+      <div class="block" style="margin-bottom: 10px;">
+        <span class="demonstration">续租月份：</span>
+        <el-input v-model="month"  class="monthInput" @change="countdatas(month)" style="width: 50px"></el-input> 个月
+      </div>
       <div class="block">
         <span class="demonstration">续签截止日期：</span>
         <el-date-picker
           v-model="renewEndDate"
           type="date"
+          disabled="true"
           placeholder="选择日期">
         </el-date-picker>
       </div>
@@ -386,7 +391,9 @@
         communityName:'',
         renew:false,//续签弹框
         renewEndDate:'',//续签截止时间
-        contractSignId:''//续签合同Id
+        contractSignId:'',//续签合同Id
+        month:'',//续租月份
+        endDate:''//计算续租结束日期
       }
     },
     mounted(){
@@ -405,9 +412,19 @@
       /**
        * 续签弹框
        * **/
-      renewModelShow(contractSignId){
+      renewModelShow(contractSignId,endDate){
         this.renew = true
         this.contractSignId = contractSignId
+        this.endDate = endDate
+      },
+      /**
+       * 续签截止时间操作
+       * **/
+      countdatas(value){
+
+        let nes = new Date(this.endDate);
+        nes.setMonth(nes.getMonth() + parseInt(value));
+        this.renewEndDate = nes;
       },
       /**
        * 续签操作
@@ -817,6 +834,13 @@
       }
       h2{
         color: #999;
+      }
+    }
+    .monthInput.el-input{
+      display: inline-block;
+      width: 100px!important;
+       .el-input__inner{
+        width: 100px!important;
       }
     }
   }
