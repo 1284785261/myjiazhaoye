@@ -584,7 +584,7 @@
         var that = this;
         this.$http.get(financeList,{params:data})
           .then(function(res){
-            console.log(res.data)
+            // console.log(res.data)
             if(res.status == 200 && res.data.code == 10000){
               that.pageBean = res.data.result;
               that.financeList = that.pageBean.financeList;

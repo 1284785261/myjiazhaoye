@@ -4,26 +4,27 @@
     <div>
       <!-- <right-header></right-header> -->
       <div class="wordbench-box">
-        <div id="dayreport">
+        <div id="contractExecution">
           <el-tabs v-model="monthly" type="card">
             <el-tab-pane label="公寓" name="1">
               <div class="form-search-criteria">
-                <div class="form-item">
-                  <span>报表日期：</span>
-                  <Date-picker type="month" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
-                </div>
                 <div class="form-item">
                   <span>社区：</span>
                   <Select v-model="roomCommunity" style="width:180px">
                     <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
-                <!-- <div class="form-item">
-                  <b>公司：</b>
-                  <Select v-model="roomCommunity" style="width:150px">
-                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
+                <div class="form-item">
+                  <span>收款日期：</span>
+                  <Date-picker type="month" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  --
+                  <Date-picker type="month" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
                 </div>
+                <div class="form-item">
+                  <span>房间号：</span>
+                  <Input v-model="roomNumber"  placeholder="请填写房间号"  style="width:120px;"></Input>
+                </div>
+                <!-- 
                  <div class="form-item">
                   <b>项目：</b>
                   <Select v-model="roomCommunity" style="width:150px">
@@ -37,52 +38,42 @@
                   </div>
                 </div>
               </div>
-              <table class="dayreporttable" v-if="houseResource">
+              <table class="dayreporttablem" v-if="houseResource">
                 <tr>
-                  <th>月份</th>
-                  <th>城市</th>
-                  <th>门店</th>
-                  <th>店长</th>
-                  <th>系统号</th>
-                  <th>运营间数</th>
-                  <th>本月出租间数</th>
-                  <th>累计出租间数</th>
-                  <th>剩余未出租间数</th>
-                  <th>出租率</th>
-                  <th>上月出租间数</th>
-                  <th>上月出租率</th>
-                  <th>环比</th>
-                  <th>总收入</th>
-                  <th>租金收入</th>
-                  <th>服务费收入</th>
-                  <th>押金收入</th>
-                  <th>其他经营收入</th>
+                  <th>客户名称</th>
+                  <th>房号</th>
+                  <th>户型</th>
+                  <th>面积</th>
+                  <th>合同编号</th>
+                  <th>合同起始日期</th>
+                  <th>合同终止日期</th>
+                  <th>合同期限</th>
+                  <th>押金</th>
+                  <th>每月租金</th>
+                  <th>服务费</th>
+                  <th>其他费用</th>
+                  <th>结算周期</th>
+                  <th v-for="titel in houseResource[0].allStageCostList">{{titel.name}}</th>
                 </tr>
-                <tr>
-                  <td>{{houseResource.month}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{{houseResource.totalCount}}</td>
-                  <td>{{houseResource.monthlyNewRentCount}}</td>
-                  <td>{{houseResource.rentCount}}</td>
-                  <td>{{houseResource.vacantCount}}</td>
-                  <td>{{houseResource.rentPercent}}%</td>
-                  <td>{{houseResource.preMonthlyNewRentCount}}</td>
-                  <td>{{houseResource.preMonthlyRentPercent}}%</td>
-                  <td>{{houseResource.growthRate}}</td>
-                  <td>{{houseResource.totalIncome}}</td>
-                  <td>{{houseResource.rentIncome}}</td>
-                  <td>{{houseResource.serviceIncome}}</td>
-                  <td>{{houseResource.depositIncome}}</td>
-                  <td>{{houseResource.otherIncome}}</td>
+                <tr v-for="house in houseResource">
+                  <td>{{house.userName}}</td>
+                  <td>{{house.roomNum}}</td>
+                  <td>{{house.housetypeName}}</td>
+                  <td>{{house.housetypeArea}}m²</td>
+                  <td>{{house.contractNumber}}</td>
+                  <td>{{house.beginDate | date}}</td>
+                  <td>{{house.endDate | date}}</td>
+                  <td>{{house.stage}}个月</td>
+                  <td>{{house.deposit}}元</td>
+                  <td>{{house.cyclePayMoney}}元</td>
+                  <td>{{house.serviceCost}}元</td>
+                  <td>{{house.cyclePayOtherCost}}元</td>
+                  <td>{{house.cyclePayType}}个月</td>
+                  <td v-for="titel in house.allStageCostList">{{titel.money}}</td>
                 </tr>
               </table>
-              <!-- <div class="blank-background-img" v-if="memberTotalNum == 0">
-                <img src="../../../static/images/blank/member_space.png" >
-                <h2>暂无会员信息~</h2>
-              </div> -->
+              <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
+					    </el-pagination>
             </el-tab-pane>
               <el-tab-pane label="联合办公" name="2">
               <div class="form-search-criteria">
@@ -115,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <table class="dayreporttable" v-if="officeResource">
+              <table class="dayreporttablem" v-if="officeResource">
                 <tr>
                   <th>月份</th>
                   <th>城市</th>
@@ -179,7 +170,8 @@
   import rightHeader from '../../components/rightHeader.vue';
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
-  import {RoomMonthlyReport300153,RoomMonthlyReports300156,OfficeMonthlyReport300161,OfficeMonthlyReports300162,MllCommunity300145} from '../api.js';
+  import axios from 'axios';
+  import {RoomContractReport300163,DownloadRoomContract300165,OfficeMonthlyReport300161,OfficeMonthlyReports300162,MllCommunity300145} from '../api.js';
 
 
   export default {
@@ -193,6 +185,7 @@
         monthly:'1',
         activeTabName:"operationReport",
         roomStartDate:"",
+        roomEndDate:"",
         houseResource:null,
         businessData:[],
         billData:[],
@@ -207,30 +200,36 @@
           communityId:0
         }],
         roomCommunity:0,
-        officeCommunity:0
+        officeCommunity:0,
+        roomNumber:'',
+        totalNum:0,
+        pageNum:1,
+        currentPage:1,
+        pageSize:10
       }
     },
     mounted(){
-      this.hosrt = RoomMonthlyReports300156;
+      this.hosrt = DownloadRoomContract300165;
       this.officehosrt = OfficeMonthlyReports300162;
-      this.roomStartDate = new Date().Format('yyyy-MM');
-      this.officestartDate = new Date().Format('yyyy-MM');
-      let date = {reportDay:this.roomStartDate,communityId:this.roomCommunity};
-      let date2 = {reportDay:this.officestartDate,communityId:this.officeCommunity};
-      this.hosrt += '?reportDay='+this.roomStartDate;
+      let date = {beginDate:this.roomStartDate,endDate:this.roomEndDate,communityId:this.roomCommunity};
+      let date2 = {beginDate:this.officestartDate,endDate:this.roomEndDate,communityId:this.officeCommunity};
+      this.hosrt += '?pageSize='+this.pageSize+'&pageNum='+this.pageNum;
+      console.log(this.hosrt);
       this.officehosrt += '?reportDay='+this.officestartDate;
       this.datam();
       this.getHouseResource(date);
       this.officestartDatem(date2);
     },
 	  filters: {
-		  timefilter(value, format) {
-			  if(value) {
-				  return new Date(value).Format(format)
-			  }
-		  }
+      date(value){
+        return new Date(value).Format('yyyy-MM-dd')
+      }
 	  },
     methods:{
+      handleCurrentChange(val) {
+				this.pageNum = val;
+				this.dateChange();
+			},
       datam(){
         this.$http.post(MllCommunity300145).then((response) => { //获取社区分类数据
           // console.log(response);
@@ -244,9 +243,20 @@
 
       },
 	    dateChange(){
-		    let rooms = new Date(this.roomStartDate).Format('yyyy-MM');
-        let date = {reportDay:rooms};
-        this.hosrt = RoomMonthlyReports300156;
+        let roomStart = new Date(this.roomStartDate).Format('yyyy-MM');
+        let roomEnd = new Date(this.roomEndDate).Format('yyyy-MM');
+        let date = {};
+        if(this.roomStartDate){
+          date.beginDate = roomStart;
+        }else{
+          date.beginDate = '';
+        }
+        if(this.roomEndDate){
+          date.endDate = roomEnd;
+        }else{
+          date.endDate = '';
+        }
+        this.hosrt = DownloadRoomContract300165;
         this.getHouseResource(date);
       },
       dateChange2(){
@@ -257,14 +267,34 @@
       },
       getHouseResource(data){
         var that = this;
-        data.communityId = this.roomCommunity;
-        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
-        this.$http.post(RoomMonthlyReport300153,qs.stringify(data))
+        let param = new FormData();
+        param.append('beginDate',data.beginDate);
+        param.append('endDate',data.endDate);
+        if(data.beginDate){
+          this.hosrt += '?beginDate='+new Date(data.beginDate).Format('yyyy-MM');
+        }
+        if(data.endDate){
+          this.hosrt += '&endDate='+new Date(data.endDate).Format('yyyy-MM');
+        }
+        if(this.roomCommunity != 0){
+          param.append('communityId',this.roomCommunity);
+          this.hosrt += '&communityId='+this.roomCommunity;
+        }
+        if(this.roomNumber){
+          param.append('roomNum',this.roomNumber);
+          this.hosrt += '&roomNum='+this.roomNumber;
+        }
+        param.append('pageNum',this.pageNum);
+        param.append('pageSize',this.pageSize);
+        this.hosrt += '&pageNum='+this.pageNum;
+        this.hosrt += '&pageSize='+this.pageSize;
+        axios.post(RoomContractReport300163, param)
           .then(function(res){
-            // console.log(res);
+            console.log(res);
             if(res.status == 200 && res.data.code == 10000){
-              that.houseResource = res.data.entity;
-
+              that.houseResource = res.data.pageBean.page;
+              // console.log(that.houseResource);
+              that.totalNum = res.data.pageBean.totalNum;
             }else{
               that.houseResource = null;
             }
@@ -274,16 +304,16 @@
         var that = this;
         data.communityId = this.officeCommunity;
         this.officehosrt += '?reportDay='+new Date(this.officestartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
-        this.$http.post(OfficeMonthlyReport300161,qs.stringify(data))
-          .then(function(res){
-            // console.log(res);
-            if(res.status == 200 && res.data.code == 10000){
-              that.officeResource = res.data.entity;
+        // axios.post(OfficeMonthlyReport300161,qs.stringify(data))
+        //   .then(function(res){
+        //     // console.log(res);
+        //     if(res.status == 200 && res.data.code == 10000){
+        //       that.officeResource = res.data.entity;
 
-            }else{
-              that.officeResource = null;
-            }
-          })
+        //     }else{
+        //       that.officeResource = null;
+        //     }
+        //   })
       }
     }
   }
@@ -295,11 +325,14 @@
   @import '../../sass/page/_communityManagement.scss';
 
 
-  #dayreport{
+  #contractExecution{
     padding-bottom: 50px;
     width: 100%;
     min-height: 1000px;
     background-color: #fff;
+    .el-tabs__content{
+      overflow-x: scroll;
+    }
     .ivu-tabs-card{
       min-height: 500px;
       box-shadow:none;
@@ -331,8 +364,8 @@
       }
     }
   }
-  .dayreporttable{
-    width: 100%;
+  .dayreporttablem{
+    min-width: 5000px;
     margin-top: 30px;
     border-spacing: 0;
     tr{
@@ -360,7 +393,20 @@
     text-align: center;
     line-height: 32px;
   }
-  #dayreport .ivu-tabs-nav-container{
+  #contractExecution .ivu-tabs-nav-container{
     background: #fff;
+  }
+
+  #contractExecution .el-pagination{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  #contractExecution .el-pagination .el-pager .number{
+    margin: 0 5px;
+    border: 1px solid #DCDCDC;
+  }
+  #contractExecution .el-pagination button{
+    border: 1px solid #DCDCDC;
   }
 </style>

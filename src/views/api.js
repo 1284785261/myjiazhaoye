@@ -5,16 +5,16 @@
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
-const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
+// const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.18.22.180312_release':sessionStorage.getItem('urlType')=='测试'? '1.1.18.2.180312_test': '1.1.18.22.180312_release';//pc版本号 默认运营
-export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.68.3.180608.1_test':sessionStorage.getItem('urlType')=='研发'? '1.1.68.3.180608.1_yanfa': '1.1.68.3.180608.1_release';//pc版本号 默认测试
+// export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.68.3.180608.1_test':sessionStorage.getItem('urlType')=='研发'? '1.1.68.3.180608.1_yanfa': '1.1.68.3.180608.1_release';//pc版本号 默认测试
 // const host3 = 'http://test.kaisaspace.com:8070';
 // const host3 = 'http://120.78.16.234:8060';
 // const host3 = 'http://120.78.16.234:8050';
 // const host3 = 'http://192.168.20.191:8080';
 //http://120.78.16.234:8063
-// const host3 = 'http://192.168.20.135:8091';//李志guang
+const host3 = 'http://192.168.20.135:8091';//李志guang
 // const host3 = 'http://192.168.20.124:8081';//周昭滨CxkjPmsServiceInfo300212
 // const host3 = 'http://192.168.20.217:8081';//周昭滨2
 // const host3 = 'http://192.168.20.234:8081';//周昭滨2
@@ -23,6 +23,7 @@ export const pcVersion = sessionStorage.getItem('urlType')=='测试'? '1.1.68.3.
 export const PdfDocmentUpload200173= `${host3}/cxkj-room/apis/appMgr/sign/CxkjCommunityDocmentUploadPC200179`//合同查看pdf文件
 
 
+        
 
 //用户登录接口
 
@@ -549,6 +550,12 @@ const OfficeMonthlyReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetOfficeMon
 
 //财务报表-办公导出月报
 const OfficeMonthlyReports = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadOfficeMonthlyReport300162'
+
+//财务报表-获取合同公寓执行表
+const RoomContractReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetRoomContractReport300163'
+
+//财务报表-导出合同公寓执行表
+const DownloadRoomContract = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadRoomContractReport300165'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -733,6 +740,8 @@ export const RoomMonthlyReport300153 = host3 + RoomMonthlyReport;
 export const RoomMonthlyReports300156 = host3 + RoomMonthlyReports;
 export const OfficeMonthlyReport300161 = host3 + OfficeMonthlyReport;
 export const OfficeMonthlyReports300162 = host3 + OfficeMonthlyReports;
+export const RoomContractReport300163 = host3 + RoomContractReport;
+export const DownloadRoomContract300165 = host3 + DownloadRoomContract;
 export const host = host3;
 //export default {
 //hosts:function(){

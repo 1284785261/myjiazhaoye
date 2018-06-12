@@ -15,6 +15,9 @@
                 <Tab-pane label="月报">
                   <invite-Record></invite-Record>
                 </Tab-pane>
+                <Tab-pane label="合同执行表">
+                  <contract-Execution></contract-Execution>
+                </Tab-pane>
             </Tabs>
         </div>
       </div>
@@ -30,6 +33,7 @@
   import operationDayReport from '../../views/operation/operationDayReport.vue';
   import operationMonthReport from '../../views/operation/operationMonthReport.vue';
   import inviteRecord from '../../views/operation/inviteRecord.vue';
+  import contractExecution from '../../views/operation/contractExecution.vue';
   import qs from 'qs';
   import {} from '../api.js';
 
@@ -41,7 +45,8 @@
       footerBox,
       operationDayReport,
       operationMonthReport,
-      inviteRecord
+      inviteRecord,
+      contractExecution
     },
     data(){
       return{
