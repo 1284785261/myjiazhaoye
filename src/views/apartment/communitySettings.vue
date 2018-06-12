@@ -284,15 +284,15 @@
 										<span class="fl"><span class="btxs">*</span>押金：</span>
 										<div class="floor-item form-item" style="padding-top:2px;">
 											<span class="item-date"><input type="text" placeholder="请输入押金月数" v-model="deposit2" maxlength="10">月 </span>
-										</div> 
+										</div>
 									</div>
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>服务费设置：</span>
 										<div class="floor-item form-item" style="padding-top:2px;">
 											<span class="item-date"><input type="text" placeholder="请输入服务费" v-model="serviceCost2" maxlength="10">元/月 </span>
-										</div> 
+										</div>
 									</div>
-									
+
 									<div class="floor-main">
 										<span class="fl"><span class="btxs">*</span>办公物资：</span>
 										<div class="floor-item form-item">
@@ -387,7 +387,7 @@
 						dataId: 1
 					},
 					value1: ''
-				},{ 
+				},{
 					checkValue: false,
 					inputValue: "",
 					date: "",
@@ -396,14 +396,14 @@
 					option1:{
 						dataName: '季付',
 						dataId: 2
-					}, 
+					},
 					value1: ''
-				},{ 
+				},{
 					checkValue: false,
 					inputValue: "",
 					date: "",
 					communityPayWayId: null,
-					deletect: "删除", 
+					deletect: "删除",
 					option1:{
 						dataName: '半年付',
 						dataId: 3
@@ -432,7 +432,7 @@
 						dataId: 1
 					},
 					value1: ''
-				},{ 
+				},{
 					checkValue: false,
 					inputValue: "",
 					date: "",
@@ -441,14 +441,14 @@
 					option1:{
 						dataName: '季付',
 						dataId: 2
-					}, 
+					},
 					value1: ''
-				},{ 
+				},{
 					checkValue: false,
 					inputValue: "",
 					date: "",
 					communityPayWayId: null,
-					deletect: "删除", 
+					deletect: "删除",
 					option1:{
 						dataName: '半年付',
 						dataId: 3
@@ -724,11 +724,11 @@
 											vm.tableRepairs[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
 											vm.tableRepairs[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
 										}
-										
+
 									}
 								}
 								// console.log(this.tableRepairs);
-								
+
 								for(let i = 0; i < this.tableRepairs2.length;i++){        //公寓维修项目
 									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMaintain.length; m++) {
 										if(this.tableRepairs2[i].option2.dataName == response.data.entity[0].cxkjCommunityListMaintain[m].systemData.dataName){
@@ -770,13 +770,13 @@
 									vm.checkList2.push(response.data.entity[0].cxkjCommunityListConfig[i].systemData.dataName);
 								}
 								for(let i = 0; i < vm.tableRepairs3.length;i++){     //办公支付方式集合
-									for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) { 
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListPayway.length; m++) {
 										if(vm.tableRepairs3[i].option1.dataId == response.data.entity[0].cxkjCommunityListPayway[m].dataId){
 											vm.tableRepairs3[i].checkValue = true;
 											vm.tableRepairs3[i].date = response.data.entity[0].cxkjCommunityListPayway[m].discount;
 											vm.tableRepairs3[i].communityPayWayId = response.data.entity[0].cxkjCommunityListPayway[m].communityPayWayId;
 										}
-										
+
 									}
 								}
 								for(let i = 0; i< vm.officesDiscount.length;i++){
@@ -788,7 +788,7 @@
 									}
 								}
 								for(let i = 0; i < vm.tableConferences.length;i++){//办公套餐集合
-									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMeetingSuit.length; m++) { 
+									for(let m = 0; m < response.data.entity[0].cxkjCommunityListMeetingSuit.length; m++) {
 										if(vm.tableConferences[i].option4[i].dataName == response.data.entity[0].cxkjCommunityListMeetingSuit[m].mettingSuitSystemData.dataName){
 											vm.tableConferences[i].checkValue = true;
 											vm.tableConferences[i].value8 = response.data.entity[0].cxkjCommunityListMeetingSuit[m].meetingSuitUnitSystemData.dataName;
@@ -913,7 +913,7 @@
 					option7: [],
 					value7: ''
 				})
-			}, 
+			},
 			seting() {
 				let vm = this //获取付款方式以及维修项目的数据
 				axios.post(CommunitySytem200226,

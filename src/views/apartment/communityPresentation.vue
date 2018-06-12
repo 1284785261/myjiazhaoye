@@ -86,7 +86,7 @@
 								<template v-else>
 									<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
 								</template>
-				
+
 							</div>
 							<Upload
 						        ref="upload"
@@ -111,7 +111,7 @@
 								<img :src="imgName" v-if="visible">
 							</Modal>
 						</div>
-						
+
 						<div class="item-img" v-if="hides2">
 							<span class="fl">办公区：</span>
 							<div class="demo-upload-list" v-for="item in uploadList3">
@@ -170,7 +170,7 @@
 
 						<div class="info"></div>
 						<div class="editor-container" v-if="defaultMsg">
-							
+
 							<UE :defaultMsg='defaultMsg' :config=config ref="ue"></UE>
 						</div>
 					</div>
@@ -202,7 +202,7 @@
 			successModal,
 			warningModal,
 			UE
-			
+
 		},
 		data() {
 			return {
@@ -259,7 +259,7 @@
 			this.host3 = host + '/cxkj-room/apis/system/file/SystemFileUpload100023';
 			this.communityId = this.$route.query.id;
 			this.communityName = this.$route.query.Name;
-			this.present();	
+			this.present();
 			this.imgPath = imgPath;
 			let type = this.$route.query.type;
 			if(type == '0'){
@@ -277,7 +277,7 @@
 			click(){
 				let vm = this
 				vm.disabled = false;
-				vm.content = this.$refs.ue.getUEContent(); 
+				vm.content = this.$refs.ue.getUEContent();
 				let param = new FormData();
 //				this.$notify({
 //					title: '获取成功，可在控制台查看！',
@@ -371,7 +371,7 @@
 					});
 					return res.test(types);
 				}
-                
+
             },
 			handleView2(name) {
 				this.imgName = name.url;
@@ -413,7 +413,7 @@
 					});
 					return res.test(types);
 				}
-                
+
             },
 			handleView3(name) {
 				this.imgName = name.url;
@@ -455,11 +455,11 @@
 					});
 					return res.test(types);
 				}
-                
+
             },
 			handleRemove4(item){
 				let fileIndex = this.uploadList1.findIndex(items => items == item);
-				
+
 				this.uploadList1.splice(fileIndex,1);
 				this.filelist1.splice(fileIndex,1);
 			},
@@ -492,9 +492,9 @@
 				let vm = this;
 				let file = e.target.files[0];
 				let files = [file, file.name];
-				
+
 				let windowURL = window.URL || window.webkitURL;
-				
+
 				if(vm.uploadList2.length + vm.uploadList5.length<5){
 					this.filelist2.push(file);
 					vm.uploadList5.push(windowURL.createObjectURL(e.target.files[0]));
@@ -507,9 +507,9 @@
 				let vm = this;
 				let file = e.target.files[0];
 				let files = [file, file.name];
-				
+
 				let windowURL = window.URL || window.webkitURL;
-				
+
 				if(vm.uploadList3.length + vm.uploadList6.length<5){
 					this.filelist3.push(file);
 					vm.uploadList6.push(windowURL.createObjectURL(e.target.files[0]));
@@ -520,7 +520,7 @@
 			},
 			present(){
 				let vm = this
-				
+
 				axios.post(hostTitle,
 					qs.stringify({
 						communityId:vm.communityId
@@ -554,7 +554,7 @@
 	                              vm.filelist1.push(arr[k]);
 	                        }
 						}
-						
+
 						vm.uploadList2 = [];
 						vm.uploadList3 = [];
 						if(arr2.length && arr2[0] != ''){
@@ -580,7 +580,7 @@
 	                        }
 						}
 					}
-					
+
 				})
 			}
 		}
@@ -599,7 +599,7 @@
 		box-shadow: 0 3px 1px #ccc;
 		position: relative;
 	}
-	
+
 	.info {
 		border-radius: 10px;
 		line-height: 20px;
@@ -607,17 +607,17 @@
 		margin: 10px;
 		background-color: #ffffff;
 	}
-	
+
 	.components-container {
 		margin-left: 170px;
 		width: 965px;
 		margin-bottom: 50px;
 	}
-	
+
 	#edui1_iframeholder {
 		height: 240px!important;
 	}
-	
+
 	.bts {
 		display: inline-block;
 		position: absolute;
@@ -628,7 +628,7 @@
 		color: black;
 		font-weight: bold;
 	}
-	
+
 	.confirm {
 		width: 140px;
 		height: 40px;
@@ -642,7 +642,7 @@
 		margin-right: 30px;
 		cursor: pointer;
 	}
-	
+
 	.call {
 		width: 140px;
 		height: 40px;
@@ -655,20 +655,20 @@
 		text-align: center;
 		cursor: pointer;
 	}
-	
+
 	#right-content {
 		padding-bottom: 80px!important;
 	}
-	
+
 	.ivu-modal-footer {
 		display: none;
 	}
-	
+
 	.ivu-modal-wrap .ivu-modal {
 		width: 800px!important;
 		height: 600px;
 	}
-	
+
 	.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-close {
 		display: inline-block;
 		background: #333333;
@@ -679,13 +679,13 @@
 		top: -5%;
 		right: -5%;
 	}
-	
+
 	.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body {
 		width: 800px;
 		height: 600px;
 		overflow: hidden;
 	}
-	
+
 	.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body img {
 		width: 100%;
 		height: 550px;

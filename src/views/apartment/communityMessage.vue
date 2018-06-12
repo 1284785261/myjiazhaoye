@@ -3,7 +3,7 @@
 		<menu-box :active-tab-name="activeTabName"></menu-box>
 		<div class="right-content" id="right-content">
 			<right-header></right-header>
-			<div class="wordbench-box">
+			<div class="wordbench-box" style="margin: 0">
 				<div class="ivu-site">
 		          <span>您现在的位置：</span>
 		          <router-link  class="active" to="/apartment/communityManagement">社区管理</router-link>
@@ -124,7 +124,8 @@
     	},
     	mounted(){
     		this.imgPath = imgPath
-    		this.communityId = this.$route.query.id;
+    		// this.communityId = this.$route.query.id;
+    		this.communityId =sessionStorage.getItem('communityMangementId');
     		this.datas();
     	},
     	methods:{

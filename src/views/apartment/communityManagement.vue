@@ -11,7 +11,9 @@
 				</div>
 				<Tabs type="card" class="Management">
 					<Tab-pane label="社区管理">
-						<div class="message-ti">
+            <!--<el-tabs v-model="activeItem" type="card">-->
+              <!--<el-tab-pane label="社区管理" name="1">-->
+						    <div class="message-ti">
 							<div class="form-search-criteria">
 								<div class="form-item">
 
@@ -114,6 +116,12 @@
 										<router-link :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</router-link>
 										<router-link v-if="item.communityType != 1" :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</router-link>
 										<router-link :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">人员配置</router-link>
+                    <!--<a @click="getCommunityMessage(item.communityId)" >基本信息</a>-->
+                    <!--<a @click="getPresentation(item.communityId,item.communityType,item.communityName)" >社区介绍</a>-->
+                    <!--<a @click="" :to="{path:'/apartment/communitySettings',query:{id:item.communityId,type:item.communityType,Name:item.communityName}}">社区设置</a>-->
+                    <!--<a @click="" :to="{path:'/communityHouse',query:{communityId:item.communityId,type:item.communityType}}">资源管理</a>-->
+                    <!--<a @click="" v-if="item.communityType != 1" :to="{name:'equipmentManage',query:{communityId:item.communityId}}">设备管理</a>-->
+                    <!--<a @click="" :to="{path:'/system/staffdeploy',query:{id:item.communityId,communityName:item.communityName}}" v-if="jurisdiction('STAFFING_UPDATE')">人员配置</a>-->
 										<a href="javascript:;" @click="hub(community={id:item.communityId,Close:item.communityIsClose,Name:item.communityName})" v-if="jurisdiction('COMMUNITY_DELETE')">关闭社区</a>
 									</td>
 								</tr>
@@ -124,6 +132,29 @@
 								</el-pagination>
 							</div>
 						</div>
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="基本信息" name="2">-->
+                <!--<community-msg></community-msg>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="社区介绍" name="3">-->
+                <!--<presentation></presentation>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="社区设置" name="4">-->
+                <!--<community-settings></community-settings>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="资源管理" name="5">-->
+                <!--<community-settings></community-settings>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="设备管理" name="6">-->
+                <!--<community-settings></community-settings>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="人员配置" name="7">-->
+                <!--<community-settings></community-settings>-->
+              <!--</el-tab-pane>-->
+              <!--<el-tab-pane label="关闭社区" name="8">-->
+                <!--<community-settings></community-settings>-->
+              <!--</el-tab-pane>-->
+            <!--</el-tabs>-->
 					</Tab-pane>
 
 					<Tab-pane label="已关闭的社区">
@@ -383,6 +414,9 @@
 	import footerBox from '../../components/footerBox.vue';
 	import successModal from '../../components/successModal.vue';
 	import warningModal from '../../components/warningModal.vue';
+	import communitySettings from './communitySettings'
+	import communityMsg from './communityMessage'
+	import presentation from './communityPresentation'
 	import { hostAuthor, hostCommint, hostOpen, allCommunity, hostComment, host,ShortComment300203,ShorthouseType300205,ShortPmsDelComment300207 } from '../api.js';
 	import axios from 'axios';
 	import qs from 'qs';
@@ -393,11 +427,15 @@
 			menuBox,
 			footerBox,
 			successModal,
-			warningModal
+			warningModal,
+      communitySettings,
+      communityMsg,
+      presentation
 		},
 		data() {
 			let _this = this;
 			return {
+        activeItem:1,
 				currentPage1: 1,
 				communitys: [{
 					communityId: -1,
@@ -599,6 +637,7 @@
 
 		mounted() {
 			//初始化数据
+      this.activeItem = sessionStorage.getItem('activeItem') &&sessionStorage.getItem('activeItem') !='null' ?sessionStorage.getItem('activeItem'):'1';
 			this.host3 = host+'/cxkj-room/apis/pc/communityMgrDownload/CxkjCommunityCommentDownload200071?'
 			this.host4 = host+ '/cxkj-pms/apis/pc/pmsordercomment/CxkjDownloadPmsComment300204?';
 			this.btns();
@@ -609,6 +648,24 @@
 			this.shortEvaluate();
 		},
 		methods: {
+		  /**
+       * 去基本信息
+       * **/
+      getCommunityMessage(communityId){
+        this.activeItem = '2'
+        sessionStorage.setItem('communityMangementId',communityId)
+        // this.$router.push('/apartment/communityMessage')
+      },
+      /**
+       * 去社区介绍
+       * **/
+      getPresentation(communityId,communityType,communityName){
+        this.activeItem = '3'
+        sessionStorage.setItem('communityMangementId',communityId)
+        sessionStorage.setItem('communityMangementName',communityName)
+        sessionStorage.setItem('communityType',communityType)
+      },
+
 			classifys() {
 				axios.post(allCommunity).then((response) => { //获取社区分类数据
 						if(response.status == 200 && response.data.code == 10000) {

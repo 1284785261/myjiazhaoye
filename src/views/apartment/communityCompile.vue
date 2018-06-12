@@ -412,7 +412,7 @@
         }
         param.append('communityLongitude',vm.communityLongitude);
         param.append('communityLatitude',vm.communityLatitude);
-        // this.fullscreenLoading = true;
+        this.fullscreenLoading = true;
         // if(!this.pdfName.length){
         //   if(!vm.communityContract){
         //     this.warningMessage = '信息填入不完整，请补充完信息';
@@ -436,7 +436,9 @@
                 this.successModal = false;
                 this.fullscreenLoading = false;
                 vm.disabled = false;
+                // sessionStorage.setItem('activeItem','1');
                 vm.$router.push('/apartment/communityManagement');
+
               }, 2000);
 
             } else {
@@ -514,6 +516,7 @@
                   this.fullscreenLoading = false;
                   this.successModal = false;
                   vm.disabled2 = false;
+                  // sessionStorage.setItem('activeItem','2');
                   vm.$router.push('/apartment/communityManagement');
                 }, 3000);
 
