@@ -170,14 +170,14 @@
       }
     },
     mounted(){
-      this.hosrt = RoomDailyReport300154;
-      this.officehosrt = OfficeDailyReports300158;
+      this.hosrt = RoomDailyReport300154+'?';
+      this.officehosrt = OfficeDailyReports300158+'?';
       this.roomStartDate = new Date().Format('yyyy-MM-dd');
       this.officeStartDate = new Date().Format('yyyy-MM-dd');
       let date = {reportDay:this.roomStartDate,communityId:this.roomCommunity};
       let date2 = {reportDay:this.officeStartDate,communityId:this.officeCommunity};
-      this.hosrt += '?reportDay='+this.roomStartDate;
-      this.officehosrt += '?reportDay='+this.officeStartDate;
+      this.hosrt += '&reportDay='+this.roomStartDate;
+      this.officehosrt += '&reportDay='+this.officeStartDate;
       this.datam();
       this.getHouseResource(date);
       this.getOfficeResource(date2);
@@ -205,14 +205,14 @@
 	    dateChange(){
 		    let rooms = new Date(this.roomStartDate).Format('yyyy-MM-dd');
         let date = {reportDay:rooms};
-        this.hosrt = RoomDailyReport300154;
+        this.hosrt = RoomDailyReport300154+'?';
         this.getHouseResource(date);
 	    },
       getHouseResource(data){
         var that = this;
         data.communityId = this.roomCommunity;
         // console.log(data);
-        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
+        this.hosrt += '&reportDay='+new Date(this.roomStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
         this.$http.post(DailyReport300151,qs.stringify(data)).then(function(res){
             // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
@@ -226,13 +226,13 @@
       dateChange2(){
         let offices = new Date(this.officeStartDate).Format('yyyy-MM-dd');
         let date = {reportDay:offices};
-        this.officehosrt = OfficeDailyReports300158;
+        this.officehosrt = OfficeDailyReports300158+'?';
         this.getOfficeResource(date);
       },
       getOfficeResource(data){
         var that = this;
         data.communityId = this.officeCommunity;
-        this.officehosrt += '?reportDay='+new Date(this.officeStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
+        this.officehosrt += '&reportDay='+new Date(this.officeStartDate).Format('yyyy-MM-dd')+'&communityId='+data.communityId;
         this.$http.post(OfficeDailyReport300157,qs.stringify(data))
           .then(function(res){
             // console.log(res);

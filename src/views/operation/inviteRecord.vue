@@ -211,14 +211,14 @@
       }
     },
     mounted(){
-      this.hosrt = RoomMonthlyReports300156;
-      this.officehosrt = OfficeMonthlyReports300162;
+      this.hosrt = RoomMonthlyReports300156+'?';
+      this.officehosrt = OfficeMonthlyReports300162+'?';
       this.roomStartDate = new Date().Format('yyyy-MM');
       this.officestartDate = new Date().Format('yyyy-MM');
       let date = {reportDay:this.roomStartDate,communityId:this.roomCommunity};
       let date2 = {reportDay:this.officestartDate,communityId:this.officeCommunity};
-      this.hosrt += '?reportDay='+this.roomStartDate;
-      this.officehosrt += '?reportDay='+this.officestartDate;
+      this.hosrt += '&reportDay='+this.roomStartDate;
+      this.officehosrt += '&reportDay='+this.officestartDate;
       this.datam();
       this.getHouseResource(date);
       this.officestartDatem(date2);
@@ -246,19 +246,19 @@
 	    dateChange(){
 		    let rooms = new Date(this.roomStartDate).Format('yyyy-MM');
         let date = {reportDay:rooms};
-        this.hosrt = RoomMonthlyReports300156;
+        this.hosrt = RoomMonthlyReports300156+'?';
         this.getHouseResource(date);
       },
       dateChange2(){
         let works = new Date(this.officestartDate).Format('yyyy-MM');
         let date = {reportDay:works};
-        this.officehosrt = OfficeMonthlyReports300162;
+        this.officehosrt = OfficeMonthlyReports300162+'?';
         this.officestartDatem(date);
       },
       getHouseResource(data){
         var that = this;
         data.communityId = this.roomCommunity;
-        this.hosrt += '?reportDay='+new Date(this.roomStartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
+        this.hosrt += '&reportDay='+new Date(this.roomStartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
         this.$http.post(RoomMonthlyReport300153,qs.stringify(data))
           .then(function(res){
             // console.log(res);
@@ -273,7 +273,7 @@
       officestartDatem(data){
         var that = this;
         data.communityId = this.officeCommunity;
-        this.officehosrt += '?reportDay='+new Date(this.officestartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
+        this.officehosrt += '&reportDay='+new Date(this.officestartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
         this.$http.post(OfficeMonthlyReport300161,qs.stringify(data))
           .then(function(res){
             // console.log(res);

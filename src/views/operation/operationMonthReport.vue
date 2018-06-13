@@ -183,16 +183,16 @@
       // this.startDate = newDate.getFullYear() + '-' + parseInt(newDate.getMonth()+1)
       // // 初始化报表
 			// this.initEcharts()
-      this.hosrt = RoomWeeklyReport300155;
-      this.officehosrt = OfficeWeeklyReports300160;
+      this.hosrt = RoomWeeklyReport300155+'?';
+      this.officehosrt = OfficeWeeklyReports300160+'?';
       this.startDate = new Date().Format('yyyy-MM-dd');
       this.officestartDate = new Date().Format('yyyy-MM-dd');
       this.startDatem(this.startDate);
       this.officestartDatem(this.officestartDate);
       let date = {beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),endDate:new Date(this.endDate).Format('yyyy-MM-dd'),communityId:this.roomCommunity};
       let date2 = {beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),endDate:new Date(this.officeendDate).Format('yyyy-MM-dd'),communityId:this.officeCommunity};
-      this.hosrt += '?beginDate='+date.beginDate+'&&endDate='+date.endDate;
-      this.officehosrt += '?beginDate='+date2.beginDate+'&&endDate='+date2.endDate;
+      this.hosrt += '&beginDate='+date.beginDate+'&&endDate='+date.endDate;
+      this.officehosrt += '&beginDate='+date2.beginDate+'&&endDate='+date2.endDate;
       this.datam();
       this.dateChange(date);
       this.dateChange2(date2);
@@ -235,7 +235,7 @@
 				getHouseResource(data){
           var that = this
           data.communityId = this.roomCommunity;
-					this.hosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
+					this.hosrt += '&beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
 					this.$http.post(WeeklyReport300152,qs.stringify(data))
 						.then(function(res){
 							// console.log(res);
@@ -250,7 +250,7 @@
         getofficeResource(data){
           var that = this
           data.communityId = this.officeCommunity;
-					this.officehosrt += '?beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
+					this.officehosrt += '&beginDate='+data.beginDate+'&&endDate='+data.endDate+'&communityId='+data.communityId;
 					this.$http.post(OfficeWeeklyReport300159,qs.stringify(data))
 						.then(function(res){
 							// console.log(res);
@@ -267,7 +267,7 @@
 						beginDate:new Date(this.startDate).Format('yyyy-MM-dd'),
 						endDate:new Date(this.endDate).Format('yyyy-MM-dd')
 						}
-					this.hosrt = RoomWeeklyReport300155;
+					this.hosrt = RoomWeeklyReport300155+'?';
 					this.getHouseResource(date);
         },
         dateChange2(){
@@ -275,7 +275,7 @@
 						beginDate:new Date(this.officestartDate).Format('yyyy-MM-dd'),
 						endDate:new Date(this.officeendDate).Format('yyyy-MM-dd')
 						}
-					this.officehosrt = OfficeWeeklyReports300160;
+					this.officehosrt = OfficeWeeklyReports300160+'?';
 					this.getofficeResource(date);
         }
 	    }

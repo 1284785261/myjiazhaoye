@@ -1,8 +1,8 @@
 <template>
 	<div class="header">
-		<!--<Select v-model="selectModel1" style="width:240px;text-align: left;" @on-change="temp(selectModel1)">-->
-			<!--<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>-->
-		<!--</Select>-->
+		<!-- <Select v-model="selectModel1" style="width:240px;text-align: left;" @on-change="temp(selectModel1)">
+			<Option v-for="item in cityList" :value="item.communityName" :key="item.communityName">{{ item.communityName }}</Option>
+		</Select> -->
 		<div class="inline-block">
 			<Badge :count="nums">
 				<router-link to="/signed/messageInform"><Icon type="ios-bell-outline"></Icon></router-link>
@@ -15,7 +15,7 @@
 					<Icon type="arrow-down-b"></Icon>
 				</a>
 				<Dropdown-menu slot="list" >
-					<Dropdown-item v-for="userBar in userBars" >
+					<Dropdown-item v-for="userBar in userBars">
 						<router-link :to=userBar.path><i :class="userBar.icon"></i>{{userBar.userContent}}</router-link>
 					</Dropdown-item>
 				</Dropdown-menu>
@@ -114,7 +114,7 @@
 						// console.log(response);
 						if(response.status == 200 && response.data.code == 10000) {
 							this.cityList = response.data.pageBean;
-							// console.log(this.cityList);
+							console.log(this.cityList);
 							if(Model) {
 								this.selectModel1 = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].communityName;
 								let haveper = this.cityList[this.cityList.findIndex(item => item.communityId == Model)].havePer;

@@ -16,9 +16,9 @@
                 </div>
                 <div class="form-item">
                   <span>收款日期：</span>
-                  <Date-picker type="month" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
+                  <Date-picker type="month" :options="option1" placeholder="选择日期" v-model="roomStartDate"></Date-picker>
                   --
-                  <Date-picker type="month" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
+                  <Date-picker type="month" :options="option2" placeholder="选择日期" v-model="roomEndDate"></Date-picker>
                 </div>
                 <div class="form-item">
                   <span>房间号：</span>
@@ -68,8 +68,13 @@
                   <td>{{house.cyclePayMoney}}元</td>
                   <td>{{house.serviceCost}}元</td>
                   <td>{{house.cyclePayOtherCost}}元</td>
-                  <td>{{house.cyclePayType}}个月</td>
-                  <td v-for="titel in house.allStageCostList">{{titel.money}}</td>
+                  <td>{{house.cyclePayType | type}}</td>
+                  <td v-for="titel in house.allStageCostList">
+                    <span v-if="titel.payState == 1" style="color: #ccc;">{{titel.money}}</span>
+                    <span v-else-if="titel.payState == 2" style="color: red;">{{titel.money}}</span>
+                    <!-- <span v-else-if="titel.payState == 3 || titel.payState == 0" style="color: #3dc4b2;">{{titel.money}}</span> -->
+                    <span v-else>{{titel.money}}</span>
+                  </td>
                 </tr>
               </table>
               <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum>
@@ -78,27 +83,21 @@
               <el-tab-pane label="联合办公" name="2">
               <div class="form-search-criteria">
                 <div class="form-item">
-                  <span>报表日期：</span>
-                  <Date-picker type="month" placeholder="选择日期" v-model="officestartDate"></Date-picker>
-                </div>
-                <div class="form-item">
                   <span>社区：</span>
                   <Select v-model="officeCommunity" style="width:180px">
                     <Option v-for="community in  allroomCommunity" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
                   </Select>
                 </div>
-                <!-- <div class="form-item">
-                  <b>公司：</b>
-                  <Select v-model="roomCommunity" style="width:150px">
-                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
+                <div class="form-item">
+                  <span>收款日期：</span>
+                  <Date-picker type="month" :options="option3" placeholder="选择日期" v-model="officeStartDate"></Date-picker>
+                  --
+                  <Date-picker type="month" :options="option4" placeholder="选择日期" v-model="officeEndDate"></Date-picker>
                 </div>
-                 <div class="form-item">
-                  <b>项目：</b>
-                  <Select v-model="roomCommunity" style="width:150px">
-                    <Option v-for="community in  RoomContractSelects" :value="community.communityId" :key="community.communityId">{{ community.communityName }}</Option>
-                  </Select>
-                </div> -->
+                <div class="form-item">
+                  <span>房间号：</span>
+                  <Input v-model="officeNumber"  placeholder="请填写房间号"  style="width:120px;"></Input>
+                </div>
                 <div class="form-item">
                   <div class="form-search">
                     <a class="daochu" @click="dateChange2">查询</a>
@@ -108,54 +107,43 @@
               </div>
               <table class="dayreporttablem" v-if="officeResource">
                 <tr>
-                  <th>月份</th>
-                  <th>城市</th>
-                  <th>社区</th>
-                  <th>社区负责人</th>
-                  <th>总工位数</th>
-                  <th>可出租工位数</th>
-                  <th>上月新签工位数量</th>
-                  <th>本月新签工位数量</th>
-                  <th>总办公室数量</th>
-                  <th>可出租办公室数</th>
-                  <th>上月新签办公室数量</th>
-                  <th>本月新签办公室数量</th>
-                  <th>本月新签客户数量</th>
-                  <th>总收入</th>
-                  <th>租金收入</th>
-                  <th>服务费收入</th>
-                  <th>押金收入</th>
-                  <th>其他经营收入</th>
-                  <th>上月合同到期客户数量</th>
-                  <th>本月合同到期客户数量</th>
-                  <th>下月合同到期客户数量</th>
-                  <th>客户投诉总数量</th>
+                  <th>客户名称</th>
+                  <th>办公室编号</th>
+                  <th>工位数</th>
+                  <th>合同编号</th>
+                  <th>合同起始日期</th>
+                  <th>合同终止日期</th>
+                  <th>合同期限</th>
+                  <th>押金</th>
+                  <th>每月租金</th>
+                  <th>服务费</th>
+                  <th>其他费用</th>
+                  <th>结算周期</th>
+                  <th v-for="titel in officeResource[0].allStageCostList">{{titel.name}}</th>
                 </tr>
-                <tr>
-                  <td>{{officeResource.month | datem}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>{{officeResource.placeTotalCount}}</td>
-                  <td>{{officeResource.placeVacantCount}}</td>
-                  <td>{{officeResource.preMonthlyPlaceNewRentCount}}</td>
-                  <td>{{officeResource.monthlyPlaceNewRentCount}}</td>
-                  <td>{{officeResource.monthlyOfficeTotalCount}}</td>
-                  <td>{{officeResource.officeVacantCount}}</td>
-                  <td>{{officeResource.preMonthlyOfficeNewRentCount}}</td>
-                  <td>{{officeResource.monthlyOfficeNewRentCount}}</td>
-                  <td>{{officeResource.newSignCustomers}}</td>
-                  <td>{{officeResource.totalIncome}}</td>
-                  <td>{{officeResource.rentIncome}}</td>
-                  <td>{{officeResource.serviceIncome}}</td>
-                  <td>{{officeResource.depositIncome}}</td>
-                  <td>{{officeResource.otherIncome}}</td>
-                  <td>{{officeResource.preMonthlySignExpireCustomers}}</td>
-                  <td>{{officeResource.MonthlySignExpireCustomers}}</td>
-                  <td>{{officeResource.nextMonthlySignExpireCustomers}}</td>
-                  <td>{{officeResource.complainCount}}</td>
+                <tr v-for="house in officeResource">
+                  <td>{{house.userName}}</td>
+                  <td>{{house.officeHouseNum}}</td>
+                  <td>{{house.officeWorkNum}}</td>
+                  <td>{{house.contractNumber}}</td>
+                  <td>{{house.beginDate | date}}</td>
+                  <td>{{house.endDate | date}}</td>
+                  <td>{{house.stage}}个月</td>
+                  <td>{{house.deposit}}元</td>
+                  <td>{{house.cyclePayMoney}}元</td>
+                  <td>{{house.serviceCost}}元</td>
+                  <td>{{house.cyclePayOtherCost}}元</td>
+                  <td>{{house.cyclePayType | type}}</td>
+                  <td v-for="titel in house.allStageCostList">
+                    <span v-if="titel.payState == 1" style="color: #ccc;">{{titel.money}}</span>
+                    <span v-else-if="titel.payState == 2" style="color: red;">{{titel.money}}</span>
+                    <!-- <span v-else-if="titel.payState == 3 || titel.payState == 0" style="color: #3dc4b2;">{{titel.money}}</span> -->
+                    <span v-else>{{titel.money}}</span>
+                  </td>
                 </tr>
               </table>
+              <el-pagination @current-change="handleCurrentChange2" :current-page="currentPage2" :page-size=pageSize layout=" prev, pager, next, total,jumper" :total=totalNum2>
+					    </el-pagination>
               </el-tab-pane>
           </el-tabs>
         </div>
@@ -171,7 +159,7 @@
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
   import axios from 'axios';
-  import {RoomContractReport300163,DownloadRoomContract300165,OfficeMonthlyReport300161,OfficeMonthlyReports300162,MllCommunity300145} from '../api.js';
+  import {RoomContractReport300163,DownloadRoomContract300165,OfficeContractReport300164,DownloadOfficeContract300166,MllCommunity300145} from '../api.js';
 
 
   export default {
@@ -181,6 +169,7 @@
       footerBox
     },
     data(){
+      let _this = this
       return{
         monthly:'1',
         activeTabName:"operationReport",
@@ -205,17 +194,47 @@
         totalNum:0,
         pageNum:1,
         currentPage:1,
-        pageSize:10
+        pageSize:10,
+        officeStartDate:"",
+        officeEndDate:"",
+        officeNumber:'',
+        currentPage2:1,
+        totalNum2:0,
+        pageNum2:1,
+        option1: {
+            disabledDate(date){
+              if(_this.roomEndDate){
+                return date &&  _this.roomEndDate < date.valueOf();
+              }
+            }
+        },
+        option2: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.roomStartDate;
+					}
+				},
+        option3: {
+            disabledDate(date){
+              if(_this.officeEndDate){
+                return date &&  _this.officeEndDate < date.valueOf();
+              }
+            }
+        },
+        option4: {
+					disabledDate (date) {
+						return date && date.valueOf() < _this.officeStartDate;
+					}
+				},
       }
     },
     mounted(){
-      this.hosrt = DownloadRoomContract300165;
-      this.officehosrt = OfficeMonthlyReports300162;
+      this.hosrt = DownloadRoomContract300165+'?';
+      this.officehosrt = DownloadOfficeContract300166+'?';
       let date = {beginDate:this.roomStartDate,endDate:this.roomEndDate,communityId:this.roomCommunity};
       let date2 = {beginDate:this.officestartDate,endDate:this.roomEndDate,communityId:this.officeCommunity};
-      this.hosrt += '?pageSize='+this.pageSize+'&pageNum='+this.pageNum;
-      console.log(this.hosrt);
-      this.officehosrt += '?reportDay='+this.officestartDate;
+      this.hosrt += '&pageSize='+this.pageSize+'&pageNum='+this.pageNum;
+      // console.log(this.hosrt);
+      this.officehosrt += '&pageSize='+this.pageSize+'&pageNum='+this.pageNum2;
       this.datam();
       this.getHouseResource(date);
       this.officestartDatem(date2);
@@ -223,13 +242,28 @@
 	  filters: {
       date(value){
         return new Date(value).Format('yyyy-MM-dd')
+      },
+      type(value){
+        if(value == 1){
+          return '月付'
+        }else if(value == 2){
+          return '季付'
+        }else if(value == 3){
+          return '半年付'
+        }else if(value == 4){
+          return '年付'
+        }
       }
 	  },
     methods:{
       handleCurrentChange(val) {
 				this.pageNum = val;
 				this.dateChange();
-			},
+      },
+      handleCurrentChange2(val){
+        this.pageNum2 = val;
+        this.dateChange2();
+      },
       datam(){
         this.$http.post(MllCommunity300145).then((response) => { //获取社区分类数据
           // console.log(response);
@@ -256,25 +290,36 @@
         }else{
           date.endDate = '';
         }
-        this.hosrt = DownloadRoomContract300165;
+        this.hosrt = DownloadRoomContract300165+'?';
         this.getHouseResource(date);
       },
       dateChange2(){
-        let works = new Date(this.officestartDate).Format('yyyy-MM');
-        let date = {reportDay:works};
-        this.officehosrt = OfficeMonthlyReports300162;
+        let workStart = new Date(this.officeStartDate).Format('yyyy-MM');
+        let workEnd = new Date(this.officeEndDate).Format('yyyy-MM');
+        let date = {};
+        if(this.officeStartDate){
+          date.beginDate = workStart;
+        }else{
+          date.beginDate = '';
+        }
+        if(this.officeEndDate){
+          date.endDate = workEnd;
+        }else{
+          date.endDate = '';
+        }
+        this.officehosrt = DownloadOfficeContract300166+'?';
         this.officestartDatem(date);
       },
       getHouseResource(data){
         var that = this;
         let param = new FormData();
-        param.append('beginDate',data.beginDate);
-        param.append('endDate',data.endDate);
         if(data.beginDate){
           this.hosrt += '?beginDate='+new Date(data.beginDate).Format('yyyy-MM');
+          param.append('beginDate',data.beginDate);
         }
         if(data.endDate){
           this.hosrt += '&endDate='+new Date(data.endDate).Format('yyyy-MM');
+          param.append('endDate',data.endDate);
         }
         if(this.roomCommunity != 0){
           param.append('communityId',this.roomCommunity);
@@ -290,7 +335,7 @@
         this.hosrt += '&pageSize='+this.pageSize;
         axios.post(RoomContractReport300163, param)
           .then(function(res){
-            console.log(res);
+            // console.log(res);
             if(res.status == 200 && res.data.code == 10000){
               that.houseResource = res.data.pageBean.page;
               // console.log(that.houseResource);
@@ -302,18 +347,39 @@
       },
       officestartDatem(data){
         var that = this;
-        data.communityId = this.officeCommunity;
-        this.officehosrt += '?reportDay='+new Date(this.officestartDate).Format('yyyy-MM')+'&communityId='+data.communityId;
-        // axios.post(OfficeMonthlyReport300161,qs.stringify(data))
-        //   .then(function(res){
-        //     // console.log(res);
-        //     if(res.status == 200 && res.data.code == 10000){
-        //       that.officeResource = res.data.entity;
+        let param = new FormData();
+        if(this.officeCommunity != 0){
+          param.append('communityId',this.officeCommunity);
+          this.officehosrt += '&communityId='+this.officeCommunity;
+        }
+        if(data.beginDate){
+          this.officehosrt += '&beginDate='+new Date(data.beginDate).Format('yyyy-MM');
+          param.append('beginDate',data.beginDate);
+        }
+        if(data.endDate){
+          this.officehosrt += '&endDate='+new Date(data.endDate).Format('yyyy-MM');
+          param.append('endDate',data.endDate);
+        }
+        
+        if(this.officeNumber){
+          param.append('officeHouseNum',this.officeNumber);
+          this.officehosrt += '&officeHouseNum='+this.officeNumber;
+        }
+        param.append('pageNum',this.pageNum2);
+        param.append('pageSize',this.pageSize);
+        this.officehosrt += '&pageNum='+this.pageNum2;
+        this.officehosrt += '&pageSize='+this.pageSize;
+        axios.post(OfficeContractReport300164, param)
+          .then(function(res){
+            console.log(res);
+            if(res.status == 200 && res.data.code == 10000){
+              that.officeResource = res.data.pageBean.page;
+              that.totalNum2 = res.data.pageBean.totalNum;
 
-        //     }else{
-        //       that.officeResource = null;
-        //     }
-        //   })
+            }else{
+              that.officeResource = null;
+            }
+          })
       }
     }
   }
