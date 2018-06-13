@@ -6,17 +6,17 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 					<span>您现在的位置： </span>
-					<router-link class="active" to="/apartment/workbench">活动管理</router-link>
+					<router-link class="active" to="/activity/activitys">活动管理</router-link><span>>新增活动</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>活动管理</h3>
-					<span>佳兆业航运WEWA空间</span>
+					<!--<span>佳兆业航运WEWA空间</span>-->
 				</div>
 				<div id="addactivity">
 					<table>
 						<tr>
 							<td>活动类型：</td>
-							<td>
+							<td style="text-align: left">
 								<el-select v-model="value" placeholder="请选择活动类型" @change="actives(value)">
 									<el-option v-for="item in options" :key="item.dataName" :value="item.dataName">
 									</el-option>
@@ -25,26 +25,26 @@
 						</tr>
 						<tr>
 							<td>活动主题：</td>
-							<td><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="15" /></td>
+							<td style="text-align: left"><input type="text" placeholder="请输入活动主题" class="mt" v-model="Activity.activityTheme" maxlength="15" /></td>
 						</tr>
 						<tr>
 							<td>活动时间：</td>
-							<td>
+							<td style="text-align: left">
 								<Date-picker type="date" placeholder="请选择开始时间" v-model="Activity.beginDate">
 								</Date-picker> -- <Date-picker type="date" :options="option1" placeholder="请选择结束时间" v-model="Activity.endDate"></Date-picker>
 							</td>
 						</tr>
 						<tr class="scope">
 							<td>适用范围：</td>
-							<td><span>{{quantity}}个社区</span><a @click="scope">选择适用范围</a></td>
+							<td style="text-align: left"><span>{{quantity}}个社区</span><a @click="scope">选择适用范围</a></td>
 						</tr>
 						<tr>
 							<td style="vertical-align: top;">活动介绍：</td>
-							<td><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="100"></textarea></td>
+							<td style="text-align: left"><textarea placeholder="请输入活动内容" v-model="Activity.activityContent" maxlength="100"></textarea></td>
 						</tr>
 						<tr>
 							<td>活动规则：</td>
-							<td>
+							<td style="text-align: left">
 								<el-checkbox-group v-model="checkList" @change="mvs(checkList)">
 									<el-checkbox label="到期结束" :disabled="disabled"></el-checkbox>
 									<el-checkbox label="送完即止" :disabled="disabled2"></el-checkbox>
@@ -54,23 +54,23 @@
 						</tr>
 						<tr>
 							<td>额度范围：</td>
-							<td>
+							<td style="text-align: left">
 								<input type="text" style="width:82px;margin-right: 10px;border: 1px solid #DCDCDC;" v-model="Activity.beginQuota" @blur="shuzi(Activity.beginQuota)" />至<input type="text" style="width:82px;margin-left: 10px;margin-right:10px;border: 1px solid #DCDCDC;" v-model="Activity.endQuota" @blur="shuzi2(Activity.endQuota)"/>元
 							</td>
 						</tr>
 						<tr>
 							<td>总金额：</td>
-							<td><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" @blur="shuzi3(Activity.activityTotalMoney)"/>元</td>
+							<td style="text-align: left"><input type="text" placeholder="请输入总金额" class="mt" v-model="Activity.activityTotalMoney" maxlength="10" @blur="shuzi3(Activity.activityTotalMoney)"/>元</td>
 						</tr>
 						<tr>
 							<td>优惠券有效期：</td>
-							<td>
+							<td style="text-align: left">
 								<input type="text" placeholder="请输入有效天数" class="mt" v-model="Activity.validityDate" maxlength="10" @blur="shuzi4(Activity.validityDate)"/>天</td>
 							</td>
 						</tr>
 						<tr>
 							<td>参与对象：</td>
-							<td>
+							<td style="text-align: left">
 								<el-radio class="radio" v-model="radio3" label="1" style="margin-left:0;">是</el-radio>
   								<el-radio class="radio" v-model="radio3" label="0">否</el-radio>
 							</td>
@@ -81,7 +81,7 @@
 						<span style="line-height:60px;">是否有签约记录：</span>
 						<el-radio class="radio" v-model="radio4" label="1">是</el-radio>
   						<el-radio class="radio" v-model="radio4" label="0">否</el-radio>
-						<span style="display:block;" v-if="radio4 == '0'"> 
+						<span style="display:block;" v-if="radio4 == '0'">
 							<el-checkbox-group v-model="checkList3" @change="liste(checkList3)">
 								活动触发位置：
 								<el-checkbox label="注册后"></el-checkbox>
@@ -115,7 +115,7 @@
 		</div>
 		<warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
 		<success-modal :success-message="successMessage" v-if="successModal"></success-modal>
-		
+
 	</div>
 </template>
 
@@ -242,7 +242,7 @@
 				}else{
 					this.Activity.endQuota = '';
 				}
-					
+
 			},
 			shuzi3(value){
 				let str = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
@@ -411,7 +411,7 @@
 						this.warningModal = true;
 					})
 				}
-				
+
 
 			},
 			mvs(list) {
@@ -454,7 +454,7 @@
 			left: 5px;
 		}
 	}
-	
+
 	.ivu-icon-ios-calendar-outline {
 		color: #038be2;
 		font-family: "iconfont" !important;
@@ -495,7 +495,7 @@
 			height: 60px;
 			text-align: center;
 			line-height: 60px;
-			border-bottom:1px solid #dcdcdc; 
+			border-bottom:1px solid #dcdcdc;
 			background-color: #038be2;
 			font-size: 20px;
 			color: #fff;
@@ -509,7 +509,7 @@
 			// 		width: 16px;
 			// 		height: 16px;
 			// 	}
-				
+
 			// }
 			.quanbu{
 				margin-left: 16px;
@@ -530,7 +530,7 @@
 			transform: translate(-50%,0);
 			margin-bottom: 30px;
 		}
-		
+
 	}
 
 </style>

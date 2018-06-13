@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 					<span>您现在的位置： </span>
-					<router-link class="active" to="/system/systems">系统管理</router-link>
+					<router-link class="active" to="/apartment/communityManagement">社区管理</router-link>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>人员配备</h3>
@@ -335,7 +335,7 @@
 										this.ulsConfer2[i].value3 = this.arr2[i].userName +' '+this.arr2[i].userAliase + this.arr2[i].userPhone + ' (' + this.arr2[0].positionName + ')';
 									}
 								}
-								
+
 								//							console.log(11111111111111);
 								//console.log(this.ulsConfer2);
 							}

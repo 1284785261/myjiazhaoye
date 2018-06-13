@@ -6,7 +6,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">财务管理</router-link>
+          <router-link  class="active" to="/finance/financeManagement">财务管理</router-link><span>>退款详情</span>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>退款详情</h3>

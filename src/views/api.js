@@ -4,7 +4,7 @@
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
-const banben = '1.1.70.1.180612.1'
+const banben = '1.1.70.1.180612.3'
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
 const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试

@@ -6,7 +6,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">合同详情</router-link>
+          <router-link  class="active" to="/contract/contractIndex">合同管理</router-link><span>>合同详情</span>
         </div>
         <div class="ivu-bar-title">
           <h3 v-if="!PreViewContract"><i class="icon icon-iden"></i>合同详情</h3>

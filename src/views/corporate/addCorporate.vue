@@ -6,7 +6,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="">企业服务</router-link>
+          <router-link  class="active" to="">企业服务</router-link><span>>新增企业</span>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>增加企业</h3>
@@ -229,7 +229,7 @@
         param.append('enterpriseBeizhu', vm.enterpriseBezhu)
         param.append('enterpriseArea', vm.itemArea)
         param.append('enterpriseType', vm.projectServices)
-        
+
         vm.$http.post(CommunityServiceAdd500120,param).then(res => {
           if(res.data.code == '10000'){
             vm.successMessage='添加企业服务成功'

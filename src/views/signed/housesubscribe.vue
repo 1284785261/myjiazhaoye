@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台 > </span>
-					<router-link class="active" to="/signed/housesubscribe">看房预约</router-link>
+					<span>您现在的位置： </span>
+					<router-link class="active" to="/apartment/workbench">工作台</router-link><span>>看房预约</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>看房预约</h3>
@@ -58,7 +58,7 @@
 							<td>
 								<a v-if="item.appointmentStatus ==0" @click="receive(item.appointmentId)">我要接待</a>
 								<a @click="reception(item.appointmentId)" v-if="item.appointmentStatus ==1">确认接待</a>
-								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:Names}}" v-if="item.appointmentStatus ==1">立即签约</router-link>
+								<router-link :to="{path:'/signed/lodgingHouse',query:{communityId:communityId,Name:Names}}" v-if="item.appointmentStatus ==1 || item.appointmentStatus ==2">立即签约</router-link>
 								<router-link :to="{name:'contractDetail',query:{contractSignId:item.signId,isOffice:item.isOffice}}"  v-if="item.appointmentStatus == 3 && item.state != '1'" class="cha">查看合同</router-link>
 								<a v-if="item.appointmentStatus ==2 ||　item.appointmentStatus ==3 ||　item.appointmentStatus ==4" @click="adddian2(item.appointmentId)">查看详情</a>
 							</td>
@@ -103,7 +103,7 @@
 			<p>预约详情</p>
 			<div>
 				<span>{{ListDatadetail.createTime | timefilter("yyyy-MM-dd hh:mm")}}</span>
-				
+
 				<span v-if="ListDatadetail.appointmentStatus == 2" style="color: red;">{{ListDatadetail.appointmentStatus | Status}}</span>
 				<span v-else>{{ListDatadetail.appointmentStatus | Status}}</span>
 			</div>
@@ -258,6 +258,7 @@
 					})
 					.then(function(res) {
 						console.log(res);
+            // that.appointmentListData = []
 						if(res.status == 200 && res.data.code == 10000) {
 							var pageBean = res.data.pageBean;
 							that.appointmentListData = pageBean.page;
@@ -274,7 +275,7 @@
 				this.appointmentId = appointmentId
 				this.ishide = true;
 				this.ishide2 = true;
-				this.getAppointmentList();
+				// this.getAppointmentList();
 			},
 			sureReception() {
 				var that = this;
@@ -283,7 +284,7 @@
 						reason: this.reason,
 						userIntention: this.userIntention
 					}))
-					.then(function(res) {				
+					.then(function(res) {
 						if(res.status == 200 && res.data.code == 10000) {
 							that.ishide = !that.ishide;
 							that.ishide2 = !that.ishide2;
@@ -291,7 +292,10 @@
 							that.successModal = true;
 							setTimeout(function() {
 								that.successModal = false;
-								this.getAppointmentList();
+                that.getAppointmentList({
+                  pageNum: 1,
+                  isOffice:that.isOffice
+                });
 							}, 1000);
 							that.handleCurrentChange({
 								pageNum: that.activePage
@@ -315,7 +319,10 @@
 							that.successModal = true;
 							setTimeout(function() {
 								that.successModal = false;
-								this.getAppointmentList();
+                that.getAppointmentList({
+                  pageNum: 1,
+                  isOffice:that.isOffice
+                });
 							}, 1000);
 							that.handleCurrentChange({
 								pageNum: that.activePage

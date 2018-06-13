@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/communityManagement">公寓状态</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/apartment/workbench">工作台</router-link><span>>公寓状态</span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>公寓状态</h3>
@@ -37,7 +37,7 @@
 					        				<i :class="[{'act':its.roomStatus == 0},{'act2':its.roomStatus == 1}]">{{its.roomStatus | states(its.roomStatus)}}</i>
 					        			</p>
 			        			</div>
-			        			
+
 				        		<router-link :to="{path:'/signed/houseDetail',query:{id:its.roomId,ids:communityId,name:Name}}" class="sex">
 				        				<span>房间</span>
 				        				<span>点击弹出房间信息</span>
@@ -47,8 +47,8 @@
 			       		 </transition>
 		    		</div>
 		    	</div>
-		        
-		    
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/houseState.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -64,7 +64,7 @@
     import axios from 'axios';
     import { hostState,imgPath } from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -101,7 +101,7 @@
     		this.Name = this.$route.query.Name;
     		//console.log(this.communityId);
     		this.datas();
-    		
+
     	},
     	methods:{
     		shrink(index,els){
@@ -125,7 +125,7 @@
 	    				}
 	    				//console.log("sdafadsa");
 	    				//console.log(this.bigdata);
-    				
+
     			}
  				})
     			.catch((error)=>{
@@ -135,12 +135,12 @@
     		tsa(){
     			this.hide = !this.hide;
     		}
-    		
-    	
+
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>

@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="signed/complain">用户投诉</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/apartment/workbench">工作台></router-link><a @click="aclick" style="color:#038BE2">用户投诉</a><span>>投诉详情</span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>投诉详情</h3>
@@ -33,7 +33,7 @@
 			    					<td>{{Datas.complainContent}}</td>
 			    				</tr>
 			    			</table>
-			    			
+
 			    		</div>
 			    		<a @click="receive" v-show="statas == '1'">确认接收</a>
 		    		</div>
@@ -90,7 +90,7 @@
 			    					<td style="vertical-align: top;">用户反馈：</td>
 			    					<td>
 			    						<p :class="[{'kum':Datas.complainStatus == 0},{'kum1':Datas.complainStatus == 1}]">{{item.userDegree | Degree}}</p>
-			    						<p>{{item.userFeedback}}</p>	
+			    						<p>{{item.userFeedback}}</p>
 			    					</td>
 			    				</tr>
 			    			</table>
@@ -155,7 +155,7 @@
 			    					<td style="vertical-align: top;">用户反馈：</td>
 			    					<td>
 			    						<p :class="[{'kum':Datas.complainStatus == 0},{'kum1':Datas.complainStatus == 1}]">{{item.userDegree | Degree}}</p>
-			    						<p>{{item.userFeedback}}</p>	
+			    						<p>{{item.userFeedback}}</p>
 			    					</td>
 			    				</tr>
 			    			</table>
@@ -224,7 +224,7 @@
 				guanjia:[],
 				test:'',
 				statas:'1'
-				
+
 		   	}
     	},
     	mounted(){
@@ -237,7 +237,7 @@
     			this.statas = '1';
     		}
     		// console.log(this.statas);
-    		
+
     	},
     	filters:{
     		time(val) {
@@ -277,6 +277,9 @@
 			}
     	},
     	methods:{
+        aclick(){
+          this.$router.go(-1)
+        },
     		closeWarningModal() {
 				this.warningModal = false;
 			},

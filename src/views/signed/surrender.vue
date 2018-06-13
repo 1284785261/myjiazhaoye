@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台 > </span>
-					<router-link class="active" to="/signed/housesubscribe">用户退租</router-link>
+					<span>您现在的位置：</span>
+					<router-link class="active" to="/apartment/workbench">工作台</router-link><span>>用户退租</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>用户退租</h3>

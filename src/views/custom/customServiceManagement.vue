@@ -6,7 +6,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">客服管理>投诉管理</router-link>
+          <router-link  class="active" to="/custom/customServiceManagement">客服管理>投诉管理</router-link>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>投诉管理</h3>

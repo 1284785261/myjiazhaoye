@@ -143,7 +143,7 @@
                   <div slot="tip" class="el-upload__tip"><i class="el-icon-information"></i>只能上传png/pdf文件</div>
                 </el-upload>
 								<ul v-if='pdfName.length' style="position: absolute;top: 24px;left: 425px;line-height: 26px;">
-									<li v-for='(item,index) in pdfName' @click='openItem(item)' style="cursor: pointer;line-height:30px;">查看</li>
+									<li v-for='(item,index) in pdfName' @click='openItem(item)' v-if="pdfName[index]" style="cursor: pointer;line-height:30px;">查看</li>
 								</ul>
               </td>
             </tr>
@@ -304,8 +304,8 @@
                 vm.valuem = response.data.result.community.district.areaName;
                 vm.areas = response.data.result.community.district.areaId;
                 vm.communityAddress = response.data.result.community.communityAddress;
-                vm.pdfName = response.data.result.community.communityContract.split(',');
-                let imgUrl=response.data.result.community.communityContract.split(",");
+                vm.pdfName = response.data.result.community.communityContract?response.data.result.community.communityContract.split(','):[];
+                let imgUrl=response.data.result.community.communityContract?response.data.result.community.communityContract.split(","):[];
                 for(let k = 0; k < imgUrl.length; k++){
                   let item= {}
                   let len= imgUrl[k].split("/");

@@ -5,11 +5,11 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-site">
+        <div class="ivu-site" style="z-index: 101">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
+          <router-link  class="active" to="/bill/billManagement">账单管理</router-link><span>>历史账单</span>
         </div>
-        <div id="history-meter-wrap">
+        <div id="history-meter-wrap" style="z-index: 100">
           <Tabs type="card" v-model="activeName">
             <Tab-pane label="历史抄表" name="1" v-if="activeName == 1">
               <div>

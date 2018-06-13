@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台 > </span>
-					<router-link class="active" to="/apartment/workbench">发起收款记录</router-link>
+					<span>您现在的位置：</span>
+					<router-link class="active" to="/apartment/workbench">工作台</router-link><span>>发起收款记录 </span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>发起收款记录</h3>
@@ -95,7 +95,7 @@
 					<td>收款备注：</td>
 					<td>
 						<textarea placeholder="请输入收款备注" v-model="titl1" maxlength="50">
-							
+
 						</textarea>
 					</td>
 				</tr>
@@ -176,7 +176,7 @@
 			this.communityId = this.$route.query.communityId;
 			this.Name = this.$route.query.Name;
 			this.matas();
-			
+
 		},
 		filters: {
 			Money(val) {

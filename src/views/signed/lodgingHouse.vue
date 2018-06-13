@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台  > </span>
-					<router-link class="active" to="/apartment/workbench"> 签约</router-link>
+					<span>您现在的位置：</span>
+					<router-link class="active" to="/apartment/workbench"> 工作台</router-link><span>>签约</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>公寓租客签约</h3>
@@ -1127,54 +1127,54 @@
 			}
 		},
 		watch: {
-      //
-		// 	discount:function() {
-		// 		if(this.discount){
-		// 			this.discount = this.discount.replace(/[^\d.]/, '');
-		// 		}
-      //
-		// 	},
-		// 	serves(val,old) {
-		// 		if(val){
-		// 			this.serves = this.serves.replace(/[^\d.]/,'');
-		// 		}
-		// 	},
-		// 	// depositmonth:function(){
-		// 	// 	if(this.depositmonth){
-		// 	// 		this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
-		// 	// 	}
-		// 	// },
-      //
-      //
-      //
-      // onhrie(old,val){
-      //   if(old&& val!= old){
-      //     this.apart(this.activ)
-      //   }
-      // },
-      // onemoney(val) {
-      //   if(val) {
-      //     this.onemoney = parseFloat(val).toFixed(2);
-      //   }
-      // },
-      // serve(val,old){
-      //   if(val){
-      //     this.serve = this.serve.replace(/[^\d.]/,'');
-      //   }
-      //
-      // },
-      // freeMonth:function(){
-      //   this.freeMonth = this.freeMonth.replace(/[^\d]/,'');
-      // },
-      // letMounted(val,old){
-      //   if(val){
-      //     this.letMounted = val.replace(/[^\d]/,'');
-      //   }
-      //
-      // },
-      // depositmonth:function(){
-      //   this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
-      // }
+
+			discount:function() {
+				if(this.discount){
+					this.discount = this.discount.replace(/[^\d.]/, '');
+				}
+
+			},
+			serves(val,old) {
+				if(val){
+					this.serves = this.serves.replace(/[^\d.]/,'');
+				}
+			},
+			// depositmonth:function(){
+			// 	if(this.depositmonth){
+			// 		this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
+			// 	}
+			// },
+
+
+
+      onhrie(old,val){
+        if(old&& val!= old){
+          this.countdatas(this.month)
+        }
+      },
+      onemoney(val) {
+        if(val) {
+          this.onemoney = parseFloat(val).toFixed(2);
+        }
+      },
+      serve(val,old){
+        if(val){
+          this.serve = this.serve.replace(/[^\d.]/,'');
+        }
+
+      },
+      freeMonth:function(){
+        this.freeMonth = this.freeMonth.replace(/[^\d]/,'');
+      },
+      letMounted(val,old){
+        if(val){
+          this.letMounted = val.replace(/[^\d]/,'');
+        }
+
+      },
+      depositmonth:function(){
+        this.depositmonth = this.depositmonth.replace(/[^\d]/,'');
+      }
 		},
 		filters: {
 			waterPrice(val) {

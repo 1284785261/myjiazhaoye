@@ -5,11 +5,11 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-site">
+        <div class="ivu-site" style="z-index: 101">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
+          <router-link  class="active" to="/contract/contractIndex">合同管理</router-link><span>>历史合同</span>
         </div>
-        <div id="contract-index-wrap" style="margin-top: 15px">
+        <div id="contract-index-wrap" style="margin-top: 15px;z-index: 100">
           <Tabs type="card" @on-click="changeTab" v-model="activeName" >
             <Tab-pane label="历史合同" name="room">
               <div style="padding: 15px" v-if="roomTotalNum">社区：{{communityName}} {{isOffice == '0'?'房间：':'办公室：'}} {{roomNum}}</div>

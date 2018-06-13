@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/workbench">发起退款记录</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/apartment/workbench">工作台</router-link><span>>发起退款记录</span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>发起退款记录</h3>
@@ -47,7 +47,7 @@
 			    				<td>状态</td>
 			    				<td>退款备注</td>
 			    				<td>操作</td>
-			    				
+
 			    			</thead>
 			    			<tr v-for="item in data">
 			    				<td>{{item.refundSn}}</td>
@@ -66,7 +66,7 @@
 					      :page-size=pageSize
 					      layout="prev, pager, next,total,jumper"
 					      :total=totalNum>
-					    
+
 					    </el-pagination>
 				    </div>
 				    <div v-else class="kbt">
@@ -76,12 +76,12 @@
 		    </div>
 			<footer-box></footer-box>
 		</div>
-		
+
 	</div>
 </template>
 
 <script>
-	
+
 	import '../../sass/style/refundrecord.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -181,7 +181,7 @@
     			param.append('communityId',this.communityId);
     			param.append('pageNum',pageNum);
     			param.append('pageSize',this.pageSize);
-    			
+
     			axios.post(refundHandle,param).then((response)=>{
     				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
@@ -213,7 +213,7 @@
     			param.append('communityId',this.communityId);
     			param.append('pageNum',pageNum);
     			param.append('pageSize',this.pageSize);
-    			
+
     			axios.post(refundHandle,param).then((response)=>{
     				// console.log(response);
     				if(response.data.code == 10000 && response.status == 200){
@@ -229,7 +229,7 @@
     			this.State = this.options8[this.options8.findIndex(item => item.dataname == value)].id;
     		}
     	},
-    
+
     }
 </script>
 

@@ -6,7 +6,7 @@
       <div class="wordbench-box">
         <div class="ivu-site">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">会员信息</router-link>
+          <router-link  class="active" to="/member/memberManagement">会员管理</router-link><span>>会员信息</span>
         </div>
         <div class="ivu-bar-title">
           <h3><i class="icon icon-iden"></i>会员信息</h3>
@@ -45,12 +45,12 @@
                     <tr>
                       <td><span>会员性别 :</span><span v-if="userData.gender == 1">男</span><span v-if="userData.gender == 2">女</span></td>
                       <td><span>会员手机 :</span><span>{{userData.userPhone}}</span></td>
-                      
+
                     </tr>
                     <tr>
                       <td><span>会员年龄 :</span><span>{{userData.createtime | times}}</span></td>
                       <td><span>会员邮箱 :</span><span>{{userData.userEMail}}</span></td>
-                      
+
                     </tr>
                     <tr>
                       <td><span>会员身份证 :</span><span>{{userData.userCertificate}}</span></td>
@@ -161,8 +161,8 @@
           else{
             return Math.abs(date1 - date2) + '个月';
           }
-         
-          
+
+
         }
       }
     },

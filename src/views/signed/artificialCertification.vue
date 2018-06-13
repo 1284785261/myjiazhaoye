@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台 > </span>
-					<router-link class="active" to="/signed/artificialCertification">人工认证列表</router-link>
+					<span>您现在的位置：</span>
+					<router-link class="active" to="/apartment/workbench">工作台</router-link><span>>人工认证列表</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>人工认证列表</h3>

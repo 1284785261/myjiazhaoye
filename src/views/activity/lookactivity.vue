@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：活动管理 > </span>
-		          <router-link  class="active" to="/activity/activitys">新增活动</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/activity/activitys">活动管理</router-link><span>>活动详情</span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>活动详情</h3>
@@ -99,9 +99,9 @@
 					<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage3" :page-size=pageSize layout="prev, pager, next,total,jumper" :total=totalNum v-if="couplist != null ">
 					</el-pagination>
 					<router-link :to="{path:'/activity/discountcom',query:{id:this.activityId}}" class="tuisong" v-if="Userlist.activityStatus == '0' || Userlist.activityStatus == '1' && jurisdiction('ACTIVITY_UPDATE')">推送优惠券</router-link>
-		    	</div> 
-		        
-		    
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -124,7 +124,7 @@
 				</table>
 			</div>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -136,7 +136,7 @@
     import axios from 'axios';
     import { hostActivityInfo,hostActivityContro,hostActivityformula } from '../api.js';
     import qs from 'qs';
-    
+
     export default{
     	components:{
     		rightHeader,
@@ -165,7 +165,7 @@
     		this.activityId = this.$route.query.id;
 			this.datas();
 			this.datas2();
-			
+
     	},
     	filters:{
     		time(val) {
@@ -265,7 +265,7 @@
 							for(let m = 0; m < vm.formulaList[i].communityList.length; m++){
 								this.$set(vm.formulaList[i].communityList[m], "sing", false);
 							}
-							
+
 						}
 
 						axios.post(hostActivityInfo,
@@ -286,7 +286,7 @@
 											}
 										}
 									}
-									
+
 								}
 								console.log(vm.formulaList);
 							}
@@ -418,7 +418,7 @@
 			height: 60px;
 			text-align: center;
 			line-height: 60px;
-			border-bottom:1px solid #dcdcdc; 
+			border-bottom:1px solid #dcdcdc;
 			background-color: #038be2;
 			font-size: 20px;
 			color: #fff;
@@ -433,5 +433,5 @@
 			}
 		}
 	}
-	
+
 </style>

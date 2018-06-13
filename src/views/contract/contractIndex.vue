@@ -5,11 +5,11 @@
     <div class="right-content" id="right-content">
       <right-header></right-header>
       <div class="wordbench-box">
-        <div class="ivu-site">
+        <div class="ivu-site" style="z-index: 101">
           <span>您现在的位置：</span>
           <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
         </div>
-        <div id="contract-index-wrap">
+        <div id="contract-index-wrap" style="z-index: 100">
           <Tabs type="card" @on-click="changeTab" v-model="activeName">
             <Tab-pane label="公寓合同" name="room">
               <div class="form-search-criteria">
@@ -885,7 +885,7 @@ export default {
     }
   },
   created(){
-    
+
   }
 }
 </script>

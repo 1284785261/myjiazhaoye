@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/workbench">用户报修</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/apartment/workbench">工作台</router-link><span>>用户报修</span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>用户报修</h3>
@@ -69,7 +69,7 @@
 			    					<router-link :to="{path:'/signed/repairsdetails',query:{id:item.repairId}}" style="margin-left: 10px;" v-else-if="item.repairState == 1">确认办结</router-link>
 			    				</td>
 			    			</tr>
-			    		
+
 			    		</table>
 			    		<el-pagination
 					      @current-change="handleCurrentChange"
@@ -86,12 +86,12 @@
 		    </div>
 			<footer-box></footer-box>
 		</div>
-		
+
 	</div>
 </template>
 
 <script>
-	
+
 	import '../../sass/style/repairs.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -99,7 +99,7 @@
     import axios from 'axios';
     import { hostRepairTabe } from '../api.js';
     import qs from 'qs';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -177,7 +177,7 @@
 				this.value = '办公室'
 			}
 			this.datas();
-			
+
     	},
     	filters:{
    			time(val) {
@@ -249,7 +249,7 @@
 		    	param.append('communityId',this.communityId);
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
-		    	
+
 		    	if(this.isOffice && this.isOffice != -1){
 		    		param.append('isOffice',this.isOffice);
 		    	}
@@ -284,8 +284,8 @@
 			}
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>

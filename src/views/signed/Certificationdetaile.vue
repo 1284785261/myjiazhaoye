@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-					<span>您现在的位置：工作台 > </span>
-					<router-link class="active" to="/signed/artificialCertification">人工认证详情</router-link>
+					<span>您现在的位置：</span>
+          <router-link class="active" to="/apartment/workbench">工作台</router-link><a  @click="aclick" style="color:#038BE2">>人工认证列表</a><span>>人工认证详情</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>人工认证详情</h3>
@@ -120,6 +120,9 @@
 			}
 		},
 		methods: {
+      aclick(){
+        this.$router.go(-1)
+      },
 			datas() {
 				axios.post(AuthInfo300226,
 				qs.stringify({

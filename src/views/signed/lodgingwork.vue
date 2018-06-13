@@ -180,7 +180,7 @@
 						<div class="formulasb" v-if="formula">
 							<h3>计算方式</h3>
 							<div>
-								<p v-if ="this.deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
+								<p v-if ="deposit != 0">押金：{{deposit}}元 = {{deposittext}}</p>
 								<p>首月房费：{{roommonry}}元 = {{roommonryg}}</p>
 								<p>首月服务费：{{fwmonry}}元 = {{fwmonryg}}</p>
 								<p v-if="letcup">剩余月租金：{{residuerent}}元 = {{residuerentg}}</p>
@@ -558,7 +558,7 @@
 				}
 				this.cyclePayOtherCost = q;
 				if(this.depositmonth > 0){
-					this.deposit = parseInt(this.housetderta.roomRent * parseInt(this.depositmonth) * (vm.discount / 100) * (parseFloat(vm.leaseDiscount)/100)).toFixed(2);
+					this.deposit = parseFloat(this.housetderta.roomRent * parseInt(this.depositmonth) * (vm.discount / 100) * (parseFloat(vm.leaseDiscount)/100)).toFixed(2);
 					this.deposittext = this.housetderta.roomRent + '*'+ this.depositmonth +'*'+vm.discount+'%折扣'+'*'+vm.leaseDiscount+'%折扣';
 				}else{
 					this.deposit = 0;

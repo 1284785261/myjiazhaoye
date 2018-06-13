@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 					<span>您现在的位置：</span>
-					<router-link class="active" to="/apartment/communityManagement">投诉详情</router-link>
+					<router-link class="active" to="/custom/customServiceManagement">客服管理</router-link><span>>投诉详情</span>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>投诉详情</h3>
@@ -57,7 +57,7 @@
 								</li>
 							</ul> -->
 							<div class="ivu-warp-Community" v-show="images.length">
-								
+
 									<div class="demo-upload-list" v-for="item in images">
 								<template>
 									<img :src="imgPath + item">
@@ -377,7 +377,7 @@ export default {
 		.ivu-modal-wrap .ivu-modal .ivu-modal-content .ivu-modal-body img {
 			width: 100%;
 			height: 550px;
-		}  
+		}
   }
   .ivu-warp-Community {
 		width: 100%;
@@ -468,5 +468,5 @@ export default {
       }
     }
   }
-} 
+}
 </style>

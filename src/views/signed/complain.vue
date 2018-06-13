@@ -5,8 +5,8 @@
 			<right-header></right-header>
 			<div class="wordbench-box">
 				<div class="ivu-site">
-		          <span>您现在的位置：工作台 > </span>
-		          <router-link  class="active" to="/apartment/workbench">用户投诉</router-link>
+		          <span>您现在的位置：</span>
+		          <router-link  class="active" to="/apartment/workbench">工作台</router-link><span>>用户投诉 </span>
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>用户投诉</h3>
@@ -41,7 +41,7 @@
 		    				<td>问题描述</td>
 		    				<td>状态</td>
 		    				<td width="168px">操作</td>
-		    				
+
 		    			</thead>
 		    			<tr v-for="item in Data">
 		    				<td>{{item.complainNum}}</td>
@@ -64,18 +64,18 @@
 				      :page-size=pageSize
 				      layout="prev, pager, next,total,jumper"
 				      :total=totalNum>
-				    
+
 				    </el-pagination>
 		    	</div>
 		    </div>
 			<footer-box></footer-box>
 		</div>
-		
+
 	</div>
 </template>
 
 <script>
-	
+
 	import '../../sass/style/complain.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
@@ -200,7 +200,7 @@
 		    	param.append('communityId',this.communityId);
 		    	param.append('pageNum',pageNum);
 		    	param.append('pageSize',this.pageSize);
-		    	
+
 		    	if((this.State && this.State != -1) || this.State == 0){
 		    		param.append('complainStatus',this.State);
 		    	}
@@ -231,7 +231,7 @@
 		    	})
     		}
     	},
-    
+
     }
 </script>
 
