@@ -38,7 +38,7 @@
 				</Row>
 				<Row>
 					<Col span="12">
-					<div class="modular-box" style="min-height:300px;margin-bottom: 20px;" v-if="havepers == 1 && show1">
+					<div class="modular-box" style="min-height:300px;margin-bottom: 20px;" v-if="havepers == 1">
 						<h3><i class="icon icon-info"></i>公寓管理</h3>
 						<ul class="apartment-list workbens" v-if="show1">
 							<li>
@@ -96,7 +96,7 @@
 					</div>
 					</Col>
 					<Col span="12">
-					<div class="modular-box" style="min-height:300px;" v-if="havepers === 1 && show2">
+					<div class="modular-box" style="min-height:300px;" v-if="havepers === 1">
 						<h3><i class="icon icon-info"></i>联合办公管理</h3>
 						<ul class="apartment-list workbens" v-if="show2">
 							<li>
