@@ -7,7 +7,7 @@
       <div class="wordbench-box">
         <div class="ivu-site" style="z-index: 101">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">合同管理</router-link>
+          <router-link  class="active" to="/contract/contractIndex">合同管理</router-link>
         </div>
         <div id="contract-index-wrap" style="z-index: 100">
           <Tabs type="card" @on-click="changeTab" v-model="activeName">

@@ -540,6 +540,18 @@ export default new Router({
       component:resolve =>
         require(['../views/shortRent/shortroomResident.vue'],resolve)
     },
+    {
+      path:'/contract/changeRooms',//合同管理-一键换房公寓
+      name:'changeRooms',
+      component:resolve =>
+        require(['../views/contract/changeRooms.vue'],resolve)
+    },
+    {
+      path:'/contract/changeOffice',//合同管理-一键换房办公室
+      name:'changeOffice',
+      component:resolve =>
+        require(['../views/contract/changeOffice.vue'],resolve)
+    },
 
   ]
 })

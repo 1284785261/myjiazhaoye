@@ -10,7 +10,7 @@
 		        </div>
 		        <div class="ivu-bar-title">
 		          <h3><i class="icon icon-iden"></i>电表抄表记录</h3>
-		          <span>佳兆业航运WEWA空间</span>
+		          <!--<span>佳兆业航运WEWA空间</span>-->
 		        </div>
 		    	<div id="doorRecord">
 		    		<div class="doorrecord">
@@ -44,10 +44,10 @@
 		    				<td>成功</td>
 		    			</tr>
 		    		</table>
-		    		
-		    	</div> 
-		        
-		    
+
+		    	</div>
+
+
 			</div>
 			<footer-box></footer-box>
 		</div>
@@ -55,12 +55,12 @@
 </template>
 
 <script>
-	
+
 	import '../../sass/style/doorRecord.css';
 	import menuBox from '../../components/menuBox.vue';
     import rightHeader from '../../components/rightHeader.vue';
     import footerBox from '../../components/footerBox.vue';
-    
+
     export default {
     	components:{
     		rightHeader,
@@ -70,16 +70,16 @@
     	data(){
     		return{
     			isHide:false
-    			
+
 		   	}
     	},
     	methods:{
-    		
-    	
+
+
     	},
     	created(){
-    		
-			
+
+
     	}
     }
 </script>
@@ -87,6 +87,6 @@
 <style lang="scss" rel="stylesheet/scss">
   @import '../../sass/base/_mixin.scss';
   @import '../../sass/base/_public.scss';
-  
-  
+
+
 </style>

@@ -6,7 +6,7 @@
 			<div class="wordbench-box">
 				<div class="ivu-site">
 					<span>您现在的位置： </span>
-					<router-link class="active" to="/apartment/workbench">活动管理</router-link>
+					<router-link class="active" to="/activity/activitys">活动管理</router-link>
 				</div>
 				<div class="ivu-bar-title">
 					<h3><i class="icon icon-iden"></i>活动管理</h3>
@@ -30,7 +30,7 @@
 								<td>发起日期</td>
 								<td>状态</td>
 								<td style="width:140px;">操作</td>
-	
+
 							</thead>
 							<tr v-for="(item,index) in Userlist">
 								<td>{{index+1}}</td>
@@ -189,7 +189,7 @@
 						}
 					}
 				}
-				
+
 			}
 		},
 		methods: {

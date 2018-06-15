@@ -7,7 +7,7 @@
       <div class="wordbench-box">
         <div class="ivu-site" style="z-index: 2;">
           <span>您现在的位置：</span>
-          <router-link  class="active" to="/apartment/communityManagement">财务管理</router-link>
+          <router-link  class="active" to="/finance/financeManagement">财务管理</router-link>
         </div>
           <Tabs type="card">
             <Tab-pane label="财务管理">
@@ -914,10 +914,10 @@
     .wordbench-box{
       .ivu-tabs-card{
         box-shadow:none;
-        
+
       }
     }
-    
+
     .message-tix{
         width: 100%;
         background-color: #fff;

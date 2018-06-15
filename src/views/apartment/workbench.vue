@@ -349,7 +349,9 @@
         let Index = this.cityList[this.cityList.findIndex(item => item.communityName == val)].communityId;
         // console.log(val);
         sessionStorage.setItem('communityId', Index);
+        this.communityId = Index
         sessionStorage.setItem('communityName', val);
+        this.selectModel1 = val
         this.title(Index);
       },
 			datas2(){

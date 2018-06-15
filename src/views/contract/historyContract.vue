@@ -54,6 +54,7 @@
                     <router-link v-if='room.contractState != 1' :to="{name:'householdBill',query:{contractSignId:room.contractSignId,isOffice:'0',communityName:room.communityName}}">查看总账单</router-link>
                     <!--<router-link v-if=" room.contractState == 4" :to="{path:'/signed/renewRoom',query:{contractSignId:room.contractSignId,communityId:communityId,Name:room.communityName}}">续签</router-link>-->
                     <a v-if=" room.contractState == 4" @click="renewModelShow(room.contractSignId,room.endDate)">续签</a>
+                    <!--<router-link   v-if=" room.contractState == 4" :to="{path:'/contract/changeRooms',query:{contractSignId:room.contractSignId,communityId:communityId,Name:room.communityName}}">一键换房</router-link >-->
                   </td>
                   <td v-else></td>
                 </tr>
@@ -108,6 +109,7 @@
                     <router-link :to="{name:'contractDetail',query:{contractSignId:office.contractSignId,isOffice:'1'}}">查看详情</router-link>
                     <router-link :to="{name:'householdBill',query:{contractSignId:office.contractSignId,isOffice:'1',communityName:office.communityName}}" v-if=" office.contractState != 1">查看总账单</router-link>
                     <a  v-if="office.contractState == 4" @click="renewModelShow(office.contractSignId,office.endDate)">续签</a>
+                    <!--<router-link v-if="office.contractState == 4" :to="{path:'/contract/changeOffice',query:{contractSignId:office.contractSignId,communityId:communityId,Name:office.communityName}}">一键换房</router-link>-->
                   </td>
                   <td v-else>
 
@@ -243,6 +245,78 @@
     <el-button type="primary" @click="renewClick">确 定</el-button>
   </span>
     </el-dialog>
+    <!--<el-dialog-->
+      <!--:title="roomNum+'房间抄表'"-->
+      <!--:visible.sync="dialogVisible"-->
+      <!--width="30%"-->
+      <!--:before-close="getRoomInfo">-->
+      <!--<div>-->
+        <!--<el-tabs v-model="activeName2" type="card" @tab-click="setActiveName2">-->
+          <!--<el-tab-pane label="电表" name="2" v-if="housetderta.electricType == 1">-->
+            <!--<div id="readingRecords">-->
+              <!--<div class="readingRecordtitel">-->
+                <!--<span>手动获取：</span><input type="text" v-model="waterrading">m³<a-->
+                <!--@click="manualReading(waterrading)">抄表</a><a-->
+                <!--@click="automaticReading">自动获取</a>-->
+              <!--</div>-->
+              <!--<div>-->
+                <!--<table style="width: 100%">-->
+                  <!--<thead>-->
+                  <!--<td>序号</td>-->
+                  <!--<td>电表读数</td>-->
+                  <!--<td>抄表类型</td>-->
+                  <!--<td>记录时间</td>-->
+                  <!--<td>操作人</td>-->
+                  <!--<td>操作时间</td>-->
+                  <!--</thead>-->
+                  <!--<tr v-for="(item,index) in elevtrRecords">-->
+                    <!--<td>{{index+1}}</td>-->
+                    <!--<td>{{item.waterElectricityData}}</td>-->
+                    <!--<td>{{item.createTime | time}}</td>-->
+                    <!--<td>{{item.userName}}</td>-->
+                    <!--<td>{{item.newTime | time}}</td>-->
+                  <!--</tr>-->
+                <!--</table>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</el-tab-pane>-->
+          <!--<el-tab-pane label="水表" name="1" v-if="housetderta.waterType == 1">-->
+            <!--<div id="readingRecords">-->
+              <!--<div class="readingRecordtitel">-->
+                <!--<span>手动获取：</span><input type="text" v-model="waterrading">m³<a-->
+                <!--@click="manualReading(waterrading)">抄表</a><a-->
+                <!--@click="automaticReading">自动获取</a>-->
+              <!--</div>-->
+              <!--<div>-->
+                <!--<table style="width: 100%">-->
+                  <!--<thead>-->
+                  <!--<td>序号</td>-->
+                  <!--<td>水表读数</td>-->
+                  <!--<td>抄表类型</td>-->
+                  <!--<td>记录时间</td>-->
+                  <!--<td>操作人</td>-->
+                  <!--<td>操作时间</td>-->
+                  <!--</thead>-->
+                  <!--<tr v-for="(item,index) in waterRecords">-->
+                    <!--<td>{{index+1}}</td>-->
+                    <!--<td>{{item.waterElectricityData}}</td>-->
+                    <!--<td>{{item.chaozuotype}}</td>-->
+                    <!--<td>{{item.createTime | time}}</td>-->
+                    <!--<td>{{item.userName}}</td>-->
+                    <!--<td>{{item.newTime | time}}</td>-->
+                  <!--</tr>-->
+                <!--</table>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</el-tab-pane>-->
+
+        <!--</el-tabs>-->
+      <!--</div>-->
+      <!--<span slot="footer" class="dialog-footer">-->
+    <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
+    <!--<el-button type="primary" @click="getRoomInfo">确 定</el-button>-->
+  <!--</span>-->
+    <!--</el-dialog>-->
     <warning-modal :warning-message="warningMessage" @closeWarningModal="closeWarningModal()" v-if="warningModal"></warning-modal>
     <success-modal :success-message="successMessage" v-if="successModal"></success-modal>
 

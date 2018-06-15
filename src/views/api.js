@@ -4,7 +4,7 @@
 
 //const host3 = 'http://yunsoft.kaisaspace.com:8060';
 // sessionStorage.setItem('urlType','研发')
-const banben = '1.1.70.1.180613.1'
+const banben = '1.1.70.1.180615.1'
 // const host3 = sessionStorage.getItem('urlType')=='测试'?'https://yunsoft.kaisaspace.com:8150':sessionStorage.getItem('urlType')=='研发'?'https://test.kaisaspace.com:8170':'https://yunsoft.kaisaspace.com:8160'; //默认运营
 const host3 = sessionStorage.getItem('urlType')=='测试'?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='研发'?'http://test.kaisaspace.com:8070':'http://yunsoft.kaisaspace.com:8060'; //默认运营
 // const host3 = !sessionStorage.getItem('urlType')?'http://test.kaisaspace.com:8050':sessionStorage.getItem('urlType')=='测试'?'http://yunsoft.kaisaspace.com:8060':'http://test.kaisaspace.com:8050'; //默认测试
@@ -823,6 +823,8 @@ export const  CxkjCommunityContractSignReletInfo200259 =host3 + '/cxkj-room/apis
 export const  CxkjCommunityHistoryContractSignTable200252 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityHistoryContractSignTable200252'//历史合同
 export const  CxkjCommunityContractSignRoomAdd200253 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityContractSignRoomAdd200253'//公寓合同续租
 export const  CxkjCommunityContractSignOfficeAdd200254 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityContractSignOfficeAdd200254'//办公合同续租
+export const  RoomContractSign200278 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityExchangeRoomContractSign200278'//公寓换房
+export const  OfficeContractSign200279 =host3 + '/cxkj-room/apis/pcManager/cxkjcontractsign/CxkjCommunityExchangeOfficeContractSign200279'//办公换房
 
 //账单管理
 export const roomBill =host3+'/cxkj-room/apis/pc/roomBillMgr/CxkjGetRoomBillList300039';
