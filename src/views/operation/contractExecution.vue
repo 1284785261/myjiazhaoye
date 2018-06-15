@@ -348,6 +348,7 @@
               that.totalNum = res.data.pageBean.totalNum;
             }else{
               that.houseResource = null;
+              that.totalNum = 0;
             }
           })
       },
@@ -384,6 +385,7 @@
 
             }else{
               that.officeResource = null;
+              that.totalNum2 = 0;
             }
           })
       }
