@@ -35,6 +35,7 @@
                   <div class="form-search">
                     <a class="daochu" @click="dateChange">查询</a>
                     <a class="daochu" :href="hosrt">导出</a>
+                    <a class="daochu" :href="allHosrt">导出全部</a>
                   </div>
                 </div>
               </div>
@@ -102,6 +103,7 @@
                   <div class="form-search">
                     <a class="daochu" @click="dateChange2">查询</a>
                     <a class="daochu" :href="officehosrt">导出</a>
+                    <a class="daochu" :href="allofficeHosrt">导出全部</a>
                   </div>
                 </div>
               </div>
@@ -159,7 +161,7 @@
   import footerBox from '../../components/footerBox.vue';
   import qs from 'qs';
   import axios from 'axios';
-  import {RoomContractReport300163,DownloadRoomContract300165,OfficeContractReport300164,DownloadOfficeContract300166,MllCommunity300145} from '../api.js';
+  import {RoomContractReport300163,DownloadRoomContract300165,OfficeContractReport300164,DownloadOfficeContract300166,MllCommunity300145,AllDownloadRoomContract300167,AllDownloadOfficeContract300168} from '../api.js';
 
 
   export default {
@@ -201,6 +203,8 @@
         currentPage2:1,
         totalNum2:0,
         pageNum2:1,
+        allHosrt:'',
+        allofficeHosrt:'',
         option1: {
             disabledDate(date){
               if(_this.roomEndDate){
@@ -230,6 +234,8 @@
     mounted(){
       this.hosrt = DownloadRoomContract300165+'?';
       this.officehosrt = DownloadOfficeContract300166+'?';
+      this.allHosrt = AllDownloadRoomContract300167;
+      this.allofficeHosrt = AllDownloadOfficeContract300168;
       let date = {beginDate:this.roomStartDate,endDate:this.roomEndDate,communityId:this.roomCommunity};
       let date2 = {beginDate:this.officestartDate,endDate:this.roomEndDate,communityId:this.officeCommunity};
       this.hosrt += '&pageSize='+this.pageSize+'&pageNum='+this.pageNum;

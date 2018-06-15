@@ -564,6 +564,12 @@ const OfficeContractReport = '/cxkj-room/apis/pc/operatingreport/CxkjGetOfficeCo
 
 //财务报表-导出合同办公室执行表
 const DownloadOfficeContract = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadOfficeContractReport300166'
+
+//财务报表-导出全部合同公寓执行表
+const AllDownloadRoomContract = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadAllRoomContractReport300167'
+
+//财务报表-导出全部合同办公室执行表
+const AllDownloadOfficeContract = '/cxkj-room/apis/pc/operatingreport/CxkjDownloadAllOfficeContractReport300168'
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_release':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_test': '1.1.12.3.171128_release';//pc版本号 默认运营
 // export const pcVersion = !sessionStorage.getItem('urlType')? '1.1.12.3.171128_test':sessionStorage.getItem('urlType')=='测试'? '1.1.12.3.171128_release': '1.1.12.3.171128_test';//pc版本号 默认运营
 export const hostlogin = host3 + login;
@@ -752,6 +758,8 @@ export const RoomContractReport300163 = host3 + RoomContractReport;
 export const DownloadRoomContract300165 = host3 + DownloadRoomContract;
 export const OfficeContractReport300164 = host3 + OfficeContractReport;
 export const DownloadOfficeContract300166 = host3 + DownloadOfficeContract;
+export const AllDownloadRoomContract300167 = host3 + AllDownloadRoomContract;
+export const AllDownloadOfficeContract300168 = host3 + AllDownloadOfficeContract;
 export const host = host3;
 //export default {
 //hosts:function(){
